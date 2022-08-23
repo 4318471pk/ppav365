@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlNick"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:background="@drawable/ic_bj_c">
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_audienceavatar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:padding="1.5dp"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+        tools:src="@drawable/ic_shenmi" />
+
+</RelativeLayout>

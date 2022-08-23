@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/notification_dialog_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_white_corner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/notification_dialog_title_icon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:contentDescription="@string/noLotteryTickets"
+        android:src="@drawable/ic_notification_dialog"
+        app:layout_constraintBottom_toTopOf="@id/notification_dialog_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/notification_dialog_bg" />
+
+    <TextView
+        android:id="@+id/notification_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/orange_fe4"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notification_dialog_title_icon"
+        tools:text="通知设置" />
+
+    <TextView
+        android:id="@+id/notification_dialog_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/black_ff2"
+        app:layout_constraintEnd_toEndOf="@id/notification_dialog_bg"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/notification_dialog_bg"
+        app:layout_constraintTop_toBottomOf="@id/notification_dialog_title"
+        tools:text="你尚未开启通知权限，为你你更好的体验，避免错过你喜欢的主播开播时刻，请开启同通知权限。
+        \n 开启：设置-> 应用 (查看全部应用) -> MMLive_debug -> 通知 开启" />
+
+    <ImageView
+        android:id="@+id/notification_dialog_cancel"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/close"
+        android:gravity="center"
+        android:padding="14dp"
+        android:src="@drawable/ic_cart_close"
+        android:tint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@id/notification_dialog_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/notification_dialog_bg" />
+
+    <TextView
+        android:id="@+id/notification_dialog_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_halfround"
+        android:gravity="center"
+        android:paddingHorizontal="12dp"
+        android:text="@string/confirm"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notification_dialog_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

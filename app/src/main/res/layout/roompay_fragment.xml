@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default" />
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        app:realtimeBlurRadius="9dp"
+        app:realtimeOverlayColor="@color/black_20" />
+
+    <LinearLayout
+        android:id="@+id/ll_pwdpay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="274dp"
+            android:layout_height="198dp"
+            android:background="@drawable/shape_round_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/inputPasswordInter"
+                android:textColor="#929292"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="26dp"
+                android:gravity="right"
+                android:text="@string/zeroGoldTime"
+                android:textColor="#EB4A81"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/et_"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/shape_halfround_gray"
+                android:gravity="center_vertical"
+                android:hint="@string/inputPassword"
+                android:paddingLeft="24dp"
+                android:singleLine="true"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="#C4C4C4"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:paddingLeft="30dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/tv_cancel_pwd"
+                    android:layout_width="100dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/shape_roommode_cancel"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="#888888"
+                    android:textSize="14sp" />
+
+                <View style="@style/WrapAuto" />
+
+                <TextView
+                    android:id="@+id/tv_sure_pwd"
+                    android:layout_width="100dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/theme_shape_halfround"
+                    android:gravity="center"
+                    android:text="@string/sure"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_pricepay"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/game_white_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/payThanCounLive"
+            android:textColor="#929292"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="130dp"
+                android:layout_height="37dp"
+                android:background="@drawable/shape_halfround_red"
+                android:gravity="center"
+                android:text="@string/ignore"
+                android:textColor="#919191"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:rv_backgroundColor="#EAEAEA"
+                app:rv_isRadiusHalfHeight="true" />
+
+            <View style="@style/WrapAuto" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/live_room_pay_sure"
+                android:layout_width="130dp"
+                android:layout_height="37dp"
+                android:background="@drawable/shape_halfround_red"
+                android:gravity="center"
+                android:text="@string/payEveryTime"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:rv_backgroundColor="#EB4A81"
+                app:rv_isRadiusHalfHeight="true" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

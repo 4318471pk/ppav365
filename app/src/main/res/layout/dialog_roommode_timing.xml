@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="238dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_round_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="43dp"
+            android:paddingTop="12dp"
+            android:paddingRight="43dp"
+            android:paddingBottom="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/timeRoomModel"
+                android:textColor="#929292"
+                android:textSize="14sp" />
+
+            <RadioGroup
+                android:id="@+id/rg_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rb_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:background="@drawable/rb_roommode"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/tenGoldMin"
+                    android:textColor="@drawable/theme_rb_txtcolor_reversal"
+                    android:textSize="@dimen/sp_14" />
+
+                <RadioButton
+                    android:id="@+id/rb_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/rb_roommode"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/fifGoldMin"
+                    android:textColor="@drawable/theme_rb_txtcolor_reversal"
+                    android:textSize="@dimen/sp_14" />
+
+
+                <RadioButton
+                    android:id="@+id/rb_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/rb_roommode"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/twentyGoldMin"
+                    android:textColor="@drawable/theme_rb_txtcolor_reversal"
+                    android:textSize="@dimen/sp_14" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/shape_roommode_cancel"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
+

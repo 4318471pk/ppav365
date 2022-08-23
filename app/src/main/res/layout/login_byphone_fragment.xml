@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.live.fox.ui.login.LoginViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="60dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/create_account_tip"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="1234567890"
+                android:hint="@string/telphone"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:text="@={viewModel.username}"
+                android:textColor="@color/black"
+                android:textColorHint="#6D6D6D"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/btn_login"
+            android:text="@string/long_state_continue"
+            android:textAllCaps="false"
+            android:textColor="@drawable/btn_login_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</layout>

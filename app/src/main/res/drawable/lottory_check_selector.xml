@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    prizer_num_bg game_theme_bg-->
+    <item android:drawable="@drawable/prizer_num_bg" android:state_checked="true" />
+    <item android:drawable="@drawable/shape_white_storke_1_corners_5" />
+</selector>

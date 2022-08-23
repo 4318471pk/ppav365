@@ -1,0 +1,535 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'bugly'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+bugly {
+    appId = '708f5168ad'   // 注册时分配的App ID
+    appKey = '7d12596e-ad92-4ba8-a5c0-862c83a5d44a' // 注册时分配的App Key
+    appPackage = 'com.lbz.mmzb'
+    appVersion = '2.0.0'
+    upload = true
+    uploadMapping = true
+    uploadSymbol = true
+    outputDir = '..app/bugly/BuglyUploadLog.txt'
+}
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 6
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
+        ndkVersion "21.3.6528147"
+        buildConfigField "Integer", "OS", project.anchorClient
+
+        buildConfigField "String", "ToyToken", project.ToyToken
+        buildConfigField "String", "BASEURL_TEST", project.BASEURL_TEST  //测试地址
+
+        ndk {// 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
+            abiFilters "arm64-v8a"
+        }
+
+        manifestPlaceholders = [
+                XG_ACCESS_ID : "1520010674",
+                XG_ACCESS_KEY: "A972K5BSYXG",
+        ]
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    dexOptions {//解决包过大 打包时GC问题
+        preDexLibraries true
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+    }
+
+    signingConfigs {
+        debug {}
+
+        release {
+            storeFile file(keystoreProperties['storeFile1'])
+            keyAlias keystoreProperties['keyAlias1']
+            keyPassword keystoreProperties['keyPassword1']
+            storePassword keystoreProperties['storePassword1']
+        }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {  //DataBinding 数据绑定
+        dataBinding = true
+    }
+
+    applicationVariants.all { variant ->
+        def buglyAppId = '708f5168ad';
+        def buglyAppKey = '7d12596e-ad92-4ba8-a5c0-862c83a5d44a';
+
+        variant.outputs.all {
+            def fileName = variant.flavorName + "_" +
+                    variant.buildType.name + "_" +
+                    "v" + variant.versionName
+            if (variant.buildType.name != "debug") {
+                fileName = fileName + "_" + "${releaseTime()}.apk"
+            } else {
+                fileName = fileName + ".apk"
+            }
+            outputFileName = fileName
+
+            //Bugly配置
+            if (variant.flavorName == "anchor" ||
+                    variant.flavorName == "user") {
+                buglyAppId = '708f5168ad'
+                buglyAppKey = '7d12596e-ad92-4ba8-a5c0-862c83a5d44a'
+            } else if (variant.flavorName == "anchorQQ" ||
+                    variant.flavorName == "userQQ") {
+                buglyAppId = '6918099ca8'
+                buglyAppKey = '8830bba5-8211-4a63-b897-6cb43961b467'
+            } else if (variant.flavorName == "anchorAi" ||
+                    variant.flavorName == "userAi") {
+                buglyAppId = '953bdef8c8'
+                buglyAppKey = '3f4487c9-6753-4ecf-9d75-5873576449a3'
+            }
+
+            bugly {
+                appId = buglyAppId   // 注册时分配的App ID
+                appKey = buglyAppKey // 注册时分配的App Key
+                appPackage = applicationId
+                appVersion = versionName
+                upload = true
+                uploadMapping = true
+                uploadSymbol = true
+                outputDir = '..app/bugly/BuglyUploadLog.txt'
+            }
+        }
+    }
+
+    def qqVersion = "2.1.0"
+    def aiVersion = "1.0.0"
+    def live24Version = "1.0.0"
+
+    flavorDimensions "app"
+    productFlavors {
+        mmliveAnchor {
+            dimension 'app'
+            applicationId "com.lbz.mmzb"
+            versionName "2.0.4"
+            buildConfigField "String", "AppFlavor", '"MMLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010674",
+                    XG_ACCESS_KEY: "A972K5BSYXG",
+            ]
+        }
+
+        mmliveUser {
+            dimension 'app'
+            applicationId "com.lbz.mmzb"
+            versionName "2.0.4"
+            buildConfigField "String", "AppFlavor", '"MMLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "false"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010674",
+                    XG_ACCESS_KEY: "A972K5BSYXG",
+            ]
+        }
+
+        anchorTest {
+            dimension 'app'
+            applicationId "com.lbz.mmzb"
+            applicationIdSuffix ".test"
+            buildConfigField "Integer", "OS", project.anchorClient
+            versionName "2.0.4"
+            buildConfigField "String", "BASEURL_TEST", project.Live_Thi_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"MMLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010674",
+                    XG_ACCESS_KEY: "A972K5BSYXG",
+            ]
+        }
+
+        anchorQQ {
+            dimension 'app'
+            buildConfigField "Integer", "OS", project.anchorClient
+            versionName qqVersion
+            applicationId "com.unk.qqlive"
+            buildConfigField "String", "BASEURL_TEST", project.QQ_BASE_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"QQLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+
+        userQQ {
+            dimension 'app'
+            buildConfigField "Integer", "OS", project.userClient
+            versionName qqVersion
+            applicationId "com.unk.qqlive"
+            buildConfigField "String", "BASEURL_TEST", project.QQ_BASE_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"QQLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "false"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+
+        anchorAi {
+            dimension 'app'
+            applicationId "com.aiai.live"
+            versionName aiVersion
+            buildConfigField "Integer", "OS", project.anchorClient
+            buildConfigField "String", "BASEURL_TEST", project.Ai_BASE_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"AiAi"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+
+        userAi {
+            dimension 'app'
+            applicationId "com.aiai.live"
+            versionName aiVersion
+            buildConfigField "Integer", "OS", project.userClient
+            buildConfigField "String", "BASEURL_TEST", project.Ai_BASE_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"AiAi"'
+            buildConfigField "Boolean", "IsAnchorClient", "false"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+
+        anchor24 {
+            dimension 'app'
+            applicationId "live.twenty.four"
+            versionName live24Version
+            buildConfigField "Integer", "OS", project.anchorClient
+            buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"Live24"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+
+        user24 {
+            dimension 'app'
+            applicationId "live.twenty.four"
+            versionName live24Version
+            buildConfigField "Integer", "OS", project.userClient
+            buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"Live24"'
+            buildConfigField "Boolean", "IsAnchorClient", "false"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+
+        anchorThi {
+            dimension 'app'
+            applicationId "live.thailand.streaming"
+            buildConfigField "Integer", "OS", project.anchorClient
+            versionName "1.0.0"
+            buildConfigField "String", "BASEURL_TEST", project.Live_Thi_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"ThiLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010674",
+                    XG_ACCESS_KEY: "A972K5BSYXG",
+            ]
+        }
+
+        userThi {
+            dimension 'app'
+            applicationId "live.thailand.streaming"
+            versionName live24Version
+            buildConfigField "Integer", "OS", project.userClient
+            buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"ThiLive"'
+            buildConfigField "Boolean", "IsAnchorClient", "false"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+            ]
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            java.srcDirs = ['src/main/java']
+        }
+        mmliveAnchor {
+            java.srcDirs = ['src/anchor/java']
+            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+            res.srcDirs = ['src/mmlive/res']
+        }
+
+        mmliveUser {
+            java.srcDirs = ['src/user/java']
+            res.srcDirs = ['src/mmlive/res']
+            assets.srcDirs = ['src/mmlive/assets']
+        }
+
+        anchorTest {
+            java.srcDirs = ['src/anchor/java']
+            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+        }
+
+        anchorQQ {
+            java.srcDirs = ['src/anchor/java']
+            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+        }
+        anchorThi {
+            java.srcDirs = ['src/anchor/java']
+            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+        }
+        anchorAi {
+            java.srcDirs = ['src/anchor/java']
+            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+        }
+        anchor24 {
+            java.srcDirs = ['src/anchor/java']
+            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+        }
+
+        userQQ {
+            java.srcDirs = ['src/user/java']
+        }
+        userThi {
+            java.srcDirs = ['src/user/java']
+        }
+        userAi {
+            java.srcDirs = ['src/user/java']
+        }
+        user24 {
+            java.srcDirs = ['src/user/java']
+        }
+    }
+
+    buildTypes {
+        debug {  //开发环境(打包编译速度最快)
+            minifyEnabled false  //混淆 不开启可加快打包速度
+            zipAlignEnabled false  //Zipalign优化
+            shrinkResources false  //移除无用的resource文件
+            aaptOptions.setProperty("cruncherEnabled", false)   //是否检查png图片的合法性，false可以提升编译速度
+
+            //加载默认混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+
+            //是否检查png图片的合法性，false可以提升编译速度
+            //aaptOptions.setProperty("cruncherEnabled", true)
+            //加载默认混淆配置文件
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
+            buildConfigField "Boolean", "IS_PUBLISH", "false"   //环境切换 false 测试环境 true 正式环境
+            buildConfigField "Boolean", "IS_SHOWLOG", "true"
+            buildConfigField "Boolean", "IS_CARSH", "false"
+        }
+
+        pre {  //预备环境(用于上线前的测试，除了可以打印出Log,其他环境与正式服相同)
+            minifyEnabled true  //混淆 不开启可加快打包速度
+            zipAlignEnabled true //Zipalign优化
+            shrinkResources true  //移除无用的resource文件
+
+            aaptOptions.setProperty("cruncherEnabled", true)   //是否检查png图片的合法性，false可以提升编译速度
+            //加载默认混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            buildConfigField "Boolean", "IS_PUBLISH", "false"  //环境切换 false 测试环境 true 正式环境
+            buildConfigField "Boolean", "IS_SHOWLOG", "true"
+            buildConfigField "Boolean", "IS_CARSH", "true"
+        }
+
+        release { //线上环境
+            minifyEnabled true  //混淆
+            zipAlignEnabled true  //Zipalign优化
+            shrinkResources true  //移除无用的resource文件
+
+            aaptOptions.setProperty("cruncherEnabled", true)  //是否检查png图片的合法性，false可以提升编译速度
+
+            //加载默认混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            buildConfigField "Boolean", "IS_PUBLISH", "true"  //环境切换 false 测试环境 true 正式环境
+            buildConfigField "Boolean", "IS_SHOWLOG", "false"
+            buildConfigField "Boolean", "IS_CARSH", "true"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+04:00"))  //04迪拜时区
+}
+
+dependencies {
+    //Android
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-common-java8:2.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    //导入base library
+    implementation project(':picture_library')
+
+    //MM主播端才需添加
+    mmliveAnchorImplementation files('libs/lovense.aar')  //玩具
+    mmliveAnchorImplementation project(':faceunity')  //美颜 包大小会增加了21M
+    //测试
+    anchorTestImplementation files('libs/lovense.aar')  //玩具
+    anchorTestImplementation project(':faceunity')  //美颜 包大小会增加了21M
+
+    //泰国
+    anchorThiImplementation files('libs/lovense.aar')  //玩具
+    anchorThiImplementation project(':faceunity')  //美颜 包大小会增加了21M
+
+    //QQ主播端才需添加
+    anchorQQImplementation files('libs/lovense.aar')  //玩具
+    anchorQQImplementation project(':faceunity')  //美颜 包大小会增加了21M
+
+    //Ai平台
+    anchorAiImplementation files('libs/lovense.aar')  //玩具
+    anchorAiImplementation project(':faceunity')  //美颜 包大小会增加了21M
+
+    //24Live平台
+    anchor24Implementation files('libs/lovense.aar')  //玩具
+    anchor24Implementation project(':faceunity')  //美颜 包大小会增加了21M
+
+    //SmartRefreshLayout 下拉刷新 上拉加载
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+
+    implementation 'com.bigkoo:convenientbanner:2.0.5'
+    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+
+    //圆形头像
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.aliyun.dpa:oss-android-sdk:2.9.2'
+    implementation 'com.github.385841539:MarqueeView:1.0.0'
+    implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    implementation 'com.github.mmin18:realtimeblurview:1.0.6'
+
+    //https://github.com/luozhanming/Captcha
+    implementation 'com.luozm.captcha:captcha:1.1.2'
+    //https://github.com/AndyAls/QPopuWindow
+    implementation 'com.github.AndyAls:QPopuWindow:v2.0.0'
+    //https://github.com/yanzhenjie/SwipeRecyclerView
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.2.0'
+    implementation 'com.facebook.fresco:fresco:1.5.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.lahm.library:easy-protector-release:latest.release'
+
+    //tencent 腾讯SDK
+    implementation 'com.tencent.bugly:crashreport:4.0.0'
+    implementation 'com.tencent.jg:jg:1.1'
+    implementation 'com.tencent.tpns:tpns:1.2.6.0-release'
+    implementation 'com.tencent.liteavsdk:LiteAVSDK_Smart:9.4.10921'
+    implementation 'com.tencent.imsdk:imsdk-plus:5.8.1668'
+    implementation 'com.tencent.tpns:fcm:1.2.3.1-release'
+
+    //FireBase
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+
+    //sharetrace
+    implementation 'com.sharetrace:sharetrace-android-sdk:2.1.3'
+
+    //SVGA动画
+    implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
+    implementation 'io.github.yidun:captcha:3.3.1.2' //网易卡顿
+
+    //后续项目陆续改为 Kotlin 这里是新的网络请求工具和类型转换器
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
+    //加密SDK
+    implementation "com.github.mklimek:ssl-utils-android:1.0.1"
+
+    //按控件样式的加载效果
+    implementation 'com.ethanhua:skeleton:1.1.2'
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    //PhotoView https://github.com/chrisbanes/PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
+    //Dialog https://github.com/saiwu-bigkoo/Android-AlertView
+    implementation 'com.bigkoo:alertview:1.0.3'
+
+    //BaseRecyclerViewAdapterHelper 万能适配器
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+
+    //PickView
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'//Glide-transformations图片变换
+
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
+    //异常拦截
+    implementation 'com.wanjian:cockroach:0.0.5'
+
+    //权限框架 无混淆 https://github.com/tbruyelle/RxPermissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    //超级tablayout库  无混淆
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+}

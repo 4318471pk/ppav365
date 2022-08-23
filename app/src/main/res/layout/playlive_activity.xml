@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.live.fox.view.RoomSlideLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/room_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--上下滑动时，显示上/下一个主播头像做为背景-->
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sd_next_anchor_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="100dp"
+        app:realtimeOverlayColor="@color/black_30" />
+
+    <!--VideoFragment-->
+    <FrameLayout
+        android:id="@+id/video_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--LiveControllerFragment 直播功能界面 直播结束界面-->
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--RoomPayTipFragment 直播界面付费提示界面-->
+    <FrameLayout
+        android:id="@+id/fl_room_pay_tip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--OPPO 不加这个隐藏的控件会黑屏 不知道原因-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        tools:text="1111" />
+
+</com.live.fox.view.RoomSlideLayout>

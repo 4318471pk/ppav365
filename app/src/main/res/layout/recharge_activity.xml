@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="ifContentScrolls"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/tv_mymoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:drawableStartCompat="@drawable/five_point"
+                tools:text="0" />
+
+            <TextView
+                android:id="@+id/tv_tmp1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_mymoney"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/myGoldCoin"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_gonggao"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="#F0F0F0"
+            android:orientation="horizontal">
+
+            <com.marquee.dingrui.marqueeviewlib.MarqueeView
+                android:id="@+id/adRoundTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:gravity="center_vertical"
+                app:marqueeview_is_resetLocation="false"
+                app:marqueeview_isclickalbe_stop="true"
+                app:marqueeview_repet_type="repet_interval"
+                app:marqueeview_text_color="#999999"
+                app:marqueeview_text_size="14"
+                app:marqueeview_text_speed="1"
+                app:marqueeview_text_startlocationdistance="0.5" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/recharge_usdt_address_title_qr"
+                android:src="@drawable/tip" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/chargeWay"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_channel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:overScrollMode="never" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llRecharge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:background="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@id/recharge_input_title"
+                app:layout_constraintStart_toStartOf="@id/recharge_input_title"
+                app:layout_constraintTop_toTopOf="@id/recharge_input_title" />
+
+            <TextView
+                android:id="@+id/recharge_input_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/chargeMoney"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/recharge_input_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center_vertical"
+                android:text="@string/currency_symbol"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@id/recharge_input_edit"
+                app:layout_constraintStart_toStartOf="@id/recharge_input_edit" />
+
+            <com.live.fox.view.EditTextMoney
+                android:id="@+id/recharge_input_edit"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_edit_text_line"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/recharge_input_title"
+                tools:ignore="Autofill,LabelFor" />
+
+            <TextView
+                android:id="@+id/recharge_exchange_ratio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/yellow"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recharge_input_edit"
+                tools:text="@string/chongfuPay" />
+
+            <TextView
+                android:id="@+id/tvaRecharge"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/shape_theme_corners_20"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:text="@string/lijichongzhi"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recharge_input_edit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/reSupportBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/recharge_protocol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/choose_bank"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_supportBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:overScrollMode="never" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:overScrollMode="never" />
+
+        <ViewStub
+            android:id="@+id/recharge_view_stub_bank_ustd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/view_transfer_bank" />
+
+        <ViewStub
+            android:id="@+id/ggk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/view_ggk" />
+
+    </LinearLayout>
+
+</ScrollView>

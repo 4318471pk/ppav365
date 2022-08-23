@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/appbg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/game_mymoney_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="18dp"
+                android:text="@string/accountBalance"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="26dp">
+
+                <TextView
+                    android:id="@+id/tv_mymoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/number_zero_point_zero"
+                    android:textColor="@color/white"
+                    android:textSize="38sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_mymoney"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toEndOf="@+id/tv_mymoney"
+                    android:text="@string/gold"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <View style="@style/WrapAuto" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginBottom="13dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/automaticQuota"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_autochange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_autochangemoney_open" />
+
+                <View style="@style/AutoWrap" />
+
+                <TextView
+                    android:id="@+id/tv_allback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/ic_money_yjhs"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_refreshmoney"
+                    android:text="@string/recycling"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_bottomview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout_ky"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/game_kymoney_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="30dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/logo_kyqp" />
+
+                    <TextView
+                        android:id="@+id/balance_transform_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/balance_transform_title"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <ImageView
+                        android:id="@+id/iv_kyqprefresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingRight="34dp"
+                        android:src="@drawable/ic_refreshmoney" />
+
+                </LinearLayout>
+
+                <View style="@style/WrapAuto" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:layout_marginBottom="13dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/tv_kymoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="26dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/number_zero"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/money_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:gravity="bottom"
+                        android:paddingBottom="6dp"
+                        android:text="@string/moneyUnit"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tv_kychange"
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:text="@string/turn"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:rv_backgroundColor="#EB457E"
+                        app:rv_backgroundPressColor="#EB457E"
+                        app:rv_isRadiusHalfHeight="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_ag"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/game_agmoney_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/logo_ag" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_vertical"
+                        android:text="BG"
+                        android:textColor="@color/white"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <ImageView
+                        android:id="@+id/iv_agrefresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="34dp"
+                        android:src="@drawable/ic_refreshmoney" />
+
+                </LinearLayout>
+
+                <View style="@style/WrapAuto" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:layout_marginBottom="13dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_agmoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="26dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/number_zero"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:gravity="bottom"
+                        android:paddingBottom="6dp"
+                        android:text="BG"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tv_agchange"
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:text="@string/turn"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:rv_backgroundColor="#EB457E"
+                        app:rv_backgroundPressColor="#EB457E"
+                        app:rv_isRadiusHalfHeight="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_ty"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/game_agmoney_ty"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/logo_cmb" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/TYYoplay"
+                        android:textColor="@color/white"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <ImageView
+                        android:id="@+id/iv_tyrefresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="34dp"
+                        android:src="@drawable/ic_refreshmoney" />
+
+                </LinearLayout>
+
+                <View style="@style/WrapAuto" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:layout_marginBottom="13dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_tymoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="26dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/number_zero"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:gravity="bottom"
+                        android:paddingBottom="6dp"
+                        android:text="@string/TYYoplay_cmd"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tv_tychange"
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:text="@string/turn"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:rv_backgroundColor="#EB457E"
+                        app:rv_backgroundPressColor="#EB457E"
+                        app:rv_isRadiusHalfHeight="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_saba"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/game_saba"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/img_saba" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/game_balance_play"
+                        android:textColor="@color/white"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <ImageView
+                        android:id="@+id/iv_saba_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="34dp"
+                        android:src="@drawable/ic_refreshmoney" />
+
+                </LinearLayout>
+
+                <View style="@style/WrapAuto" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:layout_marginBottom="13dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_saba_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="26dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/number_zero"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:gravity="bottom"
+                        android:paddingBottom="6dp"
+                        android:text="@string/game_balance_play"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tv_saba_change"
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:text="@string/turn"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:rv_backgroundColor="#EB457E"
+                        app:rv_backgroundPressColor="#EB457E"
+                        app:rv_isRadiusHalfHeight="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/game_zzqpmoney_bg"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_rich" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/dfwqp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <ImageView
+                        android:id="@+id/ivRereshFw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingRight="34dp"
+                        android:src="@drawable/ic_refreshmoney" />
+
+                </LinearLayout>
+
+                <View style="@style/WrapAuto" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:layout_marginBottom="13dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/tvFw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="26dp"
+                        android:gravity="center_vertical"
+                        android:text="0.00"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
+                        android:gravity="bottom"
+                        android:paddingBottom="6dp"
+                        android:text="@string/moneyUnit"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <View style="@style/AutoWrap" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/rtvFw"
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:text="@string/turn"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:rv_backgroundColor="#EB457E"
+                        app:rv_backgroundPressColor="#EB457E"
+                        app:rv_isRadiusHalfHeight="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

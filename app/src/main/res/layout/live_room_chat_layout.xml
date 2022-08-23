@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.live.fox.view.ChatPanelView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_outside_view"
+    android:layout_width="match_parent"
+    android:layout_height="32dp"
+    android:orientation="vertical">
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_send"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="@string/confirm"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:rv_backgroundColor="@color/colorAccent"
+        app:rv_backgroundPressColor="@color/colorAccent"
+        app:rv_cornerRadius="6dp"
+        tools:ignore="RtlHardcoded" />
+
+    <EditText
+        android:id="@+id/et_input_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@+id/tv_send"
+        android:background="@drawable/shape_round_white"
+        android:ellipsize="end"
+        android:imeOptions="actionSend"
+        android:maxLines="1"
+        android:paddingHorizontal="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_30"
+        android:textSize="14sp"
+        android:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progress_send"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/shape_round_ef3272"
+        android:gravity="center"
+        android:indeterminateDrawable="@drawable/rotare"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/shape_round_gray"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/loading_ios"
+        android:visibility="gone" />
+
+</com.live.fox.view.ChatPanelView>

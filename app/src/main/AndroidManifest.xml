@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.live.fox">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity"
+        tools:replace="android:allowBackup"
+        tools:targetApi="p">
+        <activity
+            android:name=".ui.game.AllGameActivity"
+            android:exported="true" />
+        <activity android:name=".ui.mine.activity.TransactionDetailActivity" />
+        <activity android:name=".ui.mine.activity.TransactionActivity" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="ratio_float" />
+
+        <service
+            android:name="com.xtremeprog.sdk.ble.BleService"
+            android:enabled="true" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="XG_SERVER_SUFFIX"
+            android:value="tpns.sgp.tencent.com" /> <!-- 腾讯推送 start -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" /> <!-- 腾讯推送 start -->
+        <receiver android:name=".receiver.MessageReceiver">
+            <intent-filter>
+
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.xg.vip.action.PUSH_MESSAGE" />
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.xg.vip.action.FEEDBACK" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.tencent.android.tpush.TpnsActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <data
+                    android:host="${applicationId}"
+                    android:scheme="tpns" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:process=":xg_vip_service">
+            <intent-filter android:priority="0x7fffffff">
+
+                <!-- 【必须】 移动推送 TPNS SDK的内部广播 -->
+                <action android:name="com.tencent.android.xg.vip.action.SDK" />
+                <action android:name="com.tencent.android.xg.vip.action.INTERNAL_PUSH_MESSAGE" />
+                <action android:name="com.tencent.android.xg.vip.action.ACTION_SDK_KEEPALIVE" />
+                <!-- 【可选】 系统广播：网络切换 -->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <!-- 【可选】 系统广播：开屏 -->
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <!-- 【可选】 一些常用的系统广播，增强移动推送 TPNS service的复活机会，请根据需要选择。当然，您也可以添加App自定义的一些广播让启动service -->
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.tencent.android.tpush.service.XGVipPushService"
+            android:persistent="true"
+            android:process=":xg_vip_service" />
+        <service
+            android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="${applicationId}.XGVIP_PUSH_ACTION" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="com.tencent.android.tpush.XGPushProvider"
+            android:authorities="${applicationId}.XGVIP_PUSH_AUTH"
+            android:exported="false"
+            tools:replace="android:authorities" />
+        <provider
+            android:name="com.tencent.android.tpush.SettingsContentProvider"
+            android:authorities="${applicationId}.TPUSH_PROVIDER" />
+        <provider
+            android:name="com.tencent.android.tpush.XGVipPushKAProvider"
+            android:authorities="${applicationId}.AUTH_XGPUSH_KEEPALIVE"
+            android:exported="true" /> <!-- 腾讯推送 end -->
+        <activity
+            android:name=".SplashActivity"
+            android:resizeableActivity="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme"
+            tools:targetApi="n">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- 主界面 -->
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.VIEW"/> -->
+            <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+            <!-- <category android:name="android.intent.category.BROWSABLE"/> -->
+
+
+            <!-- <data android:scheme="${OpenInstallKey}"/> -->
+            <!-- </intent-filter> -->
+        </activity> <!-- 主播直播界面 -->
+        <!-- &lt;!&ndash;消息列表界面&ndash;&gt; -->
+        <!-- <activity -->
+        <!-- android:name="com.live.lianhong.ui.chat.ChatListActivity" -->
+        <!-- android:screenOrientation="portrait" /> -->
+        <!-- 聊天界面 -->
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" /> <!-- 登录相关界面 -->
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait" /> <!-- 登录相关界面 -->
+        <activity
+            android:name=".ui.login.LoginModeSelActivity"
+            android:screenOrientation="portrait" /> <!-- 认证界面 -->
+        <activity
+            android:name=".ui.AuthActivity"
+            android:screenOrientation="portrait" /> <!-- 黑名单界面 -->
+        <activity
+            android:name=".ui.mine.activity.BlackLIstActivity"
+            android:screenOrientation="portrait" /> <!-- 系统设置 -->
+        <activity
+            android:name=".ui.mine.activity.SettingActivity"
+            android:screenOrientation="portrait" /> <!-- 通知设置 -->
+        <!-- 帮助与反馈 -->
+        <!-- 直播结束 -->
+        <activity
+            android:name=".LiveFinishActivity"
+            android:screenOrientation="portrait" /> <!-- 包含Fragment的Activity -->
+        <activity
+            android:name=".utils.FragmentContentActivity"
+            android:screenOrientation="portrait" /> <!-- 观众直播端 -->
+        <activity
+            android:name=".ui.live.PlayLiveActivity"
+            android:screenOrientation="portrait" /> <!-- 我的道具 -->
+        <activity
+            android:name=".ui.mine.activity.MyPronActivity"
+            android:screenOrientation="portrait" /> <!-- 充值 -->
+        <activity
+            android:name=".ui.mine.activity.RechargeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" /> <!-- 提现 -->
+        <activity
+            android:name=".ui.mine.activity.moneyout.MoneyOutActivity"
+            android:screenOrientation="portrait" /> <!-- 商城 -->
+        <activity
+            android:name=".ui.mine.activity.ShopActivity"
+            android:screenOrientation="portrait" /> <!-- 修改个人信息 -->
+        <activity
+            android:name=".ui.mine.activity.EditUserInfoActivity"
+            android:screenOrientation="portrait" /> <!-- 修改名称 -->
+        <activity
+            android:name=".ui.mine.activity.EditorNameActivity"
+            android:screenOrientation="portrait" /> <!-- 修改个性签名 -->
+        <activity
+            android:name=".ui.mine.activity.EditorMarkActivity"
+            android:screenOrientation="portrait" /> <!-- 直播收益 -->
+        <activity
+            android:name=".ui.mine.activity.LiveProfitActivity"
+            android:screenOrientation="portrait" /> <!-- 直播记录 -->
+        <activity
+            android:name=".ui.mine.activity.LiveRecordActivity"
+            android:screenOrientation="portrait" /> <!-- 关于我们 -->
+        <activity
+            android:name=".ui.mine.activity.AboutUsActivity"
+            android:screenOrientation="portrait" /> <!-- 我的关注 -->
+        <activity
+            android:name=".ui.mine.activity.MyFollowActivity"
+            android:screenOrientation="portrait" /> <!-- 我的粉丝 -->
+        <activity
+            android:name=".ui.mine.activity.MyFansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.MyAncListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.MyGameRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.MyTouzuRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.MySouZhiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.ZblbActivity"
+            android:screenOrientation="portrait" /> <!-- 用户详情 -->
+        <activity
+            android:name=".ui.mine.activity.UserDetailActivity"
+            android:screenOrientation="portrait" /> <!-- 分享 -->
+        <activity
+            android:name=".ui.mine.activity.ShareActivity"
+            android:screenOrientation="portrait" /> <!-- 排行榜 -->
+        <activity
+            android:name=".ui.rank.RankActivity"
+            android:screenOrientation="portrait" /> <!-- 主播榜 -->
+        <activity
+            android:name=".ui.rank.RankDetaiActivity"
+            android:screenOrientation="portrait" /> <!-- 提现到银行卡 -->
+        <activity
+            android:name=".ui.mine.activity.moneyout.MoneyOutToCardActivity"
+            android:screenOrientation="portrait" /> <!-- 绑定、更换银行卡 -->
+        <activity
+            android:name=".ui.mine.activity.moneyout.BindCardActivity"
+            android:screenOrientation="portrait" /> <!-- 兑换金币 -->
+        <activity
+            android:name=".ui.mine.activity.moneyout.ExChangeMoneyActivity"
+            android:screenOrientation="portrait" /> <!-- 提现、兑换金币 记录 -->
+        <activity
+            android:name=".ui.mine.activity.moneyout.MoneyOutRecordActivity"
+            android:screenOrientation="portrait" /> <!-- 系统通知列表 -->
+        <activity
+            android:name=".ui.chat.SysNoticeActivity"
+            android:screenOrientation="portrait" /> <!-- 官方公告列表 -->
+        <activity
+            android:name=".ui.chat.GfNoticeActivity"
+            android:screenOrientation="portrait" /> <!-- 客服 -->
+        <activity
+            android:name=".ui.mine.activity.kefu.ServicesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.MessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.h5.H5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.h5.WxPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.rank.AnchorRankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.h5.UserIndexActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.game.GameFullWebViewActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" /> <!-- 我的余额 -->
+        <activity
+            android:name=".ui.mine.activity.MyBalanceActivity"
+            android:screenOrientation="portrait" /> <!-- 用户端 临时Activity -->
+        <activity
+            android:name=".ui.mine.activity.noble.NobleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.noble.MyNobleActivity"
+            android:screenOrientation="portrait" /> <!-- 安卓APK -->
+        <activity android:name=".ui.rank.RanksActivity" />
+        <activity
+            android:name=".ui.mine.activity.gamerecord.CaiDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.gamerecord.HNCPCaiDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.PickPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.language.MultiLanguageActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+    </application>
+
+</manifest>

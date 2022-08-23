@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "809780756222",
+    "project_id": "aiai-1f254",
+    "storage_bucket": "aiai-1f254.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809780756222:android:373add4465f28ccbc22faf",
+        "android_client_info": {
+          "package_name": "com.aiai.live"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809780756222-iejmocq8km41mqkoaqkg66kl6dtgrp4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0-pr5HCcu1cSYlSSljhxBtd73o9wgvUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809780756222-iejmocq8km41mqkoaqkg66kl6dtgrp4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

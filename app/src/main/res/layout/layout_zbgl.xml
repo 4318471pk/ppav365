@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_searchhead"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fafafa"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_searchhead"
+            style="@style/AutoMatch"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_round_ededed"
+            android:drawableLeft="@drawable/head_search"
+            android:paddingLeft="10dp"
+            android:drawablePadding="5dp"
+            android:hint="@string/pInputUsename"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textSize="@dimen/sp_12" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_searchhead_search"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:rv_backgroundColor="#F0668A"
+            app:rv_isRadiusHalfHeight="true"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:overScrollMode="never" />
+
+        <include layout="@layout/view_replace_place_holder" />
+    </RelativeLayout>
+</LinearLayout>

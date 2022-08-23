@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="300dp"
+        android:layout_height="470dp"
+        android:gravity="center_horizontal"
+        android:minHeight="470dp"
+        android:orientation="vertical"
+        app:rv_backgroundColor="#F2F2F2"
+        app:rv_cornerRadius="9dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="270dp"
+            android:layout_height="85dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="13.5dp"
+            android:background="@color/white"
+            android:layout_marginBottom="10dp"
+
+            app:cardCornerRadius="9dp"
+            app:cardElevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAgent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/agentRecharge"
+                    android:textColor="#393939"
+                    android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:id="@+id/tvId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAgent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#858585"
+                    android:textSize="@dimen/sp_14"/>
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/rtvCopy"
+                    android:layout_width="39dp"
+                    android:layout_height="15dp"
+                    android:layout_alignBaseline="@id/tvId"
+                    android:layout_marginLeft="45dp"
+                    android:layout_toRightOf="@id/tvId"
+                    android:gravity="center"
+                    android:text="@string/copy"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    app:rv_backgroundColor="#EF6EA0"
+                    app:rv_isRadiusHalfHeight="true" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAgent"
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            tools:itemCount="4"
+            tools:listitem="@layout/adapter_agent_item" />
+    </com.flyco.roundview.RoundLinearLayout>
+</LinearLayout>

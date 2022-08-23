@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="67dp"
+        android:layout_marginBottom="80dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/pk_invert_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_sure"
+                android:layout_width="75dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:text="@string/accept"
+                android:textColor="#ED5B74"
+                android:textSize="13sp"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_backgroundColor="@color/white"/>
+
+            <View android:layout_width="26dp"
+                android:layout_height="20dp" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="55dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:text="@string/refuse"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_backgroundColor="@color/transparent" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
+

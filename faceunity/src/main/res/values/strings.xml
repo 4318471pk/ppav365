@@ -1,0 +1,27 @@
+<resources>
+    <string name="face_unity_default">默认</string>
+    <string name="face_unity_pure_red">纯红</string>
+    <string name="face_unity_custom">自定义</string>
+    <string name="face_unity_goddess">女神</string>
+    <string name="face_unity_nature">自然</string>
+    <string name="face_unity_perfect">精准</string>
+    <string name="face_unity_matte_skin">朦胧</string>
+    <string name="face_unity_except">清晰磨皮</string>
+    <string name="face_unity_whitening">美白</string>
+    <string name="face_unity_ruddy">红润</string>
+    <string name="face_unity_bright_eyes">亮眼</string>
+    <string name="face_unity_beautiful_teeth">美牙</string>
+    <string name="face_unity_face">脸型</string>
+    <string name="face_unity_big_eye">大眼</string>
+    <string name="face_unit_face_slimming">瘦脸</string>
+    <string name="face_unity_chin">下巴</string>
+    <string name="face_unity_forehead">额头</string>
+    <string name="face_unity_thin_nose">瘦鼻</string>
+    <string name="face_unity_mouth_type">嘴巴</string>
+    <string name="face_unity_tools">道具</string>
+    <string name="face_unity_skin_beauty">美肤</string>
+    <string name="face_unity_beauty">美型</string>
+    <string name="face_unity_effect">影响</string>
+    <string name="face_unity_filter">滤镜</string>
+    <string name="face_unity_clean_skin">朦胧磨皮</string>
+</resources>

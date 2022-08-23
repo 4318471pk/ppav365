@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlBankInfo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/shape_white_stroke_gray_corners_10"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tvCardNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="68dp"
+        android:gravity="center_vertical"
+        android:minHeight="30dp"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvCardNo"
+        android:layout_alignBottom="@id/tvCardNo"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tvCopy1"
+            android:layout_width="65dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/copy"
+            android:textSize="13sp"
+            app:rv_cornerRadius="5dp"
+            app:rv_strokeColor="#dddddd"
+            app:rv_strokeWidth="0.5dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvRecieptName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvCardNo"
+        android:layout_marginEnd="68dp"
+        android:gravity="center_vertical"
+        android:minHeight="30dp"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/tvRecieptName"
+        android:layout_alignBottom="@id/tvRecieptName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tvCopy2"
+            android:layout_width="65dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/copy"
+            android:textSize="13sp"
+            app:rv_cornerRadius="5dp"
+            app:rv_strokeColor="#dddddd"
+            app:rv_strokeWidth="0.5dp" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tvBankName"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/tvRecieptName"
+        android:gravity="center_vertical"
+        android:textSize="14sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tvCopy3"
+        android:layout_width="65dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/tvBankName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="@string/copy"
+        android:textSize="13sp"
+        app:rv_cornerRadius="5dp"
+        app:rv_strokeColor="#dddddd"
+        app:rv_strokeWidth="0.5dp" />
+
+    <TextView
+        android:id="@+id/tvUid"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/tvBankName"
+        android:gravity="center_vertical"
+        android:textSize="14sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tvCopy4"
+        android:layout_width="65dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/tvUid"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="@string/copy"
+        android:textSize="13sp"
+        app:rv_cornerRadius="5dp"
+        app:rv_strokeColor="#dddddd"
+        app:rv_strokeWidth="0.5dp" />
+
+    <TextView
+        android:id="@+id/tvBankFullName"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/tvUid"
+        android:gravity="center_vertical"
+        android:textSize="14sp" />
+
+</RelativeLayout>

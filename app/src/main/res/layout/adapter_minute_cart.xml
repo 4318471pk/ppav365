@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rrl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    app:rv_backgroundColor="@color/black_transparent_70"
+    app:rv_cornerRadius="10dp">
+
+    <TextView
+        android:id="@+id/tvBigOrSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorEB4A81"
+        android:textSize="@dimen/sp_16"
+        tools:text="大" />
+
+    <TextView
+        android:id="@+id/tvBetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvBigOrSmall"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        tools:text="一分时时彩-第一球" />
+
+    <TextView
+        android:id="@+id/tvRatio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tvBetName"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/tvBetName"
+        android:text="1注1倍"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/ivTrash"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_cart_close" />
+
+    <TextView
+        android:id="@+id/tvBetMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvRatio"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:text="50X6"
+        android:textColor="@color/colorEB4A81"
+        android:textSize="18sp" />
+
+</com.flyco.roundview.RoundRelativeLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="270dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvAgentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ivQQ"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:maxWidth="165dp"
+            android:textColor="#858585"
+            android:textSize="@dimen/sp_14"
+            tools:text="崽子24H在线代充" />
+
+        <ImageView
+            android:id="@+id/ivQQ"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/ivWechat"
+            android:src="@drawable/ic_agent_qq" />
+
+        <ImageView
+            android:id="@+id/ivWechat"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_agent_wechat" />
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvAgentName"
+            android:layout_alignLeft="@id/tvAgentName"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/gold"
+            android:textSize="@dimen/sp_14"
+            tools:text="200" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

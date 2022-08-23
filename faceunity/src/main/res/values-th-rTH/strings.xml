@@ -1,0 +1,27 @@
+<resources>
+    <string name="face_unity_default">ค่าเริ่มต้น</string>
+    <string name="face_unity_pure_red">แดงบริสุทธ์</string>
+    <string name="face_unity_custom">ปรับแต่ง</string>
+    <string name="face_unity_goddess">นางฟ้า</string>
+    <string name="face_unity_nature">ธรรมชาติ</string>
+    <string name="face_unity_perfect">แม่นยำ</string>
+    <string name="face_unity_matte_skin">กลบเกลื่อน</string>
+    <string name="face_unity_except">ลบเลือนริ้วรอย</string>
+    <string name="face_unity_whitening">ขาวใส</string>
+    <string name="face_unity_ruddy">บลัชออน</string>
+    <string name="face_unity_bright_eyes">ตาสว่าง</string>
+    <string name="face_unity_beautiful_teeth">ฟันสวย</string>
+    <string name="face_unity_face">ใบหน้า</string>
+    <string name="face_unity_big_eye">ตาโต</string>
+    <string name="face_unit_face_slimming">หน้าเรียว</string>
+    <string name="face_unity_chin">คาง</string>
+    <string name="face_unity_forehead">หน้าผาก</string>
+    <string name="face_unity_thin_nose">จมูกเล็ก</string>
+    <string name="face_unity_mouth_type">รูปแบบปาก</string>
+    <string name="face_unity_tools">เครื่องมือ</string>
+    <string name="face_unity_skin_beauty">ผิวสวย</string>
+    <string name="face_unity_beauty">ความงาม</string>
+    <string name="face_unity_effect">อิทธิพล</string>
+    <string name="face_unity_filter">กรอง</string>
+    <string name="face_unity_clean_skin">กลบเกลื่อนผิว</string>
+</resources>

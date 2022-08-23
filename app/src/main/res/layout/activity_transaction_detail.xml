@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.mine.activity.TransactionDetailActivity">
+
+    <include
+        android:id="@+id/transaction_detail_title"
+        layout="@layout/layout_title_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/transaction_detail_card_bg"
+        android:layout_width="0dp"
+        android:layout_height="140dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_white_round_10"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_title" />
+
+    <ImageView
+        android:id="@+id/transaction_detail_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/app_name"
+        android:elevation="6dp"
+        android:src="@drawable/ic_transaction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/transaction_detail_card_bg" />
+
+    <TextView
+        android:id="@+id/transaction_detail_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:elevation="6dp"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@id/transaction_detail_card_bg"
+        app:layout_constraintStart_toStartOf="@id/transaction_detail_card_bg"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_icon"
+        tools:text="@string/charm" />
+
+    <TextView
+        android:id="@+id/transaction_detail_money_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:elevation="6dp"
+        android:text="@string/transaction_detail_order_success"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/transaction_detail_card_bg"
+        app:layout_constraintStart_toStartOf="@id/transaction_detail_card_bg"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_money" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transaction_detail_type_bg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_white_round_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_card_bg">
+
+        <TextView
+            android:id="@+id/transaction_detail_name_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/transaction_detail_tye_name"
+            app:layout_constraintBottom_toTopOf="@id/transaction_detail_type_title"
+            app:layout_constraintHorizontal_weight="1.2"
+            app:layout_constraintLeft_toLeftOf="@id/transaction_detail_type_bg"
+            app:layout_constraintRight_toLeftOf="@id/transaction_detail_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/transaction_detail_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/textColor_alert_title"
+            app:layout_constraintBaseline_toBaselineOf="@id/transaction_detail_name_title"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintLeft_toRightOf="@id/transaction_detail_name_title"
+            app:layout_constraintRight_toRightOf="@id/transaction_detail_type_bg"
+            tools:text="@string/transaction_detail_tye_name" />
+
+        <TextView
+            android:id="@+id/transaction_detail_type_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/transaction_detail_tye"
+            app:layout_constraintBottom_toTopOf="@id/transaction_detail_bet_money"
+            app:layout_constraintHorizontal_weight="1.2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/transaction_detail_type_status"
+            app:layout_constraintTop_toBottomOf="@id/transaction_detail_name_title" />
+
+        <TextView
+            android:id="@+id/transaction_detail_type_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="@string/transaction_detail_order_success"
+            android:textColor="@color/textColor_alert_title"
+            app:layout_constraintBaseline_toBaselineOf="@id/transaction_detail_type_title"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintLeft_toRightOf="@id/transaction_detail_type_title"
+            app:layout_constraintRight_toRightOf="@id/transaction_detail_type_bg" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/transaction_detail_bet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="transaction_detail_bet_money,
+        transaction_detail_bet_result" />
+
+        <TextView
+            android:id="@+id/transaction_detail_bet_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/amount_bet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1.2"
+            app:layout_constraintLeft_toLeftOf="@id/transaction_detail_type_bg"
+            app:layout_constraintRight_toLeftOf="@id/transaction_detail_bet_result"
+            app:layout_constraintTop_toBottomOf="@id/transaction_detail_type_title" />
+
+        <TextView
+            android:id="@+id/transaction_detail_bet_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/textColor_alert_title"
+            app:layout_constraintBaseline_toBaselineOf="@id/transaction_detail_bet_money"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintLeft_toRightOf="@id/transaction_detail_bet_money"
+            app:layout_constraintRight_toRightOf="@id/transaction_detail_type_bg"
+            app:layout_constraintTop_toBottomOf="@id/transaction_detail_type_title"
+            tools:text="@string/transaction_detail_tye" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/transaction_detail_order_bg"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_white_round_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_type_bg" />
+
+    <TextView
+        android:id="@+id/transaction_detail_order_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:text="@string/transaction_detail_order"
+        app:layout_constraintBottom_toTopOf="@id/transaction_detail_order_time_title"
+        app:layout_constraintHorizontal_weight="1.2"
+        app:layout_constraintLeft_toLeftOf="@id/transaction_detail_order_bg"
+        app:layout_constraintRight_toLeftOf="@id/transaction_order_name"
+        app:layout_constraintTop_toTopOf="@id/transaction_detail_order_bg" />
+
+    <TextView
+        android:id="@+id/transaction_order_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:paddingHorizontal="8dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="32dp"
+        android:singleLine="true"
+        android:textColor="@color/textColor_alert_title"
+        app:layout_constraintBaseline_toBaselineOf="@id/transaction_detail_order_title"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintLeft_toRightOf="@id/transaction_detail_order_title"
+        app:layout_constraintRight_toRightOf="@id/transaction_detail_order_bg"
+        tools:text="@string/transaction_detail_tye_name" />
+
+    <ImageView
+        android:id="@+id/transaction_order_copy"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/app_name"
+        android:padding="6dp"
+        android:src="@drawable/ic_copy"
+        app:layout_constraintBottom_toBottomOf="@id/transaction_order_name"
+        app:layout_constraintEnd_toEndOf="@id/transaction_detail_order_bg"
+        app:layout_constraintTop_toTopOf="@id/transaction_order_name" />
+
+    <TextView
+        android:id="@+id/transaction_detail_order_time_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        android:text="@string/transaction_detail_time"
+        app:layout_constraintBottom_toBottomOf="@id/transaction_detail_order_bg"
+        app:layout_constraintHorizontal_weight="1.2"
+        app:layout_constraintLeft_toLeftOf="@id/transaction_detail_order_bg"
+        app:layout_constraintRight_toLeftOf="@id/transaction_detail_order_time"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_order_title" />
+
+    <TextView
+        android:id="@+id/transaction_detail_order_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:textColor="@color/textColor_alert_title"
+        app:layout_constraintBaseline_toBaselineOf="@id/transaction_detail_order_time_title"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintLeft_toRightOf="@id/transaction_detail_order_time_title"
+        app:layout_constraintRight_toRightOf="@id/transaction_detail_order_bg"
+        tools:text="@string/transaction_detail_tye_name" />
+
+    <TextView
+        android:id="@+id/transaction_detail_question"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_white_round_10"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:text="@string/transaction_detail_order_question"
+        android:textColor="@color/textColor_alert_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transaction_detail_order_bg" />
+
+    <ImageView
+        android:id="@+id/transaction_detail_image"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/transaction_detail_order_question"
+        android:padding="8dp"
+        android:src="@drawable/ic_service"
+        android:tint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@id/transaction_detail_question"
+        app:layout_constraintEnd_toEndOf="@id/transaction_detail_question"
+        app:layout_constraintTop_toTopOf="@id/transaction_detail_question" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

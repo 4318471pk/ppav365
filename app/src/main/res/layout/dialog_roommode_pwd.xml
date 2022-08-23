@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="274dp"
+        android:layout_height="198dp"
+        android:background="@drawable/shape_round_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/singleRoomSetting"
+            android:textColor="#929292"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_rightdes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="right"
+            android:text="@string/zeroGoldTime"
+            android:textColor="#EB4A81"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/et_"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/shape_halfround_gray"
+            android:gravity="center_vertical"
+            android:hint="@string/oneThousandGoldTime"
+            android:paddingLeft="24dp"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="#C4C4C4"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="100dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_roommode_cancel"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+            <View style="@style/WrapAuto" />
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_width="100dp"
+                android:layout_height="32dp"
+                android:background="@drawable/theme_shape_halfround"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
+

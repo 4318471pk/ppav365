@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="30dp"
+    android:paddingEnd="25dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_head"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default"
+        app:riv_oval="true" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/AutoMatch"
+        android:layout_marginStart="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/placeholder_nickname"
+        android:textColor="#2A2E3F"
+        android:textSize="15sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_remove"
+        style="@style/WrapWrap"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="4dp"
+        android:text="@string/concerned"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:rv_backgroundColor="#D8CFCD"
+        app:rv_isRadiusHalfHeight="true" />
+
+</LinearLayout>

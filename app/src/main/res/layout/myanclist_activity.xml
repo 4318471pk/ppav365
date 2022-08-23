@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/appbg"
+    android:orientation="vertical">
+
+
+    <com.live.fox.view.tab.SimpleTabLayout
+        android:id="@+id/tabLayout_"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_gravity="center"
+        app:tl_indicator_color="#F0668A"
+        app:tl_indicator_height="2dp"
+        app:tl_selected_textsize="14sp"
+        app:tl_textBold="BOTH"
+        app:tl_textSelectColor="#F0668A"
+        app:tl_textUnselectColor="#2A2E3F"
+        app:tl_textsize="14sp" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+</LinearLayout>

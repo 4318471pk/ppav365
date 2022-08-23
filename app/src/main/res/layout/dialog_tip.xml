@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:background="@drawable/shape_round_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvPromptTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="17.5dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="17dp"
+        android:gravity="center"
+        android:text="@string/dialog_words"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/black"
+        android:textSize="12dp" />
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cacaca" />
+
+    <RelativeLayout
+        android:id="@+id/reYZM"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/etYZM"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:background="@null"
+            android:layout_toLeftOf="@+id/tvYZM"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:hint="@string/dialog_confirmation_hint"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingLeft="11dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16"
+            android:layout_toStartOf="@+id/tvYZM"
+            android:layout_alignParentStart="true"
+            android:paddingEnd="0dp"
+            android:paddingStart="11dp"
+            android:paddingRight="0dp" />
+
+        <TextView
+            android:id="@+id/tvYZM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:layout_marginRight="11dp"
+            android:background="@drawable/shape_re_bg"
+            android:text="@string/number_one_two"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_16"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/etYZM"
+            android:background="#cacaca" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btn_1"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:text="@string/cancel"
+                android:textColor="#EF3272"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/line_2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#cacaca" />
+
+        <RelativeLayout
+            android:id="@+id/rl_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_2"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textAllCaps="false"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textColor="#EF3272"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

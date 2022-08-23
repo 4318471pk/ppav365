@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reWhole"
+    android:layout_width="wrap_content"
+    android:layout_height="71dp"
+    android:background="@drawable/shape_circle_blackhn30">
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:src="@drawable/ic_close"
+        android:text="@string/financial_time"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/iv_colse"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@+id/llAllResult"
+        android:padding="7dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_close" />
+
+    <View
+        android:id="@+id/ll_bottom_line"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignStart="@+id/llAllResult"
+        android:layout_alignEnd="@+id/llAllResult"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/tv_message"
+        android:background="#D8D8D8" />
+
+    <LinearLayout
+        android:id="@+id/llAllResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_bottom_line"
+        android:orientation="horizontal"
+        android:paddingEnd="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="10dp">
+
+
+        <TextView
+            android:id="@+id/numpa"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/numpb"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"/>
+
+        <TextView
+            android:id="@+id/numpc"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/numpd"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/numpe"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+
+        <TextView
+            android:id="@+id/numpf"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/numpg"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/numph"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/numpi"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/numpj"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/prizer_num_bga"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="2" />
+    </LinearLayout>
+</RelativeLayout>

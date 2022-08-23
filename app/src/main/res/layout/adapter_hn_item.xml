@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/llItem"
+    android:orientation="vertical">
+
+    <RadioButton
+        android:id="@+id/tvGameFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/hn_check_selector"
+        android:button="@null"
+        android:gravity="center"
+        android:minWidth="28dp"
+        android:minHeight="28dp"
+        android:layout_margin="3dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorEB4A81"
+        android:textSize="18sp"/>
+
+</LinearLayout>

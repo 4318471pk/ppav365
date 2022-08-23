@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <external-path
+            name="rc_external_path"
+            path="." />
+        <root-path
+            name="rc_root_path"
+            path="" />
+
+        <external-path
+            name="files_root"
+            path="Android/data/com.lbz.mmzb/" />
+
+        <external-path
+            name="external_storage_root"
+            path="." />
+    </paths>
+</resources>
+

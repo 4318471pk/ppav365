@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp">
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/rechage_value" />
+
+        <LinearLayout
+            style="@style/AutoMatch.Vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/tv_des"
+                style="@style/MatchWrap"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:text="银行卡提现(9982********32"
+                android:textColor="#171719"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_data"
+                style="@style/MatchWrap"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:text="08-23 11:32"
+                android:textColor="#949494"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/WrapMatch.Vertical">
+
+            <LinearLayout style="@style/WrapWrap.Horizontal">
+
+                <TextView
+                    android:id="@+id/tv_exchangemoney"
+                    style="@style/MatchWrap"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="+100"
+                    android:textColor="#FE911F"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/MatchWrap"
+                    android:layout_marginLeft="2dp"
+                    android:text="@string/gold"
+                    android:textColor="#FE911F"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_money"
+                style="@style/WrapWrap"
+                android:layout_gravity="right"
+                android:drawableLeft="@drawable/rechage_value"
+                android:layout_marginTop="3dp"
+                android:drawablePadding="2dp"
+                android:gravity="right"
+                android:text="兑换成功"
+                android:textColor="#949494"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F6F6F6" />
+</LinearLayout>

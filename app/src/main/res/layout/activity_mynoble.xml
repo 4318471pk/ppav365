@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/head_include" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f6f5f5"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlHead"
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+
+                <ImageView
+                    android:id="@+id/ivRobble2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/ic_my_zj" />
+
+                <ImageView
+                    android:id="@+id/ivRobble"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    tools:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivRobble"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#2a2e3f"
+                    android:textSize="15sp"
+                    tools:text="2020-11-30" />
+
+                <View
+                    android:id="@+id/vCenter"
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/tvDate"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/tvFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignTop="@id/vCenter"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toLeftOf="@id/vCenter"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/xufeiHuiyuan"
+                    android:textColor="@color/white"
+                    app:rv_backgroundColor="#bba17c"
+                    app:rv_isRadiusHalfHeight="true" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/tvImprove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignTop="@id/vCenter"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toRightOf="@id/vCenter"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/upHuiyuan"
+                    android:textColor="@color/white"
+                    app:rv_backgroundColor="#bba17c"
+                    app:rv_isRadiusHalfHeight="true" />
+
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRoble"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_robble_adapter" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_margin="15dp"
+                android:background="#ebebeb" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/nobleBeautiful"
+                android:textColor="#be5c34"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_my_k" />
+
+            <com.flyco.roundview.RoundRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="18dp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_cornerRadius="8dp">
+
+                <TextView
+                    android:id="@+id/tvQQ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#ccb26d"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvQQdes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvQQ"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/joinNoble"
+                    android:textColor="#6c6c6c"
+                    android:textSize="15sp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/tvAdd"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@id/tvQQ"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="@string/join"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="#ddc890"
+                    app:rv_isRadiusHalfHeight="true" />
+            </com.flyco.roundview.RoundRelativeLayout>
+
+            <com.flyco.roundview.RoundRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="18dp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_cornerRadius="8dp">
+
+                <TextView
+                    android:id="@+id/tvLiang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#ccb26d"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvLiangdes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvLiang"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#6c6c6c"
+                    android:textSize="15sp" />
+
+            </com.flyco.roundview.RoundRelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_margin="15dp"
+                android:background="#ebebeb" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/betterName"
+                android:textColor="#be5c34"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_my_k" />
+
+
+            <LinearLayout
+                android:id="@+id/rlShit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/rtvJf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/enterRoomSecret"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="#cab283"
+                    app:rv_cornerRadius="5dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/rtvLt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:text="@string/chatSecret"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="#cab283"
+                    app:rv_cornerRadius="5dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/rtvBd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="10dp"
+                    android:text="@string/invisibleList"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="#cab283"
+                    app:rv_cornerRadius="5dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
