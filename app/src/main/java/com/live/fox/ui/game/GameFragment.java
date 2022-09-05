@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -165,6 +166,11 @@ public class GameFragment extends BaseFragment {
         rv1.setLayoutManager(layoutManager);
         rv1.setAdapter(rvAdapter1 = new BaseQuickAdapter(R.layout.item_gamelist, new ArrayList<GameListItem>()) {
             @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
             protected void convert(BaseViewHolder helper, Object item) {
                 GameListItem kyGame = (GameListItem) item;
 
@@ -213,6 +219,11 @@ public class GameFragment extends BaseFragment {
         rv2.setLayoutManager(layoutManager);
         rv2.setAdapter(rvAdapter2 = new BaseQuickAdapter(R.layout.item_gamecolumn, new ArrayList<GameColumn>()) {
             @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
             protected void convert(BaseViewHolder helper, Object item) {
 
                 GameColumn gameColumn = (GameColumn) item;
@@ -225,6 +236,11 @@ public class GameFragment extends BaseFragment {
 
                 BaseQuickAdapter adapter;
                 rv.setAdapter(adapter = new BaseQuickAdapter(R.layout.item_gamecontenta, gameColumn.getList()) {
+                    @Override
+                    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+                    }
+
                     @Override
                     protected void convert(BaseViewHolder helper, Object item) {
                         GameItem gameItem = (GameItem) item;

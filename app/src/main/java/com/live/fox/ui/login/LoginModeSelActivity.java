@@ -294,10 +294,10 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     ToastUtils.showShort(getString(R.string.inputAccout));
                     return;
                 }
-                if (!phone.startsWith("0") || phone.length() != 10) {
-                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
-                    return;
-                }
+//                if (!phone.startsWith("0") || phone.length() <11) {
+//                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
+//                    return;
+//                }
                 isRegisterApi(phone);
                 break;
             case R.id.layout_back:
@@ -318,10 +318,10 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
 
-                if (!phone.startsWith("0") || phone.length() != 10) {
-                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
-                    return;
-                }
+//                if (!phone.startsWith("0") || phone.length() != 10) {
+//                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
+//                    return;
+//                }
 
                 if (TextUtils.isEmpty(password)) {
                     ToastUtils.showShort(getString(R.string.toast_tip_password));

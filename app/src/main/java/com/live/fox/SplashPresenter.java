@@ -97,14 +97,14 @@ public class SplashPresenter {
             return;
         }
 
-        if (!BuildConfig.DEBUG) {   //模拟器不让玩 此方法可以检测出绝大部分模拟器
-            if (EasyProtectorLib.checkIsRunningInEmulator(context, null)) {
-                showAlertDialog(context.getString(R.string.czbzcmlqsyx),
-                        context.getString(R.string.see),
-                        (dialogInterface, i) -> context.finish());
-                return;
-            }
-        }
+//        if (!BuildConfig.DEBUG) {   //模拟器不让玩 此方法可以检测出绝大部分模拟器
+//            if (EasyProtectorLib.checkIsRunningInEmulator(context, null)) {
+//                showAlertDialog(context.getString(R.string.czbzcmlqsyx),
+//                        context.getString(R.string.see),
+//                        (dialogInterface, i) -> context.finish());
+//                return;
+//            }
+//        }
         doCheckPermissions();
     }
 
@@ -226,7 +226,7 @@ public class SplashPresenter {
         configInfo.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                LogUtils.e("doBaseApi onResponse: " + call.request().url());
+                LogUtils.e("doBaseApi onResponse: " +call.request().url());
                 JsonObject body = response.body();
                 if (body != null) {
                     SPUtils.getInstance("basedomain").put("domain", domains.get(0));
