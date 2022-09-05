@@ -3,6 +3,8 @@ package com.live.fox.ui.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,9 +37,12 @@ import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.BlankController;
 import com.live.fox.utils.ClickUtil;
+import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
+import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.DropDownWindowsOfCountry;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -56,11 +61,14 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     private EditText etUsername;
     private EditText etPassword;
     private ImageView ivVoice;
+    private TextView guestLogin;
+    TextView tvCountrySelector;
 
     //是否显示一段实体
     MediaPlayer mediaPlayer;
     private String showTip;
     private boolean flag = true;
+    DropDownWindowsOfCountry dropDownWindowsOfCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +79,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.loginmodesel_activity);
         initData(getIntent());
         initView();
+
     }
 
     public void initData(Intent intent) {
@@ -81,6 +90,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void initView() {
+        int screenWidth=ScreenUtils.getScreenWidth(this);
         ActivityUtils.finishOtherActivities(LoginModeSelActivity.class);
         LinearLayout titleBox = findViewById(R.id.login_title_box);
         int barHeight = BarUtils.getStatusBarHeight();
@@ -91,12 +101,15 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         VideoView videoView = findViewById(R.id.videoView);
         etPassword = findViewById(R.id.et_password);
         ivVoice = findViewById(R.id.iv_voice);
+        guestLogin=findViewById(R.id.guestLogin);
+        tvCountrySelector=findViewById(R.id.tvCountrySelector);
         findViewById(R.id.layout_back).setOnClickListener(this);
         findViewById(R.id.iv_kefu).setOnClickListener(this);
         findViewById(R.id.tv_register).setOnClickListener(this);
         findViewById(R.id.tv_resetpwd).setOnClickListener(this);
         findViewById(R.id.btn_login_by_pass).setOnClickListener(this);
         findViewById(R.id.iv_voice).setOnClickListener(this);
+        tvCountrySelector.setOnClickListener(this);
         ImageView language = findViewById(R.id.home_language);
         if (!AppConfig.isMultiLanguage()) {
             language.setVisibility(View.GONE);
@@ -124,6 +137,11 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
             LogUtils.e(showTip);
             ToastUtils.showShort(showTip);
         }
+
+        ImageView applogo=(ImageView)findViewById(R.id.login_logo);
+        FixImageSize.setImageSizeOnWidthWithSRC(applogo, (int) (screenWidth * 0.192));
+        guestLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+
     }
 
     /**
@@ -330,6 +348,21 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                 BetCartDataManager.betGameIndex = 0;
                 doLoginByPwdApi(phone, password);
                 break;
+            case R.id.tvCountrySelector:
+                if(dropDownWindowsOfCountry==null)
+                {
+                    dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this);
+                    dropDownWindowsOfCountry.setOutsideTouchable(true);
+                    dropDownWindowsOfCountry.setTouchable(true);
+                    dropDownWindowsOfCountry.setBackgroundDrawable(new ColorDrawable(0));
+                }
+                if(!dropDownWindowsOfCountry.isShowing())
+                {
+                    View line=findViewById(R.id.underLineofPhone);
+                    dropDownWindowsOfCountry.showAsDropDown(line,0,10);
+                }
+
+                break ;
         }
     }
 }
