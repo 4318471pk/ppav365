@@ -32,6 +32,7 @@ import com.live.fox.dialog.MMToast;
 import com.live.fox.helper.mvp.IBaseView;
 import com.live.fox.language.LanguageSp;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.utils.ActivityManager;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -344,6 +345,7 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     protected void onDestroy() {
         super.onDestroy();
         hideLoadingDialog();
+        ActivityManager.getInstance().onDestroy(this);
     }
 
     @Override
@@ -380,6 +382,14 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
         super.onStop();
         addToWindow(false);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ActivityManager.getInstance().onStart(this);
+    }
+
+
 
     public void addToWindow(boolean add) {
         if (add) {

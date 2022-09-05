@@ -3,6 +3,8 @@ package com.live.fox.utils;
 import android.app.Instrumentation;
 import android.view.KeyEvent;
 
+import java.util.HashMap;
+
 
 public class ClickUtil {
 
@@ -14,8 +16,24 @@ public class ClickUtil {
     private static final long EXIT_CLICK_TIME = 2000;
 
     private static long lastClickTime2;
+    private static HashMap<Integer,Long> clickRecord=new HashMap<>();
 
 
+    public static boolean isClickWithShortTime(int id,long millSecond)
+    {
+        if(clickRecord.get(id)==null)
+        {
+            clickRecord.put(id,System.currentTimeMillis());
+        }
+        else
+        {
+            if(System.currentTimeMillis()-clickRecord.get(id)>millSecond)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * 快速连续点击 (500毫秒内)
      *

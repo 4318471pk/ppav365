@@ -115,8 +115,8 @@ public class CommonApp extends MultiDexApplication {
                 break;
         }
 
-        ShareTrace.init(this, shareTraceKey);
-        ShareTrace.setServerDomain(shareDomain);
+//        ShareTrace.init(this, shareTraceKey);
+//        ShareTrace.setServerDomain(shareDomain);
         GlideUtils.defaultErrorImg = R.drawable.img_default;
         GlideUtils.defaultPlaceImg = R.drawable.img_default;
 
@@ -202,7 +202,7 @@ public class CommonApp extends MultiDexApplication {
         //参数  appID： 注册时申请的APPID  参数三 调试模式开关 建议在测试阶段建议设置成true，发布时设置为false
         String buglyKey;
         if (BuildConfig.DEBUG) {
-            buglyKey = "61688c708b";
+            buglyKey = "6987979";
         } else {
             switch (BuildConfig.AppFlavor) {
                 default:

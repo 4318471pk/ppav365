@@ -29,6 +29,7 @@ import com.live.fox.dialog.WebViewDialog;
 import com.live.fox.entity.AppUpdate;
 import com.live.fox.entity.User;
 import com.live.fox.entity.WebViewDialogEntity;
+import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.manager.NotificationManager;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
@@ -228,16 +229,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         RadioButtonWithAnim live = findViewById(R.id.main_rb_live_list);
         RadioButtonWithAnim game = findViewById(R.id.main_rb_game);
         RadioButtonWithAnim mine = findViewById(R.id.main_rb_mine);
-        if (AppConfig.isThLive() && !AppConfig.isMultiLanguage()) {
-            home.setText("หน้าแรก");
-            live.setText("ถ่ายทอดสด");
-            game.setText("เกม");
-            mine.setText("ของฉัน");
-        } else {
-            home.setText("Trang chủ");
-            live.setText("Trực tiếp");
-            game.setText("Trò chơi");
-            mine.setText("Của tôi");
+        String lang= MultiLanguageUtils.getRequestHeader();
+        switch (lang) {
+            case "vi":
+                home.setText("Trang chủ");
+                live.setText("Trực tiếp");
+                game.setText("Trò chơi");
+                mine.setText("Của tôi");
+                break;
+            case "th":
+                home.setText("หน้าแรก");
+                live.setText("ถ่ายทอดสด");
+                game.setText("เกม");
+                mine.setText("ของฉัน");
+                break;
+            case "zh":
+                break;
+            case "en":
+                break;
         }
     }
 

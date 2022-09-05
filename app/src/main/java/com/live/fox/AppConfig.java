@@ -26,7 +26,7 @@ public class AppConfig {
 
     private static BaseInfo baseInfo;
     private static boolean isMultiLanguage = false; //是否是多语言
-    private static LanguageType languageType = LanguageType.Vietnam;
+    private static LanguageType languageType = LanguageType.CHINESE;
 
     public static boolean isThLive() {
         return BuildConfig.AppFlavor.equals("ThiLive");

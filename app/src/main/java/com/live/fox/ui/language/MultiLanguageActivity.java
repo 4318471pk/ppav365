@@ -15,6 +15,7 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.language.LocalManager;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.utils.ActivityManager;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.device.DeviceUtils;
 
@@ -77,6 +78,7 @@ public class MultiLanguageActivity extends BaseHeadActivity {
             Locale locale = LocalManager.getLocalByPosition(position);
             MultiLanguageUtils.changeAppLanguage(this, locale, true);
 
+            ActivityManager.getInstance().finishAllActivity();
             Intent intent = new Intent(MultiLanguageActivity.this, SplashActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

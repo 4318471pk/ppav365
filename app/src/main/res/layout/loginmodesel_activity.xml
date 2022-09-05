@@ -132,7 +132,7 @@
                         android:digits="1234567890"
                         android:hint="@string/telphone"
                         android:inputType="phone"
-                        android:maxLength="10"
+                        android:maxLength="11"
                         android:paddingTop="5dip"
                         android:paddingBottom="5dip"
                         android:textColor="@color/white"
