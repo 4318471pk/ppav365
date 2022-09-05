@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="6dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:src="@drawable/img_default"
+        app:riv_oval="true"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="广告对接"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_invert"
+        style="@style/WrapWrap"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:gravity="center"
+        android:text="连接"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:rv_backgroundColor="@color/colorAccent"
+        app:rv_isRadiusHalfHeight="true"/>
+
+</LinearLayout>

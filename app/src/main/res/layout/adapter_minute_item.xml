@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/llItem"
+    android:orientation="vertical">
+
+    <RadioButton
+        android:id="@+id/tvGameFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/lottory_check_selector"
+        android:button="@null"
+        android:gravity="center"
+        android:minWidth="50dp"
+        android:padding="5dp"
+        android:minHeight="50dp"
+        android:textColor="@color/lottory_text_color_selector"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tvGameRatio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/dp_4"
+        android:textSize="12dp"
+        tools:text="1.00" />
+</LinearLayout>

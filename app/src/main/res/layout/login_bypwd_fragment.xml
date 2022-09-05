@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.live.fox.ui.login.LoginViewModel" />
+
+        <variable
+            name="loginPageType"
+            type="com.live.fox.ui.login.LoginPageType" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="40dp">
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_phonecode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_verification_code"
+                android:inputType="number"
+                android:maxLength="4"
+                android:singleLine="true"
+                android:text="@={viewModel.phonecode}"
+                android:textColor="@color/black"
+                android:textColorHint="#6D6D6D"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_getphonecode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_verify_code_bg"
+            android:minWidth="40dp"
+            android:onClick="@{viewModel::onGetPhoneCode}"
+            android:text="@{viewModel.smsCodeTxt}"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/btn_login"
+            android:onClick="@{viewModel::doRegisterApi}"
+            android:text="@string/long_state_continue"
+            android:textAllCaps="false"
+            android:textColor="@drawable/btn_login_text"
+            android:textSize="16sp" />
+    </LinearLayout>
+</layout>

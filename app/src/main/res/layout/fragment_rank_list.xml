@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rank_list_top_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content     "
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/rank_list_content_tab_layout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rank_list_top_3"
+        app:tabIndicatorHeight="0dp"
+        app:tabSelectedTextColor="@color/orange_ef5"
+        app:tabTextColor="@color/black_ff2" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/rank_list_content_viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rank_list_content_tab_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

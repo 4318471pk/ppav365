@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="7dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="7dp"
+    android:orientation="vertical"
+    app:riv_corner_radius="8dp"
+    app:rv_backgroundColor="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+
+        <ImageView
+            android:id="@+id/iv_isEffect"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/liverecord_red" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/AutoWrap.Vertical"
+                android:layout_marginEnd="30dp">
+
+                <TextView
+                    android:id="@+id/tv_startdata"
+                    style="@style/MatchWrap"
+                    android:gravity="center"
+                    android:paddingTop="2dp"
+                    android:text="@string/date_year_2019"
+                    android:textColor="#6A6A6A"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_starttime"
+                    style="@style/MatchWrap"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="@string/time_five_oclock"
+                    android:textColor="#6A6A6A"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_timelong"
+                style="@style/AutoMatch"
+                android:layout_marginStart="30dp"
+                android:gravity="center"
+                android:text="@string/time_minute"
+                android:textColor="#6A6A6A"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_isEffect"
+            style="@style/WrapWrap"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/effective"
+            android:textColor="#EE73A0"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <ImageView
+            android:id="@+id/iv_isopen"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/liverecord_open" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_extend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/follow_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableStart="@drawable/roompayprofit_ic"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/paid_income"
+                    android:textColor="#6A6A6A"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_ffsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="@string/number_placeholder"
+                    android:textColor="#6A6A6A"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableStart="@drawable/giftprofit_ic"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/lottery_income"
+                    android:textColor="#6A6A6A"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_cpsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="@string/number_placeholder"
+                    android:textColor="#6A6A6A"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableStart="@drawable/giftprofit_ic"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/income_gifts"
+                    android:textColor="#6A6A6A"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_giftsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="@string/number_placeholder"
+                    android:textColor="#6A6A6A"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:src="@drawable/liverecord_open" />
+
+    </LinearLayout>
+
+</com.flyco.roundview.RoundLinearLayout>

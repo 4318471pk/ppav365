@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_image"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_activity_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardMaxElevation="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,5:2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/home_activity_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_gradient_red_yellow_left_top_10"
+        android:elevation="4dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="2dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/home_activity_card"
+        app:layout_constraintTop_toTopOf="@id/home_activity_card"
+        tools:text="fasdfasdf" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

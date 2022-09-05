@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dialog_transparent_bg"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
+
+    <ImageView
+        android:id="@+id/ivCp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvGameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:gravity="center_vertical"
+        android:maxHeight="35dp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivCp"
+        app:layout_constraintStart_toEndOf="@id/ivCp"
+        app:layout_constraintTop_toTopOf="@id/ivCp"
+        tools:text="@string/AconstantColor" />
+
+    <ImageView
+        android:id="@+id/ivWanfa"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:padding="6dp"
+        android:src="@drawable/wanfa"
+        app:layout_constraintBottom_toBottomOf="@id/ivCp"
+        app:layout_constraintStart_toEndOf="@id/tvGameTitle"
+        app:layout_constraintTop_toTopOf="@id/ivCp" />
+
+    <TextView
+        android:id="@+id/tvOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/historyRecord"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvGameTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCountDownT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/endCurrentPeriod"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGameTitle" />
+
+    <TextView
+        android:id="@+id/tvCountDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:textColor="#F7D55B"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toRightOf="@id/tvCountDownT"
+        app:layout_constraintTop_toBottomOf="@id/tvGameTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOpenPrize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvCountDown"
+        tools:itemCount="1"
+        tools:listitem="@layout/adapter_item_prizer"
+        tools:orientation="horizontal" />
+
+    <RadioGroup
+        android:id="@+id/rgTab"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tvCountDownT">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/arb1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/arb_tab_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:tag="0"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="第一球两面" />
+
+        <View
+            android:id="@+id/view1"
+            style="@style/OneMatch"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/white_70"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/arb2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/arb_tab_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:tag="1"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="第一球两面" />
+
+        <View
+            android:id="@+id/view2"
+            style="@style/OneMatch"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/white_70"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/arb3"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/arb_tab_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:tag="2"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="第一球两面" />
+
+        <View
+            android:id="@+id/view3"
+            style="@style/OneMatch"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/white_70"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/arb4"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/arb_tab_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:tag="3"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="gone"
+            tools:text="第一球两面" />
+    </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgTab">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:itemCount="1"
+            tools:listitem="@layout/adapter_minute_item" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvGoldCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:paddingVertical="6dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/rechage_value"
+        app:layout_constraintBaseline_toBaselineOf="@id/rtvBet"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="0" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/rtvRecharge"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="12dp"
+        android:text="@string/chargeRight"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBaseline_toBaselineOf="@id/rtvBet"
+        app:layout_constraintStart_toEndOf="@id/tvGoldCoin"
+        app:rv_isRadiusHalfHeight="true"
+        app:rv_strokeColor="@color/yellow"
+        app:rv_strokeWidth="1dp" />
+
+    <ImageView
+        android:id="@+id/tvCode_bg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/bet"
+        android:src="@drawable/ic_chip_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rtvBet"
+        app:layout_constraintTop_toBottomOf="@id/rl" />
+
+    <TextView
+        android:id="@+id/tvCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvCode_bg"
+        app:layout_constraintEnd_toEndOf="@id/tvCode_bg"
+        app:layout_constraintStart_toStartOf="@id/tvCode_bg"
+        app:layout_constraintTop_toTopOf="@id/tvCode_bg"
+        tools:text="5" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/rtvBet"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:text="@string/betting"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/tvCode_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvCode_bg"
+        app:rv_backgroundColor="@color/colorE2E"
+        app:rv_backgroundPressColor="@color/colorE2E"
+        app:rv_isRadiusHalfHeight="true" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

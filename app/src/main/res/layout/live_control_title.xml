@@ -1,0 +1,129 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/live_control_title_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_circle_880b0b0b0"
+        app:layout_constraintBottom_toBottomOf="@id/live_control_title_name"
+        app:layout_constraintEnd_toEndOf="@id/live_control_title_follow"
+        app:layout_constraintStart_toStartOf="@id/live_control_title_avatar"
+        app:layout_constraintTop_toTopOf="@id/live_control_title_name" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/live_control_title_avatar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:padding="1dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/live_control_title_name"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingHorizontal="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/live_control_title_avatar"
+        app:layout_constraintStart_toEndOf="@id/live_control_title_avatar"
+        app:layout_constraintTop_toTopOf="@id/live_control_title_avatar"
+        tools:ignore="TextContrastCheck"
+        tools:text="@string/app_name" />
+
+    <View
+        android:id="@+id/live_control_title_margin"
+        android:layout_width="4dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/live_control_title_avatar"
+        app:layout_constraintStart_toEndOf="@id/live_control_title_name"
+        app:layout_constraintTop_toTopOf="@id/live_control_title_avatar" />
+
+    <ImageView
+        android:id="@+id/live_control_title_follow"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/app_name"
+        android:padding="4dp"
+        android:src="@drawable/follow"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/live_control_title_name"
+        app:layout_constraintStart_toEndOf="@id/live_control_title_margin"
+        app:layout_constraintTop_toTopOf="@id/live_control_title_name" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/live_control_title_audience"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="4dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="@id/live_control_title_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/live_control_title_follow"
+        app:layout_constraintTop_toTopOf="@id/live_control_title_avatar" />
+
+    <TextView
+        android:id="@+id/live_control_title_gift"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_gradual_orange_light_corners_20"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:paddingVertical="2dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="6dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:drawableEndCompat="@drawable/right_arrow"
+        app:drawableStartCompat="@drawable/live_gift"
+        app:layout_constraintStart_toStartOf="@id/live_control_title_avatar"
+        app:layout_constraintTop_toBottomOf="@id/live_control_title_avatar"
+        tools:ignore="TextContrastCheck"
+        tools:text="1230" />
+
+    <TextView
+        android:id="@+id/live_control_title_charm"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_circle_880b0b0b0"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:drawableEndCompat="@drawable/right_arrow"
+        app:drawableStartCompat="@drawable/ren"
+        app:layout_constraintBaseline_toBaselineOf="@id/live_control_title_gift"
+        app:layout_constraintStart_toEndOf="@id/live_control_title_gift"
+        tools:ignore="TextContrastCheck"
+        tools:text="253" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

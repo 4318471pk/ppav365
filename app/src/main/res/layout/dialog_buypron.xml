@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/buy_pron_top_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/shape_gradient_black_tran_botm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_white_round_20"
+        app:layout_constraintBottom_toBottomOf="@id/iv_buy"
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buy_pron_top_shadow"
+        tools:text="@string/places_holder" />
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/places_holder"
+        android:padding="8dp"
+        android:src="@drawable/buypron_close"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintEnd_toEndOf="@id/tv_title"
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+    <LinearLayout
+        android:id="@+id/layout_money1"
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_corners_20_them"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/layout_money2"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <TextView
+            android:id="@+id/tv_day1"
+            style="@style/MatchWrap"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:text="@string/sevenDays"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/tv_money1"
+            style="@style/MatchWrap"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_money2"
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_corners_20_them"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@id/layout_money1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <TextView
+            android:id="@+id/tv_day2"
+            style="@style/MatchWrap"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:text="@string/month"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/tv_money2"
+            style="@style/MatchWrap"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_money3"
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_corners_20_them"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/layout_money4"
+        app:layout_constraintTop_toBottomOf="@id/layout_money1">
+
+        <TextView
+            android:id="@+id/tv_day3"
+            style="@style/MatchWrap"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:text="@string/three_month"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/tv_money3"
+            style="@style/MatchWrap"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_money4"
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_corners_20_them"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@id/layout_money3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_money2">
+
+        <TextView
+            android:id="@+id/tv_day4"
+            style="@style/MatchWrap"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:text="@string/date_half_year"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/tv_money4"
+            style="@style/MatchWrap"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/iv_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape_gradual_orange_light_corners_20"
+        android:gravity="center"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="8dp"
+        android:text="@string/payEveryTime"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_money4"
+        app:layout_goneMarginBottom="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

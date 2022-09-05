@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toole="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:id="@+id/live_line_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:button="@null"
+        android:drawableStart="@drawable/selector_hook_live"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:textColor="@drawable/selector_color_gray_whit"
+        android:textSize="14sp"
+        toole:layout_constraintBottom_toBottomOf="parent"
+        toole:layout_constraintEnd_toEndOf="parent"
+        toole:layout_constraintStart_toStartOf="parent"
+        toole:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

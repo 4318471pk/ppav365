@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_play_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="afterDescendants">
+
+    <!-- 顶部功能栏 -->
+    <include
+        android:id="@+id/root_live_room_title"
+        layout="@layout/live_control_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 倒计时 -->
+    <TextView
+        android:id="@+id/tv_djs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/right_circle_black"
+        android:paddingLeft="10dp"
+        android:paddingTop="6dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/djs"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/root_live_room_title" />
+
+    <!-- 左上滑动广告 -->
+    <com.live.fox.view.LiveRoomBanner
+        android:id="@+id/convenientBanner"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
+        app:canLoop="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/root_live_room_title" />
+
+    <!-- PK功能栏 -->
+    <include
+        layout="@layout/live_controll_pk_include"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.live.fox.view.danmukux.DanmuContainerLuckView
+        android:id="@+id/haoqi_gift_luck"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/haoqi_gift_luck1" />
+
+    <!-- 豪气礼物飘屏 -->
+    <FrameLayout
+        android:id="@+id/haoqi_gift_luck1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/live_control_recommend_list_button"
+        tools:background="@color/bar_grey" />
+
+    <!-- 飘屏广告 礼物特效 -->
+    <FrameLayout
+        android:id="@+id/gift_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 聊天消息 -->
+    <LinearLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/layout_bottom"
+        app:layout_constraintEnd_toStartOf="@id/ll_cptop"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.live.fox.common.ParentNotDealEventRecyclerview
+            android:id="@+id/live_control_recommend_chat"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="10dp"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+    <!-- 彩票结果 -->
+    <com.live.fox.view.danmukux.DanmuKJJGViewb
+        android:id="@+id/live_lottery_open"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/live_lottery_open_copy"
+        tools:background="@color/gray" />
+
+    <com.live.fox.view.danmukux.DanmuKJJGViewa
+        android:id="@+id/live_lottery_open_copy"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/live_control_user_admission"
+        tools:background="@color/red" />
+
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/live_control_user_admission"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:visibility="visible"
+        app:autoPlay="true"
+        app:clearsAfterStop="true"
+        app:layout_constraintBottom_toTopOf="@id/refreshLayout"
+        app:loopCount="1"
+        tools:background="@color/gray" />
+
+    <!--聊天新消息提醒-->
+    <TextView
+        android:id="@+id/unread_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/shape_liveroom_unreadmsg_bg"
+        android:drawableStart="@drawable/arrow_down"
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/layout_bottom"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!--  红包雨WebView  -->
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!--  红包雨功能  -->
+    <RelativeLayout
+        android:id="@+id/llRedBagRain"
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/ll_cptop"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_round_ebebeb3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivRedBagRainIcon"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/tvRedBagRainTime"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_round2_ebebeb"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivRedBagRainClose"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/cancel" />
+
+    </RelativeLayout>
+
+    <!-- CP右上图标 -->
+    <LinearLayout
+        android:id="@+id/ll_cptop"
+        android:layout_width="62dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/shape_round_ebebeb3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/refreshLayout">
+
+        <ImageView
+            android:id="@+id/iv_cptop"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="7dp"
+            android:contentDescription="@string/names" />
+
+        <TextView
+            android:id="@+id/tv_cptop"
+            android:layout_width="match_parent"
+            android:layout_height="17dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_round2_ebebeb"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_cptop2"
+        android:layout_width="62dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/shape_round_ebebeb3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/layout_bottom"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_cptop2"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="7dp"
+            android:contentDescription="@string/close" />
+
+        <TextView
+            android:id="@+id/tv_cptop2"
+            android:layout_width="match_parent"
+            android:layout_height="17dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_round2_ebebeb"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <!-- 直播间图片广告 -->
+    <RelativeLayout
+        android:id="@+id/rl_imagead"
+        android:layout_width="200dp"
+        android:layout_height="110dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/refreshLayout">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_round_ebebeb"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="8dp" />
+
+        <ImageView
+            android:id="@+id/rl_imagead_close"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape_circle_da495f"
+            android:contentDescription="@string/close"
+            android:padding="4dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_close" />
+
+    </RelativeLayout>
+
+    <!--  推荐列表的按钮 -->
+    <ImageView
+        android:id="@+id/live_control_recommend_list_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/close"
+        android:src="@drawable/ic_arrow_left"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/live_control_recommend_list_srl"
+        app:layout_constraintTop_toBottomOf="@id/root_live_room_title" />
+
+    <!-- 底部功能栏、输入框-->
+    <FrameLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 底部功能栏 -->
+        <include layout="@layout/live_control_bottom_include" />
+
+        <!-- 输入框 -->
+        <ViewStub
+            android:id="@+id/vs_chat_panel"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:layout="@layout/live_room_chat_layout"
+            android:splitMotionEvents="false" />
+
+    </FrameLayout>
+
+    <!-- 礼物面板 -->
+    <ViewStub
+        android:id="@+id/vs_gift_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/vs_gift_panel"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!--  推荐列表  -->
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/live_control_recommend_list_srl"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.live.fox.common.ParentNotDealEventRecyclerview
+            android:id="@+id/live_control_recommend_list"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/black_transparent_70" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#EB4A81</color>
+    <color name="colorPrimaryDark">@color/white</color>
+    <color name="colorAccent">#EB4A81</color>
+    <color name="colorTitle">#F2718B</color>
+
+    <color name="appbg">@color/white</color>
+
+    <color name="white_bdb">#BDBDBD</color>
+    <color name="colorGray">#D1D1D1</color>
+    <color name="colorGrayLight">#E3E3E3</color>
+
+    <color name="colorBlue">#1F7FCA</color>
+    <color name="weixin">#27942E</color>
+    <color name="background">#F3F3F3</color>
+
+    <color name="orange_ef5">#EF5155</color>
+    <color name="orange_fe4">#FE4B53</color>
+    <color name="gray_ff8">#FF808080</color>
+    <color name="black_ff2">#FF222222</color>
+    <color name="blue_ff4">#FF4A8EF5</color>
+    <color name="blue_ff3">#FF35C2F4</color>
+    <color name="orange_fffe">#FFFE4D4E</color>
+    <color name="orange_ffff">#FFFF2D8F</color>
+    <color name="yellow_ff6">#D1AC52</color>
+    <color name="pink_ff6">#8D17F4</color>
+    <color name="colorGreen">#FF01D400</color>
+    <color name="colorRed">#FFD10000</color>
+
+    <color name="colorAccentTran">#CDEB4A81</color>
+
+    <color name="hnredf">#aaFC3277</color>
+    <color name="hnredt">#aaA0071A</color>
+    <color name="colorPrimaryLight">#FA8FAF</color>
+    <color name="colorPrimaryRed">#F86FAB</color>
+    <color name="colorPrimaryThem">#F74995</color>
+    <color name="colorPrimaryThemDeep">#B52564</color>
+    <color name="colorText">#333333</color>
+    <color name="colorTextTip">#F870AB</color>
+    <color name="colorGold">#F7DCC0</color>
+
+    <color name="gray_bg">#fafafa</color> <!--  一般用于当背景色 -->
+    <color name="gray_line">#e5e5e5</color> <!-- 一般用于线的颜色 -->
+    <color name="gray_text_light">#999999</color> <!-- 一般用于文字 浅灰色 -->
+    <color name="gray_text_dark">#5F5F5F</color> <!-- 一般用于文字 深灰色 -->
+    <color name="black_50">#80000000</color>      <!-- 一般用于提示文字 黑色半透明 -->
+    <color name="gary_50">#F1F1F1</color>
+    <color name="gary_30">#4d939393</color>
+    <color name="gray_10">#2f939393</color>
+
+    <color name="black_10">#1a000000</color>
+    <color name="black_15">#26000000</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_30">#4d000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="black_60">#9A000000</color>
+    <color name="black_90">#e5000000</color>
+
+    <color name="white_20">#33ffffff</color>
+    <color name="white_60">#9Affffff</color>
+    <color name="white_70">#B3ffffff</color>
+    <color name="white_80">#ccffffff</color>
+    <color name="white_90">#e5ffffff</color>
+
+    <!-- Base Color -->
+    <color name="white">#FFFFFF</color>  <!-- 白色 -->
+    <color name="yellow">#fbc02d</color> <!-- 黄色 -->
+    <color name="gold">#FFD700</color>   <!-- 金色 -->
+    <color name="orange">#f57c00</color> <!-- 橙色 -->
+    <color name="red">#d01716</color>    <!-- 红色 -->
+    <color name="gray">#808080</color>   <!-- 灰色 -->
+    <color name="transparent">@android:color/transparent</color>  <!--透明色 -->
+    <color name="colorB403FF">#94B403FF</color>  <!--透明色 -->
+    <color name="colorE7408F">#E7408F</color>  <!--透明色 -->
+    <color name="colorFFF">#FFF9B2AC</color>
+    <color name="colorE2E">#E2E7408F</color>  <!--透明色 -->
+
+    <!-- List -->
+    <color name="list_item_bg_focused">#ffdedede</color>
+    <color name="red_ee">#eeFB5553</color>
+    <color name="redff">#ff0000</color>    <!-- 红色 -->
+    <color name="colorEB4A81">#EB4A81</color>
+    <color name="colorYellowFF">#FFE8BE</color>
+    <color name="colorYellowText">#8B632C</color>
+    <color name="colorGoldText">#D6AF48</color>
+
+    <color name="black_transparent_70">#B5000000</color>
+    <color name="black_transparent_20">#33000000</color>
+    <color name="dialog_transparent_bg">#cc362f2f</color>
+    <color name="colorBrown">#242313</color>
+    <color name="colorBrownDeep">#230E15</color>
+    <color name="colorBrownText">#595165</color>
+    <color name="colorGoldDeep">#D5AE47</color>
+    <color name="colorBrownGold">#28280E</color>
+    <color name="colorBrownPlatinum">#191F30</color>
+    <color name="colorBrownDiamond">#2A1A41</color>
+    <color name="colorBrownMaster">#371A23</color>
+    <color name="colorBrownKing">#302219</color>
+
+</resources>

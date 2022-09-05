@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_finish_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#494949"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="100dp"
+        app:realtimeOverlayColor="@color/black_30" />
+
+    <TextView
+        android:id="@+id/tv_finish_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:text="@string/endLive"
+        android:textColor="#E9E9E9"
+        android:textSize="30sp" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_finish_avatar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/tv_finish_tip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default"
+        app:riv_oval="true" />
+
+
+    <TextView
+        android:id="@+id/tv_finish_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_finish_avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#E9E9E9"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_finish_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_finish_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/endLive"
+        android:textColor="#C8C8C8"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_below="@+id/tv_finish_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/focusIt"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:rv_backgroundColor="#FF7575"
+        app:rv_backgroundPressColor="#FF7575"
+        app:rv_isRadiusHalfHeight="true" />
+
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_finish_back"
+        android:layout_width="130dp"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/backFirst"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:rv_backgroundColor="#EB457E"
+        app:rv_backgroundPressColor="#EB457E"
+        app:rv_isRadiusHalfHeight="true" />
+
+
+</RelativeLayout>

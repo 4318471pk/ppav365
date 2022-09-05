@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/yinhanka"
+        android:maxLevel="6" />
+
+    <item
+        android:drawable="@drawable/company7"
+        android:maxLevel="7" />
+
+    <item
+        android:drawable="@drawable/ic_jd"
+        android:maxLevel="8" />
+
+    <item
+        android:drawable="@drawable/ic_qqwap"
+        android:maxLevel="9" />
+
+    <item
+        android:drawable="@drawable/yinhanka"
+        android:maxLevel="10" />
+    <item
+        android:drawable="@drawable/wanyinzhifu"
+        android:maxLevel="11" />
+    <item
+        android:drawable="@drawable/momo"
+        android:maxLevel="12" />
+    <item
+        android:drawable="@drawable/ic_recharge_13"
+        android:maxLevel="13" />
+    <item
+        android:drawable="@drawable/nettel"
+        android:maxLevel="14" />
+    <item
+        android:drawable="@drawable/wanganzhifu"
+        android:maxLevel="15" />
+
+    <item
+        android:drawable="@drawable/yinhanka"
+        android:maxLevel="16" />
+
+    <item
+        android:drawable="@drawable/nettel"
+        android:maxLevel="17" />
+
+    <item
+        android:drawable="@drawable/yinhansaoma"
+        android:maxLevel="18" />
+
+    <item
+        android:drawable="@drawable/ggk"
+        android:maxLevel="19" />
+
+    <item
+        android:drawable="@drawable/ic_mobil_phone"
+        android:maxLevel="20" />
+
+    <item
+        android:drawable="@drawable/ic_usdt"
+        android:maxLevel="29" />
+
+</level-list>

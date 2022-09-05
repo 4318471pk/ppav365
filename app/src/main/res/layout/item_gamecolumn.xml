@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    app:rv_backgroundColor="@color/white"
+    app:rv_backgroundPressColor="@color/white"
+    app:rv_cornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:text="历史记录"
+            android:textColor="@color/black"
+            android:textSize="11sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_gamecolumn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:overScrollMode="never" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</com.flyco.roundview.RoundRelativeLayout>

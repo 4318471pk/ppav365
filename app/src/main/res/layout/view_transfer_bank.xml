@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="20dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="20dp">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/recharge_bank"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:constraint_referenced_ids="reRechargeTitle,
+        recharge_title_flag,
+        tvSysmol,recharge_back_money,tvLowHigh,
+        rtGift,rvBank,tvDes,tvBottom," />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/recharge_bank_thi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="recharge_account_title,
+        recharge_transfer_account,
+        recharge_transfer_money_name_title,
+        recharge_transfer_money_name,
+        recharge_transfer_backup_title,
+        recharge_transfer_backup" />
+
+    <TextView
+        android:id="@+id/reRechargeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        android:text="@string/chargeMoney"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/recharge_title_flag"
+        android:layout_width="4dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@id/reRechargeTitle"
+        app:layout_constraintStart_toStartOf="@id/reRechargeTitle"
+        app:layout_constraintTop_toTopOf="@id/reRechargeTitle" />
+
+    <TextView
+        android:id="@+id/tvSysmol"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:maxEms="6"
+        android:text="@string/currency_symbol"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/recharge_back_money"
+        app:layout_constraintTop_toBottomOf="@id/reRechargeTitle" />
+
+    <com.live.fox.view.EditTextMoney
+        android:id="@+id/recharge_back_money"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_edit_text_line"
+        android:digits="@string/digits_money_e"
+        android:gravity="center_vertical"
+        android:hint="@string/deposit_amount_hint"
+        android:inputType="number"
+        android:paddingStart="12dp"
+        android:paddingEnd="0dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvSysmol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="Autofill,TextFields" />
+
+    <TextView
+        android:id="@+id/tvLowHigh"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSysmol"
+        tools:text="@string/places_holder" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/rtGift"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:drawableStart="@drawable/myli_ic"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="6dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLowHigh"
+        app:rv_backgroundColor="#ffe5f6"
+        app:rv_cornerRadius="5dp"
+        tools:text="@string/str_tips" />
+
+    <TextView
+        android:id="@+id/recharge_account_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/recharge_account_tile"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rtGift" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/recharge_transfer_account"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/selector_edit_text_line"
+        android:hint="@string/recharge_account_hint"
+        android:inputType="number"
+        android:lines="1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_account_title" />
+
+    <TextView
+        android:id="@+id/recharge_transfer_money_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/recharge_transfer_name_tile"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_transfer_account" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/recharge_transfer_money_name"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/selector_edit_text_line"
+        android:hint="@string/recharge_name_hint"
+        android:lines="1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_transfer_money_name_title" />
+
+    <TextView
+        android:id="@+id/recharge_transfer_backup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/recharge_transfer_backup"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_transfer_money_name" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/recharge_transfer_backup"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:background="@drawable/selector_edit_text_line"
+        android:hint="@string/recharge_backup_hint"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_transfer_backup_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:descendantFocusability="blocksDescendants"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/recharge_transfer_backup" />
+
+    <TextView
+        android:id="@+id/tvDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/rvBank" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/recharge_usdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="recharge_usdt_address_title,
+        recharge_usdt_address,recharge_usdt_address_copy,
+        recharge_usdt_address_qr_title,recharge_usdt_address_qr,
+        recharge_usdt_address_qr_tip,recharge_usdt_address_order_title,
+        recharge_usdt_address_usdt,recharge_usdt_address_order_edit,
+        recharge_usdt_about,recharge_usdt_deposit,
+        recharge_usdt_exchange_rate,recharge_usdt_pay_address,
+        recharge_usdt_pay_address_order,recharge_usdt_pay_order_number,
+        recharge_usdt_attention,recharge_usdt_attention_detail,
+        recharge_usdt_pay_address_detail"
+        app:layout_constraintTop_toBottomOf="@id/tvDes" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recharge_usdt_title"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDes" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_white_stroke_gray_corners_10"
+        android:padding="8dp"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toStartOf="@id/recharge_usdt_address_copy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address_title"
+        tools:text="@string/recharge_usdt_title" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_corners_20_them"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:text="@string/copy"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@id/recharge_usdt_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recharge_usdt_address" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address_qr_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recharge_usdt_address_title_qr"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address" />
+
+    <ImageView
+        android:id="@+id/recharge_usdt_address_qr"
+        android:layout_width="136dp"
+        android:layout_height="136dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/recharge_usdt_address_title_qr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address_qr_title" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address_qr_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/recharge_usdt_address_qr_tip"
+        android:textColor="@color/colorTextTip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address_qr" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address_order_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recharge_usdt_address_order"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address_qr_tip" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_address_usdt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recharge_usdt_address_order_usdt"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address_order_title" />
+
+    <EditText
+        android:id="@+id/recharge_usdt_address_order_edit"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/selector_edit_text"
+        android:inputType="number"
+        android:paddingHorizontal="6dp"
+        app:layout_constraintBottom_toBottomOf="@id/recharge_usdt_address_usdt"
+        app:layout_constraintEnd_toStartOf="@id/recharge_usdt_about"
+        app:layout_constraintStart_toEndOf="@id/recharge_usdt_address_usdt"
+        app:layout_constraintTop_toTopOf="@id/recharge_usdt_address_usdt"
+        tools:ignore="Autofill,TextFields" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/recharge_usdt_address_usdt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recharge_usdt_address_order_edit"
+        tools:text="@string/rejected" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_deposit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recharge_usdt_deposit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_address_usdt" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_exchange_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/recharge_usdt_exchange_rate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_deposit" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_pay_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/recharge_usdt_address_title"
+        android:textColor="@color/colorText"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_exchange_rate" />
+
+    <EditText
+        android:id="@+id/recharge_usdt_pay_address_detail"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/selector_edit_text"
+        android:paddingHorizontal="6dp"
+        app:layout_constraintBottom_toBottomOf="@id/recharge_usdt_pay_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recharge_usdt_pay_address"
+        app:layout_constraintTop_toTopOf="@id/recharge_usdt_pay_address"
+        tools:ignore="Autofill,TextFields" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_pay_address_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/recharge_usdt_address_order_number"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_pay_address_detail" />
+
+    <EditText
+        android:id="@+id/recharge_usdt_pay_order_number"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/selector_edit_text"
+        android:paddingHorizontal="6dp"
+        app:layout_constraintBottom_toBottomOf="@id/recharge_usdt_pay_address_order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recharge_usdt_pay_address_order"
+        app:layout_constraintTop_toTopOf="@id/recharge_usdt_pay_address_order"
+        tools:ignore="Autofill,TextFields" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_attention"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="@string/recharge_usdt_attention"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_attention"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_pay_address_order" />
+
+    <TextView
+        android:id="@+id/recharge_usdt_attention_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_attention"
+        tools:text="@string/recharge_usdt_noti_info" />
+
+    <TextView
+        android:id="@+id/tvRecharge"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_corners_20_them"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:text="@string/lijichongzhi"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recharge_usdt_attention_detail" />
+
+    <TextView
+        android:id="@+id/tvBottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:minHeight="20dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:text="@string/str_tips"
+        android:textColor="#c48097"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvRecharge" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

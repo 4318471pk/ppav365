@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_banner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:id="@+id/sl_top"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/white"
+        android:clipChildren="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/message_avatar"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="14dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sysnotication"
+                app:riv_oval="true" />
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_toEndOf="@id/message_avatar"
+                android:text="一只小可爱"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_nickname"
+                android:layout_alignStart="@id/tv_nickname"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="20dp"
+                android:maxLines="2"
+                android:text="爱仕达撒多撒撒爱仕达撒多撒多撒多撒多大所多爱仕达撒多撒大多撒爱仕达撒多撒多撒爱仕达撒多撒多撒多撒多大所多"
+                android:textColor="#9B9B9B"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv_nickname"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="2dp"
+                android:text="今天 12：30"
+                android:textColor="#818181"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_unreadmsg"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_round_eb4a81"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="99+"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_unreadmsg1"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="99+"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="86dp"
+            android:layout_marginEnd="28dp"
+            android:background="#EEEEEE" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

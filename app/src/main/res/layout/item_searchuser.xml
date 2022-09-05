@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="22dp"
+    android:paddingRight="28dp">
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default"
+        app:riv_oval="true" />
+
+    <LinearLayout style="@style/AutoMatch.Vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/MatchWrap"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="情书给你"
+            android:textColor="#484848"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_sign"
+            style="@style/MatchWrap"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="#C7C7C7"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_fansnum"
+            style="@style/MatchWrap"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical"
+            android:text="粉丝：3423W"
+            android:textColor="#9F9D9D"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_follow"
+        style="@style/WrapWrap"
+        android:background="@drawable/shape_gradual_orange_light_corners_20"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/focus"
+        android:textColor="@color/white"
+        android:textSize="13sp" />
+</LinearLayout>

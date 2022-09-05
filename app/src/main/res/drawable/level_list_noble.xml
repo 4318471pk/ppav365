@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/img_noble_bg"
+        android:maxLevel="1" />
+
+    <item
+        android:drawable="@drawable/img_noble_platinum"
+        android:maxLevel="2" />
+
+    <item
+        android:drawable="@drawable/img_noble_diamond_bg"
+        android:maxLevel="3" />
+
+    <item
+        android:drawable="@drawable/img_noble_master_bg"
+        android:maxLevel="4" />
+
+    <item
+        android:drawable="@drawable/img_noble_king_bg"
+        android:maxLevel="5" />
+
+</level-list>

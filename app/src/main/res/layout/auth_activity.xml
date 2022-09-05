@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_black_back" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="32dp"
+        android:text="@string/welcome"
+        android:textColor="#4A4A4A"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:text="@string/jisuComplete"
+        android:textColor="#050505"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/auth" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tv_tip1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_round_ededed"
+            android:paddingLeft="18dp"
+            android:paddingTop="2dp"
+            android:paddingRight="18dp"
+            android:paddingBottom="2dp"
+            android:text="@string/fztCer"
+            android:textColor="#5A5757"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_tip2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_tip1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_round_ededed"
+            android:paddingLeft="16dp"
+            android:paddingTop="2dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="2dp"
+            android:text="@string/kuaisuCer"
+            android:textColor="#5A5757"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_tip2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_round_ededed"
+            android:paddingLeft="16dp"
+            android:paddingTop="2dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="2dp"
+            android:text="@string/rzbgjd"
+            android:textColor="#5A5757"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/tv_tip2"
+            android:layout_alignLeft="@id/tv_tip1"
+            android:layout_alignRight="@id/tv_tip1"
+            android:layout_marginTop="45dp"
+            android:textAllCaps="false"
+            android:background="@drawable/btn_halfround"
+            android:text="@string/yjrz"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</LinearLayout>

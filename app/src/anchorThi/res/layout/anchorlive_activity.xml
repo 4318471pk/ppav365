@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_anchor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_live_pk"
+        android:scaleType="fitXY" />
+
+    <View
+        android:id="@+id/view_center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <!--PK比分条-->
+    <FrameLayout
+        android:id="@+id/frame_layout_pross"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="106dp"
+        android:layout_marginRight="15dp" />
+
+
+    <!--VideoFragment-->
+    <FrameLayout
+        android:id="@+id/frame_layout_push"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <!--PK VideoFragment-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/view_center"
+        android:layout_below="@+id/frame_layout_pross"
+        android:layout_toRightOf="@id/view_center">
+
+        <ImageView
+            android:id="@+id/iv_userb_pkbg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/black_50"
+            android:visibility="gone" />
+
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/video_view_pk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/loading_background_pk"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/loading_imageview_pk"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <com.faceunity.beautycontrolview.BeautyControlView
+        android:id="@+id/faceunity_control"
+        android:layout_width="match_parent"
+        android:layout_height="34.84dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

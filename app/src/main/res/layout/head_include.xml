@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:elevation="0dp"
+    android:padding="0dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp"
+    app:layout_collapseMode="pin"
+    app:layout_scrollFlags="scroll|enterAlways|snap">
+
+    <ImageView
+        android:id="@+id/iv_head_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|center_vertical"
+        android:background="@drawable/btn_press_sel"
+        android:onClick="onClick"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:src="@drawable/head_back_normal"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_head_backdes"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/btn_press_sel"
+        android:gravity="center"
+        android:text="@string/description_title_back"
+        android:textColor="@android:color/white"
+        android:textSize="16.0sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_head_left"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/btn_press_sel"
+        android:gravity="center"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/description_title_back"
+        android:textColor="@android:color/white"
+        android:textSize="16.0sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_head_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/description_title"
+        android:textColor="@color/black"
+        android:textSize="16.0sp" />
+
+
+    <ImageView
+        android:id="@+id/iv_head_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+
+    <ImageView
+        android:id="@+id/iv_head_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:background="@drawable/btn_press_sel"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_head_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center_vertical"
+        android:background="@drawable/btn_press_sel"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/confirm"
+        android:textColor="@color/textColor_alert_title"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+</androidx.appcompat.widget.Toolbar>

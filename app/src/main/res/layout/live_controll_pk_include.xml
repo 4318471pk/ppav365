@@ -1,0 +1,169 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/view_center_pk"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <!--PK比分条-->
+    <FrameLayout
+        android:id="@+id/layout_pkprogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_center_pk"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/layout_pkprogressbar"
+            layout="@layout/include_pkprogressbar" />
+    </FrameLayout>
+
+
+    <!--PK 平局-->
+    <ImageView
+        android:id="@+id/iv_pk_pingju"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_pkcountdown"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/pk_pingju"
+        android:visibility="gone" />
+
+    <!--PK 用户1的PK结果-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/view_center_pk"
+        android:layout_marginTop="88dp"
+        android:layout_toLeftOf="@id/view_center_pk">
+
+        <ImageView
+            android:id="@+id/iv_pkresult1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="6dp"
+            android:src="@drawable/pk_victory"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <!--PK 用户2的PK结果-->
+    <RelativeLayout
+        android:id="@+id/layout_user2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/view_center_pk"
+        android:layout_marginTop="88dp"
+        android:layout_toRightOf="@id/view_center_pk"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_pkresult2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="6dp"
+            android:src="@drawable/pk_fail"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <!--PK 倒计时-->
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/layout_pkcountdown"
+        android:layout_width="68dp"
+        android:layout_height="23dp"
+        android:layout_above="@id/view_center_pk"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        app:rv_backgroundColor="@color/black_60"
+        app:rv_backgroundPressColor="@color/black_60"
+        app:rv_cornerRadius_TL="12dp"
+        app:rv_cornerRadius_TR="12dp">
+
+        <ImageView
+            android:id="@+id/iv_pktxt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="1dp"
+            android:src="@drawable/pking_ic"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_pktxt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="2dp"
+            android:text="@string/publish"
+            android:textColor="#FEF3F3"
+            android:textSize="11sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_countdown"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="109"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:layout_marginRight="6dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/shape_circle_black30"
+        android:maxWidth="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_userB_name"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_userB_follow"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:text="@string/focus"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            app:rv_backgroundColor="#EB457E"
+            app:rv_backgroundPressColor="#EB457E"
+            app:rv_isRadiusHalfHeight="true" />
+
+    </LinearLayout>
+
+</RelativeLayout>

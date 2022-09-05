@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_item_gift_panel_root"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <ImageView
+        android:id="@+id/iv_item_gift_panel_gift"
+        android:layout_width="58dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_pop_pork_00001" />
+
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/gift_select_box"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tv_item_gift_panel_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_item_gift_panel_gift"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/tv_item_gift_panel_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_item_gift_panel_name"
+        android:layout_centerHorizontal="true"
+        android:drawableStart="@drawable/rechage_value"
+        tools:text="1111"
+        android:gravity="center_vertical"
+        android:drawablePadding="3dp"
+        android:textColor="@color/white"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tv_item_gift_panel_free"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_item_gift_panel_name"
+        android:layout_centerHorizontal="true"
+        android:textColor="#fff799"
+        android:textSize="9sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_item_tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/luck"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:rv_backgroundColor="#60FFFFFF"
+        app:rv_cornerRadius="3dp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_item_tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_item_tag1"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/luck"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:rv_backgroundColor="#60FFFFFF"
+        app:rv_cornerRadius="3dp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_item_tag3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_item_tag2"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/luck"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:rv_backgroundColor="#60FFFFFF"
+        app:rv_cornerRadius="3dp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_item_tag4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_item_tag3"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/luck"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:rv_backgroundColor="#60FFFFFF"
+        app:rv_cornerRadius="3dp" />
+
+</RelativeLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="290dp"
+            android:layout_height="420dp">
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/my_share_bg_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/sharebg"
+                app:riv_corner_radius_top_left="5dp"
+                app:riv_corner_radius_top_right="5dp" />
+
+            <ImageView
+                android:id="@+id/my_share_qr_id"
+                android:layout_width="134dp"
+                android:layout_height="138dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="60dp"
+                android:layout_marginLeft="80dp"
+                android:scaleType="fitXY" />
+
+
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp">
+
+                <ImageButton
+                    android:id="@+id/my_share_close_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:src="@drawable/btn_menu_close"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_copy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/copyLink"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_backgroundPressColor="@color/colorAccent"
+                app:rv_cornerRadius_BL="5dp" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_save"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/saveToPic"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_backgroundPressColor="@color/white"
+                app:rv_cornerRadius_BR="5dp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

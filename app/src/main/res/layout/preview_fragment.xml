@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_preparelive_top"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="14dp">
+
+        <RelativeLayout
+            android:id="@+id/layout_location"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_round_black30"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                tools:text="上海市" />
+
+            <ImageView
+                android:id="@+id/iv_location"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/location_open" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_close" />
+
+        <ImageView
+            android:id="@+id/iv_change_camera"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="4dp"
+            android:layout_toStartOf="@+id/iv_close"
+            android:padding="8dp"
+            android:src="@drawable/carame" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="76dp"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btn_openlive"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/btn_halfround"
+            android:text="@string/openLive"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+        <LinearLayout
+            android:id="@+id/layout_beauty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btn_openlive"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/beauty" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:gravity="center_vertical"
+                android:text="@string/beauty"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_roomset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btn_openlive"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/roomset" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:gravity="center_vertical"
+                android:text="@string/roomSet"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_toy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btn_openlive"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/toy_ic" />
+
+            <TextView
+                android:id="@+id/tv_toy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:gravity="center_vertical"
+                android:text="@string/skipping"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_choice_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/layout_toy"
+            android:layout_marginLeft="12.0dip"
+            android:layout_marginRight="12.0dip"
+            android:background="@drawable/shape_circle_black60"
+            android:minHeight="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/choiceLiveRoute"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                tools:itemCount="2"
+                tools:listitem="@layout/child" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ll_choice_line"
+            android:layout_marginLeft="12.0dip"
+            android:layout_marginRight="12.0dip"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_circle_black60"
+            android:minHeight="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/please_choose_game"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvchoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/adapter_choicec_item" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_roomset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btn_openlive"
+            android:layout_alignStart="@id/layout_roomset"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:textColor="#F5FFBF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <!--&lt;!&ndash; 房间收费模式 &ndash;&gt;-->
+    <!--<ViewStub-->
+    <!--android:id="@+id/vs_roomset"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="120dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout="@layout/preview_roomtypeset" />-->
+
+</RelativeLayout>

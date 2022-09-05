@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvPrize"
+    android:layout_width="18dp"
+    android:layout_height="18dp"
+    android:layout_marginLeft="2dp"
+    android:background="@drawable/prizer_num_bg"
+    android:gravity="center"
+    android:textColor="@color/white"
+    android:textSize="@dimen/sp_12"
+    tools:text="1">
+
+</TextView>

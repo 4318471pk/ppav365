@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 31
+        versionCode 1
+        versionName "6.0.0_dev_tf_phy-3938b3e9-16d49df-47a70ba"
+    }
+
+    buildTypes {
+        pre { }
+    }
+
+    sourceSets {
+        main.assets.srcDirs += ['src/main/assets', 'src/main/effects/bundle']
+        main.res.srcDirs += ['src/mian/res', 'src/main/effects/res', 'src/main/filters/res']
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleCompatible
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    //noinspection GradleCompatible
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+}

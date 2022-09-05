@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "7232321390",
+    "project_id": "thlive-be109",
+    "storage_bucket": "thlive-be109.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7232321390:android:7b23759f8f27b42c3cb37f",
+        "android_client_info": {
+          "package_name": "live.thailand.streaming"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7232321390-84ujp8316ktairu65et2mf9te9l2i7uj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQdU6bzOJ8Ld6lWKBBNEjm6x41eKnAabw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7232321390-84ujp8316ktairu65et2mf9te9l2i7uj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

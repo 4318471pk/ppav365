@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reInner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_help"
+            android:paddingTop="45dp"
+            android:paddingBottom="15dp"
+            android:scrollbars="none"
+            app:layout_constraintDimensionRatio="H,981:941"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.live.fox.view.PastWebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+            </LinearLayout>
+
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_help_title"
+        android:gravity="center"
+        android:text="@string/quick_lottery"
+        android:textColor="#EACA8D"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</RelativeLayout>

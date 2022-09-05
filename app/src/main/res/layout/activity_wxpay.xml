@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1F7FCA"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_round_white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wx_saoyisao"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:src="@drawable/wx_saoyisao"
+                    android:text="@string/moneyUnit"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_wx_qrcode"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="#F0F0F0" />
+
+
+            <ImageView
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/wx_saoyisao" />
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="17dp"
+                android:gravity="center"
+                android:src="@drawable/wx_saoyisao"
+                android:text="@string/wechartpic"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_savetoxc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="10dp"
+                android:paddingRight="40dp"
+                android:paddingBottom="10dp"
+                android:text="@string/saveToPic"
+                android:textColor="@color/white"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_backgroundPressColor="@color/colorAccent"
+                app:rv_cornerRadius="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/inCount"
+                android:textColor="#5D5D5D"
+                android:textSize="14sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

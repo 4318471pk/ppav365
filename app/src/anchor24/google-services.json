@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "598668835858",
+    "project_id": "live24-8b1e0",
+    "storage_bucket": "live24-8b1e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598668835858:android:852915100910dca5032ccb",
+        "android_client_info": {
+          "package_name": "live.twenty.four"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598668835858-q927vlp12mjujrmup1qlv8j8clf5epvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3BIFXl5jbJ2BdHOdzFCAhNOQlkEB_Rxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598668835858-q927vlp12mjujrmup1qlv8j8clf5epvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

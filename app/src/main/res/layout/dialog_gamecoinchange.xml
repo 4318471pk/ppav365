@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/shape_round_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp">
+
+                <ImageView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/logo_ag" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="6dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/AGYoplay"
+                    android:textColor="#ED759F"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="14dp"
+                android:paddingTop="16dp"
+                android:paddingRight="20dp"
+                android:src="@drawable/gamecoinchange_close" />
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/et_"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape_halfround_gray"
+            android:gravity="center_vertical"
+            android:inputType="number"
+            android:paddingStart="14dp"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="#C4C4C4"
+            android:textSize="12sp"
+            tools:hint="@string/EamountConverted" />
+
+        <TextView
+            android:id="@+id/tv_rightdes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="22dp"
+            android:gravity="right"
+            android:text="@string/goldCoinsQuarter"
+            android:textColor="@color/gray_text_light"
+            android:textSize="9sp"
+            tools:ignore="RtlHardcoded" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/tv_down"
+                android:layout_width="100dp"
+                android:layout_height="32dp"
+                android:background="@drawable/theme_shape_halfround"
+                android:gravity="center"
+                android:text="@string/transferOut"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View style="@style/WrapAuto" />
+
+            <TextView
+                android:id="@+id/tv_up"
+                android:layout_width="100dp"
+                android:layout_height="32dp"
+                android:background="@drawable/theme_shape_halfround"
+                android:gravity="center"
+                android:text="@string/transferIn"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
+

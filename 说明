@@ -1,0 +1,18 @@
+api为11时候
+https://blog.csdn.net/sinat_38167329/article/details/106805420
+
+MMLive最新版
+bw18
+
+开发分支
+
+
+master            //主分支，版本还是很老的版本
+Release           //线上分支，稳定版本
+MMLive            //目前是QQ分支，后端还没有将代码同步，接口和MM不同步，同步之后该分支可以合并到Release上，当前分支可以删除
+QQLive            //已经作废，使用新的变种方式，这个分支可以不用在维护
+MulitLangBaseMM   //多语言版本，完成这次功能迭代之后，添加泰国版本的时候将代码合并到当前分支，可以删除，遗留页面文字变化之后间距调整问题
+huanguan          //已经作废，不在维护
+tiansi            //已经作废，不在维护
+xianjiao          //已经作废，不在维护
+

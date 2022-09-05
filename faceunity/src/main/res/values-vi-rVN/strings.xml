@@ -1,0 +1,27 @@
+<resources>
+    <string name="face_unity_default">mặc định</string>
+    <string name="face_unity_pure_red">Đỏ ròng</string>
+    <string name="face_unity_custom">tùy chỉnh</string>
+    <string name="face_unity_goddess">nữ thần</string>
+    <string name="face_unity_nature">tự nhiên</string>
+    <string name="face_unity_perfect">Hoàn mỹ</string>
+    <string name="face_unity_matte_skin">Mài da mờ</string>
+    <string name="face_unity_except">Trừ mụn</string>
+    <string name="face_unity_whitening">Làm trắng</string>
+    <string name="face_unity_ruddy">โรซี่</string>
+    <string name="face_unity_bright_eyes">Mắt sáng</string>
+    <string name="face_unity_beautiful_teeth">Răng đẹp</string>
+    <string name="face_unity_face">Khuôn mặt</string>
+    <string name="face_unity_big_eye">Mắt to</string>
+    <string name="face_unit_face_slimming">Gọn mặt</string>
+    <string name="face_unity_chin">คาง</string>
+    <string name="face_unity_forehead">Trán</string>
+    <string name="face_unity_thin_nose">Mũi mỏng</string>
+    <string name="face_unity_mouth_type">Kiểu miệng</string>
+    <string name="face_unity_tools">Đạo cụ</string>
+    <string name="face_unity_skin_beauty">Làm đẹp da</string>
+    <string name="face_unity_beauty">Sắc đẹp</string>
+    <string name="face_unity_effect">Hiệu ứng</string>
+    <string name="face_unity_filter">Bộ lọc</string>
+    <string name="face_unity_clean_skin">Da sạch</string>
+</resources>

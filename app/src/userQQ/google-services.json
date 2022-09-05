@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "767449736281",
+    "project_id": "qqlive-e3a24",
+    "storage_bucket": "qqlive-e3a24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767449736281:android:7ca5ed8096646817b1bd48",
+        "android_client_info": {
+          "package_name": "com.unk.qqlive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767449736281-m9hcc422dj80t54utu4lq8h4fgpq1nb0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfXD5zd6-wn3GjOR8dQr2kHyligQfiwns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767449736281-m9hcc422dj80t54utu4lq8h4fgpq1nb0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

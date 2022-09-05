@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_luck"
+    android:layout_width="wrap_content"
+    android:layout_height="24dp"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="170dp"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/iv_luck1"
+        android:layout_width="18dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/luck_1" />
+
+    <ImageView
+        android:id="@+id/iv_luck2"
+        android:layout_width="18dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/luck_1" />
+
+    <ImageView
+        android:id="@+id/iv_luck3"
+        android:layout_width="18dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/luck_1" />
+
+    <ImageView
+        android:id="@+id/iv_luck4"
+        android:layout_width="18dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/luck_1" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/luck_bei" />
+
+
+</LinearLayout>

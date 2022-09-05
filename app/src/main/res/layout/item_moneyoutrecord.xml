@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            style="@style/AutoMatch.Vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/tv_des"
+                style="@style/MatchWrap"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:text="银行卡提现(9982********32"
+                android:textColor="#171719"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/MatchWrap"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:text="08-23 11:32"
+                android:textColor="#949494"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/WrapMatch.Vertical">
+
+            <TextView
+                android:id="@+id/tv_money"
+                style="@style/MatchWrap"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:gravity="right"
+                android:text="+10.00"
+                android:textColor="#F0668A"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                style="@style/MatchWrap"
+                android:layout_marginTop="5dp"
+                android:gravity="right"
+                android:text="提现成功"
+                android:textColor="#949494"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F6F6F6" />
+</LinearLayout>

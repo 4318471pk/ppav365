@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/snackbar_text_f"
+        android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:minHeight="25dp"
+        android:textSize="12sp"
+        android:ellipsize="end"
+        android:textColor="#ffffff"
+        android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"/>
+
+    <Button
+        android:id="@+id/snackbar_action"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:textAllCaps="false"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right|end"
+        android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
+        android:visibility="gone"/>
+</merge>

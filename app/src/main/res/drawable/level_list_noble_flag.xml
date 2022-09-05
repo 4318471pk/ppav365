@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/img_noble_flag_gold"
+        android:maxLevel="1" />
+
+    <item
+        android:drawable="@drawable/img_noble_flag_platinum"
+        android:maxLevel="2" />
+
+    <item
+        android:drawable="@drawable/img_noble_flag_diamond"
+        android:maxLevel="3" />
+
+    <item
+        android:drawable="@drawable/img_noble_flag_master"
+        android:maxLevel="4" />
+
+    <item
+        android:drawable="@drawable/img_noble_flag_king"
+        android:maxLevel="5" />
+
+</level-list>

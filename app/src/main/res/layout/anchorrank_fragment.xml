@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_gradient_red_yellow">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/anchorrank_rankbg"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_rank2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_rank2"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="38dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_default"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/tv_name2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+
+                    android:textColor="#725754"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_value2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="3458906"
+                    android:textColor="#2A2E3F"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/gongxianzhi"
+                    android:textColor="#7A7A7A"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_rank1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_rank1"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="28dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_default"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/tv_name1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+
+                    android:textColor="#725754"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_value1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="3458906"
+                    android:textColor="#2A2E3F"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/gongxianzhi"
+                    android:textColor="#7A7A7A"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_rank3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_rank3"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="38dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_default"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/tv_name3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#725754"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_value3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="3458906"
+                    android:textColor="#2A2E3F"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/gongxianzhi"
+                    android:textColor="#7A7A7A"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_bottomrank"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="18dp">
+
+        <com.flyco.roundview.RoundTextView
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            app:rv_backgroundColor="#E0986F"
+            app:rv_isRadiusHalfHeight="true" />
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius_BL="8dp"
+            app:rv_cornerRadius_BR="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="17dp"
+                    android:gravity="center"
+                    android:text="@string/rankName"
+                    android:textColor="#DEB197"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="17dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp"
+                    android:text="@string/userName"
+                    android:textColor="#DEB197"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:text="@string/gongxianzhi"
+                    android:textColor="#DEB197"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <include layout="@layout/include_recycle_view_with_refresh" />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

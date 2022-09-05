@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.live.fox.ui.login.LoginViewModel" />
+
+        <variable
+            name="loginPageType"
+            type="com.live.fox.ui.login.LoginPageType" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_default" />
+
+                <ImageView
+                    android:id="@+id/iv_minicamera"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@drawable/carame_mini_ic" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="10">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nicknameaaa"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:text="@={viewModel.nickname}"
+                    android:textColor="@color/black"
+                    android:textColorHint="#6D6D6D"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="@string/sex"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/start"
+                    android:textColor="#EB4A81"
+                    android:textSize="13sp" />
+
+                <RadioGroup
+                    android:id="@+id/rb_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/rv_sex1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rv_sex1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="30dp"
+                        android:background="@null"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/sel_sex"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:text="@string/boy"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/rv_sex2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="34dp"
+                        android:background="@null"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/sel_sex"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:text="@string/girl"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="25dp"
+                android:paddingBottom="10dp"
+                android:text="@string/long_account_password"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_password_hint_text"
+                    android:inputType="textPassword"
+                    android:maxLength="12"
+                    android:text="@={viewModel.pwd}"
+                    android:textColor="@color/black"
+                    android:textColorHint="#6D6D6D"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_cpwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_password_hint"
+                    android:inputType="textPassword"
+                    android:maxLength="12"
+                    android:text="@={viewModel.cpwd}"
+                    android:textColor="@color/black"
+                    android:textColorHint="#6D6D6D"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="@string/long_account_password_rule"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/btn_login"
+                android:onClick="@{viewModel::onRegisterByModifyUserInfo}"
+                android:text="@string/complete"
+                android:textAllCaps="false"
+                android:textColor="@drawable/btn_login_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
