@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,8 +53,8 @@ import java.util.Set;
  */
 public class LoginModeSelActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextInputEditText etUsername;
-    private TextInputEditText etPassword;
+    private EditText etUsername;
+    private EditText etPassword;
     private ImageView ivVoice;
 
     //是否显示一段实体
