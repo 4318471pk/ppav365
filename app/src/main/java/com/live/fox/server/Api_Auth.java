@@ -38,6 +38,7 @@ public class Api_Auth extends BaseApi {
         params.put("mobile", mobile);
         params.put("password", password);
 
+
         params.put("address", "unknow");
         params.put("city", "");
         params.put("province", "");
