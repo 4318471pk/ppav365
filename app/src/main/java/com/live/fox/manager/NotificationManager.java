@@ -1,5 +1,8 @@
 package com.live.fox.manager;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
 import static com.live.fox.Constant.SPUtilKey.ACCESS_ID;
 import static com.live.fox.Constant.SPUtilKey.ACCESS_KEY;
 
@@ -44,8 +47,10 @@ public class NotificationManager {
      * @param app app context
      */
     public void init(CommonApp app) {
-        String accessSaved = SPUtils.getInstance().getString(ACCESS_ID, "1520010673");
-        String accessKeySaved = SPUtils.getInstance().getString(ACCESS_KEY, "A972K5BSYXBV");
+
+        String ids[]=app.getImACCESS_ID();
+        String accessSaved = SPUtils.getInstance().getString(ACCESS_ID, ids[0]);
+        String accessKeySaved = SPUtils.getInstance().getString(ACCESS_KEY, ids[1]);
 
         XGPushConfig.init(app);
         XGPushConfig.setAccessId(app, Long.parseLong(accessSaved));

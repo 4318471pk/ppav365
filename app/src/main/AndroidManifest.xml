@@ -59,7 +59,16 @@
 
         <meta-data
             android:name="XG_SERVER_SUFFIX"
-            android:value="tpns.sgp.tencent.com" /> <!-- 腾讯推送 start -->
+            android:value="tpns.hk.tencent.com" /> <!-- 腾讯推送 start -->
+
+        <meta-data
+            android:name="TM_ACCESS_ID"
+            android:value="${XG_ACCESS_ID}" />
+
+        <meta-data
+            android:name="TM_ACCESS_KEY"
+            android:value="${XG_ACCESS_KEY}" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- 腾讯推送 start -->
