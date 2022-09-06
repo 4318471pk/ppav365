@@ -3,6 +3,8 @@ package com.live.fox.common;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -269,5 +271,31 @@ public class CommonApp extends MultiDexApplication {
             }
         }
         return isOnForground;
+    }
+
+    public String[] getImACCESS_ID()
+    {
+        String strs[]=new String[2];
+
+        try {
+            ApplicationInfo applicationInfo= getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            strs[0]=applicationInfo.metaData.getString("TM_ACCESS_ID","");
+            if(strs[0].length()>2)
+            {
+                strs[0]=strs[0].substring(2);
+            }
+            strs[1]=applicationInfo.metaData.getString("TM_ACCESS_KEY","");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(strs[0]==null)
+        {
+            strs[0]="";
+        }
+        if(strs[1]==null)
+        {
+            strs[1]="";
+        }
+        return strs;
     }
 }

@@ -3,6 +3,7 @@ package com.live.fox.ui.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -10,10 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -25,6 +32,7 @@ import com.live.fox.Constant;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
+import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.manager.SPManager;
@@ -38,6 +46,7 @@ import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.BlankController;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.ImageUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -63,12 +72,15 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     private ImageView ivVoice;
     private TextView guestLogin;
     TextView tvCountrySelector;
+    LinearLayout llCountrySelector;
+    ImageView ivArrow;
 
     //是否显示一段实体
     MediaPlayer mediaPlayer;
     private String showTip;
     private boolean flag = true;
     DropDownWindowsOfCountry dropDownWindowsOfCountry;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +111,11 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         etUsername = findViewById(R.id.et_username);
 
         VideoView videoView = findViewById(R.id.videoView);
+        llCountrySelector=findViewById(R.id.llCountrySelector);
         etPassword = findViewById(R.id.et_password);
         ivVoice = findViewById(R.id.iv_voice);
         guestLogin=findViewById(R.id.guestLogin);
+        ivArrow=findViewById(R.id.ivArrow);
         tvCountrySelector=findViewById(R.id.tvCountrySelector);
         findViewById(R.id.layout_back).setOnClickListener(this);
         findViewById(R.id.iv_kefu).setOnClickListener(this);
@@ -109,7 +123,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.tv_resetpwd).setOnClickListener(this);
         findViewById(R.id.btn_login_by_pass).setOnClickListener(this);
         findViewById(R.id.iv_voice).setOnClickListener(this);
-        tvCountrySelector.setOnClickListener(this);
+        llCountrySelector.setOnClickListener(this);
         ImageView language = findViewById(R.id.home_language);
         if (!AppConfig.isMultiLanguage()) {
             language.setVisibility(View.GONE);
@@ -348,21 +362,49 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                 BetCartDataManager.betGameIndex = 0;
                 doLoginByPwdApi(phone, password);
                 break;
-            case R.id.tvCountrySelector:
+            case R.id.llCountrySelector:
                 if(dropDownWindowsOfCountry==null)
                 {
                     dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this);
                     dropDownWindowsOfCountry.setOutsideTouchable(true);
-                    dropDownWindowsOfCountry.setTouchable(true);
+                    dropDownWindowsOfCountry.setFocusable(true);
                     dropDownWindowsOfCountry.setBackgroundDrawable(new ColorDrawable(0));
+                    dropDownWindowsOfCountry.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            rotateView(ivArrow,false);
+                        }
+                    });
                 }
+
+                rotateView(ivArrow,!dropDownWindowsOfCountry.isShowing());
                 if(!dropDownWindowsOfCountry.isShowing())
                 {
                     View line=findViewById(R.id.underLineofPhone);
                     dropDownWindowsOfCountry.showAsDropDown(line,0,10);
                 }
+                else
+                {
+                    dropDownWindowsOfCountry.dismiss();
+                }
+
 
                 break ;
         }
+    }
+
+    private void rotateView(ImageView view,boolean isShow)
+    {
+        float start=isShow?0:180;
+        float end=isShow?180:0;
+        Animation rotate  = new RotateAnimation(start, end,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate.setInterpolator(new AccelerateInterpolator());
+        rotate.setDuration(100);//设置动画持续周期
+//        rotate.setRepeatCount(1);//设置重复次数
+        rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
+
+        view.startAnimation(rotate);
     }
 }

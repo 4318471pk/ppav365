@@ -112,17 +112,32 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_phonenum" />
 
-                    <TextView
-                        android:id="@+id/tvCountrySelector"
+                    <LinearLayout
+                        android:id="@+id/llCountrySelector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dip"
-                        android:drawableRight="@mipmap/arrow_bot"
-                        android:drawablePadding="15dip"
-                        android:text="+86"
-                        android:textColor="#FEFEFE"
-                        android:textSize="15sp" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCountrySelector"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dip"
+                            android:text="+86"
+                            android:textColor="#FEFEFE"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:id="@+id/ivArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dip"
+                            android:src="@mipmap/arrow_bot"/>
+                    </LinearLayout>
+
 
                     <EditText
                         android:id="@+id/et_username"

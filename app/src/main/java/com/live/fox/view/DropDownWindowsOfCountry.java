@@ -22,9 +22,11 @@ public class DropDownWindowsOfCountry extends PopupWindow {
         linearLayout=new LinearLayout(context);
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
         linearLayout.setBackground(context.getResources().getDrawable(R.drawable.retangle_round_white));
+
         setContentView(linearLayout);
         setWidth(viewWidth);
         setHeight(viewHeight);
+
     }
 
 
