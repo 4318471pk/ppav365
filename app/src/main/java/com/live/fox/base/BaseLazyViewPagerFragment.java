@@ -44,7 +44,6 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         this.isVisible = isVisibleToUser;
-        setParam();
     }
 
     @Override
@@ -75,6 +74,12 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setParam();
+    }
+
     public <T> T $(int id) {
         return (T) getView().findViewById(id);
     }
@@ -90,7 +95,6 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
         super.onActivityCreated(savedInstanceState);
         if (!hasInit) {
             getIntentValue();
-            setParam();
         }
     }
 
@@ -101,7 +105,7 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
      * isVisible = true：此Fragment可见
      */
     private void setParam() {
-        if (isInit && !isLoadOver && isVisible) {
+        if (isInit && !isLoadOver && isVisible && isAdded()) {
             isLoadOver = true;
             bindView(null);
         }
