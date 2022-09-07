@@ -3,6 +3,7 @@ package com.live.fox.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.gson.Gson;
 import com.live.fox.AppConfig;
 import com.live.fox.MainActivity;
@@ -92,6 +95,8 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private RecyclerView rvLiveRecomment;
     private TextView tvTitleRecomment;
     private TextView tvDesRecomment;
+    AppBarLayout appBarLayout;
+    CoordinatorLayout cooLayout;
 
     private LiveListAdapter livelistAdapter;
     BaseQuickAdapter<GameItem, BaseViewHolder> gameAdapter;
@@ -132,6 +137,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     }
 
     private void initView() {
+        cooLayout=rootView.findViewById(R.id.cooLayout);
         convenientBanner = rootView.findViewById(R.id.home_convenient_banner);
         gonggaoLayout = rootView.findViewById(R.id.layout_gonggao);
         gonggaoTv = rootView.findViewById(R.id.tv_gonggao);
@@ -146,6 +152,15 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         tvTitleRecomment = rootView.findViewById(R.id.tv_title_recomment);
         tvDesRecomment = rootView.findViewById(R.id.tv_des_recomment);
         gameListBox = rootView.findViewById(R.id.layout_game_list);
+        appBarLayout=rootView.findViewById(R.id.appBarLayout);
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                Log.e("onOffsetChanged",verticalOffset+"");
+//            }
+//        });
+
+
     }
 
     private void requestAppAd() {

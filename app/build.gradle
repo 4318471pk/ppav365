@@ -240,8 +240,8 @@ android {
             buildConfigField "Boolean", "IsAnchorClient", "true"
 
             manifestPlaceholders = [
-                    XG_ACCESS_ID : "1520010712",
-                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
+                    XG_ACCESS_ID : "TM1530003293",
+                    XG_ACCESS_KEY: "A5V25RQEZINM",
             ]
         }
 
