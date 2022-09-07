@@ -63,6 +63,10 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
             if (getContentLayout() > 0) {
                 rootView = createView(inflater, container, savedInstanceState);
             }
+            else
+            {
+                rootView=container;
+            }
         }
         return rootView;
     }
