@@ -6,51 +6,63 @@
     android:id="@+id/ll_title"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@color/colorTitle"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingTop="10dp">
 
-    <ImageView
-        android:id="@+id/iv_kefu"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:contentDescription="@string/names"
-        android:padding="10dp"
-        android:src="@drawable/ic_service" />
 
     <RelativeLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        >
+
+        <ImageView
+            android:id="@+id/iv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/names"
+            android:src="@mipmap/icon_ranking" />
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:layout_toLeftOf="@id/iv_rank"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/names"
+            android:src="@mipmap/icon_search" />
+
 
         <com.live.fox.view.tab.SimpleTabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="36dp"
+            android:layout_toLeftOf="@id/ivSearch"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            app:tl_indicator_color="@color/white"
+            app:tl_indicator_color="#EA00FF"
             app:tl_indicator_corner_radius="2dp"
             app:tl_indicator_height="3dp"
             app:tl_indicator_width="20dp"
             app:tl_selected_textsize="20sp"
             app:tl_tab_padding="8dp"
-            app:tl_textBold="BOTH"
-            app:tl_textSelectColor="@color/white"
-            app:tl_textUnselectColor="@color/white"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="#404040"
+            app:tl_textUnselectColor="#646464"
             app:tl_textsize="16sp" />
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/iv_rank"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/names"
-        android:paddingStart="5dp"
-        android:paddingEnd="10dp"
-        android:src="@drawable/rank_ic" />
+
 
 </LinearLayout>

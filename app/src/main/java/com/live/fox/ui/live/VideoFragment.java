@@ -58,7 +58,6 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
     private Anchor anchor;
     private TXLivePlayConfig mTXPlayConfig;
 
-    boolean isInit = false; //会出现调用进房接口得到数据后 此Fragment还没初始化的情况
     private static String roomPaid;
     private static String roomPassword;
 
@@ -85,7 +84,6 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.video_fragment, container, false);
-        isInit = true;
         initView(view);
         if (anchor != null) {
             GlideUtils.loadImage(requireActivity(), anchor.getAvatar(),
@@ -105,6 +103,8 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
         }
         return view;
     }
+
+
 
     private void initView(View bindSource) {
         iv_bg = bindSource.findViewById(R.id.iv_bg);
@@ -127,6 +127,8 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //打开fragment后加载video
+        startPlay(anchor);
     }
 
     private void initPlayer() {
@@ -176,7 +178,7 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
     public void switchRoomByState(int state, Anchor anchor) {
         LogUtils.e("切换房间时 根据状态显示 不一样的界面" + state);
         this.anchor = anchor;
-        if (!isInit) return;
+        if (!isAdded()) return;
         if (state == 1) {//切换后请求接口时的处理
             if (Constant.mTXLivePlayer != null && Constant.mTXLivePlayer.isPlaying()) {
                 Constant.mTXLivePlayer.stopPlay(true);
@@ -192,7 +194,7 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
 
     public void startPlay(Anchor anchor) {
         this.anchor = anchor;
-        if (!isInit) return;
+        if (!isAdded()) return;
         playRTMP(anchor.getPullStreamUrl());
     }
 
@@ -353,7 +355,7 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
     }
 
     public void dismissLiveLoadingAnimation() {
-        if (!isInit) return;
+        if (!isAdded()) return;
         if (coverIv != null) {
             LogUtils.e("dimissLiveLoadingAnimation()");
             coverIv.setVisibility(View.GONE);
