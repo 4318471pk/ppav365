@@ -59,8 +59,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void initView(View rootView) {
         viewPager = rootView.findViewById(R.id.man_home_viewpager);
         tabLayout = rootView.findViewById(R.id.tabLayout);
+        tabLayout.setGradient(0xffA800FF,0xffEA00FF);
         setTopPaddingStatusBarHeight(rootView.findViewById(R.id.ll_title));
-        rootView.findViewById(R.id.iv_kefu).setOnClickListener(this);
         rootView.findViewById(R.id.iv_rank).setOnClickListener(this);
     }
 
@@ -127,9 +127,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         if (ClickUtil.isFastDoubleClick()) return;
         int id = view.getId();
-        if (id == R.id.iv_kefu) {
-            ServicesActivity.startActivity(getActivity());
-        }
+//        if (id == R.id.iv_kefu) {
+//            ServicesActivity.startActivity(getActivity());
+//        }
 
         if (id == R.id.iv_rank && AppUserManger.isLogin(requireContext())) {
             RankActivity.startActivity(requireActivity());

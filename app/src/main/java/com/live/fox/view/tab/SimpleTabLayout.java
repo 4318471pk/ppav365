@@ -80,10 +80,17 @@ public class SimpleTabLayout extends HorizontalScrollView implements ViewPager.O
     private Drawable mTabSelectedBackground;
     private Drawable mTabUnSelectedBackground;
 
+
+    /**
+     * Gradient 是不是渐变
+     */
+    boolean isGradient=false;
+
     /**
      * indicator
      */
     private int mIndicatorColor;
+    private int mIndicatorColor2=Integer.MAX_VALUE;
     private float mIndicatorHeight;
     private float mIndicatorWidth;
     private float mIndicatorCornerRadius;
@@ -544,6 +551,15 @@ public class SimpleTabLayout extends HorizontalScrollView implements ViewPager.O
         }
     }
 
+
+    public void setGradient(int color,int color2)
+    {
+        isGradient=true;
+        mIndicatorColor=color;
+        mIndicatorColor2=color2;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -613,7 +629,17 @@ public class SimpleTabLayout extends HorizontalScrollView implements ViewPager.O
                         mIndicatorRect.right + getPaddingLeft(), getHeight(), mRectPaint);*/
 
             if (mIndicatorHeight > 0) {
-                mIndicatorDrawable.setColor(mIndicatorColor);
+                if(mIndicatorColor2!=Integer.MAX_VALUE)
+                {
+                    mIndicatorDrawable.setColors(new int[]{mIndicatorColor,mIndicatorColor2});
+                    mIndicatorDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+                    mIndicatorDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+                }
+                else
+                {
+                    mIndicatorDrawable.setColor(mIndicatorColor);
+                }
+
 
                 if (mIndicatorGravity == Gravity.BOTTOM) {
                     mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,
