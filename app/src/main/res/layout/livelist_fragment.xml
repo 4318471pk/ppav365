@@ -10,15 +10,29 @@
     app:srlFooterTranslationViewId="@+id/recyclerView">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cooLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             app:layout_behavior="com.live.fox.view.FlingBehavior">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="150dip"
+                    app:layout_collapseMode="parallax"
+                    android:text="sadsadsa"/>
+
+            </RelativeLayout>
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -26,6 +40,7 @@
                 android:background="@color/transparent"
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -234,6 +249,8 @@
 
 
         </com.google.android.material.appbar.AppBarLayout>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_live_recycler"
