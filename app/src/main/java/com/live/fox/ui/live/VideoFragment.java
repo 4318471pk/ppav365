@@ -127,8 +127,11 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //打开fragment后加载video
-        startPlay(anchor);
+        //打开fragment后加载video 不是1和3状态
+        if(anchor!=null && anchor.getLiveStatus()!=1 && anchor.getLiveStatus()!=3)
+        {
+            startPlay(anchor);
+        }
     }
 
     private void initPlayer() {

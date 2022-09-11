@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -64,7 +65,11 @@ import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ZoomOutSlideTransformer;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.view.DropDownScrollView;
+import com.live.fox.view.DropDownViewGroup;
+import com.live.fox.view.MyCoordinatorLayout;
 import com.luck.picture.lib.tools.DoubleUtils;
+import com.luck.picture.lib.tools.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.marquee.dingrui.marqueeviewlib.MarqueeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -95,8 +100,9 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private RecyclerView rvLiveRecomment;
     private TextView tvTitleRecomment;
     private TextView tvDesRecomment;
-    AppBarLayout appBarLayout;
-    CoordinatorLayout cooLayout;
+    DropDownScrollView svMain;
+    RelativeLayout rlMain;
+    DropDownViewGroup dragDownViewGroup;
 
     private LiveListAdapter livelistAdapter;
     BaseQuickAdapter<GameItem, BaseViewHolder> gameAdapter;
@@ -137,7 +143,9 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     }
 
     private void initView() {
-        cooLayout=rootView.findViewById(R.id.cooLayout);
+        svMain=rootView.findViewById(R.id.svMain);
+        rlMain=rootView.findViewById(R.id.rlMain);
+        dragDownViewGroup=rootView.findViewById(R.id.dragDownViewGroup);
         convenientBanner = rootView.findViewById(R.id.home_convenient_banner);
         gonggaoLayout = rootView.findViewById(R.id.layout_gonggao);
         gonggaoTv = rootView.findViewById(R.id.tv_gonggao);
@@ -152,14 +160,14 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         tvTitleRecomment = rootView.findViewById(R.id.tv_title_recomment);
         tvDesRecomment = rootView.findViewById(R.id.tv_des_recomment);
         gameListBox = rootView.findViewById(R.id.layout_game_list);
-        appBarLayout=rootView.findViewById(R.id.appBarLayout);
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                Log.e("onOffsetChanged",verticalOffset+"");
-//            }
-//        });
 
+        dragDownViewGroup.post(new Runnable() {
+            @Override
+            public void run() {
+                dragDownViewGroup.scroll(dragDownViewGroup.getHeight());
+            }
+        });
+        svMain.setDropDown(dragDownViewGroup,ScreenUtils.dip2px(getContext(),100));
 
     }
 

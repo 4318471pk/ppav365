@@ -1,99 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_refreshLayout"
+    android:id="@+id/rlMain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/layer_list_rank_bg_200"
-    app:srlFooterTranslationViewId="@+id/recyclerView">
+    android:layout_height="match_parent">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/cooLayout"
+
+    <com.live.fox.view.DropDownScrollView
+        android:id="@+id/svMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            app:layout_behavior="com.live.fox.view.FlingBehavior">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="150dip"
-                    app:layout_collapseMode="parallax"
-                    android:text="sadsadsa"/>
-
-            </RelativeLayout>
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:orientation="vertical"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dip"
+                    android:background="@color/recycler_swipe_color_loading_color1"
+                    android:text="游戏列表"
+                    android:textColor="@color/black" />
 
+                <RelativeLayout
+                    android:id="@+id/layout_gonggao"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+
+                    <com.marquee.dingrui.marqueeviewlib.MarqueeView
+                        android:id="@+id/tv_gonggao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="75dp"
+                        android:textColor="#EB457E"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:marqueeview_is_resetLocation="false"
+                        app:marqueeview_isclickalbe_stop="true"
+                        app:marqueeview_repet_type="repet_interval"
+                        app:marqueeview_text_color="@color/colorAccent"
+                        app:marqueeview_text_size="14"
+                        app:marqueeview_text_speed="1"
+                        app:marqueeview_text_startlocationdistance="0.5" />
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gonggao_bg"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/message"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.bigkoo.convenientbanner.ConvenientBanner
+                android:id="@+id/home_convenient_banner"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:canLoop="true" />
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/home_refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srlFooterTranslationViewId="@+id/recyclerView">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.bigkoo.convenientbanner.ConvenientBanner
-                        android:id="@+id/home_convenient_banner"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        app:canLoop="true" />
-
-                    <RelativeLayout
-                        android:id="@+id/layout_gonggao"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp">
-
-                        <com.marquee.dingrui.marqueeviewlib.MarqueeView
-                            android:id="@+id/tv_gonggao"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="75dp"
-                            android:textColor="#EB457E"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:marqueeview_is_resetLocation="false"
-                            app:marqueeview_isclickalbe_stop="true"
-                            app:marqueeview_repet_type="repet_interval"
-                            app:marqueeview_text_color="@color/colorAccent"
-                            app:marqueeview_text_size="14"
-                            app:marqueeview_text_speed="1"
-                            app:marqueeview_text_startlocationdistance="0.5" />
-
-                        <TextView
-                            android:layout_width="125dp"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/gonggao_bg"
-                            android:gravity="center_vertical"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="0dp"
-                            android:text="@string/message"
-                            android:textColor="@color/white"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                    </RelativeLayout>
 
                     <LinearLayout
                         android:id="@+id/layout_gamelist"
@@ -245,22 +247,33 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_live_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="4dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                </LinearLayout>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </LinearLayout>
+    </com.live.fox.view.DropDownScrollView>
 
 
-        </com.google.android.material.appbar.AppBarLayout>
+    <com.live.fox.view.DropDownViewGroup
+        android:id="@+id/dragDownViewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_live_recycler"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:overScrollMode="never"
-            android:paddingHorizontal="4dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="60dip"
+            android:background="#897211"
+            android:text="8888"
+            android:textColor="@color/white" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.live.fox.view.DropDownViewGroup>
+</RelativeLayout>

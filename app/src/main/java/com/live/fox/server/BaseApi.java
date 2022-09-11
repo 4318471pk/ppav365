@@ -50,7 +50,8 @@ public class BaseApi {
         HttpHeaders headers = new HttpHeaders();
         headers.put("X-UDID", DeviceIdUtils.getAndroidId(CommonApp.getInstance()));
         headers.put("X-Timestamp", timestamp + "");
-        headers.put("X-Language", MultiLanguageUtils.getRequestHeader());
+//        headers.put("X-Language", MultiLanguageUtils.getRequestHeader());
+        headers.put("Accept-Language", MultiLanguageUtils.getRequestHeader());
         headers.put("X-Sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + timestamp));
         String token = SPUtils.getInstance("userinfo").getString("token", "");
         if (!StringUtils.isEmpty(token)) {

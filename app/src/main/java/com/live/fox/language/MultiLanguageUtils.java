@@ -223,7 +223,7 @@ public class MultiLanguageUtils {
             case "th":
                 return "THAI";
             case "zh":
-                return "CN";
+                return "zh-cn";
             case "tw":
                 return "TW";
             case "en":
