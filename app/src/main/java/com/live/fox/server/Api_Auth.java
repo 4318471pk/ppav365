@@ -2,11 +2,14 @@ package com.live.fox.server;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
+import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.NetEaseVerifyEntity;
 import com.live.fox.entity.RegisterEntity;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
+import com.live.fox.utils.DeviceIdUtils;
+import com.live.fox.utils.EncryptUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
@@ -43,6 +46,32 @@ public class Api_Auth extends BaseApi {
         params.put("province", "");
         params.put("softVersion", AppUtils.getAppVersionName());
         params.put("model", DeviceUtils.getModel());
+        params.put("version", DeviceUtils.getSDKVersionName());
+        params.put("x", "");
+        params.put("y", "");
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * POST /center-client/auth/tourists/login 游客登录
+     */
+    public void guestLogin(JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.Auth_Guest_Login;
+        callback.setUrlTag(Constant.URL.Auth_Guest_Login);
+        HashMap<String, Object> params = getCommonParams();
+
+        params.put("address", "unknow");
+        params.put("city", "");
+        params.put("province", "");
+        params.put("softVersion", AppUtils.getAppVersionName());
+        params.put("model", DeviceUtils.getModel());
+        params.put("sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + params.get("timestamp").toString()));
         params.put("version", DeviceUtils.getSDKVersionName());
         params.put("x", "");
         params.put("y", "");

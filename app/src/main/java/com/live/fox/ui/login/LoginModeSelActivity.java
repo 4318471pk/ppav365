@@ -124,6 +124,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.btn_login_by_pass).setOnClickListener(this);
         findViewById(R.id.iv_voice).setOnClickListener(this);
         llCountrySelector.setOnClickListener(this);
+        guestLogin.setOnClickListener(this);
         ImageView language = findViewById(R.id.home_language);
         if (!AppConfig.isMultiLanguage()) {
             language.setVisibility(View.GONE);
@@ -228,6 +229,32 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     LoginActivity.startActivity(LoginModeSelActivity.this, LoginPageType.ResetPwd, phoneNum);
                 } else {
                     ToastUtils.showShort(getString(R.string.toast_tip_phone_number_can_use));
+                }
+            }
+        });
+    }
+
+    public void doLoginGuest() {
+        showLoadingView();
+        Api_Auth.ins().guestLogin( new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                try {
+                    hideLoadingView();
+                    if (code == 0) {
+                        JSONObject jsonObject = new JSONObject(data);
+                        String token = jsonObject.optString("token", "");
+                        if (StringUtils.isEmpty(token)) {
+                            ToastUtils.showShort(getString(R.string.tokenFail));
+                            return;
+                        }
+                        onLoginSuccess(token);
+                    } else {
+
+                        ToastUtils.showShort(msg);
+                    }
+                } catch (Exception e) {
+                    ToastUtils.showShort(e.getMessage());
                 }
             }
         });
@@ -390,6 +417,9 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
 
 
                 break ;
+            case R.id.guestLogin:
+                doLoginGuest();
+                break;
         }
     }
 
