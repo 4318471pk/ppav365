@@ -26,7 +26,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="100dip"
+                    android:layout_height="200dip"
                     android:background="@color/recycler_swipe_color_loading_color1"
                     android:text="游戏列表"
                     android:textColor="@color/black" />
