@@ -2,12 +2,15 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 public class DropDownScrollView extends ScrollView {
 
     DropDownViewGroup dropDownViewGroup;
-    int limitDistance;
+    int limitDistance,itemViewHeight=-1;
 
     public DropDownScrollView(Context context) {
         super(context);
@@ -36,14 +39,23 @@ public class DropDownScrollView extends ScrollView {
     protected void onScrollChanged(int l, int y, int oldl, int y2) {
         super.onScrollChanged(l, y, oldl, y2);
 
-        if(dropDownViewGroup!=null && limitDistance>0)
+        if(itemViewHeight<1)
         {
-            float ratio =1.0f* y/limitDistance;
-            int scrollOffset=dropDownViewGroup.getHeight()-dropDownViewGroup.getScrollY()-((int)(dropDownViewGroup.getHeight()*ratio));
-            if(scrollOffset+dropDownViewGroup.getScrollY()>0)
-            {
-                dropDownViewGroup.scroll(scrollOffset);
-            }
+            itemViewHeight=dropDownViewGroup.getHeight();
+        }
+        if(itemViewHeight<1)
+        {
+            return;
+        }
+
+        float ratio =1.0f* y/limitDistance;
+        RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) dropDownViewGroup.getLayoutParams();
+        int offsetY=-dropDownViewGroup.getHeight()+((int)(dropDownViewGroup.getHeight()*ratio));
+        if(offsetY<=0)
+        {
+            rl.topMargin=offsetY;
+            dropDownViewGroup.setLayoutParams(rl);
         }
     }
+
 }

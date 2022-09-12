@@ -30,26 +30,24 @@ public class DropDownViewGroup extends LinearLayout {
     public void init()
     {
         scroller=new Scroller(getContext());
-        scroller.forceFinished(false);
+        scroller.forceFinished(true);
         scroller.extendDuration(500);
     }
 
-    @Override
-    public void computeScroll() {
-//        super.computeScroll();
-        if(scroller.computeScrollOffset() )
-        {
-
-            Log.e("computeScroll",scroller.getFinalY()+" "+scroller.getCurrY());
-            scrollTo(scroller.getCurrX(),scroller.getCurrY());
-            invalidate();
-            scY=scroller.getCurrY();
-        }
-    }
-
-    public void scroll(int y)
-    {
-        scroller.startScroll(getScrollX(),getScrollY(),getScrollX(),y);
-        invalidate();
-    }
+//    @Override
+//    public void computeScroll() {
+////        super.computeScroll();
+//        if(scroller.computeScrollOffset() )
+//        {
+//            scrollTo(scroller.getCurrX(),scroller.getCurrY());
+//            invalidate();
+//            scY=scroller.getCurrY();
+//        }
+//    }
+//
+//    public void scroll(int y)
+//    {
+//        scroller.startScroll(getScrollX(),getScrollY(),getScrollX(),y);
+//        invalidate();
+//    }
 }
