@@ -266,7 +266,9 @@
     <com.live.fox.view.DropDownViewGroup
         android:id="@+id/dragDownViewGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        >
 
         <TextView
             android:layout_width="match_parent"

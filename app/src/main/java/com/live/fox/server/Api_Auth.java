@@ -59,6 +59,21 @@ public class Api_Auth extends BaseApi {
     }
 
     /**
+     * POST auth/area/list 国家对应手机前缀号码
+     */
+    public void countryCodeList(JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.CountryCodeURl;
+        callback.setUrlTag("auth/area/list");
+        HashMap<String, Object> params = getCommonParams();
+
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())))
+                .execute(callback);
+    }
+
+    /**
      * POST /center-client/auth/tourists/login 游客登录
      */
     public void guestLogin(JsonCallback<String> callback) {

@@ -26,6 +26,8 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.live.fox.AppConfig;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
@@ -34,6 +36,7 @@ import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.entity.CountryCode;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
@@ -57,7 +60,9 @@ import com.tencent.android.tpush.XGPushManager;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -80,6 +85,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     private String showTip;
     private boolean flag = true;
     DropDownWindowsOfCountry dropDownWindowsOfCountry;
+    List<CountryCode> countryCodes;
 
 
     @Override
@@ -99,6 +105,8 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
             showTip = getIntent().getStringExtra("showTip");
             if (StringUtils.isEmpty(showTip)) showTip = "";
         }
+        countryCodes=SPManager.getCountryCode();
+        getCountryCode();
     }
 
     public void initView() {
@@ -235,12 +243,12 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void doLoginGuest() {
-        showLoadingView();
+        showLoadingDialogWithNoBgBlack();
         Api_Auth.ins().guestLogin( new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 try {
-                    hideLoadingView();
+                    hideLoadingDialog();
                     if (code == 0) {
                         JSONObject jsonObject = new JSONObject(data);
                         String token = jsonObject.optString("token", "");
@@ -253,6 +261,32 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
 
                         ToastUtils.showShort(msg);
                     }
+                } catch (Exception e) {
+                    ToastUtils.showShort(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getCountryCode() {
+
+        if(countryCodes==null || countryCodes.size()==0)
+        {
+            showLoadingDialogWithNoBgBlack();
+        }
+
+        Api_Auth.ins().countryCodeList(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                try {
+                    hideLoadingDialog();
+                    Type type = new TypeToken<List<CountryCode>>() {}.getType();
+                    countryCodes=new Gson().fromJson(data,type);
+                    if(countryCodes!=null && countryCodes.size()>0)
+                    {
+                        SPManager.setCountryCode(data);
+                    }
+
                 } catch (Exception e) {
                     ToastUtils.showShort(e.getMessage());
                 }
@@ -390,6 +424,12 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                 doLoginByPwdApi(phone, password);
                 break;
             case R.id.llCountrySelector:
+                if(countryCodes==null || countryCodes.size()==0)
+                {
+                    ToastUtils.showShort(getResources().getString(R.string.downloadingError));
+                    return;
+                }
+
                 if(dropDownWindowsOfCountry==null)
                 {
                     dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this);
@@ -402,7 +442,17 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                             rotateView(ivArrow,false);
                         }
                     });
+                    dropDownWindowsOfCountry.setOnClickItemListener(new DropDownWindowsOfCountry.OnClickItemListener() {
+                        @Override
+                        public void onClickItemListener(CountryCode countryCode) {
+                            rotateView(ivArrow,!dropDownWindowsOfCountry.isShowing());
+                            dropDownWindowsOfCountry.dismiss();
+                            tvCountrySelector.setText(countryCode.getAreaCode());
+                            tvCountrySelector.setTag(countryCode);
+                        }
+                    });
                 }
+                dropDownWindowsOfCountry.setData(countryCodes);
 
                 rotateView(ivArrow,!dropDownWindowsOfCountry.isShowing());
                 if(!dropDownWindowsOfCountry.isShowing())
@@ -414,7 +464,6 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                 {
                     dropDownWindowsOfCountry.dismiss();
                 }
-
 
                 break ;
             case R.id.guestLogin:
