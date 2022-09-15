@@ -977,4 +977,8 @@
     <string name="edit">编辑</string>
     <string name="pull_down_refresh">下拉开始刷新</string>
     <string name="max_input_money">不能超出最大金 %1$s</string>
+
+
+    <!--新加的字符-->
+    <string name="downloadingError">数据正在下载中,请稍后再试</string>
 </resources>

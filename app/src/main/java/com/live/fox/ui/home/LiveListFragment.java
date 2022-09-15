@@ -164,9 +164,11 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         dragDownViewGroup.post(new Runnable() {
             @Override
             public void run() {
-                RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) dragDownViewGroup.getLayoutParams();
-                rl.topMargin=-dragDownViewGroup.getHeight();
-                dragDownViewGroup.setLayoutParams(rl);
+//                RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) dragDownViewGroup.getLayoutParams();
+//                rl.topMargin=-dragDownViewGroup.getHeight();
+//                dragDownViewGroup.setLayoutParams(rl);
+                dragDownViewGroup.scrollTo(0,dragDownViewGroup.getHeight());
+                dragDownViewGroup.setVisibility(View.VISIBLE);
             }
         });
         svMain.setDropDown(dragDownViewGroup,ScreenUtils.dip2px(getContext(),100));

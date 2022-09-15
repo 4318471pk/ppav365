@@ -117,6 +117,7 @@ public class Constant {
         public static final String Net_Eas_VERIFY = CenterClient + "/sys/user/captcha";        // 获取网易云验证方式
 
         //授权相关接口
+        public static final String CountryCodeURl=CenterClient +"/auth/area/list";//国家对应手机前缀号码
         public static final String Auth_Guest_Login=CenterClient +"/auth/tourists/login";//游客登录
         public static final String AUTH_PHONELOGIN_URL = CenterClient + "/sys/auth/phone/login";  // 手机号密码登录
         public static final String AUTH_PHONEREQ_URL = CenterClient + "/sys/auth/phone/reg/codeValidate";      // 验证码校验接口

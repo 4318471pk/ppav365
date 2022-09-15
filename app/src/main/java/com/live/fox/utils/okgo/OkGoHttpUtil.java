@@ -3,6 +3,7 @@ package com.live.fox.utils.okgo;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.live.fox.common.JsonCallback;
 import com.live.fox.utils.LogUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -103,6 +104,7 @@ public class OkGoHttpUtil {
 
         return getRequest;
     }
+
 
     /**
      * Post请求

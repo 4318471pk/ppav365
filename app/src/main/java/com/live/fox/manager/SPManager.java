@@ -2,6 +2,7 @@ package com.live.fox.manager;
 
 
 import com.google.gson.Gson;
+import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.HomeColumn;
 import com.live.fox.entity.LiveColumn;
 import com.live.fox.entity.User;
@@ -17,36 +18,42 @@ import java.util.List;
  */
 public class SPManager {
 
+    private static String base="base";
+    private static String userinfo="userinfo";
+    private static String domain="domain";
+    private static String share="share";
+    private static String CountryCode="CountryCode";
+
     /**
      * 更新接口的域名
      */
     public static void saveServerDomain(String domain) {
         if (!StringUtils.isEmpty(domain))
-            SPUtils.getInstance("base").put("httpserver", domain);
+            SPUtils.getInstance(base).put("httpserver", domain);
     }
 
     /**
      * 获得普通接口的域名
      */
     public static String getServerDomain() {
-        return SPUtils.getInstance("base").getString("httpserver", "");
+        return SPUtils.getInstance(base).getString("httpserver", "");
     }
 
 
     public static void saveToken(String token) {
-        SPUtils.getInstance("userinfo").put("token", token);
+        SPUtils.getInstance(userinfo).put("token", token);
     }
 
     public static String getToken() {
-        return SPUtils.getInstance("userinfo").getString("token", "");
+        return SPUtils.getInstance(userinfo).getString("token", "");
     }
 
     public static void saveShareUrl(String shareUrl) {
-        SPUtils.getInstance("share").put("shareUrl", shareUrl);
+        SPUtils.getInstance(share).put("shareUrl", shareUrl);
     }
 
     public static String getShareUrl() {
-        return SPUtils.getInstance("share").getString("shareUrl", "");
+        return SPUtils.getInstance(share).getString("shareUrl", "");
     }
 
     public static void saveXCK(boolean isFirstopen) {
@@ -57,20 +64,20 @@ public class SPManager {
         return SPUtils.getInstance("isFirstXCK").getBoolean("isFirstopen", true);
     }
 
-    public static void saveDomain(String domain) {
-        SPUtils.getInstance("domain").put("domain", domain);
+    public static void saveDomain(String domainUrl) {
+        SPUtils.getInstance(domain).put(domain, domainUrl);
     }
 
     public static String getDomain() {
-        return SPUtils.getInstance("domain").getString("domain", "");
+        return SPUtils.getInstance(domain).getString(domain, "");
     }
 
-    public static void saveDomainTwo(String domain) {
-        SPUtils.getInstance("domain").put("domainTwo", domain);
+    public static void saveDomainTwo(String domainURL) {
+        SPUtils.getInstance(domain).put("domainTwo", domainURL);
     }
 
     public static String getDomainTwo() {
-        return SPUtils.getInstance("domain").getString("domainTwo", "");
+        return SPUtils.getInstance(domain).getString("domainTwo", "");
     }
 
     public static void saveIsGameStart(int isGameStart) {
@@ -150,25 +157,25 @@ public class SPManager {
 
 
     public static void saveUserInfo(User user) {
-        SPUtils.getInstance("userinfo").put("user", new Gson().toJson(user));
+        SPUtils.getInstance(userinfo).put("user", new Gson().toJson(user));
         if (!StringUtils.isEmpty(user.getImToken())) {
             saveImToken(user.getImToken());
         }
     }
 
     public static User getUserInfo() {
-        String userStr = SPUtils.getInstance("userinfo").getString("user", "");
+        String userStr = SPUtils.getInstance(userinfo).getString("user", "");
         if (StringUtils.isEmpty(userStr)) return null;
 
         return new Gson().fromJson(userStr, User.class);
     }
 
     public static void clearUserInfo() {
-        SPUtils.getInstance("userinfo").clear();
+        SPUtils.getInstance(userinfo).clear();
     }
 
     public static boolean userIsLogin() {
-        return SPUtils.getInstance("userinfo").contains("user");
+        return SPUtils.getInstance(userinfo).contains("user");
     }
 
 
@@ -219,5 +226,21 @@ public class SPManager {
         return GsonUtil.getObjects(columnStr, LiveColumn[].class);
     }
 
+    /**
+     * 获取国家码
+     */
+    public static List<CountryCode> getCountryCode() {
+        String columnStr = SPUtils.getInstance(CountryCode).getString(CountryCode, "");
+        if (StringUtils.isEmpty(columnStr)) {
+            return new ArrayList<>();
+        }
+
+        return GsonUtil.getObjects(columnStr, CountryCode[].class);
+    }
+
+    public static void setCountryCode(String data)
+    {
+        SPUtils.getInstance(CountryCode).put(CountryCode, data);
+    }
 
 }
