@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -169,27 +171,74 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         tabLayout=rootView.findViewById(R.id.hostTypeTabs);
         collapseView=rootView.findViewById(R.id.collapseView);
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                RelativeLayout relativeLayout=(RelativeLayout) tab.getCustomView();
+                TextView item=(TextView)relativeLayout.getChildAt(0);
+                item.setBackground(getResources().getDrawable(R.drawable.round_gradient_a800ff_d689ff));
+                item.setTextColor(0xffffffff);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                RelativeLayout relativeLayout=(RelativeLayout) tab.getCustomView();
+                TextView item=(TextView)relativeLayout.getChildAt(0);
+                item.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
+                item.setTextColor(0xff404040);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
         //假数据-------------------
         LinearLayout linearLayout=new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(new HorizontalScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        int dip60=ScreenUtils.dip2px(getContext(),60);
+        int dip1=ScreenUtils.dip2px(getContext(),1);
         for (int i = 0; i <20; i++) {
             TextView textView=new TextView(getContext());
             textView.setText(getResources().getText(R.string.home_bottom_tab_game));
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundColor(getResources().getColor(R.color.red));
-            textView.setTextColor(0xffffffff);
-            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(dip60,dip60);
-            ll.leftMargin=dip60/10;
+            textView.setTextColor(0xff404040);
+            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(dip1*60,dip1*60);
+            ll.leftMargin=dip1*5;
             textView.setLayoutParams(ll);
             linearLayout.addView(textView);
-
-            tabLayout.addTab(tabLayout.newTab().setText("看看撒的"));
         }
+
         gamesHS.addView(linearLayout);
+
+        int screenWidth=ScreenUtils.getScreenWidth(getContext());
+        int itemWidth=(screenWidth-ScreenUtils.dip2px(getContext(),50))/5;
+        for (int i = 0; i < 10; i++) {
+            RelativeLayout tabItemRL=new RelativeLayout(getContext());
+            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            TextView tvTab=new TextView(getContext());
+            tvTab.setText(i>0?"姐姐":"休闲鞋好");
+            tvTab.setGravity(Gravity.CENTER);
+            tvTab.setTextColor(0xff404040);
+            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
+            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
+            RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            rl.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
+//            rl.topMargin=dip1*5;
+            rl.bottomMargin=dip1*10;
+            tvTab.setLayoutParams(rl);
+            tabItemRL.addView(tvTab);
+
+            tabLayout.addTab(tabLayout.newTab().setCustomView(tabItemRL));
+        }
+
+
+        //假数据
 
     }
 
