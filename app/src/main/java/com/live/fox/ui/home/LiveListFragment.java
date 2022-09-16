@@ -61,7 +61,6 @@ import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.AdManger;
 import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.ClickUtil;
-import com.live.fox.utils.DropDownViewAnimationController;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;

@@ -14,8 +14,8 @@ public class LocalManager {
     static {
         localeList = new ArrayList<>();
         localeList.add(Locale.CHINA);
-        localeList.add(new Locale("vi", "VN"));
-        localeList.add(new Locale("th", "TH"));
+        localeList.add(new Locale("en", "US"));
+        localeList.add(new Locale("tw", "TW"));
     }
 
     /**

@@ -10,6 +10,10 @@ import android.util.DisplayMetrics;
 
 import androidx.annotation.RequiresApi;
 
+import com.live.fox.entity.CountryCode;
+import com.live.fox.manager.SPManager;
+
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -230,5 +234,21 @@ public class MultiLanguageUtils {
                 return "en-us";
         }
         return "EN";
+    }
+
+    public static String getAreaCode() {
+        List<CountryCode> countryCodes= SPManager.getCountryCode();
+
+        if(countryCodes!=null && countryCodes.size()>0)
+        {
+            for (CountryCode countryCode:countryCodes) {
+                if(countryCode.getLangauge().equals(getRequestHeader()))
+                {
+                    return countryCode.getAreaCode();
+                }
+            }
+        }
+
+        return "";
     }
 }
