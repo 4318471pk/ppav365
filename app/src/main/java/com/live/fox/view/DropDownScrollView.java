@@ -167,7 +167,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mTopViewHeight = mTopView.getMeasuredHeight();
-        barHeight= ScreenUtils.dip2px(getContext(),40);
+        barHeight=hostTypeTabs.getMeasuredHeight();
 //        barHeight=hostTypeTabs.getMeasuredHeight();
     }
 
