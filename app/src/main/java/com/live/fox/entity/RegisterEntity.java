@@ -10,6 +10,15 @@ public class RegisterEntity {
     private String version;
     private String verify;
     private String verification;
+    private String area;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     public String getName() {
         return name;

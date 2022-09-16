@@ -37,6 +37,7 @@ import com.live.fox.base.BaseActivity;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.CountryCode;
+import com.live.fox.entity.RegisterEntity;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
@@ -45,6 +46,7 @@ import com.live.fox.ui.language.MultiLanguageActivity;
 import com.live.fox.ui.mine.activity.kefu.ServicesActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.AppUserManger;
+import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.BlankController;
 import com.live.fox.utils.ClickUtil;
@@ -76,6 +78,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     private EditText etPassword;
     private ImageView ivVoice;
     private TextView guestLogin;
+    private TextView sendVerifyCode;
     TextView tvCountrySelector;
     LinearLayout llCountrySelector;
     ImageView ivArrow;
@@ -123,6 +126,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         etPassword = findViewById(R.id.et_password);
         ivVoice = findViewById(R.id.iv_voice);
         guestLogin=findViewById(R.id.guestLogin);
+        sendVerifyCode=findViewById(R.id.sendVerifyCode);
         ivArrow=findViewById(R.id.ivArrow);
         tvCountrySelector=findViewById(R.id.tvCountrySelector);
         findViewById(R.id.layout_back).setOnClickListener(this);
@@ -133,6 +137,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.iv_voice).setOnClickListener(this);
         llCountrySelector.setOnClickListener(this);
         guestLogin.setOnClickListener(this);
+        sendVerifyCode.setOnClickListener(this);
         ImageView language = findViewById(R.id.home_language);
         if (!AppConfig.isMultiLanguage()) {
             language.setVisibility(View.GONE);
@@ -345,6 +350,20 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    public void doSendPhoneCodeApi() {
+        RegisterEntity registerEntity=new RegisterEntity();
+        registerEntity.setName(etUsername.getText().toString());
+        registerEntity.setType("1");
+        registerEntity.setVersion(AppUtils.getAppVersionName());
+        registerEntity.setArea(tvCountrySelector.getText().toString());
+        Api_Auth.ins().sendPhoneCode(registerEntity, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("doSendPhoneCodeApi",msg);
+            }
+        });
+    }
+
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, LoginModeSelActivity.class));
     }
@@ -466,6 +485,9 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                 }
 
                 break ;
+            case R.id.sendVerifyCode:
+                doSendPhoneCodeApi();
+                break;
             case R.id.guestLogin:
                 doLoginGuest();
                 break;

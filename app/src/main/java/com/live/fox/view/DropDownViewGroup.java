@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
-public class DropDownViewGroup extends LinearLayout {
+public class DropDownViewGroup extends RelativeLayout {
 
     Scroller scroller;
     int scY=0;
@@ -34,20 +34,4 @@ public class DropDownViewGroup extends LinearLayout {
         scroller.extendDuration(500);
     }
 
-//    @Override
-//    public void computeScroll() {
-////        super.computeScroll();
-//        if(scroller.computeScrollOffset() )
-//        {
-//            scrollTo(scroller.getCurrX(),scroller.getCurrY());
-//            invalidate();
-//            scY=scroller.getCurrY();
-//        }
-//    }
-//
-//    public void scroll(int y)
-//    {
-//        scroller.startScroll(getScrollX(),getScrollY(),getScrollX(),y);
-//        invalidate();
-//    }
 }

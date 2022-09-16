@@ -225,9 +225,9 @@ public class MultiLanguageUtils {
             case "zh":
                 return "zh-cn";
             case "tw":
-                return "TW";
+                return "zh-tw";
             case "en":
-                return "EN";
+                return "en-us";
         }
         return "EN";
     }
