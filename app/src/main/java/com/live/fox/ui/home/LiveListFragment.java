@@ -4,9 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.GridLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,7 +30,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
+import com.flyco.roundview.RoundTextView;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.live.fox.AppConfig;
 import com.live.fox.MainActivity;
@@ -54,6 +61,7 @@ import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.AdManger;
 import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.ClickUtil;
+import com.live.fox.utils.DropDownViewAnimationController;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
@@ -100,9 +108,10 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private RecyclerView rvLiveRecomment;
     private TextView tvTitleRecomment;
     private TextView tvDesRecomment;
-    DropDownScrollView svMain;
-    RelativeLayout rlMain;
-    DropDownViewGroup dragDownViewGroup;
+    private HorizontalScrollView gamesHS;
+    TabLayout tabLayout;
+    LinearLayout collapseView;
+
 
     private LiveListAdapter livelistAdapter;
     BaseQuickAdapter<GameItem, BaseViewHolder> gameAdapter;
@@ -112,7 +121,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private int anchorPosition = -1;
     private final List<Advert> bannerList = new ArrayList<>();
     private boolean hasBanner;
-    private RecyclerViewSkeletonScreen skeletonScreen;
+//    private RecyclerViewSkeletonScreen skeletonScreen;
     private LinearLayout gameListBox;
 
     public static LiveListFragment newInstance() {
@@ -143,9 +152,6 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     }
 
     private void initView() {
-        svMain=rootView.findViewById(R.id.svMain);
-        rlMain=rootView.findViewById(R.id.rlMain);
-        dragDownViewGroup=rootView.findViewById(R.id.dragDownViewGroup);
         convenientBanner = rootView.findViewById(R.id.home_convenient_banner);
         gonggaoLayout = rootView.findViewById(R.id.layout_gonggao);
         gonggaoTv = rootView.findViewById(R.id.tv_gonggao);
@@ -160,18 +166,31 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         tvTitleRecomment = rootView.findViewById(R.id.tv_title_recomment);
         tvDesRecomment = rootView.findViewById(R.id.tv_des_recomment);
         gameListBox = rootView.findViewById(R.id.layout_game_list);
+        gamesHS=rootView.findViewById(R.id.gamesHS);
+        tabLayout=rootView.findViewById(R.id.hostTypeTabs);
+        collapseView=rootView.findViewById(R.id.collapseView);
 
-        dragDownViewGroup.post(new Runnable() {
-            @Override
-            public void run() {
-//                RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) dragDownViewGroup.getLayoutParams();
-//                rl.topMargin=-dragDownViewGroup.getHeight();
-//                dragDownViewGroup.setLayoutParams(rl);
-                dragDownViewGroup.scrollTo(0,dragDownViewGroup.getHeight());
-                dragDownViewGroup.setVisibility(View.VISIBLE);
-            }
-        });
-        svMain.setDropDown(dragDownViewGroup,ScreenUtils.dip2px(getContext(),100));
+
+        //假数据-------------------
+        LinearLayout linearLayout=new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setLayoutParams(new HorizontalScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        int dip60=ScreenUtils.dip2px(getContext(),60);
+        for (int i = 0; i <20; i++) {
+            TextView textView=new TextView(getContext());
+            textView.setText(getResources().getText(R.string.home_bottom_tab_game));
+            textView.setGravity(Gravity.CENTER);
+            textView.setBackgroundColor(getResources().getColor(R.color.red));
+            textView.setTextColor(0xffffffff);
+            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(dip60,dip60);
+            ll.leftMargin=dip60/10;
+            textView.setLayoutParams(ll);
+            linearLayout.addView(textView);
+
+            tabLayout.addTab(tabLayout.newTab().setText("看看撒的"));
+        }
+        gamesHS.addView(linearLayout);
 
     }
 
@@ -511,10 +530,10 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
             }
         });
 
-        skeletonScreen = Skeleton.bind(livelistRv)
-                .adapter(livelistAdapter)
-                .load(R.layout.item_loading)
-                .show();
+//        skeletonScreen = Skeleton.bind(livelistRv)
+//                .adapter(livelistAdapter)
+//                .load(R.layout.item_loading)
+//                .show();
     }
 
     //跳往直播间
@@ -623,9 +642,6 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         Api_Live.ins().getLiveList(type, new JsonCallback<List<Anchor>>() {
             @Override
             public void onSuccess(int code, String msg, List<Anchor> data) {
-                if (skeletonScreen != null) {
-                    skeletonScreen.hide();
-                }
                 if (data == null) {
                     showEmptyView(getString(R.string.noData));
                     return;
@@ -647,7 +663,11 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                         if (AppUserManger.isLogin() && anchor.getAnchorId() == AppUserManger.getUserInfo().getUid()) {
                             anchorPosition = i;
                         }
-                        anchorInfoBeanList.add(new AnchorInfoBean(anchor));
+                        //测试测试测试测试测试测试测试测试测试测试测试测试
+                        for (int j = 0; j <30 ; j++) {
+                            anchorInfoBeanList.add(new AnchorInfoBean(anchor));
+                        }
+
                     }
                     livelistAdapter.setData(type, anchorInfoBeanList);
 
