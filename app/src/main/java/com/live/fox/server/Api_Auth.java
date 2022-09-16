@@ -1,15 +1,19 @@
 package com.live.fox.server;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.NetEaseVerifyEntity;
 import com.live.fox.entity.RegisterEntity;
+import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.DeviceIdUtils;
 import com.live.fox.utils.EncryptUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
@@ -34,7 +38,7 @@ public class Api_Auth extends BaseApi {
     /**
      * POST /auth/phone/login 手机号密码登录
      */
-    public void phoneLogin(String mobile, String password, JsonCallback<String> callback) {
+    public void phoneLogin(String mobile, String password, String areaCode,JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.AUTH_PHONELOGIN_URL;
         callback.setUrlTag("/phone/login");
         HashMap<String, Object> params = getCommonParams();
@@ -49,6 +53,7 @@ public class Api_Auth extends BaseApi {
         params.put("version", DeviceUtils.getSDKVersionName());
         params.put("x", "");
         params.put("y", "");
+        params.put("area", areaCode);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -142,6 +147,7 @@ public class Api_Auth extends BaseApi {
         params.put("captchaValidate", register.getVerify());
         params.put("currentUserAppVersion", register.getVersion());
         params.put("verificationNo", register.getVerification());
+        params.put("area",register.getArea());
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -201,6 +207,16 @@ public class Api_Auth extends BaseApi {
         params.put("mobile", mobile);
         params.put("password", password);
         params.put("vcode", code);
+        String areaCode=MultiLanguageUtils.getAreaCode();
+        if(TextUtils.isEmpty(areaCode))
+        {
+            ToastUtils.showShort("areaCode Should not be null");
+            return;
+        }
+        else
+        {
+            params.put("area", areaCode);
+        }
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -228,6 +244,16 @@ public class Api_Auth extends BaseApi {
         params.put("softVersion", AppUtils.getAppVersionName());
         params.put("model", DeviceUtils.getModel());
         params.put("version", DeviceUtils.getSDKVersionName());
+        String areaCode=MultiLanguageUtils.getAreaCode();
+        if(TextUtils.isEmpty(areaCode))
+        {
+            ToastUtils.showShort("areaCode Should not be null");
+            return;
+        }
+        else
+        {
+            params.put("area", areaCode);
+        }
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",

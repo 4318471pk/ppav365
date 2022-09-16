@@ -299,9 +299,9 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    public void doLoginByPwdApi(String phone, String password) {
+    public void doLoginByPwdApi(String phone, String password,String areaCode) {
         showLoadingView();
-        Api_Auth.ins().phoneLogin(phone, password, new JsonCallback<String>() {
+        Api_Auth.ins().phoneLogin(phone, password,areaCode, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 try {
@@ -353,7 +353,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     public void doSendPhoneCodeApi() {
         RegisterEntity registerEntity=new RegisterEntity();
         registerEntity.setName(etUsername.getText().toString());
-        registerEntity.setType("1");
+        registerEntity.setType("4");
         registerEntity.setVersion(AppUtils.getAppVersionName());
         registerEntity.setArea(tvCountrySelector.getText().toString());
         Api_Auth.ins().sendPhoneCode(registerEntity, new JsonCallback<String>() {
@@ -440,7 +440,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
                 BetCartDataManager.betGameIndex = 0;
-                doLoginByPwdApi(phone, password);
+                doLoginByPwdApi(phone, password,tvCountrySelector.getText().toString());
                 break;
             case R.id.llCountrySelector:
                 if(countryCodes==null || countryCodes.size()==0)

@@ -1,6 +1,7 @@
 package com.live.fox.ui.login;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -91,6 +92,7 @@ public class ResetPwdFragment extends BaseFragment {
     /**
      * 检查权限
      */
+    @SuppressLint("CheckResult")
     public void doCheckPermissions() {
         RxPermissions rxPermissions = new RxPermissions(requireActivity());
         rxPermissions.request(

@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.live.fox.ui.live.PlayLiveActivity;
-import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.ui.login.
+        LoginModeSelActivity;
 import com.live.fox.utils.ActivityUtils;
 
 import java.util.List;

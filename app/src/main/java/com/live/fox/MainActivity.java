@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
@@ -27,6 +29,7 @@ import com.live.fox.dialog.NotificationDialog;
 import com.live.fox.dialog.UpdateFragment;
 import com.live.fox.dialog.WebViewDialog;
 import com.live.fox.entity.AppUpdate;
+import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.User;
 import com.live.fox.entity.WebViewDialogEntity;
 import com.live.fox.language.MultiLanguageUtils;
@@ -59,6 +62,9 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.v2.V2TIMCallback;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -118,6 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         if (AppUserManger.isLogin()) {
+            getCountryCode();
             doRefreshToken();
             connectIM();
             if (!NotificationManager.getInstance().isBindingUser()) {
@@ -151,6 +158,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } catch (Exception e) {
                     ToastUtils.showShort(getString(R.string.jxyc));
                     SPManager.clearUserInfo();
+                }
+            }
+        });
+    }
+
+    public void getCountryCode() {
+        Api_Auth.ins().countryCodeList(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                try {
+                    Type type = new TypeToken<List<CountryCode>>() {}.getType();
+                    List countryCodes=new Gson().fromJson(data,type);
+                    if(countryCodes!=null && countryCodes.size()>0)
+                    {
+                        SPManager.setCountryCode(data);
+                    }
+
+                } catch (Exception e) {
+                    ToastUtils.showShort(e.getMessage());
                 }
             }
         });

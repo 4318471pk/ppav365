@@ -152,7 +152,7 @@
                         android:maxLength="11"
                         android:paddingTop="5dip"
                         android:paddingBottom="5dip"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="#77fefeFF"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
                     android:layout_marginTop="10dp"
-                    android:background="#ffffff" />
+                    android:background="#88ffffff" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,11 +190,11 @@
                             android:layout_gravity="center_vertical"
                             android:background="@null"
                             android:layout_marginLeft="10dip"
-                            android:hint="@string/login_password_hint_text"
+                            android:hint="@string/plz_input_authCode"
                             android:inputType="textPassword"
                             android:maxLength="12"
                             android:textColor="@color/white"
-                            android:textColorHint="@color/white"
+                            android:textColorHint="#77fefeFF"
                             android:textSize="14sp"
                             android:paddingTop="5dip"
                             android:paddingBottom="5dip"
@@ -226,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
                     android:layout_marginTop="10dp"
-                    android:background="#ffffff" />
+                    android:background="#88ffffff" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

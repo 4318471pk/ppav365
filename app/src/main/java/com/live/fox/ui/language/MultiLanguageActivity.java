@@ -62,11 +62,11 @@ public class MultiLanguageActivity extends BaseHeadActivity {
 
         LanguageEntity vi = new LanguageEntity();
         vi.setType(ContextCompat.getDrawable(this, R.drawable.icon_flag_vi));
-        vi.setLanguage("Tiếng Việt");
+        vi.setLanguage("ENGLISH");
 
         LanguageEntity th = new LanguageEntity();
         th.setType(ContextCompat.getDrawable(this, R.drawable.icon_flag_thi));
-        th.setLanguage("ไทย");
+        th.setLanguage("台湾繁体");
 
         List<LanguageEntity> languageEntities = new ArrayList<>();
         languageEntities.add(ch);

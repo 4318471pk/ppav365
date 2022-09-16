@@ -971,6 +971,7 @@
     <string name="description_title">标题</string>
     <string name="exception_throw">不能为空</string>
     <string name="dialog_confirmation_hint">请输入验证码</string>
+    <string name="plz_input_authCode">请输入验证码</string>
     <string name="number_one_two" translatable="false">1 2 3 4</string>
     <string name="dialog_info_verification">需要填验证码</string>
     <string name="dialog_info_verification_error">验证码错误！</string>
