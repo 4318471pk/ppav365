@@ -30,7 +30,7 @@ android {
         renderscriptSupportModeEnabled true
         vectorDrawables.useSupportLibrary=true
 
-        ndkVersion "19.2.5345600"
+        ndkVersion "21.0.6113669"
         buildConfigField "Integer", "OS", project.anchorClient
 
         buildConfigField "String", "ToyToken", project.ToyToken
