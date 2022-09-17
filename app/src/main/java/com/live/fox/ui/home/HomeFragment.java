@@ -82,11 +82,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int i) {
-                if (i == 1 && AppUserManger.isLogin(requireActivity())) {
-                    promoteListFragment.doGetShopApi();
-                } else {
-                    tabLayout.onPageSelected(0);
-                }
+//                if (i == 1 && AppUserManger.isLogin(requireActivity())) {
+//                    promoteListFragment.doGetShopApi();
+//                } else {
+//                    tabLayout.onPageSelected(0);
+//                }
             }
         });
     }
@@ -108,9 +108,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 for (int i = 0; i < data.size(); i++) {
                     HomeColumn column = data.get(i);
                     if (i == 0) {
-                        adapter.addFragment(LiveListFragment.newInstance(), column.getName().trim());
+                        adapter.addFragment(FollowAnchorFragment.newInstance(),column.getName().trim());
                     } else if (AppUserManger.isLogin() && i == 1) {
-                        adapter.addFragment(promoteListFragment, column.getName().trim());
+//                        adapter.addFragment(promoteListFragment, column.getName().trim());
+                        adapter.addFragment(LiveListFragment.newInstance(), column.getName().trim());
                     } else {
                         adapter.addFragment(WebFragment.newInstance(column.getJumpUrl(),
                                 false), column.getName().trim());
@@ -119,6 +120,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 viewPager.setAdapter(adapter);
                 tabLayout.setViewPager(viewPager);
+                tabLayout.setCurrentTab(1);
             }
         });
     }

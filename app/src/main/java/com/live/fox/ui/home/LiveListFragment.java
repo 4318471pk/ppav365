@@ -67,6 +67,7 @@ import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.IntentUtils;
+import com.live.fox.utils.LiveListHeader;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.LruCacheUtil;
 import com.live.fox.utils.SPUtils;
@@ -101,14 +102,8 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private MarqueeView gonggaoTv;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView livelistRv;
-    private LinearLayout layoutGamelist;
-    private TextView tvGameTitle;
-    private TextView tvGamemore;
     private RecyclerView rvGame;
-    private LinearLayout ll_liverecomment;
     private RecyclerView rvLiveRecomment;
-    private TextView tvTitleRecomment;
-    private TextView tvDesRecomment;
     private HorizontalScrollView gamesHS;
     TabLayout tabLayout;
     LinearLayout collapseView;
@@ -123,7 +118,6 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private final List<Advert> bannerList = new ArrayList<>();
     private boolean hasBanner;
 //    private RecyclerViewSkeletonScreen skeletonScreen;
-    private LinearLayout gameListBox;
 
     public static LiveListFragment newInstance() {
         return new LiveListFragment();
@@ -158,15 +152,8 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         gonggaoTv = rootView.findViewById(R.id.tv_gonggao);
         refreshLayout = rootView.findViewById(R.id.home_refreshLayout);
         livelistRv = rootView.findViewById(R.id.home_live_recycler);
-        layoutGamelist = rootView.findViewById(R.id.layout_gamelist);
-        tvGameTitle = rootView.findViewById(R.id.tv_gametitle);
-        tvGamemore = rootView.findViewById(R.id.tv_gamemore);
         rvGame = rootView.findViewById(R.id.rv_game);
-        ll_liverecomment = rootView.findViewById(R.id.ll_liverecomment);
         rvLiveRecomment = rootView.findViewById(R.id.rv_liverecomment);
-        tvTitleRecomment = rootView.findViewById(R.id.tv_title_recomment);
-        tvDesRecomment = rootView.findViewById(R.id.tv_des_recomment);
-        gameListBox = rootView.findViewById(R.id.layout_game_list);
         gamesHS=rootView.findViewById(R.id.gamesHS);
         tabLayout=rootView.findViewById(R.id.hostTypeTabs);
         collapseView=rootView.findViewById(R.id.collapseView);
@@ -345,12 +332,6 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
      * 游戏列表
      */
     public void initGameView() {
-        tvGameTitle.getPaint().setFakeBoldText(true);
-        tvGamemore.setOnClickListener(view -> {
-            if (requireActivity() instanceof MainActivity) {
-                ((MainActivity) requireActivity()).toGameHall();
-            }
-        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -389,8 +370,6 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
      * 直播间推荐列表
      */
     public void initLiveRecommentView() {
-        tvTitleRecomment.setText(getString(R.string.rocketRecommendation));
-        tvTitleRecomment.getPaint().setFakeBoldText(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -566,6 +545,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         livelistRv.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 4)));
         livelistRv.setAdapter(livelistAdapter = new LiveListAdapter(new ArrayList<>()));
 
+        livelistAdapter.addHeaderView(new LiveListHeader(getContext()));
         livelistAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (DoubleUtils.isFastDoubleClick()) return;
             if (livelistAdapter.getItem(position) == null) return;
@@ -640,18 +620,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
             @Override
             public void onSuccess(int code, String msg, List<Anchor> data) {
                 if (code == 0) {
-                    if (data == null || data.size() == 0) {
-                        if (ll_liverecomment != null) {
-                            ll_liverecomment.setVisibility(View.GONE);
-                        }
-                    } else {
-                        if (ll_liverecomment != null) {
-                            ll_liverecomment.setVisibility(View.VISIBLE);
-                        }
-                        String placeholders = getString(R.string.congratulation) +
-                                data.get(0).getNickname() + getString(R.string.rocketFirst);
-                        tvDesRecomment.setText(placeholders);
-                        tvDesRecomment.setSelected(true);
+                    if (data != null && data.size() != 0) {
                         liveRecommentAdapter.setNewData(data);
                     }
                 }
@@ -668,13 +637,8 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
             public void onSuccess(int code, String msg, GameColumn data) {
                 if (code == 0) {
                     if (data == null || data.getList() == null || data.getList().size() == 0) {
-                        gameListBox.setVisibility(View.GONE);
                     } else {
-                        tvGameTitle.setText(data.getTitle());
                         gameAdapter.setNewData(data.getList());
-                        if (layoutGamelist != null) {
-                            layoutGamelist.setVisibility(View.VISIBLE);
-                        }
                     }
                 }
             }
@@ -714,6 +678,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                         //测试测试测试测试测试测试测试测试测试测试测试测试
                         for (int j = 0; j <30 ; j++) {
                             anchorInfoBeanList.add(new AnchorInfoBean(anchor));
+                            anchorInfoBeanList.add(new AnchorInfoBean(true));
                         }
 
                     }

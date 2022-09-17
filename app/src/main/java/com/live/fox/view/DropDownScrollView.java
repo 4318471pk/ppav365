@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +33,8 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     private int mTopViewHeight;
     private int barHeight;
     private View list;
+    AlphaAnimation fadeIn=new AlphaAnimation(0f,1f);
+    AlphaAnimation fadeOut=new AlphaAnimation(1f,0f);
 
 
     private NestedScrollingParentHelper mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
@@ -91,23 +95,80 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
             scrollBy(0, dy);
         }
 
-        Log.e("BBBB",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+
 
         if(hideTop && mTopView!=null && hostTypeTabs!=null && getScrollY()>=mTopViewHeight-barHeight)
         {
             //向上
-            mTopView.setVisibility(INVISIBLE);
-            hostTypeTabs.setVisibility(VISIBLE);
+//            Log.e("HHHHHH",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+            startFadeIn(hostTypeTabs);
+            startFadeOut(mTopView);
         }
 
-        if(showTop && mTopView!=null && hostTypeTabs!=null)
+        if(showTop && mTopView!=null && hostTypeTabs!=null && getScrollY()<mTopViewHeight-barHeight && getScrollY()>=0)
         {
             //向下
-            mTopView.setVisibility(VISIBLE);
-            hostTypeTabs.setVisibility(INVISIBLE);
+//            Log.e("HHHHHH2222",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+            if(mTopView.getVisibility()!=VISIBLE && hostTypeTabs.getVisibility()!=INVISIBLE)
+            {
+                startFadeIn(mTopView);
+                startFadeOut(hostTypeTabs);
+            }
         }
     }
 
+
+    private void startFadeIn(View view)
+    {
+        view.clearAnimation();
+        fadeIn.setDuration(400);
+        fadeIn.setFillEnabled(true);
+        fadeIn.setFillAfter(true);
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.setAnimation(fadeIn);
+        fadeIn.start();
+    }
+
+    private void startFadeOut(View view)
+    {
+        view.clearAnimation();
+        fadeOut.setDuration(400);
+        fadeOut.setFillEnabled(true);
+        fadeOut.setFillAfter(true);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.setAnimation(fadeOut);
+        fadeOut.start();
+    }
     //DropDownViewAnimationController.getInstance().doAnimate(false,mTopView,hostTypeTabs);
 
     @Override

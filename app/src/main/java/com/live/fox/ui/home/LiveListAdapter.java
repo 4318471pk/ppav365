@@ -2,11 +2,14 @@ package com.live.fox.ui.home;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -38,6 +41,7 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<AnchorInfoBean, Bas
 
     @Override
     protected void convertHead(BaseViewHolder helper, final AnchorInfoBean dataBean) {
+
         if (bannerAdList == null) return;
 
         int index = (helper.getLayoutPosition() / 6) - 1;
