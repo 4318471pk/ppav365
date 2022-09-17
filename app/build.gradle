@@ -23,14 +23,14 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 600
+        versionCode 6
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
         vectorDrawables.useSupportLibrary=true
 
-        ndkVersion "21.0.6113669"
+        ndkVersion "21.3.6528147"
         buildConfigField "Integer", "OS", project.anchorClient
 
         buildConfigField "String", "ToyToken", project.ToyToken
@@ -41,8 +41,8 @@ android {
         }
 
         manifestPlaceholders = [
-                XG_ACCESS_ID : "1530003293",
-                XG_ACCESS_KEY: "A5V25RQEZINM"
+                XG_ACCESS_ID : "1520010674",
+                XG_ACCESS_KEY: "A972K5BSYXG",
         ]
     }
 
@@ -57,15 +57,15 @@ android {
         javaMaxHeapSize "4g"
     }
 
-//    /Users/joselyn/AndroidStudioProjects/alive/release.keystore
     signingConfigs {
+        debug {}
         release {
-            storeFile file('/Users/joselyn/AndroidStudioProjects/alive/release.keystore')
+            storeFile file('E:\\AndroidProject\\alive_android-master\\alive_android-master\\release.keystore')
             storePassword '4318471pk'
-            keyAlias 'bying'
+            keyAlias = 'bying'
             keyPassword '4318471pk'
         }
-        debug {}
+
 
     }
 
@@ -129,7 +129,7 @@ android {
 
     def qqVersion = "2.1.0"
     def aiVersion = "1.0.0"
-    def live24Version = "10.0.0"
+    def live24Version = "1.0.0"
 
     flavorDimensions "app"
     productFlavors {
@@ -237,7 +237,7 @@ android {
 
         anchor24 {
             dimension 'app'
-            applicationId "com.alive.ibotv"
+            applicationId "live.twenty.four"
             versionName live24Version
             buildConfigField "Integer", "OS", project.anchorClient
             buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
@@ -252,7 +252,7 @@ android {
 
         mmOnline {
             dimension 'app'
-            applicationId "com.alive.ibvmm"
+            applicationId "com.alive.ibotv"
             versionName live24Version
             buildConfigField "Integer", "OS", project.anchorClient
             buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
@@ -260,8 +260,8 @@ android {
             buildConfigField "Boolean", "IsAnchorClient", "true"
 
             manifestPlaceholders = [
-                    XG_ACCESS_ID : "TM1530003293",
-                    XG_ACCESS_KEY: "A5V25RQEZINM"
+                    XG_ACCESS_ID : "1520010712",
+                    XG_ACCESS_KEY: "AOQY6MVNUOW2",
             ]
         }
 

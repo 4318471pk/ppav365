@@ -279,6 +279,7 @@ public class SplashPresenter {
             LogUtils.e("AfterDoBase：start" + data);
             BadgesManager.ins().downloadAllBadges();  //下載徽章
             BaseInfo baseInfo = new Gson().fromJson(data, BaseInfo.class);
+
             if (StringUtils.isEmpty(baseInfo.getAppServiceUrl())) {
                 showAlertDialog(context.getString(R.string.net_work_error_tip),
                         context.getString(R.string.retry), (dialogInterface, i) -> doBaseApi());

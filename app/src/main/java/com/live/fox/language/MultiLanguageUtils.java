@@ -135,6 +135,7 @@ public class MultiLanguageUtils {
 
         //语言更换生效的代码!
         resources.updateConfiguration(configuration, dm);
+        MultiLanguageUtils.appLocal = locale;
     }
 
 
