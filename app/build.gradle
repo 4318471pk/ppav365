@@ -23,12 +23,14 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 6
+        versionCode 600
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
-        ndkVersion "21.3.6528147"
+        vectorDrawables.useSupportLibrary=true
+
+        ndkVersion "19.2.5345600"
         buildConfigField "Integer", "OS", project.anchorClient
 
         buildConfigField "String", "ToyToken", project.ToyToken
@@ -39,8 +41,8 @@ android {
         }
 
         manifestPlaceholders = [
-                XG_ACCESS_ID : "1520010674",
-                XG_ACCESS_KEY: "A972K5BSYXG",
+                XG_ACCESS_ID : "1530003293",
+                XG_ACCESS_KEY: "A5V25RQEZINM"
         ]
     }
 
@@ -55,15 +57,16 @@ android {
         javaMaxHeapSize "4g"
     }
 
+//    /Users/joselyn/AndroidStudioProjects/alive/release.keystore
     signingConfigs {
+        release {
+            storeFile file('/Users/joselyn/AndroidStudioProjects/alive/release.keystore')
+            storePassword '4318471pk'
+            keyAlias 'bying'
+            keyPassword '4318471pk'
+        }
         debug {}
 
-        release {
-            storeFile file(keystoreProperties['storeFile1'])
-            keyAlias keystoreProperties['keyAlias1']
-            keyPassword keystoreProperties['keyPassword1']
-            storePassword keystoreProperties['storePassword1']
-        }
     }
 
     compileOptions {
@@ -75,9 +78,11 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures {  //DataBinding 数据绑定
-        dataBinding = true
-    }
+//    buildFeatures {  //DataBinding 数据绑定
+//        dataBinding = true
+//    }
+
+    dataBinding { enabled = true }
 
     applicationVariants.all { variant ->
         def buglyAppId = '708f5168ad';
@@ -124,7 +129,7 @@ android {
 
     def qqVersion = "2.1.0"
     def aiVersion = "1.0.0"
-    def live24Version = "1.0.0"
+    def live24Version = "10.0.0"
 
     flavorDimensions "app"
     productFlavors {
@@ -232,7 +237,7 @@ android {
 
         anchor24 {
             dimension 'app'
-            applicationId "live.twenty.four"
+            applicationId "com.alive.ibotv"
             versionName live24Version
             buildConfigField "Integer", "OS", project.anchorClient
             buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
@@ -242,6 +247,21 @@ android {
             manifestPlaceholders = [
                     XG_ACCESS_ID : "TM1530003293",
                     XG_ACCESS_KEY: "A5V25RQEZINM",
+            ]
+        }
+
+        mmOnline {
+            dimension 'app'
+            applicationId "com.alive.ibvmm"
+            versionName live24Version
+            buildConfigField "Integer", "OS", project.anchorClient
+            buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"mmOnline"'
+            buildConfigField "Boolean", "IsAnchorClient", "true"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "TM1530003293",
+                    XG_ACCESS_KEY: "A5V25RQEZINM"
             ]
         }
 

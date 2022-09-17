@@ -2,8 +2,8 @@
 
 buildscript {
     ext{
-        kotlin_version = '1.5.30'
-        compiler_version = '3.0.0-beta6'
+        kotlin_version = '1.4.0'
+//        compiler_version = '3.0.0-beta6'
     }
 
     repositories {
