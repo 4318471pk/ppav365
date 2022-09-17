@@ -677,7 +677,7 @@
     <string name="login_title">请确认你手机号</string>
     <string name="home_bottom_tab_mine">我的</string>
     <string name="home_bottom_tab_game">游戏</string>
-    <string name="home_bottom_tab_home">主页</string>
+    <string name="home_bottom_tab_home">播播</string>
     <string name="rank_coins">金币</string>
     <string name="notification_dialog_title">别错过她的消息</string>
     <string name="notification_dialog_content">第一时间获取关注主播开播通知，快去开启推送通知设置吧 \n
@@ -686,8 +686,11 @@
     <string name="month">30天</string>
     <string name="three_month">90天</string>
     <string name="date_half_year">180天</string>
-    <string name="main_tab_home">首页</string>
-    <string name="main_tab_video">直播</string>
+    <string name="main_tab_home">播播</string>
+    <string name="main_tab_game">游戏</string>
+    <string name="main_tab_agent">代理</string>
+    <string name="main_tab_promotion">活动</string>
+    <string name="main_tab_mine">我的</string>
     <string name="anchor_present">礼物</string>
     <string name="anchor_game_bets">彩金</string>
     <string name="long_state_continue">继续</string>

@@ -196,14 +196,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void initView() {
-        RadioButton empty = findViewById(R.id.main_rb_empty);
         findViewById(R.id.layout_openlive).setOnClickListener(this);
-        Group anchorStartLive = findViewById(R.id.main_tab_anchor_group);
-        if (!BuildConfig.IsAnchorClient) {
-            empty.setVisibility(View.GONE);
-            anchorStartLive.setVisibility(View.GONE);
-        }
-
         initTable();
 
         if (!isShowNotification) {
@@ -225,12 +218,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case R.id.main_rb_live_list: //直播列表
                     if (AppUserManger.isLogin(MainActivity.this)) {
                         showLiveFragment();
-                    }
-                    break;
-
-                case R.id.main_rb_empty:  //空页面
-                    if (AppUserManger.isLogin(MainActivity.this)) {
-
                     }
                     break;
 

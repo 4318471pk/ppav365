@@ -72,7 +72,6 @@
             android:id="@+id/hostTypeTabs"
             android:layout_width="match_parent"
             android:layout_height="40dip"
-            android:layout_marginLeft="10dip"
             android:background="#ffffff"
             android:visibility="invisible"
             app:tabPaddingStart="0dip"
@@ -111,188 +110,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.bigkoo.convenientbanner.ConvenientBanner
-                android:id="@+id/home_convenient_banner"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_liverecomment"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone"
-                app:canLoop="true" />
-
-
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_game"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:overScrollMode="never"
-                            android:paddingHorizontal="4dp" />
-                        <LinearLayout
-                            android:id="@+id/layout_gamelist"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/layout_game_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:orientation="horizontal"
-                                    android:paddingStart="0dp"
-                                    android:paddingEnd="10dp">
-
-                                    <RelativeLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginStart="12dp">
-
-                                        <TextView
-                                            android:id="@+id/tv_gametitle"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerVertical="true"
-                                            android:textColor="@color/black"
-                                            android:textSize="15sp"
-                                            tools:text="@string/places_holder" />
-
-                                        <View
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="3dp"
-                                            android:layout_below="@+id/tv_gametitle"
-                                            android:layout_alignEnd="@+id/tv_gametitle"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@color/colorAccent" />
-
-                                    </RelativeLayout>
-
-                                    <View
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1" />
-
-                                    <TextView
-                                        android:id="@+id/tv_gamemore"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:drawablePadding="8dp"
-                                        android:gravity="center_vertical"
-                                        android:text="@string/more"
-                                        android:textSize="12sp"
-                                        app:drawableEndCompat="@drawable/ic_arrow_rights" />
-
-                                </LinearLayout>
-
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/ll_liverecomment"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:visibility="visible">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:orientation="horizontal"
-                                    android:paddingHorizontal="12dp">
-
-                                    <TextView
-                                        android:id="@+id/tv_title_recomment"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:drawablePadding="8dp"
-                                        android:gravity="center_vertical"
-                                        android:text="@string/rocketRecommendation"
-                                        android:textColor="#F45479"
-                                        android:textSize="15sp"
-                                        app:drawableStartCompat="@drawable/liverecomment_ic" />
-
-                                    <TextView
-                                        android:id="@+id/tv_des_recomment"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:ellipsize="marquee"
-                                        android:focusable="true"
-                                        android:focusableInTouchMode="true"
-                                        android:gravity="center_vertical"
-                                        android:marqueeRepeatLimit="marquee_forever"
-                                        android:paddingStart="8dp"
-                                        android:paddingEnd="10dp"
-                                        android:scrollHorizontally="true"
-                                        android:singleLine="true"
-                                        android:textColor="#858585"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/rv_liverecomment"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:overScrollMode="never"
-                                    android:paddingHorizontal="4dp" />
-
-                            </LinearLayout>
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:paddingHorizontal="12dp">
-
-                                <TextView
-                                    android:id="@+id/tv_zhibo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:gravity="center_vertical"
-                                    android:text="@string/main_tab_video"
-                                    android:textColor="@color/black"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <View
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="3dp"
-                                    android:layout_below="@id/tv_zhibo"
-                                    android:layout_alignEnd="@+id/tv_zhibo"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@color/colorAccent" />
-
-                            </RelativeLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:paddingHorizontal="4dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:paddingHorizontal="4dp" />
 
         </LinearLayout>
     </ScrollView>
-
 
 
 </com.live.fox.view.DropDownScrollView>

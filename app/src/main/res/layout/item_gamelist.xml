@@ -12,7 +12,6 @@
         android:id="@+id/tv_"
         style="@style/MatchMatch"
         android:gravity="center"
-        android:text="@string/main_tab_home"
         android:textColor="#484E50"
         android:textSize="16sp"
         android:textStyle="bold" />

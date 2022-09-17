@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.bigkoo.convenientbanner.ConvenientBanner
+        android:id="@+id/home_convenient_banner"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:canLoop="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="22dip">
+
+        <ImageView
+            android:id="@+id/ivHomeHot"
+            android:layout_width="wrap_content"
+            android:layout_height="22dip"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/icon_home_hot"/>
+
+        <com.marquee.dingrui.marqueeviewlib.MarqueeView
+            android:id="@+id/ivHomeHotRecommendRolling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivHomeHot"
+            android:layout_centerVertical="true"
+            android:textColor="#646464"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:marqueeview_is_resetLocation="false"
+            app:marqueeview_isclickalbe_stop="true"
+            app:marqueeview_repet_type="repet_interval"
+            app:marqueeview_text_color="#646464"
+            app:marqueeview_text_size="11"
+            app:marqueeview_text_speed="1"
+            app:marqueeview_text_startlocationdistance="0.5" />
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/hsHotRecommendList"
+        android:layout_width="match_parent"
+        android:layout_height="124dip"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="22dip">
+
+        <ImageView
+            android:id="@+id/ivHomePlayGame"
+            android:layout_width="wrap_content"
+            android:layout_height="22dip"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/icon_home_playgame"/>
+
+        <com.marquee.dingrui.marqueeviewlib.MarqueeView
+            android:id="@+id/ivHomePlayGameRolling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivHomePlayGame"
+            android:layout_centerVertical="true"
+            android:textColor="#646464"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:marqueeview_is_resetLocation="false"
+            app:marqueeview_isclickalbe_stop="true"
+            app:marqueeview_repet_type="repet_interval"
+            app:marqueeview_text_color="#646464"
+            app:marqueeview_text_size="11"
+            app:marqueeview_text_speed="1"
+            app:marqueeview_text_startlocationdistance="0.5" />
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/hsPlayGameList"
+        android:layout_width="match_parent"
+        android:layout_height="124dip"/>
+
+
+</LinearLayout>

@@ -1,5 +1,7 @@
 package com.live.fox.svga;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.entity.SectionEntity;
 import com.live.fox.entity.Anchor;
 
@@ -10,15 +12,18 @@ public class AnchorInfoBean extends SectionEntity<Anchor> {
     private boolean isMore;
     private boolean isShowBanner;
 
+
     public AnchorInfoBean(boolean isHeader) {
         super(isHeader, "");
+    }
+    public AnchorInfoBean(boolean isHeader,String tag) {
+        super(isHeader, "topView");
     }
 
     public AnchorInfoBean(Anchor t) {
         super(t);
     }
 
-//
     public String getTitle() {
         return title;
     }
