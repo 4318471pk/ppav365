@@ -60,6 +60,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by appleMac on 2020/2/28.
  * 启动页主持类
  */
+
 public class SplashPresenter {
 
     private final int TO_MainActivity = 0X01;
