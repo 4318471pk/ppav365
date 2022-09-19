@@ -81,7 +81,7 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setParam();
+        bindView(savedInstanceState);
     }
 
     public <T> T $(int id) {
@@ -109,10 +109,10 @@ public abstract class BaseLazyViewPagerFragment extends BaseFragment implements 
      * isVisible = true：此Fragment可见
      */
     private void setParam() {
-        if (isInit && !isLoadOver && isVisible && isAdded()) {
-            isLoadOver = true;
-            bindView(null);
-        }
+//        if (isInit && !isLoadOver && isVisible && isAdded()) {
+//            isLoadOver = true;
+//            bindView(null);
+//        }
     }
 
     @Override

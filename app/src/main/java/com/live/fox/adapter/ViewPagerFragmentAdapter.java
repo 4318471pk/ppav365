@@ -16,9 +16,14 @@
  */
 package com.live.fox.adapter;
 
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.live.fox.base.BaseFragment;
 
@@ -47,7 +52,7 @@ import java.util.List;
  viewPager.setAdapter(adapter);
 
  */
-public class ViewPagerFragmentAdapter<T extends BaseFragment> extends FragmentPagerAdapter {
+public class ViewPagerFragmentAdapter<T extends BaseFragment> extends FragmentStatePagerAdapter {
 
     private final List<T> fragmentList = new ArrayList<>();
     private final List<CharSequence> titleList = new ArrayList<>();
@@ -88,4 +93,18 @@ public class ViewPagerFragmentAdapter<T extends BaseFragment> extends FragmentPa
         return super.getPageTitle(position);
     }
 
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        if(((BaseFragment)object).getView()==null)
+        {
+            return false;
+        }
+        return ((BaseFragment)object).getView().equals(view);
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        super.destroyItem(container, position, object);
+    }
 }
