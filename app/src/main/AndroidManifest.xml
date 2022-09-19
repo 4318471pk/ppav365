@@ -320,7 +320,6 @@
         <activity
             android:name=".ui.mine.activity.noble.MyNobleActivity"
             android:screenOrientation="portrait" /> <!-- 安卓APK -->
-        <activity android:name=".ui.rank.RanksActivity" />
         <activity
             android:name=".ui.mine.activity.gamerecord.CaiDetailActivity"
             android:screenOrientation="portrait" />

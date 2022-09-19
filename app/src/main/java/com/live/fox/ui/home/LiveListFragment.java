@@ -657,7 +657,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                 if (data == null) {
                     if(isAdded())
                     {
-                        showEmptyView(getStringWithoutContext(R.string.noData));
+                        showEmptyView(getString(R.string.noData));
                     }
                     return;
                 }

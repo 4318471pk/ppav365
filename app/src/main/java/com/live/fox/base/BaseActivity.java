@@ -55,6 +55,7 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     View emptyView;
     View loadingView;
 
+
     @Override
     protected void attachBaseContext(Context newBase) {
         String language = LanguageSp.getString(newBase, MultiLanguageUtils.LANGUAGE);
@@ -351,6 +352,7 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override

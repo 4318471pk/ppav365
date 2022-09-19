@@ -129,10 +129,14 @@
     </string-array>
 
     <string-array name="rank_tab">
-        <item>主播榜</item>
-        <item>贡献榜</item>
-        <item>PK榜</item>
-        <item>游戏榜</item>
+        <item>日榜</item>
+        <item>周榜</item>
+        <item>月榜</item>
+        <item>昨日</item>
+        <item>上周</item>
+        <item>上月</item>
     </string-array>
+
+
 
 </resources>

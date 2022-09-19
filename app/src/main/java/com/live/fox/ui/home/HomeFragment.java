@@ -107,10 +107,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),data);
                 //遍历栏目列表 设置Fragment
 
-                if(data!=null && data.size()>2)
-                {
-                    viewPager.setOffscreenPageLimit(2);
-                }
+//                if(data!=null && data.size()>5)
+//                {
+                    viewPager.setOffscreenPageLimit(1);
+//                }
                 viewPager.setAdapter(adapter);
                 tabLayout.setViewPager(viewPager);
                 tabLayout.setCurrentTab(1);

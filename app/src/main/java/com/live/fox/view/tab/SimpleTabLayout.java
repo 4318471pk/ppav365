@@ -709,6 +709,11 @@ public class SimpleTabLayout extends HorizontalScrollView implements ViewPager.O
         updateTabStyles();
     }
 
+    public void setTabWidthPX(float tabWidth) {
+        this.mTabWidth = tabWidth;
+        updateTabStyles();
+    }
+
     public void setIndicatorColor(int indicatorColor) {
         this.mIndicatorColor = indicatorColor;
         invalidate();
