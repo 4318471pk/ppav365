@@ -109,7 +109,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     HomeColumn column = data.get(i);
                     if (i == 0) {
                         adapter.addFragment(FollowAnchorFragment.newInstance(),column.getName().trim());
-                    } else if (AppUserManger.isLogin() && i == 1) {
+                    } else if ( i == 1) {
 //                        adapter.addFragment(promoteListFragment, column.getName().trim());
                         adapter.addFragment(LiveListFragment.newInstance(), column.getName().trim());
                     } else {
@@ -118,6 +118,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     }
                 }
 
+                if(data!=null && data.size()>2)
+                {
+                    viewPager.setOffscreenPageLimit(2);
+                }
                 viewPager.setAdapter(adapter);
                 tabLayout.setViewPager(viewPager);
                 tabLayout.setCurrentTab(1);
