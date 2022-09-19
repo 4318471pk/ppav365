@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.live.fox.R;
+import com.live.fox.adapter.HomeFragmentPagerAdapter;
 import com.live.fox.adapter.ViewPagerFragmentAdapter;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
@@ -38,7 +39,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     ViewPager viewPager;
 
-    ViewPagerFragmentAdapter<BaseFragment> adapter;
+    HomeFragmentPagerAdapter<BaseFragment> adapter;
     private PromoteListFragment promoteListFragment;
 
     public static HomeFragment newInstance() {
@@ -103,20 +104,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 if (!isAdded()) return;
 
-                adapter = new ViewPagerFragmentAdapter<>(getChildFragmentManager());
+                adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),data);
                 //遍历栏目列表 设置Fragment
-                for (int i = 0; i < data.size(); i++) {
-                    HomeColumn column = data.get(i);
-                    if (i == 0) {
-                        adapter.addFragment(FollowAnchorFragment.newInstance(),column.getName().trim());
-                    } else if ( i == 1) {
-//                        adapter.addFragment(promoteListFragment, column.getName().trim());
-                        adapter.addFragment(LiveListFragment.newInstance(), column.getName().trim());
-                    } else {
-                        adapter.addFragment(WebFragment.newInstance(column.getJumpUrl(),
-                                false), column.getName().trim());
-                    }
-                }
 
                 if(data!=null && data.size()>2)
                 {

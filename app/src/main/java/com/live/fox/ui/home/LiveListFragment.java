@@ -655,7 +655,10 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
             @Override
             public void onSuccess(int code, String msg, List<Anchor> data) {
                 if (data == null) {
-                    showEmptyView(getString(R.string.noData));
+                    if(isAdded())
+                    {
+                        showEmptyView(getStringWithoutContext(R.string.noData));
+                    }
                     return;
                 }
                 hideEmptyView();

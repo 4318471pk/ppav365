@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.dialog.MMLoading;
 import com.live.fox.dialog.MMToast;
@@ -59,7 +60,7 @@ public class BaseFragment extends Fragment implements IBaseView {
 
     @Override
     public void showLoadingDialog() {
-        showLoadingDialog(getString(R.string.baseLoading), false, true);
+        showLoadingDialog(getStringWithoutContext(R.string.baseLoading), false, true);
     }
 
     /**
@@ -67,7 +68,7 @@ public class BaseFragment extends Fragment implements IBaseView {
      */
     @Override
     public void showLoadingDialogWithNoBgBlack() {
-        showLoadingDialog(getString(R.string.baseLoading), false, false);
+        showLoadingDialog(getStringWithoutContext(R.string.baseLoading), false, false);
     }
 
     /**
@@ -264,5 +265,17 @@ public class BaseFragment extends Fragment implements IBaseView {
     public void onDestroyView() {
         super.onDestroyView();
         hideLoadingDialog();
+    }
+
+    public String getStringWithoutContext(int idRes)
+    {
+        if(isAdded() && getResources()!=null)
+        {
+            return getString(idRes);
+        }
+        else
+        {
+            return App.getInstance().getResources().getString(idRes);
+        }
     }
 }
