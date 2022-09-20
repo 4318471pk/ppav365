@@ -7,14 +7,21 @@
     android:orientation="vertical">
 
     <RadioGroup
+        android:id="@+id/rgTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f5f1f8"
         android:orientation="horizontal">
 
-        <RadioButton
-
-            android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:textColor="@color/white"/>
     </RadioGroup>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

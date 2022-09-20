@@ -553,6 +553,9 @@
     <string name="userAgreement">用户协议</string>
     <string name="sureExit">确定退出登录吗？</string>
     <string name="blackName">黑名单</string>
+    <string name="appLock">应用锁</string>
+    <string name="accountSecurity">账号安全</string>
+    <string name="phoneNumberVerify">手机认证</string>
     <string name="privateSecret">隐私</string>
     <string name="potisionMessage">位置信息</string>
     <string name="clearStorage">清除缓存</string>
