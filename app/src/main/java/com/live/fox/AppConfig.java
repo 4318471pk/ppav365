@@ -45,6 +45,7 @@ public class AppConfig {
         List<String> domains = new ArrayList<>();
         if (Constant.isPublish) {
             switch (BuildConfig.AppFlavor) {
+
                 case "MMLive":
                     domains.add("https://aa.mmconfig.com/");
                     domains.add("https://aa.mm-gateway.com/");
