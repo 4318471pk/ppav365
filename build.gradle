@@ -8,17 +8,17 @@ buildscript {
                 kotlin_version : '1.4.0'
         ]
         releaseSigningConfigs=[
-                releaseStoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
-                releaseStorePassword :'4318471pk',
-                releaseKeyAlias : 'bying',
-                releaseKeyPassword : '4318471pk'
+                StoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
+                StorePassword :'4318471pk',
+                KeyAlias : 'bying',
+                KeyPassword : '4318471pk'
         ]
 
         debugSigningConfigs=[
-                releaseStoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
-                releaseStorePassword :'4318471pk',
-                releaseKeyAlias : 'bying',
-                releaseKeyPassword : '4318471pk'
+                StoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
+                StorePassword :'4318471pk',
+                KeyAlias : 'bying',
+                KeyPassword : '4318471pk'
         ]
 
     }
