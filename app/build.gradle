@@ -21,8 +21,8 @@ bugly {
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.args.minSdkVersion
+        targetSdkVersion rootProject.ext.args.targetSdkVersion
         versionCode 6
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
@@ -30,7 +30,7 @@ android {
         renderscriptSupportModeEnabled true
         vectorDrawables.useSupportLibrary=true
 
-        ndkVersion "21.3.6528147"
+        ndkVersion rootProject.ext.args.NDKVersion
         buildConfigField "Integer", "OS", project.anchorClient
 
         buildConfigField "String", "ToyToken", project.ToyToken
@@ -46,6 +46,17 @@ android {
         ]
     }
 
+    signingConfigs {
+        release {
+            storeFile file(rootProject.ext.releaseSigningConfigs.releaseStoreFile)
+            storePassword rootProject.ext.releaseSigningConfigs.releaseStorePassword
+            keyAlias rootProject.ext.releaseSigningConfigs.releaseKeyAlias
+            keyPassword rootProject.ext.releaseSigningConfigs.releaseKeyPassword
+        }
+        debug {}
+
+    }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -55,18 +66,6 @@ android {
         preDexLibraries true
         maxProcessCount 8
         javaMaxHeapSize "4g"
-    }
-
-    signingConfigs {
-        debug {}
-        release {
-            storeFile file('/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore')
-            storePassword '4318471pk'
-            keyAlias = 'bying'
-            keyPassword '4318471pk'
-        }
-
-
     }
 
     compileOptions {
@@ -552,4 +551,6 @@ dependencies {
 
     //超级tablayout库  无混淆
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    implementation 'me.grantland:autofittextview:0.2.+'
 }

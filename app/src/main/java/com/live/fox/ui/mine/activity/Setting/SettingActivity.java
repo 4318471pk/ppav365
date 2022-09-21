@@ -42,6 +42,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
     private TextView tvCache;
     private TextView tvVersion;
     private ImageView iv_permision;
+    private SwitchView switchView;
 
     public static void startActivity(Context context) {
         Constant.isAppInsideClick = true;
@@ -82,7 +83,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         findViewById(R.id.tv_loginout).setOnClickListener(this);
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
-        SwitchView switchView=findViewById(R.id.switchView);
+        switchView=findViewById(R.id.switchView);
         switchView.setOnStateChangedListener(this);
 
         String des = Constant.isPublish ? " " : getString(R.string.csb);
@@ -109,6 +110,30 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
                 iv_permision.setImageResource(R.drawable.permisionoff);
             } else {
                 iv_permision.setImageResource(R.drawable.permisionon);
+            }
+        }
+
+        if(requestCode==ConstantValue.REQUEST_CODE1)
+        {
+            if(requestCode==ConstantValue.RESULT_CODE1)
+            {
+                switchView.setOpened(false);
+            }
+            else
+            {
+                switchView.setOpened(true);
+            }
+        }
+
+        if(requestCode==ConstantValue.REQUEST_CODE2)
+        {
+            if(requestCode==ConstantValue.RESULT_CODE2)
+            {
+                switchView.setOpened(true);
+            }
+            else
+            {
+                switchView.setOpened(false);
             }
         }
     }
@@ -215,7 +240,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
             case R.id.switchView:
                 intent=new Intent(this,APPGestureLockActivity.class);
                 intent.putExtra(ConstantValue.SwitchStatus,true);
-                startActivityForResult(intent,ConstantValue.REQUEST_CODE1);
+                startActivityForResult(intent,ConstantValue.REQUEST_CODE2);
                 break;
         }
     }

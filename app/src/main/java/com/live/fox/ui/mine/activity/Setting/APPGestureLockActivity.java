@@ -33,6 +33,7 @@ public class APPGestureLockActivity extends BaseHeadActivity {
 
         gesView=findViewById(R.id.gesView);
         tvHint=findViewById(R.id.tvHint);
+        setResult(ConstantValue.RESULT_CODE3);
 
         boolean status= getIntent().getBooleanExtra(ConstantValue.SwitchStatus,false);
         if(status)
@@ -69,21 +70,19 @@ public class APPGestureLockActivity extends BaseHeadActivity {
         gesView.setOnLockVerifyListener(new GestureLockLayout.OnLockVerifyListener() {
             @Override
             public void onGestureSelected(int id) {
-                Log.e("ggg444",id+" ");
             }
 
             @Override
             public void onGestureFinished(boolean isMatched) {
-                Log.e("ggg555",isMatched+" ");
                 if(isMatched)
                 {
-
+                    setResult(ConstantValue.RESULT_CODE2);
+                    finish();
                 }
             }
 
             @Override
             public void onGestureTryTimesBoundary() {
-                Log.e("ggg666","TimesBoundary");
                 finish();
                 ToastUtils.showShort(getString(R.string.tryTimesLimit));
             }
@@ -99,24 +98,30 @@ public class APPGestureLockActivity extends BaseHeadActivity {
         gesView.setOnLockResetListener(new GestureLockLayout.OnLockResetListener() {
             @Override
             public void onConnectCountUnmatched(int connectCount, int minCount) {
-                Log.e("ggg111",connectCount+" "+minCount);
                 tvHint.setText(getString(R.string.gesWrongConfirmPassword));
                 tvHint.setTextColor(getResources().getColor(R.color.red));
             }
 
             @Override
             public void onFirstPasswordFinished(List<Integer> answerList) {
-                Log.e("ggg222",new Gson().toJson(answerList));
                 tvHint.setText(getString(R.string.plzSetNewGesConfirmPassword));
-                tvHint.setTextColor(0xFFA800FF);
+                tvHint.setTextColor(0xff404040);
             }
 
             @Override
             public void onSetPasswordFinished(boolean isMatched, List<Integer> answerList) {
-                Log.e("ggg333",new Gson().toJson(answerList) +"     "+isMatched);
-
+                tvHint.setText(getString(R.string.setGesPasswordSuccess));
+                tvHint.setTextColor(0xff404040);
+                tvHint.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setResult(ConstantValue.RESULT_CODE2);
+                        finish();
+                    }
+                },1000);
             }
         });
+
     }
 
 }

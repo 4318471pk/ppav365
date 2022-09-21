@@ -990,7 +990,10 @@
     <string name="downloadingError">数据正在下载中,请稍后再试</string>
     <string name="tryTimesLimit">您已达到输入错误的上限</string>
     <string name="plzSetNewGesPassword">请滑动设置新密码</string>
-    <string name="plzSetNewGesConfirmPassword">请再次滑动确认密码</string>
-    <string name="gesWrongConfirmPassword">两次输入的密码不匹配，请重新滑动输入</string>
+    <string name="plzSetNewGesConfirmPassword">请再次滑动输入密码</string>
+    <string name="gesWrongConfirmPassword">两次输入密码不一致，请重新滑动输入</string>
+    <string name="setGesPasswordSuccess">密码设置成功</string>
+    <string name="gesInputWrong">输入密码错误</string>
+    <string name="tipsPhoneNumFormatWrong">手机号码格式不正确，请重新填写</string>
 
 </resources>
