@@ -60,7 +60,7 @@ android {
     signingConfigs {
         debug {}
         release {
-            storeFile file('E:\\AndroidProject\\alive_android-master\\alive_android-master\\release.keystore')
+            storeFile file('/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore')
             storePassword '4318471pk'
             keyAlias = 'bying'
             keyPassword '4318471pk'
@@ -237,7 +237,7 @@ android {
 
         anchor24 {
             dimension 'app'
-            applicationId "live.twenty.four"
+            applicationId "com.alive.ibotv"
             versionName live24Version
             buildConfigField "Integer", "OS", project.anchorClient
             buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
