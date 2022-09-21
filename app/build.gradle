@@ -48,10 +48,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(rootProject.ext.releaseSigningConfigs.releaseStoreFile)
-            storePassword rootProject.ext.releaseSigningConfigs.releaseStorePassword
-            keyAlias rootProject.ext.releaseSigningConfigs.releaseKeyAlias
-            keyPassword rootProject.ext.releaseSigningConfigs.releaseKeyPassword
+            storeFile file(rootProject.ext.releaseSigningConfigs.StoreFile)
+            storePassword rootProject.ext.releaseSigningConfigs.StorePassword
+            keyAlias rootProject.ext.releaseSigningConfigs.KeyAlias
+            keyPassword rootProject.ext.releaseSigningConfigs.KeyPassword
         }
         debug {}
 
