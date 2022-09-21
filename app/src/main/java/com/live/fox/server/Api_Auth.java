@@ -174,11 +174,12 @@ public class Api_Auth extends BaseApi {
     /**
      * POST /auth/vcode/login 验证码快捷登录
      */
-    public void phoneCodeLogin(String mobile, String code, JsonCallback callback) {
+    public void phoneCodeLogin(String mobile, String code, String area,JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.AUTH_VCODELOGIN_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("mobile", mobile);
         params.put("vcode", code);
+        params.put("area",area);
 
         params.put("address", "unknow");
         params.put("city", "");
