@@ -127,6 +127,7 @@
             android:text="@string/appLock"/>
 
         <com.live.fox.view.SwitchView
+            android:id="@+id/switchView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:ratioAspect="0.6"

@@ -2,4 +2,4 @@
 <View
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/MatchOne"
-    android:background="@color/gray_line" />
+    android:background="@color/actPageLine" />

@@ -19,10 +19,21 @@ import java.util.List;
 public class SPManager {
 
     private static String base="base";
-    private static String userinfo="userinfo";
+    private static String userInfo="userInfo";
     private static String domain="domain";
     private static String share="share";
     private static String CountryCode="CountryCode";
+
+    public static void setGesturePassword(String password) {
+        if (!StringUtils.isEmpty(password))
+            SPUtils.getInstance(userInfo).put("GesturePassword", password);
+    }
+
+    public static String getGesturePassword() {
+        String password= SPUtils.getInstance(userInfo).getString("GesturePassword", "");
+        return password;
+    }
+
 
     /**
      * 更新接口的域名
@@ -41,11 +52,11 @@ public class SPManager {
 
 
     public static void saveToken(String token) {
-        SPUtils.getInstance(userinfo).put("token", token);
+        SPUtils.getInstance(userInfo).put("token", token);
     }
 
     public static String getToken() {
-        return SPUtils.getInstance(userinfo).getString("token", "");
+        return SPUtils.getInstance(userInfo).getString("token", "");
     }
 
     public static void saveShareUrl(String shareUrl) {
@@ -157,25 +168,25 @@ public class SPManager {
 
 
     public static void saveUserInfo(User user) {
-        SPUtils.getInstance(userinfo).put("user", new Gson().toJson(user));
+        SPUtils.getInstance(userInfo).put("user", new Gson().toJson(user));
         if (!StringUtils.isEmpty(user.getImToken())) {
             saveImToken(user.getImToken());
         }
     }
 
     public static User getUserInfo() {
-        String userStr = SPUtils.getInstance(userinfo).getString("user", "");
+        String userStr = SPUtils.getInstance(userInfo).getString("user", "");
         if (StringUtils.isEmpty(userStr)) return null;
 
         return new Gson().fromJson(userStr, User.class);
     }
 
     public static void clearUserInfo() {
-        SPUtils.getInstance(userinfo).clear();
+        SPUtils.getInstance(userInfo).clear();
     }
 
     public static boolean userIsLogin() {
-        return SPUtils.getInstance(userinfo).contains("user");
+        return SPUtils.getInstance(userInfo).contains("user");
     }
 
 

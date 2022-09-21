@@ -10,6 +10,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:contentInsetRight="0dp"
     app:contentInsetStart="0dp"
+    android:background="@color/white"
     app:layout_collapseMode="pin"
     app:layout_scrollFlags="scroll|enterAlways|snap">
 

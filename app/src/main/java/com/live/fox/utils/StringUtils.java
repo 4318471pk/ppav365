@@ -322,6 +322,65 @@ public final class StringUtils {
         return true;
     }
 
+    public static boolean isNumAndLetterUnion(String string) {
+        boolean hasletter = false;
+        boolean hasnum = false;
+        if (TextUtils.isEmpty(string)) return false;
+        for (int i = 0; i < string.length(); i++) {
+            int index = string.charAt(i);
+            //65 90 A Z
+            //97 122 a z
+            //48 57 0 9
+            if (index >= 65 && index <= 90) {
+                hasletter = true;
+            } else if (index >= 97 && index <= 122) {
+                hasletter = true;
+            } else if (index >= 48 && index <= 57) {
+                hasnum = true;
+            } else {
+                return false;
+            }
+        }
+        return hasnum && hasletter;
+    }
+
+    public static boolean isNumOrLetter(String string) {
+        boolean hasLetterOrNum = false;
+        if (TextUtils.isEmpty(string)) return false;
+        for (int i = 0; i < string.length(); i++) {
+            int index = string.charAt(i);
+            //65 90 A Z
+            //97 122 a z
+            //48 57 0 9
+            if (index >= 65 && index <= 90) {
+                hasLetterOrNum = true;
+            } else if (index >= 97 && index <= 122) {
+                hasLetterOrNum = true;
+            } else if (index >= 48 && index <= 57) {
+                hasLetterOrNum = true;
+            } else {
+                return false;
+            }
+        }
+        return hasLetterOrNum;
+    }
+
+    public static boolean isDigitOnly(String string) {
+        if (TextUtils.isEmpty(string)) return false;
+        for (int i = 0; i < string.length(); i++) {
+            int index = string.charAt(i);
+            //65 90 A Z
+            //97 122 a z
+            //48 57 0 9
+            if (index >= 48 && index <= 57) {
+
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
     //得到字符串中的整数部分，前提是此字符串必须为数字
     public static Long getIntegerFromStr(String str) {
         return Long.parseLong(str.split("\\.")[0]);
