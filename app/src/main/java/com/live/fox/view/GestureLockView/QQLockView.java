@@ -118,14 +118,23 @@ public class QQLockView extends View implements ILockView {
      * @param canvas
      */
     private void drawFingerUpMatched(Canvas canvas) {
+//        mPaint.setStyle(Paint.Style.FILL);
+//        mPaint.setColor(Color.parseColor("#ADD5E6"));
+//        canvas.drawCircle(0, 0, mOuterRadius, mPaint);
+//        mPaint.setColor(Color.parseColor("#01A0E5"));
+//        canvas.drawCircle(0, 0, mInnerRadius, mPaint);
+//        mPaint.setStyle(Paint.Style.STROKE);
+//        mPaint.setColor(Color.parseColor("#838383"));
+//        mPaint.setStrokeWidth(ScreenUtils.getDip2px(getContext(),2));
+//        canvas.drawCircle(0, 0, mOuterRadius, mPaint);
+
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.parseColor("#ADD5E6"));
-        canvas.drawCircle(0, 0, mOuterRadius, mPaint);
-        mPaint.setColor(Color.parseColor("#01A0E5"));
+        mPaint.setColor(Color.parseColor("#D2CDE0"));
         canvas.drawCircle(0, 0, mInnerRadius, mPaint);
+
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.parseColor("#838383"));
-        mPaint.setStrokeWidth(ScreenUtils.getDip2px(getContext(),2));
+        mPaint.setColor(Color.parseColor("#D2CDE0"));
+        mPaint.setStrokeWidth(ScreenUtils.getDip2px(getContext(),5));
         canvas.drawCircle(0, 0, mOuterRadius, mPaint);
     }
 

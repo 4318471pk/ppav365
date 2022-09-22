@@ -39,7 +39,7 @@ public class APPGestureLockActivity extends BaseHeadActivity {
         if(status)
         {
             String password= SPManager.getGesturePassword();
-            if(!StringUtils.isDigitOnly(password))
+            if(StringUtils.isDigitOnly(password))
             {
                 //验证旧密码
                 verifyPassword(password);
@@ -60,6 +60,8 @@ public class APPGestureLockActivity extends BaseHeadActivity {
 
     private void verifyPassword(String password)
     {
+        tvHint.setText(getString(R.string.plzInputVerify));
+        tvHint.setTextColor(0xff404040);
         int array[]=new int[password.length()];
         for (int i = 0; i <password.length() ; i++) {
             array[i]=password.charAt(i)-'0';
@@ -76,8 +78,15 @@ public class APPGestureLockActivity extends BaseHeadActivity {
             public void onGestureFinished(boolean isMatched) {
                 if(isMatched)
                 {
-                    setResult(ConstantValue.RESULT_CODE2);
+                    SPManager.setGesturePasswordStatus(false);
+                    ToastUtils.showShort(getString(R.string.verifyPasswordSuccess));
+                    setResult(ConstantValue.REQUEST_CODE2);
                     finish();
+                }
+                else
+                {
+                    tvHint.setText(getString(R.string.wrongPasswordTryAgain));
+                    tvHint.setTextColor(getResources().getColor(R.color.red));
                 }
             }
 
@@ -100,25 +109,44 @@ public class APPGestureLockActivity extends BaseHeadActivity {
             public void onConnectCountUnmatched(int connectCount, int minCount) {
                 tvHint.setText(getString(R.string.gesWrongConfirmPassword));
                 tvHint.setTextColor(getResources().getColor(R.color.red));
+                gesView.resetGesture();
             }
 
             @Override
             public void onFirstPasswordFinished(List<Integer> answerList) {
                 tvHint.setText(getString(R.string.plzSetNewGesConfirmPassword));
                 tvHint.setTextColor(0xff404040);
+                gesView.resetPath(false);
+
             }
 
             @Override
             public void onSetPasswordFinished(boolean isMatched, List<Integer> answerList) {
-                tvHint.setText(getString(R.string.setGesPasswordSuccess));
-                tvHint.setTextColor(0xff404040);
-                tvHint.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        setResult(ConstantValue.RESULT_CODE2);
-                        finish();
+                if(isMatched)
+                {
+                    tvHint.setText(getString(R.string.setGesPasswordSuccess));
+                    tvHint.setTextColor(0xff404040);
+                    StringBuilder sb=new StringBuilder();
+                    for (int i = 0; i < answerList.size(); i++) {
+                        sb.append(answerList.get(i));
                     }
-                },1000);
+                    SPManager.setGesturePassword(sb.toString());
+                    gesView.resetGesture();
+                    tvHint.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            SPManager.setGesturePasswordStatus(true);
+                            setResult(ConstantValue.REQUEST_CODE1);
+                            finish();
+                        }
+                    },1000);
+                }
+                else
+                {
+                    tvHint.setText(getString(R.string.gesWrongConfirmPassword));
+                    tvHint.setTextColor(getResources().getColor(R.color.red));
+                    gesView.resetPath(true);
+                }
             }
         });
 

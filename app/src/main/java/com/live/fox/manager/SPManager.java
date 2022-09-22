@@ -34,6 +34,15 @@ public class SPManager {
         return password;
     }
 
+    public static void setGesturePasswordStatus(boolean status) {
+        SPUtils.getInstance(userInfo).put("GesturePasswordStatus", status);
+    }
+
+    public static boolean getGesturePasswordStatus() {
+        boolean status= SPUtils.getInstance(userInfo).getBoolean("GesturePasswordStatus", false);
+        return status;
+    }
+
 
     /**
      * 更新接口的域名

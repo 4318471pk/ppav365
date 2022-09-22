@@ -405,9 +405,31 @@ public class GestureLockLayout extends RelativeLayout {
         }
         mChooseList.clear();
         mPath.reset();
+
         for (ILockView iLockView : mILockViews) {
             iLockView.onNoFinger();
         }
+    }
+
+    /**
+     * 界面的手势图案去掉
+     */
+    public void resetPath(boolean isDeleteHistory) {
+        if (mPath == null || mILockViews == null) {
+            return;
+        }
+
+        mPath.reset();
+        mChooseList.clear();
+        if(isDeleteHistory)
+        {
+            mAnswerList.clear();
+        }
+
+        for (ILockView iLockView : mILockViews) {
+            iLockView.onNoFinger();
+        }
+        invalidate();
     }
 
     /**

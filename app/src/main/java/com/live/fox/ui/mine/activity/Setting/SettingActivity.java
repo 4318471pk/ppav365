@@ -20,6 +20,7 @@ import com.live.fox.R;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.SPManager;
 import com.live.fox.ui.h5.UserIndexActivity;
 import com.live.fox.ui.language.MultiLanguageActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
@@ -84,6 +85,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
         switchView=findViewById(R.id.switchView);
+        switchView.setOpened(SPManager.getGesturePasswordStatus());
         switchView.setOnStateChangedListener(this);
 
         String des = Constant.isPublish ? " " : getString(R.string.csb);
@@ -115,7 +117,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
 
         if(requestCode==ConstantValue.REQUEST_CODE1)
         {
-            if(requestCode==ConstantValue.RESULT_CODE1)
+            if(resultCode==ConstantValue.RESULT_CODE1)
             {
                 switchView.setOpened(false);
             }
@@ -127,7 +129,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
 
         if(requestCode==ConstantValue.REQUEST_CODE2)
         {
-            if(requestCode==ConstantValue.RESULT_CODE2)
+            if(resultCode==ConstantValue.RESULT_CODE2)
             {
                 switchView.setOpened(true);
             }
