@@ -303,7 +303,6 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                         }
                         onLoginSuccess(token);
                     } else {
-
                         ToastUtils.showShort(msg);
                     }
                 } catch (Exception e) {

@@ -18,11 +18,11 @@ import java.util.List;
  */
 public class SPManager {
 
-    private static String base="base";
-    private static String userInfo="userInfo";
-    private static String domain="domain";
-    private static String share="share";
-    private static String CountryCode="CountryCode";
+    public static String base="base";
+    public static String userInfo="userInfo";
+    public static String domain="domain";
+    public static String share="share";
+    public static String CountryCode="CountryCode";
 
     public static void setGesturePassword(String password) {
         if (!StringUtils.isEmpty(password))
