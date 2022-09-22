@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.live.fox.R;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +53,7 @@ public abstract class BaseDialogFragment extends DialogFragment  {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.Dialog_FullScreen);
     }
 
     public WeakReference<Context> getFragmentContext()
@@ -85,18 +87,6 @@ public abstract class BaseDialogFragment extends DialogFragment  {
         View view = inflater.inflate(getViewId(), container, false);
         onCreateView(view);
 
-        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                    getDialog().setCanceledOnTouchOutside(mIsKeyCanback);//键盘点击时是否可以取消--不需要设置了
-                    return !mIsKeyCanback;//return true 不往上传递则关闭不了，默认是可以取消，即return false
-                } else {
-                    return false;
-                }
-            }
-        });
-
         return view;
     }
 
@@ -110,6 +100,18 @@ public abstract class BaseDialogFragment extends DialogFragment  {
     @Override
     public void onStart() {
         super.onStart();
+        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+//                    getDialog().setCanceledOnTouchOutside(mIsKeyCanback);//键盘点击时是否可以取消--不需要设置了
+                    return !mIsKeyCanback;//return true 不往上传递则关闭不了，默认是可以取消，即return false
+                } else {
+                    return false;
+                }
+            }
+        });
+        getDialog().setCanceledOnTouchOutside(mIsOutCanback);
     }
 
     @Override

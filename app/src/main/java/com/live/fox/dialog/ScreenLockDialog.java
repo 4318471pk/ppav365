@@ -33,7 +33,8 @@ public class ScreenLockDialog extends BaseDialogFragment {
 
     @Override
     protected void onCreateView(View view) {
-
+        mIsOutCanback=false;
+        mIsKeyCanback=false;
     }
 
     @Override
