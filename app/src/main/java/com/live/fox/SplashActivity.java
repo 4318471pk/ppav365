@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -14,11 +15,15 @@ import androidx.annotation.RequiresApi;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.flyco.roundview.RoundRelativeLayout;
 import com.live.fox.base.BaseActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.CommonApp;
+import com.live.fox.dialog.ScreenLockDialog;
+import com.live.fox.manager.SPManager;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.StringUtils;
 
 /**
  * 启动页
@@ -131,8 +136,26 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void goToMain() {
-        MainActivity.startActivity(SplashActivity.this);
-        finish();
+        String gesPassword=SPManager.getGesturePassword();
+        if(StringUtils.isDigitOnly(gesPassword))
+        {
+            ScreenLockDialog screenLockDialog=ScreenLockDialog.getInstance();
+            screenLockDialog.setOnScreenLockUnlockListener(new ScreenLockDialog.onScreenLockUnlockListener() {
+                @Override
+                public void onScreenLockUnlock() {
+                    MainActivity.startActivity(SplashActivity.this);
+                    finish();
+                }
+            });
+            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),screenLockDialog);
+        }
+        else
+        {
+            MainActivity.startActivity(SplashActivity.this);
+            finish();
+        }
+
+
     }
 
     /**

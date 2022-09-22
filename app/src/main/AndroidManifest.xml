@@ -45,7 +45,6 @@
         <activity android:name=".ui.mine.activity.TransactionDetailActivity" />
         <activity android:name=".ui.mine.activity.TransactionActivity" />
         <activity android:name=".ui.mine.activity.Setting.APPGestureLockActivity" />
-        <activity android:name=".ui.APPScreenLockActivity" />
 
         <meta-data
             android:name="android.max_aspect"

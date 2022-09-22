@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.live.fox.R;
+import com.live.fox.base.BaseDialogFragment;
 import com.live.fox.okhttp.downloadbigfile.DownloadBigFileUtil;
 import com.live.fox.utils.ClickUtil;
 
@@ -23,7 +24,7 @@ import com.live.fox.utils.ClickUtil;
 /**
  * App 更新提示框
  */
-public class UpdateFragment extends DialogFragment implements View.OnClickListener {
+public class UpdateFragment extends BaseDialogFragment implements View.OnClickListener {
 
     TextView tv_version;
     TextView tv_cancel;
@@ -38,7 +39,6 @@ public class UpdateFragment extends DialogFragment implements View.OnClickListen
     LinearLayout layout_bottom2;
     LinearLayout layout_bottom3;
 
-    boolean isShow = false;
     String version;
     String updateDes;
     String apkUrl;
@@ -57,9 +57,17 @@ public class UpdateFragment extends DialogFragment implements View.OnClickListen
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getViewId() {
+        return R.layout.dialog_update;
+    }
 
+    @Override
+    protected void onCreateView(View view) {
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.getAttributes().windowAnimations = R.style.DialogAnimation;
+        }
         Bundle bundle = getArguments();
         if (bundle != null) {
             version = bundle.getString("version");
@@ -69,16 +77,9 @@ public class UpdateFragment extends DialogFragment implements View.OnClickListen
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Window window = getDialog().getWindow();
-        if (window != null) {
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.getAttributes().windowAnimations = R.style.DialogAnimation;
-        }
-
-        return inflater.inflate(R.layout.dialog_update, container, false);
+    protected void initViews(View view) {
+        initView(view);
     }
 
 
@@ -93,8 +94,7 @@ public class UpdateFragment extends DialogFragment implements View.OnClickListen
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        isShow = true;
-        initView(view);
+
     }
 
     public void initView(View view) {
@@ -193,12 +193,6 @@ public class UpdateFragment extends DialogFragment implements View.OnClickListen
 
     public static String format2(float value) {
         return String.format("%.2f", value).replace(",", ".");
-    }
-
-    @Override
-    public void dismiss() {
-        isShow = false;
-        super.dismiss();
     }
 
     OnBtnSureClick btnSureClick;

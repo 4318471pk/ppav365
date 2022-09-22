@@ -1,26 +1,43 @@
-package com.live.fox.ui;
+package com.live.fox.dialog;
 
-import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
-import com.live.fox.base.BaseActivity;
+import com.live.fox.base.BaseDialogFragment;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.GestureLockView.GestureLockLayout;
 
-public class APPScreenLockActivity extends BaseActivity {
+public class ScreenLockDialog extends BaseDialogFragment {
 
     TextView tvHint;
     GestureLockLayout gesView;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appscreen_lock);
+    onScreenLockUnlockListener onScreenLockUnlockListener;
 
+    public static ScreenLockDialog getInstance()
+    {
+        return new ScreenLockDialog();
+    }
+
+    public ScreenLockDialog setOnScreenLockUnlockListener(ScreenLockDialog.onScreenLockUnlockListener onScreenLockUnlockListener) {
+        this.onScreenLockUnlockListener = onScreenLockUnlockListener;
+        return this;
+    }
+
+    @Override
+    protected int getViewId() {
+        return R.layout.dialog_appscreen_lock;
+    }
+
+    @Override
+    protected void onCreateView(View view) {
+
+    }
+
+    @Override
+    protected void initViews(View view) {
         tvHint=findViewById(R.id.tvHint);
         gesView=findViewById(R.id.gesView);
         verifyPassword(SPManager.getGesturePassword());
@@ -46,10 +63,10 @@ public class APPScreenLockActivity extends BaseActivity {
             public void onGestureFinished(boolean isMatched) {
                 if(isMatched)
                 {
-                    SPManager.setGesturePasswordStatus(false);
-                    ToastUtils.showShort(getString(R.string.verifyPasswordSuccess));
-                    setResult(ConstantValue.REQUEST_CODE2);
-                    finish();
+                    if(onScreenLockUnlockListener!=null)
+                    {
+                        onScreenLockUnlockListener.onScreenLockUnlock();
+                    }
                 }
                 else
                 {
@@ -60,10 +77,14 @@ public class APPScreenLockActivity extends BaseActivity {
 
             @Override
             public void onGestureTryTimesBoundary() {
-                finish();
+                getActivity().finish();
                 ToastUtils.showShort(getString(R.string.tryTimesLimit));
             }
         });
+    }
 
+    public interface onScreenLockUnlockListener
+    {
+        void onScreenLockUnlock();
     }
 }

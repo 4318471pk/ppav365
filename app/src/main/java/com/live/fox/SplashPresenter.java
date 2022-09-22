@@ -168,31 +168,27 @@ public class SplashPresenter {
             LogUtils.e("跳主界面");
             if (!isHaveOpenScreen && !isConnectIm && context != null) {
                 //无开屏页 && 无IM连接 跳主界面
-                MainActivity.startActivity(context);
-                context.finish();
+                context.goToMain();
             }
 
             if (isHaveOpenScreen && isOpenScreenFinish && isConnectIm && isConnectImFinish) {
                 //有开屏页&&开屏页结束 && 有IM连接&&IM连接成功 跳主界面
                 if (context != null) {
-                    MainActivity.startActivity(context);
-                    context.finish();
+                    context.goToMain();
                 }
             }
 
             if (isHaveOpenScreen && isOpenScreenFinish && !isConnectIm) {
                 //有开屏页&&开屏页结束 && 无IM连接 跳主界面
                 if (context != null) {
-                    MainActivity.startActivity(context);
-                    context.finish();
+                    context.goToMain();
                 }
             }
 
             if (isConnectIm && isConnectImFinish && !isHaveOpenScreen) {
                 //IM连接&&IM连接成功 && 无开屏页 跳主界面
                 if (context != null) {
-                    MainActivity.startActivity(context);
-                    context.finish();
+                    context.goToMain();
                 }
             }
         }
