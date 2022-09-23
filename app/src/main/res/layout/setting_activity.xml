@@ -35,8 +35,10 @@
             android:text="@string/accountSecurity"/>
 
         <TextView
+            android:id="@+id/tvIdentification"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:drawablePadding="10dip"
             android:drawableRight="@mipmap/icon_arrow_right"
             android:layout_centerVertical="true"

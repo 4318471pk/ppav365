@@ -129,11 +129,11 @@ public class QQLockView extends View implements ILockView {
 //        canvas.drawCircle(0, 0, mOuterRadius, mPaint);
 
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.parseColor("#D2CDE0"));
+        mPaint.setColor(Color.parseColor("#A800FF"));
         canvas.drawCircle(0, 0, mInnerRadius, mPaint);
 
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.parseColor("#D2CDE0"));
+        mPaint.setColor(Color.parseColor("#DDA8FA"));
         mPaint.setStrokeWidth(ScreenUtils.getDip2px(getContext(),5));
         canvas.drawCircle(0, 0, mOuterRadius, mPaint);
     }

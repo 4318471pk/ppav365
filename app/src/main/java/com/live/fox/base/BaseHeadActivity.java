@@ -15,6 +15,7 @@ import com.live.fox.R;
 import com.live.fox.utils.BarUtils;
 
 
+
 /**
  * @author cheng
  * 功能：1.此类封装了一些修改头部的方法
@@ -29,7 +30,6 @@ public abstract class BaseHeadActivity extends BaseActivity implements View.OnCl
     ImageView ivRight;
     public TextView tvRight;
     public Toolbar toolbar;
-
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -221,4 +221,5 @@ public abstract class BaseHeadActivity extends BaseActivity implements View.OnCl
     public void onClick(View v) {
 
     }
+
 }

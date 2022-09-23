@@ -80,7 +80,7 @@ public class APPGestureLockActivity extends BaseHeadActivity {
                 {
                     SPManager.setGesturePasswordStatus(false);
                     ToastUtils.showShort(getString(R.string.verifyPasswordSuccess));
-                    setResult(ConstantValue.REQUEST_CODE2);
+                    setResult(ConstantValue.RESULT_CODE2);
                     finish();
                 }
                 else
@@ -136,7 +136,7 @@ public class APPGestureLockActivity extends BaseHeadActivity {
                         @Override
                         public void run() {
                             SPManager.setGesturePasswordStatus(true);
-                            setResult(ConstantValue.REQUEST_CODE1);
+                            setResult(ConstantValue.RESULT_CODE1);
                             finish();
                         }
                     },1000);

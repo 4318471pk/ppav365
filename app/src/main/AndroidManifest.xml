@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.live.fox">
 
@@ -43,8 +42,14 @@
             android:name=".ui.game.AllGameActivity"
             android:exported="true" />
         <activity android:name=".ui.mine.activity.TransactionDetailActivity" />
-        <activity android:name=".ui.mine.activity.TransactionActivity" />
-        <activity android:name=".ui.mine.activity.Setting.APPGestureLockActivity" />
+        <activity android:name=".ui.mine.activity.TransactionActivity"
+            />
+        <activity
+            android:name=".ui.mine.activity.Setting.APPGestureLockActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.activity.Setting.PhoneBindingActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="android.max_aspect"

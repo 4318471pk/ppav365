@@ -328,7 +328,7 @@
     <string name="boy">男</string>
     <string name="girl">女</string>
     <string name="passworda">密码长度为6–12字母</string>
-    <string name="telphone">请输入手机号</string>
+    <string name="telphone">请输入手机号码</string>
     <string name="customerService">客服服务</string>
     <string name="customQQCut">客服服务已複制到剪切板</string>
     <string name="bandBankcark">绑定银行卡</string>
@@ -555,7 +555,7 @@
     <string name="blackName">黑名单</string>
     <string name="appLock">应用锁</string>
     <string name="accountSecurity">账号安全</string>
-    <string name="phoneNumberVerify">手机认证</string>
+
     <string name="privateSecret">隐私</string>
     <string name="potisionMessage">位置信息</string>
     <string name="clearStorage">清除缓存</string>
@@ -984,9 +984,10 @@
     <string name="edit">编辑</string>
     <string name="pull_down_refresh">下拉开始刷新</string>
     <string name="max_input_money">不能超出最大金 %1$s</string>
-    <string name="appLockSetting">应用锁设置</string>
+
 
     <!--新加的字符-->
+    <string name="appLockSetting">应用锁设置</string>
     <string name="downloadingError">数据正在下载中,请稍后再试</string>
     <string name="tryTimesLimit">您已达到输入错误的上限</string>
     <string name="plzSetNewGesPassword">请滑动设置新密码</string>
@@ -998,5 +999,7 @@
     <string name="gesInputWrong">输入密码错误</string>
     <string name="tipsPhoneNumFormatWrong">手机号码格式不正确，请重新填写</string>
     <string name="plzInputVerify">请滑动输入密码</string>
+    <string name="identification">认证</string>
+    <string name="phoneNumberVerify">手机认证</string>
 
 </resources>
