@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">@color/white</color>
     <color name="colorAccent">#EB4A81</color>
     <color name="colorTitle">#F2718B</color>
+    <color name="actPageLine">#d9d1ec</color>
 
     <color name="appbg">@color/white</color>
 

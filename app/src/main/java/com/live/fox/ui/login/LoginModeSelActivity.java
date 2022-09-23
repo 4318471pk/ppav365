@@ -9,6 +9,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
@@ -60,6 +65,7 @@ import com.live.fox.view.DropDownWindowsOfCountry;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushManager;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -89,6 +95,34 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     private boolean flag = true;
     DropDownWindowsOfCountry dropDownWindowsOfCountry;
     List<CountryCode> countryCodes;
+    int remainSecond=60;
+    Handler handler =new Handler(Looper.myLooper()){
+
+        @Override
+        public void dispatchMessage(@NonNull @NotNull Message msg) {
+            super.dispatchMessage(msg);
+            switch (msg.what)
+            {
+                case 0:
+                    remainSecond--;
+                    if(remainSecond>0)
+                    {
+                        StringBuilder sb=new StringBuilder();
+                        sb.append(String.valueOf(remainSecond)).append("s").append(getString(R.string.reGet));
+                        sendVerifyCode.setText(sb.toString());
+                        sendVerifyCode.setEnabled(false);
+                        sendEmptyMessageDelayed(0,1000);
+                    }
+                    else
+                    {
+                        remainSecond=60;
+                        sendVerifyCode.setText(getString(R.string.get_verification_code));
+                        sendVerifyCode.setEnabled(true);
+                    }
+                    break;
+            }
+        }
+    };
 
 
     @Override
@@ -101,6 +135,12 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         initData(getIntent());
         initView();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeMessages(0);
     }
 
     public void initData(Intent intent) {
@@ -263,7 +303,6 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                         }
                         onLoginSuccess(token);
                     } else {
-
                         ToastUtils.showShort(msg);
                     }
                 } catch (Exception e) {
@@ -299,9 +338,9 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    public void doLoginByPwdApi(String phone, String password,String areaCode) {
+    public void doLoginByVCodeApi(String phone, String vCode,String areaCode) {
         showLoadingView();
-        Api_Auth.ins().phoneLogin(phone, password,areaCode, new JsonCallback<String>() {
+        Api_Auth.ins().phoneCodeLogin(phone, vCode,areaCode, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 try {
@@ -351,6 +390,12 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void doSendPhoneCodeApi() {
+        if(TextUtils.isEmpty(etUsername.getText().toString()))
+        {
+            ToastUtils.showShort(getString(R.string.tipsPhoneNumFormatWrong));
+            return;
+        }
+        showLoadingDialog();
         RegisterEntity registerEntity=new RegisterEntity();
         registerEntity.setName(etUsername.getText().toString());
         registerEntity.setType("4");
@@ -359,7 +404,8 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         Api_Auth.ins().sendPhoneCode(registerEntity, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                Log.e("doSendPhoneCodeApi",msg);
+                hideLoadingDialog();
+                handler.sendEmptyMessage(0);
             }
         });
     }
@@ -423,7 +469,6 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
             case R.id.home_language:
                 MultiLanguageActivity.launch(this);
                 break;
-
             case R.id.btn_login_by_pass:
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtils.showShort(getString(R.string.inputAccout));
@@ -440,7 +485,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
                 BetCartDataManager.betGameIndex = 0;
-                doLoginByPwdApi(phone, password,tvCountrySelector.getText().toString());
+                doLoginByVCodeApi(phone, password,tvCountrySelector.getText().toString());
                 break;
             case R.id.llCountrySelector:
                 if(countryCodes==null || countryCodes.size()==0)

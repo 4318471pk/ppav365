@@ -1,9 +1,26 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext{
-        kotlin_version = '1.4.0'
-//        compiler_version = '3.0.0-beta6'
+    ext {
+        args = [
+                NDKVersion : "21.3.6528147",
+                minSdkVersion : "19",
+                targetSdkVersion : "29",
+                kotlin_version : '1.4.0'
+        ]
+        releaseSigningConfigs=[
+                StoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
+                StorePassword :'4318471pk',
+                KeyAlias : 'bying',
+                KeyPassword : '4318471pk'
+        ]
+
+        debugSigningConfigs=[
+                StoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
+                StorePassword :'4318471pk',
+                KeyAlias : 'bying',
+                KeyPassword : '4318471pk'
+        ]
+
     }
 
     repositories {
@@ -17,7 +34,7 @@ buildscript {
         // in the individual module build.gradle files 3.4.1
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0'
     }
 }
 
@@ -34,3 +51,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+

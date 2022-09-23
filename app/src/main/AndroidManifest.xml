@@ -44,6 +44,7 @@
             android:exported="true" />
         <activity android:name=".ui.mine.activity.TransactionDetailActivity" />
         <activity android:name=".ui.mine.activity.TransactionActivity" />
+        <activity android:name=".ui.mine.activity.Setting.APPGestureLockActivity" />
 
         <meta-data
             android:name="android.max_aspect"
@@ -191,7 +192,7 @@
             android:name=".ui.mine.activity.BlackLIstActivity"
             android:screenOrientation="portrait" /> <!-- 系统设置 -->
         <activity
-            android:name=".ui.mine.activity.SettingActivity"
+            android:name=".ui.mine.activity.Setting.SettingActivity"
             android:screenOrientation="portrait" /> <!-- 通知设置 -->
         <!-- 帮助与反馈 -->
         <!-- 直播结束 -->

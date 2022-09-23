@@ -53,7 +53,7 @@ public class BaseApi {
 //        headers.put("X-Language", MultiLanguageUtils.getRequestHeader());
         headers.put("Accept-Language", MultiLanguageUtils.getRequestHeader());
         headers.put("X-Sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + timestamp));
-        String token = SPUtils.getInstance("userinfo").getString("token", "");
+        String token = SPManager.getToken();
         if (!StringUtils.isEmpty(token)) {
             headers.put("Authorization", "HSBox " + token);
         }

@@ -1,6 +1,5 @@
 package com.live.fox.ui.mine;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,7 +43,7 @@ import com.live.fox.ui.mine.activity.MyFollowActivity;
 import com.live.fox.ui.mine.activity.MyGameRecordActivity;
 import com.live.fox.ui.mine.activity.MyPronActivity;
 import com.live.fox.ui.mine.activity.RechargeActivity;
-import com.live.fox.ui.mine.activity.SettingActivity;
+import com.live.fox.ui.mine.activity.Setting.SettingActivity;
 import com.live.fox.ui.mine.activity.ShareActivity;
 import com.live.fox.ui.mine.activity.ShopActivity;
 import com.live.fox.ui.mine.activity.TransactionActivity;

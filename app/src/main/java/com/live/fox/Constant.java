@@ -121,7 +121,7 @@ public class Constant {
         public static final String Auth_Guest_Login=CenterClient +"/auth/tourists/login";//游客登录
         public static final String AUTH_PHONELOGIN_URL = CenterClient + "/sys/auth/phone/login";  // 手机号密码登录
         public static final String AUTH_PHONEREQ_URL = CenterClient + "/sys/auth/phone/reg/codeValidate";      // 验证码校验接口
-        public static final String AUTH_SENDVCODE_URL = CenterClient + "/sys/auth/send/vcode";    // 验证码发送
+        public static final String AUTH_SENDVCODE_URL = CenterClient + "/auth/send/vcode";    // 验证码发送
         public static final String AUTH_SENDVCODE_URL2 = CenterClient + "/sys/user/cash/sendCashCode";    // 绑定银行卡验证码发送
         public static final String AUTH_VCODELOGIN_URL = CenterClient + "/sys/auth/vcode/login";  // 验证码快捷登录
         public static final String AUTH_RESETPWD_URL = CenterClient + "/sys/auth/reset/pwd";      // 忘记密码-密码重置

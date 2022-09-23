@@ -50,7 +50,8 @@ public abstract class BaseHeadActivity extends BaseActivity implements View.OnCl
         tvRight = findViewById(R.id.tv_head_right);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.head_back_sel);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.head_back_sel);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
 
         //设置ToolBar的标题不显示
         getSupportActionBar().setDisplayShowTitleEnabled(false);

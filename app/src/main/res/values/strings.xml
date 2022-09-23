@@ -984,8 +984,19 @@
     <string name="edit">编辑</string>
     <string name="pull_down_refresh">下拉开始刷新</string>
     <string name="max_input_money">不能超出最大金 %1$s</string>
-
+    <string name="appLockSetting">应用锁设置</string>
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>
+    <string name="tryTimesLimit">您已达到输入错误的上限</string>
+    <string name="plzSetNewGesPassword">请滑动设置新密码</string>
+    <string name="wrongPasswordTryAgain">密码验证错误，请重新输入</string>
+    <string name="plzSetNewGesConfirmPassword">请再次滑动输入密码</string>
+    <string name="gesWrongConfirmPassword">两次输入密码不一致，请重新滑动输入</string>
+    <string name="setGesPasswordSuccess">密码设置成功</string>
+    <string name="verifyPasswordSuccess">密码验证成功</string>
+    <string name="gesInputWrong">输入密码错误</string>
+    <string name="tipsPhoneNumFormatWrong">手机号码格式不正确，请重新填写</string>
+    <string name="plzInputVerify">请滑动输入密码</string>
+
 </resources>

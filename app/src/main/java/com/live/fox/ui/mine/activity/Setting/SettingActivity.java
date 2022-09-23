@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine.activity;
+package com.live.fox.ui.mine.activity.Setting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,13 +15,16 @@ import com.live.fox.App;
 import com.live.fox.AppConfig;
 import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.SPManager;
 import com.live.fox.ui.h5.UserIndexActivity;
 import com.live.fox.ui.language.MultiLanguageActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.ui.mine.activity.BlackLIstActivity;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.CleanUtils;
@@ -29,16 +32,18 @@ import com.live.fox.utils.FileUtils;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.AppUserManger;
+import com.live.fox.view.SwitchView;
 
 
 /**
  * 系统设置
  */
-public class SettingActivity extends BaseHeadActivity implements View.OnClickListener {
+public class SettingActivity extends BaseHeadActivity implements View.OnClickListener,SwitchView.OnStateChangedListener {
 
     private TextView tvCache;
     private TextView tvVersion;
     private ImageView iv_permision;
+    private SwitchView switchView;
 
     public static void startActivity(Context context) {
         Constant.isAppInsideClick = true;
@@ -78,6 +83,10 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         findViewById(R.id.layout_about).setOnClickListener(this);
         findViewById(R.id.tv_loginout).setOnClickListener(this);
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
+        findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
+        switchView=findViewById(R.id.switchView);
+        switchView.setOpened(SPManager.getGesturePasswordStatus());
+        switchView.setOnStateChangedListener(this);
 
         String des = Constant.isPublish ? " " : getString(R.string.csb);
         des = String.format(getString(R.string.currentBan), AppUtils.getAppVersionName()) + des;
@@ -103,6 +112,30 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
                 iv_permision.setImageResource(R.drawable.permisionoff);
             } else {
                 iv_permision.setImageResource(R.drawable.permisionon);
+            }
+        }
+
+        if(requestCode==ConstantValue.REQUEST_CODE1)
+        {
+            if(resultCode==ConstantValue.RESULT_CODE1)
+            {
+                switchView.setOpened(false);
+            }
+            else
+            {
+                switchView.setOpened(true);
+            }
+        }
+
+        if(requestCode==ConstantValue.REQUEST_CODE2)
+        {
+            if(resultCode==ConstantValue.RESULT_CODE2)
+            {
+                switchView.setOpened(true);
+            }
+            else
+            {
+                switchView.setOpened(false);
             }
         }
     }
@@ -185,5 +218,32 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void toggleToOn(SwitchView view) {
+        Intent intent=null;
+        switch (view.getId())
+        {
+            case R.id.switchView:
+                intent=new Intent(this,APPGestureLockActivity.class);
+                intent.putExtra(ConstantValue.SwitchStatus,false);
+                startActivityForResult(intent,ConstantValue.REQUEST_CODE1);
+                break;
+        }
+    }
+
+    @Override
+    public void toggleToOff(SwitchView view) {
+
+        Intent intent=null;
+        switch (view.getId())
+        {
+            case R.id.switchView:
+                intent=new Intent(this,APPGestureLockActivity.class);
+                intent.putExtra(ConstantValue.SwitchStatus,true);
+                startActivityForResult(intent,ConstantValue.REQUEST_CODE2);
+                break;
+        }
     }
 }

@@ -203,10 +203,13 @@
                         <View
                             android:layout_width="20dip"
                             android:layout_height="10dip"/>
-                        <TextView
+
+                        <me.grantland.widget.AutofitTextView
                             android:id="@+id/sendVerifyCode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            app:sizeToFit="true"
                             android:paddingTop="5dip"
                             android:paddingBottom="5dip"
                             android:layout_weight="1"
