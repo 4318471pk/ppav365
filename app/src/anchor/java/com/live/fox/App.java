@@ -13,12 +13,6 @@ import com.lovense.sdklibrary.Lovense;
  */
 public class App extends CommonApp {
 
-    private static Handler handler=new Handler(Looper.myLooper()) {};
-
-    public static Handler getHandler() {
-        return handler;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();

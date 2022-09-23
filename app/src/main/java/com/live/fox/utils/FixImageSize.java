@@ -23,7 +23,7 @@ public class FixImageSize {
         int viewWidth=view.getDrawable().getIntrinsicWidth();
         int viewHeight=view.getDrawable().getIntrinsicHeight();
 
-        App.getHandler().post(new Runnable() {
+        view.post(new Runnable() {
             @Override
             public void run() {
                 ImageView imageView=(ImageView)view;
@@ -53,7 +53,7 @@ public class FixImageSize {
         int viewWidth=view.getBackground().getIntrinsicWidth();
         int viewHeight=view.getBackground().getIntrinsicHeight();
 
-        App.getHandler().post(new Runnable() {
+        view.post(new Runnable() {
             @Override
             public void run() {
                 if(view.getBackground()!=null)

@@ -19,11 +19,14 @@ import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.BaseHeadActivity;
+import com.live.fox.databinding.ActivityPhoneBindingBinding;
 import com.live.fox.ui.login.LoginViewModel;
+import com.live.fox.utils.FixImageSize;
 
 
-public class PhoneBindingActivity extends BaseActivity {
+public class PhoneBindingActivity extends BaseBindingViewActivity {
 
+    ActivityPhoneBindingBinding mBind;
 //    Handler handler = new Handler(Looper.myLooper()) {
 //
 //        @Override
@@ -51,11 +54,15 @@ public class PhoneBindingActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_phone_binding);
+        mBind=setBindLayoutID(R.layout.activity_phone_binding);
+        setActivityTitle(R.string.phoneNumberVerify);
 
-//        tvSendVerifyCode.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-       ViewDataBinding mBinding = DataBindingUtil.setContentView(this, R.layout.activity_phone_binding);
-        mBinding.setLifecycleOwner(this);
+        FixImageSize.setImageSizeOnWidthWithSRC(mBind.iconTopPhoneBind,getScaleWidth(0.4f));
+        FixImageSize.setImageSizeOnWidthWithSRC(mBind.icoTopPhoneMid,getScaleWidth(0.07f));
+        mBind.tvSendVerifyCode.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG);
+        mBind.tvSendVerifyCode.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+
 
     }
 

@@ -168,5 +168,6 @@
             <enum name="bottom" value="3"/>
         </attr>
         <attr name="gt_gradient_angle" format="integer"/>
+        <attr name="gt_radius_dp" format="dimension"/>
     </declare-styleable>
 </resources>

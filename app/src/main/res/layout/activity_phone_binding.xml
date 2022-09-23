@@ -6,117 +6,173 @@
 
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#f5f1f8">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dip"
-            android:layout_gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/iconTopPhoneBind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_phone_bind"
-                android:padding="10dip" />
-        </RelativeLayout>
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:background="@drawable/shape_round_white"
-            android:padding="15dip"
+            android:layout_height="match_parent"
+            android:background="#f5f1f8"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dip">
+
+                <ImageView
+                    android:id="@+id/iconTopPhoneBind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:src="@mipmap/icon_phone_bind" />
+
+                <ImageView
+                    android:id="@+id/icoTopPhoneMid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/icon_phone_bind_empty"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#F42C2C"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:text="@string/notYetIdentification"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#404040"
+                android:textSize="16sp"
+                android:text="@string/securityLevelLow"/>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/shape_round_white"
+                android:orientation="vertical"
+                android:padding="15dip">
 
-                <TextView
-                    android:id="@+id/tvCountryCode"
-                    android:layout_width="100dip"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="#A800FF"
-                    android:text="+66" />
-
-                <TextView
-                    android:id="@+id/tvPhoneNum"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dip"
-                    android:paddingBottom="5dip"
-                    android:layout_weight="0.9"
-                    android:textSize="16sp"
-                    android:textColor="#404040"
-                    android:hint="@string/telphone" />
+                    android:orientation="horizontal">
 
-                <TextView
+                    <TextView
+                        android:id="@+id/tvCountryCode"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:text="+86"
+                        android:textColor="#A800FF"
+                        android:textSize="16sp" />
+                    
+                    <View
+                        android:layout_width="1dip"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dip"
+                        android:background="#D2CDE0"/>
+
+                    <EditText
+                        android:id="@+id/tvPhoneNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:layout_marginLeft="10dip"
+                        android:background="@null"
+                        android:layout_weight="0.8"
+                        android:hint="@string/telphone"
+                        android:paddingTop="5dip"
+                        android:paddingBottom="5dip"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="   "
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:layout_marginLeft="20dip"
+                    android:layout_marginRight="20dip"
+                    android:layout_marginTop="15dip"
+                    android:layout_marginBottom="15dip"
+                    android:background="#F4F1F8"/>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
-                    android:text="   " />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_title_message"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/tvVerifyCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:layout_marginLeft="10dip"
+                        android:background="@null"
+                        android:layout_weight="0.8"
+                        android:hint="@string/enter_verification_code"
+                        android:paddingTop="5dip"
+                        android:paddingBottom="5dip"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/tvSendVerifyCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        app:sizeToFit="true"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="5dip"
+                        android:paddingBottom="5dip"
+                        android:text="@string/get_verification_code"
+                        android:textColor="#b400ff"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+
+            <com.live.fox.view.GradientTextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dip"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dip"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="#404040"
-                    android:text="@string/login_title_message" />
-
-                <TextView
-                    android:id="@+id/tvVerifyCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dip"
-                    android:paddingBottom="5dip"
-                    android:textSize="16sp"
-                    android:textColor="#404040"
-                    android:layout_weight="0.9"
-                    android:hint="@string/enter_verification_code" />
-
-                <TextView
-                    android:id="@+id/tvSendVerifyCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="5dip"
-                    android:paddingBottom="5dip"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:textColor="#b400ff"
-                    android:text="@string/get_verification_code" />
-            </LinearLayout>
+                android:layout_height="40dip"
+                android:layout_marginLeft="50dip"
+                android:layout_marginTop="30dip"
+                android:layout_marginRight="50dip"
+                android:gravity="center"
+                android:text="@string/identification"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:gt_color_list="@array/identificationColor"
+                app:gt_radius_dp="3dip"/>
         </LinearLayout>
-
-
-        <com.live.fox.view.GradientTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
-            android:layout_marginLeft="50dip"
-            android:layout_marginRight="50dip"
-            android:paddingTop="15dip"
-            android:paddingBottom="15dip"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:text="@string/identification"
-            app:gt_color_list="@array/identificationColor" />
-    </LinearLayout>
+    </ScrollView>
 </layout>

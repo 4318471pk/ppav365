@@ -2,8 +2,10 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.live.fox.R;
+import com.live.fox.utils.device.ScreenUtils;
 
 public class GradientTextView extends AppCompatTextView {
 
@@ -18,6 +21,9 @@ public class GradientTextView extends AppCompatTextView {
     private int[] mColors;
     private int mAngle = 0;
     private DIRECTION mDIRECTION;
+    GradientDrawable mIndicatorDrawable=new GradientDrawable();
+    float radius=10f;
+    GradientDrawable.Orientation orientation=GradientDrawable.Orientation.LEFT_RIGHT;
 
     public enum DIRECTION {
         LEFT(0),
@@ -62,10 +68,28 @@ public class GradientTextView extends AppCompatTextView {
                 mAngle = typedArray.getInt(R.styleable.GradientTextView_gt_gradient_angle, 0);
             }
 
+            if (typedArray.hasValue(R.styleable.GradientTextView_gt_radius_dp)) {
+                radius = ScreenUtils.getDip2px(context,typedArray.getDimension(R.styleable.GradientTextView_gt_radius_dp, 0));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             typedArray.recycle();
+        }
+
+        if (mDIRECTION != null) {
+            switch (mDIRECTION) {
+                case TOP:
+                    orientation=GradientDrawable.Orientation.TOP_BOTTOM;
+                case RIGHT:
+                    orientation=GradientDrawable.Orientation.RIGHT_LEFT;
+                case BOTTOM:
+                    orientation=GradientDrawable.Orientation.BOTTOM_TOP;
+                case LEFT:
+                default:
+                    orientation=GradientDrawable.Orientation.LEFT_RIGHT;
+            }
         }
     }
 
@@ -74,31 +98,46 @@ public class GradientTextView extends AppCompatTextView {
         super.onSizeChanged(w, h, oldw, oldh);
         //if colors haven't been set, skip this
         if (mColors != null) {
-            int[] xyPositions = calculateGradientPositions(w, h);
-            Shader shader= new LinearGradient(xyPositions[0], xyPositions[1], xyPositions[2], xyPositions[3], mColors, null, Shader.TileMode.CLAMP);
-            getPaint().setShader(shader);
+
         }
     }
 
-    private int[] calculateGradientPositions(int w, int h) {
-        int[] gradientPositions;
-        if (mAngle < 0 || mAngle > 360) {
-            // TODO: 9/26/2017 fix angle calculations
-        }
-        if (mDIRECTION != null) {
-            switch (mDIRECTION) {
-                case TOP:
-                    return new int[]{0, h, 0, 0};
-                case RIGHT:
-                    return new int[]{0, 0, w, 0};
-                case BOTTOM:
-                    return new int[]{0, 0, 0, h};
-                case LEFT:
-                default:
-                    return new int[]{w, 0, 0, 0};
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+        invalidate();
+    }
+
+    public void setOrientation(DIRECTION direction) {
+        if(direction!=null)
+        {
+                switch (mDIRECTION) {
+                    case TOP:
+                        orientation=GradientDrawable.Orientation.TOP_BOTTOM;
+                    case RIGHT:
+                        orientation=GradientDrawable.Orientation.RIGHT_LEFT;
+                    case BOTTOM:
+                        orientation=GradientDrawable.Orientation.BOTTOM_TOP;
+                    case LEFT:
+                    default:
+                        orientation=GradientDrawable.Orientation.LEFT_RIGHT;
             }
+            invalidate();
         }
-        //should not reach here
-        return new int[]{0, 0, 0, 0};
+
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if(mColors!=null )
+        {
+            mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
+            mIndicatorDrawable.setColors(mColors);
+            mIndicatorDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+            mIndicatorDrawable.setOrientation(orientation);
+            mIndicatorDrawable.setCornerRadius(radius);
+            mIndicatorDrawable.draw(canvas);
+        }
+        super.onDraw(canvas);
     }
 }

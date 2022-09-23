@@ -2,6 +2,7 @@ package com.live.fox.base;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,18 +14,14 @@ import androidx.databinding.ViewDataBinding;
 
 import com.live.fox.Constant;
 import com.live.fox.R;
+import com.live.fox.utils.OnClickFrequentlyListener;
+import com.live.fox.utils.device.ScreenUtils;
 
-public class BaseBindingViewActivity extends BaseActivity{
+public class BaseBindingViewActivity extends BaseActivity {
 
-    ImageView ivLeft;
-    TextView tvLeft;
-    TextView tvTitle;
-    ImageView ivTitle;
-    ImageView ivRight;
-    public TextView tvRight;
-    public Toolbar toolbar;
-    ViewDataBinding mBinding;
-
+    ImageView ivHeadLeft;
+    TextView tvHeadTitle;
+    int screenWidth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,43 +29,36 @@ public class BaseBindingViewActivity extends BaseActivity{
 
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(R.layout.head_line_include);
-        LinearLayout container = findViewById(R.id.container);
-        View view = getLayoutInflater().inflate(layoutResID, container, false);
-        container.addView(view);
-        initHeadView();
-        mBinding = DataBindingUtil.bind(container);
-    }
+    public <T extends ViewDataBinding> T setBindLayoutID(int layoutResID) {
+        LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_header_layout,null);
+        ViewDataBinding binding = DataBindingUtil.bind(getLayoutInflater().inflate(layoutResID, view,false));
+        LinearLayout container = view.findViewById(R.id.container);
+        container.addView(binding.getRoot());
+        setContentView(container);
 
-    @Override
-    public void setContentView(View mView) {
-        LinearLayout container = findViewById(R.id.container);
-        container.addView(mView);
-        initHeadView();
-        super.setContentView(container);
-    }
-
-    private void initHeadView() {
-        toolbar = findViewById(R.id.toolbar);
-        ivLeft = findViewById(R.id.iv_head_left);
-        tvLeft = findViewById(R.id.tv_head_left);
-        tvTitle = findViewById(R.id.tv_head_title);
-        ivTitle = findViewById(R.id.iv_head_title);
-        ivRight = findViewById(R.id.iv_head_right);
-        tvRight = findViewById(R.id.tv_head_right);
-
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.head_back_sel);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
-
-        //设置ToolBar的标题不显示
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationOnClickListener(view -> {
-            Constant.isAppInsideClick = true;
-            finish();
+        screenWidth= ScreenUtils.getScreenWidth(this);
+        ivHeadLeft = findViewById(R.id.ivHeadLeft);
+        tvHeadTitle = findViewById(R.id.tvHeadTitle);
+        ivHeadLeft.setOnClickListener(new OnClickFrequentlyListener() {
+            @Override
+            public void onClickView(View view) {
+                finish();
+            }
         });
+
+        return (T) binding;
     }
 
+    public void setActivityTitle(String title) {
+        tvHeadTitle.setText(title);
+    }
+
+    public void setActivityTitle(int titleRes) {
+        tvHeadTitle.setText(getResources().getText(titleRes));
+    }
+
+
+    public int getScaleWidth(float ratio) {
+        return (int)(screenWidth*ratio);
+    }
 }
