@@ -1,4 +1,4 @@
-package com.live.fox.view.GestureLockView;
+package com.live.fox.view.screenlock;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -90,7 +90,11 @@ public class GestureLockLayout extends RelativeLayout {
     }
 
     public GestureLockLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public GestureLockLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         init(context);
     }
 

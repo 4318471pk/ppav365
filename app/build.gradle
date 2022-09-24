@@ -78,7 +78,7 @@ android {
     }
 
 //    buildFeatures {  //DataBinding 数据绑定
-//        dataBinding = true
+//        viewBinding = true
 //    }
 
     dataBinding { enabled = true }

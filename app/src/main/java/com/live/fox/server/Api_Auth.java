@@ -157,6 +157,25 @@ public class Api_Auth extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * POST user/touristsBindPhone 游客绑定手机号绑定
+     *{ "area": "", "mobile": "", "os": 0, "sign": "", "timestamp": 0, "udid": "", "vcode": "" }
+     */
+    public void guestBindPhone(String area,String mobile,String vcode, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.AUTH_GUEST_BIND_PHONE;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("mobile", mobile);
+        params.put("vcode",vcode);
+        params.put("area",area);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
     public void sendPhoneCode2(String mobile, int type, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.AUTH_SENDVCODE_URL2;
         HashMap<String, Object> params = getCommonParams();

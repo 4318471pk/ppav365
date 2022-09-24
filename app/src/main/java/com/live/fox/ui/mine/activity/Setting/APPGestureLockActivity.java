@@ -1,40 +1,41 @@
 package com.live.fox.ui.mine.activity.Setting;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
-import com.live.fox.base.BaseActivity;
-import com.live.fox.base.BaseHeadActivity;
+import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.databinding.ActivityAppGesturelockBinding;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.view.GestureLockView.GestureLockDisplayView;
-import com.live.fox.view.GestureLockView.GestureLockLayout;
+import com.live.fox.view.screenlock.GestureLockLayout;
 
 import java.util.List;
 
-public class APPGestureLockActivity extends BaseHeadActivity {
+public class APPGestureLockActivity extends BaseBindingViewActivity {
 
-    GestureLockLayout gesView;
-    TextView tvHint;
+    ActivityAppGesturelockBinding mBind;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_gesturelock);
-        setHead(getString(R.string.appLockSetting),true,false);
+    public void onClickView(View view) {
 
-        gesView=findViewById(R.id.gesView);
-        tvHint=findViewById(R.id.tvHint);
+    }
+
+    @Override
+    public int onCreateLayoutId() {
+        return R.layout.activity_app_gesturelock;
+    }
+
+    @Override
+    public void initView() {
+        mBind=getViewDataBinding();
+        setActivityTitle(R.string.appLockSetting);
+
         setResult(ConstantValue.RESULT_CODE3);
-
         boolean status= getIntent().getBooleanExtra(ConstantValue.SwitchStatus,false);
         if(status)
         {
@@ -55,21 +56,20 @@ public class APPGestureLockActivity extends BaseHeadActivity {
             //设置密码
             setPassword();
         }
-
     }
 
     private void verifyPassword(String password)
     {
-        tvHint.setText(getString(R.string.plzInputVerify));
-        tvHint.setTextColor(0xff404040);
+        mBind.tvHint.setText(getString(R.string.plzInputVerify));
+        mBind.tvHint.setTextColor(0xff404040);
         int array[]=new int[password.length()];
         for (int i = 0; i <password.length() ; i++) {
             array[i]=password.charAt(i)-'0';
         }
-        gesView.setAnswer(array);
-        gesView.setMode(GestureLockLayout.VERIFY_MODE);
-        gesView.setTryTimes(10);
-        gesView.setOnLockVerifyListener(new GestureLockLayout.OnLockVerifyListener() {
+        mBind.gesView.setAnswer(array);
+        mBind.gesView.setMode(GestureLockLayout.VERIFY_MODE);
+        mBind.gesView.setTryTimes(10);
+        mBind.gesView.setOnLockVerifyListener(new GestureLockLayout.OnLockVerifyListener() {
             @Override
             public void onGestureSelected(int id) {
             }
@@ -85,8 +85,8 @@ public class APPGestureLockActivity extends BaseHeadActivity {
                 }
                 else
                 {
-                    tvHint.setText(getString(R.string.wrongPasswordTryAgain));
-                    tvHint.setTextColor(getResources().getColor(R.color.red));
+                    mBind.tvHint.setText(getString(R.string.wrongPasswordTryAgain));
+                    mBind.tvHint.setTextColor(getResources().getColor(R.color.red));
                 }
             }
 
@@ -101,22 +101,22 @@ public class APPGestureLockActivity extends BaseHeadActivity {
 
     private void setPassword()
     {
-        tvHint.setText(getString(R.string.plzSetNewGesPassword));
-        tvHint.setTextColor(0xff404040);
-        gesView.setMode(GestureLockLayout.RESET_MODE);
-        gesView.setOnLockResetListener(new GestureLockLayout.OnLockResetListener() {
+        mBind.tvHint.setText(getString(R.string.plzSetNewGesPassword));
+        mBind.tvHint.setTextColor(0xff404040);
+        mBind.gesView.setMode(GestureLockLayout.RESET_MODE);
+        mBind.gesView.setOnLockResetListener(new GestureLockLayout.OnLockResetListener() {
             @Override
             public void onConnectCountUnmatched(int connectCount, int minCount) {
-                tvHint.setText(getString(R.string.gesWrongConfirmPassword));
-                tvHint.setTextColor(getResources().getColor(R.color.red));
-                gesView.resetGesture();
+                mBind.tvHint.setText(getString(R.string.gesWrongConfirmPassword));
+                mBind.tvHint.setTextColor(getResources().getColor(R.color.red));
+                mBind.gesView.resetGesture();
             }
 
             @Override
             public void onFirstPasswordFinished(List<Integer> answerList) {
-                tvHint.setText(getString(R.string.plzSetNewGesConfirmPassword));
-                tvHint.setTextColor(0xff404040);
-                gesView.resetPath(false);
+                mBind.tvHint.setText(getString(R.string.plzSetNewGesConfirmPassword));
+                mBind.tvHint.setTextColor(0xff404040);
+                mBind.gesView.resetPath(false);
 
             }
 
@@ -124,15 +124,15 @@ public class APPGestureLockActivity extends BaseHeadActivity {
             public void onSetPasswordFinished(boolean isMatched, List<Integer> answerList) {
                 if(isMatched)
                 {
-                    tvHint.setText(getString(R.string.setGesPasswordSuccess));
-                    tvHint.setTextColor(0xff404040);
+                    mBind.tvHint.setText(getString(R.string.setGesPasswordSuccess));
+                    mBind.tvHint.setTextColor(0xff404040);
                     StringBuilder sb=new StringBuilder();
                     for (int i = 0; i < answerList.size(); i++) {
                         sb.append(answerList.get(i));
                     }
                     SPManager.setGesturePassword(sb.toString());
-                    gesView.resetGesture();
-                    tvHint.postDelayed(new Runnable() {
+                    mBind.gesView.resetGesture();
+                    mBind.tvHint.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             SPManager.setGesturePasswordStatus(true);
@@ -143,9 +143,9 @@ public class APPGestureLockActivity extends BaseHeadActivity {
                 }
                 else
                 {
-                    tvHint.setText(getString(R.string.gesWrongConfirmPassword));
-                    tvHint.setTextColor(getResources().getColor(R.color.red));
-                    gesView.resetPath(true);
+                    mBind.tvHint.setText(getString(R.string.gesWrongConfirmPassword));
+                    mBind.tvHint.setTextColor(getResources().getColor(R.color.red));
+                    mBind.gesView.resetPath(true);
                 }
             }
         });

@@ -3,12 +3,11 @@ package com.live.fox.dialog;
 import android.view.View;
 import android.widget.TextView;
 
-import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseDialogFragment;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.view.GestureLockView.GestureLockLayout;
+import com.live.fox.view.screenlock.GestureLockLayout;
 
 public class ScreenLockDialog extends BaseDialogFragment {
 

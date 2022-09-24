@@ -19,4 +19,5 @@ public interface ConstantValue {
     int RESULT_CODE2 = 10002>>2;
     int RESULT_CODE3 = 10003>>3;
     int RESULT_CODE4 = 10004>>4;
+    int GUEST_BINDPHONE = 10005;
 }
