@@ -22,7 +22,7 @@
         android:textSize="16sp"
         android:textColor="#404040"/>
 
-    <com.live.fox.view.GestureLockView.GestureLockLayout
+    <com.live.fox.view.screenlock.GestureLockLayout
         android:id="@+id/gesView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

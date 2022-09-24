@@ -17,19 +17,25 @@ import com.live.fox.R;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.device.ScreenUtils;
 
-public class BaseBindingViewActivity extends BaseActivity {
+public abstract class BaseBindingViewActivity extends BaseActivity {
 
     ImageView ivHeadLeft;
     TextView tvHeadTitle;
     int screenWidth;
+    ViewDataBinding viewDataBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        viewDataBinding=setBindLayoutID(onCreateLayoutId());
+        initView();
     }
 
-    public <T extends ViewDataBinding> T setBindLayoutID(int layoutResID) {
+    public <T extends ViewDataBinding> T getViewDataBinding() {
+        return (T)viewDataBinding;
+    }
+
+    private  <T extends ViewDataBinding> T setBindLayoutID(int layoutResID) {
         LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_header_layout,null);
         ViewDataBinding binding = DataBindingUtil.bind(getLayoutInflater().inflate(layoutResID, view,false));
         LinearLayout container = view.findViewById(R.id.container);
@@ -57,8 +63,11 @@ public class BaseBindingViewActivity extends BaseActivity {
         tvHeadTitle.setText(getResources().getText(titleRes));
     }
 
-
     public int getScaleWidth(float ratio) {
         return (int)(screenWidth*ratio);
     }
+
+    public abstract void onClickView(View view);
+    public abstract int onCreateLayoutId();
+    public abstract void initView();
 }

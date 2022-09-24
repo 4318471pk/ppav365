@@ -1,4 +1,4 @@
-package com.live.fox.view.GestureLockView;
+package com.live.fox.view.screenlock;
 
 import android.view.View;
 

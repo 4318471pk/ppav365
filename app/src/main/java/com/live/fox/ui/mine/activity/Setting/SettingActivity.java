@@ -205,7 +205,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
                         });
                 break;
             case R.id.tvIdentification:
-                startActivity(new Intent(this,PhoneBindingActivity.class));
+                startActivityForResult(new Intent(this,PhoneBindingActivity.class),ConstantValue.REQUEST_CODE1);
                 break;
         }
     }
