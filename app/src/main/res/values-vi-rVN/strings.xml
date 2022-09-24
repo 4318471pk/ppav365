@@ -946,5 +946,17 @@
     <string name="str_tips">Lưu ý: Thẻ ngân hàng của chúng tôi  thường xuyên thay đổi,  mỗi lần nạp tiền vui lòng kiểm tra thông  tin số tài khoản mới nhất trên trang,  không nạp tiền dựa vào nhật ký chuyển khoản  trước đó, xin cảm ơn quý khách!</string>
     <string name="edit">Sửa đổi</string>
     <string name="srl_header_pulling">Kéo xuống để làm mới</string>
+    <string name="assets">khai</string>
     <string name="max_input_money">Số tiền tối đa là %1$s</string>
+    <string name="exchange_diamond">Kim cương trao đổi</string>
+    <string name="noble_2">Cao</string>
+    <string name="service">dịch vụ khách</string>
+    <string name="recharge_record">Tải về</string>
+    <string name="diamond_income">Thu nhập kim cương</string>
+    <string name="game_record">Thu âm trò chơi</string>
+    <string name="store_package">Cửa&amp;Name</string>
+    <string name="my_level">Cấp của tôi.</string>
+    <string name="not_certified">Chưa xác nhận</string>
+
+
 </resources>

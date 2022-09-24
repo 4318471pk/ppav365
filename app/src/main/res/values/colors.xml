@@ -99,4 +99,9 @@
     <color name="colorBrownMaster">#371A23</color>
     <color name="colorBrownKing">#302219</color>
 
+    <color name="colorA800FF">#A800FF</color>
+    <color name="color646464">#646464</color>
+    <color name="color404040">#404040</color>
+    <color name="color1a331F48">#1a331F48</color>
+
 </resources>

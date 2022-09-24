@@ -944,5 +944,17 @@
     <string name="dialog_info_verification_error">รหัสยืนยันไม่ถูกต้อง</string>
     <string name="edit">แก้ไข</string>
     <string name="srl_header_pulling">ดึงลงเพื่อรีเฟรช</string>
+    <string name="assets">ทรัพย์สิน</string>
     <string name="max_input_money">จำนวนเงินสูงสุดคือ %1$s</string>
+    <string name="exchange_diamond">เปลี่ยนเพชร</string>
+    <string name="noble_2">ชนชั้นสูง</string>
+    <string name="service">เว็บบอร์ด</string>
+    <string name="recharge_record">บันทึกค่าใช้จ่าย</string>
+    <string name="diamond_income">รายได้เพชร</string>
+    <string name="game_record">ประวัติเกม</string>
+    <string name="store_package">เมมโมรี&amp;กระเป๋าสะพายหลัง</string>
+    <string name="my_level">เกรดของฉัน</string>
+    <string name="not_certified">ซึ่งไม่ได้รับการรับรอง</string>
+    <string name="appLockSetting">การตั้งค่าล็อค</string>
+
 </resources>

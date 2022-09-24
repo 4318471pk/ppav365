@@ -314,6 +314,14 @@ public class ChatSpanUtils {
         return spanUtils.create();
     }
 
+    public Spanned getUserInfoSpan(User user, Context context) {
+        SpanUtils spanUtils = new SpanUtils();
+        appendSex(spanUtils, user, context);
+        appendLevel(spanUtils, user.getUserLevel(), context);
+        appendBadges(spanUtils, user.getBadgeList());
+        return spanUtils.create();
+    }
+
     public Spanned getAnchorNickNameSpan(User user, Context context) {
         SpanUtils spanUtils = new SpanUtils();
         spanUtils.append(user.getNickname() + " ");
