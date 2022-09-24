@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <integer-array name="identificationColor">
+        <item>0xFFA800FF</item>
+        <item>0xFFD689FF</item>
+    </integer-array>
+
     <integer-array name="luckNum">
         <item>@drawable/luck_0</item>
         <item>@drawable/luck_1</item>

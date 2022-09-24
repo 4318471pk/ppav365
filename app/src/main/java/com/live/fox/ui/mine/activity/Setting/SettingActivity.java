@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
 
     private TextView tvCache;
     private TextView tvVersion;
+    private TextView tvIdentification;
     private ImageView iv_permision;
     private SwitchView switchView;
 
@@ -77,6 +79,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         tvCache = findViewById(R.id.tv_cache);
         tvVersion = findViewById(R.id.tv_version);
         iv_permision = findViewById(R.id.iv_permision);
+        tvIdentification=findViewById(R.id.tvIdentification);
         findViewById(R.id.layout_privacysetting).setOnClickListener(this);
         findViewById(R.id.layout_black).setOnClickListener(this);
         findViewById(R.id.layout_clearcache).setOnClickListener(this);
@@ -84,6 +87,7 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         findViewById(R.id.tv_loginout).setOnClickListener(this);
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
         findViewById(R.id.layout_permisionsetting).setOnClickListener(this);
+        tvIdentification.setOnClickListener(this);
         switchView=findViewById(R.id.switchView);
         switchView.setOpened(SPManager.getGesturePasswordStatus());
         switchView.setOnStateChangedListener(this);
@@ -119,11 +123,11 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         {
             if(resultCode==ConstantValue.RESULT_CODE1)
             {
-                switchView.setOpened(false);
+                switchView.setOpened(true);
             }
             else
             {
-                switchView.setOpened(true);
+                switchView.setOpened(false);
             }
         }
 
@@ -131,11 +135,11 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
         {
             if(resultCode==ConstantValue.RESULT_CODE2)
             {
-                switchView.setOpened(true);
+                switchView.setOpened(false);
             }
             else
             {
-                switchView.setOpened(false);
+                switchView.setOpened(true);
             }
         }
     }
@@ -199,6 +203,9 @@ public class SettingActivity extends BaseHeadActivity implements View.OnClickLis
                             AppUserManger.loginOut();
                             LoginModeSelActivity.startActivity(SettingActivity.this);
                         });
+                break;
+            case R.id.tvIdentification:
+                startActivity(new Intent(this,PhoneBindingActivity.class));
                 break;
         }
     }

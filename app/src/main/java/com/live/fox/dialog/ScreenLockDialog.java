@@ -67,6 +67,7 @@ public class ScreenLockDialog extends BaseDialogFragment {
                     if(onScreenLockUnlockListener!=null)
                     {
                         onScreenLockUnlockListener.onScreenLockUnlock();
+                        gesView.resetGesture();
                     }
                 }
                 else

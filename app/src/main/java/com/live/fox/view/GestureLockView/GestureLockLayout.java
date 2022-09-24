@@ -52,7 +52,7 @@ public class GestureLockLayout extends RelativeLayout {
     //手指触摸是，path颜色
     private int mFingerTouchColor = Color.parseColor("#A800FF");
     //手指抬起时,密码匹配path颜色
-    private int mFingerUpMatchedColor = Color.parseColor("#01A0E5");
+    private int mFingerUpMatchedColor = Color.parseColor("#A800FF");
     //手指抬起时,密码不匹配path颜色
     private int mFingerUpUnmatchedColor = Color.parseColor("#F7564A");
 

@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+
 import androidx.annotation.RequiresPermission;
 import androidx.core.content.FileProvider;
 
@@ -39,13 +41,22 @@ public final class IntentUtils {
      * 注：可能会出异常 记得try catch
      */
     public static void toBrowser(Context context, String url) {
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
-        if (url.startsWith("http:") || url.startsWith("https:")) {
-            Uri content_url = Uri.parse(url);
-            intent.setData(content_url);
+        if(TextUtils.isEmpty(url))return;
+
+        try
+        {
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            if (url.startsWith("http:") || url.startsWith("https:")) {
+                Uri content_url = Uri.parse(url);
+                intent.setData(content_url);
+            }
+            context.startActivity(intent);
         }
-        context.startActivity(intent);
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     /**

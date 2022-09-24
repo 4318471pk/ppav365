@@ -137,7 +137,8 @@ public class SplashActivity extends BaseActivity {
 
     public void goToMain() {
         String gesPassword=SPManager.getGesturePassword();
-        if(StringUtils.isDigitOnly(gesPassword))
+        boolean gesStatus=SPManager.getGesturePasswordStatus();
+        if(StringUtils.isDigitOnly(gesPassword) && gesStatus)
         {
             ScreenLockDialog screenLockDialog=ScreenLockDialog.getInstance();
             screenLockDialog.setOnScreenLockUnlockListener(new ScreenLockDialog.onScreenLockUnlockListener() {
