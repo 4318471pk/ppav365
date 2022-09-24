@@ -9,9 +9,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,6 +44,7 @@ import com.live.fox.ui.login.LoginViewModel;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.InputMethodUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.DropDownWindowsOfCountry;
 
@@ -64,16 +67,21 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
             super.dispatchMessage(msg);
             switch (msg.what) {
                 case 0:
+                    if(isFinishing() || isDestroyed())return;
                     remainSecond--;
                     if (remainSecond > 0) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(String.valueOf(remainSecond)).append("s").append(getString(R.string.reGet));
-                        mBind.tvSendVerifyCode.setText(sb.toString());
+                        SpannableString spannedString=new SpannableString(sb.toString());
+                        spannedString.setSpan(new UnderlineSpan(),0,spannedString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        mBind.tvSendVerifyCode.setText(spannedString);
                         mBind.tvSendVerifyCode.setEnabled(false);
                         sendEmptyMessageDelayed(0, 1000);
                     } else {
                         remainSecond = 60;
-                        mBind.tvSendVerifyCode.setText(getString(R.string.get_verification_code));
+                        SpannableString spannedString=new SpannableString(getString(R.string.get_verification_code));
+                        spannedString.setSpan(new UnderlineSpan(),0,spannedString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        mBind.tvSendVerifyCode.setText(spannedString);
                         mBind.tvSendVerifyCode.setEnabled(true);
                     }
                     break;
@@ -98,8 +106,19 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
                 doSendPhoneCodeApi();
                 break;
             case R.id.tvCountryCode:
+                InputMethodUtils.hideSoftInput(this);
                 onClickCountryCode();
                 break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(handler!=null)
+        {
+            handler.removeMessages(0);
+            handler=null;
         }
     }
 
@@ -157,8 +176,9 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
         countryCodes= SPManager.getCountryCode();
         FixImageSize.setImageSizeOnWidthWithSRC(mBind.iconTopPhoneBind,getScaleWidth(0.4f));
         FixImageSize.setImageSizeOnWidthWithSRC(mBind.icoTopPhoneMid,getScaleWidth(0.07f));
-        mBind.tvSendVerifyCode.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG);
-        mBind.tvSendVerifyCode.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        SpannableString spannedString=new SpannableString(mBind.tvSendVerifyCode.getText().toString());
+        spannedString.setSpan(new UnderlineSpan(),0,spannedString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mBind.tvSendVerifyCode.setText(spannedString);
 
         for (int i = 0; i <mBind.llTips.getChildCount() ; i++) {
             LinearLayout item=(LinearLayout) mBind.llTips.getChildAt(i);
@@ -222,15 +242,16 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
         Api_Auth.ins().guestBindPhone(area,phoneNum, verifyCode,new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                Log.e("DDDDD",data);
                 hideLoadingDialog();
-                if(code==200)
+                if(code==0)
                 {
                     setResult(ConstantValue.GUEST_BINDPHONE);
                     mBind.icoTopPhoneMid.setImageDrawable(getResources().getDrawable(R.mipmap.icon_phone_bind_success));
                     mBind.rlContentMain.getChildAt(0).setVisibility(View.GONE);
                     mBind.rlContentMain.getChildAt(1).setVisibility(View.GONE);
                     mBind.tvBoundTitle.setVisibility(View.VISIBLE);
+                    mBind.tvVerifyStatus.setText(getString(R.string.identificationDone));
+                    mBind.tvVerifyStatus.setTextColor(0xff1FC478);
 
                     StringBuilder sb=new StringBuilder();
                     sb.append(getResources().getString(R.string.phoneBound));
@@ -241,7 +262,16 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
                     spannableString.setSpan(new ForegroundColorSpan(0xff1FC478),startLength,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     mBind.tvBoundTitle.setText(spannableString);
 
+
                     ToastUtils.showShort(getString(R.string.bindPhoneSuccess));
+                }
+                else
+                {
+                    if(!TextUtils.isEmpty(msg))
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+
                 }
             }
         });
