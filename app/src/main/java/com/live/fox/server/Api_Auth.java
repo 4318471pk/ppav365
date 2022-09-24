@@ -93,8 +93,8 @@ public class Api_Auth extends BaseApi {
         params.put("model", DeviceUtils.getModel());
         params.put("sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + params.get("timestamp").toString()));
         params.put("version", DeviceUtils.getSDKVersionName());
-        params.put("x", "");
-        params.put("y", "");
+        params.put("x", 0);
+        params.put("y", 0);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",

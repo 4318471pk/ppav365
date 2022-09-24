@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.live.fox.AppConfig;
 import com.live.fox.AppIMManager;
@@ -26,6 +28,7 @@ import com.live.fox.adapter.columnlistadapter.ColumnListBean;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.db.DataBase;
+import com.live.fox.entity.Advert;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
 import com.live.fox.entity.MessageEvent;
@@ -85,13 +88,15 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
     private RecyclerView rv;
     private ShapeableImageView ivHeadimg;
     private TextView tvNickname;
+    private TextView tvSex;
     private TextView tvIdnum;
     private TextView tvCirclenum;
     private TextView tvFollownum;
     private TextView tvFansnum;
     private LinearLayout layout_id;
     private TextView balanceMoneyTv;
-    private ImageView iv_rightdes;
+    private RelativeLayout iv_rightdes;
+    private ConvenientBanner<Advert> convenientBanner;
 
     private User userinfo;
     ColumnListAdapter adapter;
@@ -130,6 +135,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
         rv = bindSource.findViewById(R.id.mine_click_item);
         ivHeadimg = bindSource.findViewById(R.id.iv_headimg);
         tvNickname = bindSource.findViewById(R.id.tv_nickname);
+        tvSex = bindSource.findViewById(R.id.tv_sex);
         tvIdnum = bindSource.findViewById(R.id.tv_idnum);
         tvCirclenum = bindSource.findViewById(R.id.tv_circlenum);
         tvFollownum = bindSource.findViewById(R.id.tv_follownum);
@@ -137,6 +143,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
         layout_id = bindSource.findViewById(R.id.layout_id);
         balanceMoneyTv = bindSource.findViewById(R.id.balanceMoneyTv);
         iv_rightdes = bindSource.findViewById(R.id.iv_rightdes);
+        convenientBanner = bindSource.findViewById(R.id.banner);
 
         bindSource.findViewById(R.id.iv_geren).setOnClickListener(this);
         bindSource.findViewById(R.id.mine_message).setOnClickListener(this);
@@ -151,7 +158,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
         bindSource.findViewById(R.id.ll_moneyout).setOnClickListener(this);
         bindSource.findViewById(R.id.ll_shop).setOnClickListener(this);
         bindSource.findViewById(R.id.ll_vip).setOnClickListener(this);
-        bindSource.findViewById(R.id.btn_yjzh).setOnClickListener(this);
+      //  bindSource.findViewById(R.id.btn_yjzh).setOnClickListener(this);
 
         refreshUserinfo(false);
         AppIMManager.ins().addMessageListener(MineFragment.class, this);
@@ -249,7 +256,8 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
         }
 
         balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGoldCoin()));
-        tvNickname.setText(ChatSpanUtils.ins().getNickNameSpan(userinfo, requireActivity()));
+        tvNickname.setText(userinfo.getNickname());
+        tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
         String format = String.format(getString(R.string.colon_number), getString(R.string.identity_id), userinfo.getUid());
         tvIdnum.setText(format);
         tvCirclenum.setText("0");
@@ -429,10 +437,10 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
             case R.id.ll_vip: //贵族
                 NobleActivity.startActivity(requireActivity());
                 break;
-            case R.id.btn_yjzh:
-                showLoadingDialog();
-                doBackAllGameCoinApi();
-                break;
+//            case R.id.btn_yjzh: //一键回收
+//                showLoadingDialog();
+//                doBackAllGameCoinApi();
+//                break;
         }
     }
 
