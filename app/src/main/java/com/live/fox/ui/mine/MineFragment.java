@@ -158,6 +158,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
         bindSource.findViewById(R.id.ll_moneyout).setOnClickListener(this);
         bindSource.findViewById(R.id.ll_shop).setOnClickListener(this);
         bindSource.findViewById(R.id.ll_vip).setOnClickListener(this);
+        bindSource.findViewById(R.id.mine_set).setOnClickListener(this);
       //  bindSource.findViewById(R.id.btn_yjzh).setOnClickListener(this);
 
         refreshUserinfo(false);
@@ -398,6 +399,9 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
     public void onClick(View view) {
         if (ClickUtil.isFastDoubleClick()) return;
         switch (view.getId()) {
+            case R.id.mine_set:
+                SettingActivity.startActivity(getActivity());
+                break ;
             case R.id.iv_geren: //个人信息
                 EditUserInfoActivity.startActivity(requireActivity(), userinfo.getPhone());
                 break;

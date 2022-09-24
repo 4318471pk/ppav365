@@ -1012,6 +1012,7 @@
 
     <string name="identification">认  证</string>
     <string name="notYetIdentification">未认证</string>
+    <string name="identificationDone">已认证</string>
     <string name="phoneNumberVerify">手机认证</string>
     <string name="securityLevelLow">安全等级-低</string>
     <string name="tips1BindPhone">手机号登入\n快速 便捷</string>

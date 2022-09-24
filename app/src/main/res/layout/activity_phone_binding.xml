@@ -39,6 +39,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tvVerifyStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -51,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="8dip"
                 android:text="@string/securityLevelLow"
                 android:textColor="#404040"
                 android:textSize="16sp" />
@@ -83,6 +84,8 @@
                             android:id="@+id/tvCountryCode"
                             android:layout_width="60dip"
                             android:layout_height="wrap_content"
+                            android:paddingTop="5dip"
+                            android:paddingBottom="5dip"
                             android:onClick="onClickView"
                             android:text="+86"
                             android:textColor="#A800FF"
@@ -188,6 +191,8 @@
                     android:id="@+id/tvBoundTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="32dip"
+                    android:layout_gravity="center_horizontal"
                     android:textSize="16sp"
                     android:textColor="#404040"
                     android:visibility="gone"
@@ -196,6 +201,16 @@
             </LinearLayout>
 
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dip"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                >
             <LinearLayout
                 android:id="@+id/llTips"
                 android:layout_width="match_parent"
@@ -274,6 +289,9 @@
                 android:text="@string/tips4BindPhone"
                 android:textColor="#B8B2C8"
                 android:textSize="12sp" />
+
+            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>

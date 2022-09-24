@@ -30,6 +30,9 @@ public class ClickUtil {
             if(System.currentTimeMillis()-clickRecord.get(id)>millSecond)
             {
                 clickRecord.put(id,System.currentTimeMillis());
+            }
+            else
+            {
                 return true;
             }
         }
