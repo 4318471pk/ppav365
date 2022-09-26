@@ -16,7 +16,7 @@ public class User implements Serializable {
     private int auth;  //0:否 1:認證中 2:認證成功
     private String avatar;  //头像
     private String constellation;  //星座
-    private double goldCoin; //金币
+    private double goldCoin = 0; //金币
     private String hobby;  // 爱好
     private String nickname; //昵称
     private String phone;  // 手机号
