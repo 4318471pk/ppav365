@@ -29,10 +29,10 @@ public class DropDownWindowsOfCountry extends PopupWindow {
         this.onClickItemListener = onClickItemListener;
     }
 
-    public DropDownWindowsOfCountry(Context context) {
+    public DropDownWindowsOfCountry(Context context,int width) {
         super(context);
         viewHeight= (int)(ScreenUtils.getScreenHeight(context)*0.4f);
-        viewWidth=ScreenUtils.getScreenWidth(context)- ScreenUtils.dip2px(context,140);
+        viewWidth=width;
         linearLayout=new LinearLayout(context);
         linearLayout.setLayoutParams(new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
 

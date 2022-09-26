@@ -57,6 +57,7 @@ import com.live.fox.utils.BlankController;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.ImageUtil;
+import com.live.fox.utils.InputMethodUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -494,9 +495,11 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
 
+                InputMethodUtils.hideSoftInput(this);
                 if(dropDownWindowsOfCountry==null)
                 {
-                    dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this);
+                    int width= ScreenUtils.getScreenWidth(context)- com.luck.picture.lib.tools.ScreenUtils.dip2px(context,140);
+                    dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this,width);
                     dropDownWindowsOfCountry.setOutsideTouchable(true);
                     dropDownWindowsOfCountry.setFocusable(true);
                     dropDownWindowsOfCountry.setBackgroundDrawable(new ColorDrawable(0));

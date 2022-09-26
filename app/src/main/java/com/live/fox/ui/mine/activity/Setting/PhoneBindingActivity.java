@@ -50,6 +50,7 @@ import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.InputMethodUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.DropDownWindowsOfCountry;
+import com.luck.picture.lib.tools.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -135,7 +136,8 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
 
         if(dropDownWindowsOfCountry==null)
         {
-            dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this);
+            int width= mBind.line.getWidth();
+            dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this,width);
             dropDownWindowsOfCountry.setOutsideTouchable(true);
             dropDownWindowsOfCountry.setFocusable(true);
             dropDownWindowsOfCountry.setBackgroundDrawable(new ColorDrawable(0));
@@ -158,7 +160,7 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
 
         if(!dropDownWindowsOfCountry.isShowing())
         {
-            dropDownWindowsOfCountry.showAsDropDown(mBind.tvCountryCode,0,10);
+            dropDownWindowsOfCountry.showAsDropDown(mBind.line,0,10);
         }
         else
         {
