@@ -22,6 +22,12 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         mPaint.setColor(Color.parseColor("#e5e5e5"));
     }
 
+    public DividerItemDecoration(int color) {
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setColor(color);
+    }
+
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);

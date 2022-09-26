@@ -38,9 +38,12 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityPhoneBindingBinding;
 import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.RegisterEntity;
+import com.live.fox.entity.User;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
+import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginViewModel;
+import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
@@ -173,9 +176,14 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
         mBind=getViewDataBinding();
         setActivityTitle(R.string.phoneNumberVerify);
 
-        countryCodes= SPManager.getCountryCode();
-        FixImageSize.setImageSizeOnWidthWithSRC(mBind.iconTopPhoneBind,getScaleWidth(0.4f));
-        FixImageSize.setImageSizeOnWidthWithSRC(mBind.icoTopPhoneMid,getScaleWidth(0.07f));
+
+        FixImageSize.setImageSizeOnWidthWithSRC(mBind.iconTopPhoneBind, getScaleWidth(0.4f), new FixImageSize.OnFixListener() {
+            @Override
+            public void onfix(int width, int height, float ratio) {
+                FixImageSize.setImageSizeOnWidthWithSRC(mBind.icoTopPhoneMid,getScaleWidth(0.07f));
+            }
+        });
+
         SpannableString spannedString=new SpannableString(mBind.tvSendVerifyCode.getText().toString());
         spannedString.setSpan(new UnderlineSpan(),0,spannedString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mBind.tvSendVerifyCode.setText(spannedString);
@@ -192,10 +200,47 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
             text.setText(spannableString);
         }
 
-        if(countryCodes==null || countryCodes.size()==0)
-        {
-            getCountryCode();
-        }
+        doGetUserInfoByUidApi();
+
+    }
+
+
+    /**
+     * 获取用户信息
+     */
+    public void doGetUserInfoByUidApi() {
+        showLoadingDialog();
+        User user = AppUserManger.getUserInfo(true);
+        Api_User.ins().getUserInfo(user.getUid(), new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == 0) {
+                    User user =new Gson().fromJson(data,User.class);
+                    if(user!=null )
+                    {
+                        if(TextUtils.isEmpty(user.getPhone()))
+                        {
+                            countryCodes= SPManager.getCountryCode();
+                            if(countryCodes==null || countryCodes.size()==0)
+                            {
+                                getCountryCode();
+                            }
+                        }
+                        else
+                        {
+                            OnPhoneNumSet(user.getArea(),user.getPhone());
+                        }
+
+                    }
+
+
+                } else {
+                    ToastUtils.showShort(msg);
+                    finish();
+                }
+            }
+        });
     }
 
 
@@ -246,22 +291,7 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
                 if(code==0)
                 {
                     setResult(ConstantValue.GUEST_BINDPHONE);
-                    mBind.icoTopPhoneMid.setImageDrawable(getResources().getDrawable(R.mipmap.icon_phone_bind_success));
-                    mBind.rlContentMain.getChildAt(0).setVisibility(View.GONE);
-                    mBind.rlContentMain.getChildAt(1).setVisibility(View.GONE);
-                    mBind.tvBoundTitle.setVisibility(View.VISIBLE);
-                    mBind.tvVerifyStatus.setText(getString(R.string.identificationDone));
-                    mBind.tvVerifyStatus.setTextColor(0xff1FC478);
-
-                    StringBuilder sb=new StringBuilder();
-                    sb.append(getResources().getString(R.string.phoneBound));
-                    int startLength=sb.length();
-                    sb.append(area).append("  ").append(phoneNum);
-
-                    SpannableString spannableString=new SpannableString(sb.toString());
-                    spannableString.setSpan(new ForegroundColorSpan(0xff1FC478),startLength,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    mBind.tvBoundTitle.setText(spannableString);
-
+                    OnPhoneNumSet(area,phoneNum);
 
                     ToastUtils.showShort(getString(R.string.bindPhoneSuccess));
                 }
@@ -278,6 +308,25 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
     }
 
 
+    private void OnPhoneNumSet(String area,String phoneNum)
+    {
+        mBind.icoTopPhoneMid.setImageDrawable(getResources().getDrawable(R.mipmap.icon_phone_bind_success));
+        mBind.rlContentMain.getChildAt(0).setVisibility(View.GONE);
+        mBind.rlContentMain.getChildAt(1).setVisibility(View.GONE);
+        mBind.tvBoundTitle.setVisibility(View.VISIBLE);
+        mBind.tvVerifyStatus.setText(getString(R.string.identificationDone));
+        mBind.tvVerifyStatus.setTextColor(0xff1FC478);
+        mBind.tvSecurityLevel.setText(getString(R.string.securityLevelHigh));
+
+        StringBuilder sb=new StringBuilder();
+        sb.append(getResources().getString(R.string.phoneBound));
+        int startLength=sb.length();
+        sb.append("   ").append(area).append("  ").append(phoneNum);
+
+        SpannableString spannableString=new SpannableString(sb.toString());
+        spannableString.setSpan(new ForegroundColorSpan(0xff1FC478),startLength,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mBind.tvBoundTitle.setText(spannableString);
+    }
     public void getCountryCode() {
 
         if(countryCodes==null || countryCodes.size()==0)

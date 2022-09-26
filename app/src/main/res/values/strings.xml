@@ -795,6 +795,8 @@
     <string name="backpack_number_two">普通号</string>
     <string name="special_topics">特码</string>
     <string name="language_choose">选择语言</string>
+    <string name="languageWithSpace">语言</string>
+    <string name="language_switch">语言切换</string>
     <string name="tip_hint_range">存款金额范围：%1$s ~ %2$s %3$s</string>
     <string name="loing_title_create_account">创建帐号</string>
     <string name="login_title_message">验证码</string>
@@ -1015,6 +1017,7 @@
     <string name="identificationDone">已认证</string>
     <string name="phoneNumberVerify">手机认证</string>
     <string name="securityLevelLow">安全等级-低</string>
+    <string name="securityLevelHigh">安全等级-高</string>
     <string name="tips1BindPhone">手机号登入\n快速 便捷</string>
     <string name="tips2BindPhone">安全认证\n一机 一号</string>
     <string name="tips3BindPhone">提现收益\n简单 安全</string>
@@ -1022,5 +1025,14 @@
     <string name="phoneBound">已绑定手机号:   </string>
     <string name="bindPhoneSuccess">手机绑定成功</string>
 
+    <string name="paymentPassword">支付密码</string>
+    <string name="vipInvisible">贵族隐身</string>
+    <string name="vibrationReminder">震动提醒</string>
+    <string name="gifOfGift">礼物特效</string>
+    <string name="gifOfVehicle">座驾特效</string>
+    <string name="version">版本</string>
+    <string name="checkVersion">检查更新</string>
+    <string name="accountSwitch">切换账号</string>
+    <string name="setting">设置</string>
 
 </resources>

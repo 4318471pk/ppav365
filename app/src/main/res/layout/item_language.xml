@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="50dp"
+    android:background="#ffffff"
+    >
 
     <ImageView
         android:id="@+id/language_country_flag"
         android:layout_width="80dp"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:paddingHorizontal="6dp"
         android:paddingVertical="6dp"
         android:contentDescription="@string/grade_platinum"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+         />
 
     <TextView
         android:id="@+id/language_country_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/language_country_flag"
-        app:layout_constraintStart_toEndOf="@id/language_country_flag"
-        app:layout_constraintTop_toTopOf="@id/language_country_flag" />
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+       />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/ivSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dip"
+        android:src="@mipmap/icon_phone_bind_success"/>
+</RelativeLayout>

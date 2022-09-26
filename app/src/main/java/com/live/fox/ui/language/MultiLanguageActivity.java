@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.SplashActivity;
+import com.live.fox.adapter.devider.DividerItemDecoration;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.language.LocalManager;
@@ -49,24 +50,28 @@ public class MultiLanguageActivity extends BaseHeadActivity {
      */
     private void handleRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.multi_language_recycler);
+        recyclerView.addItemDecoration(new DividerItemDecoration(0xffF5F1F8).setDevideHeight(2));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         LanguageAdapter adapter = new LanguageAdapter();
         recyclerView.setAdapter(adapter);
 
-        RecyclerSpace recyclerSpace = new RecyclerSpace(DeviceUtils.dp2px(this, 10));
-        recyclerView.addItemDecoration(recyclerSpace);
+//        RecyclerSpace recyclerSpace = new RecyclerSpace(DeviceUtils.dp2px(this, 10));
+//        recyclerView.addItemDecoration(recyclerSpace);
 
         LanguageEntity ch = new LanguageEntity();
         ch.setType(ContextCompat.getDrawable(this, R.drawable.icon_flag_cn));
         ch.setLanguage("简体中文");
+        ch.setSelected(MultiLanguageUtils.getRequestHeader().equals("zh-cn"));
 
         LanguageEntity vi = new LanguageEntity();
         vi.setType(ContextCompat.getDrawable(this, R.drawable.icon_flag_vi));
         vi.setLanguage("ENGLISH");
+        vi.setSelected(MultiLanguageUtils.getRequestHeader().equals("en-us"));
 
         LanguageEntity th = new LanguageEntity();
         th.setType(ContextCompat.getDrawable(this, R.drawable.icon_flag_thi));
         th.setLanguage("台湾繁体");
+        th.setSelected(MultiLanguageUtils.getRequestHeader().equals("zh-tw"));
 
         List<LanguageEntity> languageEntities = new ArrayList<>();
         languageEntities.add(ch);

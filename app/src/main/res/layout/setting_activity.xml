@@ -1,336 +1,433 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_bg"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <RelativeLayout
-        android:id="@+id/rlAccountSecurity"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#ffffffff"
-        >
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
-            android:background="#F6F6F6" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="15dp"
-            android:paddingTop="4dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="6dp"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"
-            android:text="@string/accountSecurity"/>
-
-        <TextView
-            android:id="@+id/tvIdentification"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:drawablePadding="10dip"
-            android:drawableRight="@mipmap/icon_arrow_right"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dip"
-            android:layout_alignParentRight="true"
-            android:text="@string/phoneNumberVerify"
-            android:textSize="15sp"
-            android:textColor="#B8B2C8"
-            />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:background="#F6F6F6" />
-
-    <TextView
-        android:id="@+id/setting_language"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:text="@string/language_choose"
-        android:textColor="@color/black"
-        app:drawableEndCompat="@drawable/right_arrow"
-        app:drawableTint="@color/black" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:background="#F6F6F6" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/layout_black"
+        android:id="@+id/layout_parent"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/white"
-        android:paddingStart="15dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="6dp">
+        android:layout_height="match_parent"
+        android:background="#F5F1F8"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/blackName"
-            android:textColor="#333333"
-            android:textSize="15.0sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/agentRecharge"
-            android:src="@drawable/right_arrow"
-             />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#ffffffff"
-        >
-        <View
+        <!--绑定手机号码-->
+        <RelativeLayout
+            android:id="@+id/rlAccountSecurity"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
-            android:background="#F6F6F6" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="15dp"
-            android:paddingTop="4dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="6dp"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"
-            android:text="@string/appLock"/>
+            android:onClick="onClickView"
+            android:layout_height="50dip"
+            android:background="#ffffffff">
 
-        <com.live.fox.view.SwitchView
-            android:id="@+id/switchView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:ratioAspect="0.6"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dip"
-            android:layout_alignParentRight="true"
-            app:primaryColor="#A800FF"
-            app:offColor="#D2CDE0"
-            app:hasShadow="true"
-            app:isOpened="false"
-            />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:background="#F6F6F6" />
-
-    <LinearLayout
-        android:id="@+id/layout_privacysetting"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/white"
-        android:paddingLeft="15dp"
-        android:paddingTop="4dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="6dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:text="@string/accountSecurity" />
+
+            <TextView
+                android:id="@+id/tvIdentification"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/privateSecret"
-                android:textColor="#333333"
-                android:textSize="15sp" />
+                android:drawablePadding="10dip"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:layout_alignParentRight="true"
+                android:text="@string/phoneNumberVerify"
+                android:textSize="15sp"
+                android:textColor="#B8B2C8" />
+        </RelativeLayout>
 
-            <View style="@style/WrapAuto" />
+        <!--  语言      -->
+        <RelativeLayout
+            android:id="@+id/settingLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:onClick="onClickView"
+            android:background="#ffffffff"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:text="@string/languageWithSpace"
+                android:textColor="#404040"
+                />
+
+
+            <TextView
+                android:id="@+id/tvPresentLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawablePadding="10dip"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:paddingHorizontal="15dp"
+                android:textColor="#B8B2C8"
+                android:drawableRight="@mipmap/icon_arrow_right" />
+
+        </RelativeLayout>
+
+        <!--   支付密码     -->
+        <RelativeLayout
+            android:id="@+id/rlPaymentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="#ffffffff"
+            android:onClick="onClickView"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
 
             <TextView
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:text="@string/paymentPassword" />
+        </RelativeLayout>
+
+        <!--   贵族隐身     -->
+        <RelativeLayout
+            android:id="@+id/rlVipInvisible"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:onClick="onClickView"
+            android:background="#ffffffff"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:text="@string/vipInvisible" />
+        </RelativeLayout>
+
+        <!-- APP屏幕锁       -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#ffffffff">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/potisionMessage"
-                android:textColor="#A1A1A1"
-                android:textSize="12.0sp" />
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:text="@string/appLock" />
+
+            <com.live.fox.view.SwitchView
+                android:id="@+id/switchViewAPPLock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ratioAspect="0.55"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:layout_alignParentRight="true"
+                app:primaryColor="#A800FF"
+                app:offColor="#D2CDE0"
+                app:hasShadow="true"
+                app:isOpened="false" />
+        </RelativeLayout>
+
+        <!-- 震动提醒       -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#ffffffff">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:text="@string/vibrationReminder" />
+
+            <com.live.fox.view.SwitchView
+                android:id="@+id/switchViewVibration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ratioAspect="0.55"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:layout_alignParentRight="true"
+                app:primaryColor="#A800FF"
+                app:offColor="#D2CDE0"
+                app:hasShadow="true"
+                app:isOpened="false" />
+        </RelativeLayout>
+
+        <!-- 礼物特效       -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#ffffffff">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:text="@string/gifOfGift" />
+
+            <com.live.fox.view.SwitchView
+                android:id="@+id/switchViewGifOfGift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ratioAspect="0.55"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:layout_alignParentRight="true"
+                app:primaryColor="#A800FF"
+                app:offColor="#D2CDE0"
+                app:hasShadow="true"
+                app:isOpened="false" />
+        </RelativeLayout>
+
+        <!--  座驾特效       -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#ffffffff">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:text="@string/gifOfVehicle" />
+
+            <com.live.fox.view.SwitchView
+                android:id="@+id/switchViewGifOfVehicle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ratioAspect="0.55"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:layout_alignParentRight="true"
+                app:primaryColor="#A800FF"
+                app:offColor="#D2CDE0"
+                app:hasShadow="true"
+                app:isOpened="false" />
+        </RelativeLayout>
+
+        <!--    清除缓存 UI图没有 先留着    -->
+        <LinearLayout
+            android:id="@+id/layout_clearcache"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingTop="4dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="6dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/clearStorage"
+                android:textColor="#333333"
+                android:textSize="15.0sp" />
+
+            <TextView
+                android:id="@+id/tv_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                tools:text="110M" />
+
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/agentRecharge"
-            android:src="@drawable/right_arrow"
-            android:tint="@color/black" />
+        <!--   版本号     -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="#ffffffff"
+            >
 
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#F6F6F6" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:background="#F6F6F6" />
+            <TextView
+                android:id="@+id/tvVersionTitle"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:paddingLeft="15dp"
+                android:paddingTop="4dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="6dp"
+                android:textColor="#404040"
+                android:layout_centerVertical="true"
+                android:text="@string/version" />
 
-    <LinearLayout
-        android:id="@+id/layout_permisionsetting"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/white"
-        android:paddingLeft="15dp"
-        android:paddingTop="4dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="6dp">
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/tvVersionTitle"
+                android:gravity="center"
+                android:textColor="#404040"
+                android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/kqzbgn"
-            android:textColor="#333333"
-            android:textSize="15.0sp" />
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gvCheckVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickView"
+                android:layout_centerVertical="true"
+                android:paddingBottom="8dip"
+                android:paddingTop="8dip"
+                android:paddingLeft="25dip"
+                android:paddingRight="25dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dip"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"
+                android:text="@string/checkVersion"
+                app:gt_color_list="@array/identificationColor"
+                app:gt_radius_dp="6dip"/>
 
-        <ImageView
-            android:id="@+id/iv_permision"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/permisionoff" />
+        </RelativeLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_clearcache"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:paddingLeft="15dp"
-        android:paddingTop="4dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="6dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/clearStorage"
-            android:textColor="#333333"
-            android:textSize="15.0sp" />
-
-        <TextView
-            android:id="@+id/tv_cache"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="#333333"
-            android:textSize="14sp"
-            tools:text="110M" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_about"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:paddingLeft="15dp"
-        android:paddingTop="4dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="6dp">
-
-        <TextView
-            android:id="@+id/setting_about"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/aboutUs"
-            android:textColor="#333333"
-            android:textSize="15.0sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="V1.0.3"
-            android:textColor="#333333"
-            android:textSize="15.0sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/right_arrow" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:paddingLeft="15dp"
-        android:paddingTop="4dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="6dp">
-
-        <TextView
+        <com.live.fox.view.GradientTextView
             android:id="@+id/tv_loginout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickView"
+            android:paddingTop="12.5dip"
+            android:paddingBottom="12.5dip"
+            android:layout_marginLeft="35dip"
+            android:layout_marginRight="35dip"
+            android:layout_marginTop="40dip"
             android:gravity="center"
-            android:text="@string/exitLogin"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:text="@string/accountSwitch"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            app:gt_color_list="@array/identificationColor"
+            app:gt_radius_dp="10dip"
+            />
+
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/tv_version"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="18dp"
-        android:gravity="center"
-        android:textColor="@color/gray_text_light"
-        android:textSize="14sp" />
-
-</LinearLayout>
+</layout>
 

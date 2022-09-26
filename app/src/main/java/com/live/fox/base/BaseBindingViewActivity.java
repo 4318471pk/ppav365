@@ -1,5 +1,7 @@
 package com.live.fox.base;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
@@ -15,6 +18,7 @@ import androidx.databinding.ViewDataBinding;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.utils.OnClickFrequentlyListener;
+import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
 
 public abstract class BaseBindingViewActivity extends BaseActivity {
@@ -41,6 +45,8 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
         LinearLayout container = view.findViewById(R.id.container);
         container.addView(binding.getRoot());
         setContentView(container);
+
+        StatusBarUtil.setStatusBarAlpha(this,0,view.findViewById(R.id.rlTopHead));
 
         screenWidth= ScreenUtils.getScreenWidth(this);
         ivHeadLeft = findViewById(R.id.ivHeadLeft);

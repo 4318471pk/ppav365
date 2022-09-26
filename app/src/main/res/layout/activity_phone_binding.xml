@@ -49,6 +49,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvSecurityLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -68,9 +69,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dip"
+                    android:layout_marginLeft="10dip"
                     android:layout_marginTop="10dip"
-                    android:layout_marginRight="20dip"
+                    android:layout_marginRight="10dip"
                     android:background="@drawable/shape_round_white"
                     android:orientation="vertical"
                     android:padding="15dip">

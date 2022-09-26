@@ -52,6 +52,7 @@ public class User implements Serializable {
     private String gxId;
     private String shAvatar;
     private String shId;
+    private String area;
     private Integer gxLevel = 0;
     public Long vipUid;
     private Integer shType = 0;
@@ -63,6 +64,14 @@ public class User implements Serializable {
     boolean isBlackChat;
     int autoUpdownBalance; //是否自动上下分 1 不自动 2自动
     public boolean come = false;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     public ArrayList<Integer> getBadgeList() {
         return badgeList;

@@ -9,6 +9,15 @@ public class LanguageEntity {
 
     private String language;
     private Drawable type;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public String getLanguage() {
         return language;
