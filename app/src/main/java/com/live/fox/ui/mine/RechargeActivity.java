@@ -13,11 +13,15 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +41,7 @@ import com.live.fox.AppConfig;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.R;
+import com.live.fox.adapter.ChargeAdapter;
 import com.live.fox.adapter.MoneyAdapter;
 import com.live.fox.adapter.RechargeChannelAdapter;
 import com.live.fox.adapter.SupportBankAdapter;
@@ -49,6 +54,7 @@ import com.live.fox.dialog.CommonDialog;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.BankInfo;
+import com.live.fox.entity.ChargeBean;
 import com.live.fox.entity.LanguageUtilsEntity;
 import com.live.fox.entity.RechargeChannel;
 import com.live.fox.entity.RecharegPrice;
@@ -58,7 +64,6 @@ import com.live.fox.entity.response.AgentInfoVO;
 import com.live.fox.entity.response.BankRechargeVO;
 import com.live.fox.helper.SimpleTextWatcher;
 import com.live.fox.manager.DataCenter;
-import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_Pay;
@@ -130,6 +135,24 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private RoundTextView rtGift;
     private TextView usdtDeposit;
 
+    private TextView tvBalanca;
+    private TextView tvDiamond;
+
+    private LinearLayout layoutMoney;
+    private TextView tvCharge;
+    private ImageView ivMoney;
+    private LinearLayout layoutDiamond;
+    private TextView tvExDiamond;
+    private ImageView ivDiamond;
+    private GridView gvCharge;
+    private TextView tvService;
+
+    ChargeAdapter chargeMoneyAdapter;
+    ChargeAdapter chargeDiamondAdapter;
+    List<ChargeBean> chargeMoneyBeans = new ArrayList<>();
+    List<ChargeBean> chargeDiamondBeans = new ArrayList<>();
+
+
     BaseQuickAdapter<BankInfo, BaseViewHolder> bankAdapter;
 
     private RechargeChannelAdapter channelAdapter;
@@ -153,6 +176,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private String usdtInput = "0";
     private int lastPosition; //上次选择的位置
 
+    private boolean isChargeMoney = true; //true:点击充值  false:点击兑换钻石
+
     public static void startActivity(Context context) {
         Constant.isAppInsideClick = true;
         Intent i = new Intent(context, RechargeActivity.class);
@@ -169,7 +194,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private void initView() {
         commonDialog = new CommonDialog();
-        tvMymoney = findViewById(R.id.tv_mymoney);
+       // tvMymoney = findViewById(R.id.tv_mymoney);
         rvChannel = findViewById(R.id.rv_channel);
         rvMoney = findViewById(R.id.rv_money);
         bankUsdt = findViewById(R.id.recharge_view_stub_bank_ustd);
@@ -179,6 +204,42 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         adRoundTextView = findViewById(R.id.adRoundTextView);
         reSupportBank = findViewById(R.id.reSupportBank);
         supportBankList = findViewById(R.id.rv_supportBank);
+
+        tvBalanca = findViewById(R.id.balance);
+        tvDiamond = findViewById(R.id.diamond);
+        layoutMoney = findViewById(R.id.layout_charge);
+        tvCharge = findViewById(R.id.charge);
+        ivMoney = findViewById(R.id.img_money);
+        layoutDiamond= findViewById(R.id.layout_exchange_diamond);
+        tvExDiamond = findViewById(R.id.exchange_diamond);
+        ivDiamond = findViewById(R.id.img_diamond);
+        gvCharge = findViewById(R.id.gv_charge);
+        tvService = findViewById(R.id.tv_service);
+
+
+        setTvService();
+        test();
+        chargeMoneyAdapter = new ChargeAdapter(this,chargeMoneyBeans, true);
+        chargeDiamondAdapter = new ChargeAdapter(this,chargeDiamondBeans, false);
+        gvCharge.setAdapter(chargeMoneyAdapter);
+        gvCharge.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (isChargeMoney) {
+                    for (int i = 0; i < chargeMoneyBeans.size(); i++) {
+                        if (position == i) {
+                            chargeMoneyBeans.get(position).setSelect(true);
+                        } else {
+                            chargeMoneyBeans.get(i).setSelect(false);
+                        }
+                    }
+                    chargeMoneyAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        layoutMoney.setOnClickListener(this);
+        layoutDiamond.setOnClickListener(this);
         findViewById(R.id.tvaRecharge).setOnClickListener(this);
 
         StatusBarUtil.setStatusBarFulAlpha(this);
@@ -188,9 +249,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 //
 //        getIvRight().setOnClickListener(view -> ServicesActivity.startActivity(RechargeActivity.this));
         user = DataCenter.getInstance().getUserInfo().getUser();
-        if (user != null) {
-            tvMymoney.setText(RegexUtils.westMoney(user.getGoldCoin()));
-        }
+//        if (user != null) {
+//            tvMymoney.setText(RegexUtils.westMoney(user.getGoldCoin()));
+//        }
 
         protocolTitle = findViewById(R.id.recharge_protocol);
 
@@ -515,7 +576,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 if (uid == user.getUid()) {
                     user.setGoldCoin(goldCoin.floatValue());
                     DataCenter.getInstance().getUserInfo().updateUser(user);
-                    tvMymoney.setText(RegexUtils.westMoney(goldCoin));
+                  //  tvMymoney.setText(RegexUtils.westMoney(goldCoin));
                 }
             }
         } catch (Exception e) {
@@ -877,6 +938,18 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         //super.onClick(v);
         switch (v.getId()){
+            case R.id.layout_charge:
+                if (!isChargeMoney) {
+                    isChargeMoney = true;
+                    changeChargeUi();
+                }
+                break;
+            case R.id.layout_exchange_diamond:
+                if (isChargeMoney) {
+                    isChargeMoney = false;
+                    changeChargeUi();
+                }
+                break;
             case R.id.iv_head_left:
                 finish();
                 break;
@@ -950,6 +1023,26 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
         }
 
+    }
+
+    private void changeChargeUi(){
+        if (isChargeMoney) {
+            layoutMoney.setBackground(this.getResources().getDrawable(R.mipmap.golden_button_left));
+            tvCharge.setTextColor(this.getResources().getColor(R.color.color533888));
+            ivMoney.setImageDrawable(this.getResources().getDrawable(R.mipmap.rmb_b));
+            layoutDiamond.setBackground(this.getResources().getDrawable(R.drawable.shape_ffeab1));
+            tvExDiamond.setTextColor(this.getResources().getColor(R.color.colorFFEAB1));
+            ivDiamond.setImageDrawable(this.getResources().getDrawable(R.mipmap.diamonds_y));
+            gvCharge.setAdapter(chargeMoneyAdapter);
+        } else {
+            layoutMoney.setBackground(this.getResources().getDrawable(R.drawable.shape_ffeab1_2));
+            tvCharge.setTextColor(this.getResources().getColor(R.color.colorFFEAB1));
+            ivMoney.setImageDrawable(this.getResources().getDrawable(R.mipmap.rmb_y));
+            layoutDiamond.setBackground(this.getResources().getDrawable(R.mipmap.golden_button_left));
+            tvExDiamond.setTextColor(this.getResources().getColor(R.color.color533888));
+            ivDiamond.setImageDrawable(this.getResources().getDrawable(R.mipmap.diamonds_b));
+            gvCharge.setAdapter(chargeDiamondAdapter);
+        }
     }
 
     private void dealEditZero(EditText editText) {
@@ -1294,6 +1387,42 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private boolean needAppend() {
         return !AppConfig.isThLive();
+    }
+
+
+    private void test(){
+        chargeMoneyBeans.add(new ChargeBean("50",true));
+        chargeMoneyBeans.add(new ChargeBean("100"));
+        chargeMoneyBeans.add(new ChargeBean("500"));
+        chargeMoneyBeans.add(new ChargeBean("1000"));
+        chargeMoneyBeans.add(new ChargeBean("3000"));
+        chargeMoneyBeans.add(new ChargeBean("5000"));
+        chargeMoneyBeans.add(new ChargeBean("10000"));
+        chargeMoneyBeans.add(new ChargeBean("30000"));
+        chargeMoneyBeans.add(new ChargeBean("50000"));
+        chargeMoneyBeans.add(new ChargeBean("100000"));
+
+        chargeDiamondBeans.add(new ChargeBean("30","300"));
+        chargeDiamondBeans.add(new ChargeBean("50", "500"));
+        chargeDiamondBeans.add(new ChargeBean("100", "1000"));
+        chargeDiamondBeans.add(new ChargeBean("300","3000"));
+        chargeDiamondBeans.add(new ChargeBean("500", "5000"));
+        chargeDiamondBeans.add(new ChargeBean("1000", "10000"));
+        chargeDiamondBeans.add(new ChargeBean("2000","20000"));
+        chargeDiamondBeans.add(new ChargeBean("3000","30000"));
+        chargeDiamondBeans.add(new ChargeBean("5000", "50000"));
+        chargeDiamondBeans.add(new ChargeBean("10000", "100000"));
+        chargeDiamondBeans.add(new ChargeBean("20000","200000"));
+        chargeDiamondBeans.add(new ChargeBean("50000", "500000"));
+
+
+    }
+
+    private void setTvService(){
+        String string = "<font color='##B8B2C8'> " +getResources().getString(R.string.contact_service)+ "</font>";
+        string = string +"<a href='http://www.baidu.com'>" + getResources().getString(R.string.online_service)+"</a><br/>" ;
+        tvService.setText(Html.fromHtml(string));
+        tvService.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
 

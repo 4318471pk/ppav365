@@ -999,6 +999,14 @@
     <string name="not_certified">未认证</string>
 
     <string name="recharge_center">充值中心</string>
+    <string name="my_account">我的账户</string>
+    <string name="balance">余额</string>
+    <string name="charge_2">充     值</string>
+    <string name="online_charge">在线充值</string>
+    <string name="yuan">元</string>
+    <string name="contact_service">正规平台，安全无忧。 支付中如有问题，请联系</string>
+    <string name="online_service">在线客服</string>
+    <string name="zuan">钻</string>
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

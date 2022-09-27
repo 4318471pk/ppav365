@@ -21,8 +21,8 @@ bugly {
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion rootProject.ext.args.minSdkVersion
-        targetSdkVersion rootProject.ext.args.targetSdkVersion
+        minSdkVersion 19
+        targetSdkVersion 29
         versionCode 6
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
@@ -30,7 +30,7 @@ android {
         renderscriptSupportModeEnabled true
         vectorDrawables.useSupportLibrary=true
 
-        ndkVersion rootProject.ext.args.NDKVersion
+        ndkVersion "21.4.7075529"
         buildConfigField "Integer", "OS", project.anchorClient
 
         buildConfigField "String", "ToyToken", project.ToyToken
