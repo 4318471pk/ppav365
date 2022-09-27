@@ -336,6 +336,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.language.MultiLanguageActivity" />
 
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

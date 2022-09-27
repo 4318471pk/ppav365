@@ -973,7 +973,7 @@
     <string name="attention">关注</string>
     <string name="baseLoading">加载中</string>
     <string name="cancel">取消</string>
-    <string name="confirm">确认 </string>
+    <string name="confirm">确认</string>
     <string name="dialog_words">提示</string>
     <string name="description_title_back">返回</string>
     <string name="description_title">标题</string>
@@ -1034,5 +1034,13 @@
     <string name="checkVersion">检查更新</string>
     <string name="accountSwitch">切换账号</string>
     <string name="setting">设置</string>
+    <string name="paymentPasswordSetting">支付密码设置</string>
+    <string name="plzInputConfirmPassword">请输入确认密码</string>
+    <string name="confirmPassword">确认密码</string>
+    <string name="plzInputRetrieveHint">请输入找回暗语</string>
+    <string name="retrieveHint">找回暗语</string>
+    <string name="tipsOfPaymentOfPassword">请谨记找回暗语，密码丢失后，可通过手机+暗语找回。</string>
+    <string name="plsInputPaymentPassword">请输入支付密码（6位纯数字）</string>
+
 
 </resources>
