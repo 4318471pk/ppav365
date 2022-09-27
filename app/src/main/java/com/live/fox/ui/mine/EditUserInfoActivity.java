@@ -216,6 +216,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
         User user = DataCenter.getInstance().getUserInfo().getUser();
         if (!StringUtils.isEmpty(headImageUrl)) user.setAvatar(headImageUrl);
         if (sex >= 0) user.setSex(sex);
+
         Api_User.ins().modifyUserInfo(user, type, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
@@ -224,7 +225,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
                 if (code == 0) {
                     if (!StringUtils.isEmpty(headImageUrl)) user.setAvatar(headImageUrl);
                     if (sex >= 0) user.setSex(sex);
-                    SPManager.saveUserInfo(user);
+                    DataCenter.getInstance().getUserInfo().updateUser(user);
                     refreshPage();
                     showToastTip(true, getString(R.string.modifySuccess));
                 } else {

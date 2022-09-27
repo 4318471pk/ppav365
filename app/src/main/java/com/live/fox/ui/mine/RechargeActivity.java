@@ -514,7 +514,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 Double goldCoin = message.optDouble("goldCoin", -1);
                 if (uid == user.getUid()) {
                     user.setGoldCoin(goldCoin.floatValue());
-                    SPManager.saveUserInfo(user);
+                    DataCenter.getInstance().getUserInfo().updateUser(user);
                     tvMymoney.setText(RegexUtils.westMoney(goldCoin));
                 }
             }

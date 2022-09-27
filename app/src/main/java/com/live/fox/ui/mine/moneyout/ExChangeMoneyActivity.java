@@ -161,7 +161,7 @@ public class ExChangeMoneyActivity extends BaseHeadActivity {
                 hideLoadingDialog();
                 if (code == 0) {
                     myUserInfo.setAnchorCoin(myUserInfo.getAnchorCoin()-coin);
-                    SPManager.saveUserInfo(myUserInfo);
+                    DataCenter.getInstance().getUserInfo().updateUser(myUserInfo);
                     showToastTip(true, getString(R.string.duiSuccess));
                     etMoney.setText("");
                     if(myUserInfo.getAnchorCoin()>0) {

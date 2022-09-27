@@ -270,7 +270,7 @@ public class AppIMManager {
                     Double goldCoin = object.optDouble("goldCoin", -1);
                     if (uid == user.getUid()) {
                         user.setGoldCoin(goldCoin.floatValue());
-                        SPManager.saveUserInfo(user);
+                        DataCenter.getInstance().getUserInfo().setUser(user);
                     }
                 }
             }

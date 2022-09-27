@@ -139,7 +139,7 @@ public class MyBalanceActivity extends BaseHeadActivity implements
                 Double goldCoin = message.optDouble("goldCoin", -1);
                 if (uid == user.getUid()) {
                     user.setGoldCoin(goldCoin.floatValue());
-                    SPManager.saveUserInfo(user);
+                    DataCenter.getInstance().getUserInfo().updateUser(user);
                     tvMymoney.setText(RegexUtils.westMoney(goldCoin));
                 }
             }
@@ -485,7 +485,7 @@ public class MyBalanceActivity extends BaseHeadActivity implements
                 hideLoadingDialog();
                 if (code == 0) {
                     user.setAutoUpdownBalance(user.getAutoUpdownBalance() == 1 ? 2 : 1);
-                    SPManager.saveUserInfo(user);
+                    DataCenter.getInstance().getUserInfo().updateUser(user);
                     refreshAutoChangeView();
                 } else {
                     ToastUtils.showShort(msg);

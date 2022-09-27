@@ -142,7 +142,7 @@ public class EditorMarkActivity extends BaseHeadActivity
                 if(!StringUtils.isEmpty(data)) LogUtils.e("modifyUserInfo result : " + data);
                 if (code == 0) {
                     user.setSignature(newMark);
-                    SPManager.saveUserInfo(user);
+                    DataCenter.getInstance().getUserInfo().updateUser(user);
                     showToastTip(true, getString(R.string.modifySuccess));
                     finish();
                 } else {

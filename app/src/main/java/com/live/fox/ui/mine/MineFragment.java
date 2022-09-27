@@ -272,7 +272,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
                 Double goldCoin = message.optDouble("goldCoin", -1);
                 if (uid == userinfo.getUid()) {
                     userinfo.setGoldCoin(goldCoin.floatValue());
-                    SPManager.saveUserInfo(userinfo);
+                    DataCenter.getInstance().getUserInfo().updateUser(userinfo);
                     balanceMoneyTv.setText(RegexUtils.westMoney(goldCoin));
                 }
             }

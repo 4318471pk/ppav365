@@ -373,7 +373,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         }
 
                         user.setAuth(auth);
-                        SPManager.saveUserInfo(user);
+                        DataCenter.getInstance().getUserInfo().updateUser(user);
                         if (auth == 2 && BuildConfig.IsAnchorClient) {
                             Constant.isAppInsideClick = true;
                             Intent intent = new Intent(MainActivity.this, AnchorLiveActivity.class);

@@ -2046,7 +2046,9 @@ public class CommonLiveControlFragment extends BaseFragment implements
                 Double ret = msg.optDouble("goldCoin");
                 LogUtils.e("chat json :jinbi " + ret);
                 userInfo.setGoldCoin(ret.floatValue());
-                SPManager.saveUserInfo(userInfo);
+                User user=new User();
+                user.setGoldCoin(ret.floatValue());
+                DataCenter.getInstance().getUserInfo().updateUser(user);
                 if (this.mGiftPanelView != null) {
                     this.mGiftPanelView.updateMoney();
                 }

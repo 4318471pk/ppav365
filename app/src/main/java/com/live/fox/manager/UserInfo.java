@@ -76,7 +76,32 @@ public class UserInfo {
 
         if(mUser.getGoldCoin()!=null)
         {
-            user.setAnchorCoin(mUser.getGoldCoin());
+            user.setGoldCoin(mUser.getGoldCoin());
+        }
+
+        if(mUser.getAuth()!=null)
+        {
+            user.setAuth(mUser.getAuth());
+        }
+
+        if(mUser.getSignature()!=null)
+        {
+            user.setSignature(mUser.getSignature());
+        }
+
+        if(mUser.getSex()!=null)
+        {
+            user.setSex(mUser.getSex());
+        }
+
+        if(mUser.getNickname()!=null)
+        {
+            user.setNickname(mUser.getNickname());
+        }
+
+        if(mUser.getAutoUpdownBalance()!=null)
+        {
+            user.setAutoUpdownBalance(mUser.getAutoUpdownBalance());
         }
 
         setUser(user);

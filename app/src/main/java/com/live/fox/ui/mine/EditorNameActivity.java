@@ -148,7 +148,7 @@ public class EditorNameActivity extends BaseHeadActivity implements View.OnClick
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0) {
-                    DataCenter.getInstance().getUserInfo().setUser(data);
+                    DataCenter.getInstance().getUserInfo().updateUser(user);
                     showToastTip(true, getString(R.string.modifySuccess));
                     finish();
                 } else {
