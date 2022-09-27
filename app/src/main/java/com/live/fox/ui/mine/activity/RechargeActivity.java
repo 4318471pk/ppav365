@@ -41,6 +41,7 @@ import com.live.fox.adapter.MoneyAdapter;
 import com.live.fox.adapter.RechargeChannelAdapter;
 import com.live.fox.adapter.SupportBankAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
+import com.live.fox.base.BaseActivity;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.AgentRechargeDialog;
@@ -98,7 +99,7 @@ import java.util.List;
 /**
  * 充值
  */
-public class RechargeActivity extends BaseHeadActivity implements View.OnClickListener,
+public class RechargeActivity extends BaseActivity implements View.OnClickListener,
         AppIMManager.OnMessageReceivedListener {
 
     private TextView tvMymoney;
@@ -184,12 +185,14 @@ public class RechargeActivity extends BaseHeadActivity implements View.OnClickLi
 
         StatusBarUtil.setStatusBarFulAlpha(this);
         BarUtils.setStatusBarLightMode(this, false);
-        setHead(getString(R.string.charge), true, true);
-        setRightImgId(R.drawable.kefua);
-
-        getIvRight().setOnClickListener(view -> ServicesActivity.startActivity(RechargeActivity.this));
+//        setHead(getString(R.string.charge), true, true);
+//        setRightImgId(R.drawable.kefua);
+//
+//        getIvRight().setOnClickListener(view -> ServicesActivity.startActivity(RechargeActivity.this));
         user = AppUserManger.getUserInfo();
-        tvMymoney.setText(RegexUtils.westMoney(user.getGoldCoin()));
+        if (user != null) {
+            tvMymoney.setText(RegexUtils.westMoney(user.getGoldCoin()));
+        }
 
         protocolTitle = findViewById(R.id.recharge_protocol);
 
@@ -874,76 +877,81 @@ public class RechargeActivity extends BaseHeadActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
-        if (v.getId() == R.id.tvRecharge) {//转账充值
-            if (channelType == 29) {
-                usdtRecharge();
-            } else {
-                bankRecharge();
-            }
+        //super.onClick(v);
+        switch (v.getId()){
+            case R.id.iv_head_left:
+                finish();
+                break;
+            case R.id.tvRecharge: //转账充值
+                if (channelType == 29) {
+                    usdtRecharge();
+                } else {
+                    bankRecharge();
+                }
+                break;
+            case R.id.tvaRecharge:
+                dealEditZero(etMoneya);
+                if (dataList.get(channelPosition).getType() == 6) {//代理充值
+                    AgentRechargeDialog dialog = new AgentRechargeDialog();
+                    double reward = dataList.get(channelPosition).getReward();
+                    long tip;
+                    String moneyString = etMoneya.getText().toString();
+                    if (StringUtils.isEmpty(moneyString)) {
+                        showToastTip(false, getString(R.string.recharge_usdt_empty));
+                        return;
+                    }
+                    long money = Long.parseLong(moneyString);
+                    if (money < dataList.get(channelPosition).getLowest() || money > dataList.get(channelPosition).getHighest()) {
+                        showToastTip(false, getString(R.string.recharge_usdt_deposit_tip));
+                        return;
+                    }
+                    if (reward > 0) {
+                        tip = new BigDecimal(money * (10 + 0.1 * reward)).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+                    } else {
+                        tip = money * 10;
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("goldCoin", tip);
+                    dialog.setArguments(bundle);
+                    dialog.show(getSupportFragmentManager(), AgentRechargeDialog.class.getSimpleName());
+                    dialog.setBtnClick((agentType, agentInfoVO) -> {
+                        dialog.dismiss();
+                        showRechargeTipDialog(agentType, agentInfoVO);
+                    });
+                } else {
+                    double reward = dataList.get(channelPosition).getReward();
+                    String tip;
+                    String moneyString = etMoneya.getText().toString().replace(",", "");
+                    if (StringUtils.isEmpty(moneyString)) {
+                        showToastTip(false, getString(R.string.recharge_usdt_empty));
+                        return;
+                    }
+                    long money = Long.parseLong(moneyString);
+                    if (money < dataList.get(channelPosition).getLowest()
+                            || money > dataList.get(channelPosition).getHighest()) {
+                        showToastTip(false, getString(R.string.recharge_usdt_deposit_tip));
+                        return;
+                    }
+                    long sectionGold;
+                    if (reward > 0) {
+                        sectionGold = new BigDecimal(money * (10 + 0.1 * reward))
+                                .setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+                    } else {
+                        sectionGold = money * 10;
+                    }
+                    tip = getString(R.string.sureCost) + RegexUtils.westMoney(money) +
+                            getString(R.string.yuanCharge) +
+                            RegexUtils.westMoney(sectionGold) + getString(R.string.gold);
+                    DialogFactory.showTwoBtnDialog(RechargeActivity.this, tip, (button,
+                                                                                dialog) -> dialog.dismiss(),
+                            (button, dialog) -> {
+                                dialog.dismiss();
+                                toRechargea(dataList.get(channelPosition).getSubmitUrl(), money, sectionGold);
+                            });
+                }
+                break;
         }
 
-        if (v.getId() == R.id.tvaRecharge) {
-            dealEditZero(etMoneya);
-            if (dataList.get(channelPosition).getType() == 6) {//代理充值
-                AgentRechargeDialog dialog = new AgentRechargeDialog();
-                double reward = dataList.get(channelPosition).getReward();
-                long tip;
-                String moneyString = etMoneya.getText().toString();
-                if (StringUtils.isEmpty(moneyString)) {
-                    showToastTip(false, getString(R.string.recharge_usdt_empty));
-                    return;
-                }
-                long money = Long.parseLong(moneyString);
-                if (money < dataList.get(channelPosition).getLowest() || money > dataList.get(channelPosition).getHighest()) {
-                    showToastTip(false, getString(R.string.recharge_usdt_deposit_tip));
-                    return;
-                }
-                if (reward > 0) {
-                    tip = new BigDecimal(money * (10 + 0.1 * reward)).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
-                } else {
-                    tip = money * 10;
-                }
-                Bundle bundle = new Bundle();
-                bundle.putLong("goldCoin", tip);
-                dialog.setArguments(bundle);
-                dialog.show(getSupportFragmentManager(), AgentRechargeDialog.class.getSimpleName());
-                dialog.setBtnClick((agentType, agentInfoVO) -> {
-                    dialog.dismiss();
-                    showRechargeTipDialog(agentType, agentInfoVO);
-                });
-            } else {
-                double reward = dataList.get(channelPosition).getReward();
-                String tip;
-                String moneyString = etMoneya.getText().toString().replace(",", "");
-                if (StringUtils.isEmpty(moneyString)) {
-                    showToastTip(false, getString(R.string.recharge_usdt_empty));
-                    return;
-                }
-                long money = Long.parseLong(moneyString);
-                if (money < dataList.get(channelPosition).getLowest()
-                        || money > dataList.get(channelPosition).getHighest()) {
-                    showToastTip(false, getString(R.string.recharge_usdt_deposit_tip));
-                    return;
-                }
-                long sectionGold;
-                if (reward > 0) {
-                    sectionGold = new BigDecimal(money * (10 + 0.1 * reward))
-                            .setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
-                } else {
-                    sectionGold = money * 10;
-                }
-                tip = getString(R.string.sureCost) + RegexUtils.westMoney(money) +
-                        getString(R.string.yuanCharge) +
-                        RegexUtils.westMoney(sectionGold) + getString(R.string.gold);
-                DialogFactory.showTwoBtnDialog(RechargeActivity.this, tip, (button,
-                                                                            dialog) -> dialog.dismiss(),
-                        (button, dialog) -> {
-                            dialog.dismiss();
-                            toRechargea(dataList.get(channelPosition).getSubmitUrl(), money, sectionGold);
-                        });
-            }
-        }
     }
 
     private void dealEditZero(EditText editText) {

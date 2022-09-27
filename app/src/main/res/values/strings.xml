@@ -998,6 +998,8 @@
     <string name="my_level">我的等级</string>
     <string name="not_certified">未认证</string>
 
+    <string name="recharge_center">充值中心</string>
+
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>
     <string name="tryTimesLimit">您已达到输入错误的上限</string>
