@@ -2,8 +2,9 @@ package com.live.fox.svga;
 
 
 import com.live.fox.entity.GiftSendBase;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.utils.ClickUtil;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 
 public class GiftSendManager extends GiftSendBase {
 
@@ -85,7 +86,7 @@ public class GiftSendManager extends GiftSendBase {
     }
 
     public boolean isGiftCanSend() {
-        return AppUserManger.getUserInfo().getGoldCoin() >= money * count;
+        return DataCenter.getInstance().getUserInfo().getUser().getGoldCoin() >= money * count;
     }
 
     public void setMoney(int money) {

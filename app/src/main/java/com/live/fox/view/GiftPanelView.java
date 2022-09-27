@@ -41,8 +41,8 @@ import com.live.fox.adapter.GiftGridViewAdapter;
 import com.live.fox.adapter.GiftViewPagerAdapter;
 import com.live.fox.db.DataBase;
 import com.live.fox.entity.Gift;
-import com.live.fox.ui.mine.activity.RechargeActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.DensityUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;
@@ -357,7 +357,7 @@ public class GiftPanelView extends RelativeLayout implements View.OnClickListene
      * 设置用户余额
      */
     public void updateMoney() {
-        tvPanelMoney.setText(RegexUtils.westMoney(AppUserManger.getUserInfo().getGoldCoin()));
+        tvPanelMoney.setText(RegexUtils.westMoney(DataCenter.getInstance().getUserInfo().getUser().getGoldCoin()));
     }
 
 
@@ -424,8 +424,8 @@ public class GiftPanelView extends RelativeLayout implements View.OnClickListene
 
     public void sendGift() {
         if (currentGift.getPlayType() == 0) {
-            if (AppUserManger.getUserInfo() != null) {
-                if (AppUserManger.getUserInfo().getGoldCoin() < currentGift.getGoldCoin() * sendGiftCount) {
+            if (DataCenter.getInstance().getUserInfo().getUser() != null) {
+                if (DataCenter.getInstance().getUserInfo().getUser().getGoldCoin() < currentGift.getGoldCoin() * sendGiftCount) {
                     ToastUtils.showShort(context.getString(R.string.yuerLess));
                     return;
                 }

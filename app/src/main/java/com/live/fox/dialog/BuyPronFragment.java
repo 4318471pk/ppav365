@@ -22,7 +22,7 @@ import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Gift;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.mine.activity.ShopActivity;
+import com.live.fox.ui.mine.ShopActivity;
 import com.live.fox.utils.ArithUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;

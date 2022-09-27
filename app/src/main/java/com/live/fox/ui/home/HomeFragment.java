@@ -11,16 +11,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.HomeFragmentPagerAdapter;
-import com.live.fox.adapter.ViewPagerFragmentAdapter;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.HomeColumn;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Config;
-import com.live.fox.ui.circle.WebFragment;
-import com.live.fox.ui.mine.activity.kefu.ServicesActivity;
+import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.ui.rank.RankActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
@@ -126,8 +125,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //            ServicesActivity.startActivity(getActivity());
 //        }
 
-        if (id == R.id.iv_rank && AppUserManger.isLogin(requireContext())) {
-            RankActivity.startActivity(requireActivity());
+        if (id == R.id.iv_rank) {
+            if(DataCenter.getInstance().getUserInfo().isLogin())
+            {
+                RankActivity.startActivity(requireActivity());
+            }
+            else
+            {
+                LoginModeSelActivity.startActivity(requireActivity());
+            }
+
         }
     }
 }

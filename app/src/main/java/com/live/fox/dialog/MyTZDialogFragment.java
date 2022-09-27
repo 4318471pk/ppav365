@@ -22,8 +22,9 @@ import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.MyTZResult;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Cp;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -67,7 +68,7 @@ public class MyTZDialogFragment extends DialogFragment {
     }
 
     private void getAllLotteryLatestResult(boolean isRefresh) {
-        Api_Cp.ins().getMyTZResult(AppUserManger.getUserInfo().getUid(), page, new JsonCallback<List<MyTZResult>>() {
+        Api_Cp.ins().getMyTZResult(DataCenter.getInstance().getUserInfo().getUser().getUid(), page, new JsonCallback<List<MyTZResult>>() {
             @Override
             public void onSuccess(int code, String msg, List<MyTZResult> data) {
                 if (code == 0) {

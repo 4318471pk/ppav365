@@ -20,4 +20,6 @@ public interface ConstantValue {
     int RESULT_CODE3 = 10003>>3;
     int RESULT_CODE4 = 10004>>4;
     int GUEST_BINDPHONE = 10005;
+
+    public static String hasGuestLogin = "hasGuestLogin";
 }

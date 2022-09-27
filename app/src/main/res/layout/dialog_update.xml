@@ -1,184 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/download_apk_bg"
-        android:layout_width="280dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/shape_white_round_20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <ImageView
-        android:id="@+id/download_apk_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/password"
-        android:elevation="4dp"
-        android:src="@drawable/ic_download_top"
-        app:layout_constraintBottom_toTopOf="@id/download_apk_bg"
-        app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
-        app:layout_constraintStart_toStartOf="@id/download_apk_bg"
-        app:layout_constraintTop_toTopOf="@id/download_apk_bg" />
-
-    <TextView
-        android:id="@+id/download_apk_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/versionUpdateOptimize"
-        android:textColor="#373D4C"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
-        app:layout_constraintStart_toStartOf="@id/download_apk_bg"
-        app:layout_constraintTop_toBottomOf="@id/download_apk_icon" />
-
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/download_apk_scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_version"
-        app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
-        app:layout_constraintStart_toStartOf="@id/download_apk_bg"
-        app:layout_constraintTop_toBottomOf="@id/download_apk_title">
-
-        <TextView
-            android:id="@+id/tv_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="8dp"
-            android:textColor="#373D4C"
-            android:textSize="14sp"
-            android:visibility="visible" />
-
-    </androidx.core.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/tv_version"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/layout_bottom1"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"
-        android:textColor="@color/gray_text_light"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/download_bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_description" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/download_bottom"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
-        app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/layout_bottom1"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/tv_cancel"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/ignore"
-                android:textColor="#373D4C"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tv_sure"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/upLever"
-                android:textColor="#EE5A86"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_bottom2"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.flyco.roundview.RoundTextView
-                android:id="@+id/tv_sure2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/upLever"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:rv_backgroundColor="@color/colorAccent"
-                app:rv_backgroundPressColor="@color/colorAccent"
-                app:rv_cornerRadius_BL="8dp"
-                app:rv_cornerRadius_BR="8dp" />
-        </LinearLayout>
-
-        <com.flyco.roundview.RoundLinearLayout
-            android:id="@+id/layout_bottom3"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
+        <View
+            android:id="@+id/download_apk_bg"
+            android:layout_width="280dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/shape_white_round_20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:rv_backgroundColor="@color/white"
-            app:rv_backgroundPressColor="@color/white"
-            app:rv_cornerRadius_BL="8dp"
-            app:rv_cornerRadius_BR="8dp">
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/download_apk_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/password"
+            android:elevation="4dp"
+            android:src="@drawable/ic_download_top"
+            app:layout_constraintBottom_toTopOf="@id/download_apk_bg"
+            app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
+            app:layout_constraintStart_toStartOf="@id/download_apk_bg"
+            app:layout_constraintTop_toTopOf="@id/download_apk_bg" />
+
+        <TextView
+            android:id="@+id/download_apk_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/versionUpdateOptimize"
+            android:textColor="#373D4C"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
+            app:layout_constraintStart_toStartOf="@id/download_apk_bg"
+            app:layout_constraintTop_toBottomOf="@id/download_apk_icon" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/download_apk_scroll_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_version"
+            app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
+            app:layout_constraintStart_toStartOf="@id/download_apk_bg"
+            app:layout_constraintTop_toBottomOf="@id/download_apk_title">
 
             <TextView
-                android:id="@+id/tv_downvalue"
-                style="@style/WrapWrap"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="13sp" />
-
-            <ProgressBar
-                android:id="@+id/progress_down"
-                style="@style/ProgressBar_Mini"
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
-                android:elevation="0dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="8dp"
+                android:textColor="#373D4C"
+                android:textSize="14sp"
+                android:visibility="visible" />
 
-        </com.flyco.roundview.RoundLinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/layout_bottom1"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="@color/gray_text_light"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/download_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/download_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
+            app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/layout_bottom1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/ignore"
+                    android:textColor="#373D4C"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_sure"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/upLever"
+                    android:textColor="#EE5A86"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_bottom2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/tv_sure2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/upLever"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:rv_backgroundColor="@color/colorAccent"
+                    app:rv_backgroundPressColor="@color/colorAccent"
+                    app:rv_cornerRadius_BL="8dp"
+                    app:rv_cornerRadius_BR="8dp" />
+            </LinearLayout>
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:id="@+id/layout_bottom3"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/download_apk_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rv_backgroundColor="@color/white"
+                app:rv_backgroundPressColor="@color/white"
+                app:rv_cornerRadius_BL="8dp"
+                app:rv_cornerRadius_BR="8dp">
+
+                <TextView
+                    android:id="@+id/tv_downvalue"
+                    style="@style/WrapWrap"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="13sp" />
+
+                <ProgressBar
+                    android:id="@+id/progress_down"
+                    style="@style/ProgressBar_Mini"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:elevation="0dp" />
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
 

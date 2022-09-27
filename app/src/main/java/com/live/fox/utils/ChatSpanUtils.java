@@ -24,7 +24,8 @@ import com.live.fox.entity.ReceiveGiftBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.response.LotteryItem;
 import com.live.fox.entity.response.MinuteTabItem;
-import com.live.fox.ui.mine.activity.noble.NobleFragment;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.ui.mine.noble.NobleFragment;
 import com.live.fox.utils.device.DeviceUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -113,7 +114,7 @@ public class ChatSpanUtils {
                     return null;
                 }
 
-                user.come = true;
+                user.setCome(true);
                 appendLevel(spanUtils, user.getUserLevel(), context);
                 appendBadges(context, spanUtils, jsonObject, chatHide);
                 if (user.isVip()) {
@@ -174,7 +175,7 @@ public class ChatSpanUtils {
             case Constant.MessageProtocol.PROTOCOL_SILENT: // 8 禁言和取消禁言消息
                 boolean isBlack = jsonObject.optBoolean("isBlack");
                 String uid = jsonObject.optString("uid");
-                if ((AppUserManger.getUserInfo().getUid() + "").equals(uid)) {
+                if ((DataCenter.getInstance().getUserInfo().getUser().getUid() + "").equals(uid)) {
                     isShow = true;
                 }
                 appendText(spanUtils, isBlack ? context.getString(R.string.niAnchorSilence) : context.getString(R.string.voiceOpen),
@@ -283,7 +284,7 @@ public class ChatSpanUtils {
                 String nickName28 = jsonObject.optString("nickname");
                 long uid28 = jsonObject.optLong("uid");
                 int type28 = jsonObject.optInt("type");
-                if (uid28 == AppUserManger.getUserInfo().getUid()) {
+                if (uid28 == DataCenter.getInstance().getUserInfo().getUser().getUid()) {
                     appendMessageType(spanUtils, 1, context);
                     String msg = type28 == 1 ? context.getString(R.string.gxnnbrmwfg) : context.getString(R.string.hyhnbqxlfg);
                     appendText(spanUtils, msg, ContentType.System, true, null);

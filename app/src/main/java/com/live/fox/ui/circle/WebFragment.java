@@ -25,13 +25,14 @@ import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 
 
 /**
@@ -143,7 +144,7 @@ public class WebFragment extends BaseHeadFragment {
             @Override
             public void onJsCalled(int type, String data) {
                 LogUtils.e("isLoadFinish，" + type + "，" + data);
-                User user = AppUserManger.getUserInfo();
+                User user = DataCenter.getInstance().getUserInfo().getUser();
                 if (user != null && type == 666) {
                     Api_Pay.ins().kickout(user.getUid() + "", new JsonCallback<String>() {
                         @Override

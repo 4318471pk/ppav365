@@ -3,24 +3,17 @@ package com.live.fox.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,20 +23,16 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
-import com.flyco.roundview.RoundTextView;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.live.fox.AppConfig;
-import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseLazyViewPagerFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.Anchor;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.AnchorInfoBean;
 import com.live.fox.entity.GameColumn;
 import com.live.fox.entity.GameItem;
@@ -61,7 +50,7 @@ import com.live.fox.ui.game.GameFullWebViewActivity;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.AdManger;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
@@ -75,9 +64,6 @@ import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ZoomOutSlideTransformer;
 import com.live.fox.utils.device.DeviceUtils;
-import com.live.fox.view.DropDownScrollView;
-import com.live.fox.view.DropDownViewGroup;
-import com.live.fox.view.MyCoordinatorLayout;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -133,7 +119,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     public void bindView(Bundle savedInstanceState) {
         hasInit = true;
         initView();
-        currentUser = AppUserManger.getUserInfo();
+        currentUser = DataCenter.getInstance().getUserInfo().getUser();
 
         requestAppAd();
         initGongGao();
@@ -353,7 +339,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         });
 
         gameAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (AppUserManger.getUserInfo() == null) {
+            if (DataCenter.getInstance().getUserInfo().getUser() == null) {
                 LoginModeSelActivity.startActivity(requireContext());
                 return;
             }
@@ -396,7 +382,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     public void loginGame(GameItem gameItem) {
         showLoadingDialog(getString(R.string.baseLoading), false, false);
         if (gameItem.getType() == 0) { //0：老朱；1：开元 2：AG
-            Api_Pay.ins().getGame(AppUserManger.getUserInfo().getUid() + "",
+            Api_Pay.ins().getGame(DataCenter.getInstance().getUserInfo().getUser().getUid() + "",
                     gameItem.getName(), gameItem.getGameId(), 2, new JsonCallback<String>() {
                         @Override
                         public void onSuccess(int code, String msg, String data) {
@@ -487,7 +473,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
             });
         } else if (gameItem.getType() == 5 || gameItem.getType() == 6) { //bg
             Api_FwGame.ins().loginBg(gameItem.getGameId(),
-                    AppUserManger.getUserInfo().getUid() + "", new JsonCallback<String>() {
+                    DataCenter.getInstance().getUserInfo().getUser().getUid() + "", new JsonCallback<String>() {
                         @Override
                         public void onSuccess(int code, String msg, String result) {
                             if (result != null)
@@ -509,7 +495,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                     });
         } else if (gameItem.getType() == 7) { //体育
             Api_TYGame.ins().forwardGame(gameItem.getGameId(),
-                    AppUserManger.getUserInfo().getUid() + "", new JsonCallback<String>() {
+                    DataCenter.getInstance().getUserInfo().getUser().getUid() + "", new JsonCallback<String>() {
                         @Override
                         public void onSuccess(int code, String msg, String result) {
                             if (result != null)
@@ -566,7 +552,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
 
     //跳往直播间
     public void toLiveRoom(Anchor anchor, int position) {
-        if (AppUserManger.getUserInfo() == null) {
+        if (DataCenter.getInstance().getUserInfo().getUser() == null) {
             LoginModeSelActivity.startActivity(requireContext());
             return;
         }
@@ -584,7 +570,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                 e.printStackTrace();
             }
         } else {
-            if (AppUserManger.getUserInfo() == null) {
+            if (DataCenter.getInstance().getUserInfo().getUser() == null) {
                 LoginModeSelActivity.startActivity(requireContext());
                 return;
             }
@@ -615,7 +601,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     }
 
     public void doGetLiveRecommendApi() {
-        if (currentUser == null) return;
+        if (!DataCenter.getInstance().getUserInfo().isLogin()) return;
         Api_Live.ins().getRocketlist(currentUser.getUid(), new JsonCallback<List<Anchor>>() {
             @Override
             public void onSuccess(int code, String msg, List<Anchor> data) {
@@ -675,7 +661,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                         Anchor anchor = data.get(i);
                         anchor.setRoomType(0);
                         //标记主播位置
-                        if (AppUserManger.isLogin() && anchor.getAnchorId() == AppUserManger.getUserInfo().getUid()) {
+                        if (DataCenter.getInstance().getUserInfo().isLogin() && anchor.getAnchorId() == DataCenter.getInstance().getUserInfo().getUser().getUid()) {
                             anchorPosition = i;
                         }
                         //测试测试测试测试测试测试测试测试测试测试测试测试

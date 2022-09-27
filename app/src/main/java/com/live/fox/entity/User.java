@@ -10,25 +10,25 @@ import java.util.ArrayList;
 
 public class User implements Serializable {
 
-    private double anchorCoin;  // 主播金币
-    private long anchorExp;  //主播经验
-    private int anchorLevel;  //主播等级
-    private int auth;  //0:否 1:認證中 2:認證成功
+    private Float anchorCoin;  // 主播金币
+    private Long anchorExp;  //主播经验
+    private Integer anchorLevel;  //主播等级
+    private Integer auth;  //0:否 1:認證中 2:認證成功
     private String avatar;  //头像
     private String constellation;  //星座
-    private double goldCoin = 0; //金币
+    private Float goldCoin ; //金币
     private String hobby;  // 爱好
     private String nickname; //昵称
     private String phone;  // 手机号
     private Integer sex;  //性别0未知1男2女
     private String signature;  //个性签名
-    private long uid;  //用户唯一标识
-    private long userCoin;  //用户币
-    private double userExp;  //用户经验
-    private int userLevel;  //用户等级
+    private Long uid;  //用户唯一标识
+    private Long userCoin;  //用户币
+    private Float userExp;  //用户经验
+    private Integer userLevel;  //用户等级
     private String city;  //地理位置
-    private long fans;  //粉丝数
-    private long follows;  //关注数
+    private Long fans;  //粉丝数
+    private Long follows;  //关注数
     private Boolean isReject = false;  //是否拉黑
     private Boolean isFollow = false;  //是否关注
     private Boolean isRename = false;  //是否改过名
@@ -38,16 +38,16 @@ public class User implements Serializable {
     private Boolean isSignIn = false; //今日是否签到
     private Integer signInNum;  //连续签到次数
     public Integer manage = 0; //是否超管：0否 1是
-    public int surplusMovTime = 0;  //剩余观影次数
-    public int totalMovTime = 0; //总观影次数
-    public int chatHide = 0;
-    public int roomHide = 0;
-    public int rankHide = 0;
-    public long destUid;
-    private boolean isVip = false;
-    private long vipExp = 0;
-    private long receiveCoin = 0L;
-    private long sendCoin = 0L;
+    public Integer surplusMovTime = 0;  //剩余观影次数
+    public Integer totalMovTime = 0; //总观影次数
+    public Integer chatHide = 0;
+    public Integer roomHide = 0;
+    public Integer rankHide = 0;
+    public Long destUid;
+    private Boolean isVip = false;
+    private Long vipExp;
+    private Long receiveCoin = 0L;
+    private Long sendCoin = 0L;
     private String gxAvatar;
     private String gxId;
     private String shAvatar;
@@ -56,14 +56,21 @@ public class User implements Serializable {
     private Integer gxLevel = 0;
     public Long vipUid;
     private Integer shType = 0;
-    private boolean isNotification;
+    private Boolean isNotification;
     private ArrayList<Integer> badgeList;
     String address;
     String province;
-    int gameQuota; //可提现额度
-    boolean isBlackChat;
-    int autoUpdownBalance; //是否自动上下分 1 不自动 2自动
-    public boolean come = false;
+    Boolean isBlackChat;
+    Integer autoUpdownBalance; //是否自动上下分 1 不自动 2自动
+    Boolean come = false;
+
+    public boolean isCome() {
+        return come;
+    }
+
+    public void setCome(boolean come) {
+        this.come = come;
+    }
 
     public String getArea() {
         return area;
@@ -97,26 +104,23 @@ public class User implements Serializable {
         isFans = fans;
     }
 
-    public double getAnchorCoin() {
-        if (AppConfig.isThLive()) {
-            return anchorCoin;
-        }
-        return (long) anchorCoin;
+    public Float getAnchorCoin() {
+        return  anchorCoin;
     }
 
-    public void setAnchorCoin(double anchorCoin) {
+    public void setAnchorCoin(Float anchorCoin) {
         this.anchorCoin = anchorCoin;
     }
 
-    public long getAnchorExp() {
+    public Long getAnchorExp() {
         return anchorExp;
     }
 
-    public void setAnchorExp(long anchorExp) {
+    public void setAnchorExp(Long anchorExp) {
         this.anchorExp = anchorExp;
     }
 
-    public int getAnchorLevel() {
+    public Integer getAnchorLevel() {
         return anchorLevel;
     }
 
@@ -124,23 +128,23 @@ public class User implements Serializable {
         this.anchorLevel = anchorLevel;
     }
 
-    public int getAuth() {
+    public Integer getAuth() {
         return auth;
     }
 
-    public int getSurplusMovTime() {
+    public Integer getSurplusMovTime() {
         return surplusMovTime;
     }
 
-    public void setSurplusMovTime(int surplusMovTime) {
+    public void setSurplusMovTime(Integer surplusMovTime) {
         this.surplusMovTime = surplusMovTime;
     }
 
-    public int getTotalMovTime() {
+    public Integer getTotalMovTime() {
         return totalMovTime;
     }
 
-    public void setTotalMovTime(int totalMovTime) {
+    public void setTotalMovTime(Integer totalMovTime) {
         this.totalMovTime = totalMovTime;
     }
 
@@ -184,19 +188,21 @@ public class User implements Serializable {
     }
 
 
-    public double getGoldCoin() {
+    public Float getGoldCoin() {
+        if(goldCoin==null)
+        {
+            goldCoin=0f;
+        }
         return goldCoin;
     }
 
-    public void setGoldCoin(double goldCoin) {
+    public void setGoldCoin(Float goldCoin) {
         this.goldCoin = goldCoin;
     }
-
 
     public String getNickname() {
         return nickname;
     }
-
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
@@ -210,7 +216,7 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public int getSex() {
+    public Integer getSex() {
         return sex == null ? 1 : sex;
     }
 
@@ -229,51 +235,51 @@ public class User implements Serializable {
         this.signature = signature;
     }
 
-    public long getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 
-    public long getUserCoin() {
+    public Long getUserCoin() {
         return userCoin;
     }
 
-    public void setUserCoin(long userCoin) {
+    public void setUserCoin(Long userCoin) {
         this.userCoin = userCoin;
     }
 
-    public double getUserExp() {
+    public Float getUserExp() {
         return userExp;
     }
 
-    public void setUserExp(double userExp) {
+    public void setUserExp(Float userExp) {
         this.userExp = userExp;
     }
 
-    public int getUserLevel() {
+    public Integer getUserLevel() {
         return userLevel;
     }
 
-    public void setUserLevel(int userLevel) {
+    public void setUserLevel(Integer userLevel) {
         this.userLevel = userLevel;
     }
 
-    public long getFans() {
+    public Long getFans() {
         return fans;
     }
 
-    public void setFans(long fans) {
+    public void setFans(Long fans) {
         this.fans = fans;
     }
 
-    public long getFollows() {
+    public Long getFollows() {
         return follows;
     }
 
-    public void setFollows(long follows) {
+    public void setFollows(Long follows) {
         this.follows = follows;
     }
 
@@ -322,19 +328,19 @@ public class User implements Serializable {
     }
 
 
-    public long getReceiveCoin() {
+    public Long getReceiveCoin() {
         return receiveCoin;
     }
 
-    public void setReceiveCoin(long receiveCoin) {
+    public void setReceiveCoin(Long receiveCoin) {
         this.receiveCoin = receiveCoin;
     }
 
-    public long getSendCoin() {
+    public Long getSendCoin() {
         return sendCoin;
     }
 
-    public void setSendCoin(long sendCoin) {
+    public void setSendCoin(Long sendCoin) {
         this.sendCoin = sendCoin;
     }
 
@@ -370,24 +376,24 @@ public class User implements Serializable {
         this.shId = shId;
     }
 
-    public long getVipExp() {
+    public Long getVipExp() {
+        if(vipExp==0)
+        {
+            vipExp=0L;
+        }
         return vipExp / 1000;
     }
 
-    public void setVipExp(long vipExp) {
+    public void setVipExp(Long vipExp) {
         this.vipExp = vipExp;
     }
 
-    public int getManage() {
-        return manage == null ? 0 : manage.intValue();
+    public Integer getManage() {
+        return manage == null ? 0 : manage;
     }
 
     public void setManage(Integer manage) {
         this.manage = manage;
-    }
-
-    public Boolean getReject() {
-        return isReject;
     }
 
     public Boolean getFollow() {
@@ -426,14 +432,6 @@ public class User implements Serializable {
         isRename = rename;
     }
 
-    public void setAnchorLevel(int anchorLevel) {
-        this.anchorLevel = anchorLevel;
-    }
-
-    public void setAuth(int auth) {
-        this.auth = auth;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -466,11 +464,11 @@ public class User implements Serializable {
         isNotification = notification;
     }
 
-    public long getDestUid() {
+    public Long getDestUid() {
         return destUid;
     }
 
-    public void setDestUid(long destUid) {
+    public void setDestUid(Long destUid) {
         this.destUid = destUid;
     }
 
@@ -498,67 +496,15 @@ public class User implements Serializable {
         return false;
     }
 
-    public int getGameQuota() {
-        return gameQuota;
-    }
 
-    public void setGameQuota(int gameQuota) {
-        this.gameQuota = gameQuota;
-    }
-
-    public int getAutoUpdownBalance() {
+    public Integer getAutoUpdownBalance() {
         return autoUpdownBalance;
     }
 
-    public void setAutoUpdownBalance(int autoUpdownBalance) {
+    public void setAutoUpdownBalance(Integer autoUpdownBalance) {
         this.autoUpdownBalance = autoUpdownBalance;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "anchorCoin=" + anchorCoin +
-                ", anchorExp=" + anchorExp +
-                ", anchorLevel=" + anchorLevel +
-                ", auth=" + auth +
-                ", avatar='" + avatar + '\'' +
-                ", constellation='" + constellation + '\'' +
-                ", goldCoin=" + goldCoin +
-                ", hobby='" + hobby + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", phone='" + phone + '\'' +
-                ", sex=" + sex +
-                ", signature='" + signature + '\'' +
-                ", uid=" + uid +
-                ", userCoin=" + userCoin +
-                ", userExp=" + userExp +
-                ", userLevel=" + userLevel +
-                ", city='" + city + '\'' +
-                ", fans=" + fans +
-                ", follows=" + follows +
-                ", isReject=" + isReject +
-                ", isFollow=" + isFollow +
-                ", isRename=" + isRename +
-                ", isFans=" + isFans +
-                ", imToken='" + imToken + '\'' +
-                ", isFirstLogin=" + isFirstLogin +
-                ", isSignIn=" + isSignIn +
-                ", signInNum=" + signInNum +
-                ", manage=" + manage +
-                ", surplusMovTime=" + surplusMovTime +
-                ", totalMovTime=" + totalMovTime +
-                ", isVip=" + isVip +
-                ", vipExp=" + vipExp +
-                ", receiveCoin=" + receiveCoin +
-                ", sendCoin=" + sendCoin +
-                ", gxAvatar='" + gxAvatar + '\'' +
-                ", gxId='" + gxId + '\'' +
-                ", shAvatar='" + shAvatar + '\'' +
-                ", shId='" + shId + '\'' +
-                ", gxLevel=" + gxLevel +
-                ", shType=" + shType +
-                ", badgeList=" + badgeList +
-                '}';
-    }
+
 
 }

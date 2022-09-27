@@ -1,4 +1,4 @@
-package com.lc.base.dialog;
+package com.live.fox.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

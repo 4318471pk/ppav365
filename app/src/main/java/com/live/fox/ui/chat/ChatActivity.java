@@ -30,13 +30,14 @@ import com.live.fox.db.DataBase;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.KeyboardUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.tencent.android.tpush.TpnsActivity;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -98,7 +99,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     public void initData(Intent intent) {
         if (intent != null) {
             otherUser = (User) intent.getSerializableExtra(OTHER_USER_KEY);
-            loginUser = AppUserManger.getUserInfo();
+            loginUser = DataCenter.getInstance().getUserInfo().getUser();
             db = DataBase.getDbInstance();
             if (TextUtils.isEmpty(otherUser.getNickname()) && db != null) {  //为发送消息的人创建通知渠道
                 String channel = String.valueOf(otherUser.getUid());

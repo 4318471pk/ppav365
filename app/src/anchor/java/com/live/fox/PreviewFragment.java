@@ -21,14 +21,13 @@ import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.ConfigPathsBean;
 import com.live.fox.entity.response.ChipsVO;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Config;
-import com.live.fox.ui.live.PlayLiveActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
-import com.live.fox.windowmanager.WindowUtils;
 import com.lovense.sdklibrary.LovenseToy;
 import com.tencent.rtmp.TXLiveBase;
 
@@ -147,7 +146,7 @@ public class PreviewFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void livePathConfig() {
-        Api_Config.ins().getConfigPaths(AppUserManger.getUserInfo().getUid(), new JsonCallback<List<ConfigPathsBean>>() {
+        Api_Config.ins().getConfigPaths(DataCenter.getInstance().getUserInfo().getUser().getUid(), new JsonCallback<List<ConfigPathsBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<ConfigPathsBean> data) {
                 if (code == Constant.Code.SUCCESS) {

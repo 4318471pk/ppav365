@@ -27,6 +27,7 @@ import com.live.fox.entity.GameColumn;
 import com.live.fox.entity.GameItem;
 import com.live.fox.entity.GameListItem;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_AgGame;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Cp;
@@ -34,7 +35,7 @@ import com.live.fox.server.Api_FwGame;
 import com.live.fox.server.Api_KyGame;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.server.Api_TYGame;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
@@ -105,7 +106,7 @@ public class GameFragment extends BaseFragment {
 
         setTopPaddingStatusBarHeight(bindSource.findViewById(R.id.rl_top));
 
-        user = AppUserManger.getUserInfo();
+        user = DataCenter.getInstance().getUserInfo().getUser();
 
         setCloseBtn(bindSource);
 

@@ -41,14 +41,14 @@
         <activity
             android:name=".ui.game.AllGameActivity"
             android:exported="true" />
-        <activity android:name=".ui.mine.activity.TransactionDetailActivity" />
-        <activity android:name=".ui.mine.activity.TransactionActivity"
+        <activity android:name=".ui.mine.TransactionDetailActivity" />
+        <activity android:name=".ui.mine.TransactionActivity"
             />
         <activity
-            android:name=".ui.mine.activity.Setting.APPGestureLockActivity"
+            android:name=".ui.mine.Setting.APPGestureLockActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.Setting.PhoneBindingActivity"
+            android:name=".ui.mine.Setting.PhoneBindingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"
             />
@@ -196,10 +196,10 @@
             android:name=".ui.AuthActivity"
             android:screenOrientation="portrait" /> <!-- 黑名单界面 -->
         <activity
-            android:name=".ui.mine.activity.BlackLIstActivity"
+            android:name=".ui.mine.BlackLIstActivity"
             android:screenOrientation="portrait" /> <!-- 系统设置 -->
         <activity
-            android:name=".ui.mine.activity.Setting.SettingActivity"
+            android:name=".ui.mine.Setting.SettingActivity"
             android:screenOrientation="portrait" /> <!-- 通知设置 -->
         <!-- 帮助与反馈 -->
         <!-- 直播结束 -->
@@ -213,62 +213,62 @@
             android:name=".ui.live.PlayLiveActivity"
             android:screenOrientation="portrait" /> <!-- 我的道具 -->
         <activity
-            android:name=".ui.mine.activity.MyPronActivity"
+            android:name=".ui.mine.MyPronActivity"
             android:screenOrientation="portrait" /> <!-- 充值 -->
         <activity
-            android:name=".ui.mine.activity.RechargeActivity"
+            android:name=".ui.mine.RechargeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" /> <!-- 提现 -->
         <activity
-            android:name=".ui.mine.activity.moneyout.MoneyOutActivity"
+            android:name=".ui.mine.moneyout.MoneyOutActivity"
             android:screenOrientation="portrait" /> <!-- 商城 -->
         <activity
-            android:name=".ui.mine.activity.ShopActivity"
+            android:name=".ui.mine.ShopActivity"
             android:screenOrientation="portrait" /> <!-- 修改个人信息 -->
         <activity
-            android:name=".ui.mine.activity.EditUserInfoActivity"
+            android:name=".ui.mine.EditUserInfoActivity"
             android:screenOrientation="portrait" /> <!-- 修改名称 -->
         <activity
-            android:name=".ui.mine.activity.EditorNameActivity"
+            android:name=".ui.mine.EditorNameActivity"
             android:screenOrientation="portrait" /> <!-- 修改个性签名 -->
         <activity
-            android:name=".ui.mine.activity.EditorMarkActivity"
+            android:name=".ui.mine.EditorMarkActivity"
             android:screenOrientation="portrait" /> <!-- 直播收益 -->
         <activity
-            android:name=".ui.mine.activity.LiveProfitActivity"
+            android:name=".ui.mine.LiveProfitActivity"
             android:screenOrientation="portrait" /> <!-- 直播记录 -->
         <activity
-            android:name=".ui.mine.activity.LiveRecordActivity"
+            android:name=".ui.mine.LiveRecordActivity"
             android:screenOrientation="portrait" /> <!-- 关于我们 -->
         <activity
-            android:name=".ui.mine.activity.AboutUsActivity"
+            android:name=".ui.mine.AboutUsActivity"
             android:screenOrientation="portrait" /> <!-- 我的关注 -->
         <activity
-            android:name=".ui.mine.activity.MyFollowActivity"
+            android:name=".ui.mine.MyFollowActivity"
             android:screenOrientation="portrait" /> <!-- 我的粉丝 -->
         <activity
-            android:name=".ui.mine.activity.MyFansActivity"
+            android:name=".ui.mine.MyFansActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.MyAncListActivity"
+            android:name=".ui.mine.MyAncListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.MyGameRecordActivity"
+            android:name=".ui.mine.MyGameRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.MyTouzuRecordActivity"
+            android:name=".ui.mine.MyTouzuRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.MySouZhiActivity"
+            android:name=".ui.mine.MySouZhiActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.ZblbActivity"
+            android:name=".ui.mine.ZblbActivity"
             android:screenOrientation="portrait" /> <!-- 用户详情 -->
         <activity
-            android:name=".ui.mine.activity.UserDetailActivity"
+            android:name=".ui.mine.UserDetailActivity"
             android:screenOrientation="portrait" /> <!-- 分享 -->
         <activity
-            android:name=".ui.mine.activity.ShareActivity"
+            android:name=".ui.mine.ShareActivity"
             android:screenOrientation="portrait" /> <!-- 排行榜 -->
         <activity
             android:name=".ui.rank.RankActivity"
@@ -277,16 +277,16 @@
             android:name=".ui.rank.RankDetaiActivity"
             android:screenOrientation="portrait" /> <!-- 提现到银行卡 -->
         <activity
-            android:name=".ui.mine.activity.moneyout.MoneyOutToCardActivity"
+            android:name=".ui.mine.moneyout.MoneyOutToCardActivity"
             android:screenOrientation="portrait" /> <!-- 绑定、更换银行卡 -->
         <activity
-            android:name=".ui.mine.activity.moneyout.BindCardActivity"
+            android:name=".ui.mine.moneyout.BindCardActivity"
             android:screenOrientation="portrait" /> <!-- 兑换金币 -->
         <activity
-            android:name=".ui.mine.activity.moneyout.ExChangeMoneyActivity"
+            android:name=".ui.mine.moneyout.ExChangeMoneyActivity"
             android:screenOrientation="portrait" /> <!-- 提现、兑换金币 记录 -->
         <activity
-            android:name=".ui.mine.activity.moneyout.MoneyOutRecordActivity"
+            android:name=".ui.mine.moneyout.MoneyOutRecordActivity"
             android:screenOrientation="portrait" /> <!-- 系统通知列表 -->
         <activity
             android:name=".ui.chat.SysNoticeActivity"
@@ -295,10 +295,10 @@
             android:name=".ui.chat.GfNoticeActivity"
             android:screenOrientation="portrait" /> <!-- 客服 -->
         <activity
-            android:name=".ui.mine.activity.kefu.ServicesActivity"
+            android:name=".ui.mine.kefu.ServicesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.MessageActivity"
+            android:name=".ui.mine.MessageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SearchActivity"
@@ -317,25 +317,26 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" /> <!-- 我的余额 -->
         <activity
-            android:name=".ui.mine.activity.MyBalanceActivity"
+            android:name=".ui.mine.MyBalanceActivity"
             android:screenOrientation="portrait" /> <!-- 用户端 临时Activity -->
         <activity
-            android:name=".ui.mine.activity.noble.NobleActivity"
+            android:name=".ui.mine.noble.NobleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.noble.MyNobleActivity"
+            android:name=".ui.mine.noble.MyNobleActivity"
             android:screenOrientation="portrait" /> <!-- 安卓APK -->
         <activity
-            android:name=".ui.mine.activity.gamerecord.CaiDetailActivity"
+            android:name=".ui.mine.gamerecord.CaiDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.gamerecord.HNCPCaiDetailActivity"
+            android:name=".ui.mine.gamerecord.HNCPCaiDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.activity.PickPhotoActivity"
+            android:name=".ui.mine.PickPhotoActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.language.MultiLanguageActivity" />
-
+        <activity android:name=".ui.mine.Setting.PaymentPassword.PaymentPasswordActivity"
+            android:screenOrientation="portrait"/>
 
 
         <provider

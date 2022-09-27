@@ -1,15 +1,11 @@
 package com.live.fox.manager;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-
 import static com.live.fox.Constant.SPUtilKey.ACCESS_ID;
 import static com.live.fox.Constant.SPUtilKey.ACCESS_KEY;
 
 import com.live.fox.BuildConfig;
 import com.live.fox.R;
 import com.live.fox.common.CommonApp;
-import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.tencent.android.tpush.XGBasicPushNotificationBuilder;
@@ -100,7 +96,7 @@ public class NotificationManager {
      * 用户登录，用没有绑定
      */
     public void registerUserID(CommonApp app) {
-        if (AppUserManger.isLogin()) {
+        if (DataCenter.getInstance().getUserInfo().isLogin()) {
             XGIOperateCallback xgiOperateCallback = new XGIOperateCallback() {
                 @Override
                 public void onSuccess(Object data, int flag) {
@@ -117,7 +113,7 @@ public class NotificationManager {
 
             List<XGPushManager.AccountInfo> accountInfoList = new ArrayList<>();
             accountInfoList.add(new XGPushManager.AccountInfo(XGPushManager.AccountType.UNKNOWN.getValue(),
-                    String.valueOf(AppUserManger.getUserInfo().getUid())));
+                    String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid())));
             XGPushManager.upsertAccounts(app, accountInfoList, xgiOperateCallback);
         }
     }

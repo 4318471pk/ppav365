@@ -104,6 +104,7 @@ import com.live.fox.entity.response.GamePeriodInfoVO;
 import com.live.fox.entity.response.RedBagRainBean;
 import com.live.fox.entity.response.RedBagRainGetBean;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.AdmissionManager;
 import com.live.fox.svga.GiftManager;
 import com.live.fox.manager.SPManager;
@@ -116,7 +117,7 @@ import com.live.fox.svga.ShowBigGiftFragment;
 import com.live.fox.ui.live.PiaopingFragment;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.rank.AnchorRankActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FragmentContentActivity;
@@ -131,7 +132,6 @@ import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.Utils;
 import com.live.fox.utils.ViewUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.view.ChatPanelView;
@@ -428,7 +428,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
         isInit = true;
         //true 主播自己直播间 false 观众直播间
         isAnchorLiveRoom = !(requireActivity() instanceof PlayLiveActivity);
-        userInfo = AppUserManger.getUserInfo();
+        userInfo = DataCenter.getInstance().getUserInfo().getUser();
         tvCountdown.getPaint().setFakeBoldText(true);
         tvPkTxt.getPaint().setFakeBoldText(true);
 
@@ -1121,7 +1121,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
             User user = new User();
             user.setUid(audience.getUid());
             user.setAvatar(audience.getAvatar());
-            user.setUserExp(audience.getUserExp());
+            user.setUserExp(((Double)audience.getUserExp()).floatValue());
             user.setUserLevel(audience.getUserLevel());
             if (audience.getChatHide() == 0) {
                 user.setNickname(getString(R.string.mysteriousMan));
@@ -1239,7 +1239,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
                 tv_djs.setVisibility(View.GONE);
             }
 
-            if (anchor.getAnchorId() != AppUserManger.getUserInfo().getUid()) {
+            if (anchor.getAnchorId() != DataCenter.getInstance().getUserInfo().getUser().getUid()) {
                 btnFollow.setVisibility(anchor.isFollow() ? View.GONE : View.VISIBLE);
             }
 
@@ -1725,7 +1725,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
                 public void onSuccess(int code, String msg, String result) {
                     if (code == 0 && result != null) {
                         anchor.setFollow(!anchor.isFollow());
-                        if (anchor.getAnchorId() != AppUserManger.getUserInfo().getUid()) {
+                        if (anchor.getAnchorId() != DataCenter.getInstance().getUserInfo().getUser().getUid()) {
                             btnFollow.setVisibility(anchor.isFollow() ? View.GONE : View.VISIBLE);
                         }
                         followMargin.setVisibility(anchor.isFollow() ? View.VISIBLE : View.GONE);
@@ -1972,8 +1972,8 @@ public class CommonLiveControlFragment extends BaseFragment implements
 
                 Audience audience = mGson.fromJson(msg.toString(), Audience.class);
                 if (isInter) { //进房
-                    if (AppUserManger.getUserInfo() != null && audience.getIsRoomPreview() != 1) {
-                        if (audience.getCarId() > 0 && AppUserManger.getUserInfo().getUid() != audience.getUid()) { //座驾
+                    if (DataCenter.getInstance().getUserInfo().getUser() != null && audience.getIsRoomPreview() != 1) {
+                        if (audience.getCarId() > 0 && DataCenter.getInstance().getUserInfo().getUser().getUid() != audience.getUid()) { //座驾
                             Gift gift = DataBase.getDbInstance().getGiftByGid(audience.getCarId());
                             showBigGiftFragment.showBigGiftEffect(audience.getCarId(),
                                     gift.getBimgs(), gift.getType(), gift.getResourceUrl());
@@ -2043,9 +2043,9 @@ public class CommonLiveControlFragment extends BaseFragment implements
                 break;
 
             case Constant.MessageProtocol.PROTOCOL_BALANCE_CHANGE: //12、金币变动消息
-                double ret = msg.optDouble("goldCoin");
+                Double ret = msg.optDouble("goldCoin");
                 LogUtils.e("chat json :jinbi " + ret);
-                userInfo.setGoldCoin(ret);
+                userInfo.setGoldCoin(ret.floatValue());
                 SPManager.saveUserInfo(userInfo);
                 if (this.mGiftPanelView != null) {
                     this.mGiftPanelView.updateMoney();
@@ -2155,7 +2155,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
 
             case 66: //游戏
                 Game game = mGson.fromJson(msg.getMessage(), Game.class);
-                User user66 = AppUserManger.getUserInfo();
+                User user66 = DataCenter.getInstance().getUserInfo().getUser();
                 if (user66 == null) {
                     ToastUtils.showShort(getString(R.string.reLogin));
                     return;
@@ -2216,7 +2216,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
                                             (button, dialog) -> dialog.dismiss(), (button, dialog) -> {
                                                 dialog.dismiss();
                                                 showLoadingDialog();
-                                                User user1 = AppUserManger.getUserInfo();
+                                                User user1 = DataCenter.getInstance().getUserInfo().getUser();
                                                 if (user1 != null) {
                                                     Api_Pay.ins().kickout(user1.getUid() + "", new JsonCallback<String>() {
                                                         @Override
@@ -2236,7 +2236,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
                                 @Override
                                 public void onExit() {
                                     showLoadingDialog();
-                                    User user = AppUserManger.getUserInfo();
+                                    User user = DataCenter.getInstance().getUserInfo().getUser();
                                     if (user != null) {
                                         Api_Pay.ins().kickout(user.getUid() + "", new JsonCallback<String>() {
                                             @Override

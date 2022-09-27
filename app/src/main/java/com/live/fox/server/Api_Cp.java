@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.response.GamePeriodInfoVO;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class Api_Cp extends BaseApi {
     public void getRedBagRain(int redPacketId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_RED_BAG_GET;
         HashMap<String, Object> params = getCommonParams();
-        params.put("uid", AppUserManger.getUserInfo().getUid());
+        params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
         params.put("redPacketId", redPacketId);
         url = OkGoHttpUtil.getInstance().mapToUrlWithValue(url, params);
         OkGoHttpUtil.getInstance().doJsonPost(
@@ -65,7 +66,7 @@ public class Api_Cp extends BaseApi {
     public void getRedBagRainInfo(JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_RED_BAG_RAIN_INFO;
         HashMap<String, Object> params = getCommonParams();
-        params.put("uid", AppUserManger.getUserInfo().getUid());
+        params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
         url = OkGoHttpUtil.getInstance().mapToUrlWithValue(url, params);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",

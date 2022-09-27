@@ -15,11 +15,12 @@ import com.live.fox.adapter.CategoryFragmentAdapter;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.LiveColumn;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Config;
 import com.live.fox.ui.SearchActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 
@@ -92,7 +93,7 @@ public class ChatListFragment extends BaseFragment implements View.OnClickListen
         if (ClickUtil.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.iv_search:
-                if (AppUserManger.getUserInfo() == null) {
+                if (!DataCenter.getInstance().getUserInfo().isLogin()) {
                     LoginModeSelActivity.startActivity(requireActivity());
                     return;
                 }

@@ -22,7 +22,7 @@ import com.live.fox.base.BaseActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.mine.activity.UserDetailActivity;
+import com.live.fox.ui.mine.UserDetailActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;

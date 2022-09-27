@@ -27,11 +27,12 @@ import com.live.fox.R;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.response.ChipsVO;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_TYGame;
 import com.live.fox.ui.game.AllGameActivity;
 import com.live.fox.ui.game.GameFullWebViewActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
@@ -158,7 +159,7 @@ public class GameDialogFragment extends DialogFragment {
                 dismiss();
                 break;
             case "EURO":
-                Api_TYGame.ins().forwardGame("14", AppUserManger.getUserInfo().getUid() + "",
+                Api_TYGame.ins().forwardGame("14", DataCenter.getInstance().getUserInfo().getUser().getUid() + "",
                         new JsonCallback<String>() {
                             @Override
                             public void onSuccess(int code, String msg, String result) {

@@ -49,13 +49,13 @@ import com.live.fox.entity.response.GamePeriodInfoVO;
 import com.live.fox.entity.response.LotteryCpVO;
 import com.live.fox.entity.response.MinuteTabItem;
 import com.live.fox.entity.response.Nums;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.mvp.MvpDialogFragment;
 import com.live.fox.mvp.PresenterInject;
 import com.live.fox.server.Api_Cp;
 import com.live.fox.server.BaseApi;
-import com.live.fox.ui.mine.activity.RechargeActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.NumberUtils;
@@ -343,7 +343,7 @@ public class HNDialogFragment extends MvpDialogFragment<MinuteGamePresenter> imp
         rvCheck1.setAdapter(adapter1);
         rvCheck2.setAdapter(adapter2);
         rvCart.setAdapter(adapter3);
-        String goldCoinNum = AppUserManger.getUserInfo().getGoldCoin() + "";
+        String goldCoinNum = DataCenter.getInstance().getUserInfo().getUser().getGoldCoin() + "";
         if ("0.00".equals(goldCoinNum))
             goldCoinNum = "0";
 

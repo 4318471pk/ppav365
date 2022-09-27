@@ -17,12 +17,13 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.AnchorInfoBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.home.LiveListAdapter;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.LogUtils;
@@ -145,7 +146,7 @@ public class MVChildFragment extends BaseFragment {
 
     //跳往直播间
     public void toLiveRoom(Anchor anchor, int position) {
-        if (AppUserManger.getUserInfo() == null) {
+        if (DataCenter.getInstance().getUserInfo().getUser() == null) {
             LoginModeSelActivity.startActivity(requireActivity());
             return;
         }
@@ -155,7 +156,7 @@ public class MVChildFragment extends BaseFragment {
             if (StringUtils.isEmpty(anchor.getAdJumpUrl())) return;
             IntentUtils.toBrowser(getActivity(), anchor.getAdJumpUrl());
         } else {
-            if (AppUserManger.getUserInfo() == null) {
+            if (DataCenter.getInstance().getUserInfo().getUser() == null) {
                 LoginModeSelActivity.startActivity(requireActivity());
                 return;
             }

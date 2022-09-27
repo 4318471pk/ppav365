@@ -10,8 +10,9 @@ import com.live.fox.db.DataBase;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.tencent.imsdk.common.IMCallback;
@@ -120,14 +121,14 @@ public class AppIMManager {
      * @param callback 状态返回
      */
     public void connectIM(V2TIMCallback callback) {
-        if (AppUserManger.isLogin() && isIMInit) {
+        if (DataCenter.getInstance().getUserInfo().isLogin() && isIMInit) {
             String loginUser = V2TIMManager.getInstance().getLoginUser();
             if (TextUtils.isEmpty(loginUser)) {
                 //当前IM无连接用户 则做连接IM操作
-                User user = AppUserManger.getUserInfo();
+                User user = DataCenter.getInstance().getUserInfo().getUser();
                 V2TIMManager.getInstance().login(String.valueOf(user.getUid()), user.getImToken(), callback);
             } else {
-                if (loginUser.equals(String.valueOf(AppUserManger.getUserInfo().getUid()))) {
+                if (loginUser.equals(String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid()))) {
                     callback.onSuccess();
                 }
             }
@@ -241,7 +242,7 @@ public class AppIMManager {
             JSONObject object = new JSONObject(msg);
             if (object.optInt("protocol") == Constant.MessageProtocol.PROTOCOL_LETTER) { //私信消息
                 Letter letter = new Gson().fromJson(msg, Letter.class);
-                User loginUser = AppUserManger.getUserInfo();
+                User loginUser = DataCenter.getInstance().getUserInfo().getUser();
                 if (loginUser != null) {
                     letter.setSendUid(object.optLong("uid"));
                     letter.setOtherUid(loginUser.getUid());
@@ -263,12 +264,12 @@ public class AppIMManager {
                     EventBus.getDefault().post(new MessageEvent(90, new Gson().toJson(letter)));
                 }
             } else if (object.optInt("protocol") == Constant.MessageProtocol.PROTOCOL_BALANCE_CHANGE) { //12金币变动消息
-                User user = AppUserManger.getUserInfo();
+                User user = DataCenter.getInstance().getUserInfo().getUser();
                 if (user != null) {
                     long uid = object.optLong("uid", -1);
-                    double goldCoin = object.optDouble("goldCoin", -1);
+                    Double goldCoin = object.optDouble("goldCoin", -1);
                     if (uid == user.getUid()) {
-                        user.setGoldCoin(goldCoin);
+                        user.setGoldCoin(goldCoin.floatValue());
                         SPManager.saveUserInfo(user);
                     }
                 }

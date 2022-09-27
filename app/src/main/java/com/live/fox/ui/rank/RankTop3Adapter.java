@@ -11,8 +11,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.Rank;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.utils.GlideUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 
 /**
  * Rank 排行榜
@@ -42,7 +43,7 @@ public class RankTop3Adapter extends BaseQuickAdapter<Rank, BaseViewHolder> {
         setAvatarDecoration(baseViewHolder.getLayoutPosition(), avatarDecoration, bottom);
 
         //是否是自己
-        if (rank.getUid() == AppUserManger.getUserInfo().getUid()) {
+        if (rank.getUid() == DataCenter.getInstance().getUserInfo().getUser().getUid()) {
             top3Bg.setBackgroundResource(R.drawable.shape_white_round_10_stock_3);
         }
 

@@ -25,7 +25,7 @@ import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.BankInfo;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.mine.activity.moneyout.BindCardActivity;
+import com.live.fox.ui.mine.moneyout.BindCardActivity;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 

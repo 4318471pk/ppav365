@@ -30,6 +30,7 @@ import com.live.fox.entity.Anchor;
 import com.live.fox.entity.Audience;
 import com.live.fox.entity.PkStatus;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_LiveRecreation;
@@ -37,9 +38,8 @@ import com.live.fox.server.Api_LiveRecreation;
 
 import com.live.fox.ui.chat.MVChildFragment;
 import com.live.fox.ui.home.LiveListFragment;
-import com.live.fox.ui.mine.activity.RechargeActivity;
+import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.ActivityUtils;
-import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.KeyboardUtils;
@@ -539,7 +539,7 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     private void showAdmission() {
         Audience audience = new Audience();
         audience.setShowType(userAnchor.getShowType());
-        audience.setAvatar(AppUserManger.getUserInfo().getAvatar());
+        audience.setAvatar(DataCenter.getInstance().getUserInfo().getUser().getAvatar());
         audience.setCarId(userAnchor.getCarId());
         audience.setNickname(userAnchor.getNickname());
         audience.setLevel(userAnchor.getLevel());
@@ -622,8 +622,8 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                             userAnchor.setCarId(tempAnchor.getCarId());
                             userAnchor.setRoomManager(tempAnchor.isRoomManager());
                             userAnchor.setLevel(tempAnchor.getLevel());
-                            userAnchor.setNickname(AppUserManger.getUserInfo().getNickname());
-                            userAnchor.setAvatar(AppUserManger.getUserInfo().getAvatar());
+                            userAnchor.setNickname(DataCenter.getInstance().getUserInfo().getUser().getNickname());
+                            userAnchor.setAvatar(DataCenter.getInstance().getUserInfo().getUser().getAvatar());
 
                             if (isDoCharge) {
                                 doChargeRoomApi();
@@ -701,8 +701,8 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         //切换后等一段时间后再加入群聊 防止上下滑动切换过快导致频繁进入聊天室的问题
         joinIMGroupHandler.removeMessages(1);
         joinIMGroupHandler.sendEmptyMessageDelayed(1, 1600);
-        if ((currentAnchor.getType() == 1 || currentAnchor.getType() == 2) && AppUserManger.getUserInfo() != null &&
-                !AppUserManger.getUserInfo().isSuperManager() && !isPay) {
+        if ((currentAnchor.getType() == 1 || currentAnchor.getType() == 2) && DataCenter.getInstance().getUserInfo().getUser() != null &&
+                !DataCenter.getInstance().getUserInfo().getUser().isSuperManager() && !isPay) {
             //此房间是付费房间
             LogUtils.e("onDestroy PlayActivity 收费房间");
             //调用扣费接口
@@ -930,7 +930,7 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                 }
             }
 
-            User user = AppUserManger.getUserInfo();
+            User user = DataCenter.getInstance().getUserInfo().getUser();
             switch (protocol) {
                 case Constant.MessageProtocol.PROTOCOL_LIVE_CLOSE: //2、关播/强制关播消息
                     if (Constant.isOpenWindow) {

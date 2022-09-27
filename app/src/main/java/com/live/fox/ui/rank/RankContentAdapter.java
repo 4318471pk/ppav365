@@ -13,8 +13,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.Rank;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.utils.GlideUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 
 /**
  * 直播排行榜RecycleView适配器
@@ -66,7 +67,7 @@ public class RankContentAdapter extends BaseQuickAdapter<Rank, BaseViewHolder> {
         TextView focus = baseViewHolder.getView(R.id.item_rank_focus);
 
         //是否是用户自己
-        if (rank.getUid() == AppUserManger.getUserInfo().getUid()) {
+        if (rank.getUid() == DataCenter.getInstance().getUserInfo().getUser().getUid()) {
             focus.setVisibility(View.GONE);
             avatar.setBackgroundResource(R.drawable.shape_oval_stroke_3);
             ViewCompat.setElevation(avatar, 4);

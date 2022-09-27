@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f5f1f8"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent"
+        android:background="#f5f1f8">
 
-    <TextView
-        android:id="@+id/tvHint"
-        android:layout_width="wrap_content"
-        android:layout_height="50dip"
-        android:layout_marginTop="25dip"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/plzSetNewGesPassword"
-        android:textSize="16sp"
-        android:textColor="#404040"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
-    <com.live.fox.view.screenlock.GestureLockLayout
-        android:id="@+id/gesView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dip"
-        android:layout_marginRight="25dip"
-        android:layout_marginTop="20dip"
-        />
+            <TextView
+                android:id="@+id/tvHint"
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:layout_marginTop="25dip"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/plzSetNewGesPassword"
+                android:textSize="16sp"
+                android:textColor="#404040" />
 
-</LinearLayout>
-</RelativeLayout>
+            <com.live.fox.view.screenlock.GestureLockLayout
+                android:id="@+id/gesView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:layout_marginTop="20dip" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

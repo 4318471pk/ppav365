@@ -26,18 +26,18 @@ import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_AgGame;
 import com.live.fox.server.Api_FwGame;
 import com.live.fox.server.Api_KyGame;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.server.Api_TYGame;
 import com.live.fox.ui.circle.JavaScriptInterface;
-import com.live.fox.ui.mine.activity.MyBalanceActivity;
+import com.live.fox.ui.mine.MyBalanceActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.DensityUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MoveBallView;
 
@@ -304,7 +304,7 @@ public class GameFullWebViewActivity extends BaseActivity {
     public void doLogout() {
         //0：至尊；1：开元 2: AG
         if (type == 0) {
-            User user = AppUserManger.getUserInfo();
+            User user = DataCenter.getInstance().getUserInfo().getUser();
             if (user != null) {
                 showLoadingDialog();
                 Api_Pay.ins().kickout(user.getUid() + "", new JsonCallback<String>() {

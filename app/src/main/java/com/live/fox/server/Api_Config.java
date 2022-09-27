@@ -20,8 +20,9 @@ import com.live.fox.entity.RechargeChannel;
 import com.live.fox.entity.SysNotice;
 import com.live.fox.entity.VipInfo;
 import com.live.fox.entity.response.ChipsVO;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.utils.LogUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
 import java.util.HashMap;
@@ -71,7 +72,7 @@ public class Api_Config extends BaseApi {
      * @param callback 返回监听
      */
     public void getPromote(JsonCallback<List<HongdongBean>> callback) {
-        String url = getBaseServerDomain() + Constant.URL.USERACTIVITY_URL + "?uid=" + AppUserManger.getUserInfo().getUid();
+        String url = getBaseServerDomain() + Constant.URL.USERACTIVITY_URL + "?uid=" + DataCenter.getInstance().getUserInfo().getUser().getUid();
         doGetHeaders(url, callback);
     }
 
@@ -125,7 +126,7 @@ public class Api_Config extends BaseApi {
      * 支付渠道列表
      */
     public void getPayChannel(JsonCallback<List<RechargeChannel>> callback) {
-        String url = getBaseServerDomain() + Constant.URL.Config_pay_URL + "?uid=" + AppUserManger.getUserInfo().getUid();
+        String url = getBaseServerDomain() + Constant.URL.Config_pay_URL + "?uid=" + DataCenter.getInstance().getUserInfo().getUser().getUid();
         callback.setUrlTag("/pay?uid=");
         doGetHeaders(url, callback);
     }

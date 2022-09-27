@@ -1,19 +1,16 @@
 package com.live.fox.base;
 
-import android.content.DialogInterface;
-import android.os.CountDownTimer;
 import android.util.Log;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.live.fox.dialog.UpdateFragment;
+import com.live.fox.dialog.UpdateFragmentBinding;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * <p>类描述：  DialogFrament 管理类
@@ -24,7 +21,7 @@ import java.util.concurrent.CountDownLatch;
  * <p>修改备注：
  **/
 public class DialogFramentManager {
-    List<BaseDialogFragment> dialogFragments = new ArrayList<>();
+    List<BaseBindingDialogFragment> dialogFragments = new ArrayList<>();
     public static DialogFramentManager mDialogFramentManage;
 
     public DialogFramentManager() {
@@ -39,16 +36,16 @@ public class DialogFramentManager {
     }
 
 
-    public void addDialog(BaseDialogFragment dialogFragment) {
+    public void addDialog(BaseBindingDialogFragment dialogFragment) {
         dialogFragments.add(dialogFragment);
     }
 
-    public void removeDialog(BaseDialogFragment dialogFragment) {
+    public void removeDialog(BaseBindingDialogFragment dialogFragment) {
         dialogFragments.remove(dialogFragment);
         dialogFragment = null;
     }
 
-    public synchronized void showDialog(FragmentManager supportFragmentManager, BaseDialogFragment dialogFragment) {
+    public synchronized void showDialog(FragmentManager supportFragmentManager, BaseBindingDialogFragment dialogFragment) {
         if (!dialogFragments.contains(dialogFragment)) {
             dialogFragments.add(dialogFragment);
             FragmentTransaction ft = supportFragmentManager.beginTransaction();
@@ -66,7 +63,7 @@ public class DialogFramentManager {
 
     //此方法为了Can not perform this action after onSaveInstanceState这个异常
     //commitAllowingStateLoss是防止错误的关键 仿照dialogFragment.show()的方法 没事就不用这个 可能导致某些东西错乱
-    public synchronized void showDialogAllowingStateLoss(FragmentManager supportFragmentManager, BaseDialogFragment dialogFragment) {
+    public synchronized void showDialogAllowingStateLoss(FragmentManager supportFragmentManager, BaseBindingDialogFragment dialogFragment) {
         if (!dialogFragments.contains(dialogFragment) ) {
             try {
                Field mDismissed= dialogFragment.getClass().getSuperclass().getSuperclass().getDeclaredField("mDismissed");
@@ -98,7 +95,7 @@ public class DialogFramentManager {
      */
     public void clearDialog() {
         for (int i = 0; i < dialogFragments.size(); i++) {
-            if(dialogFragments.get(i) instanceof UpdateFragment)
+            if(dialogFragments.get(i) instanceof UpdateFragmentBinding)
             {
                 //任何情况下升级弹窗都不取消
             }
@@ -128,7 +125,7 @@ public class DialogFramentManager {
     /**
      * 关闭除了最后一个以外的dialog
      */
-    public void retainLastDialog(FragmentManager supportFragmentManager, BaseDialogFragment dialogFragment) {
+    public void retainLastDialog(FragmentManager supportFragmentManager, BaseBindingDialogFragment dialogFragment) {
 //        for (int i = 0; i < dialogFragments.size(); i++) {
 //            dialogFragments.get(dialogFragments.size() - 2).dismiss();
 //            dialogFragments.remove(dialogFragments.size() - 2);

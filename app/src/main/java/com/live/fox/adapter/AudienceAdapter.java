@@ -7,7 +7,6 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.App;
@@ -15,7 +14,7 @@ import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.entity.Audience;
 import com.live.fox.entity.FunctionItem;
-import com.live.fox.ui.mine.activity.noble.NobleFragment;
+import com.live.fox.ui.mine.noble.NobleFragment;
 import com.live.fox.utils.DensityUtils;
 import com.live.fox.utils.GlideUtils;
 

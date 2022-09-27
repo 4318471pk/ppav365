@@ -339,8 +339,8 @@ public class MessageReceiver extends XGPushBaseReceiver {
                     if (!TextUtils.isEmpty(body)) {
                         NotificationUserEntity userEntity = GsonUtil.getObject(body, NotificationUserEntity.class);
                         User user = new User();
-                        user.setUid(userEntity.getSrcUid());
-                        user.setDestUid(userEntity.getDestUid());
+                        user.setUid((long)(userEntity.getSrcUid()));
+                        user.setDestUid((long)(userEntity.getDestUid()));
                         ChatActivity.startActivityNotification(context, user);
                     }
 

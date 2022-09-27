@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -17,7 +16,7 @@ import com.flyco.roundview.RoundRelativeLayout;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.CommonApp;
-import com.live.fox.dialog.ScreenLockDialog;
+import com.live.fox.dialog.ScreenLockBindingDialog;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
@@ -140,8 +139,8 @@ public class SplashActivity extends BaseActivity {
         boolean gesStatus=SPManager.getGesturePasswordStatus();
         if(StringUtils.isDigitOnly(gesPassword) && gesStatus)
         {
-            ScreenLockDialog screenLockDialog=ScreenLockDialog.getInstance();
-            screenLockDialog.setOnScreenLockUnlockListener(new ScreenLockDialog.onScreenLockUnlockListener() {
+            ScreenLockBindingDialog screenLockDialog= ScreenLockBindingDialog.getInstance();
+            screenLockDialog.setOnScreenLockUnlockListener(new ScreenLockBindingDialog.onScreenLockUnlockListener() {
                 @Override
                 public void onScreenLockUnlock() {
                     MainActivity.startActivity(SplashActivity.this);

@@ -24,10 +24,11 @@ import com.live.fox.db.DataBase;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.chat.ChatAdapter;
 import com.live.fox.ui.chat.WrapContentLinearLayoutManager;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
@@ -102,7 +103,7 @@ public class LiveRoomLetterFragment extends DialogFragment implements View.OnCli
 
     public void initView(Dialog dialog) {
         isShow = true;
-        loginUser = AppUserManger.getUserInfo();
+        loginUser = DataCenter.getInstance().getUserInfo().getUser();
         LogUtils.e(new Gson().toJson(otherUser));
 
         tvName = dialog.findViewById(R.id.tv_name);
@@ -136,7 +137,7 @@ public class LiveRoomLetterFragment extends DialogFragment implements View.OnCli
         List<Letter> letter = db.getLetterListByUid(otherUser.getUid(), loginUser.getUid());
         messageList.clear();
         for (Letter mess : letter) {
-            if (AppUserManger.getUserInfo() != null && mess.getNickname().equals(AppUserManger.getUserInfo().getNickname())) {
+            if (DataCenter.getInstance().getUserInfo().getUser() != null && mess.getNickname().equals(DataCenter.getInstance().getUserInfo().getUser().getNickname())) {
                 mess.setLayout(1);
             }
             messageList.add(mess);

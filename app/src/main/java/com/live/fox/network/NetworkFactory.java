@@ -7,8 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.utils.DeviceIdUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -78,8 +79,8 @@ public class NetworkFactory {
             Request request = chain.request();
             Request requestBuild;
 
-            if (AppUserManger.isLogin()) {
-                User user = AppUserManger.getUserInfo();
+            if (DataCenter.getInstance().getUserInfo().isLogin()) {
+                User user = DataCenter.getInstance().getUserInfo().getUser();
                 String uid = String.valueOf(user.getUid());
                 requestBuild = request.newBuilder()
                         .header("user_id", TextUtils.isEmpty(uid) ? "" : uid)

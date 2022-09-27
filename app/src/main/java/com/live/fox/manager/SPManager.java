@@ -143,13 +143,7 @@ public class SPManager {
         return SPUtils.getInstance("openinstall").getString("puid", "");
     }
 
-    public static void saveImToken(String token) {
-        SPUtils.getInstance("im").put("token", token);
-    }
 
-    public static String getImToken() {
-        return SPUtils.getInstance("im").getString("token", "");
-    }
 
     public static void saveIsShownAppNotice(boolean isShown) {
         SPUtils.getInstance("appnotice").put("isShown", isShown);
@@ -178,16 +172,24 @@ public class SPManager {
 
     public static void saveUserInfo(User user) {
         SPUtils.getInstance(userInfo).put("user", new Gson().toJson(user));
-        if (!StringUtils.isEmpty(user.getImToken())) {
-            saveImToken(user.getImToken());
-        }
+    }
+
+    public static void saveUserInfo(String userStr) {
+        SPUtils.getInstance(userInfo).put("user", userStr);
     }
 
     public static User getUserInfo() {
         String userStr = SPUtils.getInstance(userInfo).getString("user", "");
         if (StringUtils.isEmpty(userStr)) return null;
+        try {
+            return new Gson().fromJson(userStr, User.class);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
 
-        return new Gson().fromJson(userStr, User.class);
+        return null;
     }
 
     public static void clearUserInfo() {

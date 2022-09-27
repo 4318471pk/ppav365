@@ -3,24 +3,19 @@ package com.live.fox.ui.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.InputFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -30,33 +25,32 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.live.fox.AppConfig;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
-import com.live.fox.base.BaseActivity;
-import com.live.fox.common.CommonApp;
+import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.databinding.LoginmodeselActivityBinding;
 import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.RegisterEntity;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.language.MultiLanguageActivity;
-import com.live.fox.ui.mine.activity.kefu.ServicesActivity;
+import com.live.fox.ui.mine.kefu.ServicesActivity;
 import com.live.fox.utils.ActivityUtils;
-import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.BlankController;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
-import com.live.fox.utils.ImageUtil;
 import com.live.fox.utils.InputMethodUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
@@ -79,16 +73,9 @@ import java.util.Set;
  * 登录界面
  * 用户登录
  */
-public class LoginModeSelActivity extends BaseActivity implements View.OnClickListener {
+public class LoginModeSelActivity extends BaseBindingViewActivity  {
 
-    private EditText etUsername;
-    private EditText etPassword;
-    private ImageView ivVoice;
-    private TextView guestLogin;
-    private TextView sendVerifyCode;
-    TextView tvCountrySelector;
-    LinearLayout llCountrySelector;
-    ImageView ivArrow;
+    LoginmodeselActivityBinding mBind;
 
     //是否显示一段实体
     MediaPlayer mediaPlayer;
@@ -110,32 +97,143 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
                     {
                         StringBuilder sb=new StringBuilder();
                         sb.append(String.valueOf(remainSecond)).append("s").append(getString(R.string.reGet));
-                        sendVerifyCode.setText(sb.toString());
-                        sendVerifyCode.setEnabled(false);
+                        mBind.sendVerifyCode.setText(sb.toString());
+                        mBind.sendVerifyCode.setEnabled(false);
                         sendEmptyMessageDelayed(0,1000);
                     }
                     else
                     {
                         remainSecond=60;
-                        sendVerifyCode.setText(getString(R.string.get_verification_code));
-                        sendVerifyCode.setEnabled(true);
+                        mBind.sendVerifyCode.setText(getString(R.string.get_verification_code));
+                        mBind.sendVerifyCode.setEnabled(true);
                     }
                     break;
             }
         }
     };
 
+    @Override
+    public void onClickView(View view) {
+
+        if (ClickUtil.isFastDoubleClick()) return;
+        String phone = String.valueOf(mBind.etUsername.getText()).trim();
+        String password = String.valueOf(mBind.etPassword.getText()).trim();
+        switch (view.getId()) {
+            case R.id.iv_voice:
+                if (flag) {
+                    mediaPlayer.setVolume(0f, 0f);
+                    mBind.ivVoice.setImageResource(R.drawable.close);
+                    flag = false;
+                } else {
+                    mediaPlayer.setVolume(1f, 1f);
+                    mBind.ivVoice.setImageResource(R.drawable.open_voice);
+                    flag = true;
+                }
+                break;
+            case R.id.tv_register:
+                LoginActivity.startActivity(LoginModeSelActivity.this, LoginPageType.LoginByPhone, phone);
+                break;
+
+            case R.id.tv_resetpwd:
+                if (TextUtils.isEmpty(phone)) {
+                    ToastUtils.showShort(getString(R.string.inputAccout));
+                    return;
+                }
+//                if (!phone.startsWith("0") || phone.length() <11) {
+//                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
+//                    return;
+//                }
+                isRegisterApi(phone);
+                break;
+            case R.id.layout_back:
+                finish();
+                break;
+            case R.id.iv_kefu:
+                ServicesActivity.startActivity(LoginModeSelActivity.this);
+                break;
+
+            case R.id.home_language:
+                MultiLanguageActivity.launch(this);
+                break;
+            case R.id.btn_login_by_pass:
+                if (TextUtils.isEmpty(phone)) {
+                    ToastUtils.showShort(getString(R.string.inputAccout));
+                    return;
+                }
+
+//                if (!phone.startsWith("0") || phone.length() != 10) {
+//                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
+//                    return;
+//                }
+
+                if (TextUtils.isEmpty(password)) {
+                    ToastUtils.showShort(getString(R.string.toast_tip_password));
+                    return;
+                }
+                BetCartDataManager.betGameIndex = 0;
+                doLoginByVCodeApi(phone, password,mBind.tvCountrySelector.getText().toString());
+                break;
+            case R.id.llCountrySelector:
+                if(countryCodes==null || countryCodes.size()==0)
+                {
+                    ToastUtils.showShort(getResources().getString(R.string.downloadingError));
+                    return;
+                }
+
+                InputMethodUtils.hideSoftInput(this);
+                if(dropDownWindowsOfCountry==null)
+                {
+                    int width= ScreenUtils.getScreenWidth(context)- com.luck.picture.lib.tools.ScreenUtils.dip2px(context,140);
+                    dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this,mBind.underLineofPhone.getWidth());
+                    dropDownWindowsOfCountry.setOutsideTouchable(true);
+                    dropDownWindowsOfCountry.setFocusable(true);
+                    dropDownWindowsOfCountry.setBackgroundDrawable(new ColorDrawable(0));
+                    dropDownWindowsOfCountry.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            rotateView(mBind.ivArrow,false);
+                        }
+                    });
+                    dropDownWindowsOfCountry.setOnClickItemListener(new DropDownWindowsOfCountry.OnClickItemListener() {
+                        @Override
+                        public void onClickItemListener(CountryCode countryCode) {
+                            rotateView(mBind.ivArrow,!dropDownWindowsOfCountry.isShowing());
+                            dropDownWindowsOfCountry.dismiss();
+                            mBind.tvCountrySelector.setText(countryCode.getAreaCode());
+                            mBind.tvCountrySelector.setTag(countryCode);
+                        }
+                    });
+                }
+                dropDownWindowsOfCountry.setData(countryCodes);
+
+                rotateView(mBind.ivArrow,!dropDownWindowsOfCountry.isShowing());
+                if(!dropDownWindowsOfCountry.isShowing())
+                {
+                    dropDownWindowsOfCountry.showAsDropDown(mBind.underLineofPhone,0,10);
+                }
+                else
+                {
+                    dropDownWindowsOfCountry.dismiss();
+                }
+
+                break ;
+            case R.id.sendVerifyCode:
+                doSendPhoneCodeApi();
+                break;
+            case R.id.guestLogin:
+                doLoginGuest();
+                break;
+        }
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public boolean isHasHeader() {
+        return false;
+    }
 
-        BarUtils.setStatusBarAlpha(this);
-
-        setContentView(R.layout.loginmodesel_activity);
-        initData(getIntent());
-        initView();
-
+    @Override
+    public int onCreateLayoutId() {
+        return R.layout.loginmodesel_activity;
     }
 
     @Override
@@ -153,42 +251,28 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         getCountryCode();
     }
 
+    @Override
     public void initView() {
+        mBind=getViewDataBinding();
+        BarUtils.setStatusBarAlpha(this);
+        initData(getIntent());
+
+        boolean hasGuestLogin= getIntent().getBooleanExtra(ConstantValue.hasGuestLogin,true);
+        mBind.guestLogin.setVisibility(hasGuestLogin?View.VISIBLE:View.INVISIBLE);
         int screenWidth=ScreenUtils.getScreenWidth(this);
-        ActivityUtils.finishOtherActivities(LoginModeSelActivity.class);
+
         LinearLayout titleBox = findViewById(R.id.login_title_box);
         int barHeight = BarUtils.getStatusBarHeight();
         titleBox.setPadding(0, barHeight, 0, 0);
 
-        etUsername = findViewById(R.id.et_username);
 
         VideoView videoView = findViewById(R.id.videoView);
-        llCountrySelector=findViewById(R.id.llCountrySelector);
-        etPassword = findViewById(R.id.et_password);
-        ivVoice = findViewById(R.id.iv_voice);
-        guestLogin=findViewById(R.id.guestLogin);
-        sendVerifyCode=findViewById(R.id.sendVerifyCode);
-        ivArrow=findViewById(R.id.ivArrow);
-        tvCountrySelector=findViewById(R.id.tvCountrySelector);
-        findViewById(R.id.layout_back).setOnClickListener(this);
-        findViewById(R.id.iv_kefu).setOnClickListener(this);
-        findViewById(R.id.tv_register).setOnClickListener(this);
-        findViewById(R.id.tv_resetpwd).setOnClickListener(this);
-        findViewById(R.id.btn_login_by_pass).setOnClickListener(this);
-        findViewById(R.id.iv_voice).setOnClickListener(this);
-        llCountrySelector.setOnClickListener(this);
-        guestLogin.setOnClickListener(this);
-        sendVerifyCode.setOnClickListener(this);
-        ImageView language = findViewById(R.id.home_language);
         if (!AppConfig.isMultiLanguage()) {
-            language.setVisibility(View.GONE);
+            mBind.homeLanguage.setVisibility(View.GONE);
         }
 
-        language.setOnClickListener(this);
-
-        etPassword.setFilters(new InputFilter[]{new BlankController()});
+        mBind.etPassword.setFilters(new InputFilter[]{new BlankController()});
         AppIMManager.ins().logout();
-        AppUserManger.loginOut();
 
         setLoginInfo();
 
@@ -209,7 +293,7 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
 
         ImageView applogo=(ImageView)findViewById(R.id.login_logo);
         FixImageSize.setImageSizeOnWidthWithSRC(applogo, (int) (screenWidth * 0.192));
-        guestLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        mBind.guestLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
     }
 
@@ -258,9 +342,9 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         if (flag) {
-            ivVoice.setImageResource(R.drawable.open_voice);
+            mBind.ivVoice.setImageResource(R.drawable.open_voice);
         } else {
-            ivVoice.setImageResource(R.drawable.close);
+            mBind.ivVoice.setImageResource(R.drawable.close);
         }
     }
 
@@ -369,12 +453,11 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
 
     //登录成功、完善用户信息成功后的统一处理
     public void onLoginSuccess(String token) {
-        SPManager.saveToken(token);
+        DataCenter.getInstance().getUserInfo().setToken(token);
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String userJson) {
                 if (code == 0) {
-                    AppUserManger.initUser(userJson);
                     ActivityUtils.finishOtherActivities(LoginModeSelActivity.class);
                     MainActivity.startActivity(LoginModeSelActivity.this);
                     finish();
@@ -391,17 +474,17 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void doSendPhoneCodeApi() {
-        if(TextUtils.isEmpty(etUsername.getText().toString()))
+        if(TextUtils.isEmpty(mBind.etUsername.getText().toString()))
         {
             ToastUtils.showShort(getString(R.string.tipsPhoneNumFormatWrong));
             return;
         }
         showLoadingDialog();
         RegisterEntity registerEntity=new RegisterEntity();
-        registerEntity.setName(etUsername.getText().toString());
+        registerEntity.setName(mBind.etUsername.getText().toString());
         registerEntity.setType("4");
         registerEntity.setVersion(AppUtils.getAppVersionName());
-        registerEntity.setArea(tvCountrySelector.getText().toString());
+        registerEntity.setArea(mBind.tvCountrySelector.getText().toString());
         Api_Auth.ins().sendPhoneCode(registerEntity, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
@@ -415,6 +498,12 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         context.startActivity(new Intent(context, LoginModeSelActivity.class));
     }
 
+    public static void startActivity(Context context,boolean hasGuestLogin) {
+        Intent intent=new Intent(context, LoginModeSelActivity.class);
+        intent.putExtra(ConstantValue.hasGuestLogin,hasGuestLogin);
+        context.startActivity(intent);
+    }
+
     public static void startActivity(Context context, String showTip) {
         Constant.isAppInsideClick = true;
         Intent intent = new Intent(context, LoginModeSelActivity.class);
@@ -425,121 +514,6 @@ public class LoginModeSelActivity extends BaseActivity implements View.OnClickLi
         //是否被顶号
         intent.putExtra("showTip", showTip);
         context.startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (ClickUtil.isFastDoubleClick()) return;
-        String phone = String.valueOf(etUsername.getText()).trim();
-        String password = String.valueOf(etPassword.getText()).trim();
-        switch (view.getId()) {
-            case R.id.iv_voice:
-                if (flag) {
-                    mediaPlayer.setVolume(0f, 0f);
-                    ivVoice.setImageResource(R.drawable.close);
-                    flag = false;
-                } else {
-                    mediaPlayer.setVolume(1f, 1f);
-                    ivVoice.setImageResource(R.drawable.open_voice);
-                    flag = true;
-                }
-                break;
-            case R.id.tv_register:
-                LoginActivity.startActivity(LoginModeSelActivity.this, LoginPageType.LoginByPhone, phone);
-                break;
-
-            case R.id.tv_resetpwd:
-                if (TextUtils.isEmpty(phone)) {
-                    ToastUtils.showShort(getString(R.string.inputAccout));
-                    return;
-                }
-//                if (!phone.startsWith("0") || phone.length() <11) {
-//                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
-//                    return;
-//                }
-                isRegisterApi(phone);
-                break;
-            case R.id.layout_back:
-                MainActivity.startActivity(LoginModeSelActivity.this);
-                finish();
-                break;
-            case R.id.iv_kefu:
-                ServicesActivity.startActivity(LoginModeSelActivity.this);
-                break;
-
-            case R.id.home_language:
-                MultiLanguageActivity.launch(this);
-                break;
-            case R.id.btn_login_by_pass:
-                if (TextUtils.isEmpty(phone)) {
-                    ToastUtils.showShort(getString(R.string.inputAccout));
-                    return;
-                }
-
-//                if (!phone.startsWith("0") || phone.length() != 10) {
-//                    ToastUtils.showShort(getString(R.string.toast_tip_phone_number));
-//                    return;
-//                }
-
-                if (TextUtils.isEmpty(password)) {
-                    ToastUtils.showShort(getString(R.string.toast_tip_password));
-                    return;
-                }
-                BetCartDataManager.betGameIndex = 0;
-                doLoginByVCodeApi(phone, password,tvCountrySelector.getText().toString());
-                break;
-            case R.id.llCountrySelector:
-                if(countryCodes==null || countryCodes.size()==0)
-                {
-                    ToastUtils.showShort(getResources().getString(R.string.downloadingError));
-                    return;
-                }
-
-                InputMethodUtils.hideSoftInput(this);
-                if(dropDownWindowsOfCountry==null)
-                {
-                    int width= ScreenUtils.getScreenWidth(context)- com.luck.picture.lib.tools.ScreenUtils.dip2px(context,140);
-                    dropDownWindowsOfCountry=new DropDownWindowsOfCountry(this,width);
-                    dropDownWindowsOfCountry.setOutsideTouchable(true);
-                    dropDownWindowsOfCountry.setFocusable(true);
-                    dropDownWindowsOfCountry.setBackgroundDrawable(new ColorDrawable(0));
-                    dropDownWindowsOfCountry.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            rotateView(ivArrow,false);
-                        }
-                    });
-                    dropDownWindowsOfCountry.setOnClickItemListener(new DropDownWindowsOfCountry.OnClickItemListener() {
-                        @Override
-                        public void onClickItemListener(CountryCode countryCode) {
-                            rotateView(ivArrow,!dropDownWindowsOfCountry.isShowing());
-                            dropDownWindowsOfCountry.dismiss();
-                            tvCountrySelector.setText(countryCode.getAreaCode());
-                            tvCountrySelector.setTag(countryCode);
-                        }
-                    });
-                }
-                dropDownWindowsOfCountry.setData(countryCodes);
-
-                rotateView(ivArrow,!dropDownWindowsOfCountry.isShowing());
-                if(!dropDownWindowsOfCountry.isShowing())
-                {
-                    View line=findViewById(R.id.underLineofPhone);
-                    dropDownWindowsOfCountry.showAsDropDown(line,0,10);
-                }
-                else
-                {
-                    dropDownWindowsOfCountry.dismiss();
-                }
-
-                break ;
-            case R.id.sendVerifyCode:
-                doSendPhoneCodeApi();
-                break;
-            case R.id.guestLogin:
-                doLoginGuest();
-                break;
-        }
     }
 
     private void rotateView(ImageView view,boolean isShow)

@@ -1,6 +1,8 @@
 package com.live.fox.server;
 
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
@@ -14,8 +16,9 @@ import com.live.fox.entity.TransactionEntity;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetRecord;
 import com.live.fox.entity.Withdraw;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
@@ -49,7 +52,19 @@ public class Api_User extends BaseApi {
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
                 new Gson().toJson(params))
-                .execute(callback);
+                .execute(new JsonCallback<String>() {
+                    @Override
+                    public void onSuccess(int code, String msg, String data) {
+                        if (code == 0 && !TextUtils.isEmpty(data)) {
+                            DataCenter.getInstance().getUserInfo().setUser(data);
+                        }
+
+                        if(callback!=null)
+                        {
+                            callback.onSuccess(code,msg,data);
+                        }
+                    }
+                });
     }
 
     /**
@@ -678,7 +693,7 @@ public class Api_User extends BaseApi {
     public void getVipInnfo(JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_VIPINFO_URL;
         HashMap<String, Object> params = getCommonParams();
-        params.put("uid", AppUserManger.getUserInfo().getUid());
+        params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -691,7 +706,7 @@ public class Api_User extends BaseApi {
     public void doVipHide(Noble noble, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_VIPHIDE_URL;
         HashMap<String, Object> params = getCommonParams();
-        params.put("uid", AppUserManger.getUserInfo().getUid());
+        params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
         params.put("chatHide", noble.getChatHide());
         params.put("group", noble.getGroup());
         params.put("rankHide", noble.getRankHide());

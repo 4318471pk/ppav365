@@ -9,8 +9,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.AppConfig;
 import com.live.fox.R;
 import com.live.fox.entity.BankInfo;
-import com.live.fox.entity.SupportBankEntity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
+import com.live.fox.manager.DataCenter;
 
 /**
  * 支持的银行卡片
@@ -38,7 +38,7 @@ public class RechargeBankCardAdapter extends BaseQuickAdapter<BankInfo, BaseView
             if (!AppConfig.isThLive()) {
                 helper.setText(R.id.tvUid, Html.fromHtml(
                         mContext.getString(R.string.remittance_message) + "：<font><b>" +
-                                AppUserManger.getUserInfo().getUid() + "</b></font>"));
+                                DataCenter.getInstance().getUserInfo().getUser().getUid() + "</b></font>"));
             }
             helper.setText(R.id.tvRecieptName, Html.fromHtml(
                     mContext.getString(R.string.beneficiaryName) +

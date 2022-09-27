@@ -53,11 +53,12 @@ import com.live.fox.dialog.ToyListDialog;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.LushToy;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_LiveRecreation;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.utils.ActivityUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.KeyboardUtils;
 import com.live.fox.utils.LogUtils;
@@ -190,8 +191,8 @@ public class AnchorLiveActivity extends BaseActivity implements
         BarUtils.setStatusBarVisibility(AnchorLiveActivity.this, true);
         BarUtils.setStatusBarLightMode(AnchorLiveActivity.this, true);
 
-        if (AppUserManger.getUserInfo() != null) {
-            anchor = AppUserManger.getUserInfo().covertToAnchor();
+        if (DataCenter.getInstance().getUserInfo().getUser() != null) {
+            anchor = DataCenter.getInstance().getUserInfo().getUser().covertToAnchor();
         }
 
         initBeauty();              // 初始化 美颜
@@ -1220,7 +1221,7 @@ public class AnchorLiveActivity extends BaseActivity implements
         stopRTMPPush();
         heartHandler.removeMessages(1);
         //游戏退出
-        Api_Pay.ins().kickout(AppUserManger.getUserInfo().getUid() + "", new JsonCallback<String>() {
+        Api_Pay.ins().kickout(DataCenter.getInstance().getUserInfo().getUser().getUid() + "", new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
 

@@ -15,10 +15,11 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseLazyViewPagerFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.HongdongBean;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Config;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -54,7 +55,7 @@ public class PromoteListFragment extends BaseLazyViewPagerFragment {
         rv = rootView.findViewById(R.id.rv_);
         refreshLayout = rootView.findViewById(R.id.refreshLayout);
         setRecycleView();
-        if (AppUserManger.isLogin()) {
+        if (DataCenter.getInstance().getUserInfo().isLogin()) {
             doGetShopApi();
         }
     }

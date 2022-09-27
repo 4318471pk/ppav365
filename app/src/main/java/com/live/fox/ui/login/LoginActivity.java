@@ -13,7 +13,7 @@ import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.databinding.LoginActivityBinding;
-import com.live.fox.ui.mine.activity.moneyout.BindCardActivity;
+import com.live.fox.ui.mine.moneyout.BindCardActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.FragmentUtils;

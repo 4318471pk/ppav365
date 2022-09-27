@@ -31,7 +31,7 @@ public class LiveRoomChatAdapter extends BaseQuickAdapter<ChatEntity, BaseViewHo
         tvMessage.setShadowLayer(radius, radius / 3, radius / 3, R.color.black);
         User user = chat.getUser();
         boolean isBackChange = false;
-        if (user.getBadgeList() != null && user.come) {
+        if (user.getBadgeList() != null && user.isCome()) {
             if (user.getBadgeList().contains(6)) {
                 isBackChange = true;
             } else if (user.getBadgeList().contains(7)) {

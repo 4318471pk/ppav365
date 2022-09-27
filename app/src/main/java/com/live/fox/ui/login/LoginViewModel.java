@@ -26,6 +26,7 @@ import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.OssToken;
 import com.live.fox.entity.RegisterEntity;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
 import com.live.fox.server.Api_Config;
@@ -35,7 +36,7 @@ import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.Utils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 import com.live.fox.verify.NetEaseVerify;
@@ -145,10 +146,9 @@ public class LoginViewModel extends AndroidViewModel {
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0) {
                     showLoadingDialog.setValue(false);
-                    AppUserManger.initUser(data);
                     toMainActivity.setValue(true);
                 } else {
-                    AppUserManger.loginOut();
+                    DataCenter.getInstance().getUserInfo().loginOut();
                     showLoadingDialog.setValue(false);
                     if (code == 993) {
                         mExceptionHint.setValue(context.getString(R.string.accountStop));
@@ -567,7 +567,7 @@ public class LoginViewModel extends AndroidViewModel {
                                     mExceptionHint.setValue(context.getString(R.string.tokenFail));
                                     return;
                                 }
-                                SPManager.saveToken(token);
+                                DataCenter.getInstance().getUserInfo().setToken(token);
                                 onLoginSuccess(context);
                             } else {
                                 mExceptionHint.setValue(msg);

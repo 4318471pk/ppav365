@@ -27,12 +27,12 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Risk;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.mine.activity.UserDetailActivity;
-import com.live.fox.ui.mine.activity.noble.NobleFragment;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.ui.mine.UserDetailActivity;
+import com.live.fox.ui.mine.noble.NobleFragment;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
@@ -180,7 +180,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
      * isAfterApi 是否是刷新接口后加载
      */
     public void refreshPage(boolean isAfterApi, User cardUserInfo, long liveId, long anchorId, boolean myIsAnchor, boolean myIsRoomManager) {
-        myUserInfo = AppUserManger.getUserInfo();
+        myUserInfo = DataCenter.getInstance().getUserInfo().getUser();
         this.cardUserInfo = cardUserInfo;
         this.liveId = liveId;
         this.anchorId = anchorId;
@@ -470,7 +470,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
                         if (code == 0 && result != null) {
                             cardUserInfo.setFollow(!cardUserInfo.isFollow());
                             cardUserInfo.setFans(cardUserInfo.isFollow() ? cardUserInfo.getFans() + 1 : cardUserInfo.getFans() - 1);
-                            ToastUtils.showShort(cardUserInfo.getFollow() ? getString(R.string.successFocus) : getString(R.string.cancelFocus));
+                            ToastUtils.showShort(cardUserInfo.isFollow() ? getString(R.string.successFocus) : getString(R.string.cancelFocus));
                             updateFollow();
                             EventBus.getDefault().post(new MessageEvent(5, new Gson().toJson(cardUserInfo)));
                         }
@@ -486,7 +486,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
                         tv_card_black.setEnabled(true);
                         if (code == 0 && result != null) {
                             cardUserInfo.setReject(!cardUserInfo.isReject());
-                            ToastUtils.showShort(cardUserInfo.getReject() ? getString(R.string.blackSuccess) : getString(R.string.cancelBlack));
+                            ToastUtils.showShort(cardUserInfo.isReject() ? getString(R.string.blackSuccess) : getString(R.string.cancelBlack));
                             updateBlack();
                         }
 

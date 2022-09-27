@@ -6,10 +6,11 @@ import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.StringUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
 import java.util.HashMap;
@@ -95,7 +96,7 @@ public class Api_Live extends BaseApi {
         callback.setUrlTag("/live/list");
         HashMap<String, Object> params = getCommonParams();
         params.put("type", type);
-        params.put("uid", AppUserManger.getUserInfo() == null ? 0 : AppUserManger.getUserInfo().getUid());
+        params.put("uid", !DataCenter.getInstance().getUserInfo().isLogin() ? 0 : DataCenter.getInstance().getUserInfo().getUser().getUid());
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -114,7 +115,7 @@ public class Api_Live extends BaseApi {
         callback.setUrlTag("recommendLiveList");
         HashMap<String, Object> params = getCommonParams();
         params.put("type", type);
-        params.put("uid", AppUserManger.getUserInfo() == null ? 0 : AppUserManger.getUserInfo().getUid());
+        params.put("uid", DataCenter.getInstance().getUserInfo().getUser() == null ? 0 : DataCenter.getInstance().getUserInfo().getUser().getUid());
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -169,7 +170,7 @@ public class Api_Live extends BaseApi {
         params.put("liveId", liveId);
         params.put("type", type);
         params.put("userLoginPasword", checkText);
-        params.put("uid", AppUserManger.getUserInfo().getUid());
+        params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
         params.put("currentUserAppVersion", AppUtils.getAppVersionName());
         if (price > 0) params.put("price", price);
         if (!StringUtils.isEmpty(password)) params.put("password", password);

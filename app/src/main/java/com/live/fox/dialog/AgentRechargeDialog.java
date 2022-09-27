@@ -21,9 +21,10 @@ import com.live.fox.base.AgentPresenter;
 import com.live.fox.contract.AgentContract;
 import com.live.fox.entity.User;
 import com.live.fox.entity.response.AgentInfoVO;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.mvp.MvpDialogFragment;
 import com.live.fox.server.BaseApi;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClipboardUtils;
 
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class AgentRechargeDialog extends MvpDialogFragment<AgentPresenter> imple
         rvAgent.setLayoutManager(layoutManager);
         rvAgent.addItemDecoration(new AgentAdapter.SpaceItemDecoration());
         rvAgent.setAdapter(mAgentAdapter);
-        User userinfo = AppUserManger.getUserInfo();
+        User userinfo = DataCenter.getInstance().getUserInfo().getUser();
         tvId.setText(getString(R.string.currentCharge) + userinfo.getUid());
 
         doGetAgentInfo();
@@ -118,7 +119,7 @@ public class AgentRechargeDialog extends MvpDialogFragment<AgentPresenter> imple
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rtvCopy:
-                User userinfo = AppUserManger.getUserInfo();
+                User userinfo = DataCenter.getInstance().getUserInfo().getUser();
                 ClipboardUtils.copyText(String.valueOf(userinfo.getUid()));
                 showToastTip(true, getString(R.string.chargeCopy));
                 break;

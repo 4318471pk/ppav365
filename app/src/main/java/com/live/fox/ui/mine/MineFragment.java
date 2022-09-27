@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,30 +32,15 @@ import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.ui.mine.activity.EditUserInfoActivity;
-import com.live.fox.ui.mine.activity.LiveProfitActivity;
-import com.live.fox.ui.mine.activity.MessageActivity;
-import com.live.fox.ui.mine.activity.MyAncListActivity;
-import com.live.fox.ui.mine.activity.MyBalanceActivity;
-import com.live.fox.ui.mine.activity.MyFansActivity;
-import com.live.fox.ui.mine.activity.MyFollowActivity;
-import com.live.fox.ui.mine.activity.MyGameRecordActivity;
-import com.live.fox.ui.mine.activity.MyPronActivity;
-import com.live.fox.ui.mine.activity.RechargeActivity;
-import com.live.fox.ui.mine.activity.Setting.SettingActivity;
-import com.live.fox.ui.mine.activity.ShareActivity;
-import com.live.fox.ui.mine.activity.ShopActivity;
-import com.live.fox.ui.mine.activity.TransactionActivity;
-import com.live.fox.ui.mine.activity.UserDetailActivity;
-import com.live.fox.ui.mine.activity.ZblbActivity;
-import com.live.fox.ui.mine.activity.moneyout.MoneyOutActivity;
-import com.live.fox.ui.mine.activity.noble.MyNobleActivity;
-import com.live.fox.ui.mine.activity.noble.NobleActivity;
+import com.live.fox.ui.mine.Setting.SettingActivity;
+import com.live.fox.ui.mine.moneyout.MoneyOutActivity;
+import com.live.fox.ui.mine.noble.MyNobleActivity;
+import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.ActivityUtils;
-import com.live.fox.utils.AppUserManger;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
@@ -185,7 +169,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
     }
 
     private void setData() {
-        ArrayList<Integer> mBadgeList = AppUserManger.getUserInfo().getBadgeList();
+        ArrayList<Integer> mBadgeList = DataCenter.getInstance().getUserInfo().getUser().getBadgeList();
         if (mBadgeList != null) {
             if (mBadgeList.contains(6)) {
                 isNoble = true;
@@ -247,7 +231,7 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
     }
 
     public void refreshUserinfo(boolean flag) {
-        userinfo = AppUserManger.getUserInfo(true);
+        userinfo = DataCenter.getInstance().getUserInfo().getUser();
 
         if (!userinfo.getAvatar().equals(headUrl)) {
             headUrl = userinfo.getAvatar();
@@ -285,9 +269,9 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
             JSONObject message = new JSONObject(msg);
             if (protocol == Constant.MessageProtocol.PROTOCOL_BALANCE_CHANGE) { //12.金币变动消息
                 long uid = message.optLong("uid", -1);
-                double goldCoin = message.optDouble("goldCoin", -1);
+                Double goldCoin = message.optDouble("goldCoin", -1);
                 if (uid == userinfo.getUid()) {
-                    userinfo.setGoldCoin(goldCoin);
+                    userinfo.setGoldCoin(goldCoin.floatValue());
                     SPManager.saveUserInfo(userinfo);
                     balanceMoneyTv.setText(RegexUtils.westMoney(goldCoin));
                 }
@@ -323,7 +307,6 @@ public class MineFragment extends BaseFragment implements ColumnListAdapter.OnIt
             public void onSuccess(int code, String msg, String data) {
                 if (ActivityUtils.getTopActivity() instanceof MainActivity) {
                     if (code == 0) {
-                        AppUserManger.initUser(data);
                         refreshUserinfo(true);
                     } else if (code == 2008) { //用户不存在
                         LoginModeSelActivity.startActivity(requireActivity());

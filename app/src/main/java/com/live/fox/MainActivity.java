@@ -8,11 +8,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.Group;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -26,13 +24,14 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.dialog.MMToast;
 import com.live.fox.dialog.NotificationDialog;
-import com.live.fox.dialog.UpdateFragment;
+import com.live.fox.dialog.UpdateFragmentBinding;
 import com.live.fox.dialog.WebViewDialog;
 import com.live.fox.entity.AppUpdate;
 import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.User;
 import com.live.fox.entity.WebViewDialogEntity;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.NotificationManager;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
@@ -55,7 +54,6 @@ import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ToastViewUtils;
-import com.live.fox.utils.AppUserManger;
 import com.live.fox.view.RadioButtonWithAnim;
 import com.live.fox.windowmanager.WindowUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -123,7 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             NotificationManager.getInstance().register(CommonApp.getInstance());
         }
 
-        if (AppUserManger.isLogin()) {
+        if (DataCenter.getInstance().getUserInfo().isLogin()) {
             getCountryCode();
             doRefreshToken();
             connectIM();
@@ -145,7 +143,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     String token = jsonObject.optString("token", "");
                     if (!TextUtils.isEmpty(token)) {
                         if (!StringUtils.isEmpty(token)) {
-                            SPManager.saveToken(token);
+                            DataCenter.getInstance().getUserInfo().setToken(token);
                         } else {
                             ToastUtils.showShort("UserToken is Null");
                             SPManager.clearUserInfo();
@@ -168,10 +166,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 try {
-                    Type type = new TypeToken<List<CountryCode>>() {}.getType();
-                    List countryCodes=new Gson().fromJson(data,type);
-                    if(countryCodes!=null && countryCodes.size()>0)
-                    {
+                    Type type = new TypeToken<List<CountryCode>>() {
+                    }.getType();
+                    List countryCodes = new Gson().fromJson(data, type);
+                    if (countryCodes != null && countryCodes.size() > 0) {
                         SPManager.setCountryCode(data);
                     }
 
@@ -216,21 +214,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
 
                 case R.id.main_rb_live_list: //直播列表
-                    if (AppUserManger.isLogin(MainActivity.this)) {
-                        showLiveFragment();
+                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+                        radioGroup.clearCheck();
+                        LoginModeSelActivity.startActivity(context);
+                        return;
                     }
+                    showLiveFragment();
                     break;
 
                 case R.id.main_rb_game: //游戏
-                    if (AppUserManger.isLogin(MainActivity.this)) {
-                        showGameFragment();
+                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+                        radioGroup.clearCheck();
+                        LoginModeSelActivity.startActivity(context);
+                        return;
                     }
+                    showGameFragment();
                     break;
-
                 case R.id.main_rb_mine: //个人中心
-                    if (AppUserManger.isLogin(MainActivity.this)) {
-                        showMineFragment();
+                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+                        radioGroup.clearCheck();
+                        LoginModeSelActivity.startActivity(context);
+                        return;
                     }
+                    showMineFragment();
                     break;
             }
         });
@@ -242,7 +248,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         RadioButtonWithAnim live = findViewById(R.id.main_rb_live_list);
         RadioButtonWithAnim game = findViewById(R.id.main_rb_game);
         RadioButtonWithAnim mine = findViewById(R.id.main_rb_mine);
-        String lang= MultiLanguageUtils.getRequestHeader();
+        String lang = MultiLanguageUtils.getRequestHeader();
         switch (lang) {
             case "vi":
                 home.setText("Trang chủ");
@@ -294,7 +300,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId() == R.id.layout_openlive) { //开启直播
             if (ClickUtil.isFastDoubleClick(5000)) return;
-            if (AppUserManger.isLogin(this)) {
+
+            if (DataCenter.getInstance().getUserInfo().isLogin()) {
                 boolean careraPermission = false;
                 boolean mircPermission = false;
                 if (ContextCompat.checkSelfPermission(MainActivity.this,
@@ -328,6 +335,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     checkAuth();
                 }
             }
+            else
+            {
+                LoginModeSelActivity.startActivity(context);
+            }
         }
     }
 
@@ -355,7 +366,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     try {
                         JSONObject jb = new JSONObject(data);
                         int auth = jb.optInt("auth");
-                        User user = AppUserManger.getUserInfo();
+                        User user = DataCenter.getInstance().getUserInfo().getUser();
                         if (user == null) {
                             LogUtils.e("主播状态：" + "开启直播出错，用户信息失败");
                             return;
@@ -385,15 +396,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
-    }
-
-    /**
-     * 前往游戏大厅
-     */
-    public void toGameHall() {
-        if (AppUserManger.isLogin(MainActivity.this)) {
-            radioGroup.check(R.id.main_rb_game);
-        }
     }
 
     /**
@@ -434,7 +436,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             SPManager.saveIsShownAppUpdate(true);
                             if (getSupportFragmentManager().isStateSaved()) return;
                             //有版本更新
-                            UpdateFragment updateFragment = UpdateFragment.newInstance(data.getVersion(), data.getDescript(), data.getDownUrl(),
+                            UpdateFragmentBinding updateFragment = UpdateFragmentBinding.newInstance(data.getVersion(), data.getDescript(), data.getDownUrl(),
                                     data.getIsUpdate() == 1);
                             updateFragment.show(getSupportFragmentManager(), "show up date apk");
                         }

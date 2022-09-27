@@ -39,12 +39,12 @@ import com.live.fox.entity.response.CpGameResultInfoVO;
 import com.live.fox.entity.response.GamePeriodInfoVO;
 import com.live.fox.entity.response.LotteryCpVO;
 import com.live.fox.entity.response.MinuteTabItem;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.mvp.MvpDialogFragment;
 import com.live.fox.mvp.PresenterInject;
 import com.live.fox.server.BaseApi;
-import com.live.fox.ui.mine.activity.RechargeActivity;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;
@@ -206,7 +206,7 @@ public class MinuteGameDialogFragment extends MvpDialogFragment<MinuteGamePresen
                 LinearLayoutManager.HORIZONTAL, false));
         rvOpenPrize.setAdapter(mPrizeShowAdapter);
         rvCheck.setAdapter(mOneMinuteAdapter);
-        String goldCoinNum = AppUserManger.getUserInfo().getGoldCoin() + "";
+        String goldCoinNum = DataCenter.getInstance().getUserInfo().getUser().getGoldCoin() + "";
         if ("0.00".equals(goldCoinNum))
             goldCoinNum = "0";
         tvGoldCoin.setText(RegexUtils.westMoney(Double.parseDouble(goldCoinNum)));

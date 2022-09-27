@@ -11,12 +11,13 @@ import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
 import com.live.fox.R;
 import com.live.fox.UserJump;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.login.LoginActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
@@ -80,7 +81,7 @@ public abstract class JsonCallback<T> extends StringCallback {
             String data = json.optString("data", "");
 
             if (response.code() == 401) {
-                AppUserManger.loginOut();
+                DataCenter.getInstance().getUserInfo().loginOut();
                 msg = json.optString("desc", "");
                 onSuccessInMainThread(-1, msg, null);
                 return;

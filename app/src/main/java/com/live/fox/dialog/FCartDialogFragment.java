@@ -33,13 +33,14 @@ import com.live.fox.entity.response.CpGameResultInfoVO;
 import com.live.fox.entity.response.GamePeriodInfoVO;
 import com.live.fox.entity.response.LotteryItem;
 import com.live.fox.entity.response.MinuteTabItem;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.BetCartDataManager;
 import com.live.fox.mvp.MvpDialogFragment;
 import com.live.fox.mvp.PresenterInject;
 import com.live.fox.server.BaseApi;
 import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.view.MaxHeightRecyclerView;
 
 import java.io.Serializable;
@@ -169,7 +170,7 @@ public class FCartDialogFragment extends MvpDialogFragment<BetCartPresenter> imp
             rvCart.getItemAnimator().setRemoveDuration(0);
         }
         rvCart.setAdapter(mBetCartAdapter);
-        tvBetBalance.setText(RegexUtils.westMoney(AppUserManger.getUserInfo().getGoldCoin()));
+        tvBetBalance.setText(RegexUtils.westMoney(DataCenter.getInstance().getUserInfo().getUser().getGoldCoin()));
         liveId = getArguments().getLong("liveId", 0);
         enterForm = getArguments().getInt("enterForm", NOT_FORM_MINUTEGAMEDIALOGFRAGMENT);
         mBetCartAdapter.setOnItemChildClickListener((adapter, view1, position) -> {

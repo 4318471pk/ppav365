@@ -22,7 +22,7 @@ import com.live.fox.R;
 import com.live.fox.adapter.FilterDialogAdapter;
 import com.live.fox.entity.FilterDialogEntity;
 import com.live.fox.entity.FilterItemEntity;
-import com.live.fox.ui.mine.activity.TransactionActivity;
+import com.live.fox.ui.mine.TransactionActivity;
 
 
 /**

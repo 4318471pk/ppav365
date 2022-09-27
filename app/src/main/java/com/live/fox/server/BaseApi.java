@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.live.fox.Constant;
 import com.live.fox.common.CommonApp;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.DeviceIdUtils;
@@ -33,7 +34,7 @@ public class BaseApi {
         params.put("timestamp", System.currentTimeMillis());
         params.put("channel", "");
         params.put("language", MultiLanguageUtils.getRequestHeader());
-        String token = SPManager.getToken();
+        String token = DataCenter.getInstance().getUserInfo().getToken();
         if (!TextUtils.isEmpty(token)) {
             params.put("token", token);
         } else {
@@ -53,7 +54,7 @@ public class BaseApi {
 //        headers.put("X-Language", MultiLanguageUtils.getRequestHeader());
         headers.put("Accept-Language", MultiLanguageUtils.getRequestHeader());
         headers.put("X-Sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + timestamp));
-        String token = SPManager.getToken();
+        String token = DataCenter.getInstance().getUserInfo().getToken();
         if (!StringUtils.isEmpty(token)) {
             headers.put("Authorization", "HSBox " + token);
         }

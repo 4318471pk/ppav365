@@ -56,45 +56,6 @@ public class DataBase {
         }
     }
 
-    /**
-     * 存储用户数据
-     *
-     * @param userJson 用户数据json
-     */
-    public void insertUser(String userJson) {
-        open();
-        ContentValues values = new ContentValues();
-        values.put("user", userJson);
-        sqLiteDatabase.replaceOrThrow(DBInfo.Table.User, null, values);
-        close();
-    }
-
-    /**
-     * 获取用户
-     */
-    public String getUser() {
-        open();
-        String sql = " select * from " + DBInfo.Table.User;
-        String userJson = "";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
-            userJson = cursor.getString(cursor.getColumnIndexOrThrow("user"));
-        }
-        cursor.close();
-        close();
-        return userJson;
-    }
-
-    /**
-     * 删除用户
-     */
-    public void deleteUserInfo() {
-        open();
-        sqLiteDatabase.delete(DBInfo.Table.User, null, null);
-        close();
-    }
-
-
     public void insertGift(Gift gift) {
         open();
         ContentValues values = new ContentValues();

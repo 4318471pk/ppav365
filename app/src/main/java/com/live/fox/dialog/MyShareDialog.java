@@ -20,11 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.live.fox.R;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.QRCodeUtil;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.AppUserManger;
+import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.device.DeviceUtils;
 
 import java.io.File;
@@ -109,7 +110,7 @@ public class MyShareDialog extends Dialog implements View.OnClickListener {
      * 复制到剪切板
      */
     private void copyToClipboard() {
-        String mShareUrl = SPManager.getShareUrl() + "?puid=" + AppUserManger.getUserInfo().getUid();
+        String mShareUrl = SPManager.getShareUrl() + "?puid=" + DataCenter.getInstance().getUserInfo().getUser().getUid();
         String copyString = context.getString(R.string.copyNetwork) + mShareUrl;
         ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData myClip = ClipData.newPlainText("", copyString);
@@ -208,7 +209,7 @@ public class MyShareDialog extends Dialog implements View.OnClickListener {
 
     // 生成二维码
     private void handlerQRCodeImage() {
-        String mShareUrl = SPManager.getShareUrl() + "?puid=" + AppUserManger.getUserInfo().getUid();
+        String mShareUrl = SPManager.getShareUrl() + "?puid=" + DataCenter.getInstance().getUserInfo().getUser().getUid();
         showThreadImage(context, mShareUrl, R.mipmap.ic_launcher);
     }
 
