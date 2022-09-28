@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.mine.setting.paymentpassword.PaymentPasswordOperationListFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F5F1F8"
+        >
+        <RelativeLayout
+            android:id="@+id/rlPasswordModify"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="#ffffff"
+            android:onClick="@{click.onClickView}"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:textColor="#404040"
+                android:text="@string/password_change"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_arrow_right"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlPasswordReset"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="#ffffff"
+            android:onClick="@{click.onClickView}"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#D9D1EC"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:textColor="#404040"
+                android:text="@string/forgetFindPs"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_arrow_right"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

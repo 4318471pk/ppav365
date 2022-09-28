@@ -131,6 +131,7 @@ public class Constant {
         public static final String AUTH_DETERPWD_URL = CenterClient + "/sys/user/determine/pwd";//判断是否设置密码
         public static final String AUTH_ISREGISTE_URL = CenterClient + "/sys/user/phone/isRegiste";//判断手机号是否注册接口
 
+
         //用户下的直播相关接口
         public static final String LIVE_blackUser_URL = CenterClient + "/live/blackUser";  //封号、封终端
         public static final String LIVE_follow_URL = CenterClient + "/live/follow";       //关注/取关
@@ -139,6 +140,11 @@ public class Constant {
         public static final String LIVE_letter_URL = CenterClient + "/live/letter";     //用户私信
         public static final String READ_letter_URL = CenterClient + "/live/change/letterStatua";     //用户私信
         public static final String LIVE_letterlist_URL = CenterClient + "/live/userLetter/list";      //获取私信列表
+
+        //支付密码
+        public static final String setPaymentPassword = CenterClient + "/user/setPayPwd";     //设置支付密码
+        public static final String resetPaymentPassword = CenterClient + "/user/resetPayPwd";     //重置密码
+        public static final String modifyPaymentPassword = CenterClient + "/user/updatePayPwd";     //修改密码
 
         //用户道具相关接口
         public static final String USER_propbuyCar_URL = CenterClient + "/user/prop/buyCar";    //购买座驾

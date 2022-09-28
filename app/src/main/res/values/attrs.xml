@@ -169,5 +169,7 @@
         </attr>
         <attr name="gt_gradient_angle" format="integer"/>
         <attr name="gt_radius_dp" format="dimension"/>
+        <attr name="gt_stroke_color" format="reference|color"/>
+        <attr name="gt_stroke_width" format="dimension"/>
     </declare-styleable>
 </resources>

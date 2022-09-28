@@ -63,6 +63,15 @@ public class User implements Serializable {
     Boolean isBlackChat;
     Integer autoUpdownBalance; //是否自动上下分 1 不自动 2自动
     Boolean come = false;
+    Integer hasPayPwd;//是否有支付密码 1就是有
+
+    public Integer getHasPayPwd() {
+        return hasPayPwd;
+    }
+
+    public void setHasPayPwd(Integer hasPayPwd) {
+        this.hasPayPwd = hasPayPwd;
+    }
 
     public boolean isCome() {
         return come;

@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.dialog.LoadingBindingDialogFragment;
 
@@ -64,6 +65,18 @@ public abstract class BaseBindingFragment extends Fragment {
         super.onDestroy();
         viewDataBinding.unbind();
         viewDataBinding=null;
+    }
+
+    public String getStringWithoutContext(int idRes)
+    {
+        if(isAdded() && getResources()!=null)
+        {
+            return getString(idRes);
+        }
+        else
+        {
+            return App.getInstance().getResources().getString(idRes);
+        }
     }
 
     public abstract void onClickView(View view);

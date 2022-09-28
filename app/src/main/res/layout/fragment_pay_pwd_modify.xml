@@ -5,7 +5,7 @@
     <data>
         <variable
             name="click"
-            type="com.live.fox.ui.mine.setting.paymentpassword.PaymentPasswordFragment" />
+            type="com.live.fox.ui.mine.setting.paymentpassword.PaymentPasswordModifyFragment" />
     </data>
 
     <LinearLayout
@@ -21,23 +21,59 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
                 android:gravity="center"
-                android:text="@string/paymentPassword"
+                android:text="@string/oldPassword"
                 android:textColor="#404040"
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/etPaymentPassword"
+                android:id="@+id/etOldPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:singleLine="true"
-                android:digits="0987654321"
                 android:maxLength="6"
+                android:digits="0123456789"
+                android:background="#00000000"
+                android:hint="@string/plsInputOldPaymentPassword"
+                android:textColor="#404040"
+                android:textColorHint="#D2CDE0"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#F5F1F8" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="#ffffffff"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dip"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:gravity="center"
+                android:text="@string/newPasswordStr"
+                android:textColor="#404040"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:maxLength="6"
+                android:digits="0123456789"
                 android:background="#00000000"
                 android:hint="@string/plsInputPaymentPassword"
                 android:textColor="#404040"
@@ -57,7 +93,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dip"
@@ -72,10 +108,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:singleLine="true"
-                android:digits="0987654321"
                 android:maxLength="6"
+                android:digits="0123456789"
                 android:background="#00000000"
-                android:hint="@string/plzInputConfirmPassword"
+                android:hint="@string/plzInputPasswordAgain"
                 android:textColor="#404040"
                 android:textColorHint="#D2CDE0"
                 android:textSize="16sp" />
@@ -85,50 +121,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="#F5F1F8" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dip"
-            android:background="#ffffffff"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:gravity="center"
-                android:text="@string/retrieveHint"
-                android:textColor="#404040"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/etFindBackCode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:maxLength="10"
-                android:singleLine="true"
-                android:background="#00000000"
-                android:hint="@string/plzInputRetrieveHint"
-                android:textColor="#404040"
-                android:textColorHint="#D2CDE0"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="#F5F1F8" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginTop="30dip"
-            android:text="@string/tipsOfPaymentOfPassword"
-            android:textColor="#F42C2C"
-            android:textSize="12sp" />
 
         <com.live.fox.view.GradientTextView
             android:id="@+id/gtCommit"

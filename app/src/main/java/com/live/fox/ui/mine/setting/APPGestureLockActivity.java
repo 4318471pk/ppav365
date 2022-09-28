@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine.Setting;
+package com.live.fox.ui.mine.setting;
 
 import android.view.View;
 

@@ -7,6 +7,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ public class GradientTextView extends AppCompatTextView {
     private DIRECTION mDIRECTION;
     GradientDrawable mIndicatorDrawable=new GradientDrawable();
     float radius=10f;
+    private int strokeColor=-1;
+    private float strokeWidth=-1;
     GradientDrawable.Orientation orientation=GradientDrawable.Orientation.LEFT_RIGHT;
 
     public enum DIRECTION {
@@ -70,6 +73,14 @@ public class GradientTextView extends AppCompatTextView {
 
             if (typedArray.hasValue(R.styleable.GradientTextView_gt_radius_dp)) {
                 radius = ScreenUtils.getDip2px(context,typedArray.getDimension(R.styleable.GradientTextView_gt_radius_dp, 0));
+            }
+
+            if (typedArray.hasValue(R.styleable.GradientTextView_gt_stroke_color)) {
+                strokeColor = typedArray.getColor(R.styleable.GradientTextView_gt_stroke_color, -1);
+            }
+
+            if (typedArray.hasValue(R.styleable.GradientTextView_gt_stroke_width)) {
+                strokeWidth = typedArray.getDimension(R.styleable.GradientTextView_gt_stroke_width, -1f);
             }
 
         } catch (Exception e) {
@@ -138,6 +149,15 @@ public class GradientTextView extends AppCompatTextView {
             mIndicatorDrawable.setCornerRadius(radius);
             mIndicatorDrawable.draw(canvas);
         }
+
+        if(strokeColor!=-1 && strokeWidth>0)
+        {
+            mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
+            mIndicatorDrawable.setStroke((int)strokeWidth,strokeColor);
+            mIndicatorDrawable.setCornerRadius(radius);
+            mIndicatorDrawable.draw(canvas);
+        }
         super.onDraw(canvas);
+
     }
 }

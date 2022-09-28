@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/password"
             android:elevation="4dp"
-            android:src="@drawable/ic_download_top"
+            app:srcCompat="@drawable/ic_download_top"
             app:layout_constraintBottom_toTopOf="@id/download_apk_bg"
             app:layout_constraintEnd_toEndOf="@id/download_apk_bg"
             app:layout_constraintStart_toStartOf="@id/download_apk_bg"

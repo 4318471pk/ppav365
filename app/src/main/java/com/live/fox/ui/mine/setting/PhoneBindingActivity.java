@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine.Setting;
+package com.live.fox.ui.mine.setting;
 
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -261,6 +261,7 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
                 handler.sendEmptyMessage(0);
+                mBind.tvSendVerifyCode.setEnabled(false);
             }
         });
     }

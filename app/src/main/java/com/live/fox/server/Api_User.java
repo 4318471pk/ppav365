@@ -812,5 +812,74 @@ public class Api_User extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * 设置支付密码
+     *
+     * @param callback 请求结果回调
+     */
+    public void setPaymentPassword(String payPwd,String payPwdTwo,String codeWord, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.setPaymentPassword;
+        callback.setUrlTag(Constant.URL.setPaymentPassword);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("payPwd", payPwd);
+        params.put("payPwdTwo", payPwdTwo);
+        params.put("codeWord", codeWord);
+
+        Object timestamp = params.get("timestamp");
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(timestamp))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 重置支付密码
+     *
+     * @param callback 请求结果回调
+     */
+    public void resetPaymentPassword(String area,String mobile,String vcode,String password,String password2,String codeWord, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.resetPaymentPassword;
+        callback.setUrlTag(Constant.URL.resetPaymentPassword);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("area", area);
+        params.put("mobile", mobile);
+        params.put("vcode", vcode);
+        params.put("password", password);
+        params.put("password2", password2);
+        params.put("codeWord", codeWord);
+
+        Object timestamp = params.get("timestamp");
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(timestamp))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 修改支付密码
+     *
+     * @param callback 请求结果回调
+     */
+    public void modifyPaymentPassword(String oldPwd,String payPwd,String payPwdTwo, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.modifyPaymentPassword;
+        callback.setUrlTag(Constant.URL.modifyPaymentPassword);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("oldPwd", oldPwd);
+        params.put("payPwd", payPwd);
+        params.put("payPwdTwo", payPwdTwo);
+
+        Object timestamp = params.get("timestamp");
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(timestamp))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
 
 }

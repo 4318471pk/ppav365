@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="dialogGoBind"
+            type="com.live.fox.dialog.DialogGoBindPhone" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88626063"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_white_corner"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#404040"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:text="@string/dialogWordsWithSpace"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#646464"
+                android:textSize="14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dip"
+                android:text="@string/plzBindPhoneWhenGuest"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="28dip"
+                android:background="#D2CDE0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:orientation="horizontal">
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{dialogGoBind.onClickView}"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:paddingTop="10dip"
+                    android:paddingBottom="10dip"
+                    android:layout_weight="1"
+                    android:textColor="#A800FF"
+                    android:textSize="16sp"
+                    android:text="@string/cancel"
+                    app:gt_stroke_color="#A800FF"
+                    app:gt_stroke_width="1dip"
+                    app:gt_radius_dp="10dip"
+                    />
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtCommit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{dialogGoBind.onClickView}"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:paddingTop="10dip"
+                    android:paddingBottom="10dip"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:text="@string/goBindPhone"
+                    app:gt_color_list="@array/identificationColor"
+                    app:gt_radius_dp="10dip"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

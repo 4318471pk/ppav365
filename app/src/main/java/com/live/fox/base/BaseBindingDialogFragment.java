@@ -29,6 +29,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.DialogFragment;
 
+import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.dialog.LoadingBindingDialogFragment;
 import com.live.fox.utils.device.ScreenUtils;
@@ -221,6 +222,18 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
         {
             loadingBindingDialogFragment.dismissAllowingStateLoss();
             loadingBindingDialogFragment=null;
+        }
+    }
+
+    public String getStringWithoutContext(int idRes)
+    {
+        if(isAdded() && getResources()!=null)
+        {
+            return getString(idRes);
+        }
+        else
+        {
+            return App.getInstance().getResources().getString(idRes);
         }
     }
 

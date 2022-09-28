@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine.Setting;
+package com.live.fox.ui.mine.setting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import com.live.fox.databinding.SettingActivityBinding;
 import com.live.fox.manager.SPManager;
 import com.live.fox.ui.language.MultiLanguageActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.ui.mine.Setting.PaymentPassword.PaymentPasswordActivity;
+import com.live.fox.ui.mine.setting.paymentpassword.PaymentPasswordActivity;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.CleanUtils;

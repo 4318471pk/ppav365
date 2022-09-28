@@ -70,7 +70,7 @@ public class OkGoHttpUtil {
         OkGo.getInstance().init(app)
                 .setOkHttpClient(mOkHttpClient)
                 .setCacheMode(CacheMode.NO_CACHE)
-                .setRetryCount(1);             //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
+                .setRetryCount(0);             //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
     }
 
     /**

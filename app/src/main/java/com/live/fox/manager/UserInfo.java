@@ -104,6 +104,11 @@ public class UserInfo {
             user.setAutoUpdownBalance(mUser.getAutoUpdownBalance());
         }
 
+        if(mUser.getHasPayPwd()!=null)
+        {
+            user.setHasPayPwd(mUser.getHasPayPwd());
+        }
+
         setUser(user);
     }
 
