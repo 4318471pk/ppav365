@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:toosl="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F1F8"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_gonggao"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dip"
+            android:background="#E3D3EE"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:id="@+id/ivBroadcast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/broadcast"
+                android:layout_centerVertical="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <com.marquee.dingrui.marqueeviewlib.MarqueeView
+                android:id="@+id/tvBroadcast"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/ivBroadcast"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:textColor="#974EAC"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:marqueeview_is_resetLocation="false"
+                app:marqueeview_isclickalbe_stop="true"
+                app:marqueeview_repet_type="repet_interval"
+                app:marqueeview_text_color="#974EAC"
+                app:marqueeview_text_size="13"
+                app:marqueeview_text_speed="1"
+                app:marqueeview_text_startlocationdistance="0.5" />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</layout>

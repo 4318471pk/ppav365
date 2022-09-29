@@ -5,7 +5,7 @@
     <data>
         <variable
             name="dialogGoBind"
-            type="com.live.fox.dialog.DialogGoBindPhone" />
+            type="com.live.fox.dialog.DialogGoBindPhoneOnWithdrawal" />
     </data>
 
     <RelativeLayout
@@ -31,16 +31,17 @@
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dip"
-                android:text="@string/dialogWordsWithSpace"/>
+                android:text="@string/dialogTitle2"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textColor="#646464"
                 android:textSize="14sp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dip"
-                android:text="@string/plzBindPhoneWhenGuest"/>
+                android:text="@string/plzBindPhoneWhenGuest2"/>
 
             <View
                 android:layout_width="match_parent"
@@ -68,7 +69,7 @@
                     android:layout_weight="1"
                     android:textColor="#A800FF"
                     android:textSize="16sp"
-                    android:text="@string/cancel"
+                    android:text="@string/goAheadWithdraw"
                     app:gt_stroke_color="#A800FF"
                     app:gt_stroke_width="1dip"
                     app:gt_radius_dp="10dip"
@@ -87,7 +88,7 @@
                     android:layout_weight="1"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
-                    android:text="@string/goBindPhone"
+                    android:text="@string/goBindPhone2"
                     app:gt_color_list="@array/identificationColor"
                     app:gt_radius_dp="10dip"
                     />

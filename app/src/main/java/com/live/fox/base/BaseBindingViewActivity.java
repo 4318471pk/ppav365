@@ -25,6 +25,7 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
 
     ImageView ivHeadLeft;
     TextView tvHeadTitle;
+    TextView tvTitleRight;
     int screenWidth;
     ViewDataBinding viewDataBinding;
 
@@ -62,6 +63,7 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
             screenWidth= ScreenUtils.getScreenWidth(this);
             ivHeadLeft = findViewById(R.id.ivHeadLeft);
             tvHeadTitle = findViewById(R.id.tvHeadTitle);
+            tvTitleRight=findViewById(R.id.tvTitleRight);
             ivHeadLeft.setOnClickListener(new OnClickFrequentlyListener() {
                 @Override
                 public void onClickView(View view) {
@@ -83,6 +85,10 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
 
     public void setActivityTitle(int titleRes) {
         tvHeadTitle.setText(getResources().getText(titleRes));
+    }
+
+    public TextView getTvTitleRight() {
+        return tvTitleRight;
     }
 
     @Override

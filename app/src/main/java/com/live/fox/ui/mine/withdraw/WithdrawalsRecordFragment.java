@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine.moneyout;
+package com.live.fox.ui.mine.withdraw;
 
 import android.graphics.Color;
 import android.os.Bundle;

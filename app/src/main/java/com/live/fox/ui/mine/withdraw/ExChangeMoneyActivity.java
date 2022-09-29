@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine.moneyout;
+package com.live.fox.ui.mine.withdraw;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,6 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.ExchangeMoneyFragment;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
-import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Promotion;
 import com.live.fox.server.Api_User;
 import com.live.fox.utils.BarUtils;

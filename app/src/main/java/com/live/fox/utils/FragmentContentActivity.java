@@ -13,7 +13,7 @@ import com.live.fox.common.CommonApp;
 import com.live.fox.Constant;
 import com.live.fox.MainActivity;
 import com.live.fox.ui.circle.WebFragment;
-import com.live.fox.ui.mine.moneyout.WithdrawalsRecordFragment;
+import com.live.fox.ui.mine.withdraw.WithdrawalsRecordFragment;
 import com.tencent.android.tpush.TpnsActivity;
 
 import static android.R.id.widget_frame;

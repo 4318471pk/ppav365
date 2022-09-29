@@ -17,6 +17,7 @@ import com.live.fox.ui.mine.setting.paymentpassword.PaymentPasswordActivity;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.CleanUtils;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FileUtils;
 import com.live.fox.view.SwitchView;
 
@@ -35,6 +36,10 @@ public class SettingActivity extends BaseBindingViewActivity implements SwitchVi
 
     @Override
     public void onClickView(View view) {
+        if(ClickUtil.isClickWithShortTime(view.getId(),800))
+        {
+            return;
+        }
         switch (view.getId()) {
 //            case R.id.layout_permisionsetting: //小窗口权限
 //                startActivityForResult(

@@ -1049,7 +1049,9 @@
     <string name="plsInputPaymentPassword">请输入支付密码（6位纯数字）</string>
     <string name="plsInputOldPaymentPassword">请输入原支付密码</string>
     <string name="plzBindPhoneWhenGuest">您当前为游客账号，请先绑定手机</string>
+    <string name="plzBindPhoneWhenGuest2">您当前为游客账号，请先绑定手机，\n以防账户丢失</string>
     <string name="goBindPhone">去绑定</string>
+    <string name="goBindPhone2">前往绑定</string>
     <string name="oldPassword">旧密码</string>
     <string name="newPasswordStr">新密码</string>
     <string name="plzInputPasswordAgain">请再次输入密码</string>
@@ -1063,6 +1065,8 @@
     <string name="modifyPaymentPasswordSuccess">修改支付密码成功</string>
     <string name="resetPaymentPasswordSuccess">重置支付密码成功</string>
     <string name="setPaymentPasswordSuccess">支付密码设置成功</string>
-
+    <string name="dialogTitle2">温馨提示</string>
+    <string name="goAheadWithdraw">继续提现</string>
+    <string name="withdrawCards">卡包</string>
 
 </resources>

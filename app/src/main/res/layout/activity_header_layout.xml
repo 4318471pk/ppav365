@@ -31,6 +31,16 @@
             android:gravity="center"
             android:text="@string/description_title"
             android:textColor="@color/black"
+            android:textSize="19.0sp" />
+
+        <TextView
+            android:id="@+id/tvTitleRight"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="15dip"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="#A800FF"
             android:textSize="16.0sp" />
 
     </RelativeLayout>
