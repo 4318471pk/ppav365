@@ -33,7 +33,7 @@ public class CommonDialog extends DialogFragment {
         dialog = super.onCreateDialog(savedInstanceState);
         Window window = dialog.getWindow();
         window.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.shape_corners_10_white));
-        window.setDimAmount(0f);
+        window.setDimAmount(0.5f);
         window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
         return dialog;
     }

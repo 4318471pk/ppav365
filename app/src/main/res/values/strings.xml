@@ -1009,6 +1009,15 @@
     <string name="contact_service">正规平台，安全无忧。 支付中如有问题，请联系</string>
     <string name="online_service">在线客服</string>
     <string name="zuan">钻</string>
+    <string name="select_pay_way">选择支付方式</string>
+    <string name="zfb">支付宝</string>
+    <string name="wechat">微信</string>
+    <string name="pay_tips">支付小贴士:</string>
+    <string name="pay_tips_2">1、跳转后请及时付款，超时支付无法到账，要重新发起；
+       \n 2、每天发起支付不能超过5次，连续发起且未支付，账号可 能被加入黑名单。</string>
+    <string name="go_to_charge">去充值</string>
+    <string name="no_money_go_to_charge">钱包余额不足，是否前往充值？</string>
+    <string name="confirm_exchange_diamond">确认消耗 %1$s元 兑换 %2$s钻吗？</string>
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

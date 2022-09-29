@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<com.flyco.roundview.RoundLinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:rv_cornerRadius_TL="20dp"
+    app:rv_cornerRadius_TR="20dp"
+    app:rv_backgroundColor="@color/white"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/color404040"
+        android:textSize="19sp"
+        android:text="@string/select_pay_way"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_zfb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/zfb"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/color404040"
+            android:textSize="16sp"
+            android:text="@string/zfb"
+            android:layout_gravity="center"
+            />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_zfb_gf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/guanzfb"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/color404040"
+            android:textSize="16sp"
+            android:text="@string/zfb"
+            android:layout_gravity="center"
+            />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_wechat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/wechat_pay"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/color404040"
+            android:textSize="16sp"
+            android:text="@string/wechat"
+            android:layout_gravity="center"
+            />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/colorF42C2C"
+        android:textSize="14sp"
+        android:text="@string/pay_tips"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color8b8b8b"
+        android:textSize="12sp"
+        android:text="@string/pay_tips_2"
+        />
+
+    <TextView
+        android:id="@+id/tv_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="25dp"
+        android:textSize="11sp"
+        android:textColorLink="#0F86FF"
+        />
+
+    <LinearLayout
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/bg_a800ff_d689ff"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lijichongzhi"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+
+
+</com.flyco.roundview.RoundLinearLayout>
+</LinearLayout>

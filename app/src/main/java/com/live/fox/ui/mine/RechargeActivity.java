@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,7 +15,10 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -22,6 +26,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,11 +60,13 @@ import com.live.fox.dialog.DialogFactory;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.BankInfo;
 import com.live.fox.entity.ChargeBean;
+import com.live.fox.entity.ChargeCoinBean;
 import com.live.fox.entity.LanguageUtilsEntity;
 import com.live.fox.entity.RechargeChannel;
 import com.live.fox.entity.RecharegPrice;
 import com.live.fox.entity.SupportBankEntity;
 import com.live.fox.entity.User;
+import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.entity.response.AgentInfoVO;
 import com.live.fox.entity.response.BankRechargeVO;
 import com.live.fox.helper.SimpleTextWatcher;
@@ -146,11 +153,13 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private ImageView ivDiamond;
     private GridView gvCharge;
     private TextView tvService;
+    private View mView;
+    private LinearLayout layoutConfirm;
 
     ChargeAdapter chargeMoneyAdapter;
     ChargeAdapter chargeDiamondAdapter;
-    List<ChargeBean> chargeMoneyBeans = new ArrayList<>();
-    List<ChargeBean> chargeDiamondBeans = new ArrayList<>();
+    List<ChargeCoinBean.RechargeOptional> chargeMoneyBeans = new ArrayList<>();
+    List<ChargeCoinBean.RechargeOptional> chargeDiamondBeans = new ArrayList<>();
 
 
     BaseQuickAdapter<BankInfo, BaseViewHolder> bankAdapter;
@@ -205,6 +214,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         reSupportBank = findViewById(R.id.reSupportBank);
         supportBankList = findViewById(R.id.rv_supportBank);
 
+        mView = findViewById(R.id.mView);
         tvBalanca = findViewById(R.id.balance);
         tvDiamond = findViewById(R.id.diamond);
         layoutMoney = findViewById(R.id.layout_charge);
@@ -215,10 +225,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         ivDiamond = findViewById(R.id.img_diamond);
         gvCharge = findViewById(R.id.gv_charge);
         tvService = findViewById(R.id.tv_service);
+        layoutConfirm = findViewById(R.id.confirm);
 
+        setTvService(tvService);
 
-        setTvService();
-        test();
         chargeMoneyAdapter = new ChargeAdapter(this,chargeMoneyBeans, true);
         chargeDiamondAdapter = new ChargeAdapter(this,chargeDiamondBeans, false);
         gvCharge.setAdapter(chargeMoneyAdapter);
@@ -234,12 +244,30 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                         }
                     }
                     chargeMoneyAdapter.notifyDataSetChanged();
+                } else {
+//                    for (int i = 0; i < chargeDiamondBeans.size(); i++) {
+//                        if (position == i) {
+//                            chargeDiamondBeans.get(position).setSelect(true);
+//                        } else {
+//                            chargeDiamondBeans.get(i).setSelect(false);
+//                        }
+//                    }
+//                    chargeDiamondAdapter.notifyDataSetChanged();
+                    double money = chargeDiamondBeans.get(position).getAmount();
+                    if (userAssetsBean.getGoldCoin() >= money) { //金币兑换钻石
+                        String s =  String.format(getString(R.string.confirm_exchange_diamond),
+                                String.valueOf(money), String.valueOf(money*10));
+                        showMoneyDialog(s, false);
+                    } else { //金币不足
+                        showMoneyDialog(getString(R.string.no_money_go_to_charge), true);
+                    }
                 }
             }
         });
 
         layoutMoney.setOnClickListener(this);
         layoutDiamond.setOnClickListener(this);
+        layoutConfirm.setOnClickListener(this);
         findViewById(R.id.tvaRecharge).setOnClickListener(this);
 
         StatusBarUtil.setStatusBarFulAlpha(this);
@@ -268,7 +296,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         initMoneyRv();
         initGongGao();
         showLoadingDialogWithNoBgBlack();
-        doGetVipChannelApi();
+        //doGetVipChannelApi();
+        getUserAsset();
+        getChargeCenter();
     }
 
     private void initGongGao() {
@@ -788,7 +818,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             uninPayView.setVisibility(View.VISIBLE);
             changePayWay(type);
         }
-        doBankInfo(type);
+      //  doBankInfo(type);
     }
 
     /**
@@ -950,6 +980,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                     changeChargeUi();
                 }
                 break;
+            case R.id.confirm:
+                if (isChargeMoney) {
+                   setPopCharge();
+                }
+                break;
             case R.id.iv_head_left:
                 finish();
                 break;
@@ -1034,16 +1069,114 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             tvExDiamond.setTextColor(this.getResources().getColor(R.color.colorFFEAB1));
             ivDiamond.setImageDrawable(this.getResources().getDrawable(R.mipmap.diamonds_y));
             gvCharge.setAdapter(chargeMoneyAdapter);
+            tvService.setVisibility(View.VISIBLE);
+            layoutConfirm.setVisibility(View.VISIBLE);
         } else {
             layoutMoney.setBackground(this.getResources().getDrawable(R.drawable.shape_ffeab1_2));
             tvCharge.setTextColor(this.getResources().getColor(R.color.colorFFEAB1));
             ivMoney.setImageDrawable(this.getResources().getDrawable(R.mipmap.rmb_y));
-            layoutDiamond.setBackground(this.getResources().getDrawable(R.mipmap.golden_button_left));
+            layoutDiamond.setBackground(this.getResources().getDrawable(R.mipmap.golden_button_right));
             tvExDiamond.setTextColor(this.getResources().getColor(R.color.color533888));
             ivDiamond.setImageDrawable(this.getResources().getDrawable(R.mipmap.diamonds_b));
             gvCharge.setAdapter(chargeDiamondAdapter);
+            tvService.setVisibility(View.GONE);
+            layoutConfirm.setVisibility(View.GONE);
         }
     }
+
+    private void setPopCharge(){
+        View popupView = getLayoutInflater().inflate(R.layout.pop_charge,null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);// 设置同意在外点击消失
+        TextView tvSer = popupView.findViewById(R.id.tv_service);
+        setTvService(tvSer);
+        setRootAlpha(0.5f);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //在dismiss中恢复透明度
+                setRootAlpha(1f);
+            }
+        });
+        popupWindow.setAnimationStyle(R.style.ActionSheetDialogAnimation);
+        popupWindow.showAtLocation(mView, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+    }
+
+    private void setRootAlpha(float al){
+        WindowManager.LayoutParams lp=getWindow().getAttributes();
+        lp.alpha= al;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 显示弹窗
+     */
+    private void showMoneyDialog(String content, boolean isMoney) {
+        commonDialog.setDialogContent(
+                content,
+                getString(R.string.recharge_usdt_submit_dialog_content),
+                getString(R.string.button_cancel),
+                isMoney ? getString(R.string.go_to_charge) : getString(R.string.sure),
+                view -> commonDialog.dismiss(),
+                view -> {
+                    commonDialog.dismiss();
+                    if (isMoney) { //充值金币
+                        isChargeMoney = true;
+                        changeChargeUi();
+                    } else { //调用兑换钻石接口
+
+                    }
+                    //doRecharge();
+                });
+        commonDialog.show(getSupportFragmentManager(), "bank dialog");
+    }
+
+
+    private UserAssetsBean userAssetsBean = null;
+    private void getUserAsset(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getUserLiveUserAssets(new JsonCallback<UserAssetsBean>() {
+            @Override
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
+                hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    userAssetsBean = data;
+                    tvBalanca.setText(data.getGoldCoin() + "");
+                    tvDiamond.setText("" +data.getDiamondCoin() + data.getVipCoin());
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+    }
+
+
+    private void getChargeCenter(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getChargeCoin(new JsonCallback<ChargeCoinBean>() {
+            @Override
+            public void onSuccess(int code, String msg, ChargeCoinBean data) {
+                hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    if (data.getRechargeOptionalList() != null && data.getRechargeOptionalList().size() >0) {
+                        chargeMoneyBeans.addAll(data.getRechargeOptionalList());
+                        chargeDiamondBeans.addAll(data.getRechargeOptionalList());
+                        chargeMoneyAdapter.notifyDataSetChanged();
+                        chargeDiamondAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+    }
+
+
+
 
     private void dealEditZero(EditText editText) {
         String str = editText.getText().toString().replace(",", "");
@@ -1390,39 +1523,13 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    private void test(){
-        chargeMoneyBeans.add(new ChargeBean("50",true));
-        chargeMoneyBeans.add(new ChargeBean("100"));
-        chargeMoneyBeans.add(new ChargeBean("500"));
-        chargeMoneyBeans.add(new ChargeBean("1000"));
-        chargeMoneyBeans.add(new ChargeBean("3000"));
-        chargeMoneyBeans.add(new ChargeBean("5000"));
-        chargeMoneyBeans.add(new ChargeBean("10000"));
-        chargeMoneyBeans.add(new ChargeBean("30000"));
-        chargeMoneyBeans.add(new ChargeBean("50000"));
-        chargeMoneyBeans.add(new ChargeBean("100000"));
-
-        chargeDiamondBeans.add(new ChargeBean("30","300"));
-        chargeDiamondBeans.add(new ChargeBean("50", "500"));
-        chargeDiamondBeans.add(new ChargeBean("100", "1000"));
-        chargeDiamondBeans.add(new ChargeBean("300","3000"));
-        chargeDiamondBeans.add(new ChargeBean("500", "5000"));
-        chargeDiamondBeans.add(new ChargeBean("1000", "10000"));
-        chargeDiamondBeans.add(new ChargeBean("2000","20000"));
-        chargeDiamondBeans.add(new ChargeBean("3000","30000"));
-        chargeDiamondBeans.add(new ChargeBean("5000", "50000"));
-        chargeDiamondBeans.add(new ChargeBean("10000", "100000"));
-        chargeDiamondBeans.add(new ChargeBean("20000","200000"));
-        chargeDiamondBeans.add(new ChargeBean("50000", "500000"));
 
 
-    }
-
-    private void setTvService(){
+    private void setTvService(TextView tv){
         String string = "<font color='##B8B2C8'> " +getResources().getString(R.string.contact_service)+ "</font>";
         string = string +"<a href='http://www.baidu.com'>" + getResources().getString(R.string.online_service)+"</a><br/>" ;
-        tvService.setText(Html.fromHtml(string));
-        tvService.setMovementMethod(LinkMovementMethod.getInstance());
+        tv.setText(Html.fromHtml(string));
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
 

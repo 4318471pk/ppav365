@@ -3,6 +3,8 @@ package com.live.fox.server;
 import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.entity.BankInfo;
+import com.live.fox.entity.ChargeCoinBean;
+import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.entity.response.BankRechargeVO;
 import com.live.fox.manager.SPManager;
 import com.live.fox.common.JsonCallback;
@@ -76,4 +78,34 @@ public class Api_Order extends BaseApi {
                         new Gson().toJson(params))
                 .execute(callback);
     }
+
+
+    /**
+     * 用户资产
+     */
+    public void getUserLiveUserAssets(JsonCallback<UserAssetsBean> callback, Map<String, Object> params) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_liveUserAssets;
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+
+    /**
+     * 充值中心-充值列表
+     */
+    public void getChargeCoin(JsonCallback<ChargeCoinBean> callback, Map<String, Object> params) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_chargeCenter;
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+
 }

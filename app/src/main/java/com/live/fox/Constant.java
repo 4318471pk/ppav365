@@ -165,6 +165,8 @@ public class Constant {
         //用户资产相关接口
         public static final String USER_changecoin_URL = CenterClient + "/assets/change/coin";       //魅力值变成coin
         public static final String USER_changecoinlist_URL = CenterClient + "/assets/change/list";   //魅力值变成coin列表
+        public static final String USER_liveUserAssets = CenterClient + "/assets/getLiveUserAssets"; //用户资产
+        public static final String USER_chargeCenter= CenterClient + "/assets/recharge/centre"; //充值列表
 
         //live-client 直播相关接口
         public static final String LiveClient = "/live-client";
