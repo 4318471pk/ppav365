@@ -171,5 +171,8 @@
         <attr name="gt_radius_dp" format="dimension"/>
         <attr name="gt_stroke_color" format="reference|color"/>
         <attr name="gt_stroke_width" format="dimension"/>
+        <attr name="gt_solidNoGradient" format="color"/>
     </declare-styleable>
+
+
 </resources>

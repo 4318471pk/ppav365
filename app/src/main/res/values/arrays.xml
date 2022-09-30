@@ -6,6 +6,8 @@
         <item>0xFFD689FF</item>
     </integer-array>
 
+
+
     <integer-array name="luckNum">
         <item>@drawable/luck_0</item>
         <item>@drawable/luck_1</item>

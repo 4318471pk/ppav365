@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomdialog.AddNewBankCardDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            app:rv_backgroundColor="#ffffffff"
+            app:rv_cornerRadius_TL="10dip"
+            app:rv_cornerRadius_TR="10dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#404040"
+                android:textSize="19sp"
+                android:layout_marginTop="15dip"
+                android:layout_marginBottom="15dip"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/createBankCard"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/createBankCardNameTitle"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_backgroundColor="#F4F1F8"
+                    app:rv_cornerRadius="8dip">
+
+                    <EditText
+                        android:id="@+id/etCreateBankCardName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="15dip"
+                        android:paddingRight="15dip"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:textColorHint="#B8B2C8"
+                        android:textSize="14sp"
+                        />
+
+                </com.flyco.roundview.RoundRelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/createBankCardAccountTitle"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_backgroundColor="#F4F1F8"
+                    app:rv_cornerRadius="8dip">
+
+                    <EditText
+                        android:id="@+id/etCreateBankCardAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="15dip"
+                        android:paddingRight="15dip"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:textColorHint="#B8B2C8"
+                        android:textSize="14sp"
+                        />
+
+                </com.flyco.roundview.RoundRelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:gravity="right"
+                android:text="@string/addNewBankTips"
+                android:textSize="12sp"
+                android:textColor="#8B8B8B"/>
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtCommit"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_marginTop="50dip"
+                android:layout_marginBottom="25dip"
+                android:gravity="center"
+                android:onClick="@{click.onClickView}"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:gt_color_list="@array/identificationColor"
+                app:gt_radius_dp="3dip" />
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+    </RelativeLayout>
+</layout>

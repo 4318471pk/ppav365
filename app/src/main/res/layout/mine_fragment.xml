@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <com.live.fox.view.refreshhead2graycolor.ClassicsHeaderToGrayColor
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -355,21 +354,17 @@
                         app:rv_cornerRadius_TL="10dp"
                         app:rv_cornerRadius_TR="10dp">
 
-                        <TextView
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="18dp"
-                            android:text="@string/assets"
-                            android:textColor="@color/yellow"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:adjustViewBounds="true"
+                            android:src="@mipmap/icon_fund"/>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="40dp"
                             android:orientation="horizontal">
 
                             <com.flyco.roundview.RoundLinearLayout
