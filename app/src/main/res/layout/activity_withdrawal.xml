@@ -4,7 +4,9 @@
     xmlns:toosl="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="click"
+            type="com.live.fox.ui.mine.withdraw.WithdrawalActivity" />
     </data>
 
     <LinearLayout
@@ -14,10 +16,8 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/layout_gonggao"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_marginTop="5dip"
             android:background="#E3D3EE"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
@@ -56,7 +56,307 @@
 
         </RelativeLayout>
 
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dip"
+            android:orientation="horizontal"
+            app:rv_backgroundColor="#DE735591"
+            app:rv_cornerRadius_TL="10dp"
+            app:rv_cornerRadius_TR="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/icon_balance"/>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <com.flyco.roundview.RoundLinearLayout
+                    android:id="@+id/ll_zhanghuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    app:rv_backgroundColor="#40000000"
+                    app:rv_cornerRadius="12dp">
+
+                    <ImageView
+                        android:layout_width="9dp"
+                        android:layout_height="9dp"
+                        android:src="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/balanceMoneyTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="111111"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </com.flyco.roundview.RoundLinearLayout>
+
+                <com.flyco.roundview.RoundLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    app:rv_backgroundColor="#40000000"
+                    app:rv_cornerRadius="12dp">
+
+                    <ImageView
+                        android:layout_width="9dp"
+                        android:layout_height="9dp"
+                        android:src="@mipmap/diamond" />
+
+                    <TextView
+                        android:id="@+id/diamondTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="111111"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </com.flyco.roundview.RoundLinearLayout>
+
+            </LinearLayout>
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="47dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            app:rv_backgroundColor="#ffffff"
+            android:paddingTop="20dip"
+            android:paddingLeft="15dip"
+            android:paddingRight="10dip"
+            app:rv_cornerRadius_BL="10dip"
+            app:rv_cornerRadius_BR="10dip"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/withdrawCurrency"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/RMB"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/withdrawAmount"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_backgroundColor="#F4F1F8"
+                    app:rv_cornerRadius="8dip">
+                    <TextView
+                        android:id="@+id/tvMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="10dip"
+                        android:gravity="center"
+                        android:text="@string/max"
+                        android:textSize="16sp"
+                        android:textColorLink="#0F86FF"
+                        />
+
+                <EditText
+                    android:id="@+id/edWithdrawAmount"
+                    android:layout_toLeftOf="@id/tvMax"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:background="@null"
+                    android:gravity="left|center_vertical"
+                    android:textColorHint="#B8B2C8"
+                    android:textSize="14sp"
+                    />
+
+                </com.flyco.roundview.RoundRelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/withdrawMinBet"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="0"
+                    android:textSize="16sp"
+                    android:textColor="#F42C2C"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/withdrawType"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <RadioGroup
+                    android:id="@+id/llRadioBtns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbUSDT"
+                        android:button="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dip"
+                        android:layout_marginRight="5dip"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@color/radiobtn_color"
+                        android:textSize="16sp"
+                        android:text="@string/USDT"
+                        android:drawableLeft="@mipmap/icon_usdt"
+                        android:paddingLeft="2dip"
+                        android:background="@drawable/radiobtn_background"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rbRMB"
+                        android:button="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dip"
+                        android:layout_marginLeft="5dip"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@color/radiobtn_color"
+                        android:textSize="16sp"
+                        android:text="@string/bankCard"
+                        android:drawableLeft="@mipmap/icon_unionpay"
+                        android:paddingLeft="2dip"
+                        android:background="@drawable/radiobtn_background"
+                        />
+
+
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:textColor="#F42C2C"
+                android:textSize="14sp"
+                android:text="@string/dialogTitle3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:textColor="#8B8B8B"
+                android:textSize="12sp"
+                android:text="@string/withdrawTips"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtCommit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="20dip"
+                    android:layout_marginRight="20dip"
+                    android:layout_marginBottom="25dip"
+                    android:gravity="center"
+                    android:onClick="@{click.onClickView}"
+                    android:text="@string/tixian"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:gt_color_list="@array/identificationColor"
+                    app:gt_radius_dp="3dip" />
+
+                <TextView
+                    android:id="@+id/tvService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0F86FF"
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@id/gtCommit"
+                    android:textSize="11sp"
+                    android:layout_marginBottom="10dip"
+                    />
+            </RelativeLayout>
+        </com.flyco.roundview.RoundLinearLayout>
     </LinearLayout>
 </layout>

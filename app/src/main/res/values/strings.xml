@@ -1083,7 +1083,24 @@
     <string name="resetPaymentPasswordSuccess">重置支付密码成功</string>
     <string name="setPaymentPasswordSuccess">支付密码设置成功</string>
     <string name="dialogTitle2">温馨提示</string>
+    <string name="dialogTitle3">温馨提示：</string>
     <string name="goAheadWithdraw">继续提现</string>
     <string name="withdrawCards">卡包</string>
+    <string name="withdrawCurrency">提现币种：</string>
+    <string name="withdrawAmount">提现金额：</string>
+    <string name="withdrawMinBet">提现所需打码量：</string>
+    <string name="withdrawType">提现方式：</string>
+    <string name="RMB">人民币</string>
+    <string name="USDT">USDT</string>
+    <string name="bankCard">银行卡</string>
+    <string name="withdrawTips">提现手续费为5%，提现额度 - 手续费 = 实际到账额度。</string>
+    <string name="max">最大</string>
+    <string name="defaultCard">默认</string>
+    <string name="max3Cards">一共可以添加3张银行卡</string>
+    <string name="createBankCard">添加银行卡</string>
+    <string name="createBankCardNameTitle">开户姓名：</string>
+    <string name="createBankCardAccountTitle">银行卡号：</string>
+    <string name="add">添加</string>
+    <string name="addNewBankTips">请认真核对银行卡信息，信息错误会导致提现失败。</string>
 
 </resources>

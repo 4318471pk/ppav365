@@ -20,6 +20,7 @@ public class GradientTextView extends AppCompatTextView {
 
     private final static String TAG = GradientTextView.class.getSimpleName();
     private int[] mColors;
+    private int solidColor=-1;
     private int mAngle = 0;
     private DIRECTION mDIRECTION;
     GradientDrawable mIndicatorDrawable=new GradientDrawable();
@@ -83,6 +84,11 @@ public class GradientTextView extends AppCompatTextView {
                 strokeWidth = typedArray.getDimension(R.styleable.GradientTextView_gt_stroke_width, -1f);
             }
 
+            if (typedArray.hasValue(R.styleable.GradientTextView_gt_solidNoGradient)) {
+                solidColor = typedArray.getColor(R.styleable.GradientTextView_gt_solidNoGradient, -1);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -140,6 +146,15 @@ public class GradientTextView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        if(solidColor!=-1)
+        {
+            mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
+            mIndicatorDrawable.setColor(solidColor);
+            mIndicatorDrawable.setCornerRadius(radius);
+            mIndicatorDrawable.draw(canvas);
+        }
+
         if(mColors!=null )
         {
             mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
@@ -157,6 +172,7 @@ public class GradientTextView extends AppCompatTextView {
             mIndicatorDrawable.setCornerRadius(radius);
             mIndicatorDrawable.draw(canvas);
         }
+
         super.onDraw(canvas);
 
     }

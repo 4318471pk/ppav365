@@ -218,10 +218,17 @@
         <activity
             android:name=".ui.mine.RechargeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" /> <!-- 提现 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 提现 -->
         <activity
             android:name=".ui.mine.withdraw.WithdrawalActivity"
-            android:screenOrientation="portrait" /> <!-- 商城 -->
+            android:screenOrientation="portrait" />
+        <!-- 银行卡列表 -->
+        <activity
+            android:name=".ui.mine.withdraw.BankCardListActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 商城 -->
         <activity
             android:name=".ui.mine.ShopActivity"
             android:screenOrientation="portrait" /> <!-- 修改个人信息 -->

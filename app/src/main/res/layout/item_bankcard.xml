@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/ivBG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/bg_card_item"/>
+
+
+    <com.live.fox.view.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dip"
+        android:textSize="13sp"
+        android:textColor="#FFFFFF"
+        android:text="@string/defaultCard"
+        app:gt_solidNoGradient="#FF008A"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/ivBG"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dip"
+        android:layout_marginBottom="5dip"
+        android:orientation="horizontal">
+
+        <com.live.fox.view.GradientTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#FFFFFF"
+            android:text="@string/defaultCard"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="3dip"
+            android:paddingBottom="3dip"
+            />
+
+        <com.live.fox.view.GradientTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#FFFFFF"
+            android:text="@string/erase"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="3dip"
+            android:paddingBottom="3dip"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvBankName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="10dip"
+        android:textColor="@color/white"
+        android:text="------"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/tvBankAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvBankName"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="10dip"
+        android:textColor="@color/white"
+        android:text="------"
+        android:textSize="15sp"/>
+
+</RelativeLayout>
