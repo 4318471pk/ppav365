@@ -228,6 +228,11 @@
             android:name=".ui.mine.withdraw.BankCardListActivity"
             android:screenOrientation="portrait" />
 
+        <!-- 我的等级 -->
+        <activity
+            android:name=".ui.mine.MyLevelActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 商城 -->
         <activity
             android:name=".ui.mine.ShopActivity"

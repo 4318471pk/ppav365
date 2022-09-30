@@ -1102,5 +1102,6 @@
     <string name="createBankCardAccountTitle">银行卡号：</string>
     <string name="add">添加</string>
     <string name="addNewBankTips">请认真核对银行卡信息，信息错误会导致提现失败。</string>
-
+    <string name="experienceValue">经验值</string>
+    <string name="experienceValueNeeds">距离升级还需：%1$s经验</string>
 </resources>

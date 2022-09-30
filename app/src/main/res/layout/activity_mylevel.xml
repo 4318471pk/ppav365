@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlmain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#6100AB"
+        >
+
+
+        <ImageView
+            android:id="@+id/ivBG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_mylevel" />
+
+        <com.live.fox.view.MagicTextView
+            android:id="@+id/tvLv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="150dip"
+            android:layout_centerHorizontal="true"
+            app:strokeColor="#ffffff"
+            android:textColor="#92521F"
+            android:textSize="20sp"
+            android:text="LV.200" />
+
+        <LinearLayout
+            android:id="@+id/llProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dip"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/floatingPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123"
+                android:gravity="center_horizontal"
+                android:paddingTop="3dip"
+                android:textColor="#A800FF"
+                android:textSize="13sp"
+                android:background="@mipmap/mylevel_progress_bubble"/>
+
+            <com.live.fox.view.LevelProgressView
+                android:id="@+id/lpv"
+                android:layout_width="match_parent"
+                android:layout_height="10dip"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:text="@string/experienceValue"/>
+
+                <TextView
+                    android:id="@+id/tvExperienceNeeds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:text="@string/experienceValueNeeds"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

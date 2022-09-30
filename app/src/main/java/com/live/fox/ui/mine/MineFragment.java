@@ -297,6 +297,9 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     public void onClickView(View view) {
         if (ClickUtil.isClickWithShortTime(view.getId(),800)) return;
         switch (view.getId()) {
+            case R.id.llMyLevel:
+                MyLevelActivity.startActivity(getActivity());
+                break;
             case R.id.mine_set:
                 SettingActivity.startActivity(getActivity());
                 break ;
