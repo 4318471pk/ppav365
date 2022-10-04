@@ -22,6 +22,7 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.VipInfo;
 import com.live.fox.server.Api_Config;
 import com.live.fox.utils.BarUtils;
+import com.live.fox.view.tab.SimpleTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,18 @@ import java.util.List;
  */
 public class NobleActivity extends BaseActivity {
 
+    public static final int NANJUE = 1;
+    public static final int ZIJUE = 2;
+    public static final int BOJUE = 3;
+    public static final int HOUJUE = 4;
+    public static final int GONGJUE = 5;
+    public static final int QINWANG = 6;
+    public static final int KING = 7;
+
     private ViewPager vp;
-    private TabLayout tabLayout;
-    private final List<NobleFragment> fragmentList = new ArrayList<>();
+    //private TabLayout tabLayout;
+    SimpleTabLayout tabLayout;
+    private final List<NobleNewFragment> fragmentList = new ArrayList<>();
     List<VipInfo> vipInfoList;
 
     public static void startActivity(Activity activity) {
@@ -50,29 +60,30 @@ public class NobleActivity extends BaseActivity {
         BarUtils.setStatusBarAlpha(this);
         setContentView(activity_noble);
         tabLayout = findViewById(R.id.tabLayout);
-        TextView tvTitle = findViewById(R.id.tv_head_title);
-        tvTitle.setText(getString(R.string.becomeNobel));
-        tvTitle.setTextColor(ContextCompat.getColor(this, R.color.white));
+        tabLayout.setGradient(0xffE2B361,0xffFFDFA9);
+
         View left = findViewById(R.id.iv_head_left);
-        left.setVisibility(View.VISIBLE);
         left.setOnClickListener(v -> finish());
+        findViewById(R.id.iv_detail).setOnClickListener(v -> startActivity(new Intent(this, NobleDetailActivity.class)));
 
         Api_Config.ins().doVipInfo(new JsonCallback<List<VipInfo>>() {
             @Override
             public void onSuccess(int code, String msg, List<VipInfo> data) {
                 if (code == Constant.Code.SUCCESS) {
                     NobleActivity.this.vipInfoList = data;
-                    String[] titles = new String[5];
-                    titles[0] = getString(R.string.grade_gold);
-                    titles[1] = getString(R.string.grade_platinum);
-                    titles[2] = getString(R.string.grade_diamond);
-                    titles[3] = getString(R.string.grade_master);
-                    titles[4] = getString(R.string.grade_king);
+                    String[] titles = new String[7];
+                    titles[0] = getString(R.string.nanjue);
+                    titles[1] = getString(R.string.zijue);
+                    titles[2] = getString(R.string.bojue);
+                    titles[3] = getString(R.string.houjue);
+                    titles[4] = getString(R.string.gongjue);
+                    titles[5] = getString(R.string.qinwang);
+                    titles[6] = getString(R.string.king);
 
                     vp = findViewById(R.id.vp);
-
-                    for (int i = Constant.LEVEL1; i <= Constant.LEVEL5; i++) {
-                        NobleFragment nobleFragment = NobleFragment.newInstance(i);
+                    vp.setOffscreenPageLimit(titles.length);
+                    for (int i = Constant.LEVEL1; i <= Constant.LEVEL7; i++) {
+                        NobleNewFragment nobleFragment = NobleNewFragment.newInstance(i);
                         fragmentList.add(nobleFragment);
                     }
 
@@ -93,7 +104,8 @@ public class NobleActivity extends BaseActivity {
                             return titles[position];
                         }
                     });
-                    tabLayout.setupWithViewPager(vp);
+                    tabLayout.setViewPager(vp);
+                    //tabLayout.setupWithViewPager(vp);
 
                 } else {
                     NobleActivity.this.showToastTip(false, msg);

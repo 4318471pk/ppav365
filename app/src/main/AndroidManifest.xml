@@ -335,6 +335,9 @@
             android:name=".ui.mine.noble.NobleActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.mine.noble.NobleDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.mine.noble.MyNobleActivity"
             android:screenOrientation="portrait" /> <!-- 安卓APK -->
         <activity
@@ -345,6 +348,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mine.PickPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.MyNobleActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.language.MultiLanguageActivity" />
         <activity android:name=".ui.mine.setting.paymentpassword.PaymentPasswordActivity"

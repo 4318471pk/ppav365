@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.live.fox.R;
-import com.live.fox.entity.ChargeBean;
 import com.live.fox.entity.ChargeCoinBean;
 
 import java.util.List;

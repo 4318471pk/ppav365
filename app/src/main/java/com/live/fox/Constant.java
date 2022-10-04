@@ -45,6 +45,8 @@ public class Constant {
     public static final int LEVEL3 = 3;
     public static final int LEVEL4 = 4;
     public static final int LEVEL5 = 5;
+    public static final int LEVEL6 = 6;
+    public static final int LEVEL7 = 7;
 
     //推送
     public static final int TEST_LOCAL_NOTIFICATION = 1;
