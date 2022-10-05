@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#101010"
+        >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="375dp"
+        android:background="@mipmap/nanjue"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="63dp"
+            android:layout_marginStart="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/noble_2"
+                android:textSize="15sp"
+                android:textColor="@color/colorE2B361"/>
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:layout_width="2dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="2dp"
+                app:rv_cornerRadius="50dp"
+                app:rv_backgroundColor="@color/colorE2B361"/>
+
+
+            <TextView
+                android:id="@+id/tvNoble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/nanjue"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/colorE2B361"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/own_power"
+                android:textSize="15sp"
+                android:textColor="@color/colorE2B361"/>
+
+
+            <TextView
+                android:id="@+id/tvPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="5/13"
+                android:textSize="15sp"
+                android:textColor="@color/colorc3c3c3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="25dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvTips1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="开通1888钻石/月 赠送1500贵族钻石"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvTips2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="6dp"
+                    android:text="开通1888钻石/月 赠送1500贵族钻石"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+
+            </LinearLayout>
+            
+            
+            <LinearLayout
+                android:id="@+id/layoutOpen"
+                android:layout_width="90dp"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:text="@string/now_start"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvOpenGet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:text="@string/open_get"
+            android:textSize="14sp"
+            android:textColor="@color/colorE2B361"/>
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/layoutTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:rv_cornerRadius="20dp"
+            android:layout_gravity="center"
+            app:rv_backgroundColor="#000000">
+
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:text="2022年12月30日 22:35结束"
+                android:textSize="14sp"
+                android:textColor="@color/colorF42C2C"/>
+
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+
+    </LinearLayout>
+
+
+        <com.live.fox.view.MyGridView
+            android:id="@+id/gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-90dp"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/layout"
+            android:numColumns="4"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

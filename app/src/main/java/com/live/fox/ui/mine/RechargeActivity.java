@@ -59,7 +59,6 @@ import com.live.fox.dialog.CommonDialog;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.BankInfo;
-import com.live.fox.entity.ChargeBean;
 import com.live.fox.entity.ChargeCoinBean;
 import com.live.fox.entity.LanguageUtilsEntity;
 import com.live.fox.entity.RechargeChannel;
@@ -1526,7 +1525,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void setTvService(TextView tv){
-        String string = "<font color='##B8B2C8'> " +getResources().getString(R.string.contact_service)+ "</font>";
+        String string = "<font color='#B8B2C8'> " +getResources().getString(R.string.contact_service)+ "</font>";
         string = string +"<a href='http://www.baidu.com'>" + getResources().getString(R.string.online_service)+"</a><br/>" ;
         tv.setText(Html.fromHtml(string));
         tv.setMovementMethod(LinkMovementMethod.getInstance());

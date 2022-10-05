@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#121317"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="28dp"
         >
 
         <ImageView
@@ -36,7 +41,6 @@
             android:textSize="19sp" />
 
         <ImageView
-            android:id="@+id/iv_detail"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_toRightOf="@+id/tv_head"
@@ -48,43 +52,30 @@
 
     </RelativeLayout>
 
-
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tabLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="45dp"-->
-<!--        app:tabGravity="fill"-->
-<!--        app:tabIndicatorColor="#cab283"-->
-<!--        app:tabIndicatorHeight="3dp"-->
-<!--        app:tabIndicatorFullWidth="false"-->
-<!--        app:tabMode="scrollable"-->
-<!--        app:tabSelectedTextColor="@color/colorE2B361"-->
-<!--        app:tabTextAppearance="@style/TabTextSize"-->
-<!--        app:tabTextColor="@color/colorE2B361" />-->
-
     <com.live.fox.view.tab.SimpleTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="36dp"
         android:layout_marginTop="6dp"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         app:tl_indicator_color="@color/colorE2B361"
         app:tl_indicator_corner_radius="2dp"
         app:tl_indicator_height="3dp"
-        app:tl_indicator_width="28dp"
+        app:tl_indicator_width="20dp"
         app:tl_selected_textsize="14sp"
-        app:tl_tab_padding="11dp"
+        app:tl_tab_padding="8dp"
         app:tl_textBold="SELECT"
         app:tl_textSelectColor="@color/colorE2B361"
         app:tl_textUnselectColor="#646464"
         app:tl_textsize="14sp" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp"
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
 
 </LinearLayout>
+
+</layout>

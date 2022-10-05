@@ -1019,6 +1019,52 @@
     <string name="go_to_charge">去充值</string>
     <string name="no_money_go_to_charge">钱包余额不足，是否前往充值？</string>
     <string name="confirm_exchange_diamond">确认消耗 %1$s元 兑换 %2$s钻吗？</string>
+    <string name="nanjue">男爵</string>
+    <string name="zijue">子爵</string>
+    <string name="bojue">伯爵</string>
+    <string name="houjue">侯爵</string>
+    <string name="gongjue">公爵</string>
+    <string name="qinwang">亲王</string>
+    <string name="king">国王</string>
+    <string name="own_power">专属特权</string>
+    <string name="now_start">立即开通</string>
+    <string name="open_get">开通即享</string>
+    <string name="noble_equity_title_1">贵族勋章</string>
+    <string name="noble_equity_tips_1">专属标识</string>
+    <string name="noble_equity_title_2">开通特效</string>
+    <string name="noble_equity_tips_2">房间内开通\n横幅/特效</string>
+    <string name="noble_equity_title_3">进房金光</string>
+    <string name="noble_equity_tips_3">贵族专属\n进房特效</string>
+    <string name="noble_equity_title_4">专属客服</string>
+    <string name="noble_equity_tips_4">24小时服务</string>
+    <string name="noble_equity_title_5">头像框</string>
+    <string name="noble_equity_tips_5">展示贵族\n头像框</string>
+    <string name="noble_equity_title_6">升级加速</string>
+    <string name="noble_equity_tips_6">送礼物经验加速20%</string>
+    <string name="noble_equity_title_7">开通广播</string>
+    <string name="noble_equity_tips_7">开通时全平台广播消息</string>
+    <string name="noble_equity_title_8">平台喇叭</string>
+    <string name="noble_equity_tips_8">赠送100个喇叭</string>
+    <string name="noble_equity_title_9">公聊皮肤</string>
+    <string name="noble_equity_tips_9">发言时聊天窗\n专属皮肤</string>
+    <string name="noble_equity_title_10">进场隐身</string>
+    <string name="noble_equity_tips_10">低调看直播</string>
+    <string name="noble_equity_title_11">专属座驾</string>
+    <string name="noble_equity_tips_11">国王贵族专属</string>
+    <string name="noble_equity_title_12">榜单隐身</string>
+    <string name="noble_equity_tips_12">神秘低调\n默默守护主播</string>
+    <string name="noble_equity_title_13">防禁言</string>
+    <string name="noble_equity_tips_13">无法被房管禁言</string>
+    <string name="how_to_change_noble_level">如何更换贵族等级？</string>
+    <string name="how_to_change_noble_level_tips">1、如果您已是贵族用户，您可选择开通更高等级的贵族，但不能开通低于当前等级的贵族。例如：您已是【亲王】贵族，您可开通【国王】贵族，但不能开通【公爵】贵族。
+        \n\n2、升级为高等级贵族后，立刻享有高等级贵族的所有特权并获得相应赠送。原有贵族身份、权益、有效期全部失效。例如：成功开通【国王】贵族后，您将立刻获得【国王】贵族的 所有特权及赠送钻石，原有【亲王】贵族身份将失效。
+        \n\n3、如果您的贵族身份已过期，则无法享受续费优惠，可重新开通任意等级贵族。</string>
+    <string name="you_gonna_get">您即将获得对应尊荣</string>
+    <string name="con_you_buy">恭喜您购买</string>
+    <string name="goto_charge_diamond">钻石不够了~快去看看有充有送活动吧！</string>
+    <string name="confirm_buy_noble">确认消耗  %1$s钻石 开通 %2$s吗？</string>
+
+
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

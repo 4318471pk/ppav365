@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/mView"
+    android:gravity="center"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="25dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:rv_backgroundColor="#B8C5DC"
+        android:gravity="center"
+        app:rv_cornerRadius="50dp"
+        >
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/equity1"
+            android:layout_gravity="center"
+            />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/photo"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:src="@mipmap/equity1"
+            android:layout_gravity="center"
+            />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1.5dp"
+        android:text="@string/noble_2"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:textColor="@color/colorE2B361"/>
+
+
+    <TextView
+        android:id="@+id/tvTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="送礼物经验加速20%"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="10sp"
+        android:layout_marginTop="5dp"
+        android:textColor="#CECECE"/>
+
+</LinearLayout>
