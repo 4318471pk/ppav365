@@ -80,7 +80,7 @@
         android:id="@+id/item_rank_top_level"
         android:layout_width="40dp"
         android:layout_height="20dp"
-        android:background="@drawable/level_104"
+        android:background="@mipmap/level_1to10"
         android:contentDescription="@string/rank_coins"
         android:elevation="4dp"
         android:paddingHorizontal="8dp"

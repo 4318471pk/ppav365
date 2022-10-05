@@ -598,8 +598,11 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         showLoadingView();
         LogUtils.e("EnterRoom PP-调用进房接口 ");
         if (getLiveInFragment() != null)
+        {
             getLiveInFragment().setPreview(preview);
-        slidingFragment.liveControlFragment.sendRoomBulletin(); //发送直播间公告
+            getLiveInFragment().sendRoomBulletin(); //发送直播间公告
+        }
+
         Api_Live.ins().interRoom(anchor.getLiveId(), anchor.getAnchorId(), anchor.getType(),
                 pwd, preview, new JsonCallback<String>() {
                     @Override

@@ -109,7 +109,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
         {
             //向下
 //            Log.e("HHHHHH2222",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
-            if(mTopView.getVisibility()!=VISIBLE && hostTypeTabs.getVisibility()!=INVISIBLE)
+            if(mTopView.getVisibility()!=VISIBLE && hostTypeTabs.getVisibility()!=GONE)
             {
                 startFadeIn(mTopView);
                 startFadeOut(hostTypeTabs);
@@ -122,8 +122,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     {
         view.clearAnimation();
         fadeIn.setDuration(400);
-        fadeIn.setFillEnabled(true);
-        fadeIn.setFillAfter(true);
+//        fadeIn.setFillAfter(true);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -133,6 +132,9 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
             @Override
             public void onAnimationEnd(Animation animation) {
                 view.setVisibility(VISIBLE);
+                view.setEnabled(true);
+                view.setFocusable(true);
+                view.requestFocus();
             }
 
             @Override
@@ -148,8 +150,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     {
         view.clearAnimation();
         fadeOut.setDuration(400);
-        fadeOut.setFillEnabled(true);
-        fadeOut.setFillAfter(true);
+//        fadeOut.setFillAfter(true);
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -158,7 +159,10 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                view.setVisibility(INVISIBLE);
+                view.setVisibility(GONE);
+                view.setEnabled(false);
+                view.setFocusable(false);
+                view.clearFocus();
             }
 
             @Override

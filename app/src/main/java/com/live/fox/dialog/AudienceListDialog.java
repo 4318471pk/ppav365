@@ -25,7 +25,7 @@ import com.live.fox.entity.User;
 import com.live.fox.helper.SimpleTabSelectedListener;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.mine.UserDetailActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.device.DeviceUtils;

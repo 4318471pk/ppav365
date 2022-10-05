@@ -99,7 +99,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/names"
-        android:src="@drawable/level_94"
+        android:src="@mipmap/level_1to10"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/item_rank_gender"
         app:layout_constraintStart_toEndOf="@id/item_rank_gender"

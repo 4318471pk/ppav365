@@ -1,6 +1,7 @@
 package com.live.fox.utils;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -21,6 +22,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.os.Build;
@@ -28,7 +30,9 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -1941,5 +1945,36 @@ public final class ImageUtils {
         } finally {
             IOUtils.closeIO(is);
         }
+    }
+
+    public static Bitmap addTextForLevel(Context context,Bitmap bitmap, int level)
+    {
+        if(bitmap==null)return null;
+
+        int color=0xffffffff;
+
+        Bitmap ret = bitmap.copy(bitmap.getConfig(), true);
+        int width=bitmap.getWidth();
+        int height=bitmap.getHeight();
+        int iconSpace=(int)(width*0.38f);
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Canvas canvas = new Canvas(ret);
+        paint.setColor(color);
+        paint.setTextSize(30);
+        Rect bounds = new Rect();
+        paint.getTextBounds(String.valueOf(level), 0, String.valueOf(level).length(), bounds);
+        paint.setFlags(Paint.FAKE_BOLD_TEXT_FLAG);
+        int tw = bounds.width();
+        int th = bounds.height();
+        int x=(width-iconSpace-tw)/2+iconSpace;
+
+        Rect targetRect = new Rect(0, 0, width-iconSpace,height );
+        Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+        int baseline = (height - fontMetrics.bottom - fontMetrics.top) / 2;
+        paint.setTextAlign(Paint.Align.CENTER); //注意,drawText 对应改为传入targetRect.centerX()
+
+        canvas.drawText(String.valueOf(level), targetRect.centerX()+iconSpace,baseline, paint);
+        return ret;
     }
 }

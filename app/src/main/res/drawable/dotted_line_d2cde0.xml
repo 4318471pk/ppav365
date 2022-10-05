@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!--线宽为dashWith，线之间空隙dashGap，dashGap=0dp时，是实线 -->
+    <stroke
+        android:width="1dip"
+        android:color="#d2cde0"
+        android:dashWidth="2dp"
+        android:dashGap="2dp">
+    </stroke>
+    <!-- 虚线高度 -->
+    <size android:height="1dip" />
+    <corners android:radius="10dip"/>
+</shape>

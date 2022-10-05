@@ -481,7 +481,7 @@
     <string name="signatureExceed">个性签名不能超过30个字符</string>
     <string name="modifySuccess">修改成功</string>
     <string name="password_change">修改密码</string>
-    <string name="personalSignature">个性签 </string>
+    <string name="personalSignature">个性签名</string>
     <string name="nickNameModify">修改昵称</string>
     <string name="qInputNickname">请输入你的昵称</string>
     <string name="nickNameTen">昵称不能超过10个字符</string>
@@ -753,6 +753,7 @@
     <string name="financial_time">一分快三 第12345678期</string>
     <string name="identity_id" translatable="false">ID</string>
     <string name="identity_id_2" translatable="false">ID：</string>
+    <string name="identity_id_3" translatable="false">会员ID：</string>
     <string name="item_withdrawal">提现</string>
     <string name="order_number">第 2021003045期</string>
     <string name="login_in_account">登录账号</string>
@@ -1104,4 +1105,17 @@
     <string name="addNewBankTips">请认真核对银行卡信息，信息错误会导致提现失败。</string>
     <string name="experienceValue">经验值</string>
     <string name="experienceValueNeeds">距离升级还需：%1$s经验</string>
+    <string name="editProfileImage">编辑头像</string>
+    <string name="giftSent">送出礼物</string>
+    <string name="gender">性别：</string>
+    <string name="age">年龄：</string>
+    <string name="area">地区：</string>
+    <string name="relationshipStatus">感情：</string>
+    <string name="occupation">职业：</string>
+    <string name="privacyStr">保密</string>
+    <string name="takePhoto">拍照</string>
+    <string name="selectInGallery">从手机相册选择</string>
+    <string name="uploadProfileImg">上传头像</string>
+    <string name="uploadProfileImgTips">图片路径错误，请重新选择</string>
+    <string name="editNickname">编辑昵称</string>
 </resources>

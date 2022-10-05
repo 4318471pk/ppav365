@@ -22,7 +22,7 @@ import com.live.fox.entity.Anchor;
 import com.live.fox.entity.Rank;
 import com.live.fox.server.Api_Rank;
 import com.live.fox.ui.live.PlayLiveActivity;
-import com.live.fox.ui.mine.UserDetailActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LruCacheUtil;

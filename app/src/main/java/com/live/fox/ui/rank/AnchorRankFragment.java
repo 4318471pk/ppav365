@@ -17,7 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.entity.Rank;
-import com.live.fox.ui.mine.UserDetailActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;

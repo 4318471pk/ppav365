@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
@@ -18,7 +17,6 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.MineFragmentBinding;
 import com.live.fox.db.DataBase;
-import com.live.fox.dialog.DialogGoBindPhone;
 import com.live.fox.dialog.DialogGoBindPhoneOnWithdrawal;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
@@ -27,6 +25,7 @@ import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.ui.mine.setting.PhoneBindingActivity;
 import com.live.fox.ui.mine.setting.SettingActivity;
 import com.live.fox.ui.mine.withdraw.WithdrawalActivity;

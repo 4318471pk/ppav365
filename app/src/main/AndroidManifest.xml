@@ -241,6 +241,10 @@
             android:name=".ui.mine.EditUserInfoActivity"
             android:screenOrientation="portrait" /> <!-- 修改名称 -->
         <activity
+            android:name=".ui.mine.editprofile.EditProfileImageActivity"
+            android:screenOrientation="portrait" /> <!-- 修改头像 -->
+
+        <activity
             android:name=".ui.mine.EditorNameActivity"
             android:screenOrientation="portrait" /> <!-- 修改个性签名 -->
         <activity
@@ -277,7 +281,7 @@
             android:name=".ui.mine.ZblbActivity"
             android:screenOrientation="portrait" /> <!-- 用户详情 -->
         <activity
-            android:name=".ui.mine.UserDetailActivity"
+            android:name=".ui.mine.editprofile.UserDetailActivity"
             android:screenOrientation="portrait" /> <!-- 分享 -->
         <activity
             android:name=".ui.mine.ShareActivity"

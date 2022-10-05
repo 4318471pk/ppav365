@@ -17,6 +17,7 @@ import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Follow;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;

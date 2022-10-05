@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -386,19 +387,23 @@ public class ChatSpanUtils {
 
 
     public void appendLevel(SpanUtils spanUtils, int userLevel, Context context) {
-        int[] level = new ResourceUtils().getResourcesIdByIndex(R.array.level, new int[]{userLevel});
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[0]);
+        int index=userLevel%10==0?userLevel/10-1:userLevel/10;
+        int[] level = new ResourceUtils().getResourcesID(R.array.level);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
         if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 100, 52), SpanUtils.ALIGN_CENTER);
+        Bitmap newBitmap=ImageUtils.addTextForLevel(context,bitmap, userLevel);
+        spanUtils.appendImage(newBitmap, SpanUtils.ALIGN_CENTER);
         spanUtils.append(" ");
     }
 
     public void appendSex(SpanUtils spanUtils, User user, Context context) {
-        int sexResId = user.getSex() == 1 ? R.drawable.sex_nan : R.drawable.sex_nv;
+        int sexResId = user.getSex() == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
         if (bitmap == null) return;
         spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
         spanUtils.append(" ");
+
+
     }
 
     public void appendMessageType(SpanUtils spanUtils, int type, Context context) {

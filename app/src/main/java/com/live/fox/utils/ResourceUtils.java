@@ -43,4 +43,14 @@ public class ResourceUtils {
         return resources;
     }
 
+    public int[] getResourcesID(int arrayId) {
+
+        TypedArray typedArray = Utils.getApp().getResources().obtainTypedArray(arrayId);
+        int[] resources = new int[typedArray.length()];
+        for (int i = 0; i < resources.length; i++) {
+            resources[i] = typedArray.getResourceId(i, 1);
+        }
+        return resources;
+    }
+
 }

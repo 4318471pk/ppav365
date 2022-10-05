@@ -1121,7 +1121,6 @@ public class CommonLiveControlFragment extends BaseFragment implements
             User user = new User();
             user.setUid(audience.getUid());
             user.setAvatar(audience.getAvatar());
-            user.setUserExp(((Double)audience.getUserExp()).floatValue());
             user.setUserLevel(audience.getUserLevel());
             if (audience.getChatHide() == 0) {
                 user.setNickname(getString(R.string.mysteriousMan));
@@ -1949,7 +1948,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
                         anchor.getLiveId(), mChatEntityList.size(), lastFollowUserId);
 
                 if (chatEntity != null) {
-                    if (chatEntity.getUser() != null) {
+                    if (chatEntity.getUser() != null && chatEntity.getUser().getUid()!=null) {
                         lastEnterUserId = chatEntity.getUser().getUid();
                     }
                     if (enterMsgIndex >= 0) {
@@ -2294,6 +2293,10 @@ public class CommonLiveControlFragment extends BaseFragment implements
     }
 
     private void showYFSSCDialog(int position) {
+        if(liveStartLottery==null)
+        {
+            return;
+        }
         ChipsVO chipsVO = new ChipsVO();
         if (AppConfig.isThLive()) {
             chipsVO.setName(liveStartLottery.get(position).getLotteryName());
@@ -2302,6 +2305,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
             chipsVO.setName(liveStartLottery.get(position).getCpName());
             chipsVO.setChinese(liveStartLottery.get(position).getLotteryName());
         }
+
         chipsVO.setIcon(liveStartLottery.get(position).getLorretyIcon());
         chipsVO.setPlayMethod(liveStartLottery.get(position).getPlayMethod());
         if (TYPE_CP_HNCP.equals(chipsVO.getName())) {

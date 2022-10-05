@@ -24,8 +24,7 @@ public class User implements Serializable {
     private String signature;  //个性签名
     private Long uid;  //用户唯一标识
     private Long userCoin;  //用户币
-    private Float userExp;  //用户经验
-    private Integer userLevel;  //用户等级
+    private int userLevel;  //用户等级
     private String city;  //地理位置
     private Long fans;  //粉丝数
     private Long follows;  //关注数
@@ -258,14 +257,6 @@ public class User implements Serializable {
 
     public void setUserCoin(Long userCoin) {
         this.userCoin = userCoin;
-    }
-
-    public Float getUserExp() {
-        return userExp;
-    }
-
-    public void setUserExp(Float userExp) {
-        this.userExp = userExp;
     }
 
     public Integer getUserLevel() {

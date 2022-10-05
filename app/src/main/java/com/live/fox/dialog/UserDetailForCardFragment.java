@@ -31,7 +31,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Risk;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.mine.UserDetailActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.ui.mine.noble.NobleFragment;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;

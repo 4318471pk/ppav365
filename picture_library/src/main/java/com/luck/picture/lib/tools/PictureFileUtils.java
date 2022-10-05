@@ -1,6 +1,7 @@
 package com.luck.picture.lib.tools;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -392,6 +393,32 @@ public class PictureFileUtils {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getPicturePath(Activity activity)
+    {
+        String state = Environment.getExternalStorageState();
+        File rootDir = state.equals(Environment.MEDIA_MOUNTED) ?
+                Environment.getExternalStorageDirectory() : activity.getCacheDir();
+
+        File folderDir = new File(rootDir.getAbsolutePath() + PictureFileUtils.CAMERA_PATH);
+        if(folderDir!=null)
+        {
+            folderDir.mkdirs();
+        }
+        File pic=new File(folderDir.getPath()+"/"+"ProfileIMG.png");
+        return pic.getPath();
+    }
+
+    public static void saveBitmapToPNGFile(Bitmap bitmap, File file,int quality) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.PNG, quality, bos);
             bos.flush();
             bos.close();
         } catch (IOException e) {

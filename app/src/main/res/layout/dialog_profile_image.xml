@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomdialog.EditProfileImageDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#fff4f1f8"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/takePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:onClick="@{click.onClickView}"
+                android:background="#ffffff"
+                android:textSize="16sp"
+                android:textColor="#A800FF"
+                android:gravity="center"
+                android:text="@string/takePhoto" />
+
+            <TextView
+                android:id="@+id/selectInGallery"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="1px"
+                android:onClick="@{click.onClickView}"
+                android:background="#ffffff"
+                android:textSize="16sp"
+                android:textColor="#A800FF"
+                android:gravity="center"
+                android:text="@string/selectInGallery" />
+
+            <TextView
+                android:id="@+id/ivCancel"
+                android:layout_width="match_parent"
+                android:layout_height="74.5dp"
+                android:onClick="@{click.onClickView}"
+                android:layout_marginTop="1px"
+                android:background="#ffffff"
+                android:textSize="16sp"
+                android:textColor="#404040"
+                android:gravity="center"
+                android:text="@string/button_cancel" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

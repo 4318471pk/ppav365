@@ -10,7 +10,7 @@
 
         <external-path
             name="files_root"
-            path="Android/data/com.lbz.mmzb/" />
+            path="Android/data/com.alive.ibotv/" />
 
         <external-path
             name="external_storage_root"

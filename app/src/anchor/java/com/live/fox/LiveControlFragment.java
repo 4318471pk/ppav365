@@ -40,7 +40,6 @@ public class LiveControlFragment extends CommonLiveControlFragment implements Ch
             User user = new User();
             user.setUid(audience.getUid());
             user.setAvatar(audience.getAvatar());
-            user.setUserExp(((Double)audience.getUserExp()).floatValue());
             user.setUserLevel(audience.getUserLevel());
             if (audience.getChatHide() == 0) {
                 user.setNickname(getString(R.string.mysteriousMan));
