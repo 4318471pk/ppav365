@@ -13,11 +13,10 @@ import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityPaymentPasswordBinding;
-import com.live.fox.dialog.DialogGoBindPhone;
+import com.live.fox.dialog.temple.DialogGoBindPhone;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
-import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 
 import java.util.ArrayList;

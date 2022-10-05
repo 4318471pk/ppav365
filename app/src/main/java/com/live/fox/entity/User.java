@@ -197,10 +197,6 @@ public class User implements Serializable {
 
 
     public Float getGoldCoin() {
-        if(goldCoin==null)
-        {
-            goldCoin=0f;
-        }
         return goldCoin;
     }
 
@@ -233,9 +229,6 @@ public class User implements Serializable {
     }
 
     public String getSignature() {
-        if (StringUtils.isEmpty(signature)) {
-            return "";
-        }
         return signature;
     }
 
@@ -301,9 +294,6 @@ public class User implements Serializable {
 
 
     public String getCity() {
-        if (StringUtils.isEmpty(city)) {
-            return "unknow";
-        }
         return city;
     }
 
@@ -374,14 +364,6 @@ public class User implements Serializable {
 
     public void setShId(String shId) {
         this.shId = shId;
-    }
-
-    public Long getVipExp() {
-        if(vipExp==0)
-        {
-            vipExp=0L;
-        }
-        return vipExp / 1000;
     }
 
     public void setVipExp(Long vipExp) {

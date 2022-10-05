@@ -5,14 +5,15 @@
     <data>
         <variable
             name="click"
-            type="com.live.fox.dialog.bottomdialog.EditNickNameDialog" />
+            type="com.live.fox.dialog.bottomdialog.SimpleSelectorDialog" />
     </data>
 
     <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{click.onClickView}"
-        android:id="@+id/rlMain">
+        >
 
 
         <com.flyco.roundview.RoundLinearLayout
@@ -24,7 +25,6 @@
             app:rv_cornerRadius_TR="10dip"
             app:rv_backgroundColor="#ffffff"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,65 +59,21 @@
                     android:text="@string/confirm" />
 
                 <TextView
+                    android:id="@+id/tvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:textColor="#404040"
                     android:textSize="20sp"
-                    android:text="@string/editNickname" />
+                    android:text="@string/editPersonalIntro" />
 
             </RelativeLayout>
 
-            <View
+            <com.live.fox.view.wheel.WheelView
+                android:id="@+id/wheel"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="#f4f1f8" />
-
-            <EditText
-                android:id="@+id/etNickName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
-                android:maxLines="1"
-                android:maxLength="8"
-                android:paddingTop="15dip"
-                android:paddingBottom="15dip"
-                android:textColor="#404040"
-                android:textSize="16sp"
-                android:background="@null"
-                android:textColorHint="#B8B2C8"
-                android:hint="@string/plzInputNickname" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="#f4f1f8" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dip"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
-                android:paddingBottom="100dip">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#D2CDE0"
-                    android:textSize="12sp"
-                    android:text="@string/inputLimitTips" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:textColor="#F42C2C"
-                    android:textSize="12sp"
-                    android:text="@string/inputLimitTips2" />
-
-            </RelativeLayout>
+                android:layout_height="180dp" />
         </com.flyco.roundview.RoundLinearLayout>
+
     </RelativeLayout>
 </layout>

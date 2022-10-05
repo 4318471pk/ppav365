@@ -532,14 +532,12 @@ dependencies {
     //BaseRecyclerViewAdapterHelper 万能适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
 
-    //PickView
-    implementation 'com.contrarywind:Android-PickerView:4.1.9'
-
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'jp.wasabeef:glide-transformations:3.0.1'//Glide-transformations图片变换
 
+    implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
     //EventBus
     implementation 'org.greenrobot:eventbus:3.0.0'
 

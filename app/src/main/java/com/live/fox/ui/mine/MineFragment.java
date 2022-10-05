@@ -17,7 +17,7 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.MineFragmentBinding;
 import com.live.fox.db.DataBase;
-import com.live.fox.dialog.DialogGoBindPhoneOnWithdrawal;
+import com.live.fox.dialog.temple.DialogGoBindPhoneOnWithdrawal;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
 import com.live.fox.entity.MessageEvent;

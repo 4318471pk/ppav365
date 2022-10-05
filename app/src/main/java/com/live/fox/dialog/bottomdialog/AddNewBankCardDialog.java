@@ -1,6 +1,7 @@
 package com.live.fox.dialog.bottomdialog;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
@@ -31,6 +32,8 @@ public class AddNewBankCardDialog extends BaseBindingDialogFragment {
 
     @Override
     public void initView(View view) {
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+                | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mBind=getViewDataBinding();
         mBind.setClick(this);
 

@@ -1,38 +1,49 @@
 package com.live.fox.dialog.bottomdialog;
 
 import android.animation.ValueAnimator;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
+import androidx.annotation.Nullable;
+
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.common.JsonCallback;
-import com.live.fox.databinding.DialogEditNicknameBinding;
+import com.live.fox.databinding.DialogEditPersonalintroBinding;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ToastUtils;
 
-public class EditNickNameDialog extends BaseBindingDialogFragment {
+public class EditPersonalIntroDialog extends BaseBindingDialogFragment {
 
-    DialogEditNicknameBinding mBind;
+    DialogEditPersonalintroBinding mBind;
     OnPersonalDataChangeListener onPersonalDataChangeListener;
 
-    public static EditNickNameDialog getInstance()
+    public static EditPersonalIntroDialog getInstance()
     {
-        return new EditNickNameDialog();
+        return new EditPersonalIntroDialog();
     }
-
 
     public void setOnPersonalDataChangeListener(OnPersonalDataChangeListener onPersonalDataChangeListener) {
         this.onPersonalDataChangeListener = onPersonalDataChangeListener;
     }
 
     @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public void onClickView(View view) {
+
         switch (view.getId())
         {
             case R.id.rlMain:
@@ -40,15 +51,14 @@ public class EditNickNameDialog extends BaseBindingDialogFragment {
                 dismissAllowingStateLoss();
                 break;
             case R.id.tvConfirm:
-                editNickName();
+                editPersonalIntro();
                 break;
-
         }
     }
 
     @Override
     public int onCreateLayoutId() {
-        return R.layout.dialog_edit_nickname;
+        return R.layout.dialog_edit_personalintro;
     }
 
     @Override
@@ -58,28 +68,40 @@ public class EditNickNameDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-        Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
-                Animation.ABSOLUTE,0
-                ,Animation.RELATIVE_TO_PARENT,1f
-                ,Animation.RELATIVE_TO_PARENT,0f);
-        animation.setDuration(300);
-
         startAnimate();
+        mBind.etPersonalIntro.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                StringBuilder sb=new StringBuilder();
+                sb.append(String.valueOf(s.length())).append("/32");
+                mBind.tvLengthWatch.setText(sb.toString());
+            }
+        });
 
     }
 
-    private void editNickName()
+    private void editPersonalIntro()
     {
-        String nickname=mBind.etNickName.getText().toString();
-        if(nickname.length()==0)
+        String intro=mBind.etPersonalIntro.getText().toString();
+        if(intro.length()==0)
         {
-            ToastUtils.showShort(mBind.etNickName.getHint().toString());
+            ToastUtils.showShort(mBind.etPersonalIntro.getHint().toString());
             return;
         }
         User user=new User();
-        user.setNickname(nickname);
+        user.setSignature(intro);
         showLoadingDialog();
-        Api_User.ins().modifyUserInfo(user, 2, new JsonCallback<String>() {
+        Api_User.ins().modifyUserInfo(user, 4, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 dismissLoadingDialog();
@@ -98,11 +120,9 @@ public class EditNickNameDialog extends BaseBindingDialogFragment {
                     }
                 }
             }
-
         });
 
     }
-
 
     public void startAnimate(){
 

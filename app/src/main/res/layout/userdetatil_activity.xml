@@ -49,9 +49,12 @@
                         android:paddingBottom="15dip">
 
                         <TextView
-                            android:id="@+id/tv_name"
+                            android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{click.onViewClick}"
+                            android:drawableRight="@mipmap/icon_diamond"
+                            android:drawablePadding="10dip"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:singleLine="true"
@@ -188,6 +191,7 @@
                                 android:id="@+id/tvSignature"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="@{click.onViewClick}"
                                 android:maxLines="2"
                                 android:paddingLeft="10dip"
                                 android:paddingTop="20dip"
@@ -196,6 +200,16 @@
                                 android:text="---------------------"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/icon_diamond"
+                                android:layout_marginBottom="10dip"
+                                android:layout_marginRight="10dip"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignBottom="@id/tvSignature"/>
+
 
                         </RelativeLayout>
 
@@ -332,6 +346,7 @@
 
                             <TextView
                                 android:id="@+id/tvGender"
+                                android:onClick="@{click.onViewClick}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -358,6 +373,7 @@
                                 android:id="@+id/tvAge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
                                 android:textSize="13sp" />
@@ -382,6 +398,7 @@
                                 android:id="@+id/tvArea"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
                                 android:textSize="13sp" />
@@ -406,6 +423,7 @@
                                 android:id="@+id/tvRelationshipStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
                                 android:textSize="13sp" />
@@ -430,6 +448,7 @@
                                 android:id="@+id/tvOccupation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
                                 android:textSize="13sp" />

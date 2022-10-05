@@ -3,35 +3,33 @@ package com.live.fox.ui.mine.editprofile;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.google.gson.Gson;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.UserdetatilActivityBinding;
+import com.live.fox.dialog.bottomdialog.AreaListSelectorDialog;
+import com.live.fox.dialog.bottomdialog.EditPersonalIntroDialog;
 import com.live.fox.dialog.bottomdialog.EditProfileImageDialog;
-import com.live.fox.entity.OssToken;
+import com.live.fox.dialog.bottomdialog.SimpleSelectorDialog;
+import com.live.fox.dialog.temple.EditNickNameConfirmDialog;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
-import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.chat.ChatActivity;
 import com.live.fox.utils.BarUtils;
@@ -49,9 +47,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -145,15 +141,16 @@ public class UserDetailActivity extends BaseActivity  {
         StatusBarUtil.setStatusBarAlpha(this,0,mBind.topView);
         BarUtils.setStatusBarLightMode(this, true);
 
-        if (uid!=null && uid.longValue() == DataCenter.getInstance().getUserInfo().getUser().getUid().longValue()) {
+        Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
+        if (uid!=null && localUID!=null && uid.longValue() == localUID.longValue()) {
             mBind.btnFollow.setVisibility(View.GONE);
             mBind.btnLetter.setVisibility(View.GONE);
         }
         doGetUserInfoByUidApi(uid);
     }
 
-    public void refreshPage(String userJson, Context context) {
-        user = new Gson().fromJson(userJson, User.class);
+    public void refreshPage() {
+        user = DataCenter.getInstance().getUserInfo().getUser();
         mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(user, context));
         mBind.tvCirclenum.setText("0");
         mBind.tvFollownum.setText(String.valueOf(user.getFollows()));
@@ -170,7 +167,7 @@ public class UserDetailActivity extends BaseActivity  {
         int sexResId = user.getSex() == 1 ? R.string.boy : R.string.girl;
         mBind.tvGender.setText(getString(sexResId));
         mBind.tvAge.setText(getString(R.string.privacyStr));
-        mBind.tvArea.setText(user.getCity());
+        mBind.tvArea.setText(TextUtils.isEmpty(user.getCity())?getString(R.string.privacyStr):user.getCity());
         mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
         mBind.tvOccupation.setText(getString(R.string.privacyStr));
         mBind.tvSignature.setText((StringUtils.isEmpty(user.getSignature()) ? getString(R.string.noWrite) : user.getSignature()));
@@ -211,7 +208,7 @@ public class UserDetailActivity extends BaseActivity  {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0) {
-                    refreshPage(data, context);
+                    refreshPage();
                 } else {
                     ToastUtils.showShort(msg);
                     finish();
@@ -221,19 +218,7 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        exitUserDetailActivity();
-    }
 
-    public void exitUserDetailActivity() {
-        Intent intent = new Intent();
-        intent.putExtra("ISFOLLOW", isFollow);
-        intent.putExtra("FANNUM", user.getFans());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 
     public void onViewClick(View view) {
         if (ClickUtil.isFastDoubleClick()) return;
@@ -241,9 +226,53 @@ public class UserDetailActivity extends BaseActivity  {
             case R.id.editProfileImage:
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
+            case R.id.tvGender:
+                SimpleSelectorDialog dialog=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(int index) {
+
+                    }
+                });
+                dialog.setData(new ArrayList<>());
+                dialog.setTitle(getString(R.string.selectGender));
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialog);
+                break;
+            case R.id.tvOccupation:
+                SimpleSelectorDialog dialogOccupation=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(int index) {
+
+                    }
+                });
+                dialogOccupation.setData(new ArrayList<>());
+                dialogOccupation.setTitle(getString(R.string.occupation));
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogOccupation);
+                break;
+            case R.id.tvArea:
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), new AreaListSelectorDialog());
+                break;
+            case R.id.tvAge:
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),new com.live.fox.dialog.bottomdialog.TimePickerDialog());
+                break;
+            case R.id.tvRelationshipStatus:
+                SimpleSelectorDialog dialogRelationshipStatus=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(int index) {
+
+                    }
+                });
+                dialogRelationshipStatus.setData(new ArrayList<>());
+                dialogRelationshipStatus.setTitle(getString(R.string.relationshipStatus2));
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogRelationshipStatus);
+                break;
+            case R.id.tvName:
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditNickNameConfirmDialog.getInstance());
+                break;
+            case R.id.tvSignature:
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditPersonalIntroDialog.getInstance());
+                break;
             case R.id.iv_back:
-                Constant.isAppInsideClick = true;
-                exitUserDetailActivity();
+
                 break;
             case R.id.btn_follow:
                 Api_User.ins().follow(user.getUid(), !user.isFollow(), new JsonCallback<String>() {
@@ -273,4 +302,32 @@ public class UserDetailActivity extends BaseActivity  {
         }
     }
 
+    private void showTimeView()
+    {
+      new TimePickerDialog.Builder()
+                .setCallBack(new OnDateSetListener() {
+                    @Override
+                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+
+                    }
+                })
+                .setCancelStringId("Cancel")
+                .setSureStringId("Sure")
+                .setTitleStringId("TimePicker")
+//                .setYearText("Year")
+//                .setMonthText("Month")
+//                .setDayText("Day")
+//                .setHourText("Hour")
+//                .setMinuteText("Minute")
+                .setCyclic(false)
+                .setMinMillseconds(System.currentTimeMillis())
+                .setMaxMillseconds(System.currentTimeMillis() + Integer.MAX_VALUE)
+                .setCurrentMillseconds(System.currentTimeMillis())
+                .setThemeColor(getResources().getColor(R.color.timepicker_dialog_bg))
+                .setType(Type.YEAR_MONTH_DAY)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
+                .setWheelItemTextSize(12)
+                .build();
+    }
 }

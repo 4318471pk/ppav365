@@ -1,4 +1,4 @@
-package com.live.fox.dialog;
+package com.live.fox.dialog.temple;
 
 import android.content.Intent;
 import android.view.View;

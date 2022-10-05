@@ -208,12 +208,8 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     }
 
     public void showLoadingDialog() {
-        if(loadingBindingDialogFragment==null)
-        {
             loadingBindingDialogFragment= LoadingBindingDialogFragment.getInstance();
-            DialogFramentManager.getInstance().showDialog(getChildFragmentManager(), loadingBindingDialogFragment);
-        }
-
+            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), loadingBindingDialogFragment);
     }
 
     public void dismissLoadingDialog()
