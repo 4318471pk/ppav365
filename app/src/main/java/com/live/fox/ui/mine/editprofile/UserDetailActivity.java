@@ -32,6 +32,7 @@ import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.chat.ChatActivity;
+import com.live.fox.ui.mine.ContributionRankActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
@@ -223,6 +224,9 @@ public class UserDetailActivity extends BaseActivity  {
     public void onViewClick(View view) {
         if (ClickUtil.isFastDoubleClick()) return;
         switch (view.getId()) {
+            case R.id.rlContribution:
+                ContributionRankActivity.startActivity(this);
+                break;
             case R.id.editProfileImage:
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
@@ -272,7 +276,7 @@ public class UserDetailActivity extends BaseActivity  {
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditPersonalIntroDialog.getInstance());
                 break;
             case R.id.iv_back:
-
+                finish();
                 break;
             case R.id.btn_follow:
                 Api_User.ins().follow(user.getUid(), !user.isFollow(), new JsonCallback<String>() {
@@ -302,32 +306,4 @@ public class UserDetailActivity extends BaseActivity  {
         }
     }
 
-    private void showTimeView()
-    {
-      new TimePickerDialog.Builder()
-                .setCallBack(new OnDateSetListener() {
-                    @Override
-                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-
-                    }
-                })
-                .setCancelStringId("Cancel")
-                .setSureStringId("Sure")
-                .setTitleStringId("TimePicker")
-//                .setYearText("Year")
-//                .setMonthText("Month")
-//                .setDayText("Day")
-//                .setHourText("Hour")
-//                .setMinuteText("Minute")
-                .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis())
-                .setMaxMillseconds(System.currentTimeMillis() + Integer.MAX_VALUE)
-                .setCurrentMillseconds(System.currentTimeMillis())
-                .setThemeColor(getResources().getColor(R.color.timepicker_dialog_bg))
-                .setType(Type.YEAR_MONTH_DAY)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
-                .setWheelItemTextSize(12)
-                .build();
-    }
 }

@@ -6,7 +6,20 @@
         <item>0xFFD689FF</item>
     </integer-array>
 
+    <integer-array name="myBagBuyColor">
+        <item>0xffFF4A97</item>
+        <item>0xffFFDB72</item>
+    </integer-array>
 
+    <integer-array name="startingUseColor">
+        <item>0xff704AFF</item>
+        <item>0xffC872FF</item>
+    </integer-array>
+
+    <integer-array name="confirmRenew">
+        <item>0xffA800FF</item>
+        <item>0xffEA00FF</item>
+    </integer-array>
 
     <integer-array name="luckNum">
         <item>@drawable/luck_0</item>

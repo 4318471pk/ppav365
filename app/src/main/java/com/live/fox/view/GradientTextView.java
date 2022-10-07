@@ -99,11 +99,16 @@ public class GradientTextView extends AppCompatTextView {
             switch (mDIRECTION) {
                 case TOP:
                     orientation=GradientDrawable.Orientation.TOP_BOTTOM;
+                    break;
                 case RIGHT:
                     orientation=GradientDrawable.Orientation.RIGHT_LEFT;
+                    break;
                 case BOTTOM:
                     orientation=GradientDrawable.Orientation.BOTTOM_TOP;
+                    break;
                 case LEFT:
+                    orientation=GradientDrawable.Orientation.LEFT_RIGHT;
+                    break;
                 default:
                     orientation=GradientDrawable.Orientation.LEFT_RIGHT;
             }
@@ -119,6 +124,10 @@ public class GradientTextView extends AppCompatTextView {
         }
     }
 
+    public void setColors(int[] mColors) {
+        this.mColors = mColors;
+        invalidate();
+    }
 
     public void setRadius(float radius) {
         this.radius = radius;

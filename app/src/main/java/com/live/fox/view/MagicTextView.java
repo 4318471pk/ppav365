@@ -106,7 +106,7 @@ public class MagicTextView extends AppCompatTextView {
             }
 
             if(a.hasValue(R.styleable.MagicTextView_strokeColor)){
-                float strokeWidth = a.getFloat(R.styleable.MagicTextView_strokeWidth, 1);
+                float strokeWidth = a.getDimension(R.styleable.MagicTextView_strokeWidth, 1);
                 int strokeColor = a.getColor(R.styleable.MagicTextView_strokeColor, 0xff000000);
                 float strokeMiter = a.getFloat(R.styleable.MagicTextView_strokeMiter, 10);
                 Join strokeJoin = null;

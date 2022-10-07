@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomdialog.PurchaseCarDialog" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        android:id="@+id/rlMain">
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/rllMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            app:rv_cornerRadius_TL="10dip"
+            app:rv_cornerRadius_TR="10dip"
+            app:rv_backgroundColor="#ffffff">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginTop="17dip"
+                android:gravity="center"
+                android:textColor="#404040"
+                android:text="布加迪威龙"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="15dip"
+                android:layout_marginBottom="15dip"
+                android:background="#fff4f1f8" />
+
+            <com.flyco.roundview.RoundRelativeLayout
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                app:rv_cornerRadius="10dip"
+                android:layout_gravity="center_horizontal"
+                app:rv_backgroundColor="#F4F1F8">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dip"
+                    android:src="@drawable/img_default" />
+
+            </com.flyco.roundview.RoundRelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dip"
+                android:layout_marginRight="50dip"
+                android:layout_marginTop="15dip"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#B6B6B6"
+                    android:text="原价：18888钻/月"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#B6B6B6"
+                    android:text="续费：15000钻/月"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="15dip"
+                android:layout_marginBottom="15dip"
+                android:background="#fff4f1f8" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dip"
+                android:layout_marginLeft="50dip"
+                android:layout_marginRight="50dip"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#B6B6B6"
+                    android:text="合计：18888"
+                    android:textSize="14sp" />
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvCommit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dip"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_marginLeft="50dip"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:text="@string/confirmPurchase"
+                    android:gravity="center"
+                    app:gt_gradient_direction="bottom"
+                    app:gt_radius_dp="7dp"
+                    app:gt_color_list="@array/myBagBuyColor" />
+            </RelativeLayout>
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </RelativeLayout>
+</layout>

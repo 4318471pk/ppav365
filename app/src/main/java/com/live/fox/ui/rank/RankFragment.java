@@ -26,6 +26,7 @@ import com.live.fox.base.BaseFragment;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.RankTop3ProfileImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -141,18 +142,17 @@ public class RankFragment extends BaseFragment {
 
     private View makeTop1View(int screenWidth,int height)
     {
-        int itemWidth=screenWidth*195/750;
+        int itemWidth=(int)(screenWidth*0.173f);
         RelativeLayout relativeLayout=new RelativeLayout(getActivity());
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, height);
         rl.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
+        rl.topMargin=(int)(height*0.3f);
         relativeLayout.setLayoutParams(rl);
 
-        ImageView crown=new ImageView(getActivity());
+        RankTop3ProfileImageView crown=new RankTop3ProfileImageView(getActivity(),0);
         RelativeLayout.LayoutParams ivRL=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ivRL.topMargin=(int)(height*0.3f);
         ivRL.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
         crown.setLayoutParams(ivRL);
-        crown.setImageDrawable(getResources().getDrawable(R.mipmap.icon_top1));
         relativeLayout.addView(crown);
 
         return relativeLayout;
@@ -160,19 +160,18 @@ public class RankFragment extends BaseFragment {
 
     private View makeTop2View(int screenWidth,int height)
     {
-        int itemWidth=screenWidth*155/750;
+        int itemWidth=(int)(screenWidth*0.173f);
         RelativeLayout relativeLayout=new RelativeLayout(getActivity());
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, height);
+        rl.topMargin=(int)(height*0.32f);
+        rl.leftMargin=(int)(screenWidth*0.13f);
         rl.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
         relativeLayout.setLayoutParams(rl);
 
-        ImageView crown=new ImageView(getActivity());
+        RankTop3ProfileImageView crown=new RankTop3ProfileImageView(getActivity(),0);
         RelativeLayout.LayoutParams ivRL=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ivRL.topMargin=(int)(height*0.4f);
-        ivRL.leftMargin=(int)(screenWidth*0.1f);
         ivRL.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
         crown.setLayoutParams(ivRL);
-        crown.setImageDrawable(getResources().getDrawable(R.mipmap.icon_top2));
         relativeLayout.addView(crown);
 
         return relativeLayout;
@@ -181,19 +180,18 @@ public class RankFragment extends BaseFragment {
 
     private View makeTop3View(int screenWidth,int height)
     {
-        int itemWidth=screenWidth*155/750;
+        int itemWidth=(int)(screenWidth*0.173f);
         RelativeLayout relativeLayout=new RelativeLayout(getActivity());
-        RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, height);
+        RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         rl.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
+        rl.topMargin=(int)(height*0.32f);
+        rl.rightMargin=(int)(screenWidth*0.13f);
         relativeLayout.setLayoutParams(rl);
 
-        ImageView crown=new ImageView(getActivity());
-        RelativeLayout.LayoutParams ivRL=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ivRL.topMargin=(int)(height*0.5f);
-        ivRL.rightMargin=(int)(screenWidth*0.1f);
+        RankTop3ProfileImageView crown=new RankTop3ProfileImageView(getActivity(),0);
+        RelativeLayout.LayoutParams ivRL=new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         ivRL.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
         crown.setLayoutParams(ivRL);
-        crown.setImageDrawable(getResources().getDrawable(R.mipmap.icon_top3));
         relativeLayout.addView(crown);
 
         return relativeLayout;

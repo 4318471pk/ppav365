@@ -214,8 +214,10 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rlContribution"
                             android:layout_width="match_parent"
                             android:layout_height="55dip"
+                            android:onClick="@{click.onViewClick}"
                             android:layout_marginTop="18dp"
                             android:background="@drawable/shape_gradual_orange_light_corners_20">
 

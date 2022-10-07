@@ -9,6 +9,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#77000000"
@@ -38,6 +39,7 @@
                 android:id="@+id/tvContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textColor="#646464"
                 android:textSize="14sp"
                 android:layout_gravity="center_horizontal"
@@ -61,7 +63,6 @@
                     android:id="@+id/gtCancel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="@{click.onClickView}"
                     android:layout_marginLeft="10dip"
                     android:layout_marginRight="10dip"
                     android:gravity="center"
@@ -80,7 +81,6 @@
                     android:id="@+id/gtCommit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="@{click.onClickView}"
                     android:layout_marginLeft="10dip"
                     android:layout_marginRight="10dip"
                     android:gravity="center"

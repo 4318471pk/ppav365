@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlItem"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:orientation="horizontal"
+    app:rv_cornerRadius_TR="10dip"
+    app:rv_cornerRadius_TL="10dip"
+    app:rv_cornerRadius_BL="10dip"
+    app:rv_cornerRadius_BR="10dip"
+    app:rv_backgroundColor="#ffffff"
+    android:paddingLeft="7.5dp"
+    android:paddingTop="7.5dp"
+    android:paddingBottom="7.5dp"
+    >
+
+    <com.flyco.roundview.RoundRelativeLayout
+        android:id="@+id/rrlPlay"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:rv_cornerRadius_TR="10dip"
+        app:rv_cornerRadius_TL="10dip"
+        app:rv_cornerRadius_BL="10dip"
+        app:rv_cornerRadius_BR="10dip"
+        app:rv_backgroundColor="#F4F1F8">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dip"
+            android:layout_centerInParent="true"
+            android:src="@drawable/img_default"/>
+
+
+    </com.flyco.roundview.RoundRelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="13sp"
+            android:textColor="#404040"
+            android:text="-------"/>
+
+        <TextView
+            android:id="@+id/tvDes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="11sp"
+            android:textColor="#B6B6B6"
+            android:text="-------"/>
+
+
+        <com.live.fox.view.GradientTextView
+            android:id="@+id/gtvCommit"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dip"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:text="@string/use"
+            android:gravity="center"
+            app:gt_radius_dp="7dp"
+            app:gt_color_list="@array/identificationColor"/>
+    </LinearLayout>
+
+</com.flyco.roundview.RoundLinearLayout>

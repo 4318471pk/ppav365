@@ -1175,6 +1175,15 @@
     <string name="selectArea">选择地区</string>
     <string name="selectBirthday">选择生日</string>
     <string name="relationshipStatus2">感情状态</string>
+    <string name="myBagStr">我的背包</string>
+    <string name="openStr">启用</string>
+    <string name="forbiddenUse">禁用</string>
+    <string name="renew">续费</string>
+    <string name="confirmPurchase">确认购买</string>
+    <string name="confirmRenew">确认续费</string>
+    <string name="confirmSpend">确认使用</string>
+    <string name="use">使用</string>
+    <string name="bagSpecial">·背包·</string>
 
 
 </resources>

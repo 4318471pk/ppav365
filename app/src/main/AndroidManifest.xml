@@ -42,16 +42,14 @@
             android:name=".ui.game.AllGameActivity"
             android:exported="true" />
         <activity android:name=".ui.mine.TransactionDetailActivity" />
-        <activity android:name=".ui.mine.TransactionActivity"
-            />
+        <activity android:name=".ui.mine.TransactionActivity" />
         <activity
             android:name=".ui.mine.setting.APPGestureLockActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mine.setting.PhoneBindingActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <meta-data
             android:name="android.max_aspect"
@@ -263,6 +261,15 @@
             android:name=".ui.mine.MyFollowActivity"
             android:screenOrientation="portrait" /> <!-- 我的粉丝 -->
         <activity
+            android:name=".ui.mine.ContributionRankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.MyBagAndStoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.MyBagActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.mine.MyFansActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -357,8 +364,9 @@
             android:name=".ui.mine.MyNobleActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.language.MultiLanguageActivity" />
-        <activity android:name=".ui.mine.setting.paymentpassword.PaymentPasswordActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.mine.setting.paymentpassword.PaymentPasswordActivity"
+            android:screenOrientation="portrait" />
 
 
         <provider

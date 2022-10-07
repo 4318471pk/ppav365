@@ -39,7 +39,7 @@ public class EditNickNameConfirmDialog extends TempleDialog{
         SpanUtils spanUtils=new SpanUtils();
         spanUtils.append(getStringWithoutContext(R.string.editNicknameShouldSpend)).setForegroundColor(0xff646464);
         spanUtils.append("60").setForegroundColor(0xffF42C2C);
-        spanUtils.appendImage(getResources().getDrawable(R.mipmap.icon_diamond));
+        spanUtils.appendImage(getResources().getDrawable(R.mipmap.icon_diamond),SpanUtils.ALIGN_BASELINE);
         spanUtils.append(",");
         spanUtils.append(getStringWithoutContext(R.string.plzConfirm)).setForegroundColor(0xff646464);
         getBind().tvContent.setText(spanUtils.create());
