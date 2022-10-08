@@ -129,6 +129,11 @@ public final class TimeUtils {
         SimpleDateFormat myFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return myFormatter.format(time);
     }
+    //时间格式转换  long转为dd-MM-yyyy  HH:mm:ss格式的时间
+    public static String longToTwoLinesString(long time) {
+        SimpleDateFormat myFormatter = new SimpleDateFormat("dd-MM-yyyy\nHH:mm:ss");
+        return myFormatter.format(time);
+    }
 
     //时间格式转换  long转为dd-MM-yyyy  HH:mm:ss格式的时间
     public static String long2StringHHMMSSDDMMYY(long time) {

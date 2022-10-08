@@ -18,7 +18,7 @@ import com.live.fox.dialog.LoadingBindingDialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public abstract class BaseBindingFragment extends Fragment {
+public abstract class BaseBindingFragment extends BaseFragment {
 
     ViewDataBinding viewDataBinding;
     LoadingBindingDialogFragment loadingBindingDialogFragment;

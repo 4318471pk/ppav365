@@ -25,6 +25,8 @@ import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.ui.mine.depositAndWithdrawHistory.DepositAndWithdrawHistoryActivity;
+import com.live.fox.ui.mine.diamondIncomeAndExpenses.DiamondIncomeAndExpensesActivity;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.ui.mine.setting.PhoneBindingActivity;
 import com.live.fox.ui.mine.setting.SettingActivity;
@@ -296,6 +298,12 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     public void onClickView(View view) {
         if (ClickUtil.isClickWithShortTime(view.getId(),800)) return;
         switch (view.getId()) {
+            case R.id.llDepositAndWithdraw:
+                DepositAndWithdrawHistoryActivity.startActivity(getActivity());
+                break;
+            case R.id.llDiamondIncomeAndExpense:
+                DiamondIncomeAndExpensesActivity.startActivity(getActivity());
+                break;
             case R.id.llMyBag:
                 MyBagAndStoreActivity.startActivity(getActivity());
                 break;

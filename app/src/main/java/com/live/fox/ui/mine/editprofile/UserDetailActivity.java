@@ -14,7 +14,6 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.live.fox.Constant;
@@ -27,6 +26,7 @@ import com.live.fox.dialog.bottomdialog.AreaListSelectorDialog;
 import com.live.fox.dialog.bottomdialog.EditPersonalIntroDialog;
 import com.live.fox.dialog.bottomdialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomdialog.SimpleSelectorDialog;
+import com.live.fox.dialog.bottomdialog.TimePickerDialog;
 import com.live.fox.dialog.temple.EditNickNameConfirmDialog;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
@@ -256,7 +256,7 @@ public class UserDetailActivity extends BaseActivity  {
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), new AreaListSelectorDialog());
                 break;
             case R.id.tvAge:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),new com.live.fox.dialog.bottomdialog.TimePickerDialog());
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),new TimePickerDialog());
                 break;
             case R.id.tvRelationshipStatus:
                 SimpleSelectorDialog dialogRelationshipStatus=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {

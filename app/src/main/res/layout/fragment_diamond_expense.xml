@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.mine.diamondIncomeAndExpenses.DiamondExpensesFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D9D1EC"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dip"
+            android:layout_marginTop="1dp"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#404040"
+                android:textSize="14sp"
+                android:text="收入123456789钻" />
+
+            <LinearLayout
+                android:id="@+id/llTimeSelector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{click.onClickView}"
+                android:layout_marginRight="10dip"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:layout_toLeftOf="@id/ivArrow"
+                    android:textColor="#0F86FF"
+                    android:textSize="12sp"
+                    android:text="2022-9-15" />
+
+                <ImageView
+                    android:id="@+id/ivArrow"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/right_arrowb"
+                    app:tint="#0F86FF" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:layout_marginTop="1dip">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+</layout>

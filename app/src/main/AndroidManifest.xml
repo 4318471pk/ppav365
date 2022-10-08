@@ -318,6 +318,12 @@
             android:name=".ui.chat.GfNoticeActivity"
             android:screenOrientation="portrait" /> <!-- 客服 -->
         <activity
+            android:name=".ui.mine.depositAndWithdrawHistory.DepositAndWithdrawHistoryActivity"
+            android:screenOrientation="portrait" /> <!-- 充提记录 -->
+        <activity
+            android:name=".ui.mine.diamondIncomeAndExpenses.DiamondIncomeAndExpensesActivity"
+            android:screenOrientation="portrait" /> <!-- 钻石收支 -->
+        <activity
             android:name=".ui.mine.kefu.ServicesActivity"
             android:screenOrientation="portrait" />
         <activity

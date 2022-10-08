@@ -995,7 +995,7 @@
     <string name="noble_2">贵族</string>
     <string name="service">客服</string>
     <string name="recharge_record">充提记录</string>
-    <string name="diamond_income">钻石收入</string>
+    <string name="diamond_income_expense">钻石收支</string>
     <string name="game_record">游戏记录</string>
     <string name="store_package">商店&amp;背包</string>
     <string name="my_level">我的等级</string>
@@ -1184,6 +1184,14 @@
     <string name="confirmSpend">确认使用</string>
     <string name="use">使用</string>
     <string name="bagSpecial">·背包·</string>
-
+    <string name="diamondExpense">钻石消费</string>
+    <string name="diamondIncome">钻石收入</string>
+    <string name="time">时间</string>
+    <string name="customerNickname">消费用户</string>
+    <string name="diamond">钻石</string>
+    <string name="expenseType">消费类型</string>
+    <string name="costAnchor">收费主播</string>
+    <string name="bagIsEmpty">您的背包里还没有物品哦~</string>
+    <string name="selectDate">选择年月日~</string>
 
 </resources>

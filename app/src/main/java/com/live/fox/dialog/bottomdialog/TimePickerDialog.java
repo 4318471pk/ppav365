@@ -3,6 +3,7 @@ package com.live.fox.dialog.bottomdialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,22 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
     private TimeWheel mTimeWheel;
     private long mCurrentMillSeconds;
     DialogTimePickerBinding mBind;
+    String title;
+    OnSelectedListener onSelectedListener;
 
-    private static TimePickerDialog newIntance(PickerConfig pickerConfig) {
+    public static TimePickerDialog getInstance() {
         TimePickerDialog timePickerDialog = new TimePickerDialog();
-        timePickerDialog.initialize(pickerConfig);
         return timePickerDialog;
+    }
+
+    public static TimePickerDialog getInstance(String title) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog();
+        timePickerDialog.title=title;
+        return timePickerDialog;
+    }
+
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        this.onSelectedListener = onSelectedListener;
     }
 
     @Override
@@ -63,6 +75,23 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
                 int year=mTimeWheel.getCurrentYear();
                 int month=mTimeWheel.getCurrentMonth()-1;
                 int date=mTimeWheel.getCurrentDay();
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.clear();
+
+                calendar.set(Calendar.YEAR, mTimeWheel.getCurrentYear());
+                calendar.set(Calendar.MONTH, mTimeWheel.getCurrentMonth() - 1);
+                calendar.set(Calendar.DAY_OF_MONTH, mTimeWheel.getCurrentDay());
+                calendar.set(Calendar.HOUR_OF_DAY, mTimeWheel.getCurrentHour());
+                calendar.set(Calendar.MINUTE, mTimeWheel.getCurrentMinute());
+
+                mCurrentMillSeconds = calendar.getTimeInMillis();
+
+                if(onSelectedListener!=null)
+                {
+                    onSelectedListener.onSelected(year,month,date,mCurrentMillSeconds);
+                }
+                dismissAllowingStateLoss();
                 break;
         }
     }
@@ -76,6 +105,12 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
     public void initView(View view) {
         mBind=getViewDataBinding();
         mBind.setClick(this);
+
+        if(!TextUtils.isEmpty(title))
+        {
+            mBind.tvTitle.setText(title);
+        }
+
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         mPickerConfig=  new Builder()
                 .setYearText("")
@@ -84,8 +119,8 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
                 .setHourText("")
                 .setMinuteText("")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis())
-                .setMaxMillseconds(System.currentTimeMillis() + tenYears)
+                .setMinMillseconds(System.currentTimeMillis()-tenYears*4)
+                .setMaxMillseconds(System.currentTimeMillis())
                 .setCurrentMillseconds(System.currentTimeMillis())
                 .setThemeColor(0xff404040)
                 .setType(Type.YEAR_MONTH_DAY)
@@ -223,5 +258,8 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
 
     }
 
-
+    public interface OnSelectedListener
+    {
+        void onSelected(int year,int month,int date,long time);
+    }
 }

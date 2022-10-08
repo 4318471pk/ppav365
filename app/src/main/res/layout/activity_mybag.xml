@@ -24,6 +24,33 @@
             android:textSize="16sp"
             android:text="@string/bagSpecial" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/icon_emptydata"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/bagIsEmpty"
+                android:textSize="14sp"
+                android:textColor="#B8B2C8"/>
+
+        </LinearLayout>
+
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,7 +64,7 @@
                 />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-
+        </RelativeLayout>
 
     </LinearLayout>
 </layout>
