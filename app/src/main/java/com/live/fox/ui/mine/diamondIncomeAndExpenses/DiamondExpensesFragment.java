@@ -80,7 +80,7 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
                 R.string.diamond,R.string.expenseType};
 
         int height= ScreenUtils.getDip2px(getContext(),38);
-        int width=ScreenUtils.getScreenWidth(getContext())-ScreenUtils.getDip2px(getContext(),20);
+        int width=ScreenUtils.getScreenWidth(getContext())-ScreenUtils.getDip2px(getContext(),10);
 
         LinearLayout linearLayout=new LinearLayout(getContext());
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width,height));

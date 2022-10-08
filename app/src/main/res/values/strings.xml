@@ -1193,5 +1193,12 @@
     <string name="costAnchor">收费主播</string>
     <string name="bagIsEmpty">您的背包里还没有物品哦~</string>
     <string name="selectDate">选择年月日~</string>
+    <string name="depositHistory">充值记录</string>
+    <string name="withdrawHistory">提现记录</string>
+    <string name="depositTime">充值时间</string>
+    <string name="withdrawTime">提现时间</string>
+    <string name="amountOfMoney">金额</string>
+    <string name="depositStatus">状态</string>
+    <string name="withdrawType2">支付方式</string>
 
 </resources>

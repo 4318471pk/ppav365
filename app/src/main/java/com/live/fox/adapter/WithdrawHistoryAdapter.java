@@ -10,29 +10,27 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
-import com.live.fox.entity.DiamondIncomeAndExpenseBean;
+import com.live.fox.entity.WithdrawHistoryBean;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
 import java.util.List;
 
-public class DiamondExpensesAdapter extends BaseQuickAdapter<DiamondIncomeAndExpenseBean, BaseViewHolder> {
+public class WithdrawHistoryAdapter extends BaseQuickAdapter<WithdrawHistoryBean, BaseViewHolder> {
 
+    Context context;
     float ratio[]=new float[]{0.2f,0.3f,0.3f,0.2f};
     int width;
-    Context context;
 
-    public DiamondExpensesAdapter(Context context,List<DiamondIncomeAndExpenseBean> data) {
-        super(R.layout.item_diamond_income_expense, data);
+    public WithdrawHistoryAdapter(Context context, List<WithdrawHistoryBean> data) {
+        super(R.layout.item_withdraw_history, data);
         width= ScreenUtils.getScreenWidth(context)-ScreenUtils.getDip2px(context,10);
-
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DiamondIncomeAndExpenseBean item) {
-        LinearLayout linearLayout=(LinearLayout) helper.itemView;
+    protected void convert(BaseViewHolder helper, WithdrawHistoryBean item) {
+        LinearLayout linearLayout=(LinearLayout)helper.itemView;
         linearLayout.setBackgroundColor(helper.getLayoutPosition()%2==1?0xffFAFAFA:0xffffffff);
-
         for (int i = 0; i <linearLayout.getChildCount(); i++) {
             TextView textView=(TextView)linearLayout.getChildAt(i);
             ViewGroup.LayoutParams vl= textView.getLayoutParams();
@@ -41,21 +39,18 @@ public class DiamondExpensesAdapter extends BaseQuickAdapter<DiamondIncomeAndExp
             switch (i)
             {
                 case 0:
-                    textView.setText(TimeUtils.longToTwoLinesString( item.getTime()/1000));
+                    textView.setText(TimeUtils.longToTwoLinesString( item.getWithdrawTime()/1000));
                     break;
                 case 1:
-                    textView.setText(item.getNickname());
+                    textView.setText(item.getAmountOfMoney().toPlainString());
                     break;
                 case 2:
-                    textView.setText(item.getAmountOfDiamond()+"");
+                    textView.setText(item.getWithdrawWay());
                     break;
                 case 3:
-                    textView.setText(item.getType());
+                    textView.setText(item.getStatusStr());
                     break;
             }
         }
-
     }
-
-
 }

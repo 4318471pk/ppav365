@@ -10,33 +10,31 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
-import com.live.fox.entity.DiamondIncomeAndExpenseBean;
+import com.live.fox.entity.DepositeHistoryBean;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
 import java.util.List;
 
-public class DiamondExpensesAdapter extends BaseQuickAdapter<DiamondIncomeAndExpenseBean, BaseViewHolder> {
+public class DepositHistoryAdapter extends BaseQuickAdapter<DepositeHistoryBean, BaseViewHolder> {
 
-    float ratio[]=new float[]{0.2f,0.3f,0.3f,0.2f};
-    int width;
     Context context;
+    int screenWidth;
 
-    public DiamondExpensesAdapter(Context context,List<DiamondIncomeAndExpenseBean> data) {
-        super(R.layout.item_diamond_income_expense, data);
-        width= ScreenUtils.getScreenWidth(context)-ScreenUtils.getDip2px(context,10);
-
+    public DepositHistoryAdapter(Context context, List<DepositeHistoryBean> data) {
+        super(R.layout.item_deposit_history, data);
+        this.context=context;
+        screenWidth= ScreenUtils.getScreenWidth(context);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DiamondIncomeAndExpenseBean item) {
-        LinearLayout linearLayout=(LinearLayout) helper.itemView;
+    protected void convert(BaseViewHolder helper, DepositeHistoryBean item) {
+        LinearLayout linearLayout=(LinearLayout)helper.itemView;
         linearLayout.setBackgroundColor(helper.getLayoutPosition()%2==1?0xffFAFAFA:0xffffffff);
-
         for (int i = 0; i <linearLayout.getChildCount(); i++) {
             TextView textView=(TextView)linearLayout.getChildAt(i);
             ViewGroup.LayoutParams vl= textView.getLayoutParams();
-            vl.width=(int)(width*ratio[i]);
+            vl.width=(int)(screenWidth/3);
             textView.setLayoutParams(vl);
             switch (i)
             {
@@ -44,18 +42,14 @@ public class DiamondExpensesAdapter extends BaseQuickAdapter<DiamondIncomeAndExp
                     textView.setText(TimeUtils.longToTwoLinesString( item.getTime()/1000));
                     break;
                 case 1:
-                    textView.setText(item.getNickname());
+                    textView.setText(item.getMoney().toPlainString());
                     break;
                 case 2:
-                    textView.setText(item.getAmountOfDiamond()+"");
-                    break;
-                case 3:
-                    textView.setText(item.getType());
+                    textView.setText(item.getStatusStr());
                     break;
             }
         }
 
+
     }
-
-
 }

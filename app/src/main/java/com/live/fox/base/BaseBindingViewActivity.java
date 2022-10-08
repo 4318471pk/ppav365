@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.flyco.roundview.RoundLinearLayout;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.utils.OnClickFrequentlyListener;
@@ -24,6 +25,7 @@ import com.live.fox.utils.device.ScreenUtils;
 public abstract class BaseBindingViewActivity extends BaseActivity {
 
     ImageView ivHeadLeft;
+    RoundLinearLayout service;
     TextView tvHeadTitle;
     TextView tvTitleRight;
     int screenWidth;
@@ -64,6 +66,7 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
             ivHeadLeft = findViewById(R.id.ivHeadLeft);
             tvHeadTitle = findViewById(R.id.tvHeadTitle);
             tvTitleRight=findViewById(R.id.tvTitleRight);
+            service=findViewById(R.id.service);
             ivHeadLeft.setOnClickListener(new OnClickFrequentlyListener() {
                 @Override
                 public void onClickView(View view) {
@@ -85,6 +88,12 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
 
     public void setActivityTitle(int titleRes) {
         tvHeadTitle.setText(getResources().getText(titleRes));
+    }
+
+    public void setServiceImage(OnClickFrequentlyListener listener)
+    {
+        service.setVisibility(View.VISIBLE);
+        service.setOnClickListener(listener);
     }
 
     public TextView getTvTitleRight() {
