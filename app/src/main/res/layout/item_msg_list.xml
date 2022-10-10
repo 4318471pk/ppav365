@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    >
+
+
+
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/message_avatar"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="15dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/announcement"
+        app:riv_oval="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="一只小可爱"
+                    android:textColor="@color/color404040"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="2020-09-10"
+                    android:textColor="@color/color404040"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="爱仕达撒多撒撒爱仕达撒多撒多撒多撒多大所多爱仕达撒多撒大多撒爱仕达撒多撒多撒爱仕达撒多撒多撒多撒多大所多"
+                    android:textColor="@color/color404040"
+                    android:textSize="13sp" />
+
+                <com.flyco.roundview.RoundLinearLayout
+                    android:id="@+id/view_red"
+                    android:layout_width="7.5dp"
+                    android:layout_height="7.5dp"
+                    android:layout_marginStart="30dp"
+                    app:rv_cornerRadius="50dp"
+                    app:rv_backgroundColor="@color/colorF42C2C"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorD2CDE0" />
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -28,6 +28,7 @@ public abstract class BaseHeadActivity extends BaseActivity implements View.OnCl
     TextView tvTitle;
     ImageView ivTitle;
     ImageView ivRight;
+    private View bottomView;
     public TextView tvRight;
     public Toolbar toolbar;
 
@@ -48,6 +49,7 @@ public abstract class BaseHeadActivity extends BaseActivity implements View.OnCl
         ivTitle = findViewById(R.id.iv_head_title);
         ivRight = findViewById(R.id.iv_head_right);
         tvRight = findViewById(R.id.tv_head_right);
+        bottomView = findViewById(R.id.bottomView);
 
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setHomeAsUpIndicator(R.drawable.head_back_sel);
@@ -141,6 +143,15 @@ public abstract class BaseHeadActivity extends BaseActivity implements View.OnCl
         tvRight.setText(rightText);
     }
 
+    public void setRightText(String rightText, int color) {
+        tvRight.setVisibility(View.VISIBLE);
+        tvRight.setText(rightText);
+        tvRight.setTextColor(color);
+    }
+
+    public void showBottomView(boolean show) {
+        bottomView.setVisibility(show? View.VISIBLE : View.GONE);
+    }
 
     public void setBackBtnShown(boolean isShow) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(isShow);

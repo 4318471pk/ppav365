@@ -331,10 +331,12 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             case R.id.layout_circle: //动态
                 break;
             case R.id.layout_follow: //我的关注
-                MyFollowActivity.startActivity(requireActivity());
+                //MyFollowActivity.startActivity(requireActivity());
+                MyFollowListActivity.startActivity(requireActivity(), false);
                 break;
             case R.id.layout_fans: //我的粉丝
-                MyFansActivity.startActivity(requireActivity());
+                //MyFansActivity.startActivity(requireActivity());
+                MyFollowListActivity.startActivity(requireActivity(), true);
                 break;
             case R.id.tv_copyid: //复制用户id
                 ClipboardUtils.copyText(userinfo.getUid() + "");
