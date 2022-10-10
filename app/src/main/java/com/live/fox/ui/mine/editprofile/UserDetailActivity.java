@@ -42,6 +42,7 @@ import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
+import com.live.fox.view.ProfileScrollView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -139,7 +140,16 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
     private void initView() {
-        StatusBarUtil.setStatusBarAlpha(this,0,mBind.topView);
+        mBind.rlTop.setAlpha(0f);
+        mBind.rlTop.setPadding(0,StatusBarUtil.getStatusBarHeight(this),0,0);
+        mBind.svProfile.setOnScrollListener(new ProfileScrollView.OnScrollListener() {
+            @Override
+            public void onScroll(int y, float alpha) {
+                mBind.rlTop.setAlpha(alpha);
+            }
+        });
+
+        StatusBarUtil.setStatusBarFulAlpha(this,mBind.topView);
         BarUtils.setStatusBarLightMode(this, true);
 
         Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
@@ -171,6 +181,7 @@ public class UserDetailActivity extends BaseActivity  {
         mBind.tvArea.setText(TextUtils.isEmpty(user.getCity())?getString(R.string.privacyStr):user.getCity());
         mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
         mBind.tvOccupation.setText(getString(R.string.privacyStr));
+        mBind.tvNickName.setText(TextUtils.isEmpty(user.getNickname())?"- -":user.getNickname());
         mBind.tvSignature.setText((StringUtils.isEmpty(user.getSignature()) ? getString(R.string.noWrite) : user.getSignature()));
 
         GlideUtils.loadDefaultImage(UserDetailActivity.this, user.getAvatar(), mBind.ivHeader);

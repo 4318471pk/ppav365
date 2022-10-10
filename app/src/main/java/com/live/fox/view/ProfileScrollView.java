@@ -57,7 +57,11 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
     private int lastY;
     private int offset;
     int divideHeight;
+    OnScrollListener onScrollListener;
 
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
+    }
 
     private NestedScrollingParentHelper mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
 
@@ -77,6 +81,7 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
 
     @Override
     public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes, int type) {
+
         return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
@@ -99,19 +104,39 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         //这里不管手势滚动还是fling都处理
-        boolean hideTop = dy > 0 && getScrollY() < mTopViewHeight-divideHeight;
-        boolean showTop = dy < 0 && getScrollY() >= 0 && !target.canScrollVertically(-1);
+        boolean hideTop = dy > 0 && getScrollY() < mTopViewHeight-divideHeight+100;
+        boolean isOverHide=dy > 0 && getScrollY() >= mTopViewHeight-divideHeight+100;
+        boolean showTop = dy < 0 && getScrollY()+dy >= 0;// && !target.canScrollVertically(-1)
         boolean isTopOnGoingDown=dy<0 && getScrollY()<=0;
 
-        if (hideTop || showTop) {
+        if(hideTop)
+        {
             scrollBy(0, dy);
             consumed[1] = dy;
         }
 
+        if(isOverHide )
+        {
+            if(type == ViewCompat.TYPE_NON_TOUCH)
+            {
+                ViewCompat.stopNestedScroll(target, type);
+                cdtRollBack.cancel();
+                cdtRollBack.start();
+            }
+        }
+
+        if(showTop )
+        {
+            cdtRollBack.cancel();
+            scrollBy(0, dy);
+            consumed[1] = dy;
+        }
+
+
+
         Log.e("MMM",getScrollY()+" "+mTopViewHeight);
         if(isTopOnGoingDown && type == ViewCompat.TYPE_NON_TOUCH)
         {
-
             if(zoomViewLp.height>mTopViewHeight+60 )
             {
                 ViewCompat.stopNestedScroll(target, type);
@@ -126,25 +151,19 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
             }
         }
 
-//        if(isTopOnGoingDown && type == ViewCompat.TYPE_NON_TOUCH)
-//        {
-//            if(zoomViewLp.height>mTopViewHeight*1.15f )
-//            {
-//                ViewCompat.stopNestedScroll(target, type);
-//                countDownTimer.cancel();
-//                countDownTimer.start();
-//
-//            }
-//            else
-//            {
-//                roundLLMain.getLayoutParams().height = (int) (roundLLMain.getLayoutParams()
-//                        .height+ Math.abs(dy) * 0.45);
-//                roundLLMain.setLayoutParams(zoomViewLp);
-//            }
-//        }
-
-
-
+        if(onScrollListener!=null)
+        {
+            float alpha=0f;
+            if(getScrollY()>=mTopViewHeight-divideHeight)
+            {
+                alpha=1.0f;
+            }
+            else
+            {
+                alpha=1.0f*getScrollY()/(mTopViewHeight-divideHeight);
+            }
+            onScrollListener.onScroll(getScrollY(),alpha);
+        }
     }
 
 
@@ -199,7 +218,9 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         roundLLMain = findViewById(R.id.roundLLMain);
         int dip10= ScreenUtils.getDip2px(getContext(),10);
         int statusBarHeight= StatusBarUtil.getStatusBarHeight(getContext());
-        divideHeight=dip10*5+statusBarHeight+dip10*9;
+        int padding=dip10;//距离顶部的Title留些间隔
+        divideHeight=dip10*5+statusBarHeight+dip10*9+padding;
+
         mTopView.post(new Runnable() {
             @Override
             public void run() {
@@ -225,9 +246,9 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         if (y < 0) {
             y = 0;
         }
-        if (y > mTopViewHeight) {
-            y = mTopViewHeight;
-        }
+//        if (y > mTopViewHeight-divideHeight) {
+//            y = mTopViewHeight-divideHeight;
+//        }
         super.scrollTo(x, y);
     }
 
@@ -239,12 +260,14 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                cdtRollBack.cancel();
                 startY = (int) ev.getY();
                 lastY = startY;
                 zoomViewSrcRect.set(mTopView.getLeft(), mTopView.getTop(), mTopView.getRight(), mTopView.getBottom());
                 zoomViewLp = mTopView.getLayoutParams();
                 break;
             case MotionEvent.ACTION_MOVE:
+                cdtRollBack.cancel();
                 currentY = (int) ev.getY();
                 offset = currentY - lastY;
                 lastY = currentY;
@@ -260,6 +283,12 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
                 if (isVisibleLocal(mTopView, true)) {
                     countDownTimer.cancel();
                     countDownTimer.start();
+                }
+                if(getScrollY() >= mTopViewHeight-divideHeight+100)
+                {
+                    ViewCompat.stopNestedScroll(this, ViewCompat.TYPE_TOUCH);
+                    cdtRollBack.cancel();
+                    cdtRollBack.start();
                 }
                 break;
         }
@@ -283,6 +312,21 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         }
     };
 
+    private final CountDownTimer cdtRollBack = new CountDownTimer(500, 10) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            int distance=(getScrollY()-(mTopViewHeight-divideHeight))/10;
+            scrollBy(0,-distance);
+
+        }
+
+        @Override
+        public void onFinish() {
+//            scrollTo(0,mTopViewHeight-divideHeight);
+
+        }
+    };
+
 
 
     /**
@@ -300,5 +344,10 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         } else {
             return rect.top >= 0;
         }
+    }
+
+    public interface OnScrollListener
+    {
+        void onScroll(int y,float alpha);
     }
 }

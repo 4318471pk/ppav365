@@ -34,6 +34,26 @@
         <item>@drawable/luck_9</item>
     </integer-array>
 
+    <integer-array name="rankEdgePics">
+        <item>@mipmap/icon_nan_rank</item>
+        <item>@mipmap/icon_zi_rank</item>
+        <item>@mipmap/icon_bo_rank</item>
+        <item>@mipmap/icon_hou_rank</item>
+        <item>@mipmap/icon_gong_rank</item>
+        <item>@mipmap/icon_qin_rank</item>
+        <item>@mipmap/icon_wang_rank</item>
+    </integer-array>
+
+    <integer-array name="rankTagPics">
+        <item>@mipmap/icon_nan_tag</item>
+        <item>@mipmap/icon_zi_tag</item>
+        <item>@mipmap/icon_bo_tag</item>
+        <item>@mipmap/icon_hou_tag</item>
+        <item>@mipmap/icon_gong_tag</item>
+        <item>@mipmap/icon_qin_tag</item>
+        <item>@mipmap/icon_wang_tag</item>
+    </integer-array>
+
     <integer-array name="level">
         <item>@mipmap/level_1to10</item>
         <item>@mipmap/level_11to20</item>

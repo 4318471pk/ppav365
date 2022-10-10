@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <com.live.fox.view.ProfileScrollView
+            android:id="@+id/svProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -504,6 +505,27 @@
         </com.live.fox.view.ProfileScrollView>
 
         <RelativeLayout
+            android:id="@+id/rlTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            >
+
+            <TextView
+                android:id="@+id/tvNickName"
+                android:text="----"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="#404040"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="50dip">
+            </TextView>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:id="@+id/topView"
             android:layout_width="match_parent"
             android:layout_height="50dip">
@@ -512,6 +534,7 @@
                 android:id="@+id/editProfileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:onClick="@{click.onViewClick}"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dip"
@@ -525,11 +548,13 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/places_holder"
                 android:onClick="@{click.onViewClick}"
                 android:padding="10dip"
                 android:scaleType="center"
                 android:src="@mipmap/icon_arrow_left" />
+
         </RelativeLayout>
     </RelativeLayout>
 </layout>

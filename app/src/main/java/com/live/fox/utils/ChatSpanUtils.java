@@ -350,11 +350,23 @@ public class ChatSpanUtils {
         LogUtils.e(new Gson().toJson(user));
         SpanUtils spanUtils = new SpanUtils();
         appendLevel(spanUtils, user.getUserLevel(), context);
-        appendSex(spanUtils, user, context);
-        appendBadges(spanUtils, user.getBadgeList());
+        appendLevelTag(spanUtils, user, context);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
+        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
         return spanUtils.create();
     }
 
+
+    private void appendLevelTag(SpanUtils spanUtils,User user, Context context)
+    {
+        if(user!=null && user.getUserLevel()!=null)
+        {
+            int index=user.getUserLevel()%7;
+            int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
+            spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
+        }
+    }
 
     public void appendText(SpanUtils spanUtils, String text, ContentType contentType, boolean space, FunctionItem shit) {
         spanUtils.append(text);
@@ -393,7 +405,6 @@ public class ChatSpanUtils {
         if (bitmap == null) return;
         Bitmap newBitmap=ImageUtils.addTextForLevel(context,bitmap, userLevel);
         spanUtils.appendImage(newBitmap, SpanUtils.ALIGN_CENTER);
-        spanUtils.append(" ");
     }
 
     public void appendSex(SpanUtils spanUtils, User user, Context context) {
