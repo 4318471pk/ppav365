@@ -28,6 +28,7 @@ import com.live.fox.entity.response.MinuteTabItem;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.mine.noble.NobleFragment;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.utils.device.ScreenUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -350,22 +351,33 @@ public class ChatSpanUtils {
         LogUtils.e(new Gson().toJson(user));
         SpanUtils spanUtils = new SpanUtils();
         appendLevel(spanUtils, user.getUserLevel(), context);
-        appendLevelTag(spanUtils, user, context);
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        appendLevelTag(spanUtils, user.getUserLevel(), context);
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
+        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
+        return spanUtils.create();
+    }
+
+    public Spanned getAllIconSpan(int level, Context context) {
+        SpanUtils spanUtils = new SpanUtils();
+        appendLevel(spanUtils, level, context);
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        appendLevelTag(spanUtils, level, context);
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
         spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
         return spanUtils.create();
     }
 
 
-    private void appendLevelTag(SpanUtils spanUtils,User user, Context context)
+    private void appendLevelTag(SpanUtils spanUtils,Integer mlevel, Context context)
     {
-        if(user!=null && user.getUserLevel()!=null)
-        {
-            int index=user.getUserLevel()%7;
+            if(mlevel==null)return;
+            int index=mlevel%7;
             int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
             spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
-        }
     }
 
     public void appendText(SpanUtils spanUtils, String text, ContentType contentType, boolean space, FunctionItem shit) {
@@ -398,7 +410,8 @@ public class ChatSpanUtils {
     }
 
 
-    public void appendLevel(SpanUtils spanUtils, int userLevel, Context context) {
+    public void appendLevel(SpanUtils spanUtils, Integer userLevel, Context context) {
+        if(userLevel==null)return;
         int index=userLevel%10==0?userLevel/10-1:userLevel/10;
         int[] level = new ResourceUtils().getResourcesID(R.array.level);
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);

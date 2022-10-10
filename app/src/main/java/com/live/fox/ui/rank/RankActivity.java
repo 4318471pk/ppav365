@@ -69,7 +69,7 @@ public class RankActivity extends BaseActivity {
         viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager()){
             @Override
             public Fragment getFragment(int position) {
-                return RankFragment.newInstance(position,position);
+                return RankFragment.newInstance(position);
             }
 
             @Override

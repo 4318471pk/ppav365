@@ -972,7 +972,8 @@
     <string name="noDataAvailable">暂无数据</string>
     <string name="networkPoor">网络状态不佳,点击屏幕可重新加载</string>
     <string name="noMoreContent">没有更多内容了</string>
-    <string name="attention">关注</string>
+    <string name="follow">关注</string>
+    <string name="followed">已关注</string>
     <string name="baseLoading">加载中</string>
     <string name="cancel">取消</string>
     <string name="confirm">确认</string>
