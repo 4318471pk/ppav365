@@ -4,8 +4,115 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6F7"
+    android:background="@color/white"
     android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/layoutSys"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/sys_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sys_notice"
+                android:textColor="@color/color404040"
+                android:layout_centerInParent="true"
+                android:textSize="16sp"/>
+
+            <com.flyco.roundview.RoundTextView
+                android:visibility="gone"
+                android:id="@+id/tvNoReadSys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/sys_notice"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="5dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:rv_backgroundColor="@color/colorF42C2C"
+                app:rv_cornerRadius="50dp"
+                />
+
+            <View
+                android:id="@+id/viewSys"
+                android:layout_width="50dp"
+                android:layout_height="4.5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_a800ff_d689ff" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutEmail"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/email_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email_notice"
+                android:textColor="@color/color404040"
+                android:layout_centerInParent="true"
+                android:textSize="16sp"/>
+
+            <com.flyco.roundview.RoundTextView
+                android:visibility="gone"
+                android:id="@+id/tvNoReadEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/email_notice"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="5dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:rv_backgroundColor="@color/colorF42C2C"
+                app:rv_cornerRadius="50dp"
+                />
+
+            <View
+                android:visibility="gone"
+                android:id="@+id/viewEamil"
+                android:layout_width="50dp"
+                android:layout_height="4.5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_a800ff_d689ff"
+                />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorD2CDE0"/>
+
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
@@ -16,6 +123,34 @@
             android:id="@+id/message_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="170dp"
+                android:layout_height="93dp"
+                android:layout_marginTop="40dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/no_msg"
+                android:textColor="#A2A0A9"
+                android:textSize="14sp"/>
+
+
+
+        </LinearLayout>
+
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

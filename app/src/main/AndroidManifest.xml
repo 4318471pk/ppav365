@@ -330,6 +330,9 @@
             android:name=".ui.mine.MessageActivity"
             android:screenOrientation="portrait" />
         <activity
+        android:name=".ui.mine.MsgDetailActivity"
+        android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -369,6 +372,10 @@
         <activity
             android:name=".ui.mine.MyNobleActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mine.MyFollowListActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".ui.language.MultiLanguageActivity" />
         <activity
             android:name=".ui.mine.setting.paymentpassword.PaymentPasswordActivity"

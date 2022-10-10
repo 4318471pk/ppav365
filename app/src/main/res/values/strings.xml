@@ -1063,8 +1063,12 @@
     <string name="con_you_buy">恭喜您购买</string>
     <string name="goto_charge_diamond">钻石不够了~快去看看有充有送活动吧！</string>
     <string name="confirm_buy_noble">确认消耗  %1$s钻石 开通 %2$s吗？</string>
-
-
+    <string name="no_fans">您还没有粉丝哟~</string>
+    <string name="no_anchor">您还没有关注的主播哟~</string>
+    <string name="no_msg">暂无消息</string>
+    <string name="sys_notice">系统通知</string>
+    <string name="email_notice">邮件通知</string>
+    <string name="msg_center">消息中心</string>
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>
