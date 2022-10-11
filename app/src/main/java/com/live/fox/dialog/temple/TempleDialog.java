@@ -22,6 +22,10 @@ public class TempleDialog extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
+        onClick(view);
+    }
+
+    public void onClick(View view){
 
     }
 

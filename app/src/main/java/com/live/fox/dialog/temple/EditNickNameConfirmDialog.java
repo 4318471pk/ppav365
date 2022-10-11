@@ -15,8 +15,7 @@ public class EditNickNameConfirmDialog extends TempleDialog{
     }
 
     @Override
-    public void onClickView(View view) {
-        super.onClickView(view);
+    public void onClick(View view) {
         dismissAllowingStateLoss();
         switch (view.getId())
         {
@@ -27,8 +26,8 @@ public class EditNickNameConfirmDialog extends TempleDialog{
                 DialogFramentManager.getInstance().showDialog(getActivity().getSupportFragmentManager(), EditNickNameDialog.getInstance());
                 break;
         }
-
     }
+
 
     @Override
     public void initView(View view) {

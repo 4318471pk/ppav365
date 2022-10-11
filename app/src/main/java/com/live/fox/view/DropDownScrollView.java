@@ -21,6 +21,7 @@ import androidx.core.view.NestedScrollingParent2;
 import androidx.core.view.NestedScrollingParentHelper;
 import androidx.core.view.ViewCompat;
 
+import com.google.gson.Gson;
 import com.live.fox.R;
 import com.luck.picture.lib.tools.ScreenUtils;
 
@@ -74,25 +75,28 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
      */
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
+
         //这里不管手势滚动还是fling都处理
         boolean hideTop = dy > 0 && getScrollY() < (mTopViewHeight-barHeight);
 //        boolean showTop = dy < 0 && getScrollY() >= 0 && !target.canScrollVertically(-1);
         boolean showTop = dy < 0 && getScrollY() >= 0 ;
         if(hideTop)
         {
-            if(getScrollY()+dy<=(mTopViewHeight-barHeight))
-            {
-                scrollBy(0, dy);
+            if (getScrollY() + dy > (mTopViewHeight - barHeight)) {
+                dy = mTopViewHeight - barHeight - getScrollY();
             }
-            else
-            {
-                scrollTo(0, mTopViewHeight-barHeight);
-            }
+            scrollBy(0, dy);
+            consumed[1] = dy;
         }
 
-        if(showTop)
+        if(dy < 0)
         {
+            if(getScrollY()+dy < 0)
+            {
+                dy=-getScrollY();
+            }
             scrollBy(0, dy);
+            consumed[1] = dy;
         }
 
 
@@ -100,15 +104,16 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
         if(hideTop && mTopView!=null && hostTypeTabs!=null && getScrollY()>=mTopViewHeight-barHeight)
         {
             //向上
-//            Log.e("HHHHHH",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+            Log.e("HHHHHH",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
             startFadeIn(hostTypeTabs);
             startFadeOut(mTopView);
         }
 
+        Log.e("HHHHHH3333",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
         if(showTop && mTopView!=null && hostTypeTabs!=null && getScrollY()<mTopViewHeight-barHeight && getScrollY()>=0)
         {
             //向下
-//            Log.e("HHHHHH2222",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+            Log.e("HHHHHH2222",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
             if(mTopView.getVisibility()!=VISIBLE && hostTypeTabs.getVisibility()!=GONE)
             {
                 startFadeIn(mTopView);
@@ -121,7 +126,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     private void startFadeIn(View view)
     {
         view.clearAnimation();
-        fadeIn.setDuration(400);
+        fadeIn.setDuration(100);
 //        fadeIn.setFillAfter(true);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -132,9 +137,6 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
             @Override
             public void onAnimationEnd(Animation animation) {
                 view.setVisibility(VISIBLE);
-                view.setEnabled(true);
-                view.setFocusable(true);
-                view.requestFocus();
             }
 
             @Override
@@ -149,7 +151,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     private void startFadeOut(View view)
     {
         view.clearAnimation();
-        fadeOut.setDuration(400);
+        fadeOut.setDuration(100);
 //        fadeOut.setFillAfter(true);
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -159,10 +161,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                view.setVisibility(GONE);
-                view.setEnabled(false);
-                view.setFocusable(false);
-                view.clearFocus();
+                view.setVisibility(INVISIBLE);
             }
 
             @Override
@@ -186,8 +185,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
 
     @Override
     public boolean onNestedPreFling(@NonNull View target, float velocityX, float velocityY) {
-        Log.e("DDDDD"," "+velocityX+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
-
+        Log.e("DDDDD"," "+velocityY+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
         return false;
     }
 
@@ -197,7 +195,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
             System.out.println("onStopNestedScroll");
         }
 
-//        mNestedScrollingParentHelper.onStopNestedScroll(target, type);
+        mNestedScrollingParentHelper.onStopNestedScroll(target, type);
     }
 
 
@@ -241,9 +239,9 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
         if (y < 0) {
             y = 0;
         }
-        if (y > mTopViewHeight) {
-            y = mTopViewHeight;
-        }
+//        if (y > mTopViewHeight) {
+//            y = mTopViewHeight;
+//        }
         super.scrollTo(x, y);
     }
 }

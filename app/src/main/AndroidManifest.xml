@@ -261,7 +261,7 @@
             android:name=".ui.mine.MyFollowActivity"
             android:screenOrientation="portrait" /> <!-- 我的粉丝 -->
         <activity
-            android:name=".ui.mine.ContributionRankActivity"
+            android:name=".ui.mine.contribution.ContributionRankActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mine.MyBagAndStoreActivity"

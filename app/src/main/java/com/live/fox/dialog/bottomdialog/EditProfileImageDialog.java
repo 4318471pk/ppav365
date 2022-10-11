@@ -44,7 +44,7 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
         {
             return;
         }
-        dismissAllowingStateLoss();
+
         switch (view.getId())
         {
             case R.id.takePhoto:
@@ -52,8 +52,10 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
                 break;
             case R.id.selectInGallery:
                 openPhoto();
+                dismissAllowingStateLoss();
                 break;
         }
+
     }
 
     @Override
@@ -153,6 +155,7 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
                 } else {
                     ToastManage.s(getActivity(), getString(com.luck.picture.lib.R.string.picture_camera));
                 }
+                dismissAllowingStateLoss();
             }
 
             @Override

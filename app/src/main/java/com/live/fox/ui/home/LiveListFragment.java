@@ -592,7 +592,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
      * 刷新
      */
     public void initRefreshLayout() {
-        refreshLayout.setEnableLoadMore(false);
+        refreshLayout.setEnableLoadMore(true);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             requestAppAd();
             doGetLiveListApi(1);

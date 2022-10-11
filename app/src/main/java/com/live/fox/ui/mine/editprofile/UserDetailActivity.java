@@ -14,8 +14,6 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.jzxiang.pickerview.data.Type;
-import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
@@ -32,7 +30,7 @@ import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.chat.ChatActivity;
-import com.live.fox.ui.mine.ContributionRankActivity;
+import com.live.fox.ui.mine.contribution.ContributionRankActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;

@@ -57,6 +57,7 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
     private int lastY;
     private int offset;
     int divideHeight;
+    boolean isOverScrollAndScale=false;
     OnScrollListener onScrollListener;
 
     public void setOnScrollListener(OnScrollListener onScrollListener) {
@@ -120,6 +121,10 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
             if(type == ViewCompat.TYPE_NON_TOUCH)
             {
                 ViewCompat.stopNestedScroll(target, type);
+                zoomViewLp = mTopView.getLayoutParams();
+                zoomViewLp.height = mTopViewHeight;
+                mTopView.setLayoutParams(zoomViewLp);
+                countDownTimer.cancel();
                 cdtRollBack.cancel();
                 cdtRollBack.start();
             }
@@ -133,8 +138,7 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         }
 
 
-
-        Log.e("MMM",getScrollY()+" "+mTopViewHeight);
+        Log.e("NNNNKKK",getScrollY()+" "+mTopViewHeight+" "+dy);
         if(isTopOnGoingDown && type == ViewCompat.TYPE_NON_TOUCH)
         {
             if(zoomViewLp.height>mTopViewHeight+60 )
@@ -142,11 +146,14 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
                 ViewCompat.stopNestedScroll(target, type);
                 countDownTimer.cancel();
                 countDownTimer.start();
-
             }
             else
             {
-                zoomViewLp.height = (int) (zoomViewLp.height + Math.abs(dy) * 0.45);
+                if(zoomViewLp.height<=mTopViewHeight )
+                {
+                    zoomViewSrcRect.set(mTopView.getLeft(), mTopView.getTop(), mTopView.getRight(), mTopView.getBottom());
+                }
+                zoomViewLp.height = (int) (zoomViewLp.height + Math.abs(dy)*0.5);
                 mTopView.setLayoutParams(zoomViewLp);
             }
         }
@@ -173,6 +180,7 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         if (dyUnconsumed < 0) {//表示已经向下滑动到头
             scrollBy(0, dyUnconsumed);
         }
+        Log.e("NNNN4444",dyUnconsumed+" ");
 
     }
 
@@ -186,13 +194,25 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         if (type == ViewCompat.TYPE_NON_TOUCH) {
             System.out.println("onStopNestedScroll");
         }
-
         mNestedScrollingParentHelper.onStopNestedScroll(target, type);
+        if(zoomViewLp.height>mTopViewHeight && type == ViewCompat.TYPE_NON_TOUCH)
+        {
+            cdtRollBack.cancel();
+            countDownTimer.cancel();
+            countDownTimer.start();
+        }
+        if(getScrollY() >= mTopViewHeight-divideHeight && type == ViewCompat.TYPE_NON_TOUCH)
+        {
+            countDownTimer.cancel();
+            cdtRollBack.cancel();
+            cdtRollBack.start();
+        }
     }
 
 
     @Override
     public boolean onNestedFling(@NonNull View target, float velocityX, float velocityY, boolean consumed) {
+        Log.e("NNNN",velocityY+" ");
         return false;
     }
 
@@ -260,7 +280,9 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                isOverScrollAndScale=false;
                 cdtRollBack.cancel();
+                countDownTimer.cancel();
                 startY = (int) ev.getY();
                 lastY = startY;
                 zoomViewSrcRect.set(mTopView.getLeft(), mTopView.getTop(), mTopView.getRight(), mTopView.getBottom());
@@ -268,12 +290,14 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
                 break;
             case MotionEvent.ACTION_MOVE:
                 cdtRollBack.cancel();
+                countDownTimer.cancel();
                 currentY = (int) ev.getY();
                 offset = currentY - lastY;
                 lastY = currentY;
                 if (((isVisibleLocal(mTopView, true) && offset > 0) || (mTopView.getBottom() > zoomViewSrcRect.bottom))) {
                     zoomViewLp.height = (int) (zoomViewLp.height + offset * 0.45);
                     mTopView.setLayoutParams(zoomViewLp);
+                    isOverScrollAndScale=true;
                 }
                 if ((mTopView.getBottom() > zoomViewSrcRect.bottom)) {
                     return true;
@@ -286,9 +310,17 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
                 }
                 if(getScrollY() >= mTopViewHeight-divideHeight+100)
                 {
+                    zoomViewLp = mTopView.getLayoutParams();
+                    zoomViewLp.height = mTopViewHeight;
+                    mTopView.setLayoutParams(zoomViewLp);
+                    countDownTimer.cancel();
                     ViewCompat.stopNestedScroll(this, ViewCompat.TYPE_TOUCH);
                     cdtRollBack.cancel();
                     cdtRollBack.start();
+                }
+                if(isOverScrollAndScale)
+                {
+                    return true;
                 }
                 break;
         }
@@ -315,15 +347,13 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
     private final CountDownTimer cdtRollBack = new CountDownTimer(500, 10) {
         @Override
         public void onTick(long millisUntilFinished) {
-            int distance=(getScrollY()-(mTopViewHeight-divideHeight))/10;
+            int distance=(int)((getScrollY()-(mTopViewHeight-divideHeight))*((float) (500 - millisUntilFinished) / 500));
             scrollBy(0,-distance);
-
         }
 
         @Override
         public void onFinish() {
-//            scrollTo(0,mTopViewHeight-divideHeight);
-
+            scrollTo(0,mTopViewHeight-divideHeight);
         }
     };
 
@@ -336,11 +366,11 @@ public class ProfileScrollView extends LinearLayout implements NestedScrollingPa
      * @param judgeAll 为 true时,判断 View 全部可见才返回 true
      * @return boolean
      */
-    public static boolean isVisibleLocal(View target, boolean judgeAll) {
+    public boolean isVisibleLocal(View target, boolean judgeAll) {
         Rect rect = new Rect();
         target.getLocalVisibleRect(rect);
         if (judgeAll) {
-            return rect.top == 0;
+            return rect.top == 0 ;
         } else {
             return rect.top >= 0;
         }

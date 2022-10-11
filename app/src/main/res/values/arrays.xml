@@ -91,6 +91,13 @@
         <item>上月</item>
     </string-array>
 
+    <string-array name="rank_tab_contribution">
+        <item>日榜</item>
+        <item>周榜</item>
+        <item>月榜</item>
+        <item>总榜</item>
+    </string-array>
+
 
 
 </resources>

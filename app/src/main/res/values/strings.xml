@@ -1205,5 +1205,6 @@
     <string name="amountOfMoney">金额</string>
     <string name="depositStatus">状态</string>
     <string name="withdrawType2">支付方式</string>
+    <string name="listOfContributionBoss">贡献榜大佬</string>
 
 </resources>

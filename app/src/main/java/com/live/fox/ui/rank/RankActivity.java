@@ -14,8 +14,10 @@ import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.adapter.ViewPagerFragmentAdapter;
 import com.live.fox.base.BaseActivity;
+import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.databinding.RankActivityBinding;
 import com.live.fox.entity.Rank;
 import com.live.fox.server.Api_Rank;
 import com.live.fox.utils.BarUtils;
@@ -34,10 +36,9 @@ import java.util.List;
 /**
  * 排行榜
  */
-public class RankActivity extends BaseActivity {
+public class RankActivity extends BaseBindingViewActivity {
 
-    private SimpleTabLayout tabLayout;
-    private ViewPager viewPager;
+    RankActivityBinding mBind;
     private int titles[]=new int[]{R.string.anchorBana,R.string.conBan};
 
     public static void startActivity(Context context)
@@ -46,18 +47,26 @@ public class RankActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.rank_activity);
-        initView();
+    public void onClickView(View view) {
+
     }
 
-    private void initView()
+    @Override
+    public boolean isHasHeader() {
+        return false;
+    }
+
+    @Override
+    public int onCreateLayoutId() {
+        return R.layout.rank_activity;
+    }
+
+    @Override
+    public void initView()
     {
+        mBind=getViewDataBinding();
         int widthScreen= ScreenUtils.getScreenWidth(this);
-        tabLayout=findViewById(R.id.tabLayout);
-        viewPager=findViewById(R.id.viewPager);
-        tabLayout.setGradient(0xffA800FF,0xffEA00FF);
+        mBind.tabLayout.setGradient(0xffA800FF,0xffEA00FF);
 
         findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +75,7 @@ public class RankActivity extends BaseActivity {
             }
         });
 
-        viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager()){
+        mBind.viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager()){
             @Override
             public Fragment getFragment(int position) {
                 return RankFragment.newInstance(position);
@@ -84,7 +93,7 @@ public class RankActivity extends BaseActivity {
         });
 
 
-        tabLayout.setTabWidthPX((widthScreen-ScreenUtils.getDip2px(this,50))/2);
-        tabLayout.setViewPager(viewPager);
+        mBind.tabLayout.setTabWidthPX((widthScreen-ScreenUtils.getDip2px(this,50))/2);
+        mBind.tabLayout.setViewPager(mBind.viewPager);
     }
 }

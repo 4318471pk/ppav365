@@ -24,10 +24,10 @@ import com.live.fox.utils.device.ScreenUtils;
 
 public abstract class BaseBindingViewActivity extends BaseActivity {
 
-    ImageView ivHeadLeft;
-    RoundLinearLayout service;
-    TextView tvHeadTitle;
-    TextView tvTitleRight;
+    public ImageView ivHeadLeft;
+    public RoundLinearLayout service;
+    public TextView tvHeadTitle;
+    public TextView tvTitleRight;
     int screenWidth;
     ViewDataBinding viewDataBinding;
 

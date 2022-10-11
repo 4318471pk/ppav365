@@ -28,7 +28,7 @@ public class RankProfileView extends RelativeLayout {
     int decorationIndex=-1;
     int crownsResource[] = new int[]{R.mipmap.icon_top1, R.mipmap.icon_top2, R.mipmap.icon_top3};
     int[] decorationResource = null;
-    float scaleAndMargins[][]={{0.86f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.3f},{0.85f,0.1f},{0.85f,0.08f}};
+    float scaleAndMargins[][]={{0.87f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.3f},{0.85f,0.1f},{0.85f,0.08f}};
     ImageView ivDecoration, ivCrown, ivProfile;
     boolean isInit=false;
 

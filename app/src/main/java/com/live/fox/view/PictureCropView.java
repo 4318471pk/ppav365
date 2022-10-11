@@ -220,7 +220,8 @@ public class PictureCropView extends View {
 
         bitmapShader.setLocalMatrix(temp);
         paint.setShader(bitmapShader);
-        canvas.drawCircle(mRadius, mRadius, mRadius, paint);
+//        canvas.drawCircle(mRadius, mRadius, mRadius, paint);
+        canvas.drawRect(0,0,mRadius*2,mRadius*2,paint);
         invalidate();
         return mCropBitmap;
     }
