@@ -1,4 +1,4 @@
-package com.live.fox.ui.home;
+package com.live.fox.adapter;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;

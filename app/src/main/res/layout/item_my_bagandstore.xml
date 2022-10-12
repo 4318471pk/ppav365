@@ -110,7 +110,7 @@
                 android:text="@string/buy"
                 android:gravity="center"
                 app:gt_gradient_direction="bottom"
-                app:gt_radius_dp="7dp"
+                app:gt_radius_dp="15dp"
                 app:gt_color_list="@array/myBagBuyColor"/>
         </LinearLayout>
 

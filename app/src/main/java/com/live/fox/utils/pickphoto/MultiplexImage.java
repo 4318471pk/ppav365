@@ -1,4 +1,4 @@
-package com.live.fox.pickphoto;
+package com.live.fox.utils.pickphoto;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -103,8 +103,11 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewDataBinding.unbind();
-        viewDataBinding=null;
+        if(viewDataBinding!=null)
+        {
+            viewDataBinding.unbind();
+            viewDataBinding=null;
+        }
     }
 
     public int getScaleWidth(float ratio) {

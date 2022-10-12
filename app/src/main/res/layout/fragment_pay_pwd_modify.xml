@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
-                android:gravity="center"
+                android:gravity="center_vertical|left"
                 android:text="@string/oldPassword"
                 android:textColor="#404040"
                 android:textSize="16sp" />
@@ -62,7 +62,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
-                android:gravity="center"
+                android:gravity="center_vertical|left"
                 android:text="@string/newPasswordStr"
                 android:textColor="#404040"
                 android:textSize="16sp" />
@@ -98,7 +98,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
-                android:gravity="center"
+                android:gravity="center_vertical|left"
                 android:text="@string/confirmPassword"
                 android:textColor="#404040"
                 android:textSize="16sp" />
@@ -135,6 +135,6 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:gt_color_list="@array/identificationColor"
-            app:gt_radius_dp="3dip" />
+            app:gt_radius_dp="10dip" />
     </LinearLayout>
 </layout>

@@ -73,7 +73,7 @@ public class GradientTextView extends AppCompatTextView {
             }
 
             if (typedArray.hasValue(R.styleable.GradientTextView_gt_radius_dp)) {
-                radius = ScreenUtils.getDip2px(context,typedArray.getDimension(R.styleable.GradientTextView_gt_radius_dp, 0));
+                radius = typedArray.getDimension(R.styleable.GradientTextView_gt_radius_dp, 0);
             }
 
             if (typedArray.hasValue(R.styleable.GradientTextView_gt_stroke_color)) {
@@ -129,10 +129,28 @@ public class GradientTextView extends AppCompatTextView {
         invalidate();
     }
 
-    public void setRadius(float radius) {
+    public void setGradientBackground(int[] mColors,float radius) {
+        mIndicatorDrawable=new GradientDrawable();
         this.radius = radius;
+        this.mColors = mColors;
+        solidColor=-1;
+        strokeColor=-1;
+        strokeWidth=0;
         invalidate();
     }
+
+    public void setSolidBackground(int solidColor,int radius) {
+        mIndicatorDrawable=new GradientDrawable();
+        this.solidColor = solidColor;
+        this.radius = radius;
+        mColors=null;
+        strokeColor=-1;
+        strokeWidth=0;
+        invalidate();
+    }
+
+
+
 
     public void setOrientation(DIRECTION direction) {
         if(direction!=null)
@@ -156,20 +174,20 @@ public class GradientTextView extends AppCompatTextView {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        if(solidColor!=-1)
-        {
-            mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
-            mIndicatorDrawable.setColor(solidColor);
-            mIndicatorDrawable.setCornerRadius(radius);
-            mIndicatorDrawable.draw(canvas);
-        }
-
         if(mColors!=null )
         {
             mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
             mIndicatorDrawable.setColors(mColors);
             mIndicatorDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             mIndicatorDrawable.setOrientation(orientation);
+            mIndicatorDrawable.setCornerRadius(radius);
+            mIndicatorDrawable.draw(canvas);
+        }
+
+        if(solidColor!=-1)
+        {
+            mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
+            mIndicatorDrawable.setColor(solidColor);
             mIndicatorDrawable.setCornerRadius(radius);
             mIndicatorDrawable.draw(canvas);
         }

@@ -1206,5 +1206,7 @@
     <string name="depositStatus">状态</string>
     <string name="withdrawType2">支付方式</string>
     <string name="listOfContributionBoss">贡献榜大佬</string>
-
+    <string name="myLocationArea">我的地区</string>
+    <string name="filterLocationArea">筛选地区</string>
+    <string name="cellphoneNum">手机号</string>
 </resources>

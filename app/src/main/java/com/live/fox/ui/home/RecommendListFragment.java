@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -28,6 +27,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.live.fox.AppConfig;
 import com.live.fox.R;
+import com.live.fox.adapter.LiveListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseLazyViewPagerFragment;
 import com.live.fox.common.JsonCallback;
@@ -51,7 +51,6 @@ import com.live.fox.ui.game.GameFullWebViewActivity;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.AdManger;
-import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
@@ -65,6 +64,7 @@ import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ZoomOutSlideTransformer;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -82,7 +82,7 @@ import java.util.List;
  * 主页直播列表
  * Home页面
  */
-public class LiveListFragment extends BaseLazyViewPagerFragment {
+public class RecommendListFragment extends BaseLazyViewPagerFragment {
 
     private ConvenientBanner<Advert> convenientBanner;
     private RelativeLayout gonggaoLayout;
@@ -106,8 +106,8 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
     private boolean hasBanner;
 //    private RecyclerViewSkeletonScreen skeletonScreen;
 
-    public static LiveListFragment newInstance() {
-        return new LiveListFragment();
+    public static RecommendListFragment newInstance() {
+        return new RecommendListFragment();
     }
 
 
@@ -144,6 +144,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
         gamesHS=rootView.findViewById(R.id.gamesHS);
         tabLayout=rootView.findViewById(R.id.hostTypeTabs);
         collapseView=rootView.findViewById(R.id.collapseView);
+        refreshLayout.setRefreshHeader(new MyWaterDropHeader(getActivity()));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -584,7 +585,7 @@ public class LiveListFragment extends BaseLazyViewPagerFragment {
                     LruCacheUtil.getInstance().put(tempAnchorList.get(i).t);
                 }
             }
-            PlayLiveActivity.startActivityForResult(LiveListFragment.this, anchor);
+            PlayLiveActivity.startActivityForResult(RecommendListFragment.this, anchor);
         }
     }
 

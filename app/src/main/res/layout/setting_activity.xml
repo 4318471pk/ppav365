@@ -392,11 +392,10 @@
             <com.live.fox.view.GradientTextView
                 android:id="@+id/gvCheckVersion"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dip"
+                android:gravity="center"
                 android:onClick="onClickView"
                 android:layout_centerVertical="true"
-                android:paddingBottom="8dip"
-                android:paddingTop="8dip"
                 android:paddingLeft="25dip"
                 android:paddingRight="25dip"
                 android:layout_alignParentRight="true"
@@ -405,17 +404,15 @@
                 android:textSize="14sp"
                 android:text="@string/checkVersion"
                 app:gt_color_list="@array/identificationColor"
-                app:gt_radius_dp="6dip"/>
+                app:gt_radius_dp="15dip"/>
 
         </RelativeLayout>
 
         <com.live.fox.view.GradientTextView
             android:id="@+id/tv_loginout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:onClick="onClickView"
-            android:paddingTop="12.5dip"
-            android:paddingBottom="12.5dip"
             android:layout_marginLeft="35dip"
             android:layout_marginRight="35dip"
             android:layout_marginTop="40dip"
@@ -424,7 +421,7 @@
             android:textColor="#ffffffff"
             android:textSize="16sp"
             app:gt_color_list="@array/identificationColor"
-            app:gt_radius_dp="10dip"
+            app:gt_radius_dp="20dp"
             />
 
 

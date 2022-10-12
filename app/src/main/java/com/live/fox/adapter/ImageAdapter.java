@@ -3,7 +3,7 @@ package com.live.fox.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
-import com.live.fox.pickphoto.MultiplexImage;
+import com.live.fox.utils.pickphoto.MultiplexImage;
 import com.live.fox.utils.GlideUtils;
 
 import java.util.List;

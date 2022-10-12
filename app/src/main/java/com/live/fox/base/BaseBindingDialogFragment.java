@@ -168,8 +168,11 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        viewDataBinding.unbind();
-        viewDataBinding=null;
+        if(viewDataBinding!=null)
+        {
+            viewDataBinding.unbind();
+            viewDataBinding=null;
+        }
     }
 
     @Override

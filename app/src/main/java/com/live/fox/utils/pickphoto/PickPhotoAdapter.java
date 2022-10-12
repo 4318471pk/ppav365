@@ -1,4 +1,4 @@
-package com.live.fox.pickphoto;
+package com.live.fox.utils.pickphoto;
 
 import android.app.Activity;
 import android.content.Context;

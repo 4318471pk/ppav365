@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.home.NearByPeopleFragment" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F1F8"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rlTopView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvSelector"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:gravity="center_vertical"
+                android:onClick="@{click.onClickView}"
+                android:layout_marginLeft="10dip"
+                android:maxWidth="150dip"
+                android:minWidth="90dip"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:paddingLeft="20dip"
+                android:paddingRight="10dip"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="7dip"
+                app:gt_color_list="@array/identificationColor"
+                app:gt_radius_dp="15dp"
+                android:layout_gravity="center_vertical"
+                android:drawableRight="@drawable/arrow_down" />
+        </RelativeLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rlTopView"
+            android:background="#ffffff"
+            android:layout_marginTop="5dip">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/llDropDownDialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{click.onClickView}"
+            android:visibility="gone"
+            android:layout_below="@id/rlTopView"
+            android:background="#88000000"
+            >
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/llSelector"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/white"
+            android:layout_marginTop="-1dip"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius_BR="15dip"
+            app:rv_cornerRadius_BL="15dip"
+            android:paddingBottom="10dip"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                />
+
+        </com.flyco.roundview.RoundLinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

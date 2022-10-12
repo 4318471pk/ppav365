@@ -12,12 +12,14 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.entity.HomeColumn;
 import com.live.fox.ui.WebFragment;
+import com.live.fox.ui.home.AnchorGameFragment;
 import com.live.fox.ui.home.FollowAnchorFragment;
-import com.live.fox.ui.home.LiveListFragment;
+import com.live.fox.ui.home.HotAnchorFragment;
+import com.live.fox.ui.home.NearByPeopleFragment;
+import com.live.fox.ui.home.RecommendListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentStatePagerAdapter {
@@ -36,13 +38,22 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
     public Fragment getItem(int position) {
 
         BaseFragment baseFragment=null;
-        switch (position)
+        switch (titleList.get(position).getType())
         {
-            case 0:
+            case 1:
                 baseFragment=FollowAnchorFragment.newInstance();
                 break;
-            case 1:
-                baseFragment= LiveListFragment.newInstance();
+            case 2:
+                baseFragment= RecommendListFragment.newInstance();
+                break;
+            case 3:
+                baseFragment= HotAnchorFragment.newInstance();
+                break;
+            case 4:
+                baseFragment= AnchorGameFragment.newInstance();
+                break;
+            case 5:
+                baseFragment= NearByPeopleFragment.newInstance();
                 break;
             default:
                 baseFragment= WebFragment.newInstance(titleList.get(position).getJumpUrl(),

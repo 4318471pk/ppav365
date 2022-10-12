@@ -27,6 +27,11 @@ public abstract class BaseBindingFragment extends BaseFragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+
+        if(onCreateLayoutId()==0)
+        {
+            return null;
+        }
         viewDataBinding= DataBindingUtil.inflate(inflater,onCreateLayoutId(),container,false);
         viewDataBinding.setLifecycleOwner(this);
         return viewDataBinding.getRoot();
@@ -63,8 +68,11 @@ public abstract class BaseBindingFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        viewDataBinding.unbind();
-        viewDataBinding=null;
+        if(viewDataBinding!=null)
+        {
+            viewDataBinding.unbind();
+            viewDataBinding=null;
+        }
     }
 
     public String getStringWithoutContext(int idRes)

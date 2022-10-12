@@ -37,7 +37,7 @@ import com.live.fox.server.Api_LiveRecreation;
 
 
 import com.live.fox.ui.chat.MVChildFragment;
-import com.live.fox.ui.home.LiveListFragment;
+import com.live.fox.ui.home.RecommendListFragment;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.BarUtils;
@@ -91,7 +91,7 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     private boolean flag = true;
     private boolean isPay = false;
 
-    public static void startActivityForResult(LiveListFragment liveFragment, Anchor currentAnchor) {
+    public static void startActivityForResult(RecommendListFragment liveFragment, Anchor currentAnchor) {
         Constant.isAppInsideClick = true;
         Intent intent = new Intent(liveFragment.getContext(), PlayLiveActivity.class);
         intent.putExtra("currentAnchor", currentAnchor);

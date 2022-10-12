@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:textColor="#404040"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dip"
+        android:text="@string/myLocationArea"/>
+
+    <com.live.fox.view.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dip"
+        android:gravity="center"
+        android:onClick="@{click.onClickView}"
+        android:layout_marginLeft="10dip"
+        android:maxWidth="150dip"
+        android:minWidth="90dip"
+        android:textSize="14sp"
+        android:textColor="#B8B2C8"
+        android:layout_marginTop="10dip"
+        android:layout_gravity="center_vertical"
+        app:gt_radius_dp="15dp"
+        app:gt_stroke_width="1dip"
+        app:gt_stroke_color="#B8B2C8"
+        android:text="- -"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:textColor="#404040"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dip"
+        android:text="@string/filterLocationArea"/>
+</LinearLayout>

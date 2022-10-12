@@ -17,8 +17,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.live.fox.App;
 import com.live.fox.Constant;
 import com.live.fox.R;
-import com.live.fox.pickphoto.MultiplexImage;
-import com.live.fox.pickphoto.PickPhotoAdapter;
+import com.live.fox.utils.pickphoto.MultiplexImage;
+import com.live.fox.utils.pickphoto.PickPhotoAdapter;
 import com.live.fox.utils.BarUtils;
 
 import java.util.ArrayList;
