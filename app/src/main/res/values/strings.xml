@@ -1209,4 +1209,14 @@
     <string name="myLocationArea">我的地区</string>
     <string name="filterLocationArea">筛选地区</string>
     <string name="cellphoneNum">手机号</string>
+    <string name="refreshSuccess">刷新成功</string>
+    <string name="refreshFail">刷新失败</string>
+    <string name="payByEachShow">按场收费</string>
+    <string name="payByEverySecond">按时收费</string>
+    <string name="changeAnother">换一批</string>
+    <string name="plzInputIDOrNickName">请输入主播ID或昵称</string>
+    <string name="hereIsTheEnd">已经到底了呢~</string>
+    <string name="searchHistory">历史搜索</string>
+    <string name="recentWatched">最近观看</string>
+
 </resources>

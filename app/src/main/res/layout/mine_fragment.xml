@@ -650,7 +650,7 @@
                     android:src="@drawable/share_ic"
                     android:visibility="gone" />
 
-                <com.bigkoo.convenientbanner.ConvenientBanner
+                <com.live.fox.view.convenientbanner.ConvenientBanner
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="72dp"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.live.fox.view.GradientTextView
+        android:id="@+id/tv_item"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="30dip"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:gravity="center"
+        android:textColor="#8B8B8B"
+        android:background="@drawable/bg_round_f4f1f8"/>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_close"
+        android:layout_gravity="right"
+        android:background="@drawable/close"
+        android:layout_width="15dp"
+        android:layout_height="15dp"/>
+</FrameLayout>

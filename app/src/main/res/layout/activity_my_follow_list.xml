@@ -9,19 +9,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#f5f1f8"
     >
 
    <com.scwang.smartrefresh.layout.SmartRefreshLayout
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.live.fox.view.refreshhead2graycolor.ClassicsHeaderToGrayColor
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:srlAccentColor="@color/gray"
-        app:srlClassicsSpinnerStyle="Translate" />
 
 
        <androidx.recyclerview.widget.RecyclerView

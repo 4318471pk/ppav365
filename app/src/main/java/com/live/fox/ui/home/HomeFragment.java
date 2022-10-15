@@ -20,6 +20,7 @@ import com.live.fox.server.Api_Config;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.ui.rank.RankActivity;
 import com.live.fox.manager.AppUserManger;
+import com.live.fox.ui.search.SearchAnchorActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
@@ -62,6 +63,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tabLayout.setGradient(0xffA800FF,0xffEA00FF);
         setTopPaddingStatusBarHeight(rootView.findViewById(R.id.ll_title));
         rootView.findViewById(R.id.iv_rank).setOnClickListener(this);
+        rootView.findViewById(R.id.ivSearch).setOnClickListener(this);
     }
 
     @Override
@@ -134,7 +136,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             {
                 LoginModeSelActivity.startActivity(requireActivity());
             }
+        }
 
+        if(id==R.id.ivSearch)
+        {
+            if(DataCenter.getInstance().getUserInfo().isLogin())
+            {
+                SearchAnchorActivity.startActivity(requireActivity());
+            }
+            else
+            {
+                LoginModeSelActivity.startActivity(requireActivity());
+            }
         }
     }
 }

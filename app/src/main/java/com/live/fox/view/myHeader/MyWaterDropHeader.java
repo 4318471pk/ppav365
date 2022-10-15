@@ -89,10 +89,11 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
         thisGroup.addView(mImageView, SmartUtil.dp2px(20), SmartUtil.dp2px(20));
 
         textView=new TextView(getContext());
-        textView.setText("刷新成功");
-        textView.setTextColor(0xff404040);
+        textView.setTextColor(0xffB8B2C8);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
         textView.setVisibility(INVISIBLE);
+        textView.setCompoundDrawablePadding(SmartUtil.dp2px(10));
+        textView.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.icon_gou_success),null,null,null);
 //        RelativeLayout.LayoutParams rl= new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 //        rl.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
 //        textView.setLayoutParams(rl);
@@ -117,7 +118,7 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
         textView.measure(     makeMeasureSpec(getSize(widthMeasureSpec), AT_MOST),
                 makeMeasureSpec(lpImage.height, EXACTLY));
         int maxWidth = Math.max(imageView.getMeasuredWidth(), dropView.getMeasuredWidth());
-        int maxHeight = Math.max(imageView.getMeasuredHeight(), dropView.getMeasuredHeight());
+        int maxHeight = ScreenUtils.getDip2px(getContext(),50);
         super.setMeasuredDimension(View.resolveSize(maxWidth, widthMeasureSpec), View.resolveSize(maxHeight, heightMeasureSpec));
     }
 
@@ -244,7 +245,7 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
     @Override
     public void onReleased(@NonNull final RefreshLayout layout, int height, int maxDragHeight) {
         mProgressDrawable.start();
-//        mImageView.setVisibility(GONE);
+        mImageView.setVisibility(GONE);
         mWaterDropView.createAnimator().start();//开始回弹
         mWaterDropView.animate().setDuration(150).alpha(0).setListener(new AnimatorListenerAdapter() {
             public void onAnimationEnd(Animator animation) {
@@ -258,6 +259,7 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
     public int onFinish(@NonNull RefreshLayout layout, boolean success) {
         mProgressDrawable.stop();
         textView.setVisibility(VISIBLE);
+        textView.setText(success?getResources().getString(R.string.refreshSuccess):getResources().getString(R.string.refreshFail));
         textView.postDelayed(new Runnable() {
             @Override
             public void run() {

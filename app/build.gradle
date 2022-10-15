@@ -467,7 +467,7 @@ dependencies {
     //没有使用特殊Header，可以不加这行
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
 
-    implementation 'com.bigkoo:convenientbanner:2.0.5'
+//    implementation 'com.bigkoo:convenientbanner:2.0.5'
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
 
     //圆形头像

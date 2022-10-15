@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.live.fox.view.DropDownScrollView
+        android:id="@+id/rlMain"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="85dip"
+            android:background="#ffffff"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <LinearLayout
+                android:id="@+id/collapseView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:id="@+id/gamesHS"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dip" />
+
+                <RelativeLayout
+                    android:id="@+id/rlBroadcast"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dip"
+                    android:background="#EECCFF"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+
+                    <ImageView
+                        android:id="@+id/ivBroadcast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/broadcast"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="0dp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                    <com.marquee.dingrui.marqueeviewlib.MarqueeView
+                        android:id="@+id/mvBroadcast"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/ivBroadcast"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:textColor="#A800FF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:marqueeview_is_resetLocation="false"
+                        app:marqueeview_isclickalbe_stop="true"
+                        app:marqueeview_repet_type="repet_interval"
+                        app:marqueeview_text_color="#A800FF"
+                        app:marqueeview_text_size="13"
+                        app:marqueeview_text_speed="1"
+                        app:marqueeview_text_startlocationdistance="0.5" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/hostTypeTabs"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:background="#ffffff"
+                android:visibility="invisible"
+                app:tabPaddingStart="0dip"
+                app:tabPaddingEnd="0dip"
+                android:layout_alignParentBottom="true"
+                app:tabIndicatorHeight="0dp"
+                app:tabMode="scrollable"
+                app:tabRippleColor="@android:color/transparent" />
+        </RelativeLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/home_refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAnchorList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="2.5dp"
+                 />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.live.fox.view.DropDownScrollView>
+</layout>

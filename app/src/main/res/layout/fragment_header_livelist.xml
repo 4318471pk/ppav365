@@ -5,10 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.bigkoo.convenientbanner.ConvenientBanner
+    <com.live.fox.view.convenientbanner.ConvenientBanner
         android:id="@+id/home_convenient_banner"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="80dip"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:canLoop="true" />

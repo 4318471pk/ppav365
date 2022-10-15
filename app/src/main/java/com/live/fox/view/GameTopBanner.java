@@ -8,15 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
-import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.holder.Holder;
 import com.live.fox.R;
 import com.live.fox.entity.Advert;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.StringUtils;
+import com.live.fox.view.convenientbanner.ConvenientBanner;
+import com.live.fox.view.convenientbanner.holder.CBViewHolderCreator;
+import com.live.fox.view.convenientbanner.holder.Holder;
+import com.live.fox.view.convenientbanner.listener.OnItemClickListener;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class GameTopBanner extends ConvenientBanner {
 //            this.startTurning(2000);
 //        }
 
-        this.setOnItemClickListener(new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
+        this.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (!StringUtils.isEmpty(bannerList.get(position).getJumpUrl())) {

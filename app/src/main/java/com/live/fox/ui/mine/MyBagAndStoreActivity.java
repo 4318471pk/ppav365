@@ -13,6 +13,7 @@ import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityMybagStoreBinding;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class MyBagAndStoreActivity extends BaseBindingViewActivity {
         RecyclerSpace recyclerSpace = new RecyclerSpace(ScreenUtils.getDip2px(this, 5));
         mBind.rvMain.addItemDecoration(recyclerSpace);
         mBind.rvMain.setLayoutManager(grid);
+        mBind.srlMyBag.setRefreshHeader(new MyWaterDropHeader(this));
 
         beans=new ArrayList<>();
         for (int i = 0; i < 20; i++) {

@@ -11,7 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.live.fox.view.EmptyDataView;
+
 public class RecyclerSpace extends RecyclerView.ItemDecoration {
+
+    public static final int AnchorGrid=2;
+
     private final int space;
     private int color = -1;
     private Drawable mDivider;
@@ -30,13 +35,9 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
         this.space = space;
     }
 
-    public RecyclerSpace(int space, int color) {
+    public RecyclerSpace(int space, int type) {
         this.space = space;
-        this.color = color;
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(color);
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setStrokeWidth(space * 2);
+        this.type = type;
     }
 
     public RecyclerSpace(int space, int color, int type) {
@@ -57,6 +58,9 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view,
                                RecyclerView parent, RecyclerView.State state) {
+
+
+
         if (parent.getLayoutManager() != null) {
             if (parent.getLayoutManager() instanceof LinearLayoutManager && !(parent.getLayoutManager() instanceof GridLayoutManager)) {
                 if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayoutManager.HORIZONTAL) {
@@ -65,7 +69,17 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
                     outRect.set(0, space, 0, space);
                 }
             } else {
-                outRect.set(space, space, space, space);
+                switch (type)
+                {
+                    case 2:
+                        int position = parent.getChildAdapterPosition(view); // 获取view 在adapter中的位置。
+                        int column = position % 2; // view 所在的列
+                        outRect.set(0, space, 0, 0);
+                        break;
+                    default:
+                        outRect.set(space, space, space, space);
+                }
+
             }
         }
 
@@ -82,10 +96,15 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
                     drawVertical(c, parent);
                 }
             } else {
-                if (type == 0) {
-                    drawGrideview(c, parent);
-                } else {
-                    drawGrideview1(c, parent);
+                switch (type)
+                {
+                    case 0:
+                        drawGrideview(c, parent);
+                        break;
+                    case 1:
+                        drawGrideview1(c, parent);
+                        break;
+
                 }
             }
         }
@@ -244,4 +263,6 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
             }
         }
     }
+
+
 }

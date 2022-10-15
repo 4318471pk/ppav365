@@ -294,6 +294,9 @@
             android:name=".ui.mine.ShareActivity"
             android:screenOrientation="portrait" /> <!-- 排行榜 -->
         <activity
+            android:name=".ui.search.SearchAnchorActivity"
+            android:screenOrientation="portrait" /> <!-- 搜索主播 -->
+        <activity
             android:name=".ui.rank.RankActivity"
             android:screenOrientation="portrait" /> <!-- 主播榜 -->
         <activity

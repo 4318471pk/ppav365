@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.live.fox.R;
+import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.marquee.dingrui.marqueeviewlib.MarqueeView;
 

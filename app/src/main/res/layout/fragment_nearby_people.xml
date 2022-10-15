@@ -42,6 +42,7 @@
         </RelativeLayout>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/srlRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rlTopView"
@@ -49,6 +50,7 @@
             android:layout_marginTop="5dip">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

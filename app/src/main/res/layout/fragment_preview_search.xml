@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.search.PreviewSearchFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff5f1f8"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llSearchHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="13.5dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivTagSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_search_tag_search" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/ivTagSearch"
+                    android:textColor="#404040"
+                    android:textStyle="bold"
+                    android:text="@string/searchHistory" />
+
+                <ImageView
+                    android:id="@+id/ivDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="10dip"
+                    android:src="@mipmap/icon_delete_history" />
+
+            </RelativeLayout>
+
+            <com.live.fox.view.MyFlowLayout
+                android:id="@+id/myFL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llRecentWatchedHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:paddingTop="10dip"
+            android:orientation="vertical"
+            android:background="@drawable/gradient_white_f5f1f8"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/ivTagRecent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_search_tag_recent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/ivTagRecent"
+                    android:textColor="#404040"
+                    android:textStyle="bold"
+                    android:text="@string/recentWatched" />
+
+            </RelativeLayout>
+
+            <GridLayout
+                android:id="@+id/gl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+</layout>

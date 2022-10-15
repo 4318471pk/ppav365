@@ -14,6 +14,7 @@ import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityMyFollowListBinding;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mBind.rv.setLayoutManager(layoutManager);
         mBind.rv.setAdapter(myFollowListAdapter);
+        mBind.refreshLayout.setRefreshHeader(new MyWaterDropHeader(this));
 
     }
 

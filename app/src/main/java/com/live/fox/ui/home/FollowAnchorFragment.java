@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,36 +12,100 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.live.fox.R;
+import com.live.fox.adapter.FollowAnchorListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
+import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseFragment;
+import com.live.fox.databinding.FragmentFollowAnchorBinding;
+import com.live.fox.entity.Anchor;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.EmptyDataView;
+import com.live.fox.view.RecommendAnchorListFooter;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.jetbrains.annotations.NotNull;
 
-public class FollowAnchorFragment extends BaseFragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    RecyclerView rvMain;
+public class FollowAnchorFragment extends BaseBindingFragment {
+
+    FragmentFollowAnchorBinding mBind;
+    FollowAnchorListAdapter adapter;
+    EmptyDataView emptyDataView;
+    RecommendAnchorListFooter recommendAnchorListFooter;
+
     public static FollowAnchorFragment newInstance() {
         return new FollowAnchorFragment();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public void onClickView(View view) {
 
-        return inflater.inflate(R.layout.fragment_follow_anchor, container, false);
     }
 
+    @Override
+    public int onCreateLayoutId() {
+        return R.layout.fragment_follow_anchor;
+    }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void initView(View view) {
+        mBind=getViewDataBinding();
 
-        rvMain=view.findViewById(R.id.rvMain);
+        mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                if(adapter.getData().size()>0)
+                {
+                    refreshLayout.finishRefresh(false);
+                    setEmptyData(true);
+                }
+                else
+                {
+                    refreshLayout.finishRefresh(true);
+                    for (int i = 0; i < 7; i++) {
+                        adapter.getData().add(new Anchor());
+                    }
+                    setEmptyData(false);
+                }
+
+            }
+        });
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
-                2, GridLayoutManager.VERTICAL, false);
-        rvMain.setLayoutManager(layoutManager);
-        rvMain.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 4)));
+                2);
+        mBind.rvMain.setLayoutManager(layoutManager);
+        int dip5=DeviceUtils.dp2px(requireActivity(), 5.0f);
+        mBind.rvMain.addItemDecoration(new RecyclerSpace(dip5,RecyclerSpace.AnchorGrid));
 
+        List<Anchor> list=new ArrayList<>();
+        adapter=new FollowAnchorListAdapter(getActivity(),list);
+        recommendAnchorListFooter=new RecommendAnchorListFooter(getActivity());
+        adapter.setFooterView(recommendAnchorListFooter);
+        mBind.rvMain.setAdapter(adapter);
+        emptyDataView=new EmptyDataView(getActivity());
+        adapter.addHeaderView(emptyDataView);
+
+        setEmptyData(true);
+    }
+
+    private void setEmptyData(boolean isEmpty)
+    {
+        if(isEmpty)
+        {
+            emptyDataView.getLayoutParams().height=ScreenUtils.getDip2px(getActivity(),200);
+            adapter.setNewData(new ArrayList());
+            recommendAnchorListFooter.setBotTextVisible(false);
+        }
+        else
+        {
+            emptyDataView.getLayoutParams().height=0;
+            recommendAnchorListFooter.setBotTextVisible(true);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

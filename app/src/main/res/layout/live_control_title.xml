@@ -120,7 +120,6 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         app:drawableEndCompat="@drawable/right_arrow"
-        app:drawableStartCompat="@drawable/ren"
         app:layout_constraintBaseline_toBaselineOf="@id/live_control_title_gift"
         app:layout_constraintStart_toEndOf="@id/live_control_title_gift"
         tools:ignore="TextContrastCheck"

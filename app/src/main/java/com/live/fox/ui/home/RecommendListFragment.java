@@ -15,22 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.Holder;
-import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
-import com.live.fox.AppConfig;
 import com.live.fox.R;
 import com.live.fox.adapter.LiveListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
-import com.live.fox.base.BaseLazyViewPagerFragment;
+import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.databinding.FragmentRecommendListBinding;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.Anchor;
 import com.live.fox.manager.DataCenter;
@@ -64,12 +58,12 @@ import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ZoomOutSlideTransformer;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.view.convenientbanner.ConvenientBanner;
+import com.live.fox.view.convenientbanner.holder.Holder;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.marquee.dingrui.marqueeviewlib.MarqueeView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,23 +76,11 @@ import java.util.List;
  * 主页直播列表
  * Home页面
  */
-public class RecommendListFragment extends BaseLazyViewPagerFragment {
+public class RecommendListFragment extends BaseBindingFragment {
 
+    FragmentRecommendListBinding mBind;
     private ConvenientBanner<Advert> convenientBanner;
-    private RelativeLayout gonggaoLayout;
-    private MarqueeView gonggaoTv;
-    private SmartRefreshLayout refreshLayout;
-    private RecyclerView livelistRv;
-    private RecyclerView rvGame;
-    private RecyclerView rvLiveRecomment;
-    private HorizontalScrollView gamesHS;
-    TabLayout tabLayout;
-    LinearLayout collapseView;
-
-
     private LiveListAdapter livelistAdapter;
-    BaseQuickAdapter<GameItem, BaseViewHolder> gameAdapter;
-    BaseQuickAdapter<Anchor, BaseViewHolder> liveRecommentAdapter;
     List<AnchorInfoBean> anchorInfoBeanList;
     User currentUser;
     private int anchorPosition = -1;
@@ -108,113 +90,6 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
 
     public static RecommendListFragment newInstance() {
         return new RecommendListFragment();
-    }
-
-
-    @Override
-    public int getContentLayout() {
-        return R.layout.livelist_fragment;
-    }
-
-    @Override
-    public void bindView(Bundle savedInstanceState) {
-        hasInit = true;
-        initView();
-        currentUser = DataCenter.getInstance().getUserInfo().getUser();
-
-        requestAppAd();
-        initGongGao();
-        initGameView();
-        initLiveRecommentView();
-        initListRecycleView();
-        initRefreshLayout();
-        doGetLiveRecommendApi();
-        doGetGameListApi();
-        doGetLiveListApi(1);
-    }
-
-    private void initView() {
-        convenientBanner = rootView.findViewById(R.id.home_convenient_banner);
-        gonggaoLayout = rootView.findViewById(R.id.layout_gonggao);
-        gonggaoTv = rootView.findViewById(R.id.tv_gonggao);
-        refreshLayout = rootView.findViewById(R.id.home_refreshLayout);
-        livelistRv = rootView.findViewById(R.id.home_live_recycler);
-        rvGame = rootView.findViewById(R.id.rv_game);
-        rvLiveRecomment = rootView.findViewById(R.id.rv_liverecomment);
-        gamesHS=rootView.findViewById(R.id.gamesHS);
-        tabLayout=rootView.findViewById(R.id.hostTypeTabs);
-        collapseView=rootView.findViewById(R.id.collapseView);
-        refreshLayout.setRefreshHeader(new MyWaterDropHeader(getActivity()));
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                RelativeLayout relativeLayout=(RelativeLayout) tab.getCustomView();
-                TextView item=(TextView)relativeLayout.getChildAt(0);
-                item.setBackground(getResources().getDrawable(R.drawable.round_gradient_a800ff_d689ff));
-                item.setTextColor(0xffffffff);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                RelativeLayout relativeLayout=(RelativeLayout) tab.getCustomView();
-                TextView item=(TextView)relativeLayout.getChildAt(0);
-                item.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
-                item.setTextColor(0xff404040);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-
-        //假数据-------------------
-        LinearLayout linearLayout=new LinearLayout(getContext());
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setLayoutParams(new HorizontalScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        int dip1=ScreenUtils.dip2px(getContext(),1);
-        for (int i = 0; i <20; i++) {
-            TextView textView=new TextView(getContext());
-            textView.setText(getResources().getText(R.string.home_bottom_tab_game));
-            textView.setGravity(Gravity.CENTER);
-            textView.setBackgroundColor(getResources().getColor(R.color.red));
-            textView.setTextColor(0xff404040);
-            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(dip1*60,dip1*60);
-            ll.leftMargin=dip1*5;
-            textView.setLayoutParams(ll);
-            linearLayout.addView(textView);
-        }
-
-        gamesHS.addView(linearLayout);
-
-        int screenWidth=ScreenUtils.getScreenWidth(getContext());
-        int itemWidth=(screenWidth-ScreenUtils.dip2px(getContext(),50))/5;
-        for (int i = 0; i < 10; i++) {
-            RelativeLayout tabItemRL=new RelativeLayout(getContext());
-            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            TextView tvTab=new TextView(getContext());
-            tvTab.setText(i>0?"姐姐":"休闲鞋好");
-            tvTab.setGravity(Gravity.CENTER);
-            tvTab.setTextColor(0xff404040);
-            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
-            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
-            RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            rl.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
-//            rl.topMargin=dip1*5;
-            rl.bottomMargin=dip1*10;
-            tvTab.setLayoutParams(rl);
-            tabItemRL.addView(tvTab);
-
-            tabLayout.addTab(tabLayout.newTab().setCustomView(tabItemRL));
-        }
-
-
-        //假数据
-
     }
 
     private void requestAppAd() {
@@ -227,6 +102,17 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onClickView(View view) {
+
+    }
+
+    @Override
+    public int onCreateLayoutId() {
+        return R.layout.fragment_recommend_list;
     }
 
     /**
@@ -314,70 +200,6 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
             SPUtils.getInstance("tixianAd").put("content", new Gson().toJson(tixianList));
         }
         initConvenientBanner(bannerList);
-    }
-
-    /**
-     * 游戏列表
-     */
-    public void initGameView() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rvGame.setLayoutManager(layoutManager);
-        rvGame.setNestedScrollingEnabled(false);
-        rvGame.setAdapter(gameAdapter = new BaseQuickAdapter(R.layout.item_game_content,
-                new ArrayList<GameItem>()) {
-            @Override
-            protected void convert(BaseViewHolder helper, Object item) {
-                GameItem gameItem = (GameItem) item;
-                helper.setText(R.id.game_name, gameItem.getName());
-                ImageView icon = helper.getView(R.id.game_image_view);
-                if (AppConfig.isThLive()) {
-                    Glide.with(requireContext()).load(gameItem.getIcon()).into(icon);
-                } else {
-                    GlideUtils.loadImage(requireActivity(), gameItem.getIcon(), icon);
-                }
-            }
-        });
-
-        gameAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (DataCenter.getInstance().getUserInfo().getUser() == null) {
-                LoginModeSelActivity.startActivity(requireContext());
-                return;
-            }
-
-            GameItem gameItem = (GameItem) adapter.getItem(position);
-            if (gameItem != null) {
-                LogUtils.e(new Gson().toJson(gameItem));
-                loginGame(gameItem);
-            }
-        });
-    }
-
-    /**
-     * 直播间推荐列表
-     */
-    public void initLiveRecommentView() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rvLiveRecomment.setLayoutManager(layoutManager);
-        rvLiveRecomment.setNestedScrollingEnabled(false);
-        rvLiveRecomment.setAdapter(liveRecommentAdapter = new BaseQuickAdapter(
-                R.layout.item_liverecomment, new ArrayList<Anchor>()) {
-            @Override
-            protected void convert(BaseViewHolder helper, Object item) {
-                Anchor anchor = (Anchor) item;
-                helper.setText(R.id.tv_name, anchor.getNickname());
-                GlideUtils.loadDefaultRoundedImage(requireActivity(),
-                        anchor.getAvatar(), helper.getView(R.id.iv_cover));
-            }
-        });
-
-        liveRecommentAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (DoubleUtils.isFastDoubleClick()) return;
-            toLiveRoom((Anchor) adapter.getItem(position), position);
-        });
     }
 
     //登录游戏
@@ -529,11 +351,12 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
     public void initListRecycleView() {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 2, GridLayoutManager.VERTICAL, false);
-        livelistRv.setLayoutManager(layoutManager);
-        livelistRv.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 4)));
-        livelistRv.setAdapter(livelistAdapter = new LiveListAdapter(new ArrayList<>()));
-
-        livelistAdapter.addHeaderView(new LiveListHeader(getContext()));
+        mBind.rvAnchorList.setLayoutManager(layoutManager);
+        mBind.rvAnchorList.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 2.5f)));
+        mBind.rvAnchorList.setAdapter(livelistAdapter = new LiveListAdapter(getActivity(),new ArrayList<>()));
+        LiveListHeader header=new LiveListHeader(getContext());
+        livelistAdapter.addHeaderView(header);
+        convenientBanner = header.findViewById(R.id.home_convenient_banner);
         livelistAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (DoubleUtils.isFastDoubleClick()) return;
             if (livelistAdapter.getItem(position) == null) return;
@@ -593,12 +416,12 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
      * 刷新
      */
     public void initRefreshLayout() {
-        refreshLayout.setEnableLoadMore(true);
-        refreshLayout.setOnRefreshListener(refreshLayout -> {
+        mBind.homeRefreshLayout.setEnableLoadMore(true);
+        mBind.homeRefreshLayout.setOnRefreshListener(refreshLayout -> {
             requestAppAd();
             doGetLiveListApi(1);
-            doGetGameListApi();
-            doGetLiveRecommendApi();
+//            doGetGameListApi();
+//            doGetLiveRecommendApi();
         });
     }
 
@@ -609,7 +432,7 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
             public void onSuccess(int code, String msg, List<Anchor> data) {
                 if (code == 0) {
                     if (data != null && data.size() != 0) {
-                        liveRecommentAdapter.setNewData(data);
+
                     }
                 }
             }
@@ -626,7 +449,6 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
                 if (code == 0) {
                     if (data == null || data.getList() == null || data.getList().size() == 0) {
                     } else {
-                        gameAdapter.setNewData(data.getList());
                     }
                 }
             }
@@ -643,20 +465,19 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
             @Override
             public void onSuccess(int code, String msg, List<Anchor> data) {
                 if (data == null) {
-                    if(isAdded())
-                    {
+                    if (isAdded()) {
                         showEmptyView(getString(R.string.noData));
                     }
                     return;
                 }
                 hideEmptyView();
                 LogUtils.e("房间列表：" + new Gson().toJson(data));
-                if (refreshLayout != null)
-                    refreshLayout.finishRefresh();
+                if (mBind.homeRefreshLayout != null)
+                    mBind.homeRefreshLayout.finishRefresh();
                 if (code == 0) {
                     if (data.size() == 0) {
                         showEmptyView(getString(R.string.noData));
-                        livelistAdapter.setEmptyView(R.layout.view_empty, (ViewGroup) livelistRv.getParent());
+                        livelistAdapter.setEmptyView(R.layout.view_empty, (ViewGroup) mBind.rvAnchorList.getParent());
                     }
                     anchorInfoBeanList = new ArrayList<>();
                     for (int i = 0; i < data.size(); i++) {
@@ -667,9 +488,9 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
                             anchorPosition = i;
                         }
                         //测试测试测试测试测试测试测试测试测试测试测试测试
-                        for (int j = 0; j <30 ; j++) {
+                        for (int j = 0; j < 30; j++) {
                             anchorInfoBeanList.add(new AnchorInfoBean(anchor));
-                            anchorInfoBeanList.add(new AnchorInfoBean(true));
+//                            anchorInfoBeanList.add(new AnchorInfoBean(true));
                         }
 
                     }
@@ -700,7 +521,7 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
             hasBanner = true;
             convenientBanner.setPages(BannerHolder::new, bannerList)
                     .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
-                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
 
             convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
 
@@ -726,9 +547,100 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
         }
     }
 
+    @Override
+    public void initView(View view) {
+        mBind=getViewDataBinding();
+        initView();
+        currentUser = DataCenter.getInstance().getUserInfo().getUser();
+
+        requestAppAd();
+        initGongGao();
+        initListRecycleView();
+        initRefreshLayout();
+//        doGetLiveRecommendApi();
+//        doGetGameListApi();
+        doGetLiveListApi(1);
+    }
+
+    private void initView() {
+        MyWaterDropHeader header=new MyWaterDropHeader(getActivity());
+        header.setBackgroundColor(0xffF5F1F8);
+        mBind.homeRefreshLayout.setRefreshHeader(header);
+
+        mBind.hostTypeTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                RelativeLayout relativeLayout = (RelativeLayout) tab.getCustomView();
+                TextView item = (TextView) relativeLayout.getChildAt(0);
+                item.setBackground(getResources().getDrawable(R.drawable.round_gradient_a800ff_d689ff));
+                item.setTextColor(0xffffffff);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                RelativeLayout relativeLayout = (RelativeLayout) tab.getCustomView();
+                TextView item = (TextView) relativeLayout.getChildAt(0);
+                item.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
+                item.setTextColor(0xff404040);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        //假数据-------------------
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setLayoutParams(new HorizontalScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        int dip1 = ScreenUtils.dip2px(getContext(), 1);
+        for (int i = 0; i < 20; i++) {
+            TextView textView = new TextView(getContext());
+            textView.setText(getResources().getText(R.string.home_bottom_tab_game));
+            textView.setGravity(Gravity.CENTER);
+            textView.setBackgroundColor(getResources().getColor(R.color.red));
+            textView.setTextColor(0xff404040);
+            LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(dip1 * 60, dip1 * 60);
+            ll.leftMargin = dip1 * 5;
+            textView.setLayoutParams(ll);
+            linearLayout.addView(textView);
+        }
+
+        mBind.gamesHS.addView(linearLayout);
+
+        int screenWidth = ScreenUtils.getScreenWidth(getContext());
+        int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;
+        for (int i = 0; i < 10; i++) {
+            RelativeLayout tabItemRL = new RelativeLayout(getContext());
+            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            TextView tvTab = new TextView(getContext());
+            tvTab.setText(i > 0 ? "姐姐" : "休闲鞋好");
+            tvTab.setGravity(Gravity.CENTER);
+            tvTab.setTextColor(0xff404040);
+            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
+            RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+//            rl.topMargin=dip1*5;
+            rl.bottomMargin = dip1 * 10;
+            tvTab.setLayoutParams(rl);
+            tabItemRL.addView(tvTab);
+
+            mBind.hostTypeTabs.addTab(mBind.hostTypeTabs.newTab().setCustomView(tabItemRL));
+        }
+
+
+        //假数据
+
+    }
+
     public static class BannerHolder implements Holder<Advert> {
 
-        private RoundedImageView bannerImg;
+        private ImageView bannerImg;
 
         @Override
         public View createView(Context context) {
@@ -747,25 +659,25 @@ public class RecommendListFragment extends BaseLazyViewPagerFragment {
                 bannerUrl = jsonStr;
             }
 
-            GlideUtils.loadDefaultRoundedImage(context, bannerUrl, bannerImg);
+            GlideUtils.loadDefaultImage(context, bannerUrl, bannerImg);
         }
     }
 
     public void initGongGao() {
-        gonggaoLayout.setVisibility(View.VISIBLE);
+        mBind.rlBroadcast.setVisibility(View.VISIBLE);
         String content = SPUtils.getInstance("ad_gonggao").getString("content", "");
         if (StringUtils.isEmpty(content)) {
-            gonggaoLayout.setVisibility(View.GONE);
+            mBind.rlBroadcast.setVisibility(View.GONE);
         } else {
-            gonggaoLayout.setVisibility(View.VISIBLE);
+            mBind.rlBroadcast.setVisibility(View.VISIBLE);
             List<Advert> advertList = GsonUtil.getObjects(content, Advert[].class);
             String jsonStr = advertList.get(0).getContent();
             if (jsonStr.startsWith("{") && jsonStr.endsWith("}")) {
                 jsonStr = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));
             }
 
-            gonggaoTv.setContent(jsonStr);
-            gonggaoTv.setOnClickListener(view -> {
+            mBind.mvBroadcast.setContent(jsonStr);
+            mBind.mvBroadcast.setOnClickListener(view -> {
                 if (!StringUtils.isEmpty(advertList.get(0).getJumpUrl())) {
                     if (advertList.get(0).getOpenWay() == 0) { //打开方式 0站内，1站外
                         FragmentContentActivity.startWebActivity(getActivity(), "", advertList.get(0).getJumpUrl());

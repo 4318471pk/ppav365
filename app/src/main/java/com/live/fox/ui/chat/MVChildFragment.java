@@ -86,7 +86,7 @@ public class MVChildFragment extends BaseFragment {
                 2, GridLayoutManager.VERTICAL, false);
         livelistRv.setLayoutManager(layoutManager);
         livelistRv.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 4)));
-        livelistAdapter = new LiveListAdapter(new ArrayList<>());
+        livelistAdapter = new LiveListAdapter(getActivity(),new ArrayList<>());
         livelistRv.setAdapter(livelistAdapter);
 
         livelistAdapter.setOnItemClickListener((adapter, view, position) -> {

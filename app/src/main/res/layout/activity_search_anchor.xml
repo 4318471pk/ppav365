@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.search.SearchAnchorActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:onClick="@{click.onClickView}"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:src="@mipmap/icon_back_purple" />
+
+            <com.flyco.roundview.RoundRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="33dip"
+                android:layout_toRightOf="@id/ivBack"
+                android:layout_centerVertical="true"
+                app:rv_cornerRadius="16.25dp"
+                app:rv_backgroundColor="#F4F1F8"
+                android:layout_marginRight="5dip">
+
+                <ImageView
+                    android:id="@+id/ivTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:src="@mipmap/icon_search_gray" />
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvSearch"
+                    android:layout_width="60dp"
+                    android:layout_height="30dip"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="15sp"
+                    android:textColor="#fefefe"
+                    android:text="@string/search"
+                    android:gravity="center"
+                    app:gt_radius_dp="15dp"
+                    app:gt_color_list="@array/identificationColor" />
+
+                <ImageView
+                    android:id="@+id/ivDelete"
+                    android:layout_toLeftOf="@id/gtvSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:onClick="@{click.onClickView}"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_delete_search" />
+
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/ivTag"
+                    android:layout_toLeftOf="@id/ivDelete"
+                    android:background="#00000000"
+                    android:textColor="#404040"
+                    android:textSize="15sp"
+                    android:hint="@string/plzInputIDOrNickName"
+                    android:textColorHint="#B8B2C8" />
+
+            </com.flyco.roundview.RoundRelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_alignParentBottom="true"
+                android:background="#F4F1F8" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>

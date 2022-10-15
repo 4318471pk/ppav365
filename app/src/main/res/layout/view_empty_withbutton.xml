@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/no_data" />
+        android:src="@mipmap/icon_emptydata" />
 
     <TextView
         android:id="@+id/tv_empty"
@@ -34,6 +34,6 @@
         android:textColor="#F03070"
         android:textColorHighlight="#F03070"
         android:textSize="14sp"
-        tools:text="@string/attention" />
+        tools:text="@string/follow" />
 
 </LinearLayout>

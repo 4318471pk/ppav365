@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigkoo.convenientbanner.holder.Holder;
 import com.live.fox.R;
 import com.live.fox.entity.response.RedBagRainBean;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.TimeUtils;
+import com.live.fox.view.convenientbanner.holder.Holder;
 
 public class RedBagBannerHolder implements Holder<RedBagRainBean> {
 

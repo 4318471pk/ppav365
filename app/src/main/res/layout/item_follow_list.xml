@@ -13,6 +13,7 @@
     android:paddingStart="8dp"
     android:paddingEnd="10dp"
     app:rv_cornerRadius="10dp"
+    app:rv_backgroundColor="@color/white"
     >
 
     <RelativeLayout
