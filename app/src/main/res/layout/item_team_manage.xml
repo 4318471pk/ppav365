@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/mView"
+    android:layout_height="35dp"
+    android:paddingStart="7dp"
+    android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_weight="3.2"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/userName"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/color665275"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/tvGx"
+            android:layout_width="0dp"
+            android:layout_weight="1.8"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="@string/gongxianzhi"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/color665275"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvGame"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/entertainmentHall"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/color665275"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvLiving"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/living_2"
+            android:textColor="@color/color665275"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+            
+            <ImageView
+                android:id="@+id/ivCz"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="4dp"
+                android:src="@mipmap/pen"
+                />
+
+        </LinearLayout>
+
+
+
+
+</LinearLayout>

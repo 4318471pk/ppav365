@@ -41,6 +41,7 @@ import com.live.fox.server.Api_LiveRecreation;
 import com.live.fox.ui.AuthActivity;
 import com.live.fox.ui.chat.ChatListFragment;
 import com.live.fox.ui.game.GameFragment;
+import com.live.fox.ui.home.AgencyCenterFragment;
 import com.live.fox.ui.home.HomeFragment;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
@@ -72,6 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ChatListFragment playFragment;
     private GameFragment gameFragment;
     private MineFragment mineFragment;
+    private AgencyCenterFragment agencyCenterFragment;
     private int whichPage;
     private boolean isShowNotification;
     private boolean isCloseNotice;
@@ -194,7 +196,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void initView() {
-        findViewById(R.id.layout_openlive).setOnClickListener(this);
+        //findViewById(R.id.layout_openlive).setOnClickListener(this);
         initTable();
 
         if (!isShowNotification) {
@@ -222,6 +224,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     showLiveFragment();
                     break;
 
+                case R.id.layout_openlive:
+                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+                        radioGroup.clearCheck();
+                        LoginModeSelActivity.startActivity(context);
+                        return;
+                    }
+                    showAgencyFragment();
+                    break;
                 case R.id.main_rb_game: //游戏
                     if (!DataCenter.getInstance().getUserInfo().isLogin()) {
                         radioGroup.clearCheck();
@@ -298,48 +308,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.layout_openlive) { //开启直播
-            if (ClickUtil.isFastDoubleClick(5000)) return;
-
-            if (DataCenter.getInstance().getUserInfo().isLogin()) {
-                boolean careraPermission = false;
-                boolean mircPermission = false;
-                if (ContextCompat.checkSelfPermission(MainActivity.this,
-                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                    careraPermission = true;
-                }
-
-                if (ContextCompat.checkSelfPermission(MainActivity.this,
-                        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                    mircPermission = true;
-                }
-
-                if (!careraPermission || !mircPermission) {
-                    RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
-                    Disposable subscribe = rxPermissions.request(
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.RECORD_AUDIO)
-                            .subscribe(granted -> {
-                                if (granted) {
-                                    checkAuth();
-                                } else { // 有的权限被拒绝或被勾选不再提示
-                                    LogUtils.e("有的权限被拒绝");
-                                    new AlertDialog.Builder(MainActivity.this)
-                                            .setCancelable(false)
-                                            .setMessage(getString(R.string.notePermission))
-                                            .setPositiveButton(getString(R.string.see), (dialog, which) -> LogUtils.e("权限被拒绝"))
-                                            .show();
-                                }
-                            });
-                } else {
-                    checkAuth();
-                }
-            }
-            else
-            {
-                LoginModeSelActivity.startActivity(context);
-            }
-        }
+ //       if (view.getId() == R.id.layout_openlive) { //开启直播
+//            if (ClickUtil.isFastDoubleClick(5000)) return;
+//
+//            if (DataCenter.getInstance().getUserInfo().isLogin()) {
+//                boolean careraPermission = false;
+//                boolean mircPermission = false;
+//                if (ContextCompat.checkSelfPermission(MainActivity.this,
+//                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+//                    careraPermission = true;
+//                }
+//
+//                if (ContextCompat.checkSelfPermission(MainActivity.this,
+//                        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+//                    mircPermission = true;
+//                }
+//
+//                if (!careraPermission || !mircPermission) {
+//                    RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
+//                    Disposable subscribe = rxPermissions.request(
+//                            Manifest.permission.CAMERA,
+//                            Manifest.permission.RECORD_AUDIO)
+//                            .subscribe(granted -> {
+//                                if (granted) {
+//                                    checkAuth();
+//                                } else { // 有的权限被拒绝或被勾选不再提示
+//                                    LogUtils.e("有的权限被拒绝");
+//                                    new AlertDialog.Builder(MainActivity.this)
+//                                            .setCancelable(false)
+//                                            .setMessage(getString(R.string.notePermission))
+//                                            .setPositiveButton(getString(R.string.see), (dialog, which) -> LogUtils.e("权限被拒绝"))
+//                                            .show();
+//                                }
+//                            });
+//                } else {
+//                    checkAuth();
+//                }
+//            }
+//            else
+//            {
+//                LoginModeSelActivity.startActivity(context);
+//            }
+ //       }
     }
 
     MMToast mmToast;  //成功或失败的Toast提示
@@ -661,6 +671,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         showSpecialFragment(fragmentTransaction, mineFragment);
     }
+
+
+    public void showAgencyFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (agencyCenterFragment == null) {
+            agencyCenterFragment = AgencyCenterFragment.newInstance();
+            fragmentTransaction.add(R.id.fl_main, agencyCenterFragment);
+        }
+        showSpecialFragment(fragmentTransaction, agencyCenterFragment);
+    }
+
 
     //显示指定的Fragment
     public void showSpecialFragment(FragmentTransaction fragmentTransaction, Fragment fragment) {

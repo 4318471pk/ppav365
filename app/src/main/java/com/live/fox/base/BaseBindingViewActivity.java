@@ -24,6 +24,7 @@ import com.live.fox.utils.device.ScreenUtils;
 
 public abstract class BaseBindingViewActivity extends BaseActivity {
 
+    View layoutHead;
     public ImageView ivHeadLeft;
     public RoundLinearLayout service;
     public TextView tvHeadTitle;
@@ -60,7 +61,8 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
             container.addView(binding.getRoot());
             setContentView(container);
 
-            StatusBarUtil.setStatusBarAlpha(this,0,view.findViewById(R.id.rlTopHead));
+            layoutHead = view.findViewById(R.id.rlTopHead);
+            StatusBarUtil.setStatusBarAlpha(this,0,layoutHead);
 
             screenWidth= ScreenUtils.getScreenWidth(this);
             ivHeadLeft = findViewById(R.id.ivHeadLeft);
@@ -94,6 +96,10 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
     {
         service.setVisibility(View.VISIBLE);
         service.setOnClickListener(listener);
+    }
+
+    public void setHeadGone(){
+        layoutHead.setVisibility(View.GONE);
     }
 
     public TextView getTvTitleRight() {

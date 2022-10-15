@@ -368,6 +368,18 @@
             android:name=".ui.mine.noble.MyNobleActivity"
             android:screenOrientation="portrait" /> <!-- 安卓APK -->
         <activity
+            android:name=".ui.agency.BindLowerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.AgencySaveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.AgencySaveRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.TeamManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.mine.gamerecord.CaiDetailActivity"
             android:screenOrientation="portrait" />
         <activity

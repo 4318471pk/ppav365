@@ -36,6 +36,7 @@ import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.OnClickFrequentlyListener;
+import com.live.fox.utils.PasswordPopUtitls;
 import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
@@ -48,6 +49,8 @@ import com.live.fox.utils.ToastUtils;
 public class WithdrawalActivity extends BaseBindingViewActivity {
 
     ActivityWithdrawalBinding mBind;
+
+    PasswordPopUtitls passwordPopUtitls;
 
     public static void startActivity(Context context) {
         Intent i = new Intent(context, WithdrawalActivity.class);
@@ -62,6 +65,11 @@ public class WithdrawalActivity extends BaseBindingViewActivity {
 
     @Override
     public void onClickView(View view) {
+        if (view == mBind.gtCommit) {
+            passwordPopUtitls.show();
+        }
+
+
 
     }
 
@@ -74,6 +82,7 @@ public class WithdrawalActivity extends BaseBindingViewActivity {
     public void initView() {
         mBind=getViewDataBinding();
         mBind.setClick(this);
+        passwordPopUtitls = new PasswordPopUtitls(this, mBind.getRoot());
         setActivityTitle(getString(R.string.account_withdrawal));
         getTvTitleRight().setText(getString(R.string.withdrawCards));
         getTvTitleRight().setTextColor(0xFFA800FF);
@@ -92,6 +101,13 @@ public class WithdrawalActivity extends BaseBindingViewActivity {
         SpannableString spannedString=new SpannableString(mBind.tvMax.getText().toString());
         spannedString.setSpan(new UnderlineSpan(),0,spannedString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mBind.tvMax.setText(spannedString);
+
+        passwordPopUtitls.setPayPwdConfirm(new PasswordPopUtitls.PayPwdConfirm() {
+            @Override
+            public void clickConfirm(String pwd) {
+
+            }
+        });
     }
 
 

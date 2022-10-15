@@ -351,4 +351,11 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <!--代理中心子item-->
+    <declare-styleable name="AgencyCenterItemView">
+        <attr name="title" format="string|reference" />
+        <attr name="show_line" format="boolean" />
+    </declare-styleable>
+
+
 </resources>

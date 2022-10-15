@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.home.AgencyCenterFragment" />
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/layoutHead"
+        android:layout_marginTop="28dp"
+        >
+
+
+
+        <TextView
+            android:id="@+id/tv_head_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/agency_center"
+            android:textColor="@color/color404040"
+            android:textSize="19sp" />
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3.5dp"
+            android:paddingBottom="3.5dp"
+            android:orientation="horizontal"
+            app:rv_cornerRadius="14dp"
+            app:rv_backgroundColor="#F4F1F8"
+            >
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@mipmap/customer_service_ava"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="@string/service"
+                android:textColor="@color/colorA800FF"
+                android:textSize="15sp" />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_gonggao"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="#CCDEFF"
+        android:orientation="horizontal">
+
+        <com.marquee.dingrui.marqueeviewlib.MarqueeView
+            android:id="@+id/adRoundTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:gravity="center_vertical"
+            app:marqueeview_is_resetLocation="false"
+            app:marqueeview_isclickalbe_stop="true"
+            app:marqueeview_repet_type="repet_interval"
+            app:marqueeview_text_color="@color/color4E7CAC"
+            app:marqueeview_text_size="13"
+            app:marqueeview_text_speed="1"
+            app:marqueeview_text_startlocationdistance="0.5" />
+
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="13dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@mipmap/voice" />
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gary_50"
+        android:orientation="vertical"
+        android:overScrollMode="never">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_cornerRadius="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="9dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/bg_aa0af2_79a0ff"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/my_card"
+                        android:textColor="@color/color404040"
+                        android:textSize="15sp" />
+
+
+                    <TextView
+                        android:id="@+id/tvCopyCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/copy_card"
+                        android:textColor="@color/color0F86FF"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:background="@drawable/bg_aa0af2_79a0ff"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nickname_2"
+                                android:textColor="@color/color665275"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvNickName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_marginStart="6dp"
+                                android:text="哈哈哈"
+                                android:textColor="@color/color665275"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="ID:"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvId"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingEnd="10dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginStart="6dp"
+                                    android:text="11111111111"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/bind_code"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvBindCode"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginStart="6dp"
+                                    android:text="11111111111"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/wechat_2"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvWechat"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingEnd="10dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginStart="6dp"
+                                    android:text="11111111111"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/phone"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPhone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginStart="6dp"
+                                    android:text="11111111111"
+                                    android:textColor="@color/color665275"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/sign_2"
+                                android:textColor="@color/color665275"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvSign"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_marginStart="6dp"
+                                android:text=""
+                                android:textColor="@color/color665275"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvEdit"
+                        android:layout_width="75dp"
+                        android:layout_height="29dp"
+                        android:gravity="center"
+                        android:text="@string/edit"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:onClick="@{click.onClickView}"
+                        android:background="@drawable/bg_a800ff_d689ff"
+                        />
+
+                    <com.flyco.roundview.RoundLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="29dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        app:rv_cornerRadius="15dp"
+                        app:rv_backgroundColor="@color/colorF4F1F8"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="18dp"
+                            android:text="@string/my_superior_id"
+                            android:textColor="@color/color665275"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvMySuperior"
+                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginStart="6dp"
+                            android:text="1234567"
+                            android:textColor="@color/color665275"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvCheck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="18dp"
+                            android:onClick="@{click.onClickView}"
+                            android:text="@string/check"
+                            android:textColor="@color/color0F86FF"
+                            android:textSize="13sp" />
+
+                    </com.flyco.roundview.RoundLinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginStart="2.5dp"
+                    android:layout_marginEnd="2.5dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+
+                    <RelativeLayout
+                        android:id="@+id/layoutAgency"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:src="@mipmap/daili"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="52dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:text="@string/agency_int"
+                            android:textColor="@color/color665275"
+                            android:textSize="11.5sp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+
+
+                    <RelativeLayout
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:src="@mipmap/tuiguang"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="52dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:text="@string/promotional_materials"
+                            android:textColor="@color/color665275"
+                            android:textSize="11.5sp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutBindLower"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:src="@mipmap/bangding"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="52dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:text="@string/bind_subordinates"
+                            android:textColor="@color/color665275"
+                            android:textSize="11.5sp" />
+
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:src="@mipmap/fangan"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="52dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:text="@string/money_plan"
+                            android:textColor="@color/color665275"
+                            android:textSize="11.5sp" />
+
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutSave"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        >
+
+                        <ImageView
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"
+                            android:src="@mipmap/daicun"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="52dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:text="@string/agency_save"
+                            android:textColor="@color/color665275"
+                            android:textSize="11.5sp" />
+
+                    </RelativeLayout>
+
+
+
+
+                </LinearLayout>
+
+
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="7dp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_cornerRadius="10dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginStart="30dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="9999"
+                            android:textColor="@color/color1FC478"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="@string/team_nums"
+                            android:textColor="@color/colorA2A0A9"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+
+
+                    <LinearLayout
+                        android:id="@+id/layoutTeamManage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/team_management"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/team_manage"
+                            android:textColor="@color/color665275"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layoutMoneyRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        android:gravity="center"
+                        android:layout_marginStart="28dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/commission_statement"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="@string/yongjin_record"
+                            android:textColor="@color/color665275"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutGameRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        android:gravity="center"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/game_record"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="@string/game_record"
+                            android:textColor="@color/color665275"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@mipmap/xu_line"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9.5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="@string/game_record"
+                        android:textColor="@color/color665275"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="系统代理"
+                        android:textColor="@color/color1FC478"
+                        android:textSize="13sp" />
+
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+
+
+                    <com.flyco.roundview.RoundLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="29dp"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginEnd="13dp"
+                        app:rv_cornerRadius="18dp"
+                        app:rv_backgroundColor="@color/white"
+                        app:rv_strokeColor="@color/colorA800FF"
+                        app:rv_strokeWidth="1dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvThisMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textSize="15sp"
+                            android:gravity="center"
+                            android:onClick="@{click.onClickView}"
+                            android:text="@string/this_month"
+                            android:textColor="@color/white"
+                            android:background="@drawable/bg_a800ff_d689ff_2"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvLastMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textSize="15sp"
+                            android:gravity="center"
+                            android:onClick="@{click.onClickView}"
+                            android:text="@string/last_month"
+                            android:textColor="@color/colorA800FF"
+                            />
+
+
+                    </com.flyco.roundview.RoundLinearLayout>
+
+
+                </LinearLayout>
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="12dp"
+                app:rv_cornerRadius="10dp"
+                app:rv_backgroundColor="@color/colorFAFAFA"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/yestoday_add"
+                        app:show_line="true"
+                        />
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/month_add"
+                        app:show_line="true"
+                        />
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/month_act"
+                        app:show_line="false"
+                        />
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/my_money"
+                        app:show_line="true"
+                        />
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/team_bet"
+                        app:show_line="true"
+                        />
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/team_con"
+                        app:show_line="false"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/team_charge"
+                        app:show_line="true"
+                        />
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/team_consume"
+                        app:show_line="true"
+                        />
+
+                    <com.live.fox.view.AgencyCenterItemView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        app:title="@string/team_win"
+                        app:show_line="false"
+                        />
+
+                </LinearLayout>
+
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+
+</layout>
