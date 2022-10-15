@@ -22,25 +22,25 @@ public class LruCacheUtil {
 
     public static LruCacheUtil getInstance() {
         if (lruCacheUtil == null) {
-            synchronized (TaskManager.class) {
-                if (lruCacheUtil == null) {
-                    lruCacheUtil = new LruCacheUtil();
-                }
-            }
+            lruCacheUtil = new LruCacheUtil();
         }
         return lruCacheUtil;
     }
 
 
-
     //添加Bitmap到内存缓存
     public void put(Anchor anchor) {
+        synchronized (LruCacheUtil.class)
+        {
             mMemoryCache.add(anchor);
-
+        }
     }
 
     //从内存缓存中获取一个Bitmap
     public ArrayList<Anchor> get() {
-        return mMemoryCache;
+        synchronized (LruCacheUtil.class)
+        {
+            return mMemoryCache;
+        }
     }
 }

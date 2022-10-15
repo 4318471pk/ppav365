@@ -297,6 +297,10 @@
             android:name=".ui.search.SearchAnchorActivity"
             android:screenOrientation="portrait" /> <!-- 搜索主播 -->
         <activity
+            android:name=".ui.living.LivingActivity"
+            android:screenOrientation="portrait" /> <!-- 直播页面 -->
+
+        <activity
             android:name=".ui.rank.RankActivity"
             android:screenOrientation="portrait" /> <!-- 主播榜 -->
         <activity
