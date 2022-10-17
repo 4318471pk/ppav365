@@ -5,10 +5,51 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        tools:context=".MainActivity"
+        tools:ignore="HardcodedText">
+
+        <com.live.fox.view.dragger.FullDraggableContainer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F0F4C3">
+
+            <RelativeLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+        </com.live.fox.view.dragger.FullDraggableContainer>
 
 
-    </RelativeLayout>
+        <FrameLayout
+            android:layout_width="150dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="#FFCCBC"
+            android:clickable="true"
+            android:fitsSystemWindows="false">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="drawer(end)"
+                android:textColor="#452231" />
+
+        </FrameLayout>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
