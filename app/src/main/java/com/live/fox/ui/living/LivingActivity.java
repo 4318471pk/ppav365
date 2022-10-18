@@ -1,8 +1,12 @@
 package com.live.fox.ui.living;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -11,13 +15,25 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityLivingBinding;
+import com.live.fox.utils.BarUtils;
+import com.live.fox.utils.StatusBarUtil;
 
 public class LivingActivity extends BaseBindingViewActivity {
 
     ActivityLivingBinding mBind;
 
+    public static void startActivity(Context context)
+    {
+        context.startActivity(new Intent(context,LivingActivity.class));
+    }
+
     @Override
     public boolean isHasHeader() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullScreen() {
         return true;
     }
 
@@ -33,10 +49,33 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
-        mBind=getViewDataBinding();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+//                | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        mBind=getViewDataBinding();
         mBind.drawerLayout.setScrimColor(0x00000000);
-        mBind.drawerLayout.requestFocus();
+
+        mBind.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                mBind.drawerLayout.requestFocus();
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         mBind.drawerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,11 +83,11 @@ public class LivingActivity extends BaseBindingViewActivity {
             }
         });
 
+//        StatusBarUtil.setStatusBarAlpha(this,0,mBind.rlMain);
+
         ViewPager2 vp2=findViewById(R.id.vp2);
         vp2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        LayoutInflater layoutInflater=getLayoutInflater();
         vp2.setOffscreenPageLimit(1);
-
 
         int kll[]=new int[]{1,2,3,4,5};
 

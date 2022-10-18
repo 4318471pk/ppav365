@@ -18,6 +18,7 @@ import androidx.databinding.ViewDataBinding;
 import com.flyco.roundview.RoundLinearLayout;
 import com.live.fox.Constant;
 import com.live.fox.R;
+import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
@@ -35,6 +36,10 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(isFullScreen())
+        {
+            BarUtils.setStatusBarVisibility(this, false);
+        }
         viewDataBinding=setBindLayoutID(onCreateLayoutId());
         viewDataBinding.setLifecycleOwner(this);
         initView();
@@ -43,6 +48,11 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
     public boolean isHasHeader() {
         //重写这个方法 返回false就不会加头部
         return true;
+    }
+
+    public boolean isFullScreen() {
+        //重写这个方法 满屏显示
+        return false;
     }
 
     public <T extends ViewDataBinding> T getViewDataBinding() {

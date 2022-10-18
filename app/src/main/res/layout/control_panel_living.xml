@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.living.LivingControlPanel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/llTopView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:layout_marginLeft="5dip">
+
+            <com.flyco.roundview.RoundRelativeLayout
+                android:id="@+id/roundRL"
+                android:layout_width="170dip"
+                android:layout_height="34dp"
+                app:rv_backgroundColor="#3f000000"
+                app:rv_cornerRadius="17dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/rivProfileImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dip"
+                    android:src="@drawable/img_default"
+                    app:riv_oval="true" />
+
+                <ImageView
+                    android:id="@+id/ivFollow"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:src="@mipmap/icon_small_follow" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dip"
+                    android:layout_toLeftOf="@id/ivFollow"
+                    android:layout_toRightOf="@id/rivProfileImage"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="名字名字名字名字"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ID:123456789123456"
+                        android:textColor="@color/white"
+                        android:textSize="9sp" />
+                </LinearLayout>
+            </com.flyco.roundview.RoundRelativeLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/horScrollview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dip"
+                android:layout_toRightOf="@id/horScrollview" />
+
+            <com.live.fox.view.GradientTextView
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_alignParentRight="true"
+                android:maxLength="6"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="999999"
+                android:drawableLeft="@mipmap/amount_ofpeople"
+                android:drawablePadding="2dip"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:textColor="@color/white"
+                app:gt_solidNoGradient="#3f000000"
+                app:gt_radius_dp="17dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="8dip">
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvContribution"
+                android:layout_width="95dip"
+                android:layout_height="22dip"
+                app:gt_solidNoGradient="#3f000000"
+                app:gt_radius_dp="17dp"
+                android:text="@string/contributionRank"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:paddingLeft="7dip"
+                android:paddingRight="7dip"
+                android:drawableLeft="@mipmap/icon_contribution_tag"
+                android:drawableRight="@mipmap/icon_arrow_right_white" />
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvProtection"
+                android:layout_width="95dip"
+                android:layout_height="22dip"
+                android:layout_toRightOf="@id/gtvContribution"
+                android:layout_marginLeft="10dip"
+                app:gt_solidNoGradient="#3f000000"
+                app:gt_radius_dp="17dp"
+                android:text="@string/contributionRank"
+                android:gravity="center"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:paddingLeft="7dip"
+                android:paddingRight="7dip"
+                android:drawableLeft="@mipmap/icon_protect_tag"
+                android:drawableRight="@mipmap/icon_arrow_right_white" />
+
+            <com.flyco.roundview.RoundRelativeLayout
+                android:id="@+id/roundRLRecommendList"
+                android:layout_width="70dip"
+                android:layout_height="22dip"
+                android:layout_alignParentRight="true"
+                app:rv_cornerRadius_TL="11dip"
+                app:rv_cornerRadius_BL="11dip"
+                app:rv_backgroundColor="#3f000000">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:drawablePadding="10dip"
+                    android:drawableLeft="@mipmap/icon_arrow_left_white"
+                    android:layout_centerVertical="true"
+                    android:text="@string/recommendForYou"
+                    android:textSize="11sp"
+                    android:textColor="@color/white" />
+
+            </com.flyco.roundview.RoundRelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dip"
+                android:layout_marginRight="5dip"
+                android:src="@mipmap/img_getanchor_card"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvUnitPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dip"
+                    app:gt_solidNoGradient="#F2AD39"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:layout_marginTop="6dip"
+                    android:layout_marginLeft="5dip"
+                    app:gt_radius_dp="9.5dp"
+                    android:textSize="14sp"
+                    android:text="99999999"
+                    android:textColor="@color/white" />
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:layout_marginTop="6dip"
+                    android:layout_marginLeft="5dip"
+                    app:gt_radius_dp="9dp"
+                    app:gt_stroke_color="#FF008A"
+                    app:gt_stroke_width="1.5dip"
+                    app:gt_solidNoGradient="#3f000000"
+                    android:textSize="14sp"
+                    android:text="已观看3分钟"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlMidView"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:background="@color/red_ee"
+            >
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlBotView"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:background="#977483"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="5dip"
+                >
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvSaySomething"
+                    android:layout_width="125dp"
+                    android:layout_height="35dp"
+                    app:gt_solidNoGradient="#3f000000"
+                    android:gravity="center"
+                    app:gt_radius_dp="17.5dp"
+                    android:layout_marginLeft="5dip"
+                    android:drawableLeft="@mipmap/icon_send_message_tag"
+                    android:paddingLeft="15dip"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="@string/saySomething"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivShare"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/icon_living_share_"
+                        android:padding="5dip"
+                        android:background="@drawable/circle_3f000000"/>
+
+                    <RelativeLayout
+                        android:id="@+id/rlPromo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@mipmap/icon_promo_tag"
+                            android:padding="5dip"
+                            android:background="@drawable/circle_3f000000"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@mipmap/icon_promo_bot_tag"/>
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/ivGift"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        android:src="@mipmap/icon_gift_living"
+                        android:padding="5dip"
+                        android:background="@drawable/circle_3f000000"/>
+
+                    <ImageView
+                        android:id="@+id/ivGame"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        android:src="@mipmap/icon_game_living"
+                        android:padding="5dip"
+                        android:background="@drawable/circle_3f000000"/>
+
+                    <ImageView
+                        android:id="@+id/ivClose"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        android:layout_marginRight="5dip"
+                        android:src="@mipmap/icon_close_living"
+                        android:padding="10dip"
+                        android:background="@drawable/circle_3f000000"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="5dip"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/tvMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:paddingLeft="5dip"
+                    android:paddingRight="5dip"
+                    android:background="#00000000"/>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

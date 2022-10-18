@@ -190,6 +190,26 @@ public class GradientTextView extends AppCompatTextView {
             mIndicatorDrawable.setOrientation(orientation);
             mIndicatorDrawable.setCornerRadius(radius);
             mIndicatorDrawable.draw(canvas);
+
+            super.onDraw(canvas);
+            return;
+        }
+
+        if(strokeColor!=-1 && strokeWidth>0 && solidColor!=-1)
+        {
+            mIndicatorDrawable.setBounds(0,0,getWidth(),getHeight());
+            mIndicatorDrawable.setColor(solidColor);
+            mIndicatorDrawable.setCornerRadius(radius);
+            mIndicatorDrawable.draw(canvas);
+
+            GradientDrawable mIndicatorDrawable2=new GradientDrawable();
+            mIndicatorDrawable2.setStroke((int)strokeWidth,strokeColor);
+            mIndicatorDrawable2.setBounds(0,0,getWidth(),getHeight());
+            mIndicatorDrawable2.setCornerRadius(radius);
+            mIndicatorDrawable2.draw(canvas);
+
+            super.onDraw(canvas);
+            return;
         }
 
         if(solidColor!=-1)
@@ -198,6 +218,9 @@ public class GradientTextView extends AppCompatTextView {
             mIndicatorDrawable.setColor(solidColor);
             mIndicatorDrawable.setCornerRadius(radius);
             mIndicatorDrawable.draw(canvas);
+
+            super.onDraw(canvas);
+            return;
         }
 
         if(strokeColor!=-1 && strokeWidth>0)
@@ -206,9 +229,13 @@ public class GradientTextView extends AppCompatTextView {
             mIndicatorDrawable.setStroke((int)strokeWidth,strokeColor);
             mIndicatorDrawable.setCornerRadius(radius);
             mIndicatorDrawable.draw(canvas);
+
+            super.onDraw(canvas);
+            return;
         }
 
-        super.onDraw(canvas);
+
+
 
     }
 }

@@ -139,6 +139,21 @@ public final class ScreenUtils {
     }
 
     /**
+     * Return the height of screen, in pixel.
+     *
+     * @return the height of screen, in pixel
+     */
+    public static int getScreenHeightWithoutBtnsBar(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) {
+            return context.getResources().getDisplayMetrics().heightPixels;
+        }
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.y;
+    }
+
+    /**
      * Return the density of screen.
      *
      * @return the density of screen

@@ -18,6 +18,7 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.CommonApp;
 import com.live.fox.dialog.ScreenLockBindingDialog;
 import com.live.fox.manager.SPManager;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.IntentUtils;
@@ -52,6 +53,7 @@ public class SplashActivity extends BaseActivity {
         fitNotch();
         setContentView(R.layout.activity_splash);
 
+        LivingActivity.startActivity(this);
         splashPresenter = new SplashPresenter(this);
         initView();
 
@@ -154,8 +156,6 @@ public class SplashActivity extends BaseActivity {
             MainActivity.startActivity(SplashActivity.this);
             finish();
         }
-
-
     }
 
     /**

@@ -3,6 +3,7 @@ package com.live.fox.ui.living;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -40,6 +41,7 @@ public class LivingFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind=getViewDataBinding();
         initView();
+
     }
 
     private void initView()
@@ -59,22 +61,9 @@ public class LivingFragment extends BaseBindingFragment {
             public Object instantiateItem(ViewGroup container, int position) {
 
                 if (position == 1) {
-                    ImageView imageView = new ImageView(getActivity());
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    imageView.setImageDrawable(getResources().getDrawable(R.mipmap.announcement));
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.e("VVVVV","imageView");
-                        }
-                    });
-                    container.addView(imageView);
-                    return imageView;
-                }
-                else
-                {
-
+                    LivingControlPanel livingControlPanel= new LivingControlPanel(LivingFragment.this,container);
+                    container.addView(livingControlPanel);
+                    return livingControlPanel;
                 }
                 return null;
             }
@@ -106,4 +95,6 @@ public class LivingFragment extends BaseBindingFragment {
         });
         mBind.viewPager.setCurrentItem(1);
     }
+
+
 }
