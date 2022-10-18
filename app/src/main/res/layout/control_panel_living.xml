@@ -8,11 +8,17 @@
             type="com.live.fox.ui.living.LivingControlPanel" />
     </data>
 
-    <RelativeLayout
+    <com.live.fox.view.SoftLinearLayout
+        android:id="@+id/softInputLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <LinearLayout
             android:id="@+id/llTopView"
             android:layout_width="match_parent"
@@ -85,6 +91,7 @@
             <com.live.fox.view.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="34dp"
+                android:layout_marginRight="5dp"
                 android:layout_alignParentRight="true"
                 android:maxLength="6"
                 android:textSize="12sp"
@@ -335,14 +342,46 @@
                     android:id="@+id/tvMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:textSize="14sp"
                     android:paddingLeft="5dip"
                     android:paddingRight="5dip"
                     android:background="#00000000"/>
 
+                <TextView
+                    android:id="@+id/tvToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:onClick="@{click.onClickView}"
+                    android:paddingRight="10dip"
+                    android:paddingLeft="10dip"
+                    android:textColor="#404040"
+                    android:layout_above="@id/tvMessage"
+                    android:layout_alignParentRight="true"
+                    android:text="收起"
+                    android:background="#877774"
+                    />
 
             </RelativeLayout>
         </RelativeLayout>
+        </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@android:color/holo_green_dark"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:gravity="center"
+                android:text="底部"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </com.live.fox.view.SoftLinearLayout>
 </layout>

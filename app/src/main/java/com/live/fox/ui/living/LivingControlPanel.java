@@ -15,6 +15,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import com.live.fox.R;
 import com.live.fox.databinding.ControlPanelLivingBinding;
+import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
 
 public class LivingControlPanel extends RelativeLayout {
@@ -57,17 +58,22 @@ public class LivingControlPanel extends RelativeLayout {
         addView(mBind.getRoot());
 
         setVisibility(GONE);
-        int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext());
-        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),0);
-        setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),(int)(screenHeight*0.32f));
-        setViewLP(mBind.rlBotView,(int)(screenHeight*0.52f),(int)(screenHeight*0.48f));
+        int topPadding=StatusBarUtil.getStatusBarHeight(fragment.getActivity());
+        int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext())-topPadding;
+
+        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),topPadding);
+        setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
+        setViewLP(mBind.rlBotView,(int)(screenHeight*0.52f),0);
         setVisibility(VISIBLE);
+
+
+        mBind.softInputLayout.hasStatusBar(true);
 
     }
 
     private void setViewLP(View view,int height,int topMargin)
     {
-        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) view.getLayoutParams();
+        LinearLayout.LayoutParams ll=(LinearLayout.LayoutParams) view.getLayoutParams();
         ll.topMargin=topMargin;
         ll.height=height;
         view.setLayoutParams(ll);
@@ -78,6 +84,9 @@ public class LivingControlPanel extends RelativeLayout {
         switch (view.getId())
         {
             case R.id.ivFollow:
+                break;
+            case R.id.tvToggle:
+                mBind.softInputLayout.toggle();
                 break;
         }
     }
