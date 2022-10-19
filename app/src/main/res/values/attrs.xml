@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--直播间礼物数字-->
     <declare-styleable name="MagicTextView">
@@ -184,6 +184,8 @@
         <attr name="textColor" format="color"/>
         <attr name="textBackground" format="reference"/>
         <attr name="textDrawableLeft" format="reference"/>
+        <attr name="cus_panel_trigger" format="reference" />
+        <attr name="cus_panel_toggle" format="boolean" />
         <!--        <attr name="boderColor" format="color"/>-->
         <!--        <attr name="borderRadio" format="dimension"/>-->
     </declare-styleable>
@@ -199,5 +201,30 @@
         <attr name="wkp_toggleDuration" format="integer"/>
         <!--告诉控件是否有沉浸式状态栏（一般状态栏透明或半透明均为false）-->
         <attr name="wkp_hasStatusBar" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchButton" tools:ignore="ResourceName">
+        <attr name="kswThumbDrawable" format="reference"/>
+        <attr name="kswThumbColor" format="color|reference"/>
+        <attr name="kswThumbMargin" format="dimension|reference"/>
+        <attr name="kswThumbMarginTop" format="dimension|reference"/>
+        <attr name="kswThumbMarginBottom" format="dimension|reference"/>
+        <attr name="kswThumbMarginLeft" format="dimension|reference"/>
+        <attr name="kswThumbMarginRight" format="dimension|reference"/>
+        <attr name="kswThumbWidth" format="dimension|reference"/>
+        <attr name="kswThumbHeight" format="dimension|reference"/>
+        <attr name="kswThumbRadius" format="dimension|reference"/>
+        <attr name="kswBackRadius" format="dimension|reference"/>
+        <attr name="kswBackDrawable" format="reference"/>
+        <attr name="kswBackColor" format="color|reference"/>
+        <attr name="kswFadeBack" format="boolean"/>
+        <attr name="kswThumbRangeRatio" format="float"/>
+        <attr name="kswAnimationDuration" format="integer"/>
+        <attr name="kswTintColor" format="color|reference"/>
+        <attr name="kswTextOn" format="string"/>
+        <attr name="kswTextOff" format="string"/>
+        <attr name="kswTextThumbInset" format="dimension"/>
+        <attr name="kswTextExtra" format="dimension"/>
+        <attr name="kswTextAdjust" format="dimension"/>
     </declare-styleable>
 </resources>

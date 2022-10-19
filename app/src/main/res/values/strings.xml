@@ -1294,5 +1294,6 @@
     <string name="contributionRank">贡献榜</string>
     <string name="recommendForYou">为您推荐</string>
     <string name="saySomething">说点什么...</string>
+    <string name="floatingText">弹幕</string>
 
 </resources>

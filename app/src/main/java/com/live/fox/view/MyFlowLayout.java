@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.entity.FlowDataBean;
 import com.luck.picture.lib.tools.ScreenUtils;
@@ -26,7 +27,9 @@ import java.util.List;
  * @author HL
  * @Date 2022/9/6
  */
-public class MyFlowLayout extends ViewGroup {
+public class MyFlowLayout extends ViewGroup implements IPanelView {
+
+
 
     public static final int DEFAULT_LINE = -1;
     public static int DEFAULT_HORIZONTAL_MARGIN;
@@ -44,9 +47,11 @@ public class MyFlowLayout extends ViewGroup {
     private int textDrawableLeft;
     private int itemWith;
     private int itemHeight;
+    private int triggerViewId;
     private Context mContext;
     private List<FlowDataBean> mData = new ArrayList<>();
     private List<List<View>> mLines = new ArrayList<>();//代表我们的行
+    boolean isToggle=true;
 
     public MyFlowLayout(Context context) {
         this(context, null);
@@ -75,6 +80,8 @@ public class MyFlowLayout extends ViewGroup {
         textBackground = a.getResourceId(R.styleable.FlowLayout_textBackground, 0);
         textDrawableLeft = a.getResourceId(R.styleable.FlowLayout_textDrawableLeft, 0);
         mTextColor = a.getColor(R.styleable.FlowLayout_textColor, getResources().getColor(R.color.gray));
+        triggerViewId=a.getResourceId(R.styleable.FlowLayout_cus_panel_toggle,-1);
+        isToggle=a.getBoolean(R.styleable.FlowLayout_cus_panel_toggle,isToggle);
 
         if (mTextMaxLength < 1 && mTextMaxLength != DEFAULT_TEXT_MAX_LENGTH) {
             throw new IllegalArgumentException("字数不能小于0");
@@ -307,6 +314,27 @@ public class MyFlowLayout extends ViewGroup {
     public void setOnClickLongDelItemListener(OnClickLongDelItemListener longListener) {
         this.mOnClickLongDelItemListener = longListener;
     }
+
+    @Override
+    public int getBindingTriggerViewId() {
+        return triggerViewId;
+    }
+
+    @Override
+    public boolean isShowing() {
+        return isShown();
+    }
+
+    @Override
+    public boolean isTriggerViewCanToggle() {
+        return isToggle;
+    }
+
+    @Override
+    public void assertView() {
+
+    }
+
     public interface OnClickItemListener {
         void onItemClick(View v, String text, int pos);
     }

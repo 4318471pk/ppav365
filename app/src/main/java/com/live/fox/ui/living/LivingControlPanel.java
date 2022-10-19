@@ -59,16 +59,14 @@ public class LivingControlPanel extends RelativeLayout {
 
         setVisibility(GONE);
         int topPadding=StatusBarUtil.getStatusBarHeight(fragment.getActivity());
-        int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext())-topPadding;
+        int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext());
 
-        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),topPadding);
+        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),0);
         setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
         setViewLP(mBind.rlBotView,(int)(screenHeight*0.52f),0);
         setVisibility(VISIBLE);
 
-
-        mBind.softInputLayout.hasStatusBar(false);
-
+//        mBind.softInputLayout.initView();
     }
 
     private void setViewLP(View view,int height,int topMargin)
@@ -86,7 +84,7 @@ public class LivingControlPanel extends RelativeLayout {
             case R.id.ivFollow:
                 break;
             case R.id.tvToggle:
-                mBind.softInputLayout.toggle();
+
                 break;
         }
     }
