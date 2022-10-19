@@ -2,6 +2,7 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.transition.ChangeBounds;
@@ -10,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
@@ -17,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.utils.SPUtils;
+import com.live.fox.utils.StatusBarUtil;
 
 
 /**
@@ -26,7 +29,7 @@ public class SoftLinearLayout extends LinearLayout {
     private static final int DEFAULT_CHILD_COUNT = 2;
     private static final int DEFAULT_SECOND_CHILD_HEIGHT = 740;
     private static final int DEFAULT_SECOND_CHILD_MIN_HEIGHT = 400;
-    private static final int DEFAULT_SECOND_CHILD_MAX_HEIGHT = 800;
+    private static final int DEFAULT_SECOND_CHILD_MAX_HEIGHT = 1000;
     private static final int DEFAULT_SECOND_CHILD_MID_HEIGHT = 600;
     private static final long DEFAULT_SHOW_SOFT_DURATION = 50;
     private static final long DEFAULT_TOGGLE_DURATION = 200;
@@ -116,7 +119,7 @@ public class SoftLinearLayout extends LinearLayout {
         int divBotHeight = 0;
         if (visibility == VISIBLE) {
             int topHeight = getVisibleHeight() - getTitleBarHeight();
-            int bottomHeight = getTotalHeight() - getVisibleHeight();
+            int bottomHeight = getTotalHeight() - getVisibleHeight()-getStatusBarHeight();
             if (isSoftShowing()) {
                 if (secondChildState && mListener != null) {
                     mListener.onToggleChanged(false);
@@ -174,9 +177,10 @@ public class SoftLinearLayout extends LinearLayout {
      * @return
      */
     private int getStatusBarHeight() {
-        Rect outRect = new Rect();
-        getWindowVisibleDisplayFrame(outRect);
-        return outRect.top;
+//        Rect outRect = new Rect();
+//        getWindowVisibleDisplayFrame(outRect);
+//        return outRect.top;
+        return StatusBarUtil.getStatusBarHeight(getContext());
     }
 
     /**
@@ -203,7 +207,8 @@ public class SoftLinearLayout extends LinearLayout {
     private int getVisibleHeight() {
         Rect outRect = new Rect();
         getWindowVisibleDisplayFrame(outRect);
-        return outRect.bottom;
+        int height=outRect.bottom;
+        return height;
     }
 
     /**
@@ -212,13 +217,19 @@ public class SoftLinearLayout extends LinearLayout {
      * @return
      */
     private int getTotalHeight() {
-        return getResources().getDisplayMetrics().heightPixels;
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) {
+            return getContext().getResources().getDisplayMetrics().heightPixels;
+        }
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.y;
     }
 
     /**
      * 隐藏软键盘
      */
-    private void hideSoft() {
+    public void hideSoft() {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

@@ -67,7 +67,7 @@ public class LivingControlPanel extends RelativeLayout {
         setVisibility(VISIBLE);
 
 
-        mBind.softInputLayout.hasStatusBar(true);
+        mBind.softInputLayout.hasStatusBar(false);
 
     }
 
