@@ -13,14 +13,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.live.fox.R;
+import com.live.fox.adapter.LivingFragmentStateAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LivingActivity extends BaseBindingViewActivity {
 
     ActivityLivingBinding mBind;
+    LivingFragmentStateAdapter livingFragmentStateAdapter;
 
     public static void startActivity(Context context)
     {
@@ -41,6 +46,7 @@ public class LivingActivity extends BaseBindingViewActivity {
     public void onClickView(View view) {
 
     }
+
 
     @Override
     public int onCreateLayoutId() {
@@ -85,36 +91,21 @@ public class LivingActivity extends BaseBindingViewActivity {
 
 //        StatusBarUtil.setStatusBarAlpha(this,0,mBind.rlMain);
 
-        ViewPager2 vp2=findViewById(R.id.vp2);
-        vp2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        vp2.setOffscreenPageLimit(1);
+        mBind.vp2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+        mBind.vp2.setOffscreenPageLimit(1);
 
-        int kll[]=new int[]{1,2,3,4,5};
-
-        vp2.setAdapter(new FragmentStateAdapter(this) {
-            @Override
-            public Fragment createFragment(int position) {
-                int realPoi=(position-(Integer.MAX_VALUE/2))%kll.length;
-                if(realPoi<0)
-                {
-                    realPoi=realPoi+kll.length;
-                }
-                return LivingFragment.getInstance(realPoi);
-            }
-
-            @Override
-            public int getItemCount() {
-                return Integer.MAX_VALUE;
-            }
-        });
-
-
-
-        vp2.setCurrentItem(Integer.MAX_VALUE/2,false);
+        List<String> strings=new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            strings.add(i+" ");
+        }
+        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,strings);
+        mBind.vp2.setAdapter(livingFragmentStateAdapter);
+        mBind.vp2.setCurrentItem(Integer.MAX_VALUE/2,false);
     }
 
     public DrawerLayout getDrawLayout()
     {
         return mBind.drawerLayout;
     }
+
 }

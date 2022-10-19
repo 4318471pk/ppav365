@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.effective.android.panel.PanelSwitchHelper;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.FragmentLivingBinding;
@@ -20,6 +21,8 @@ public class LivingFragment extends BaseBindingFragment {
 
     int position;
     FragmentLivingBinding mBind;
+    LivingControlPanel livingControlPanel;
+    private PanelSwitchHelper mHelper;
 
     public static LivingFragment getInstance(int position)
     {
@@ -44,8 +47,11 @@ public class LivingFragment extends BaseBindingFragment {
 
     }
 
+
     private void initView()
     {
+        livingControlPanel= new LivingControlPanel(LivingFragment.this,mBind.viewPager);
+
         mBind.viewPager.setOverScrollMode(OVER_SCROLL_NEVER);
         mBind.viewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -61,7 +67,6 @@ public class LivingFragment extends BaseBindingFragment {
             public Object instantiateItem(ViewGroup container, int position) {
 
                 if (position == 1) {
-                    LivingControlPanel livingControlPanel= new LivingControlPanel(LivingFragment.this,container);
                     container.addView(livingControlPanel);
                     return livingControlPanel;
                 }
@@ -96,5 +101,14 @@ public class LivingFragment extends BaseBindingFragment {
         mBind.viewPager.setCurrentItem(1);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
+//        if(mHelper==null)
+//        {
+//            mHelper=new PanelSwitchHelper.Builder(getActivity())
+//                    .
+//        }
+    }
 }
