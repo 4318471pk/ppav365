@@ -14,7 +14,7 @@ import com.live.fox.adapter.DiamondExpensesAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.FragmentDiamondExpenseBinding;
-import com.live.fox.dialog.bottomdialog.TimePickerDialog;
+import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.entity.DiamondIncomeAndExpenseBean;
 import com.live.fox.utils.device.ScreenUtils;
 

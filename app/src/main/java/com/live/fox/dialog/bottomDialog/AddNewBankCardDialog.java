@@ -1,4 +1,4 @@
-package com.live.fox.dialog.bottomdialog;
+package com.live.fox.dialog.bottomDialog;
 
 import android.view.View;
 import android.view.WindowManager;

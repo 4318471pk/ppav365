@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.live.fox.view.GradientTextView
+    <TextView
         android:id="@+id/tv_item"
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -24,7 +24,6 @@
         android:visibility="gone"
         android:id="@+id/tv_close"
         android:layout_gravity="right"
-        android:background="@drawable/close"
         android:layout_width="15dp"
         android:layout_height="15dp"/>
 </FrameLayout>

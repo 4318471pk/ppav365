@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.DialogFramentManager;
-import com.live.fox.dialog.bottomdialog.PurchaseCarDialog;
+import com.live.fox.dialog.bottomDialog.PurchaseCarDialog;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.ui.mine.MyBagActivity;
 import com.live.fox.utils.OnClickFrequentlyListener;

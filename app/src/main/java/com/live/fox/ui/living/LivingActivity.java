@@ -2,6 +2,7 @@ package com.live.fox.ui.living;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,31 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.effective.android.panel.PanelSwitchHelper;
+import com.effective.android.panel.interfaces.listener.OnKeyboardStateListener;
+import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
+import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingFragmentStateAdapter;
+import com.live.fox.adapter.RecommendLivingAnchorAdapter;
+import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityLivingBinding;
+import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.ClassicsFooter;
+import com.live.fox.view.MyFlowLayout;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +45,9 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     ActivityLivingBinding mBind;
     LivingFragmentStateAdapter livingFragmentStateAdapter;
+    PanelSwitchHelper mHelper;
+    DialogListener dialogListener;
+    RecommendLivingAnchorAdapter recommendListAdapter;
 
     public static void startActivity(Context context)
     {
@@ -103,7 +123,6 @@ public class LivingActivity extends BaseBindingViewActivity {
         livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,strings);
         mBind.vp2.setAdapter(livingFragmentStateAdapter);
         mBind.vp2.setCurrentItem(Integer.MAX_VALUE/2,false);
-        mBind.vp2.setOffscreenPageLimit(2);
         mBind.vp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -121,31 +140,36 @@ public class LivingActivity extends BaseBindingViewActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
+
             }
         });
 
-//        mBind.vp2.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                int position=mBind.vp2.getCurrentItem();
-//                updatePagerHeightForChild(livingFragmentStateAdapter.getFragment(position).getView(),mBind.vp2);
-//            }
-//        });
-    }
-
-    private void updatePagerHeightForChild(View view, ViewPager2 pager) {
-        view.post(() -> {
-            int wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
-            int hMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-            view.measure(wMeasureSpec, hMeasureSpec);
-            if (pager.getLayoutParams().height != view.getMeasuredHeight()) {
-                ViewGroup.LayoutParams layoutParams = pager.getLayoutParams();
-                layoutParams.height = view.getMeasuredHeight();
-                pager.setLayoutParams(layoutParams);
+        mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(this));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(true);
             }
         });
-    }
+        mBind.srlRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishLoadMore(1000,true,false);
+            }
+        });
 
+        List<String> strs=new ArrayList<>();
+        for (int i = 0; i <10; i++) {
+            strs.add(i+"");
+        }
+        recommendListAdapter=new RecommendLivingAnchorAdapter(this,strs);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        mBind.rvRecommendList.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(this,5)));
+        mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
+        mBind.rvRecommendList.setAdapter(recommendListAdapter);
+
+    }
 
     public DrawerLayout getDrawLayout()
     {
@@ -157,4 +181,9 @@ public class LivingActivity extends BaseBindingViewActivity {
         mBind.vp2.setUserInputEnabled(isAvailable);
     }
 
+    public interface DialogListener
+    {
+        void onShowKeyBorad(int height);
+        void onDismiss();
+    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -189,25 +190,22 @@
                 android:id="@+id/panel_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                tools:layout_height="0dp"
+                tools:layout_weight="1"
                 >
 
-                <!-- 除了使用框架提供的 PanelView，也可以使用自定义 Panel -->
-                <!--            <com.live.fox.view.MyFlowLayout-->
-                <!--                android:id="@+id/myFL"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="match_parent"-->
-                <!--                android:background="@color/white"-->
-                <!--                app:cus_panel_toggle="true"-->
-                <!--                app:cus_panel_trigger="@id/gtvMoreTemple" />-->
-
-                <com.live.fox.view.CusPanelView
-                    android:id="@+id/panel_addition2"
+                <com.effective.android.panel.view.panel.PanelView
+                    android:id="@+id/panel_emotion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:panel_trigger="@id/gtvMoreTemple"
-                    app:panel_toggle="true"/>
+                    android:background="#ffffff"
+                    app:panel_layout="@layout/layout_message"
+                    app:panel_trigger="@id/gtvMoreTemple" />
+
 
             </com.effective.android.panel.view.panel.PanelContainer>
+
         </com.effective.android.panel.view.PanelSwitchLayout>
     </FrameLayout>
 </layout>

@@ -213,7 +213,11 @@ public class ClassicsFooter extends InternalClassics<ClassicsFooter>
             progressView.setVisibility(GONE);
             return 0;//延迟500毫秒之后再弹回
         }
-        return 0;
+        else
+        {
+            mTitleText.setText(success ? mTextFinish : mTextNothing);
+            return 1000;
+        }
     }
 
     /**

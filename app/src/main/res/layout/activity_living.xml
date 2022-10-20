@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -27,28 +29,73 @@
                     android:id="@+id/vp2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+
             </RelativeLayout>
 
         </com.live.fox.view.dragger.FullDraggableContainer>
 
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="150dip"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:background="#FFCCBC"
             android:clickable="true"
             >
 
-            <TextView
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/ivSideIcon"
+                android:layout_width="28dip"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="drawer(end)"
-                android:textColor="#452231" />
+                android:layout_marginTop="100dip"
+                android:src="@mipmap/icon_side_layout"/>
 
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/ivSideIcon"
+                android:background="#88000000"
+                android:orientation="vertical">
+
+                <com.live.fox.view.GradientTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="26dip"
+                    android:gravity="center"
+                    android:paddingTop="2dip"
+                    android:paddingBottom="2dip"
+                    android:textColor="@color/white"
+                    android:text="@string/recommendForYou"
+                    app:gt_radius_dp="10dip"
+                    app:gt_solidNoGradient="#000000"/>
+
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/srlRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="10dip"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvRecommendList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        />
+
+                    <com.live.fox.view.ClassicsFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srlAccentColor="@color/gray"
+                        app:srlClassicsSpinnerStyle="Translate" />
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

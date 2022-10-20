@@ -10,8 +10,7 @@ import com.live.fox.adapter.AgencySaveRecordAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.FragmentAgencySaveRecordBinding;
-import com.live.fox.dialog.bottomdialog.TimePickerDialog;
-import com.live.fox.ui.mine.noble.NobleNewFragment;
+import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

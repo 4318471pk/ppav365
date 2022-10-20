@@ -23,8 +23,14 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.DialogInputMessageBinding;
+import com.live.fox.entity.FlowDataBean;
+import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.MyFlowLayout;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InputMessageDialog extends BaseBindingDialogFragment {
 
@@ -87,6 +93,26 @@ public class InputMessageDialog extends BaseBindingDialogFragment {
 
     private void initBotView()
     {
+        int dip10= ScreenUtils.getDip2px(getActivity(),10);
+        MyFlowLayout myFlowLayout= findViewById(R.id.flTempleLayout);
+        myFlowLayout.setHorizontalMargin(dip10);
+        myFlowLayout.setVerticalMargin(dip10);
+        myFlowLayout.setTextMaxLength(20);
+        myFlowLayout.setTextBackground(R.drawable.bg_d8bde7);
+        myFlowLayout.setTextColor(0xffffffff);
+
+        List<FlowDataBean> mData = new ArrayList<>();
+        mData.add(new FlowDataBean("阿是假的"));
+        mData.add(new FlowDataBean("我气哦额我去哦额我去"));
+        mData.add(new FlowDataBean("i我去恶意我去额"));
+        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+        myFlowLayout.setTextList(mData);
+
         LivingActivity livingActivity=(LivingActivity) getActivity();
         if (mHelper == null) {
             mHelper = new PanelSwitchHelper.Builder(this)

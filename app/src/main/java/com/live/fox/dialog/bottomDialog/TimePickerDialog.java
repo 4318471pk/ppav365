@@ -1,20 +1,12 @@
-package com.live.fox.dialog.bottomdialog;
+package com.live.fox.dialog.bottomDialog;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 
 import com.jzxiang.pickerview.TimeWheel;
 import com.jzxiang.pickerview.config.PickerConfig;
@@ -24,7 +16,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogTimePickerBinding;
-import com.live.fox.dialog.RxBaseDialog;
 
 import java.util.Calendar;
 

@@ -13,7 +13,7 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ActivityBankcardListBinding;
-import com.live.fox.dialog.bottomdialog.AddNewBankCardDialog;
+import com.live.fox.dialog.bottomDialog.AddNewBankCardDialog;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.device.ScreenUtils;
 

@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
-import com.live.fox.dialog.bottomdialog.EditNickNameDialog;
+import com.live.fox.dialog.bottomDialog.EditNickNameDialog;
 import com.live.fox.utils.SpanUtils;
 
 public class EditNickNameConfirmDialog extends TempleDialog{

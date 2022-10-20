@@ -6,7 +6,7 @@
     <data>
         <variable
             name="click"
-            type="com.live.fox.dialog.bottomdialog.TimePickerDialog" />
+            type="com.live.fox.dialog.bottomDialog.TimePickerDialog" />
     </data>
 
     <RelativeLayout

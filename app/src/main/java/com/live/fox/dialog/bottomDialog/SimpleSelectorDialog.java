@@ -1,4 +1,4 @@
-package com.live.fox.dialog.bottomdialog;
+package com.live.fox.dialog.bottomDialog;
 
 import android.animation.ValueAnimator;
 import android.text.TextUtils;
@@ -9,7 +9,6 @@ import android.view.animation.TranslateAnimation;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogSimpleSelectorBinding;
-import com.live.fox.view.wheel.adapters.ArrayWheelAdapter;
 import com.live.fox.view.wheel.adapters.ListWheelAdapter;
 
 import java.util.List;

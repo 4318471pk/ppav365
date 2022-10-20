@@ -94,6 +94,7 @@ public class PreviewSearchFragment extends BaseBindingFragment {
         mBind.myFL.setMaxLines(4);
         mBind.myFL.setTextMaxLength(20);
 
+
         List<FlowDataBean> mData = new ArrayList<>();
         mData.add(new FlowDataBean("阿是假的"));
         mData.add(new FlowDataBean("我气哦额我去哦额我去"));

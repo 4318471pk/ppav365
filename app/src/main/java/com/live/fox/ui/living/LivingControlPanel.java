@@ -16,6 +16,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
+import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
@@ -73,15 +74,6 @@ public class LivingControlPanel extends RelativeLayout {
         setViewLPRL(mBind.rlBotView,(int)(screenHeight*0.52f),0);
         setVisibility(VISIBLE);
 
-//        List<FlowDataBean> mData = new ArrayList<>();
-//        mData.add(new FlowDataBean("阿是假的"));
-//        mData.add(new FlowDataBean("我气哦额我去哦额我去"));
-//        mData.add(new FlowDataBean("阿是的"));
-//        mData.add(new FlowDataBean("i我去恶意我去额"));
-//        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
-//        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
-//        mBind.myFL.setTextList(mData);
-
     }
 
     private void setViewLP(View view,int height,int topMargin)
@@ -104,6 +96,9 @@ public class LivingControlPanel extends RelativeLayout {
     {
         switch (view.getId())
         {
+            case R.id.rivProfileImage:
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
+                break;
             case R.id.ivFollow:
                 break;
             case R.id.gtvSaySomething:
@@ -123,7 +118,7 @@ public class LivingControlPanel extends RelativeLayout {
                         mBind.rlBotView.setLayoutParams(ll);
                     }
                 });
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),dialog);
+                DialogFramentManager.getInstance().showDialog(fragment.getChildFragmentManager(),dialog);
 
                 break ;
         }

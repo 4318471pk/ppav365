@@ -4,7 +4,7 @@
     <data>
         <variable
             name="click"
-            type="com.live.fox.dialog.bottomdialog.EditProfileImageDialog" />
+            type="com.live.fox.dialog.bottomDialog.EditProfileImageDialog" />
     </data>
 
     <RelativeLayout

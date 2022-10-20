@@ -1,4 +1,4 @@
-package com.live.fox.dialog.bottomdialog;
+package com.live.fox.dialog.bottomDialog;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;

@@ -2,6 +2,7 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.InputFilter;
 import android.util.AttributeSet;
@@ -27,7 +28,7 @@ import java.util.List;
  * @author HL
  * @Date 2022/9/6
  */
-public class MyFlowLayout extends ViewGroup implements IPanelView {
+public class MyFlowLayout extends ViewGroup {
 
 
 
@@ -226,9 +227,10 @@ public class MyFlowLayout extends ViewGroup implements IPanelView {
             FrameLayout fl = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_flow_text, this, false);
             TextView textView = fl.findViewById(R.id.tv_item);
             TextView tvClose = fl.findViewById(R.id.tv_close);
-            if (mTextColor > 0) {
+            if (mTextColor == 0) {
                 textView.setTextColor(mTextColor);
             }
+
             if (textBackground > 0) {
                 textView.setBackgroundResource(textBackground);
             }
@@ -315,25 +317,25 @@ public class MyFlowLayout extends ViewGroup implements IPanelView {
         this.mOnClickLongDelItemListener = longListener;
     }
 
-    @Override
-    public int getBindingTriggerViewId() {
-        return triggerViewId;
-    }
-
-    @Override
-    public boolean isShowing() {
-        return isShown();
-    }
-
-    @Override
-    public boolean isTriggerViewCanToggle() {
-        return isToggle;
-    }
-
-    @Override
-    public void assertView() {
-
-    }
+//    @Override
+//    public int getBindingTriggerViewId() {
+//        return triggerViewId;
+//    }
+//
+//    @Override
+//    public boolean isShowing() {
+//        return isShown();
+//    }
+//
+//    @Override
+//    public boolean isTriggerViewCanToggle() {
+//        return isToggle;
+//    }
+//
+//    @Override
+//    public void assertView() {
+//
+//    }
 
     public interface OnClickItemListener {
         void onItemClick(View v, String text, int pos);

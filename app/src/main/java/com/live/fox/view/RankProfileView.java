@@ -24,6 +24,7 @@ import java.lang.ref.WeakReference;
 
 public class RankProfileView extends RelativeLayout {
 
+    public static final int NONE=-1;
     int crownIndex = -1;
     int decorationIndex=-1;
     int crownsResource[] = new int[]{R.mipmap.icon_top1, R.mipmap.icon_top2, R.mipmap.icon_top3};
@@ -31,6 +32,7 @@ public class RankProfileView extends RelativeLayout {
     float scaleAndMargins[][]={{0.87f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.3f},{0.85f,0.1f},{0.85f,0.08f}};
     ImageView ivDecoration, ivCrown, ivProfile;
     boolean isInit=false;
+    OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener;
 
 
     public RankProfileView(@NonNull @NotNull Context context, int crownIndex) {
@@ -58,7 +60,11 @@ public class RankProfileView extends RelativeLayout {
         initView(-1,-1);
     }
 
-    private void initView(int crownIndex,int decorationIndex) {
+    public void setOnConfirmWidthAndHeightListener(OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener) {
+        this.onConfirmWidthAndHeightListener = onConfirmWidthAndHeightListener;
+    }
+
+    private void initView(int crownIndex, int decorationIndex) {
         decorationResource=new ResourceUtils().getResourcesID(R.array.rankEdgePics);
         this.crownIndex = crownIndex;
         this.decorationIndex=decorationIndex;
@@ -128,6 +134,10 @@ public class RankProfileView extends RelativeLayout {
                 rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
                 rlProfile.topMargin=(int)(getHeight()*scaleAndMargins[decorationIndex][1]);
                 ivProfile.setLayoutParams(rlProfile);
+                if(onConfirmWidthAndHeightListener!=null)
+                {
+                    onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.height+rlProfile.topMargin);
+                }
 
             } else {
                 ivCrown.setImageDrawable(drawable);
@@ -150,6 +160,11 @@ public class RankProfileView extends RelativeLayout {
                 rlProfile.width=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
                 rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
                 ivProfile.setLayoutParams(rlProfile);
+
+                if(onConfirmWidthAndHeightListener!=null)
+                {
+                    onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.height+rlProfile.topMargin);
+                }
 //                ivProfile.setPadding(0,crownHeight/2,0,0);
 
             }
@@ -158,5 +173,10 @@ public class RankProfileView extends RelativeLayout {
 //                    ivProfile.setPadding(padding,padding,padding,padding);
 
         }
+    }
+
+    public interface OnConfirmWidthAndHeightListener
+    {
+        void onValue(int width,int height);
     }
 }
