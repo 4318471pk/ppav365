@@ -6,7 +6,6 @@ package com.live.fox.entity;
  */
 public class BaseInfo {
 
-    private String appServiceUrl;
     private String domain;
     private String domainThree;
     private String domainTwo;
@@ -35,14 +34,6 @@ public class BaseInfo {
 
     public void setSdkappid(String sdkappid) {
         this.sdkappid = sdkappid;
-    }
-
-    public void setAppServiceUrl(String appServiceUrl) {
-        this.appServiceUrl = appServiceUrl;
-    }
-
-    public String getAppServiceUrl() {
-        return appServiceUrl;
     }
 
     public void setDomain(String domain) {

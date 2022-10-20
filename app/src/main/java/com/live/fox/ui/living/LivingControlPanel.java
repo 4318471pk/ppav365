@@ -14,14 +14,20 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.live.fox.R;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
+import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LivingControlPanel extends RelativeLayout {
 
     //上中下模块比例 0.32 0.16 0.52
     ControlPanelLivingBinding mBind;
+    LivingFragment fragment;
 
     public LivingControlPanel(LivingFragment fragment, ViewGroup parent) {
         super(fragment.getActivity());
@@ -38,6 +44,7 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void initView(LivingFragment fragment,ViewGroup parent)
     {
+        this.fragment=fragment;
         fragment.getLifecycle().addObserver(new LifecycleObserver() {
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -63,15 +70,31 @@ public class LivingControlPanel extends RelativeLayout {
 
         setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),0);
         setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
-        setViewLP(mBind.rlBotView,(int)(screenHeight*0.52f),0);
+        setViewLPRL(mBind.rlBotView,(int)(screenHeight*0.52f),0);
         setVisibility(VISIBLE);
 
-//        mBind.softInputLayout.initView();
+//        List<FlowDataBean> mData = new ArrayList<>();
+//        mData.add(new FlowDataBean("阿是假的"));
+//        mData.add(new FlowDataBean("我气哦额我去哦额我去"));
+//        mData.add(new FlowDataBean("阿是的"));
+//        mData.add(new FlowDataBean("i我去恶意我去额"));
+//        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+//        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+//        mBind.myFL.setTextList(mData);
+
     }
 
     private void setViewLP(View view,int height,int topMargin)
     {
         LinearLayout.LayoutParams ll=(LinearLayout.LayoutParams) view.getLayoutParams();
+        ll.topMargin=topMargin;
+        ll.height=height;
+        view.setLayoutParams(ll);
+    }
+
+    private void setViewLPRL(View view,int height,int topMargin)
+    {
+        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) view.getLayoutParams();
         ll.topMargin=topMargin;
         ll.height=height;
         view.setLayoutParams(ll);
@@ -83,9 +106,26 @@ public class LivingControlPanel extends RelativeLayout {
         {
             case R.id.ivFollow:
                 break;
-            case R.id.tvToggle:
+            case R.id.gtvSaySomething:
+                InputMessageDialog dialog=InputMessageDialog.getInstance();
+                dialog.setDialogListener(new InputMessageDialog.DialogListener() {
+                    @Override
+                    public void onShowKeyBorad(int height) {
+                        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
+                        ll.bottomMargin=height;
+                        mBind.rlBotView.setLayoutParams(ll);
+                    }
 
-                break;
+                    @Override
+                    public void onDismiss() {
+                        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
+                        ll.bottomMargin=0;
+                        mBind.rlBotView.setLayoutParams(ll);
+                    }
+                });
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),dialog);
+
+                break ;
         }
     }
 

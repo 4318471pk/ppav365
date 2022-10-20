@@ -52,8 +52,8 @@ public class SplashActivity extends BaseActivity {
 
         fitNotch();
         setContentView(R.layout.activity_splash);
-
         LivingActivity.startActivity(this);
+
         splashPresenter = new SplashPresenter(this);
         initView();
 

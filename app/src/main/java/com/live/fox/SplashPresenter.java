@@ -275,64 +275,57 @@ public class SplashPresenter {
         try {
             LogUtils.e("AfterDoBase：start" + data);
             BadgesManager.ins().downloadAllBadges();  //下載徽章
-            BaseInfo baseInfo = new Gson().fromJson(data, BaseInfo.class);
-
-            if (StringUtils.isEmpty(baseInfo.getAppServiceUrl())) {
-                showAlertDialog(context.getString(R.string.net_work_error_tip),
-                        context.getString(R.string.retry), (dialogInterface, i) -> doBaseApi());
-                return;
-            }
 
             AppConfig.upBaseData(data);
             String imSdkIdKye = SPUtils.getInstance().getString(IM_SDK_APP_ID);
-            if (!imSdkIdKye.equals(baseInfo.getSdkappid())) {
-                SPUtils.getInstance().put(IM_SDK_APP_ID, baseInfo.getSdkappid());
-            }
+//            if (!imSdkIdKye.equals(baseInfo.getSdkappid())) {
+//                SPUtils.getInstance().put(IM_SDK_APP_ID, baseInfo.getSdkappid());
+//            }
 
-            if (baseInfo.getSdkappid() != null) {
-                AppIMManager.init(baseInfo.getSdkappid());  //初始换IM SDK
-            }
+//            if (baseInfo.getSdkappid() != null) {
+//                AppIMManager.init(baseInfo.getSdkappid());  //初始换IM SDK
+//            }
 
-            SPManager.saveServerDomain(baseInfo.getAppServiceUrl());
-            SPManager.saveShareUrl(baseInfo.getShareUrl());
-            SPManager.saveDomain(baseInfo.getDomain());  //oss.pycywj.com  oss.jwanfu.com
-            SPManager.saveDomainTwo(baseInfo.getDomainTwo());
-            SPManager.saveIsGameStart(baseInfo.getIsGameStart());
-            SPManager.saveIsCpStart(baseInfo.getIsCpStart());
-            SPManager.saveIsCpButton(baseInfo.getIsCpButton());
+            SPManager.saveServerDomain(domains.get(0));
+//            SPManager.saveShareUrl(baseInfo.getShareUrl());
+//            SPManager.saveDomain(baseInfo.getDomain());  //oss.pycywj.com  oss.jwanfu.com
+//            SPManager.saveDomainTwo(baseInfo.getDomainTwo());
+//            SPManager.saveIsGameStart(baseInfo.getIsGameStart());
+//            SPManager.saveIsCpStart(baseInfo.getIsCpStart());
+//            SPManager.saveIsCpButton(baseInfo.getIsCpButton());
 
             //推送消息如果后台变更了就更新
-            String accessId = baseInfo.getAndroidTpnsAccessId();
-            String accessKey = baseInfo.getAndroidTpnsAccessKey();
+//            String accessId = baseInfo.getAndroidTpnsAccessId();
+//            String accessKey = baseInfo.getAndroidTpnsAccessKey();
             String accessSaved = SPUtils.getInstance().getString(ACCESS_ID);
             String accessKeySaved = SPUtils.getInstance().getString(ACCESS_KEY);
 
-            if (!TextUtils.isEmpty(accessId) && !TextUtils.isEmpty(accessKey)) {
-                if (!accessSaved.equals(accessId) && !accessKey.equals(accessKeySaved)) {
-                    SPUtils.getInstance().put(ACCESS_ID, accessId);
-                    SPUtils.getInstance().put(ACCESS_KEY, accessKey);
-                }
-            }
-
-            if (baseInfo.getMaintain()) {  //系统维护
-                showAlertDialog(context.getString(R.string.xtwhz),
-                        context.getString(R.string.see),
-                        (dialogInterface, i) -> context.finish());
-                return;
-            }
+//            if (!TextUtils.isEmpty(accessId) && !TextUtils.isEmpty(accessKey)) {
+//                if (!accessSaved.equals(accessId) && !accessKey.equals(accessKeySaved)) {
+//                    SPUtils.getInstance().put(ACCESS_ID, accessId);
+//                    SPUtils.getInstance().put(ACCESS_KEY, accessKey);
+//                }
+//            }
+//
+//            if (baseInfo.getMaintain()) {  //系统维护
+//                showAlertDialog(context.getString(R.string.xtwhz),
+//                        context.getString(R.string.see),
+//                        (dialogInterface, i) -> context.finish());
+//                return;
+//            }
 
             GiftManager.ins().downloadAllGifts();  //下載禮物
 
             AdmissionManager.getInstance().downloadAdmissionGiftList();  //下载入场动画
 
-            String openScreen = baseInfo.getOpenScreen();
-            if (!StringUtils.isEmpty(openScreen) && !openScreen.equals("null")) {   //有启屏页 显示启屏广告
-                isHaveOpenScreen = true;
-                isOpenScreenFinish = false;
-                context.showAdView(openScreen, baseInfo.getOpenScreenUrl());
-            } else {
-                mSplashHandler.sendEmptyMessageDelayed(TO_MainActivity, 0);
-            }
+//            String openScreen = baseInfo.getOpenScreen();
+//            if (!StringUtils.isEmpty(openScreen) && !openScreen.equals("null")) {   //有启屏页 显示启屏广告
+//                isHaveOpenScreen = true;
+//                isOpenScreenFinish = false;
+//                context.showAdView(openScreen, baseInfo.getOpenScreenUrl());
+//            } else {
+//                mSplashHandler.sendEmptyMessageDelayed(TO_MainActivity, 0);
+//            }
         } catch (Exception e) {
             LogUtils.e("AfterDoBase：err" + e.getMessage());
             showAlertDialog(context.getString(R.string.net_work_error_tip),

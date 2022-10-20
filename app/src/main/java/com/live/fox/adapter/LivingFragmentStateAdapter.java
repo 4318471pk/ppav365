@@ -44,5 +44,13 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
         return Integer.MAX_VALUE;
     }
 
-
+    public int getRealPosition(int position)
+    {
+        int realPoi=(position-(Integer.MAX_VALUE/2))%list.size();
+        if(realPoi<0)
+        {
+            realPoi=realPoi+list.size();
+        }
+        return realPoi;
+    }
 }

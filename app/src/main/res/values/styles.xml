@@ -357,5 +357,8 @@
         <attr name="show_line" format="boolean" />
     </declare-styleable>
 
-
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

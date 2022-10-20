@@ -10,15 +10,14 @@
             type="com.live.fox.ui.living.LivingControlPanel" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/softInputLayout"
+    <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -233,188 +232,251 @@
 
 
             </RelativeLayout>
+        </LinearLayout>
 
 
+        <RelativeLayout
+            android:id="@+id/rlBotView"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_alignParentBottom="true"
+            android:background="#977483">
+
+            <!--  各种底部图标-->
             <RelativeLayout
-                android:id="@+id/rlBotView"
                 android:layout_width="match_parent"
-                android:layout_height="200dip"
-                android:background="#977483">
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="5dip">
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvSaySomething"
+                    android:layout_width="125dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dip"
+                    android:drawableLeft="@mipmap/icon_send_message_tag"
+                    android:gravity="center"
+                    android:onClick="@{click.onClickView}"
+                    android:paddingLeft="15dip"
+                    android:text="@string/saySomething"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:gt_radius_dp="17.5dp"
+                    app:gt_solidNoGradient="#3f000000" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivShare"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/circle_3f000000"
+                        android:padding="5dip"
+                        android:src="@mipmap/icon_living_share_" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlPromo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip">
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/circle_3f000000"
+                            android:padding="5dip"
+                            android:src="@mipmap/icon_promo_tag" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@mipmap/icon_promo_bot_tag" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/ivGift"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        android:background="@drawable/circle_3f000000"
+                        android:padding="5dip"
+                        android:src="@mipmap/icon_gift_living" />
+
+                    <ImageView
+                        android:id="@+id/ivGame"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        android:background="@drawable/circle_3f000000"
+                        android:padding="5dip"
+                        android:src="@mipmap/icon_game_living" />
+
+                    <ImageView
+                        android:id="@+id/ivClose"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="7dip"
+                        android:layout_marginRight="5dip"
+                        android:background="@drawable/circle_3f000000"
+                        android:padding="10dip"
+                        android:src="@mipmap/icon_close_living" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <!--输入法界面区域-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:paddingBottom="5dip">
+                    android:layout_height="40dip">
+
+                    <RelativeLayout
+                        android:id="@+id/rlBroadcast"
+                        android:layout_width="70dp"
+                        android:layout_height="35dip"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/bg_broadcast_amount" />
+
+                        <ImageView
+                            android:id="@+id/ivBroadcastLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:layout_marginTop="7dip"
+                            android:src="@mipmap/icon_broadcast_left" />
+
+                        <TextView
+                            android:id="@+id/tvAmountOfBroadcast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dip"
+                            android:layout_toRightOf="@id/ivBroadcastLeft"
+                            android:text="x888"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                    </RelativeLayout>
 
                     <com.live.fox.view.GradientTextView
-                        android:id="@+id/gtvSaySomething"
-                        android:layout_width="125dp"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="5dip"
-                        android:drawableLeft="@mipmap/icon_send_message_tag"
-                        android:gravity="center"
-                        android:paddingLeft="15dip"
-                        android:text="@string/saySomething"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:gt_radius_dp="17.5dp"
-                        app:gt_solidNoGradient="#3f000000" />
-
-                    <LinearLayout
+                        android:id="@+id/gtvTempleMessageFirst"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip"
+                        android:layout_toRightOf="@id/rlBroadcast"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingLeft="12dip"
+                        android:paddingRight="12dip"
+                        android:text="xxxxx"
+                        android:textColor="#404040"
+                        android:textSize="12sp"
+                        app:gt_radius_dp="15dp"
+                        app:gt_solidNoGradient="#F4F1F8" />
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvTempleMessageSecond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip"
+                        android:layout_toRightOf="@id/gtvTempleMessageFirst"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingLeft="12dip"
+                        android:paddingRight="12dip"
+                        android:text="xxxxx"
+                        android:textColor="#404040"
+                        android:textSize="12sp"
+                        app:gt_radius_dp="15dp"
+                        app:gt_solidNoGradient="#F4F1F8" />
+
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvMoreTemple"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:orientation="horizontal">
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:drawableRight="@mipmap/icon_arrow_purple_down"
+                        android:gravity="center"
+                        android:paddingLeft="12dip"
+                        android:paddingRight="12dip"
+                        android:text="@string/more"
+                        android:textColor="#A800FF"
+                        app:gt_radius_dp="15dp"
+                        app:gt_solidNoGradient="#F4F1F8" />
 
-                        <ImageView
-                            android:id="@+id/ivShare"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:background="@drawable/circle_3f000000"
-                            android:padding="5dip"
-                            android:src="@mipmap/icon_living_share_" />
-
-                        <RelativeLayout
-                            android:id="@+id/rlPromo"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="7dip">
-
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:background="@drawable/circle_3f000000"
-                                android:padding="5dip"
-                                android:src="@mipmap/icon_promo_tag" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:src="@mipmap/icon_promo_bot_tag" />
-
-                        </RelativeLayout>
-
-                        <ImageView
-                            android:id="@+id/ivGift"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="7dip"
-                            android:background="@drawable/circle_3f000000"
-                            android:padding="5dip"
-                            android:src="@mipmap/icon_gift_living" />
-
-                        <ImageView
-                            android:id="@+id/ivGame"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="7dip"
-                            android:background="@drawable/circle_3f000000"
-                            android:padding="5dip"
-                            android:src="@mipmap/icon_game_living" />
-
-                        <ImageView
-                            android:id="@+id/ivClose"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="7dip"
-                            android:layout_marginRight="5dip"
-                            android:background="@drawable/circle_3f000000"
-                            android:padding="10dip"
-                            android:src="@mipmap/icon_close_living" />
-
-                    </LinearLayout>
 
                 </RelativeLayout>
 
-                <com.effective.android.panel.view.PanelSwitchLayout
-                    android:id="@+id/panel_switch_layout"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="vertical"
-                    app:animationSpeed="standard">
+                    android:layout_height="45dp"
+                    android:background="@color/white">
 
-                    <com.effective.android.panel.view.content.LinearContentContainer
-                        android:id="@+id/rlInputLayout"
+                    <com.live.fox.view.switchButtonWithText.SwitchButton
+                        android:id="@+id/floatingTextSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dip"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="2dip"
+                        android:paddingRight="2dip"
+                        android:textColor="@color/white"
+                        app:kswTextOff="@string/floatingText"
+                        app:kswTextOn="@string/floatingText" />
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvSend"
+                        android:layout_width="55dp"
+                        android:layout_height="30dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="@string/send"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:gt_color_list="@array/identificationColor"
+                        app:gt_radius_dp="15dip" />
+
+                    <EditText
+                        android:id="@+id/etMessage"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:background="#ffffff"
-                        android:orientation="vertical"
-                        android:paddingBottom="5dip"
-                        app:edit_view="@id/tvMessage">
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_toLeftOf="@id/gtvSend"
+                        android:layout_toRightOf="@id/floatingTextSwitch"
+                        android:background="@drawable/bg_round_f4f1f8"
+                        android:paddingLeft="5dip"
+                        android:paddingRight="5dip"
+                        android:textSize="14sp" />
+                </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/tvToggle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="34dp"
-                            android:layout_alignParentRight="true"
-                            android:background="#877774"
-                            android:paddingLeft="10dip"
-                            android:paddingRight="10dip"
-                            android:text="收起"
-                            android:textColor="#404040" />
+            </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
 
-                            <com.live.fox.view.switchButtonWithText.SwitchButton
-                                android:id="@+id/floatingTextSwitch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="34dip"
-                                android:text="@string/floatingText" />
+        </RelativeLayout>
 
-                            <com.live.fox.view.GradientTextView
-                                android:id="@+id/gtvSend"
-                                android:layout_width="wrap_content"
-                                android:layout_height="34dp"
-                                android:layout_alignParentRight="true"
-                                android:text="@string/send"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                app:gt_color_list="@array/identificationColor"
-                                app:gt_radius_dp="10dip" />
-
-                            <EditText
-                                android:id="@+id/tvMessage"
-                                android:layout_width="match_parent"
-                                android:layout_height="34dp"
-                                android:layout_toLeftOf="@id/gtvSend"
-                                android:layout_toRightOf="@id/floatingTextSwitch"
-                                android:background="#00000000"
-                                android:paddingLeft="5dip"
-                                android:paddingRight="5dip"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-
-                    </com.effective.android.panel.view.content.LinearContentContainer>
-
-                    <!-- 面板区域，仅能包含PanelView-->
-                    <com.effective.android.panel.view.panel.PanelContainer
-                        android:id="@+id/panel_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_height="wrap_content"
-                        android:background="#938373">
-
-                        <!-- 除了使用框架提供的 PanelView，也可以使用自定义 Panel -->
-                        <com.live.fox.view.MyFlowLayout
-                            android:id="@+id/panel_addition"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            app:cus_panel_toggle="true"
-                            app:cus_panel_trigger="@id/tvToggle" />
-
-                    </com.effective.android.panel.view.panel.PanelContainer>
-
-                </com.effective.android.panel.view.PanelSwitchLayout>
-            </RelativeLayout>
-        </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

@@ -298,7 +298,6 @@
             android:screenOrientation="portrait" /> <!-- 搜索主播 -->
         <activity
             android:name=".ui.living.LivingActivity"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" /> <!-- 直播页面 -->
 
         <activity

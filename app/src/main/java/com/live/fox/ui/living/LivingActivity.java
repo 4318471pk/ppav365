@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
@@ -101,11 +103,58 @@ public class LivingActivity extends BaseBindingViewActivity {
         livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,strings);
         mBind.vp2.setAdapter(livingFragmentStateAdapter);
         mBind.vp2.setCurrentItem(Integer.MAX_VALUE/2,false);
+        mBind.vp2.setOffscreenPageLimit(2);
+        mBind.vp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                livingFragmentStateAdapter.getFragment(position)
+                        .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+
+//        mBind.vp2.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                int position=mBind.vp2.getCurrentItem();
+//                updatePagerHeightForChild(livingFragmentStateAdapter.getFragment(position).getView(),mBind.vp2);
+//            }
+//        });
     }
+
+    private void updatePagerHeightForChild(View view, ViewPager2 pager) {
+        view.post(() -> {
+            int wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
+            int hMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            view.measure(wMeasureSpec, hMeasureSpec);
+            if (pager.getLayoutParams().height != view.getMeasuredHeight()) {
+                ViewGroup.LayoutParams layoutParams = pager.getLayoutParams();
+                layoutParams.height = view.getMeasuredHeight();
+                pager.setLayoutParams(layoutParams);
+            }
+        });
+    }
+
 
     public DrawerLayout getDrawLayout()
     {
         return mBind.drawerLayout;
+    }
+
+    public void setUserScrollAvailAble(boolean isAvailable)
+    {
+        mBind.vp2.setUserInputEnabled(isAvailable);
     }
 
 }

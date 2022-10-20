@@ -1,19 +1,28 @@
 package com.live.fox.ui.living;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.effective.android.panel.PanelSwitchHelper;
+import com.effective.android.panel.interfaces.listener.OnKeyboardStateListener;
+import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
+import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.FragmentLivingBinding;
+import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.CusPanelView;
+import com.live.fox.view.MyFlowLayout;
 
 import static android.view.View.OVER_SCROLL_NEVER;
 
@@ -26,10 +35,30 @@ public class LivingFragment extends BaseBindingFragment {
 
     public static LivingFragment getInstance(int position)
     {
+        Log.e("LivingFragment",position+" ");
         LivingFragment livingFragment=new LivingFragment();
         livingFragment.position=position;
         return livingFragment;
     }
+
+    public void notifyShow(int position)
+    {
+        Log.e("LivingFragment22",position+" ");
+        if(getView()!=null && isAdded())
+        {
+//            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
+//            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
+//            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
+//            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
+//
+//            int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
+//            RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams)livingControlPanel.mBind.rlBotView.getLayoutParams();
+//            rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
+//            rl.height=(int)(screenHeight*0.52f);
+//            livingControlPanel.mBind.rlBotView.setLayoutParams(rl);
+        }
+    }
+
     @Override
     public void onClickView(View view) {
 
@@ -68,6 +97,12 @@ public class LivingFragment extends BaseBindingFragment {
 
                 if (position == 1) {
                     container.addView(livingControlPanel);
+                    container.post(new Runnable() {
+                        @Override
+                        public void run() {
+//                            initBotView();
+                        }
+                    });
                     return livingControlPanel;
                 }
                 return null;
@@ -101,14 +136,4 @@ public class LivingFragment extends BaseBindingFragment {
         mBind.viewPager.setCurrentItem(1);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-//        if(mHelper==null)
-//        {
-//            mHelper=new PanelSwitchHelper.Builder(getActivity())
-//                    .
-//        }
-    }
 }
