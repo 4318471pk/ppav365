@@ -26,4 +26,13 @@ public interface ConstantValue {
     int RESULT_CROP_PIC=20006;
 
     public static String hasGuestLogin = "hasGuestLogin";
+    String BaseDomain ="BaseDomain";//基础网关
+    String SPDefaultName ="aibo";//sharePreference默认名字
+
+    public static final String IM_SDK_APP_ID = "im sdk app id key";
+    public static final String ACCESS_ID = "ACCESS_ID";
+    public static final String ACCESS_KEY = "ACCESS_KEY";
+    public static final String shareUrl = "shareUrl";
+    public static final String NOTIFICATION_IS_SHOWED = "notification is showed";
+    String resourceDomain="resourceDomain";//资源域名
 }

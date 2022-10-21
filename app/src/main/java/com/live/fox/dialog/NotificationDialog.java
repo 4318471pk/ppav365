@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.utils.SPUtils;
 
@@ -48,7 +49,7 @@ public class NotificationDialog extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        SPUtils.getInstance().put(Constant.SPUtilKey.NOTIFICATION_IS_SHOWED, true);
+        SPUtils.getInstance().put(ConstantValue.NOTIFICATION_IS_SHOWED, true);
     }
 
 

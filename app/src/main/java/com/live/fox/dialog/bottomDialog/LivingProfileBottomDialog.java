@@ -48,7 +48,6 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-
         //设置dialog背景色为透明色
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //设置dialog窗体颜色透明

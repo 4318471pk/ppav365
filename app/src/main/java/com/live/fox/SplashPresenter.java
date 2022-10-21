@@ -1,9 +1,5 @@
 package com.live.fox;
 
-import static com.live.fox.Constant.SPUtilKey.ACCESS_ID;
-import static com.live.fox.Constant.SPUtilKey.ACCESS_KEY;
-import static com.live.fox.Constant.SPUtilKey.IM_SDK_APP_ID;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.lahm.library.EasyProtectorLib;
@@ -227,18 +224,51 @@ public class SplashPresenter {
         configInfo.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                LogUtils.e("doBaseApi onResponse: " +call.request().url());
+                LogUtils.e("doBaseApi onResponse: " + call.request().url());
                 JsonObject body = response.body();
                 if (body != null) {
-                    SPUtils.getInstance("basedomain").put("domain", domains.get(0));
-                    doGetTraceInstall();
+                    SPUtils.getInstance(ConstantValue.BaseDomain).put(ConstantValue.BaseDomain, domains.get(0));
+//                    doGetTraceInstall();//取消提交安装
                     JsonObject data = body.getAsJsonObject("data");
+                    JsonArray jsonArray = data.getAsJsonArray("configSystemBaseList");
                     if (data != null && !TextUtils.isEmpty(data.toString())) {
-                        doSomethingAfterDoBaseApiSuccess(data.toString());
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                            String code=jsonObject.get("code").getAsString();
+                            String value=jsonObject.get("value").getAsString();
+                            if(code==null || value==null)
+                            {
+                                continue;
+                            }
+
+                            switch (jsonObject.get("code").getAsString()) {
+                                case "maintain":
+                                    //是否维护 是否维护:1正常0维护
+                                    if(value.equals("0"))
+                                    {
+                                        showAlertDialog(context.getString(R.string.xtwhz),
+                                                context.getString(R.string.see),
+                                                (dialogInterface, index) -> context.finish());
+                                    }
+                                    break;
+                                case "shareUrl":
+                                    //分享接口
+                                    SPUtils.getInstance().put(ConstantValue.shareUrl, value);
+                                    break;
+                                case "resourceDomain":
+                                    //资源域名
+                                    SPUtils.getInstance().put(ConstantValue.resourceDomain, value);
+                                    break;
+                            }
+
+                            mSplashHandler.sendEmptyMessageDelayed(TO_MainActivity, 0);
+                        }
                     } else {
+                        ToastUtils.showShort(context.getString(R.string.jiexiWrong));
                         context.finish();
                     }
                 } else {
+                    ToastUtils.showShort(context.getString(R.string.jiexiWrong));
                     context.finish();
                 }
             }
@@ -274,10 +304,10 @@ public class SplashPresenter {
     public void doSomethingAfterDoBaseApiSuccess(String data) {
         try {
             LogUtils.e("AfterDoBase：start" + data);
-            BadgesManager.ins().downloadAllBadges();  //下載徽章
+//            BadgesManager.ins().downloadAllBadges();  //下載徽章
 
             AppConfig.upBaseData(data);
-            String imSdkIdKye = SPUtils.getInstance().getString(IM_SDK_APP_ID);
+//            String imSdkIdKye = SPUtils.getInstance().getString(IM_SDK_APP_ID);
 //            if (!imSdkIdKye.equals(baseInfo.getSdkappid())) {
 //                SPUtils.getInstance().put(IM_SDK_APP_ID, baseInfo.getSdkappid());
 //            }
@@ -297,8 +327,8 @@ public class SplashPresenter {
             //推送消息如果后台变更了就更新
 //            String accessId = baseInfo.getAndroidTpnsAccessId();
 //            String accessKey = baseInfo.getAndroidTpnsAccessKey();
-            String accessSaved = SPUtils.getInstance().getString(ACCESS_ID);
-            String accessKeySaved = SPUtils.getInstance().getString(ACCESS_KEY);
+//            String accessSaved = SPUtils.getInstance().getString(ACCESS_ID);
+//            String accessKeySaved = SPUtils.getInstance().getString(ACCESS_KEY);
 
 //            if (!TextUtils.isEmpty(accessId) && !TextUtils.isEmpty(accessKey)) {
 //                if (!accessSaved.equals(accessId) && !accessKey.equals(accessKeySaved)) {

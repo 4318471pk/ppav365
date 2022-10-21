@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 
+import com.live.fox.ConstantValue;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -30,14 +32,6 @@ public final class SPUtils {
     private static final SimpleArrayMap<String, SPUtils> SP_UTILS_MAP = new SimpleArrayMap<>();
     private final SharedPreferences sp;
 
-    /**
-     * Return the single {@link SPUtils} instance
-     *
-     * @return the single {@link SPUtils} instance
-     */
-    public static SPUtils getInstance() {
-        return getInstance("");
-    }
 
     /**
      * Return the single {@link SPUtils} instance
@@ -53,6 +47,11 @@ public final class SPUtils {
             SP_UTILS_MAP.put(spName, spUtils);
         }
         return spUtils;
+    }
+
+    //默认SP
+    public static SPUtils getInstance() {
+        return getInstance(ConstantValue.SPDefaultName);
     }
 
     private SPUtils(final String spName) {

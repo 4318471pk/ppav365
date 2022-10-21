@@ -137,9 +137,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 刷新用户Token
      */
     public void doRefreshToken() {
+        showLoadingDialog();
         Api_Auth.ins().refreshToken(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(data);
                     String token = jsonObject.optString("token", "");
@@ -187,7 +189,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     private void checkNotifications() {
         boolean notificationEnable = NotificationManagerCompat.from(getApplicationContext()).areNotificationsEnabled();
-        boolean dialogIsShowed = SPUtils.getInstance().getBoolean(Constant.SPUtilKey.NOTIFICATION_IS_SHOWED, false);
+        boolean dialogIsShowed = SPUtils.getInstance().getBoolean(ConstantValue.NOTIFICATION_IS_SHOWED, false);
         if (!notificationEnable && !dialogIsShowed) {
             isShowNotification = true;
             NotificationDialog notificationDialog = new NotificationDialog();

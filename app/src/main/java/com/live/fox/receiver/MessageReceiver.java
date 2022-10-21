@@ -1,6 +1,5 @@
 package com.live.fox.receiver;
 
-import static com.live.fox.Constant.SPUtilKey.IM_SDK_APP_ID;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.util.Log;
 
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.NotificationLiveEntity;
@@ -332,7 +332,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
                     break;
 
                 case "1":  //用户私信
-                    String imSdkAppId = SPUtils.getInstance().getString(IM_SDK_APP_ID);
+                    String imSdkAppId = SPUtils.getInstance().getString(ConstantValue.IM_SDK_APP_ID);
                     AppIMManager.init(imSdkAppId);
                     NotificationMessageEntity messageEntity = GsonUtil.getObject(jsonMessage, NotificationMessageEntity.class);
                     String body = messageEntity.getBody();

@@ -3,6 +3,7 @@ package com.live.fox.server;
 import android.text.TextUtils;
 
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.common.CommonApp;
 import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.manager.DataCenter;
@@ -24,7 +25,7 @@ public class BaseApi {
      * Base接口的域名
      */
     public static String getBaseServerDomain() {
-        return SPUtils.getInstance("basedomain").getString("domain", "");
+        return SPUtils.getInstance().getString(ConstantValue.BaseDomain, "");
     }
 
     public static HashMap<String, Object> getCommonParams() {
