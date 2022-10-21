@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.ContributionRankDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_alignParentBottom="true"
+            app:rv_cornerRadius_TR="25dp"
+            app:rv_cornerRadius_TL="25dp"
+            app:rv_backgroundColor="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="19sp"
+                android:textColor="#404040"
+                android:text="@string/listOfContributionBoss" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dip">
+
+                <LinearLayout
+                    android:id="@+id/llRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="8dip"
+                    android:paddingLeft="10dip"
+                    android:background="#f5f1f8"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivRank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        android:src="@mipmap/icon_ranking" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#404040"
+                        android:text="@string/anchorBan" />
+
+                </LinearLayout>
+
+
+                <RadioGroup
+                    android:id="@+id/rgTabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/llRank"
+                    android:background="#f5f1f8"
+                    android:orientation="horizontal">
+
+                </RadioGroup>
+            </RelativeLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpDialogMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </com.flyco.roundview.RoundLinearLayout>
+    </RelativeLayout>
+</layout>

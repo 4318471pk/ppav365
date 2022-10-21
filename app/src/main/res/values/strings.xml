@@ -1296,7 +1296,12 @@
     <string name="saySomething">说点什么...</string>
     <string name="floatingText">弹幕</string>
     <string name="personalPage">个人主页</string>
-    <string name="tagHim" translatable="false">@TA</string>
+    <string name="tagHim" translatable="false">\&#64;TA</string>
     <string name="follow2" translatable="false">+关注</string>
+    <string name="protect">守护</string>
+    <string name="openProtect">开通守护</string>
+    <string name="protectTag">☆荣耀守护☆</string>
+    <string name="protectTag2">成为TA的第一个荣耀守护者吧</string>
+    <string name="protectTag3">守护当前主播，成为TA的人吧~^∪^</string>
 
 </resources>

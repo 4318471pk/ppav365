@@ -2,7 +2,6 @@ package com.live.fox.ui.living;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -16,13 +15,11 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
+import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
+import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
-import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LivingControlPanel extends RelativeLayout {
 
@@ -100,6 +97,12 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
                 break;
             case R.id.ivFollow:
+                break;
+            case R.id.gtvProtection:
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), AnchorProtectorListDialog.getInstance());
+                break;
+            case R.id.gtvContribution:
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), ContributionRankDialog.getInstance());
                 break;
             case R.id.gtvSaySomething:
                 InputMessageDialog dialog=InputMessageDialog.getInstance();

@@ -40,7 +40,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     ViewPager viewPager;
 
     HomeFragmentPagerAdapter<BaseFragment> adapter;
-    private PromoteListFragment promoteListFragment;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -71,7 +70,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         super.onHiddenChanged(hidden);
         if (hidden) return;
 
-        promoteListFragment = PromoteListFragment.newInstance();
         StatusBarUtil.setStatusBarFulAlpha(requireActivity());
         BarUtils.setStatusBarVisibility(requireActivity(), true);
         BarUtils.setStatusBarLightMode(requireActivity(), true);

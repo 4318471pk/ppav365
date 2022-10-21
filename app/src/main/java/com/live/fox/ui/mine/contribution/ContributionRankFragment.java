@@ -165,7 +165,7 @@ public class ContributionRankFragment extends BaseBindingFragment {
         icons.setGravity(Gravity.CENTER);
         icons.setLayoutParams(llIcons);
         User user=new User();
-        user.setUserLevel(new Random().nextInt(200));
+        user.setUserLevel(new Random().nextInt(200)+2);
         SpanUtils spanUtils=new SpanUtils();
         spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(user, getActivity()));
         icons.setText(spanUtils.create());

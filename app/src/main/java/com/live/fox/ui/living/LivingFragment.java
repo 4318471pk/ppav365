@@ -21,7 +21,6 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.CusPanelView;
 import com.live.fox.view.MyFlowLayout;
 
 import static android.view.View.OVER_SCROLL_NEVER;

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="400dip"
+            android:layout_alignParentBottom="true"
+            app:rv_cornerRadius_TR="25dp"
+            app:rv_cornerRadius_TL="25dp"
+            app:rv_backgroundColor="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/protect"
+                    android:textSize="19sp"
+                    android:textColor="#404040"/>
+
+                <ImageView
+                    android:id="@+id/introdution"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:padding="15dip"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/icon_introdution"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#f4f1f8"
+                android:orientation="vertical"
+                >
+
+            <LinearLayout
+                android:id="@+id/llAnchorContent"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:background="@drawable/gradient_ffdafd_f4f1f8"
+                android:orientation="vertical">
+
+                <com.live.fox.view.AnchorProtectorProfileView
+                    android:id="@+id/anchorProtect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:layout_gravity="center_horizontal" />
+
+                <com.live.fox.view.MagicTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dip"
+                    app:strokeColor="#FF0072"
+                    app:strokeWidth="0.5dip"
+                    android:text="@string/protectTag"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dip"
+                    android:text="@string/protectTag2"
+                    android:textColor="#404040"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_cornerRadius="17.5dp"
+                    android:layout_marginLeft="15dip"
+                    android:layout_marginRight="15dip"
+                    app:rv_backgroundColor="#FF3BAE">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dip"
+                        android:layout_centerVertical="true"
+                        android:textSize="13sp"
+                        android:textColor="#ffffff"
+                        android:text="@string/protectTag3"/>
+
+                    <TextView
+                        android:id="@+id/ivBeMyProtector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:textSize="13sp"
+                        android:textColor="#ffffff"
+                        android:text="@string/openProtect"
+                        android:background="@mipmap/btn_for_protector"/>
+                </com.flyco.roundview.RoundRelativeLayout>
+
+
+            </LinearLayout>
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </RelativeLayout>
+</layout>

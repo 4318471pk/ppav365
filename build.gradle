@@ -8,14 +8,14 @@ buildscript {
                 kotlin_version : '1.4.0'
         ]
         releaseSigningConfigs=[
-                StoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
+                StoreFile : "E:\\AndroidProject\\ppav365\\release.keystore",
                 StorePassword :'4318471pk',
                 KeyAlias : 'bying',
                 KeyPassword : '4318471pk'
         ]
 
         debugSigningConfigs=[
-                StoreFile : "/Users/joselyn/AndroidStudioProjects/alive_android/release.keystore",
+                StoreFile : "E:\\AndroidProject\\ppav365\\release.keystore",
                 StorePassword :'4318471pk',
                 KeyAlias : 'bying',
                 KeyPassword : '4318471pk'
@@ -29,7 +29,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         // NOTE: Do not place your application dependencies here; they belong4.0.1
         // in the individual module build.gradle files 3.4.1
         classpath 'com.google.gms:google-services:4.3.10'

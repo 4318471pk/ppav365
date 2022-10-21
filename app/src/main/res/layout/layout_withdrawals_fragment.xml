@@ -63,6 +63,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_recycle_view_with_refresh" />
 
 </LinearLayout>

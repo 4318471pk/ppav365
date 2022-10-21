@@ -1,10 +1,7 @@
 package com.live.fox.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,11 +13,8 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.utils.ResourceUtils;
-import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.ref.WeakReference;
 
 public class RankProfileView extends RelativeLayout {
 
@@ -31,7 +25,6 @@ public class RankProfileView extends RelativeLayout {
     int[] decorationResource = null;
     float scaleAndMargins[][]={{0.87f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.3f},{0.85f,0.1f},{0.85f,0.08f}};
     ImageView ivDecoration, ivCrown, ivProfile;
-    boolean isInit=false;
     OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener;
 
 
@@ -46,18 +39,26 @@ public class RankProfileView extends RelativeLayout {
     }
 
     public RankProfileView(@NonNull @NotNull Context context) {
-        super(context);
-        initView(-1,-1);
+        this(context,null);
     }
 
-    public RankProfileView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initView(-1,-1);
+    public RankProfileView(@NonNull @NotNull Context context,  AttributeSet attrs) {
+        this(context, attrs,0);
     }
 
-    public RankProfileView(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+    public RankProfileView(@NonNull @NotNull Context context,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView(-1,-1);
+
+        if(attrs!=null)
+        {
+            final TypedArray array =
+                    context.obtainStyledAttributes(attrs, R.styleable.RankProfileView);
+            crownIndex = array.getDimensionPixelSize(R.styleable.RankProfileView_crownIndex, -1);
+            decorationIndex = array.getDimensionPixelSize(R.styleable.RankProfileView_decorationIndex, -1);
+            array.recycle();
+        }
+
+        initView(crownIndex,decorationIndex);
     }
 
     public void setOnConfirmWidthAndHeightListener(OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener) {
@@ -68,7 +69,7 @@ public class RankProfileView extends RelativeLayout {
         decorationResource=new ResourceUtils().getResourcesID(R.array.rankEdgePics);
         this.crownIndex = crownIndex;
         this.decorationIndex=decorationIndex;
-        View view = View.inflate(getContext(), R.layout.view_top3rank, null);
+        View view = View.inflate(getContext(), R.layout.view_rank_profile, null);
         ivProfile = view.findViewById(R.id.ivProfile);
         ivCrown = view.findViewById(R.id.ivCrown);
         ivDecoration = view.findViewById(R.id.ivDecoration);
@@ -79,7 +80,6 @@ public class RankProfileView extends RelativeLayout {
                 adjustLayout();
             }
         });
-
 
     }
 
@@ -95,15 +95,11 @@ public class RankProfileView extends RelativeLayout {
 
     }
 
-//    public void setCrownIndex(int crownIndex) {
-//        this.crownIndex = crownIndex;
-//        adjustLayout();
-//    }
-//
-//    public void setDecorationIndex(int decorationIndex) {
-//        this.decorationIndex = decorationIndex;
-//        adjustLayout();
-//    }
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+    }
 
     public void setIndex(int crownIndex,int decorationIndex)
     {
@@ -114,8 +110,7 @@ public class RankProfileView extends RelativeLayout {
 
     private void adjustLayout()
     {
-        if (getWidth() > 0 && !isInit) {
-            isInit=true;
+        if (getWidth() > 0) {
 
             if(decorationIndex>-1)
             {
