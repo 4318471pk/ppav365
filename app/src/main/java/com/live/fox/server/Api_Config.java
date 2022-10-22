@@ -24,6 +24,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
+import com.lzy.okgo.model.HttpParams;
 
 import java.util.HashMap;
 import java.util.List;
@@ -85,23 +86,16 @@ public class Api_Config extends BaseApi {
     }
 
 
-    /**
-     * 广告列表
-     */
-    public void getAdVert(JsonCallback<List<Advert>> callback) {
-        String url = getBaseServerDomain() + Constant.URL.Config_advert_URL;
-        callback.setUrlTag("advert");
-        doGetHeaders(url, callback);
-    }
-
 
     /**
      * 栏目列表
      */
     public void getColumn(JsonCallback<List<HomeColumn>> callback) {
-        String url = getBaseServerDomain() + Constant.URL.Config_column_URL;
-        callback.setUrlTag("/column");
-        doGetHeaders(url, callback);
+//        String url = getBaseServerDomain() + Constant.URL.Config_column_URL;
+        String url = getBaseServerDomain() + "/live-client/home/channel/list";
+        long time=System.currentTimeMillis();
+        OkGoHttpUtil.getInstance().doJsonPost(url, url,
+                getCommonHeaders(time),getCommonParamsString(time)).execute(callback);
     }
 
     /**
@@ -254,6 +248,24 @@ public class Api_Config extends BaseApi {
         if (times != null) {
             OkGoHttpUtil.getInstance().doGet("", url,
                     getCommonHeaders(times)).execute(callback);
+        } else {
+            LogUtils.e("GetHeaders : --> 获取时间戳失败");
+        }
+    }
+
+    /**
+     * 设置请求头的参数
+     *
+     * @param url      url
+     * @param callback 请求回调
+     * @param <T>      数据
+     */
+    public <T> void doPostHeaders(String url, JsonCallback<T> callback, String json) {
+        HashMap<String, Object> params = getCommonParams();
+        Long times = (Long) params.get("timestamp");
+        if (times != null) {
+            OkGoHttpUtil.getInstance().doJsonPost(url, url,
+                    getCommonHeaders(times),json).execute(callback);
         } else {
             LogUtils.e("GetHeaders : --> 获取时间戳失败");
         }

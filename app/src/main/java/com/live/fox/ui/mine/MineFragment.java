@@ -111,7 +111,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                     R.color.transparent, R.drawable.img_default, mBind.ivHeadimg);
         }
 
-        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGoldCoin()));
+        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGoldCoinWithDefault(0.0f)));
         mBind.tvNickname.setText(userinfo.getNickname());
         mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
         String format = String.format(getString(R.string.colon_number), getString(R.string.identity_id), userinfo.getUid());

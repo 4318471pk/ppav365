@@ -120,7 +120,7 @@ public class OkHttpUtil {
         Headers.Builder headersBuilder = new Headers.Builder();
         String token = SPUtils.getInstance("userinfo").getString("token", "");
         if (!StringUtils.isEmpty(token)) {
-            headersBuilder.add("Authorization", "HSBox " + token);
+            headersBuilder.add("Authorization", token);
             header = headersBuilder.build();
         }
 

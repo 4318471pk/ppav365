@@ -60,10 +60,16 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
-        if(view.getId()==mBind.ivRank.getId())
+        switch (view.getId())
         {
-            RankActivity.startActivity(getActivity());
+            case R.id.rlMain:
+                startAnimate(mBind.rllContent,false);
+                break;
+            case R.id.ivRank:
+                RankActivity.startActivity(getActivity());
+                break;
         }
+
     }
 
     @Override
@@ -80,7 +86,7 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         mBind.rllContent.getLayoutParams().height=(int)(screenHeight*0.7f);
 
         setData();
-        startAnimate();
+        startAnimate(mBind.rllContent,true);
     }
 
 
@@ -166,30 +172,5 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         ((RadioButton)mBind.rgTabs.getChildAt(0)).setChecked(true);
     }
 
-    public void startAnimate(){
 
-        Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
-                Animation.ABSOLUTE,0
-                ,Animation.RELATIVE_TO_PARENT,1f
-                ,Animation.RELATIVE_TO_PARENT,0f);
-        animation.setDuration(300);
-
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        mBind.rllContent.startAnimation(animation);
-    }
 }

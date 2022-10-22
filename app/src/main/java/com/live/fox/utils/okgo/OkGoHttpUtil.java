@@ -139,18 +139,6 @@ public class OkGoHttpUtil {
         return postRequest;
     }
 
-    public PostRequest<String> doFormPost(String tag, String url) {
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("data", "12123123123123")
-                .build();
-        PostRequest<String> postRequest = OkGo.<String>post(url)
-                .tag(tag);
-
-        postRequest.upRequestBody(requestBody);
-
-        return postRequest;
-    }
 
     public String mapToUrlWithValue(String url, HashMap<String, Object> map) {
         Set<String> keySet = map.keySet();

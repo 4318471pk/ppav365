@@ -3,6 +3,7 @@ package com.live.fox.ui.living;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,5 +186,14 @@ public class LivingActivity extends BaseBindingViewActivity {
     {
         void onShowKeyBorad(int height);
         void onDismiss();
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if(event.getKeyCode()==KeyEvent.KEYCODE_BACK)
+        {
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 }

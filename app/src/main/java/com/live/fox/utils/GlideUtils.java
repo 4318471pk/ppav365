@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.Transformation;
@@ -26,12 +29,16 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.live.fox.R;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.glide2transformation.BorderTransformation;
 import com.live.fox.utils.glide2transformation.CircleWithBorderTransformation;
 import com.live.fox.utils.glide2transformation.RoundedWithBoardTransformation;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -88,6 +95,13 @@ public class GlideUtils {
      */
     public static void loadDefaultImage(Context context, Object path, ImageView imageView) {
         loadImage(context, path, defaultPlaceImg, defaultErrorImg, true, imageView);
+    }
+
+    /**
+     * 加载图片->默认预览图&错误图
+     */
+    public static void loadDefaultImage(Context context, Object path,int defaultImg, ImageView imageView) {
+        loadImage(context, path, defaultImg, defaultImg, true, imageView);
     }
 
     /**
@@ -191,15 +205,35 @@ public class GlideUtils {
 
         if (isFade) {
             Glide.with(context)
-                    .load(replaceDomain(path))
+                    .load(path)
                     .apply(options)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imageView);
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
+                            imageView.setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
+
+                        }
+                    });
         } else {
             Glide.with(context)
-                    .load(replaceDomain(path))
+                    .load(path)
                     .apply(options)
-                    .into(imageView);
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
+                            imageView.setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
+
+                        }
+                    });
         }
     }
 
@@ -245,6 +279,7 @@ public class GlideUtils {
         if ((isValidContextForGlide(context))) return;
         loadImage(context, path, placeholderImg, errorImg, true, imageView, new CircleCrop());
     }
+
 
     /**
      * 圆形+边框

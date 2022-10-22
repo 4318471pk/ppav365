@@ -25,9 +25,9 @@ import java.util.List;
 public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentStatePagerAdapter {
 
     private final SparseArray<BaseFragment> fragmentList = new SparseArray<>();
-    private final List<HomeColumn> titleList;
+    private final String[] titleList;
 
-    public HomeFragmentPagerAdapter(@NonNull @NotNull FragmentManager fm,List<HomeColumn> titleList) {
+    public HomeFragmentPagerAdapter(@NonNull @NotNull FragmentManager fm,String[] titleList) {
         super(fm);
         this.titleList=titleList;
     }
@@ -38,26 +38,22 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
     public Fragment getItem(int position) {
 
         BaseFragment baseFragment=null;
-        switch (titleList.get(position).getType())
+        switch (position)
         {
-            case 1:
+            case 0:
                 baseFragment=FollowAnchorFragment.newInstance();
                 break;
-            case 2:
+            case 1:
                 baseFragment= RecommendListFragment.newInstance();
                 break;
-            case 3:
+            case 2:
                 baseFragment= HotAnchorFragment.newInstance();
                 break;
-            case 4:
+            case 3:
                 baseFragment= AnchorGameFragment.newInstance();
                 break;
-            case 5:
+            case 4:
                 baseFragment= NearByPeopleFragment.newInstance();
-                break;
-            default:
-                baseFragment= WebFragment.newInstance(titleList.get(position).getJumpUrl(),
-                        false);
                 break;
         }
         return baseFragment;
@@ -65,7 +61,7 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
 
     @Override
     public int getCount() {
-        return titleList.size();
+        return titleList.length;
     }
 
     @Override
@@ -95,9 +91,7 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(titleList.size() != 0){
-            return titleList.get(position).getName().trim();
-        }
-        return super.getPageTitle(position);
+
+        return titleList[position];
     }
 }

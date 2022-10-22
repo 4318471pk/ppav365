@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.svga.AnchorInfoBean;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
@@ -29,23 +30,25 @@ import java.util.List;
 /**
  * 主页直播适配器
  */
-public class LiveListAdapter extends BaseSectionQuickAdapter<AnchorInfoBean, LiveListAdapter.LiveListViewHold> {
+public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveListAdapter.LiveListViewHold> {
 
     List<Anchor> bannerAdList;
     int itemWidth;
     Context context;
     Drawable clock,diamond;
+    int defaultDrawable;
 
 
-    public LiveListAdapter(Context context,List<AnchorInfoBean> data) {
+    public LiveListAdapter(Context context,List<RoomListBean> data) {
         super(R.layout.item_anchor_list, R.layout.item_liveroomlist_adbanner, data);
         itemWidth= (ScreenUtils.getScreenWidth(context)-ScreenUtils.getDip2px(context,15))/2;
         clock=context.getResources().getDrawable(R.mipmap.icon_clock);
         diamond=context.getResources().getDrawable(R.mipmap.icon_diamond);
+        defaultDrawable=R.mipmap.icon_anchor_loading;
     }
 
     @Override
-    protected void convertHead(LiveListViewHold helper, final AnchorInfoBean dataBean) {
+    protected void convertHead(LiveListViewHold helper, final RoomListBean dataBean) {
 
         if (bannerAdList == null) return;
 
@@ -66,9 +69,8 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<AnchorInfoBean, Liv
     }
 
     @Override
-    protected void convert(LiveListViewHold helper, AnchorInfoBean data) {
-        Anchor anchor = data.t;
-        if (anchor == null) return;
+    protected void convert(LiveListViewHold helper, RoomListBean data) {
+        if (data == null) return;
 
         ViewGroup.LayoutParams vl= helper.itemView.getLayoutParams();
         vl.width=itemWidth;
@@ -83,6 +85,10 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<AnchorInfoBean, Liv
         spUtils.appendImage(diamond,SpanUtils.ALIGN_CENTER);
         spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
         gtvUnitPrice.setText(spUtils.create());
+
+        helper.setText(R.id.tv_nickname,data.getTitle());
+
+        GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
 
 //        //Views
 //        TextView category = helper.getView(R.id.tv_cai_category);  //类别
@@ -182,27 +188,6 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<AnchorInfoBean, Liv
     }
 
 
-    //type 1热门
-    public void setData(int type, List<AnchorInfoBean> data) {
-        int size1 = data.size();
-        if (type == 1) {
-            String content = SPUtils.getInstance("ad_banner2").getString("content");
-            LogUtils.e("二级Banner:" + content);
-            if (!StringUtils.isEmpty(content)) {
-                bannerAdList = GsonUtil.getObjects(content, Anchor[].class);
-                for (int i = 0; i < bannerAdList.size(); i++) {
-                    Anchor bannerAd = bannerAdList.get(i);
-                    bannerAd.setRoomType(2);
-                    int index = (i + 1) * 7 - 1;
-                    if (index <= data.size() - 1) {
-                        data.add(index, new AnchorInfoBean(true));
-                    }
-                }
-            }
-        }
-        LogUtils.e("size变化: " + size1 + ", " + data.size());
-        setNewData(data);
-    }
 
     public static class LiveListViewHold extends BaseViewHolder{
 

@@ -38,6 +38,7 @@ import com.live.fox.server.Api_Auth;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_LiveRecreation;
+import com.live.fox.server.Api_User;
 import com.live.fox.ui.AuthActivity;
 import com.live.fox.ui.chat.ChatListFragment;
 import com.live.fox.ui.game.GameFragment;
@@ -46,6 +47,7 @@ import com.live.fox.ui.home.HomeFragment;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.ui.mine.MineFragment;
+import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.CleanUtils;
 import com.live.fox.utils.ClickUtil;
@@ -123,43 +125,58 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             NotificationManager.getInstance().register(CommonApp.getInstance());
         }
 
+        doLoginGuest();//无论有没有token都给他登录刷新到最新到token
+
         if (DataCenter.getInstance().getUserInfo().isLogin()) {
             getCountryCode();
-            doRefreshToken();
             connectIM();
             if (!NotificationManager.getInstance().isBindingUser()) {
                 NotificationManager.getInstance().registerUserID(CommonApp.getInstance());
             }
         }
+
     }
 
-    /**
-     * 刷新用户Token
-     */
-    public void doRefreshToken() {
-        showLoadingDialog();
-        Api_Auth.ins().refreshToken(new JsonCallback<String>() {
+    public void doLoginGuest() {
+        showLoadingDialogWithNoBgBlack();
+        Api_Auth.ins().guestLogin( new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                hideLoadingDialog();
                 try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    String token = jsonObject.optString("token", "");
-                    if (!TextUtils.isEmpty(token)) {
-                        if (!StringUtils.isEmpty(token)) {
-                            DataCenter.getInstance().getUserInfo().setToken(token);
-                        } else {
-                            ToastUtils.showShort("UserToken is Null");
-                            SPManager.clearUserInfo();
+                    hideLoadingDialog();
+                    if (code == 0) {
+                        JSONObject jsonObject = new JSONObject(data);
+                        String token = jsonObject.optString("token", "");
+                        if (StringUtils.isEmpty(token)) {
+                            ToastUtils.showShort(getString(R.string.tokenFail));
+                            return;
                         }
+                        onLoginSuccess(token);
                     } else {
-                        ToastUtils.showShort(code + getString(R.string.cxdl));
-                        SPManager.clearUserInfo();
-                        LoginModeSelActivity.startActivity(MainActivity.this);
+                        ToastUtils.showShort(msg);
                     }
                 } catch (Exception e) {
-                    ToastUtils.showShort(getString(R.string.jxyc));
+                    ToastUtils.showShort(e.getMessage());
+                }
+            }
+        });
+    }
+
+    //登录成功、完善用户信息成功后的统一处理
+    public void onLoginSuccess(String token) {
+        DataCenter.getInstance().getUserInfo().setToken(token);
+        Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String userJson) {
+                if (code == 0) {
+                    initTable();
+                } else {
                     SPManager.clearUserInfo();
+                    if (code == 993) {
+                        ToastUtils.showShort(getString(R.string.accountStop));
+                    } else {
+                        ToastUtils.showShort(msg);
+                    }
                 }
             }
         });
@@ -199,7 +216,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public void initView() {
         //findViewById(R.id.layout_openlive).setOnClickListener(this);
-        initTable();
 
         if (!isShowNotification) {
             doCheckUpdate();
@@ -498,8 +514,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 做一些檢查工作 異常退出時完成的工作
      */
     public void doCheckUnfinishedWork() {
-        //1.檢查是否有未關閉混流的情況
-        doCheckHunliuUnFinish();
 
         //2.檢查是否有未成功關閉直播間的情況
         doCheckLiveUnFinish();
@@ -508,28 +522,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         doCheckQuitoRomUnFinish();
     }
 
-    /**
-     * 檢查是否有未关闭pk 或混流的情況
-     * 检查是否有未正常关闭pk的情况
-     */
-    public void doCheckHunliuUnFinish() {
-        if (SPUtils.getInstance("pk").getBoolean("start", false)) {
-            Api_LiveRecreation.ins().finishPk(new JsonCallback<String>() {
-                @Override
-                public void onSuccess(int code, String msg, String data) {
-                    if (data != null) LogUtils.e(data);
-                }
-            });
-        }
-
-        //检查是否有未正常关闭混流的情况
-        if (SPUtils.getInstance("pkhunliu").contains("uid")) {
-            String bigAnchorId = SPUtils.getInstance("pkhunliu").getString("uid");
-            String smallAnchorId = SPUtils.getInstance("pkhunliu").getString("pkUid");
-            delPKVideoStream(bigAnchorId);
-            delPKVideoStream(smallAnchorId);
-        }
-    }
 
     //檢查是否有未成功關閉直播間的情況
     public void doCheckLiveUnFinish() {

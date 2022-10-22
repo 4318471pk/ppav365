@@ -78,8 +78,6 @@ public class Constant {
 
         //给App下发基础配置接口
         public static final String Config = "config-client/config";
-        public static final String Config_advert_URL = Config + "/advert";          // 广告列表
-        public static final String Config_column_URL = Config + "/column";          // 栏目列表
         public static final String Config_badge_URL = Config + "/badge";            // 获取徽章列表
         public static final String Config_cserver_URL = Config + "/cserver";        // 客服列表
         public static final String Config_notice_URL = Config + "/notice";          // 消息公告
@@ -101,7 +99,7 @@ public class Constant {
         public static final String CenterClient = "/center-client";
         public static final String USER_RED_BAG_GET = CenterClient + "/red/grabRedPacket";       //红包雨=》抢红包
         public static final String USER_RED_BAG_RAIN_INFO = CenterClient + "/red/joinRoom";       //红包雨=》按钮展示
-        public static final String USER_userInfo_URL = CenterClient + "/sys/user/get/info";          // 获取用户信息
+        public static final String USER_userInfo_URL = CenterClient + "/user/get/info";          // 获取用户信息
         public static final String USER_cardInfo_URL = CenterClient + "/sys/user/get/card/info";     // 获取用户名片信息
         public static final String USER_followlist_URL = CenterClient + "/sys/user/follow/list";     // 我的关注列表
         public static final String USER_fanslist_URL = CenterClient + "/sys/user/fans/list";         // 我的粉丝列表
@@ -184,7 +182,7 @@ public class Constant {
         public static final String Live_leaveswitch_URL = LiveClient + "/live/leave/switch";   //主播离开状态更改
         public static final String Live_chat_URL = LiveClient + "/live/chat";              //直播间发言
         public static final String Live_heart_URL = LiveClient + "/live/heart";            //主播心跳 30s
-        public static final String Live_list_URL = LiveClient + "/live/list";              //开播列表
+        public static final String Live_list_URL = LiveClient + "/home/channel/list";              //开播列表
         public static final String LIVE_RECOMMEND_LIST_URL = LiveClient + "/live/recommendLiveList";              //开播列表
         public static final String Live_recordlist_URL = LiveClient + "/live/record/list";  //开播记录列表
         public static final String Live_start_URL = LiveClient + "/live/start";            //开播

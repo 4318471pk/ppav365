@@ -26,6 +26,8 @@ import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.view.tab.SimpleTabLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 
@@ -51,7 +53,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.home_fragment, container, false);
             initView(rootView);
-            setView();
         }
         return rootView;
     }
@@ -66,6 +67,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setView();
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) return;
@@ -77,7 +84,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     public void setView() {
         //沉浸式布局需要头部留出导航栏的高度
-        doGetColumnListApi();
+        String[] strs=getResources().getStringArray(R.array.homeTabs);
+        adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),strs);
+        //遍历栏目列表 设置Fragment
+
+//                if(data!=null && data.size()>5)
+//                {
+        viewPager.setOffscreenPageLimit(1);
+//                }
+        viewPager.setAdapter(adapter);
+        tabLayout.setViewPager(viewPager);
+        tabLayout.setCurrentTab(1);
 
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -91,31 +108,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         });
     }
 
-    public void doGetColumnListApi() {
-        Api_Config.ins().getColumn(new JsonCallback<List<HomeColumn>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<HomeColumn> data) {
-                if (data == null) {
-                    data = SPManager.getHomeColumn();
-                } else {
-                    SPManager.saveHomeColumn(data);
-                }
-
-                if (!isAdded()) return;
-
-                adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),data);
-                //遍历栏目列表 设置Fragment
-
-//                if(data!=null && data.size()>5)
-//                {
-                    viewPager.setOffscreenPageLimit(1);
-//                }
-                viewPager.setAdapter(adapter);
-                tabLayout.setViewPager(viewPager);
-                tabLayout.setCurrentTab(1);
-            }
-        });
-    }
 
     @Override
     public void onClick(View view) {

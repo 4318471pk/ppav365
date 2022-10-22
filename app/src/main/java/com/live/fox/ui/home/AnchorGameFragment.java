@@ -19,10 +19,13 @@ import com.live.fox.adapter.AnchorGameListAdapter;
 import com.live.fox.adapter.FollowAnchorListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentAnchorGameBinding;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LanguageUtilsEntity;
+import com.live.fox.server.Api_Live;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ZoomOutSlideTransformer;
 import com.live.fox.utils.device.DeviceUtils;
@@ -40,6 +43,8 @@ public class AnchorGameFragment extends BaseBindingFragment {
 
     FragmentAnchorGameBinding mBind;
     AnchorGameListAdapter adapter;
+    HomeFragmentRoomListBean listBean;
+    int tabIndex=0;
 
     public static AnchorGameFragment newInstance()
     {
@@ -66,18 +71,62 @@ public class AnchorGameFragment extends BaseBindingFragment {
         mBind.rvMain.setLayoutManager(layoutManager);
         mBind.rvMain.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 2.5f)));
 
-        List<Anchor> list=new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            list.add(new Anchor());
-        }
-        adapter=new AnchorGameListAdapter(getActivity(),list);
-        mBind.rvMain.setAdapter(adapter);
-        setTabs();
-        setBanner();
 
+        adapter=new AnchorGameListAdapter(getActivity(),new ArrayList());
+        mBind.rvMain.setAdapter(adapter);
+        setBanner();
+        doGetLiveListApi();
     }
 
-    private void setTabs()
+    public void doGetLiveListApi() {
+        Api_Live.ins().getLiveList(3, new JsonCallback<HomeFragmentRoomListBean>() {
+            @Override
+            public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
+                if (data == null) {
+                    if (isAdded()) {
+                        showEmptyView(getString(R.string.noData));
+                    }
+                    return;
+                }
+                hideEmptyView();
+                if (mBind.srlRefresh != null)
+                    mBind.srlRefresh.finishRefresh();
+
+                if (code == 0) {
+
+                    if(listBean!=null && listBean.getList()!=null)
+                    {
+                        listBean=data;
+                    }
+
+                    if(data.getList()!=null && data.getList().size()>0)
+                    {
+                        setTabs(data.getList());
+                    }
+                    setAdapterNewData();
+                }
+
+                if (adapter.getData().size() == 0) {
+                    showEmptyView(msg);
+                }
+            }
+        });
+    }
+
+    private void setAdapterNewData()
+    {
+        if (listBean!=null && listBean.getList().get(tabIndex).getRoomList()!=null &&
+                listBean.getList().get(tabIndex).getRoomList().size()> 0) {
+            adapter.setNewData(listBean.getList().get(tabIndex).getRoomList());
+        }
+        else
+        {
+            showEmptyView(getString(R.string.noData));
+            adapter.setEmptyView(R.layout.view_empty, (ViewGroup) mBind.rvMain.getParent());
+        }
+    }
+
+    private void setTabs(List<HomeFragmentRoomListBean.ChannelList> channelLists)
     {
         mBind.gameHostTypeTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -86,6 +135,8 @@ public class AnchorGameFragment extends BaseBindingFragment {
                 TextView item = (TextView) relativeLayout.getChildAt(0);
                 item.setBackground(getResources().getDrawable(R.drawable.round_gradient_a800ff_d689ff));
                 item.setTextColor(0xffffffff);
+                tabIndex=tab.getPosition();
+                setAdapterNewData();
             }
 
             @Override
@@ -98,19 +149,22 @@ public class AnchorGameFragment extends BaseBindingFragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                RelativeLayout relativeLayout = (RelativeLayout) tab.getCustomView();
+                TextView item = (TextView) relativeLayout.getChildAt(0);
+                item.setBackground(getResources().getDrawable(R.drawable.round_gradient_a800ff_d689ff));
+                item.setTextColor(0xffffffff);
             }
         });
 
         int dip1 = ScreenUtils.dip2px(getContext(), 1);
         int screenWidth = ScreenUtils.getScreenWidth(getContext());
         int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < channelLists.size(); i++) {
             RelativeLayout tabItemRL = new RelativeLayout(getContext());
             tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
 
             TextView tvTab = new TextView(getContext());
-            tvTab.setText(i > 0 ? "姐姐" : "休闲鞋好");
+            tvTab.setText( channelLists.get(i).getChannelName());
             tvTab.setGravity(Gravity.CENTER);
             tvTab.setTextColor(0xff404040);
             tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);

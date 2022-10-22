@@ -7,23 +7,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.live.fox.R;
+import com.live.fox.adapter.AnchorProtectorAdapter;
+import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogAnchorlistProtectorBinding;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
     DialogAnchorlistProtectorBinding mBind;
+    AnchorProtectorAdapter adapter;
 
     public static AnchorProtectorListDialog getInstance()
     {
@@ -51,7 +60,14 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
-
+        switch (view.getId())
+        {
+            case R.id.rlMain:
+                startAnimate(mBind.rllContent,false);
+                break;
+            case R.id.introdution:
+                break;
+        }
     }
 
     @Override
@@ -78,10 +94,26 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         rl.height=dip31;
         rl.topMargin=dip31/31*2;
         rl.bottomMargin=dip31/31*2;
+        rl.rightMargin=dip31/31*2;
         mBind.ivBeMyProtector.setLayoutParams(rl);
         view.setVisibility(View.VISIBLE);
 
+        List<String> strings=new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            strings.add(" ");
+        }
 
+        adapter=new AnchorProtectorAdapter(getActivity(),strings);
+        LinearLayout linearLayout=new LinearLayout(getContext());
+        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width,ScreenUtils.getDip2px(getActivity(),20)));
+        adapter.addHeaderView(linearLayout);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mBind.rvMain.setLayoutManager(linearLayoutManager);
+        mBind.rvMain.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getActivity(),5)));
+        mBind.rvMain.setAdapter(adapter);
+
+        startAnimate(mBind.rllContent,true);
     }
 
 

@@ -3,7 +3,6 @@ package com.live.fox.ui.mine;
 import android.view.View;
 
 import com.live.fox.R;
-import com.live.fox.adapter.HomeFragmentPagerAdapter;
 import com.live.fox.adapter.MyNoblePagerAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.BaseFragment;

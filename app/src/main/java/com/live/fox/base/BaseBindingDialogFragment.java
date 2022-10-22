@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -239,4 +241,35 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     public abstract void onClickView(View view);
     public abstract int onCreateLayoutId();
     public abstract void initView(View view);
+
+    public void startAnimate(View view,boolean isOpen){
+
+        Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,0
+                ,Animation.RELATIVE_TO_PARENT,isOpen?1f:0f
+                ,Animation.RELATIVE_TO_PARENT,isOpen?0f:1f);
+        animation.setDuration(300);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(!isOpen)
+                {
+                    dismissAllowingStateLoss();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animation);
+    }
+
 }

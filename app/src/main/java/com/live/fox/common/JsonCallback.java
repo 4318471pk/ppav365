@@ -50,6 +50,8 @@ public abstract class JsonCallback<T> extends StringCallback {
 
     @Override
     public void onSuccess(Response<String> response) {
+        String url=response.getRawCall().request().url().toString();
+        LogUtils.e(url+" "+response.body());
         try {
             if ("cp/list".equals(urlTag)) {
                 Log.e(urlTag, "url: " + response.getRawResponse().request().url() + " \n" + "response: " + response.body());
@@ -64,7 +66,6 @@ public abstract class JsonCallback<T> extends StringCallback {
             }
 
             if (!response.isSuccessful()) {
-                LogUtils.e(response.code() + ", " + response.message());
                 onSuccessInMainThread(response.code(), response.message(), null);
                 return;
             }
@@ -113,7 +114,8 @@ public abstract class JsonCallback<T> extends StringCallback {
 
     @Override
     public void onError(Response<String> response) {
-        LogUtils.e(response.message() + "," + response.getException().getMessage());
+        String url=response.getRawCall().request().url().toString();
+        LogUtils.e(url+" "+response.message() + "," + response.getException().getMessage());
         String responseMsg = response.message();
         if (response.code() != 0 && StringUtils.isEmpty(responseMsg)) {
             responseMsg = CommonApp.getInstance().getString(R.string.dataWrong) + "(" + response.code() + ")";

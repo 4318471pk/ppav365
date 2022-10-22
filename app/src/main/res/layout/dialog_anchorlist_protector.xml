@@ -3,122 +3,162 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="click"
             type="com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog" />
     </data>
 
     <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}">
 
         <com.flyco.roundview.RoundLinearLayout
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="400dip"
             android:layout_alignParentBottom="true"
-            app:rv_cornerRadius_TR="25dp"
-            app:rv_cornerRadius_TL="25dp"
+            android:orientation="vertical"
             app:rv_backgroundColor="@color/white"
-            android:orientation="vertical">
+            app:rv_cornerRadius_TL="25dp"
+            app:rv_cornerRadius_TR="25dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dip"
-                >
+                android:layout_height="50dip">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/protect"
-                    android:textSize="19sp"
-                    android:textColor="#404040"/>
+                    android:textColor="#404040"
+                    android:textSize="19sp" />
 
                 <ImageView
                     android:id="@+id/introdution"
                     android:layout_width="50dip"
                     android:layout_height="50dip"
-                    android:padding="15dip"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/icon_introdution"/>
+                    android:layout_centerVertical="true"
+                    android:onClick="@{click.onClickView}"
+                    android:padding="15dip"
+                    android:src="@mipmap/icon_introdution" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#f4f1f8"
-                android:orientation="vertical"
-                >
-
-            <LinearLayout
-                android:id="@+id/llAnchorContent"
-                android:layout_width="match_parent"
-                android:layout_height="200dip"
-                android:background="@drawable/gradient_ffdafd_f4f1f8"
                 android:orientation="vertical">
 
-                <com.live.fox.view.AnchorProtectorProfileView
-                    android:id="@+id/anchorProtect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
-                    android:layout_gravity="center_horizontal" />
 
-                <com.live.fox.view.MagicTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="6dip"
-                    app:strokeColor="#FF0072"
-                    app:strokeWidth="0.5dip"
-                    android:text="@string/protectTag"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"/>
+                    <com.live.fox.view.NestedScrollingForProtectDialog
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dip"
-                    android:text="@string/protectTag2"
-                    android:textColor="#404040"
-                    android:textSize="13sp"/>
+                        <LinearLayout
+                            android:id="@+id/llAnchorContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dip"
+                            android:background="@drawable/gradient_ffdafd_f4f1f8"
+                            android:orientation="vertical">
 
-            </LinearLayout>
+                            <com.live.fox.view.AnchorProtectorProfileView
+                                android:id="@+id/anchorProtect"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="10dip" />
 
-                <com.flyco.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dip"
-                    app:rv_cornerRadius="17.5dp"
-                    android:layout_marginLeft="15dip"
-                    android:layout_marginRight="15dip"
-                    app:rv_backgroundColor="#FF3BAE">
+                            <com.live.fox.view.MagicTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="6dip"
+                                android:text="@string/protectTag"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:strokeColor="#FF0072"
+                                app:strokeWidth="0.5dip" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dip"
-                        android:layout_centerVertical="true"
-                        android:textSize="13sp"
-                        android:textColor="#ffffff"
-                        android:text="@string/protectTag3"/>
+                            <TextView
+                                android:id="@+id/tvNickName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="10dip"
+                                android:text="name"
+                                android:textColor="#404040"
+                                android:textSize="13sp" />
 
-                    <TextView
-                        android:id="@+id/ivBeMyProtector"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center"
-                        android:textSize="13sp"
-                        android:textColor="#ffffff"
-                        android:text="@string/openProtect"
-                        android:background="@mipmap/btn_for_protector"/>
-                </com.flyco.roundview.RoundRelativeLayout>
+                            <TextView
+                                android:id="@+id/tvIcons"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="10dip"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="13sp" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="16dip"
+                                android:text="@string/protectTag2"
+                                android:textColor="#404040"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlListContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvMain"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                />
+                            <com.flyco.roundview.RoundRelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="35dip"
+                                android:layout_marginLeft="15dip"
+                                android:layout_marginRight="15dip"
+                                app:rv_backgroundColor="#FF3BAE"
+                                app:rv_cornerRadius="17.5dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="20dip"
+                                    android:text="@string/protectTag3"
+                                    android:textColor="#ffffff"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/ivBeMyProtector"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@mipmap/btn_for_protector"
+                                    android:gravity="center"
+                                    android:text="@string/openProtect"
+                                    android:textColor="#ffffff"
+                                    android:textSize="13sp" />
+                            </com.flyco.roundview.RoundRelativeLayout>
+
+                        </RelativeLayout>
+
+                    </com.live.fox.view.NestedScrollingForProtectDialog>
 
             </LinearLayout>
         </com.flyco.roundview.RoundLinearLayout>

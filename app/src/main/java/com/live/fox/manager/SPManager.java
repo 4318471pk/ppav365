@@ -2,6 +2,7 @@ package com.live.fox.manager;
 
 
 import com.google.gson.Gson;
+import com.live.fox.ConstantValue;
 import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.HomeColumn;
 import com.live.fox.entity.LiveColumn;
@@ -18,7 +19,6 @@ import java.util.List;
  */
 public class SPManager {
 
-    public static String base="base";
     public static String userInfo="userInfo";
     public static String domain="domain";
     public static String share="share";
@@ -43,20 +43,11 @@ public class SPManager {
         return status;
     }
 
-
-    /**
-     * 更新接口的域名
-     */
-    public static void saveServerDomain(String domain) {
-        if (!StringUtils.isEmpty(domain))
-            SPUtils.getInstance(base).put("httpserver", domain);
-    }
-
     /**
      * 获得普通接口的域名
      */
     public static String getServerDomain() {
-        return SPUtils.getInstance(base).getString("httpserver", "");
+        return SPUtils.getInstance().getString(ConstantValue.BaseDomain, "http://api.alivedsqweq.com");
     }
 
 

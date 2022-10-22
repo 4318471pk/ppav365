@@ -192,24 +192,24 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
      * 获取直播列表数据
      */
     private void requestLiveList() {
-        Api_Live.ins().getLiveList(1, new JsonCallback<List<Anchor>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<Anchor> data) {
-                if (data == null || data.size() == 0) {
-                    return;
-                }
-                for (Anchor anchor : data) {
-                    if (anchor.getIsAd() != 1) {
-                        if (anchor.getLiveId() == currentAnchor.getLiveId()) {
-                            currentAnchor = anchor;
-                        }
-                        anchorList.add(anchor);
-                    }
-                }
-                handleLiveData();
-                refreshAnchorInfoAndEnterRoom();
-            }
-        });
+//        Api_Live.ins().getLiveList(1, new JsonCallback<List<Anchor>>() {
+//            @Override
+//            public void onSuccess(int code, String msg, List<Anchor> data) {
+//                if (data == null || data.size() == 0) {
+//                    return;
+//                }
+//                for (Anchor anchor : data) {
+//                    if (anchor.getIsAd() != 1) {
+//                        if (anchor.getLiveId() == currentAnchor.getLiveId()) {
+//                            currentAnchor = anchor;
+//                        }
+//                        anchorList.add(anchor);
+//                    }
+//                }
+//                handleLiveData();
+//                refreshAnchorInfoAndEnterRoom();
+//            }
+//        });
     }
 
     /**

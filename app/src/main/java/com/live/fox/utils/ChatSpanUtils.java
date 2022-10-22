@@ -414,8 +414,13 @@ public class ChatSpanUtils {
         if(userLevel==null)return;
         if(userLevel==0)
         {
-            userLevel++;
+            userLevel=1;
         }
+        if(userLevel>200)
+        {
+            userLevel=199;
+        }
+
         int index=userLevel%10==0?userLevel/10-1:userLevel/10;
         int[] level = new ResourceUtils().getResourcesID(R.array.level);
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);

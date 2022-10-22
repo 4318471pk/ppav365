@@ -18,6 +18,7 @@ import com.live.fox.databinding.ControlPanelLivingBinding;
 import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -91,12 +92,16 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void onClickView(View view)
     {
+        ClickUtil.isClickWithShortTime(view.getId(),1000);
         switch (view.getId())
         {
             case R.id.rivProfileImage:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
                 break;
             case R.id.ivFollow:
+                break;
+            case R.id.ivClose:
+                fragment.getActivity().finish();
                 break;
             case R.id.gtvProtection:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), AnchorProtectorListDialog.getInstance());

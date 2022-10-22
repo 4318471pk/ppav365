@@ -227,7 +227,7 @@ public class SplashPresenter {
                 LogUtils.e("doBaseApi onResponse: " + call.request().url());
                 JsonObject body = response.body();
                 if (body != null) {
-                    SPUtils.getInstance(ConstantValue.BaseDomain).put(ConstantValue.BaseDomain, domains.get(0));
+                    SPUtils.getInstance().put(ConstantValue.BaseDomain, domains.get(0));
 //                    doGetTraceInstall();//取消提交安装
                     JsonObject data = body.getAsJsonObject("data");
                     JsonArray jsonArray = data.getAsJsonArray("configSystemBaseList");
@@ -316,7 +316,6 @@ public class SplashPresenter {
 //                AppIMManager.init(baseInfo.getSdkappid());  //初始换IM SDK
 //            }
 
-            SPManager.saveServerDomain(domains.get(0));
 //            SPManager.saveShareUrl(baseInfo.getShareUrl());
 //            SPManager.saveDomain(baseInfo.getDomain());  //oss.pycywj.com  oss.jwanfu.com
 //            SPManager.saveDomainTwo(baseInfo.getDomainTwo());

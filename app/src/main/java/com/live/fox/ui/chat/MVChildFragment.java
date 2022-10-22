@@ -89,16 +89,16 @@ public class MVChildFragment extends BaseFragment {
         livelistAdapter = new LiveListAdapter(getActivity(),new ArrayList<>());
         livelistRv.setAdapter(livelistAdapter);
 
-        livelistAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (DoubleUtils.isFastDoubleClick()) return;
-            if (livelistAdapter.getItem(position) == null) return;
-            AnchorInfoBean item = livelistAdapter.getItem(position);
-            if (item != null && item.t != null) {
-                Anchor liveRoom = item.t;
-                toLiveRoom(liveRoom, position);
-            }
-
-        });
+//        livelistAdapter.setOnItemClickListener((adapter, view, position) -> {
+//            if (DoubleUtils.isFastDoubleClick()) return;
+//            if (livelistAdapter.getItem(position) == null) return;
+//            AnchorInfoBean item = livelistAdapter.getItem(position);
+//            if (item != null && item.t != null) {
+//                Anchor liveRoom = item.t;
+//                toLiveRoom(liveRoom, position);
+//            }
+//
+//        });
     }
 
     //每次回来都刷新直播列表
@@ -116,59 +116,59 @@ public class MVChildFragment extends BaseFragment {
     }
 
     public void doGetLiveListApi(int type) {
-        Api_Live.ins().getLiveList(type, new JsonCallback<List<Anchor>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<Anchor> data) {
-                refreshLayout.finishRefresh();
-                if (code == 0 && data != null) {
-                    if (data.size() == 0) {
-                        showEmptyView(getString(R.string.noData));
-                        livelistAdapter.setEmptyView(R.layout.view_empty, (ViewGroup) livelistRv.getParent());
-                        return;
-                    }
-                    hideEmptyView();
-                    List<AnchorInfoBean> anchorInfoBeanList = new ArrayList<>();
-                    for (Anchor anchor : data) {
-                        anchor.setRoomType(0);
-                        anchorInfoBeanList.add(new AnchorInfoBean(anchor));
-                    }
-                    livelistAdapter.setData(type, anchorInfoBeanList);
-                } else {
-                    LogUtils.e("code:" + code);
-                    if (livelistAdapter.getData().size() == 0) {
-                        showEmptyView(msg);
-                    }
-                }
-            }
-        });
+//        Api_Live.ins().getLiveList(type, new JsonCallback<List<Anchor>>() {
+//            @Override
+//            public void onSuccess(int code, String msg, List<Anchor> data) {
+//                refreshLayout.finishRefresh();
+//                if (code == 0 && data != null) {
+//                    if (data.size() == 0) {
+//                        showEmptyView(getString(R.string.noData));
+//                        livelistAdapter.setEmptyView(R.layout.view_empty, (ViewGroup) livelistRv.getParent());
+//                        return;
+//                    }
+//                    hideEmptyView();
+//                    List<AnchorInfoBean> anchorInfoBeanList = new ArrayList<>();
+//                    for (Anchor anchor : data) {
+//                        anchor.setRoomType(0);
+//                        anchorInfoBeanList.add(new AnchorInfoBean(anchor));
+//                    }
+//                    livelistAdapter.setData(type, anchorInfoBeanList);
+//                } else {
+//                    LogUtils.e("code:" + code);
+//                    if (livelistAdapter.getData().size() == 0) {
+//                        showEmptyView(msg);
+//                    }
+//                }
+//            }
+//        });
     }
 
     //跳往直播间
     public void toLiveRoom(Anchor anchor, int position) {
-        if (DataCenter.getInstance().getUserInfo().getUser() == null) {
-            LoginModeSelActivity.startActivity(requireActivity());
-            return;
-        }
-        LogUtils.e(new Gson().toJson(anchor));
-        //广告直播间
-        if (anchor.getIsAd() == 1) {
-            if (StringUtils.isEmpty(anchor.getAdJumpUrl())) return;
-            IntentUtils.toBrowser(getActivity(), anchor.getAdJumpUrl());
-        } else {
-            if (DataCenter.getInstance().getUserInfo().getUser() == null) {
-                LoginModeSelActivity.startActivity(requireActivity());
-                return;
-            }
-            if (ClickUtil.isFastDoubleClick2(2000)) return;
-            //过滤广告直播间 获取直播列表
-            List<AnchorInfoBean> tempAnchorList = livelistAdapter.getData();
-            LruCacheUtil.getInstance().get().clear();
-            for (int i = 0; i < tempAnchorList.size(); i++) {
-                if (!tempAnchorList.get(i).isHeader && tempAnchorList.get(i).t.getIsAd() == 0) {
-                    LruCacheUtil.getInstance().put(tempAnchorList.get(i).t);
-                }
-            }
-            PlayLiveActivity.startActivityForResult(MVChildFragment.this, anchor);
-        }
+//        if (DataCenter.getInstance().getUserInfo().getUser() == null) {
+//            LoginModeSelActivity.startActivity(requireActivity());
+//            return;
+//        }
+//        LogUtils.e(new Gson().toJson(anchor));
+//        //广告直播间
+//        if (anchor.getIsAd() == 1) {
+//            if (StringUtils.isEmpty(anchor.getAdJumpUrl())) return;
+//            IntentUtils.toBrowser(getActivity(), anchor.getAdJumpUrl());
+//        } else {
+//            if (DataCenter.getInstance().getUserInfo().getUser() == null) {
+//                LoginModeSelActivity.startActivity(requireActivity());
+//                return;
+//            }
+//            if (ClickUtil.isFastDoubleClick2(2000)) return;
+//            //过滤广告直播间 获取直播列表
+//            List<AnchorInfoBean> tempAnchorList = livelistAdapter.getData();
+//            LruCacheUtil.getInstance().get().clear();
+//            for (int i = 0; i < tempAnchorList.size(); i++) {
+//                if (!tempAnchorList.get(i).isHeader && tempAnchorList.get(i).t.getIsAd() == 0) {
+//                    LruCacheUtil.getInstance().put(tempAnchorList.get(i).t);
+//                }
+//            }
+//            PlayLiveActivity.startActivityForResult(MVChildFragment.this, anchor);
+//        }
     }
 }

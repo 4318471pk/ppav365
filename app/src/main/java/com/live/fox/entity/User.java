@@ -200,6 +200,10 @@ public class User implements Serializable {
         return goldCoin;
     }
 
+    public Float getGoldCoinWithDefault(float defaultValue) {
+        return goldCoin==null?defaultValue:goldCoin;
+    }
+
     public void setGoldCoin(Float goldCoin) {
         this.goldCoin = goldCoin;
     }

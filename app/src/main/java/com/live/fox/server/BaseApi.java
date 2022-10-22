@@ -16,6 +16,9 @@ import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.lzy.okgo.model.HttpHeaders;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 
@@ -48,6 +51,31 @@ public class BaseApi {
         return params;
     }
 
+    public static String getCommonParamsString(long time) {
+        JSONObject params=new JSONObject();
+        try {
+            params.put("os", Constant.OS + ""); //系统
+            params.put("udid", DeviceIdUtils.getAndroidId(CommonApp.getInstance()));
+            params.put("timestamp", time);
+            params.put("channel", "");
+            params.put("language", MultiLanguageUtils.getRequestHeader());
+            String token = DataCenter.getInstance().getUserInfo().getToken();
+            if (!TextUtils.isEmpty(token)) {
+                params.put("token", token);
+            } else {
+                params.put("token", "");
+            }
+            String deviceId = DeviceIdUtils.getAndroidId(CommonApp.getInstance()).substring(0, 6);
+            String jiami = deviceId + "8qiezi" + params.get("timestamp");
+            params.put("paySign", EncryptUtils.encryptMD5ToString(jiami));
+            params.put("sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + params.get("timestamp")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return params.toString();
+    }
+
     public static HttpHeaders getCommonHeaders(long timestamp) {
         HttpHeaders headers = new HttpHeaders();
         headers.put("X-UDID", DeviceIdUtils.getAndroidId(CommonApp.getInstance()));
@@ -57,7 +85,7 @@ public class BaseApi {
         headers.put("X-Sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + timestamp));
         String token = DataCenter.getInstance().getUserInfo().getToken();
         if (!StringUtils.isEmpty(token)) {
-            headers.put("Authorization", "HSBox " + token);
+            headers.put("Authorization", token);
         }
         return headers;
     }
@@ -73,7 +101,7 @@ public class BaseApi {
         headers.put("X-Sign", EncryptUtils.encryptMD5ToString(DeviceIdUtils.getAndroidId(CommonApp.getInstance()) + "jgyh,kasd" + timestamp));
         String token = SPUtils.getInstance("userinfo").getString("token", "");
         if (!StringUtils.isEmpty(token)) {
-            headers.put("Authorization", "HSBox " + token);
+            headers.put("Authorization", token);
         }
         return headers;
     }

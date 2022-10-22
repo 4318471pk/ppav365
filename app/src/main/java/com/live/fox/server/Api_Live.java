@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
@@ -91,12 +92,11 @@ public class Api_Live extends BaseApi {
     /**
      * 获取开播列表
      */
-    public void getLiveList(int type, JsonCallback<List<Anchor>> callback) {
+    public void getLiveList(int type, JsonCallback<HomeFragmentRoomListBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_list_URL;
-        callback.setUrlTag("/live/list");
+        callback.setUrlTag(Constant.URL.Live_list_URL);
         HashMap<String, Object> params = getCommonParams();
-        params.put("type", type);
-        params.put("uid", !DataCenter.getInstance().getUserInfo().isLogin() ? 0 : DataCenter.getInstance().getUserInfo().getUser().getUid());
+        params.put("type", type+"");
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
