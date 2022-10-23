@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -35,6 +37,8 @@ import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -159,38 +163,46 @@ public class SplashPresenter {
         }
     }
 
-    private final Handler mSplashHandler = new Handler(msg -> {
+    private final Handler mSplashHandler = new Handler(Looper.myLooper()){
 
-        if (msg.what == TO_MainActivity) {   //如果是登錄狀態，直接進入首頁
-            LogUtils.e("跳主界面");
-            if (!isHaveOpenScreen && !isConnectIm && context != null) {
-                //无开屏页 && 无IM连接 跳主界面
-                context.goToMain();
-            }
+        @Override
+        public void dispatchMessage(@NonNull @NotNull Message msg) {
+            super.dispatchMessage(msg);
 
-            if (isHaveOpenScreen && isOpenScreenFinish && isConnectIm && isConnectImFinish) {
-                //有开屏页&&开屏页结束 && 有IM连接&&IM连接成功 跳主界面
-                if (context != null) {
+            if (msg.what == TO_MainActivity) {   //如果是登錄狀態，直接進入首頁
+                LogUtils.e("跳主界面");
+                if (!isHaveOpenScreen && !isConnectIm && context != null) {
+                    //无开屏页 && 无IM连接 跳主界面
                     context.goToMain();
+                    return ;
                 }
-            }
 
-            if (isHaveOpenScreen && isOpenScreenFinish && !isConnectIm) {
-                //有开屏页&&开屏页结束 && 无IM连接 跳主界面
-                if (context != null) {
-                    context.goToMain();
+                if (isHaveOpenScreen && isOpenScreenFinish && isConnectIm && isConnectImFinish) {
+                    //有开屏页&&开屏页结束 && 有IM连接&&IM连接成功 跳主界面
+                    if (context != null) {
+                        context.goToMain();
+                        return ;
+                    }
                 }
-            }
 
-            if (isConnectIm && isConnectImFinish && !isHaveOpenScreen) {
-                //IM连接&&IM连接成功 && 无开屏页 跳主界面
-                if (context != null) {
-                    context.goToMain();
+                if (isHaveOpenScreen && isOpenScreenFinish && !isConnectIm) {
+                    //有开屏页&&开屏页结束 && 无IM连接 跳主界面
+                    if (context != null) {
+                        context.goToMain();
+                        return ;
+                    }
+                }
+
+                if (isConnectIm && isConnectImFinish && !isHaveOpenScreen) {
+                    //IM连接&&IM连接成功 && 无开屏页 跳主界面
+                    if (context != null) {
+                        context.goToMain();
+                        return ;
+                    }
                 }
             }
         }
-        return false;
-    });
+    };
 
 
     /**
@@ -260,9 +272,9 @@ public class SplashPresenter {
                                     SPUtils.getInstance().put(ConstantValue.resourceDomain, value);
                                     break;
                             }
-
-                            mSplashHandler.sendEmptyMessageDelayed(TO_MainActivity, 0);
                         }
+
+                        mSplashHandler.sendEmptyMessageDelayed(TO_MainActivity, 0);
                     } else {
                         ToastUtils.showShort(context.getString(R.string.jiexiWrong));
                         context.finish();

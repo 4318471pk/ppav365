@@ -104,16 +104,16 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
         if(hideTop && mTopView!=null && hostTypeTabs!=null && getScrollY()>=mTopViewHeight-barHeight)
         {
             //向上
-            Log.e("HHHHHH",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+//            Log.e("HHHHHH",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
             startFadeIn(hostTypeTabs);
             startFadeOut(mTopView);
         }
 
-        Log.e("HHHHHH3333",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+//        Log.e("HHHHHH3333",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
         if(showTop && mTopView!=null && hostTypeTabs!=null && getScrollY()<mTopViewHeight-barHeight && getScrollY()>=0)
         {
             //向下
-            Log.e("HHHHHH2222",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
+//            Log.e("HHHHHH2222",showTop+" "+hideTop+" "+getScrollY()+" "+mTopViewHeight+" "+barHeight);
             if(mTopView.getVisibility()!=VISIBLE && hostTypeTabs.getVisibility()!=GONE)
             {
                 startFadeIn(mTopView);

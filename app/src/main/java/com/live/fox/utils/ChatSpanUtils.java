@@ -362,8 +362,10 @@ public class ChatSpanUtils {
     public Spanned getAllIconSpan(int level, Context context) {
         SpanUtils spanUtils = new SpanUtils();
         appendLevel(spanUtils, level, context);
+
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         appendLevelTag(spanUtils, level, context);
+
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
         spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);

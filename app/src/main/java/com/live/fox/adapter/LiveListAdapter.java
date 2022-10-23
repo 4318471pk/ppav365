@@ -90,6 +90,8 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
 
         GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
 
+
+
 //        //Views
 //        TextView category = helper.getView(R.id.tv_cai_category);  //类别
 //        ImageView roomStata = helper.getView(R.id.layout_living);

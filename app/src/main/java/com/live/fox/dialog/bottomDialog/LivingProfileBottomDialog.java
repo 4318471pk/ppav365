@@ -13,9 +13,11 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.BotDialogLivingProfileBinding;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.SpanUtils;
@@ -57,7 +59,31 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
-                dismissAllowingStateLoss();
+                startAnimate(mBind.rlContent,false);
+                break;
+            case R.id.tvReport:
+                startAnimate(mBind.rlContent, false, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        FragmentManager fragmentManager=getParentFragmentManager();
+                        if(fragmentManager==null)
+                        {
+                            fragmentManager=getActivity().getSupportFragmentManager();
+                        }
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragmentManager,ReportAnchorDialog.getInstance());
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
                 break;
         }
 
@@ -94,35 +120,8 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(10, getActivity()));
         mBind.tvSmallLogo.setText(spanUtils.create());
 
-        startAnimate();
+        startAnimate(mBind.rlContent,true);
     }
 
 
-    public void startAnimate(){
-
-        Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
-                Animation.ABSOLUTE,0
-                ,Animation.RELATIVE_TO_PARENT,1f
-                ,Animation.RELATIVE_TO_PARENT,0f);
-        animation.setDuration(300);
-
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        mBind.rlContent.startAnimation(animation);
-
-    }
 }

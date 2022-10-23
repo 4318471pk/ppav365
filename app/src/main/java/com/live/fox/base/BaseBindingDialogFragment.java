@@ -272,4 +272,45 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
         view.startAnimation(animation);
     }
 
+    public void startAnimate(View view,boolean isOpen,Animation.AnimationListener listener){
+
+        Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,0
+                ,Animation.RELATIVE_TO_PARENT,isOpen?1f:0f
+                ,Animation.RELATIVE_TO_PARENT,isOpen?0f:1f);
+        animation.setDuration(300);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                if(listener!=null)
+                {
+                    listener.onAnimationStart(animation);
+                }
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(listener!=null)
+                {
+                    listener.onAnimationEnd(animation);
+                }
+                if(!isOpen)
+                {
+                    dismissAllowingStateLoss();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                if(listener!=null)
+                {
+                    listener.onAnimationRepeat(animation);
+                }
+            }
+        });
+        view.startAnimation(animation);
+    }
+
 }

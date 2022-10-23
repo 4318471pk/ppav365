@@ -21,6 +21,7 @@ import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.NotchInScreen;
 
 public class LivingControlPanel extends RelativeLayout {
 
@@ -64,10 +65,11 @@ public class LivingControlPanel extends RelativeLayout {
         addView(mBind.getRoot());
 
         setVisibility(GONE);
-        int topPadding=StatusBarUtil.getStatusBarHeight(fragment.getActivity());
+        int topPadding= NotchInScreen.hasNotchInScreen(fragment.getActivity())?0:
+                StatusBarUtil.getStatusBarHeight(fragment.getActivity());
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext());
 
-        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),0);
+        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),topPadding);
         setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
         setViewLPRL(mBind.rlBotView,(int)(screenHeight*0.52f),0);
         setVisibility(VISIBLE);

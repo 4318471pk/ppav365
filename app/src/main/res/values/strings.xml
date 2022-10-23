@@ -1303,5 +1303,9 @@
     <string name="protectTag">☆荣耀守护☆</string>
     <string name="protectTag2">成为TA的第一个荣耀守护者吧</string>
     <string name="protectTag3">守护当前主播，成为TA的人吧~^∪^</string>
+    <string name="fakeNewsOfPolitics">政治谣言</string>
+    <string name="horrorGross">恐怖恶心</string>
+    <string name="Advertisement">商业广告</string>
+    <string name="insult">侮辱谩骂</string>
 
 </resources>

@@ -34,7 +34,8 @@ public class AnchorProtectorAdapter extends BaseQuickAdapter<String, AnchorProte
     protected void convert(ProtectListHolder helper, String item) {
         SpanUtils spanUtils=new SpanUtils();
         spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(48, context));
-        helper.tvNickName.setText(spanUtils.create());
+
+        helper.tvNickName.setText("名字");
         helper.tvIcons.setText(spanUtils.create());
         helper.rpv.setIndex(RankProfileView.NONE,48%7);
     }

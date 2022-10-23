@@ -90,7 +90,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
 //                if(data!=null && data.size()>5)
 //                {
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(4);
 //                }
         viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager);

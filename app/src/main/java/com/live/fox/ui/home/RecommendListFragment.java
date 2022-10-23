@@ -45,6 +45,7 @@ import com.live.fox.server.Api_Pay;
 import com.live.fox.server.Api_TYGame;
 import com.live.fox.ui.game.GameFullWebViewActivity;
 import com.live.fox.ui.live.PlayLiveActivity;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.AdManger;
 import com.live.fox.utils.ClickUtil;
@@ -86,6 +87,7 @@ public class RecommendListFragment extends BaseBindingFragment {
     int tabIndex=0;
     User currentUser;
     HomeFragmentRoomListBean listBean;
+    LiveListHeader header;
 //    private RecyclerViewSkeletonScreen skeletonScreen;
 
     public static RecommendListFragment newInstance() {
@@ -113,8 +115,8 @@ public class RecommendListFragment extends BaseBindingFragment {
         mBind.rvAnchorList.setLayoutManager(layoutManager);
         mBind.rvAnchorList.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 2.5f)));
         mBind.rvAnchorList.setAdapter(livelistAdapter = new LiveListAdapter(getActivity(),new ArrayList<>()));
-        LiveListHeader header=new LiveListHeader(getContext());
-        livelistAdapter.addHeaderView(header);
+        header=new LiveListHeader(getContext());
+
         convenientBanner = header.findViewById(R.id.home_convenient_banner);
         livelistAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (DoubleUtils.isFastDoubleClick()) return;
@@ -136,7 +138,7 @@ public class RecommendListFragment extends BaseBindingFragment {
             return;
         }
 
-
+        LivingActivity.startActivity(getActivity());
     }
 
     /**
@@ -277,10 +279,12 @@ public class RecommendListFragment extends BaseBindingFragment {
     {
         if (listBean!=null && listBean.getList().get(tabIndex).getRoomList()!=null &&
                 listBean.getList().get(tabIndex).getRoomList().size()> 0) {
+            livelistAdapter.addHeaderView(header);
             livelistAdapter.setNewData(listBean.getList().get(tabIndex).getRoomList());
         }
         else
         {
+            livelistAdapter.removeHeaderView(header);
             showEmptyView(getString(R.string.noData));
             livelistAdapter.setEmptyView(R.layout.view_empty, (ViewGroup) mBind.rvAnchorList.getParent());
         }

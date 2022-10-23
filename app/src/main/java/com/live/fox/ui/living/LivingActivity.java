@@ -52,6 +52,7 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     public static void startActivity(Context context)
     {
+        Log.e("startActivity","LivingActivity");
         context.startActivity(new Intent(context,LivingActivity.class));
     }
 
