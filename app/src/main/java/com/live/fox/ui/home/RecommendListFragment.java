@@ -183,7 +183,7 @@ public class RecommendListFragment extends BaseBindingFragment {
                     mBind.homeRefreshLayout.finishRefresh();
 
                 if (code == 0) {
-                    if(listBean!=null && listBean.getList()!=null)
+                    if(data!=null && data.getList()!=null)
                     {
                         listBean=data;
                     }
@@ -277,6 +277,7 @@ public class RecommendListFragment extends BaseBindingFragment {
 
     private void setAdapterNewData()
     {
+        livelistAdapter.removeHeaderView(header);
         if (listBean!=null && listBean.getList().get(tabIndex).getRoomList()!=null &&
                 listBean.getList().get(tabIndex).getRoomList().size()> 0) {
             livelistAdapter.addHeaderView(header);
@@ -284,7 +285,6 @@ public class RecommendListFragment extends BaseBindingFragment {
         }
         else
         {
-            livelistAdapter.removeHeaderView(header);
             showEmptyView(getString(R.string.noData));
             livelistAdapter.setEmptyView(R.layout.view_empty, (ViewGroup) mBind.rvAnchorList.getParent());
         }

@@ -136,27 +136,27 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void goToMain() {
-//        String gesPassword=SPManager.getGesturePassword();
-//        boolean gesStatus=SPManager.getGesturePasswordStatus();
-//        if(StringUtils.isDigitOnly(gesPassword) && gesStatus)
-//        {
-//            ScreenLockBindingDialog screenLockDialog= ScreenLockBindingDialog.getInstance();
-//            screenLockDialog.setOnScreenLockUnlockListener(new ScreenLockBindingDialog.onScreenLockUnlockListener() {
-//                @Override
-//                public void onScreenLockUnlock() {
-//                    MainActivity.startActivity(SplashActivity.this);
-//                    finish();
-//                }
-//            });
-//            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),screenLockDialog);
-//        }
-//        else
-//        {
-//            MainActivity.startActivity(SplashActivity.this);
-//            finish();
-//        }
+        String gesPassword=SPManager.getGesturePassword();
+        boolean gesStatus=SPManager.getGesturePasswordStatus();
+        if(StringUtils.isDigitOnly(gesPassword) && gesStatus)
+        {
+            ScreenLockBindingDialog screenLockDialog= ScreenLockBindingDialog.getInstance();
+            screenLockDialog.setOnScreenLockUnlockListener(new ScreenLockBindingDialog.onScreenLockUnlockListener() {
+                @Override
+                public void onScreenLockUnlock() {
+                    MainActivity.startActivity(SplashActivity.this);
+                    finish();
+                }
+            });
+            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),screenLockDialog);
+        }
+        else
+        {
+            MainActivity.startActivity(SplashActivity.this);
+            finish();
+        }
 
-        LivingActivity.startActivity(this);
+//        LivingActivity.startActivity(this);
 
     }
 

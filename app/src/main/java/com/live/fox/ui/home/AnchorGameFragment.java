@@ -25,7 +25,11 @@ import com.live.fox.entity.Advert;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LanguageUtilsEntity;
+import com.live.fox.entity.RoomListBean;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
+import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ZoomOutSlideTransformer;
 import com.live.fox.utils.device.DeviceUtils;
@@ -33,6 +37,7 @@ import com.live.fox.view.RecommendAnchorListFooter;
 import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.live.fox.view.convenientbanner.holder.Holder;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -76,6 +81,14 @@ public class AnchorGameFragment extends BaseBindingFragment {
         mBind.rvMain.setAdapter(adapter);
         setBanner();
         doGetLiveListApi();
+
+        adapter.setOnItemClickListener((adapter, itemView, position) -> {
+            if (DoubleUtils.isFastDoubleClick()) return;
+            if (adapter.getItem(position) == null) return;
+
+            toLiveRoom((RoomListBean)adapter.getItem(position));
+        });
+
     }
 
     public void doGetLiveListApi() {
@@ -94,7 +107,7 @@ public class AnchorGameFragment extends BaseBindingFragment {
 
                 if (code == 0) {
 
-                    if(listBean!=null && listBean.getList()!=null)
+                    if(data!=null && data.getList()!=null)
                     {
                         listBean=data;
                     }
@@ -218,5 +231,15 @@ public class AnchorGameFragment extends BaseBindingFragment {
             }
             GlideUtils.loadDefaultImage(context, jsonStr, bannerImg);
         }
+    }
+
+    //跳往直播间
+    public void toLiveRoom(RoomListBean roomListBean) {
+        if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+            LoginModeSelActivity.startActivity(requireContext());
+            return;
+        }
+
+        LivingActivity.startActivity(getActivity());
     }
 }
