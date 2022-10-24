@@ -148,6 +148,7 @@
                                     android:id="@+id/ivBeMyProtector"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="@{click.onClickView}"
                                     android:layout_alignParentRight="true"
                                     android:background="@mipmap/btn_for_protector"
                                     android:gravity="center"

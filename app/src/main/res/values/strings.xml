@@ -1307,5 +1307,8 @@
     <string name="horrorGross">恐怖恶心</string>
     <string name="Advertisement">商业广告</string>
     <string name="insult">侮辱谩骂</string>
+    <string name="diamond2">钻石:</string>
+    <string name="balance2">余额:</string>
+    <string name="tipsBuyProtectForAnchor">为主播开通守护，畅享尊贵特权:</string>
 
 </resources>

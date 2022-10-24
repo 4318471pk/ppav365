@@ -7,18 +7,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.AnchorProtectorAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.DialogAnchorlistProtectorBinding;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.device.ScreenUtils;
@@ -66,6 +69,30 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                 startAnimate(mBind.rllContent,false);
                 break;
             case R.id.introdution:
+                break;
+            case R.id.ivBeMyProtector:
+                startAnimate(mBind.rllContent, false, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        BuyAndBeProtectorDialog dialog=BuyAndBeProtectorDialog.getInstance();
+                        FragmentManager fragmentManager=getParentFragmentManager();
+                        if(fragmentManager==null)
+                        {
+                            fragmentManager=getActivity().getSupportFragmentManager();
+                        }
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragmentManager,dialog);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 break;
         }
     }

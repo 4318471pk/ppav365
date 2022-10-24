@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.BuyAndBeProtectorDialog" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="400dip"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius_TL="25dp"
+            app:rv_cornerRadius_TR="25dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/openProtect"
+                    android:textColor="#404040"
+                    android:textSize="19sp" />
+
+                <ImageView
+                    android:id="@+id/introdution"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{click.onClickView}"
+                    android:padding="15dip"
+                    android:src="@mipmap/icon_introdution" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_f4f1f8_ffdafd"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llContentList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_buy_protector">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/icon_big_shouhu1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dip"
+                                android:drawableLeft="@mipmap/icon_diamond"
+                                android:drawablePadding="5dip"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginLeft="10dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_buy_protector">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/icon_big_shouhu2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dip"
+                                android:drawableLeft="@mipmap/icon_diamond"
+                                android:drawablePadding="5dip"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginLeft="10dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_buy_protector">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/icon_big_shouhu3" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dip"
+                                android:drawableLeft="@mipmap/icon_diamond"
+                                android:drawablePadding="5dip"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="#404040"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    android:layout_marginLeft="15dip"
+                    android:layout_marginTop="5dip"
+                    android:layout_marginRight="15dip"
+                    app:rv_backgroundColor="#FF3BAE"
+                    app:rv_cornerRadius="17.5dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDiamond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dip"
+                            android:text="@string/diamond2"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dip"
+                            android:text="@string/balance2"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/ivBeMyProtector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/btn_for_protector"
+                        android:gravity="center"
+                        android:onClick="@{click.onClickView}"
+                        android:text="@string/openProtect"
+                        android:textColor="#ffffff"
+                        android:textSize="13sp" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/tipsBuyProtectForAnchor"
+                    android:textSize="11sp"
+                    android:textColor="#404040"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/llLogos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+    </RelativeLayout>
+</layout>

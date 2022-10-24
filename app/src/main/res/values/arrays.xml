@@ -106,4 +106,17 @@
         <item>附近</item>
     </string-array>
 
+    <string-array name="buyProtectorTitles">
+        <item>周守护</item>
+        <item>月守护</item>
+        <item>年守护</item>
+    </string-array>
+
+    <string-array name="buyProtectorAccessTitles">
+        <item>身份标识</item>
+        <item>进场特效</item>
+        <item>专属礼物</item>
+        <item>防踢防禁言</item>
+    </string-array>
+
 </resources>
