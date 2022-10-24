@@ -3,19 +3,25 @@ package com.live.fox.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import com.bumptech.glide.gifdecoder.GifDecoder;
 import com.bumptech.glide.gifdecoder.GifHeader;
 import com.bumptech.glide.gifdecoder.GifHeaderParser;
+import com.live.fox.R;
 import com.live.fox.utils.utilconstants.ImageHeaderParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 图片工具类，提供一些应用在图片上的工具方法。
@@ -139,6 +145,54 @@ public class ImageUtil {
         }
 
         return new byte[buffer.size()];
+    }
+
+
+    /**
+     * @param bmp     獲取的bitmap數據
+     * @param picName 自定義的圖片名
+     */
+    public static void saveBmp2Gallery(Context context, Bitmap bmp, String picName) {
+        String fileName = null;
+        //系統相冊目錄
+        String galleryPath = Environment.getExternalStorageDirectory()
+                + File.separator + Environment.DIRECTORY_DCIM
+                + File.separator + "Camera" + File.separator;
+
+
+        // 聲明文件對象
+        File file = null;
+        // 聲明輸出流
+        FileOutputStream outStream = null;
+        try {
+            // 如果有目標文件，直接獲得文件對象，否則創建一個以filename爲名稱的文件
+            file = new File(galleryPath, picName + ".jpg");
+            // 獲得文件相對路徑
+            fileName = file.toString();
+            // 獲得輸出流，如果文件中有內容，追加內容
+            outStream = new FileOutputStream(fileName);
+            if (null != outStream) {
+                bmp.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        } finally {
+            try {
+                if (outStream != null) {
+                    outStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        MediaStore.Images.Media.insertImage(context.getContentResolver(), bmp, fileName, null);
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+        ToastUtils.showShort(context.getString(R.string.ewmSave));
+
     }
 
 

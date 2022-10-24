@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/mView"
+    android:layout_height="38dp"
+    android:paddingStart="15dp"
+    android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.8"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="10000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorA2A0A9"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.8"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="1000000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/color665275"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvtime"
+            android:layout_width="0dp"
+            android:layout_weight="1.1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="2022/09/09 10:10:10"
+
+            android:textColor="@color/colorA2A0A9"
+            android:textSize="12sp"
+            />
+
+
+
+
+
+</LinearLayout>

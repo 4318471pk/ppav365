@@ -1745,4 +1745,15 @@ public final class TimeUtils {
         }
         return sb.toString();
     }
+
+
+    public static String getToday(){
+        SimpleDateFormat year = new SimpleDateFormat("yyyy");
+        SimpleDateFormat month = new SimpleDateFormat("MM");
+        SimpleDateFormat dd = new SimpleDateFormat("dd");
+        String years = year.format(new Date());
+        String MM = month.format(new Date());
+        String day = dd.format(new Date());
+        return years + "/" + MM + "/" + day;
+    }
 }

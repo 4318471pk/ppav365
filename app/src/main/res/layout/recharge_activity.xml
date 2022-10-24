@@ -105,6 +105,18 @@
         </RelativeLayout>
 
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorF5F1F8">
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
@@ -115,9 +127,11 @@
             android:paddingTop="3.5dp"
             android:paddingBottom="3.5dp"
             android:orientation="vertical"
+            android:background="@mipmap/daicun_card_2"
             >
 
             <LinearLayout
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
@@ -305,16 +319,85 @@
 
             </RelativeLayout>
 
-
         </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcPayName"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    >
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_aa0af2_79a0ff" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/recharge_money_pay_channel"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcPayWay"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="15dp"
+                    android:paddingStart="13dp"
+                    android:paddingEnd="13dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/pay_tips_3"
+                    android:textColor="@color/colorF42C2C"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             >
 
             <View
@@ -329,9 +412,9 @@
                 android:layout_centerVertical="true"
                 android:paddingStart="10dp"
                 android:paddingEnd="0dp"
-                android:text="@string/online_charge"
+                android:text="@string/choice_pay_money"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
@@ -346,6 +429,8 @@
             android:layout_marginTop="18dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"/>
+
+            </LinearLayout>
 
     <TextView
         android:id="@+id/tv_service"
@@ -543,6 +628,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout="@layout/view_ggk" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </LinearLayout>
 

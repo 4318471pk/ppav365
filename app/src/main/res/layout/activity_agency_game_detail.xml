@@ -36,7 +36,7 @@
             android:layout_centerInParent="true"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
-            android:text="@string/team_manage"
+            android:text="@string/game_bet"
             android:textColor="@color/color404040"
             android:textSize="19sp" />
 
@@ -76,65 +76,78 @@
         </com.flyco.roundview.RoundLinearLayout>
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorD2CDE0"/>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorF5F1F8"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <com.flyco.roundview.RoundLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        app:rv_backgroundColor="@color/white"
-        app:rv_cornerRadius="10dp"
-        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lower_id_2"
-                android:textColor="@color/color665275"
-                android:textSize="16sp" />
-
-            <EditText
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:maxLines="1"
-                android:background="@color/white"
-                android:layout_marginStart="25dp"
-                android:hint="@string/input_lower_id"
-                android:textColor="@color/color404040"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_bet_money"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/tvBetMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11111"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="29dp"
-                android:layout_marginStart="15dp"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp"
-                android:gravity="center"
-                android:text="@string/search_inquire"
-                android:textSize="14dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_a800ff_d689ff"
-                />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_win_money"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvWinMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11111"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -142,32 +155,64 @@
 
 
 
-    </com.flyco.roundview.RoundLinearLayout>
-
-
-    <com.flyco.roundview.RoundLinearLayout
+        <com.flyco.roundview.RoundLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
+            android:layout_marginTop="13dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
         app:rv_cornerRadius_TR="10dp"
         app:rv_cornerRadius_TL="10dp"
         app:rv_backgroundColor="@color/white"
         >
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/bg_aa0af2_79a0ff"/>
+
+
+                <TextView
+                    android:id="@+id/tvGameName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:text="游戏名称"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/color404040"
+                    android:textSize="14sp"
+                    />
+
+
+            </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:paddingStart="7dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingStart="15dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/colorF4F1F8"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="3.2"
+                android:layout_weight="1.8"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/userName"
+                android:gravity="start"
+                android:text="@string/bet_money"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/color665275"
@@ -179,7 +224,7 @@
                 android:layout_weight="1.8"
                 android:layout_height="match_parent"
                 android:gravity="center|start"
-                android:text="@string/gongxianzhi"
+                android:text="@string/lottery_bet_bonus"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/color665275"
@@ -189,39 +234,16 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/entertainmentHall"
+                android:text="@string/lottery_bet_time"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/color665275"
                 android:textSize="14sp"
                 />
 
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/living_2"
-                android:textColor="@color/color665275"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/operate"
-                android:textColor="@color/color665275"
-                android:textSize="14sp" />
 
 
         </LinearLayout>
@@ -231,17 +253,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/tvNoMore"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:gravity="center"
-            android:text="@string/no_more"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textColor="@color/colorA2A0A9"
-            android:textSize="14sp"
-            />
+
 
         <LinearLayout
             android:visibility="gone"
@@ -275,6 +287,7 @@
     </com.flyco.roundview.RoundLinearLayout>
 
 </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
 
 </layout>

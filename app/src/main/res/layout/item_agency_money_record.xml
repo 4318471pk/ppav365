@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:paddingStart="7dp"
+    android:id="@+id/mView"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="名字最多八个字呀"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorA2A0A9"
+            android:textSize="13sp"
+            />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="2020/10/10 10:10:10"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/colorA2A0A9"
+            android:textSize="13sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvMoneyGame"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="11111"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorA2A0A9"
+            android:textSize="13sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvMoneyLiving"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center|end"
+            android:maxLines="2"
+            android:text="1111111"
+            android:textColor="@color/colorA2A0A9"
+            android:textSize="12sp" />
+
+
+
+</LinearLayout>

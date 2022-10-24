@@ -1143,6 +1143,33 @@
     <string name="change_money_scale">调整佣金比例</string>
     <string name="living_money_scale">直播佣金分成比例</string>
     <string name="game_money_scale">游戏佣金分成比例</string>
+    <string name="my_money_view">我的佣金概览</string>
+    <string name="back_money_time">返佣时间</string>
+    <string name="game_back_money">游戏返佣</string>
+    <string name="living_back_money">直播返佣</string>
+    <string name="time_3">时&#12288;&#12288;间</string>
+    <string name="member_account">会员账号</string>
+    <string name="all_bet_money">下注总金额：</string>
+    <string name="all_win_money">中奖总金额：</string>
+    <string name="bet_count">注单数</string>
+    <string name="bet_money">下注金额</string>
+    <string name="game_bet">游戏注单</string>
+    <string name="promo_tips"><font color='#665275'>下级直播返佣为</font><font color='#0F86FF'>%1$s</font><font color='#665275'>，游戏返佣为</font><font color='#0F86FF'>%2$s</font></string>
+    <string name="change_scale">调整比例</string>
+    <string name="promo_tips_2">当比例为0时，下级将没有任何收益</string>
+    <string name="save_qr_cord">保存二维码</string>
+    <string name="my_lower_get_money">我的下级默认分成</string>
+    <string name="scale_will_save">填写比例后自动保存</string>
+    <string name="check_lower_money_detail">查看下级佣金细节</string>
+    <string name="exchange_diamond_2">兑换钻石(元)</string>
+    <string name="top">上限</string>
+    <string name="back_scale">返点比例</string>
+    <string name="game_activity">游戏活动</string>
+    <string name="living_activity">直播活动</string>
+    <string name="long_time_act">长期活动</string>
+    <string name="choice_pay_money">请选择充值金额</string>
+    <string name="pay_tips_3">1.微信固定金额，请勿修改充值金额；\n2.超时支付需重新扫码，修改金额等错误方式将无法自动到账；\n3.由于微信风控较为严格，如出现风险提示，无需担心，请直接支付，或者重新发起订单支付；\n4.如遇到充值未到账，请及时联系在线客服处理。</string>
+
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

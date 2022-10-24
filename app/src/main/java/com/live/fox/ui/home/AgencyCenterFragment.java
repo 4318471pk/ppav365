@@ -20,8 +20,12 @@ import androidx.annotation.Nullable;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.FragmentAgencyCenterBinding;
+import com.live.fox.ui.agency.AgencyGameRecordActivity;
+import com.live.fox.ui.agency.AgencyMoneyPlanActivity;
+import com.live.fox.ui.agency.AgencyMoneyRecordActivity;
 import com.live.fox.ui.agency.AgencySaveActivity;
 import com.live.fox.ui.agency.BindLowerActivity;
+import com.live.fox.ui.agency.PromoMaterialActivity;
 import com.live.fox.ui.agency.TeamManageActivity;
 import com.live.fox.ui.mine.MineFragment;
 import com.live.fox.utils.BarUtils;
@@ -74,9 +78,13 @@ public class AgencyCenterFragment extends BaseBindingFragment {
         } else if (view == mBind.layoutTeamManage) {
             TeamManageActivity.startActivity(this.getActivity());
         } else if (view == mBind.layoutMoneyRecord) {
-
+            AgencyMoneyRecordActivity.startActivity(this.getActivity());
         } else if (view == mBind.layoutGameRecord) {
-
+            AgencyGameRecordActivity.startActivity(this.getActivity());
+        } else if (view == mBind.layoutTg) {
+            PromoMaterialActivity.startActivity(this.getActivity());
+        } else if (view == mBind.layoutMoneyPlan) {
+            AgencyMoneyPlanActivity.startActivity(this.getActivity(), true, "", "", 1);
         }
     }
 

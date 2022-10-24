@@ -112,6 +112,7 @@ public class SplashPresenter {
 //            }
 //        }
         doCheckPermissions();
+       // context.goToMain();
     }
 
     /**

@@ -11,10 +11,10 @@ import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.FragmentAgencySaveRecordBinding;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
+//import com.live.fox.dialog.bottomdialog.TimePickerDialog;
+import com.live.fox.utils.TimeUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AgencySaveRecordFragment extends BaseBindingFragment {
@@ -146,16 +146,9 @@ public class AgencySaveRecordFragment extends BaseBindingFragment {
         }
     }
 
-    private void setDate (){
-        SimpleDateFormat year = new SimpleDateFormat("yyyy");
-        SimpleDateFormat month = new SimpleDateFormat("MM");
-        SimpleDateFormat dd = new SimpleDateFormat("dd");
-        String years = year.format(new Date());
-        String MM = month.format(new Date());
-        String day = dd.format(new Date());
-        String date = years + "/" + MM + "/" + day;
-        mBind.tvStartTime.setText(date);
-        mBind.tvEndTime.setText(date);
+    private void setDate(){
+        mBind.tvStartTime.setText(TimeUtils.getToday());
+        mBind.tvEndTime.setText(TimeUtils.getToday());
     }
 
 }

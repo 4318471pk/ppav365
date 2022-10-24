@@ -477,6 +477,8 @@
 
 
                     <RelativeLayout
+                        android:id="@+id/layoutTg"
+                        android:onClick="@{click.onClickView}"
                         android:layout_width="65dp"
                         android:layout_height="wrap_content"
                         >
@@ -536,8 +538,10 @@
                         android:layout_height="0dp"/>
 
                     <RelativeLayout
+                        android:id="@+id/layoutMoneyPlan"
                         android:layout_width="65dp"
                         android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
                         >
 
                         <ImageView

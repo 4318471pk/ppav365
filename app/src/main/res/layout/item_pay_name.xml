@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="85dp"
+    android:layout_height="50dp"
+    android:id="@+id/mView"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/bg_f4f1f8"
+    >
+
+    <ImageView
+        android:src="@mipmap/wechat_pay"
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wechat"
+        android:layout_marginTop="3dp"
+        android:id="@+id/tvName"
+        android:textSize="13sp"
+        android:textColor="@color/colorA800FF"/>
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:rv_cornerRadius="10dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:riv_corner_radius_top_left="10dp"
+        app:riv_corner_radius_top_right="10dp"
+        android:src="@mipmap/announcement"
+        android:scaleType="fitXY"
+        />
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:gravity="center|start"
+        android:layout_marginStart="10dp"
+        android:background="@color/white"
+        app:rv_cornerRadius_BL="10dp"
+        app:rv_cornerRadius_BR="10dp"
+        >
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/time_icon"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/long_time_act"
+            android:textSize="11sp"
+            android:textColor="@color/color646464"/>
+
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+</com.flyco.roundview.RoundLinearLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/layoutGame"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/tvGame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game_activity"
+                android:textColor="@color/color000000"
+                android:layout_centerInParent="true"
+                android:textSize="19sp"/>
+
+
+            <View
+                android:id="@+id/viewGame"
+                android:layout_width="28dp"
+                android:layout_height="4.5dp"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/tvGame"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_a800ff_d689ff" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutLiving"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/tvLiving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/living_activity"
+                android:textColor="@color/color000000"
+                android:layout_centerInParent="true"
+                android:textSize="19sp"/>
+
+            <View
+                android:visibility="invisible"
+                android:id="@+id/viewLiving"
+                android:layout_width="28dp"
+                android:layout_height="4.5dp"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/tvLiving"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_a800ff_d689ff"
+                />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorD2CDE0"/>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:background="@color/colorF5F1F8"/>
+
+
+
+
+
+</LinearLayout>
+</layout>

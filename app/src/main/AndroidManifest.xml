@@ -381,6 +381,21 @@
             android:name=".ui.agency.TeamManageActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.agency.AgencyMoneyRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.AgencyGameRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.AgencyGameDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.PromoMaterialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.agency.AgencyMoneyPlanActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.mine.gamerecord.CaiDetailActivity"
             android:screenOrientation="portrait" />
         <activity

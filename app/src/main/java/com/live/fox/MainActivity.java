@@ -42,6 +42,7 @@ import com.live.fox.server.Api_User;
 import com.live.fox.ui.AuthActivity;
 import com.live.fox.ui.chat.ChatListFragment;
 import com.live.fox.ui.game.GameFragment;
+import com.live.fox.ui.home.ActivityFragment;
 import com.live.fox.ui.home.AgencyCenterFragment;
 import com.live.fox.ui.home.HomeFragment;
 import com.live.fox.ui.live.PlayLiveActivity;
@@ -76,6 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private GameFragment gameFragment;
     private MineFragment mineFragment;
     private AgencyCenterFragment agencyCenterFragment;
+    private ActivityFragment activityFragment;
     private int whichPage;
     private boolean isShowNotification;
     private boolean isCloseNotice;
@@ -243,20 +245,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
 
                 case R.id.layout_openlive:
-                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
-                        radioGroup.clearCheck();
-                        LoginModeSelActivity.startActivity(context);
-                        return;
-                    }
+//                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+//                        radioGroup.clearCheck();
+//                        LoginModeSelActivity.startActivity(context);
+//                        return;
+//                    }
                     showAgencyFragment();
                     break;
                 case R.id.main_rb_game: //游戏
-                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
-                        radioGroup.clearCheck();
-                        LoginModeSelActivity.startActivity(context);
-                        return;
-                    }
-                    showGameFragment();
+//                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+//                        radioGroup.clearCheck();
+//                        LoginModeSelActivity.startActivity(context);
+//                        return;
+//                    }
+                    showActFragment();
+                   // showGameFragment();
                     break;
                 case R.id.main_rb_mine: //个人中心
                     if (!DataCenter.getInstance().getUserInfo().isLogin()) {
@@ -676,6 +679,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         showSpecialFragment(fragmentTransaction, agencyCenterFragment);
     }
 
+    public void showActFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (activityFragment == null) {
+            activityFragment = ActivityFragment.newInstance();
+            fragmentTransaction.add(R.id.fl_main, activityFragment);
+        }
+        showSpecialFragment(fragmentTransaction, activityFragment);
+    }
+
 
     //显示指定的Fragment
     public void showSpecialFragment(FragmentTransaction fragmentTransaction, Fragment fragment) {
@@ -683,6 +695,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (playFragment != null) fragmentTransaction.hide(playFragment);
         if (gameFragment != null) fragmentTransaction.hide(gameFragment);
         if (mineFragment != null) fragmentTransaction.hide(mineFragment);
+        if (agencyCenterFragment != null) fragmentTransaction.hide(agencyCenterFragment);
+        if (activityFragment != null) fragmentTransaction.hide(activityFragment);
 
         fragmentTransaction.show(fragment);
         fragmentTransaction.commitAllowingStateLoss();

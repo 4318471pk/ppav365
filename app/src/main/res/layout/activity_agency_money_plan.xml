@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/white"
+        >
+
+        <ImageView
+            android:id="@+id/iv_head_left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="12dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="start|center_vertical"
+            android:onClick="onClickView"
+            android:src="@mipmap/icon_left"
+            />
+
+        <TextView
+            android:id="@+id/tv_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/money_plan"
+            android:textColor="@color/color404040"
+            android:textSize="19sp" />
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3.5dp"
+            android:paddingBottom="3.5dp"
+            android:orientation="horizontal"
+            app:rv_cornerRadius="14dp"
+            app:rv_backgroundColor="#F4F1F8"
+            >
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@mipmap/customer_service_ava"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="@string/service"
+                android:textColor="@color/colorA800FF"
+                android:textSize="15sp" />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorD2CDE0"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorF5F1F8"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_aa0af2_79a0ff"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:text="@string/my_lower_get_money"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/color404040"
+                android:textSize="14sp"
+                />
+
+
+        </LinearLayout>
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:rv_cornerRadius="10dp"
+            app:rv_backgroundColor="@color/white"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/zhibo_icon"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/living_money_scale"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/layout_living_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+
+                        <EditText
+                            android:id="@+id/etLiving"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="number|numberDecimal"
+                            android:gravity="bottom|center"
+                            android:paddingStart="35dp"
+                            android:paddingEnd="35dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:background="@null"
+                            android:textColor="@color/color0F86FF"
+                            android:text="99"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:id="@+id/iv_close_living"
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="bottom|center"
+                            android:layout_marginEnd="15dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="3dp"
+                                android:src="@mipmap/clean_grey"/>
+
+                        </LinearLayout>
+
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/layout_living_edit"
+                        android:background="@color/color665275"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/game_icon"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/game_money_scale"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/layout_game_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+
+                        <EditText
+                            android:id="@+id/etGame"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="number|numberDecimal"
+                            android:paddingStart="35dp"
+                            android:paddingEnd="35dp"
+                            android:gravity="bottom|center"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:background="@null"
+                            android:textColor="@color/color0F86FF"
+                            android:text="99989"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:id="@+id/iv_close_game"
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="bottom|center"
+                            android:layout_marginEnd="15dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginBottom="3dp"
+                                android:src="@mipmap/clean_grey"/>
+
+                        </LinearLayout>
+
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/layout_game_edit"
+                        android:background="@color/color665275"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textColor="@color/color665275"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="13dp"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/colorF42C2C"
+                android:text="@string/scale_will_save"/>
+
+
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_aa0af2_79a0ff"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:text="@string/check_lower_money_detail"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/color404040"
+                android:textSize="14sp"
+                />
+
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            />
+
+
+
+</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
+
+</layout>
