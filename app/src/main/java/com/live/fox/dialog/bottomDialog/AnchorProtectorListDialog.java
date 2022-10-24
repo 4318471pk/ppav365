@@ -23,6 +23,7 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.DialogAnchorlistProtectorBinding;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -63,6 +64,10 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
+        if(ClickUtil.isClickWithShortTime(view.getId(),1000))
+        {
+            return;
+        }
         switch (view.getId())
         {
             case R.id.rlMain:

@@ -438,7 +438,6 @@ public class ChatSpanUtils {
         spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
         spanUtils.append(" ");
 
-
     }
 
     public void appendMessageType(SpanUtils spanUtils, int type, Context context) {

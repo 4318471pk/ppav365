@@ -1,6 +1,7 @@
 package com.live.fox.utils;
 
 import android.app.Instrumentation;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import java.util.HashMap;
@@ -27,9 +28,11 @@ public class ClickUtil {
         }
         else
         {
-            if(System.currentTimeMillis()-clickRecord.get(id)>millSecond)
+            long currentTime=System.currentTimeMillis();
+            Log.e("onClickView",id+" "+clickRecord.get(id)+" "+currentTime);
+            if(currentTime-clickRecord.get(id)>millSecond)
             {
-                clickRecord.put(id,System.currentTimeMillis());
+                clickRecord.put(id,currentTime);
             }
             else
             {

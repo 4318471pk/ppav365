@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        android:overScrollMode="never"
+        android:focusable="false"
+        android:background="#00000000"
+        >
+
+        <LinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/top_round_99000000"
+            android:orientation="vertical">
+
+            <com.live.fox.view.tab.SimpleTabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/ivBack"
+                app:tl_indicator_color="#EA00FF"
+                app:tl_indicator_corner_radius="2dp"
+                app:tl_indicator_height="3dp"
+                app:tl_indicator_width="45dp"
+                app:tl_selected_textsize="21sp"
+                app:tl_tab_padding="8dp"
+                app:tl_textBold="SELECT"
+                app:tl_textSelectColor="#ffffff"
+                app:tl_textUnselectColor="#ffffff"
+                app:tl_textsize="16sp" />
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

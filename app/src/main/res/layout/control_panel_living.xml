@@ -92,8 +92,10 @@
                         android:layout_toRightOf="@id/horScrollview" />
 
                     <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvOnlineAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
+                        android:onClick="@{click.onClickView}"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="5dp"
                         android:drawableLeft="@mipmap/amount_ofpeople"

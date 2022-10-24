@@ -2,6 +2,7 @@ package com.live.fox.ui.living;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,6 +19,7 @@ import com.live.fox.databinding.ControlPanelLivingBinding;
 import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
+import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.device.ScreenUtils;
@@ -94,9 +96,16 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void onClickView(View view)
     {
-        ClickUtil.isClickWithShortTime(view.getId(),1000);
+        if(ClickUtil.isClickWithShortTime(view.getId(),1000))
+        {
+            return;
+        }
         switch (view.getId())
         {
+            case R.id.gtvOnlineAmount:
+                OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString());
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),onlineNobilityAndUserDialog);
+                break;
             case R.id.rivProfileImage:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
                 break;
