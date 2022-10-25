@@ -50,7 +50,7 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<String, On
         int sexResId = user.getSex() == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
         if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_BOTTOM);
         spanUtils.append(" ");
 
     }
@@ -71,7 +71,7 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<String, On
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
         if (bitmap == null) return;
         Bitmap newBitmap=ImageUtils.addTextForLevel(context,bitmap, userLevel);
-        spanUtils.appendImage(newBitmap, SpanUtils.ALIGN_CENTER);
+        spanUtils.appendImage(newBitmap, SpanUtils.ALIGN_BOTTOM);
     }
 
     public Spanned getAllIconSpan(User user, Context context) {
@@ -81,15 +81,15 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<String, On
 
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap admin = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_admin);
-        spanUtils.appendImage(admin, SpanUtils.ALIGN_CENTER);
+        spanUtils.appendImage(admin, SpanUtils.ALIGN_BOTTOM);
 
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap shouhu = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_small_shouhu);
-        spanUtils.appendImage(shouhu, SpanUtils.ALIGN_CENTER);
+        spanUtils.appendImage(shouhu, SpanUtils.ALIGN_BOTTOM);
 
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
-        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
+        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_BOTTOM);
         return spanUtils.create();
     }
 

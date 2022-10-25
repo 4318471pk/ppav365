@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import static java.lang.Math.abs;
 
@@ -122,7 +123,7 @@ public class FullDraggableHelper {
           callback.offsetDrawer(gravity, absDiffX - swipeSlop);
 
           if (!lastDraggingDrawer) {
-            callback.onDrawerDragging();
+            callback.onDrawerDragging(DrawerLayout.STATE_DRAGGING);
           }
         }
         return isDraggingDrawer;
@@ -148,6 +149,7 @@ public class FullDraggableHelper {
         }
         shouldOpenDrawer = false;
         isDraggingDrawer = false;
+        callback.updateDrawerState(gravity,DrawerLayout.STATE_IDLE);
         gravity = Gravity.NO_GRAVITY;
         if (velocityTracker != null) {
           velocityTracker.recycle();
@@ -203,6 +205,7 @@ public class FullDraggableHelper {
     void offsetDrawer(int gravity, float offset);
     void smoothOpenDrawer(int gravity);
     void smoothCloseDrawer(int gravity);
-    void onDrawerDragging();
+    void onDrawerDragging(int status);
+    void updateDrawerState(int gravity,int status);
   }
 }

@@ -170,10 +170,6 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         int screenHeight=ScreenUtils.getScreenHeight(getActivity());
         mBind.rllContent.getLayoutParams().height=(int)(screenHeight*0.57f);
 
-        mBind.rlMain.setSelected(false);
-        mBind.rlMain.setFocusable(false);
-        mBind.rlMain.setLongClickable(false);
-
         view.setVisibility(View.VISIBLE);
 
         startAnimate(mBind.rllContent,true);

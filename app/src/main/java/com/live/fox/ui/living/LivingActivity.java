@@ -31,6 +31,7 @@ import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.ClassicsFooter;
 import com.live.fox.view.MyFlowLayout;
@@ -103,9 +104,10 @@ public class LivingActivity extends BaseBindingViewActivity {
 
             @Override
             public void onDrawerStateChanged(int newState) {
-
+                Log.e("onDrawerStateChanged",newState+" ");
             }
         });
+
         mBind.drawerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,8 +172,9 @@ public class LivingActivity extends BaseBindingViewActivity {
         mBind.rvRecommendList.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(this,5)));
         mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
-
     }
+
+
 
     public DrawerLayout getDrawLayout()
     {

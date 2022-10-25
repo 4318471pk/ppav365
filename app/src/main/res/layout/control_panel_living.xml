@@ -163,8 +163,10 @@
                         app:rv_cornerRadius_TL="11dip">
 
                         <TextView
+                            android:id="@+id/tvRecommendForYou"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{click.onClickView}"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dip"
                             android:drawableLeft="@mipmap/icon_arrow_left_white"

@@ -82,6 +82,7 @@ public class FullDraggableContainer extends FrameLayout implements FullDraggable
   @Override
   @SuppressLint("ClickableViewAccessibility")
   public boolean onTouchEvent(MotionEvent event) {
+    getParent().requestDisallowInterceptTouchEvent(true);
     return helper.onTouchEvent(event);
   }
 
@@ -119,13 +120,27 @@ public class FullDraggableContainer extends FrameLayout implements FullDraggable
   }
 
   @Override
-  public void onDrawerDragging() {
+  public void onDrawerDragging(int status) {
     List<DrawerLayout.DrawerListener> drawerListeners = getDrawerListeners();
     if (drawerListeners != null) {
       int listenerCount = drawerListeners.size();
       for (int i = listenerCount - 1; i >= 0; --i) {
-        drawerListeners.get(i).onDrawerStateChanged(DrawerLayout.STATE_DRAGGING);
+        drawerListeners.get(i).onDrawerStateChanged(status);
       }
+    }
+  }
+
+  @Override
+  public void updateDrawerState(int gravity,int status) {
+    View drawerView = findDrawerWithGravity(gravity);
+    try {
+      Method method = DrawerLayout.class.getDeclaredMethod("updateDrawerState", int.class, int.class,View.class);
+      method.setAccessible(true);
+      method.invoke(drawerLayout, gravity, status,drawerView);
+      drawerView.setVisibility(VISIBLE);
+    } catch (Exception e) {
+      // throw to let developer know the api is changed
+      throw new RuntimeException(e);
     }
   }
 

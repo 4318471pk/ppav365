@@ -14,6 +14,7 @@
         android:layout_marginTop="7dip"
         app:rv_backgroundColor="#bb000000"
         app:rv_cornerRadius="17.5dp"
+        app:rv_backgroundPressColor="#bb000000"
         >
 
         <TextView

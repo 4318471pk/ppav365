@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -194,6 +196,9 @@ public class MagicTextView extends AppCompatTextView {
             paint.setStyle(Style.STROKE);
             paint.setStrokeJoin(strokeJoin);
             paint.setStrokeMiter(strokeMiter);
+//            Shader shader = new LinearGradient(0, 0, 0, getLineHeight(),
+//                    Color.RED, Color.BLUE, Shader.TileMode.REPEAT);
+//            paint.setShader(shader);
             this.setTextColor(strokeColor);
             paint.setStrokeWidth(strokeWidth);
             super.onDraw(canvas);

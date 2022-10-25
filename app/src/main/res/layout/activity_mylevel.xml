@@ -10,9 +10,7 @@
         android:id="@+id/rlmain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#6100AB"
-        >
-
+        android:background="#6100AB">
 
         <ImageView
             android:id="@+id/ivBG"
@@ -24,63 +22,73 @@
             android:id="@+id/tvLv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_marginTop="150dip"
             android:layout_centerHorizontal="true"
-            app:strokeColor="#ffffff"
+            android:layout_marginTop="150dip"
+            android:text="LV.200"
             android:textColor="#92521F"
             android:textSize="20sp"
-            android:text="LV.200" />
+            android:textStyle="bold"
+            app:strokeColor="#ffffff" />
 
         <LinearLayout
             android:id="@+id/llProgress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dip"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dip"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/floatingPoint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="123"
+                android:background="@mipmap/mylevel_progress_bubble"
                 android:gravity="center_horizontal"
                 android:paddingTop="3dip"
+                android:text="123"
                 android:textColor="#A800FF"
-                android:textSize="13sp"
-                android:background="@mipmap/mylevel_progress_bubble"/>
+                android:textSize="13sp" />
 
             <com.live.fox.view.LevelProgressView
                 android:id="@+id/lpv"
                 android:layout_width="match_parent"
-                android:layout_height="10dip"/>
+                android:layout_height="10dip" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                >
+                android:layout_marginTop="10dip">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="@string/experienceValue"
                     android:textColor="#ffffff"
-                    android:text="@string/experienceValue"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvExperienceNeeds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textSize="14sp"
+                    android:text="@string/experienceValueNeeds"
                     android:textColor="#ffffff"
-                    android:text="@string/experienceValueNeeds"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
         </LinearLayout>
 
+        <com.live.fox.view.MagicTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dip"
+            android:text="LV.200"
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:strokeWidth="2dip"
+            app:strokeColor="#ffffff" />
     </RelativeLayout>
 </layout>

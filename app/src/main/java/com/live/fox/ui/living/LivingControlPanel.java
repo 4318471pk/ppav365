@@ -3,6 +3,7 @@ package com.live.fox.ui.living;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -110,6 +111,10 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
                 break;
             case R.id.ivFollow:
+                break;
+            case R.id.tvRecommendForYou:
+                LivingActivity activity=(LivingActivity) fragment.getActivity();
+                activity.getDrawLayout().openDrawer(Gravity.RIGHT);
                 break;
             case R.id.ivClose:
                 fragment.getActivity().finish();
