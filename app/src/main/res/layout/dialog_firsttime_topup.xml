@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.FirstTimeTopUpDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        >
+
+
+        <RelativeLayout
+            android:id="@+id/rlContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/ivContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/bg_firsttime_topup"/>
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:id="@+id/rllContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:rv_cornerRadius="20dip"
+                app:rv_backgroundColor="#FEFAE8"
+                android:orientation="vertical">
+
+                <com.live.fox.view.RoundRadioGroup
+                    android:id="@+id/rrgAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_marginTop="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:orientation="horizontal"
+                    app:rv_cornerRadius="20dip"
+                    app:rv_backgroundColor="#EFC9FC">
+
+                    <RadioButton
+                        android:button="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/firsttime_topup_raido_color"
+                        android:text="--"/>
+
+                    <RadioButton
+                        android:button="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/firsttime_topup_raido_color"
+                        android:text="--"/>
+
+                    <RadioButton
+                        android:button="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/firsttime_topup_raido_color"
+                        android:text="--"/>
+
+                    <RadioButton
+                        android:button="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/firsttime_topup_raido_color"
+                        android:text="--"/>
+
+
+                </com.live.fox.view.RoundRadioGroup>
+
+                <TextView
+                    android:id="@+id/tvTips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginBottom="10dip"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#A800FF"
+                    android:textSize="15sp"/>
+
+                <LinearLayout
+                    android:id="@+id/llItemList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7.5dip"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+            <ImageView
+                android:id="@+id/ivGoCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/ivContent"
+                android:layout_marginBottom="5dip"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/btn_go_charge"/>
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
+            android:layout_marginBottom="5dip"
+            android:layout_centerHorizontal="true"
+            android:padding="10dip"
+            android:layout_above="@id/rlContent"
+            android:src="@mipmap/icon_circle_close_white"/>
+    </RelativeLayout>
+</layout>

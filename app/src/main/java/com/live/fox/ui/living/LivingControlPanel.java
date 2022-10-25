@@ -17,6 +17,8 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
+import com.live.fox.dialog.FirstTimeTopUpDialog;
+import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
@@ -117,7 +119,9 @@ public class LivingControlPanel extends RelativeLayout {
                 activity.getDrawLayout().openDrawer(Gravity.RIGHT);
                 break;
             case R.id.ivClose:
-                fragment.getActivity().finish();
+                PleaseDontLeaveDialog pleaseDontLeaveDialog=new PleaseDontLeaveDialog();
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),pleaseDontLeaveDialog);
+//                fragment.getActivity().finish();
                 break;
             case R.id.gtvProtection:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), AnchorProtectorListDialog.getInstance());
@@ -147,6 +151,7 @@ public class LivingControlPanel extends RelativeLayout {
                 break ;
         }
     }
+
 
 
 }

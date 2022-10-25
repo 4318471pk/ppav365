@@ -120,6 +120,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             whichPage = getIntent().getIntExtra(LAUNCH_PAGE_KEY, 0);
             isCloseNotice = getIntent().getBooleanExtra(CLOSE_NOTICE_KEY, false);
         }
+
+        initData();
     }
 
     private void initData() {
@@ -704,31 +706,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
-        if (4 == whichPage) {
-            finish();
-        } else {
-            if (ClickUtil.isExitDoubleClick()) {
-                if (Constant.isShowWindow) {
-                    Constant.isOpenWindow = false;
-                    Constant.isShowWindow = false;
-                    App.getInstance().getFloatView().addToWindow(false, this);
-                    //关闭资源
-                    doCheckQuitoRomUnFinish();
-                    WindowUtils.closeWindowResource(PlayLiveActivity.class);
-                    AppIMManager.ins().removeMessageReceivedListener(PlayLiveActivity.class);
-                }
-                finish();
-            } else {
-                ToastViewUtils.showBottomShort(getString(R.string.retryProgress));
-            }
-        }
-        whichPage = 0;
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initData();
         clearCacheIfOver();
     }
 

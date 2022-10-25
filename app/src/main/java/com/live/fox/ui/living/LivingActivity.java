@@ -27,7 +27,9 @@ import com.live.fox.adapter.LivingFragmentStateAdapter;
 import com.live.fox.adapter.RecommendLivingAnchorAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ActivityLivingBinding;
+import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
@@ -172,6 +174,8 @@ public class LivingActivity extends BaseBindingViewActivity {
         mBind.rvRecommendList.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(this,5)));
         mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
+
+        showFirstTimeTopUpDialog();
     }
 
 
@@ -199,5 +203,11 @@ public class LivingActivity extends BaseBindingViewActivity {
             return true;
         }
         return super.dispatchKeyEvent(event);
+    }
+
+    private void showFirstTimeTopUpDialog()
+    {
+        FirstTimeTopUpDialog firstTimeTopUpDialog=FirstTimeTopUpDialog.getInstance();
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),firstTimeTopUpDialog);
     }
 }

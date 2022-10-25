@@ -1343,5 +1343,8 @@
     <string name="tips4">成为贵族，享受与众不同的尊荣和特权！</string>
     <string name="temporaryNoNobility">暂无在线贵族</string>
     <string name="followAnchorNotGetLost">关注主播不迷路</string>
+    <string name="dearPlzGoHome">亲亲，你要回来哟⊙﹏⊙</string>
+    <string name="followAndLogout">关注并退出</string>
+    <string name="justLeave">狠心离开</string>
 
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -8,36 +9,114 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:onClick="@{click.onClickView}"
+        >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="vertical">
+            >
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_width="50dip"
-                android:layout_height="50dip"
-                android:src="#ffffff"/>
 
-            <LinearLayout
+            <com.flyco.roundview.RoundLinearLayout
+                android:id="@+id/rllMainContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-25dip"
+                android:layout_marginTop="37.5dip"
+                app:rv_cornerRadius="15dip"
+                app:rv_backgroundColor="@color/white"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="47.5dip"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/followAnchorNotGetLost"
                     android:textColor="#a2a0a9"
                     android:textSize="14sp"/>
 
-            </LinearLayout>
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="47.5dip"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/dearPlzGoHome"
+                    android:textColor="#404040"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:id="@+id/ivCenterIMG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                   android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/bg_plz_dont_leave"/>
+
+
+                <TextView
+                    android:id="@+id/tvFollowAndExit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_marginTop="7dip"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="@string/followAndLogout"
+                    android:background="@mipmap/btn_icon_login"/>
+
+                <TextView
+                    android:id="@+id/tvJustLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_marginTop="15dip"
+                    android:layout_marginBottom="15dip"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="15sp"
+                    android:textColor="#A800FF"
+                    android:text="@string/justLeave"
+                    />
+
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+            <RelativeLayout
+                android:layout_width="75dip"
+                android:layout_height="75dip"
+                android:layout_centerHorizontal="true"
+                >
+
+                <ImageView
+                    android:layout_width="75dip"
+                    android:layout_height="75dip"
+                    android:src="@drawable/circle_white"/>
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="70dip"
+                    android:layout_height="70dip"
+                    android:layout_centerInParent="true"
+                    app:riv_oval="true"
+                    android:src="@drawable/img_default"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/ivCloseDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{click.onClickView}"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/x2"
+                android:layout_marginTop="37.5dip"
+                android:padding="15dip"/>
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

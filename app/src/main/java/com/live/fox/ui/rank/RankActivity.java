@@ -93,7 +93,7 @@ public class RankActivity extends BaseBindingViewActivity {
         });
 
 
-        mBind.tabLayout.setTabWidthPX((widthScreen-ScreenUtils.getDip2px(this,50))/2);
+        mBind.tabLayout.setTabWidthPX((widthScreen-ScreenUtils.getDip2px(this,100))/2);
         mBind.tabLayout.setViewPager(mBind.viewPager);
     }
 }

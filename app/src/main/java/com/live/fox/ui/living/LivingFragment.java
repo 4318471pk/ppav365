@@ -19,7 +19,10 @@ import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
 import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.FragmentLivingBinding;
+import com.live.fox.dialog.FirstTimeTopUpDialog;
+import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
 
@@ -45,16 +48,7 @@ public class LivingFragment extends BaseBindingFragment {
         Log.e("LivingFragment22",position+" ");
         if(getView()!=null && isAdded())
         {
-//            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
-//            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
-//            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
-//            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
-//
-//            int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
-//            RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams)livingControlPanel.mBind.rlBotView.getLayoutParams();
-//            rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
-//            rl.height=(int)(screenHeight*0.52f);
-//            livingControlPanel.mBind.rlBotView.setLayoutParams(rl);
+
         }
     }
 
@@ -133,6 +127,7 @@ public class LivingFragment extends BaseBindingFragment {
             }
         });
         mBind.viewPager.setCurrentItem(1);
+
     }
 
 }

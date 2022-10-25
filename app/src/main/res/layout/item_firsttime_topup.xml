@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:rv_cornerRadius="10dip"
+    app:rv_backgroundColor="#0d000000"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/tvItemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="15sp"
+        android:textColor="#EE276C"
+        android:text="恋爱单车"
+        android:layout_marginTop="5dip"
+        />
+
+    <TextView
+        android:id="@+id/tvValidTime"
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="x 2"
+        android:background="@drawable/half_round_ed146e_ff8b38"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tvValidTime"
+        android:layout_below="@id/tvItemTitle"
+        android:layout_centerInParent="true"
+        android:src="@drawable/img_default"/>
+
+
+
+</com.flyco.roundview.RoundRelativeLayout>

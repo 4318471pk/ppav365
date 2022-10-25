@@ -20,27 +20,37 @@
                 android:id="@+id/ivBack"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
-                android:padding="13dip"
-                android:src="@drawable/head_back_normal" />
+                android:padding="2dip"
+                android:scaleType="center"
+                android:src="@mipmap/icon_arrow_left" />
+
+            <ImageView
+                android:id="@+id/ivPlaceHolder"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:visibility="invisible"
+                android:layout_alignParentRight="true"
+                android:padding="2dip"
+                android:scaleType="center"
+                android:src="@mipmap/icon_arrow_left" />
 
             <com.live.fox.view.tab.SimpleTabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/ivBack"
+                android:layout_toLeftOf="@id/ivPlaceHolder"
+                android:layout_centerInParent="true"
                 app:tl_indicator_color="#EA00FF"
                 app:tl_indicator_corner_radius="2dp"
                 app:tl_indicator_height="3dp"
-                app:tl_indicator_width="20dp"
+                app:tl_indicator_width="51dp"
                 app:tl_selected_textsize="21sp"
                 app:tl_tab_padding="8dp"
                 app:tl_textBold="SELECT"
                 app:tl_textSelectColor="#404040"
                 app:tl_textUnselectColor="#646464"
                 app:tl_textsize="17sp" />
-
         </RelativeLayout>
 
         <View

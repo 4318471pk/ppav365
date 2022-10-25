@@ -14,7 +14,6 @@
             android:id="@+id/ivHeadLeft"
             android:layout_width="50dip"
             android:layout_height="match_parent"
-            android:layout_gravity="start|center_vertical"
             android:onClick="onClick"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"

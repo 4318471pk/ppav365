@@ -104,8 +104,8 @@ public class RankFragment extends BaseBindingFragment {
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
             RadioGroup.LayoutParams rl=new RadioGroup.LayoutParams((int)(widthScreen*0.147f),dip5*6);
             rl.leftMargin=margin;
-            rl.topMargin=dip5;
-            rl.bottomMargin=dip5;
+            rl.topMargin=dip5*2;
+            rl.bottomMargin=dip5*2;
             if(i==3)
             {
                 rl.leftMargin=(widthScreen-(int)(widthScreen*0.147f*6))-margin*6;
