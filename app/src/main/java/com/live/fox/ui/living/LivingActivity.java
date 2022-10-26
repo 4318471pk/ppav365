@@ -30,6 +30,7 @@ import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
+import com.live.fox.dialog.PersonalContactCardDialog;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
@@ -176,6 +177,7 @@ public class LivingActivity extends BaseBindingViewActivity {
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
 
         showFirstTimeTopUpDialog();
+        showContactCardDialog();
     }
 
 
@@ -209,5 +211,11 @@ public class LivingActivity extends BaseBindingViewActivity {
     {
         FirstTimeTopUpDialog firstTimeTopUpDialog=FirstTimeTopUpDialog.getInstance();
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),firstTimeTopUpDialog);
+    }
+
+    private void showContactCardDialog()
+    {
+        PersonalContactCardDialog personalContactCardDialog=PersonalContactCardDialog.getInstance();
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),personalContactCardDialog);
     }
 }

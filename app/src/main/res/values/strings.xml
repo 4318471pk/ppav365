@@ -1346,5 +1346,8 @@
     <string name="dearPlzGoHome">亲亲，你要回来哟⊙﹏⊙</string>
     <string name="followAndLogout">关注并退出</string>
     <string name="justLeave">狠心离开</string>
-
+    <string name="request">获取</string>
+    <string name="progressOfGrabContactCard">名片获取进度</string>
+    <string name="grabContactCardBySendingGift">赠送礼物达到要求即可获取</string>
+    <string name="tips5">1.添加时请备注昵称，避免主播无法区分；\n2.联系方式如有虚假，可通过客服投诉；</string>
 </resources>

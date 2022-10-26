@@ -21,6 +21,11 @@
         <item>0xffEA00FF</item>
     </integer-array>
 
+    <integer-array name="contactCardBtn">
+        <item>0xffFF00F6</item>
+        <item>0xffFF1679</item>
+    </integer-array>
+
     <integer-array name="luckNum">
         <item>@drawable/luck_0</item>
         <item>@drawable/luck_1</item>

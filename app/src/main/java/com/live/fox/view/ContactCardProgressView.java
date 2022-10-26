@@ -10,42 +10,45 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.utils.device.ScreenUtils;
 
-public class LevelProgressView extends View {
+public class ContactCardProgressView extends View {
 
-    private int strokeColor=0xffD144ED;
-    private int backgroundColor=0xff43005D;
-    private int firstGradientColor=0xffFD49FF;
-    private int secondGradientColor=0xff7B00E3;
+    private int backgroundColor=0xff591B86;
+    private int firstGradientColor=0xffFF00F6;
+    private int secondGradientColor=0xffFF1679;
     float progress=0f;
-    int strokeWidth=2;
     int radius=9;
     GradientDrawable backgroundDrawable=new GradientDrawable();
     GradientDrawable foregroundDrawable=new GradientDrawable();
 
-    public LevelProgressView(Context context) {
+    public ContactCardProgressView(Context context) {
         super(context);
         initView();
     }
 
-    public LevelProgressView(Context context, @Nullable AttributeSet attrs) {
+    public ContactCardProgressView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public LevelProgressView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ContactCardProgressView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
     private void initView()
     {
-        strokeWidth= ScreenUtils.getDip2px(getContext(),1);
-        radius=ScreenUtils.getDip2px(getContext(),5);
+        radius=ScreenUtils.getDip2px(getContext(),4);
 
     }
 
     public void setProgress(float percent)
     {
+        if(percent>=1.0f)
+        {
+            percent=1.0f;
+            firstGradientColor=0xff00FF7E;
+            secondGradientColor=0xff26B9DE;
+        }
         progress=percent;
         invalidate();
     }
@@ -54,14 +57,13 @@ public class LevelProgressView extends View {
     protected void onDraw(Canvas canvas) {
 
         backgroundDrawable.setBounds(0,0,getWidth(),getHeight());
-        backgroundDrawable.setStroke(strokeWidth,strokeColor);
         backgroundDrawable.setColor(backgroundColor);
         backgroundDrawable.setCornerRadius(radius);
         backgroundDrawable.draw(canvas);
 
         if(progress>0)
         {
-            foregroundDrawable.setBounds(strokeWidth,strokeWidth,(int)(getWidth()*progress)-strokeWidth,getHeight()-strokeWidth);
+            foregroundDrawable.setBounds(0,0,(int)(getWidth()*progress),getHeight());
             foregroundDrawable.setColors(new int[]{firstGradientColor,secondGradientColor});
             foregroundDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             foregroundDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
@@ -78,5 +80,4 @@ public class LevelProgressView extends View {
         super.onDraw(canvas);
 
     }
-
 }

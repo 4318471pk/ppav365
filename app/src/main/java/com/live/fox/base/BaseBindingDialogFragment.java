@@ -88,6 +88,7 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
         return getView().findViewById(id);
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

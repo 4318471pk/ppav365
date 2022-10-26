@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.PersonalContactCardDialog" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42.5dp"
+                >
+
+                <ImageView
+                    android:id="@+id/ivBG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/bg_dialog_personal_contact_card"/>
+
+                <ImageView
+                    android:id="@+id/ivClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_alignRight="@id/ivBG"
+                    android:src="@drawable/ic_close"
+                    android:padding="10dip"/>
+
+                <LinearLayout
+                    android:id="@+id/llContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="42.5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@mipmap/icon_contact_card_phone"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dip"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            android:text="名字名字名字名字"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@mipmap/icon_contact_card_qq"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginLeft="5dip"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:text="她好像忘记说些什么了~"
+                            />
+                    </LinearLayout>
+
+                    <com.flyco.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rv_backgroundColor="@color/white"
+                        app:rv_cornerRadius="10dip"
+                        android:padding="4dip"
+                        android:layout_marginTop="6dip"
+                        >
+
+                        <ImageView
+                            android:id="@+id/ivTempWechat"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@mipmap/icon_contact_card_wechat"/>
+
+                        <com.live.fox.view.GradientTextView
+                            android:id="@+id/gtvGet"
+                            android:layout_width="65dip"
+                            android:layout_height="30dip"
+                            android:gravity="center"
+                            android:layout_marginRight="6dip"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            app:gt_color_list="@array/contactCardBtn"
+                            app:gt_radius_dp="14.5dp"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:text="@string/request"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/gtvGet"
+                            android:layout_toRightOf="@id/ivTempWechat"
+                            android:gravity="center"
+                            android:layout_marginLeft="5dip"
+                            android:layout_centerVertical="true"
+                            android:textSize="16sp"
+                            android:textColor="#404040"
+                            android:text="*****"
+                            />
+                    </com.flyco.roundview.RoundRelativeLayout>
+
+                    <com.flyco.roundview.RoundLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="5dip"
+                        app:rv_cornerRadius="10dip"
+                        app:rv_backgroundColor="#8551EA">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="10dip"
+                            android:textColor="@color/white"
+                            android:text="@string/progressOfGrabContactCard"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:text="@string/grabContactCardBySendingGift"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tvProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:text="122/1800"
+                            android:textSize="12sp"/>
+
+                        <com.live.fox.view.ContactCardProgressView
+                            android:id="@+id/contactProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="2dip"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_height="8dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dip"
+                            android:gravity="left"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
+                            android:text="@string/tips5"/>
+
+                    </com.flyco.roundview.RoundLinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlRound"
+                android:layout_width="85dip"
+                android:layout_height="85dip"
+                android:layout_centerHorizontal="true"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle_f774ff_913bf6"/>
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dip"
+                    android:layout_centerInParent="true"
+                    app:riv_oval="true"
+                    android:src="@drawable/img_default"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
