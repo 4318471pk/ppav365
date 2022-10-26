@@ -2,7 +2,6 @@ package com.live.fox.ui.living;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,12 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
-import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
+import com.live.fox.dialog.TreasureBoxDialog;
 import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
+import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.StatusBarUtil;
@@ -114,6 +114,10 @@ public class LivingControlPanel extends RelativeLayout {
                 break;
             case R.id.ivFollow:
                 break;
+            case R.id.ivGift:
+                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),treasureBoxDialog);
+                break;
             case R.id.tvRecommendForYou:
                 LivingActivity activity=(LivingActivity) fragment.getActivity();
                 activity.getDrawLayout().openDrawer(Gravity.RIGHT);
@@ -122,6 +126,10 @@ public class LivingControlPanel extends RelativeLayout {
                 PleaseDontLeaveDialog pleaseDontLeaveDialog=new PleaseDontLeaveDialog();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),pleaseDontLeaveDialog);
 //                fragment.getActivity().finish();
+                break;
+            case R.id.rlPromo:
+                LivingPromoDialog livingPromoDialog=LivingPromoDialog.getInstance();
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),livingPromoDialog);
                 break;
             case R.id.gtvProtection:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), AnchorProtectorListDialog.getInstance());

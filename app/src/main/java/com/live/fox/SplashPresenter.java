@@ -130,17 +130,6 @@ public class SplashPresenter {
                 .show();
     }
 
-    public void showAlertDialog(String msg, String btnTxt, DialogInterface.
-            OnClickListener onPositiveClickListener,
-                                DialogInterface.OnClickListener onNegativeClickListener) {
-        new AlertDialog.Builder(context)
-                .setCancelable(false)
-                .setMessage(msg)
-                .setPositiveButton(btnTxt, onPositiveClickListener)
-                .setNegativeButton(context.getString(R.string.cancel), onNegativeClickListener)
-                .show();
-    }
-
     /**
      * 检查权限
      */
@@ -289,22 +278,6 @@ public class SplashPresenter {
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 LogUtils.e("doBaseApi onFailure: " + call.request().url() + "   " + t.getMessage());
-                domains.remove(0);
-                if (domains.size() > 0) { //请求失败，尝试下一个域名
-                    doBaseApi();
-                } else { //基础域名都挂了
-                    showAlertDialog(context.getString(R.string.lianjieFail),
-                            context.getString(R.string.retrya),
-                            (dialogInterface, i) -> {
-                                LogUtils.e("Dialog try again");
-                                handDomains();
-                                doBaseApi();
-                            },
-                            (dialogInterface, i) -> {
-                                LogUtils.e("Dialog finish");
-                                context.finish();
-                            });
-                }
             }
         });
     }

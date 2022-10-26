@@ -289,6 +289,7 @@
                         android:id="@+id/rlPromo"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:onClick="@{click.onClickView}"
                         android:layout_marginLeft="7dip">
 
                         <ImageView
@@ -311,6 +312,7 @@
                         android:id="@+id/ivGift"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:onClick="@{click.onClickView}"
                         android:layout_marginLeft="7dip"
                         android:background="@drawable/circle_3f000000"
                         android:padding="5dip"

@@ -52,10 +52,6 @@
                         android:layout_marginTop="42.5dp"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@mipmap/icon_contact_card_phone"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -72,13 +68,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dip"
+                        android:layout_marginTop="20dip"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@mipmap/icon_contact_card_qq"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -98,7 +90,7 @@
                         app:rv_backgroundColor="@color/white"
                         app:rv_cornerRadius="10dip"
                         android:padding="4dip"
-                        android:layout_marginTop="6dip"
+                        android:layout_marginTop="10dip"
                         >
 
                         <ImageView
@@ -112,7 +104,7 @@
                             android:layout_width="65dip"
                             android:layout_height="30dip"
                             android:gravity="center"
-                            android:layout_marginRight="6dip"
+                            android:layout_marginRight="1dip"
                             android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
                             app:gt_color_list="@array/contactCardBtn"
@@ -145,17 +137,19 @@
                         app:rv_backgroundColor="#8551EA">
 
                         <TextView
+                            android:id="@+id/tvTitle1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
-                            android:layout_marginTop="10dip"
+                            android:layout_marginTop="5dip"
                             android:textColor="@color/white"
                             android:text="@string/progressOfGrabContactCard"
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTitle2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -182,12 +176,11 @@
                             android:layout_height="8dp"/>
 
                         <TextView
+                            android:id="@+id/tvTips"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dip"
                             android:gravity="left"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="12sp"
                             android:textColor="@color/white"
                             android:text="@string/tips5"/>
 

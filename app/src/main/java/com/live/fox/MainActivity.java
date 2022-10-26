@@ -705,11 +705,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onBackPressed() {
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         clearCacheIfOver();
@@ -718,23 +713,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //关闭悬浮窗口
-        if (Constant.isShowWindow) {
-            Constant.isOpenWindow = false;
-            Constant.isShowWindow = false;
-            App.getInstance().getFloatView().addToWindow(false, this);
-            //关闭资源
-            doCheckQuitoRomUnFinish();
-            WindowUtils.closeWindowResource(PlayLiveActivity.class);
-        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 555) {
-            mineFragment.onActivityResult(requestCode, resultCode, data);
-        }
+
     }
 
     @Override

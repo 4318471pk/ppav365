@@ -5,7 +5,7 @@
     <data>
         <variable
             name="click"
-            type="com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog" />
+            type="com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog" />
     </data>
 
     <RelativeLayout
@@ -13,26 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{click.onClickView}"
-        android:overScrollMode="never"
-        android:focusable="false"
-        android:background="#00000000"
         >
 
-        <LinearLayout
+        <com.flyco.roundview.RoundLinearLayout
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:orientation="vertical"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/top_round_99000000"
-            android:orientation="vertical">
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius_TL="20dip"
+            app:rv_cornerRadius_TR="20dip"
+            >
 
             <com.live.fox.view.tab.SimpleTabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="45dip"
+                android:layout_height="50dip"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/ivBack"
@@ -40,18 +37,23 @@
                 app:tl_indicator_corner_radius="2dp"
                 app:tl_indicator_height="5dp"
                 app:tl_indicator_width="45dp"
+                app:tl_indicator_margin_bottom="7dip"
                 app:tl_selected_textsize="16sp"
-                app:tl_textBold="SELECT"
-                app:tl_textSelectColor="#ffffff"
-                app:tl_textUnselectColor="#ffffff"
+                app:tl_tab_padding="5dp"
+                app:tl_textBold="NONE"
+                app:tl_textSelectColor="#404040"
+                app:tl_textUnselectColor="#404040"
                 app:tl_textsize="16sp" />
-
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/vpMain"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="#f5f1f8"
+                >
 
-        </LinearLayout>
+            </androidx.viewpager.widget.ViewPager>
+        </com.flyco.roundview.RoundLinearLayout>
     </RelativeLayout>
+
 </layout>

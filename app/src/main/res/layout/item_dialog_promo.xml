@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false"
+    app:contentPaddingTop="0dip"
+    app:cardBackgroundColor="#00000000"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:riv_corner_radius_top_left="10dip"
+            app:riv_corner_radius_top_right="10dip"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/testbanner"/>
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            app:rv_cornerRadius_BL="10dip"
+            app:rv_cornerRadius_BR="10dip"
+            app:rv_backgroundColor="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/time_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dip"
+                android:textColor="#F42C2C"
+                android:textSize="11sp"
+                android:text="活动已结束"/>
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

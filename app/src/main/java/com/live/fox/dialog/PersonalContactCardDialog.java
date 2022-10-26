@@ -3,6 +3,7 @@ package com.live.fox.dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,7 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
                 rlRound.height=(int)(width*0.3f);
                 mBind.rlRound.setLayoutParams(rlRound);
 
-                int marginTB=(int)(height*0.07f);
+                int marginTB=(int)(height*0.058f);
                 LinearLayout.LayoutParams llProgress=(LinearLayout.LayoutParams) mBind.tvProgress.getLayoutParams();
                 llProgress.topMargin=marginTB;
                 mBind.tvProgress.setLayoutParams(llProgress);
@@ -104,9 +105,17 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
                 mBind.contactProgress.setProgress(5f);
                 LinearLayout.LayoutParams llContactProgress=(LinearLayout.LayoutParams) mBind.contactProgress.getLayoutParams();
                 llContactProgress.bottomMargin=marginTB;
-                llContactProgress.width=(int)(width*0.77f);
+                llContactProgress.width=(int)(width*0.79f);
                 mBind.contactProgress.setLayoutParams(llContactProgress);
 
+                mBind.tvTips.getLayoutParams().width=(int)(width*0.79f);
+                mBind.tvTitle1.setTextSize(TypedValue.COMPLEX_UNIT_PX,0.296f*width*28/166);
+                float textSize=0.5125f*width*23/287;
+                mBind.tvTitle2.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
+                mBind.tvTips.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
+                LinearLayout.LayoutParams llTips=(LinearLayout.LayoutParams) mBind.tvTips.getLayoutParams();
+                llTips.bottomMargin=(int)(height*0.1f);
+                mBind.tvTips.setLayoutParams(llTips);
                 view.setVisibility(View.VISIBLE);
             }
         });
