@@ -124,4 +124,28 @@
         <item>防踢防禁言</item>
     </string-array>
 
+    <string-array name="giftListName">
+        <item>一生一世</item>
+        <item>我爱你</item>
+        <item>要抱抱</item>
+        <item>六六大顺</item>
+        <item>想你</item>
+        <item>十全十美</item>
+        <item>叫爸爸</item>
+        <item>留住你</item>
+        <item>一心人</item>
+    </string-array>
+
+    <string-array name="giftListTag">
+        <item>1314</item>
+        <item>520</item>
+        <item>188</item>
+        <item>6</item>
+        <item>30</item>
+        <item>10</item>
+        <item>8</item>
+        <item>6</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

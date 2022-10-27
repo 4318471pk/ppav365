@@ -430,7 +430,7 @@
     <string name="kaitong">(&#160;开通&#160;</string>
     <string name="goldThirty">&#160;金币/30天&#160;)</string>
     <string name="goldThirtyBack">&#160; 金币 / 30 天, 立返 &#160;</string>
-    <string name="give">赠送:&#160;</string>
+    <string name="give">赠送</string>
     <string name="renewal">续费:&#160;</string>
     <string name="renewal_return">续费: %1$s金币/30 天, 立返 %2$s 金币</string>
     <string name="jijiangPay">用&#160;</string>

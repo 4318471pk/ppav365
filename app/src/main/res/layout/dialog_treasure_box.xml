@@ -16,6 +16,7 @@
         >
 
         <RelativeLayout
+            android:id="@+id/rlContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -27,16 +28,133 @@
                 android:layout_height="wrap_content"
                 app:rv_cornerRadius_TL="10dip"
                 app:rv_cornerRadius_TR="10dip"
-                app:rv_backgroundColor="@color/white">
+                app:rv_backgroundColor="#99000000"
+                app:rv_backgroundPressColor="#99000000">
 
+                <com.live.fox.view.tab.SimpleTabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/ivBack"
+                    app:tl_indicator_color="#EA00FF"
+                    app:tl_indicator_corner_radius="2dp"
+                    app:tl_indicator_height="5dp"
+                    app:tl_indicator_width="20dp"
+                    app:tl_selected_textsize="16sp"
+                    app:tl_textSelectColor="#ffffff"
+                    app:tl_textUnselectColor="#ffffff"
+                    app:tl_textsize="16sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rlBotView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dip"
+                    android:layout_alignParentBottom="true">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvDiamond"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="20dip"
+                                android:text="@string/diamond2"
+                                android:textColor="#ffffff"
+                                android:textSize="12sp" />
+
+                            <com.live.fox.view.GradientTextView
+                                android:id="@+id/gtvExchangeDiamond"
+                                android:layout_width="60dip"
+                                android:layout_height="15dip"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="20dip"
+                                android:text="@string/exchange_diamond"
+                                android:textColor="#FF3BAE"
+                                android:textSize="9sp"
+                                app:gt_solidNoGradient="@color/white"
+                                app:gt_radius_dp="7.5dp"
+                                />
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dip"
+                            android:text="@string/balance2"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="120dp"
+                        android:layout_height="30dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
+                            android:layout_weight="1"
+                            android:text="1"
+                            android:textSize="13sp"
+                            android:textColor="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dip"
+                            android:paddingRight="5dip"
+                            android:drawableRight="@drawable/arrow_up"
+                            android:background="@drawable/half_round_black_storke_b931ff"/>
+                        <TextView
+                            android:id="@+id/tvGive"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
+                            android:layout_weight="1"
+                            android:text="@string/give"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:gravity="center"
+                            android:background="@drawable/half_round_f25dff_b931ff"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/rlBotView"
+                    android:layout_below="@id/tabLayout"/>
 
             </com.flyco.roundview.RoundRelativeLayout>
+
             <ImageView
                 android:id="@+id/ivFirstTimeTopUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@mipmap/bg_living_firsttime_topup"/>
+
         </RelativeLayout>
 
 
