@@ -1350,4 +1350,5 @@
     <string name="progressOfGrabContactCard">名片获取进度</string>
     <string name="grabContactCardBySendingGift">赠送礼物达到要求即可获取</string>
     <string name="tips5">1.添加时请备注昵称，避免主播无法区分；\n2.联系方式如有虚假，可通过客服投诉；</string>
+    <string name="emptyData">空空如也</string>
 </resources>

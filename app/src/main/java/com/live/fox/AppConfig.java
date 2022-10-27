@@ -160,14 +160,6 @@ public class AppConfig {
         return ratio;
     }
 
-    /**
-     * 获取落地页
-     *
-     * @return 返回落地页
-     */
-    public static String getLandingPage() {
-        return baseInfo.getFloorUrl();
-    }
 
     /**
      * 获取应用基础配置

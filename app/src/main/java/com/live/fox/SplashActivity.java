@@ -95,7 +95,7 @@ public class SplashActivity extends BaseActivity {
         }
 
         tvEnter.setText(Html.fromHtml(splashTips));
-        tvEnter.setOnClickListener(v -> IntentUtils.toBrowser(SplashActivity.this, AppConfig.getLandingPage()));
+        tvEnter.setOnClickListener(v -> IntentUtils.toBrowser(SplashActivity.this, ""));
     }
 
     /**

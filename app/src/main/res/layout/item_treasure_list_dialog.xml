@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="10dip"
+        android:orientation="vertical"
+        >
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_marginBottom="8dip"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/img_default"
+        app:riv_corner_radius="7.5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="4.5dip"
+        android:textSize="11sp"
+        android:textColor="#ffffff"
+        android:text="名字"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="11sp"
+        android:textColor="#ffffff"
+        android:drawableLeft="@mipmap/icon_diamond"
+        android:drawablePadding="5dip"
+        android:text="999"/>
+
+</LinearLayout>
+</RelativeLayout>

@@ -148,4 +148,10 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="giftDialogTabs">
+        <item>礼物</item>
+        <item>特权</item>
+        <item>背包</item>
+    </string-array>
+
 </resources>

@@ -18,51 +18,42 @@
         <RelativeLayout
             android:id="@+id/rlContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="400dip"
             android:layout_alignParentBottom="true"
             >
 
-            <com.flyco.roundview.RoundRelativeLayout
+            <RelativeLayout
                 android:id="@+id/rrlContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:rv_cornerRadius_TL="10dip"
-                app:rv_cornerRadius_TR="10dip"
-                app:rv_backgroundColor="#99000000"
-                app:rv_backgroundPressColor="#99000000">
+                android:background="@drawable/half_round_99000000"
+               >
 
-                <com.live.fox.view.tab.SimpleTabLayout
+                <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="40dip"
-                    android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/ivBack"
-                    app:tl_indicator_color="#EA00FF"
-                    app:tl_indicator_corner_radius="2dp"
-                    app:tl_indicator_height="5dp"
-                    app:tl_indicator_width="20dp"
-                    app:tl_selected_textsize="16sp"
-                    app:tl_textSelectColor="#ffffff"
-                    app:tl_textUnselectColor="#ffffff"
-                    app:tl_textsize="16sp" />
+                    app:tabPaddingStart="0dip"
+                    app:tabPaddingEnd="0dip"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMode="scrollable"
+                    app:tabRippleColor="@android:color/transparent" />
 
                 <RelativeLayout
                     android:id="@+id/rlBotView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dip"
+                    android:layout_height="50dip"
                     android:layout_alignParentBottom="true">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dip"
                             android:orientation="horizontal">
 
                             <TextView
@@ -70,7 +61,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_marginLeft="20dip"
                                 android:text="@string/diamond2"
                                 android:textColor="#ffffff"
                                 android:textSize="12sp" />
@@ -94,8 +84,8 @@
                             android:id="@+id/tvBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dip"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dip"
                             android:text="@string/balance2"
                             android:textColor="#ffffff"
                             android:textSize="12sp" />
@@ -103,26 +93,48 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llBtns"
                         android:layout_width="120dp"
                         android:layout_height="30dip"
+                        android:layout_marginRight="12dp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tvAmount"
+                        <RelativeLayout
+                            android:id="@+id/rlAmount"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:onClick="@{click.onClickView}"
                             android:layout_weight="1"
-                            android:text="1"
-                            android:textSize="13sp"
-                            android:textColor="@color/white"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="15dip"
-                            android:paddingRight="5dip"
-                            android:drawableRight="@drawable/arrow_up"
-                            android:background="@drawable/half_round_black_storke_b931ff"/>
+                            android:background="@drawable/half_round_black_storke_b931ff"
+                            >
+
+                            <ImageView
+                                android:id="@+id/ivArrow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="3dip"
+                                android:src="@drawable/arrow_up"/>
+
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/tvAmount"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toLeftOf="@id/ivArrow"
+                                android:maxLines="1"
+                                app:sizeToFit="true"
+                                android:text="1314"
+                                android:textSize="13sp"
+                                android:textColor="@color/white"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="10dip"
+                                android:paddingRight="2dip"
+                                />
+
+                        </RelativeLayout>
+
                         <TextView
                             android:id="@+id/tvGive"
                             android:layout_width="match_parent"
@@ -139,14 +151,31 @@
 
                 </RelativeLayout>
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPager"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@id/rlBotView"
-                    android:layout_below="@id/tabLayout"/>
+                    android:layout_below="@id/tabLayout"
+                    >
 
-            </com.flyco.roundview.RoundRelativeLayout>
+                    <com.live.fox.view.IndicatorListView
+                        android:id="@+id/rlCircles"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dip"
+                        android:layout_alignParentBottom="true"
+                        >
+                    </com.live.fox.view.IndicatorListView>
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/rlCircles"
+                        />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/ivFirstTimeTopUp"
