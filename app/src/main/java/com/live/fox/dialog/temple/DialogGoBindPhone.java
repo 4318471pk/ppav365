@@ -29,7 +29,6 @@ public class DialogGoBindPhone extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
-        dismissAllowingStateLoss();
         switch (view.getId())
         {
             case R.id.gtCancel:
@@ -40,6 +39,7 @@ public class DialogGoBindPhone extends BaseBindingDialogFragment {
                 getActivity().finish();
                 break;
         }
+        dismissAllowingStateLoss();
     }
 
     @Override

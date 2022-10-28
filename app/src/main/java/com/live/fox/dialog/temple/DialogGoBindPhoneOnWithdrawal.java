@@ -32,7 +32,6 @@ public class DialogGoBindPhoneOnWithdrawal extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
-        dismissAllowingStateLoss();
         switch (view.getId())
         {
             case R.id.gtCancel:
@@ -50,6 +49,7 @@ public class DialogGoBindPhoneOnWithdrawal extends BaseBindingDialogFragment {
 
                 break;
         }
+        dismissAllowingStateLoss();
     }
 
     @Override

@@ -159,6 +159,16 @@ public class GradientTextView extends AppCompatTextView {
         invalidate();
     }
 
+    public void setStokeWithSolidBackground(int strokeColor,int strokeWidth,int solidColor,int radius) {
+        mIndicatorDrawable=new GradientDrawable();
+        this.solidColor = solidColor;
+        this.radius = radius;
+        mColors=null;
+        this.strokeColor=strokeColor;
+        this.strokeWidth=strokeWidth;
+        invalidate();
+    }
+
 
     public void setOrientation(DIRECTION direction) {
         if(direction!=null)

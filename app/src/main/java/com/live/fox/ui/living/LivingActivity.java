@@ -31,6 +31,7 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PersonalContactCardDialog;
+import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
@@ -176,8 +177,9 @@ public class LivingActivity extends BaseBindingViewActivity {
         mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
 
-        showFirstTimeTopUpDialog();
-        showContactCardDialog();
+//        showFirstTimeTopUpDialog();
+//        showContactCardDialog();
+//        showFreeRoomToPrepaidRoom();
     }
 
 
@@ -217,5 +219,11 @@ public class LivingActivity extends BaseBindingViewActivity {
     {
         PersonalContactCardDialog personalContactCardDialog=PersonalContactCardDialog.getInstance();
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),personalContactCardDialog);
+    }
+
+    private void showFreeRoomToPrepaidRoom()
+    {
+        FreeRoomToPrepaidRoomDialog dialog=FreeRoomToPrepaidRoomDialog.getInstance();
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),dialog);
     }
 }

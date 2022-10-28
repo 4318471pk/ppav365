@@ -1351,4 +1351,11 @@
     <string name="grabContactCardBySendingGift">赠送礼物达到要求即可获取</string>
     <string name="tips5">1.添加时请备注昵称，避免主播无法区分；\n2.联系方式如有虚假，可通过客服投诉；</string>
     <string name="emptyData">空空如也</string>
+    <string name="paidLiving">付费直播</string>
+    <string name="nextRoom">下一场</string>
+    <string name="dialogText1">主播开启了付费直播，</string>
+    <string name="dialogText2">/场， 是否付费进入？</string>
+    <string name="InsufficientBalance2">余额不足，是否前往充值？</string>
+    <string name="InsufficientDiamond">钻石不足，是否前往充值？</string>
+    <string name="goToAnotherRoom">是否前往该直播间沾沾喜气？</string>
 </resources>

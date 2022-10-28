@@ -52,7 +52,6 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<String, On
         if (bitmap == null) return;
         spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_BOTTOM);
         spanUtils.append(" ");
-
     }
 
     public void appendLevel(SpanUtils spanUtils, Integer userLevel, Context context) {

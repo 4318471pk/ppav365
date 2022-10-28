@@ -12,8 +12,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.live.fox.R;
+import com.live.fox.adapter.LivingMsgBoxAdapter;
+import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
@@ -23,16 +27,46 @@ import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
+import com.live.fox.entity.LivingMsgBoxBean;
+import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
+import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.utils.TimeCounter;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.NotchInScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LivingControlPanel extends RelativeLayout {
 
     //上中下模块比例 0.32 0.16 0.52
     ControlPanelLivingBinding mBind;
     LivingFragment fragment;
+    LivingMsgBoxAdapter livingMsgBoxAdapter;
+    List<LivingMsgBoxBean> livingMsgBoxBeans=new ArrayList<>();
+    TimeCounter.TimeListener timeListener=new TimeCounter.TimeListener(5) {
+        @Override
+        public void onSecondTick(TimeCounter.TimeListener listener) {
+            super.onSecondTick(listener);
+            LivingMsgBoxBean bean=new LivingMsgBoxBean();
+            bean.setBackgroundColor(0xffBDA3C8);
+            bean.setStrokeColor(0xff9E3FD4);
+            SpanUtils spanUtils=new SpanUtils();
+            spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(78,getContext()));
+            spanUtils.append(System.currentTimeMillis()+" ");
+
+            bean.setCharSequence(spanUtils.create());
+            addNewMessage(bean);
+        }
+
+        @Override
+        public void onConditionTrigger(TimeCounter.TimeListener listener) {
+            super.onConditionTrigger(listener);
+
+        }
+    };
 
     public LivingControlPanel(LivingFragment fragment, ViewGroup parent) {
         super(fragment.getActivity());
@@ -77,8 +111,31 @@ public class LivingControlPanel extends RelativeLayout {
         setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),topPadding);
         setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
         setViewLPRL(mBind.rlBotView,(int)(screenHeight*0.52f),0);
+
+        mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        mBind.msgBox.setLayoutManager(linearLayoutManager);
+
+        TimeCounter.getInstance().add(timeListener);
         setVisibility(VISIBLE);
 
+    }
+
+    private void addNewMessage(LivingMsgBoxBean bean)
+    {
+        if(livingMsgBoxAdapter==null)
+        {
+            livingMsgBoxAdapter=new LivingMsgBoxAdapter(getContext(),livingMsgBoxBeans);
+            mBind.msgBox.setAdapter(livingMsgBoxAdapter);
+            livingMsgBoxAdapter.getBeans().add(bean);
+            livingMsgBoxAdapter.notifyItemRangeInserted(livingMsgBoxBeans.size(),1);
+        }
+        else
+        {
+            livingMsgBoxAdapter.getBeans().add(bean);
+            livingMsgBoxAdapter.notifyItemRangeInserted(livingMsgBoxBeans.size(),1);
+        }
     }
 
     private void setViewLP(View view,int height,int topMargin)
@@ -125,7 +182,6 @@ public class LivingControlPanel extends RelativeLayout {
             case R.id.ivClose:
                 PleaseDontLeaveDialog pleaseDontLeaveDialog=new PleaseDontLeaveDialog();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),pleaseDontLeaveDialog);
-//                fragment.getActivity().finish();
                 break;
             case R.id.rlPromo:
                 LivingPromoDialog livingPromoDialog=LivingPromoDialog.getInstance();

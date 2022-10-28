@@ -16,7 +16,6 @@ public class EditNickNameConfirmDialog extends TempleDialog{
 
     @Override
     public void onClick(View view) {
-        dismissAllowingStateLoss();
         switch (view.getId())
         {
             case R.id.gtCancel:
@@ -26,6 +25,7 @@ public class EditNickNameConfirmDialog extends TempleDialog{
                 DialogFramentManager.getInstance().showDialog(getActivity().getSupportFragmentManager(), EditNickNameDialog.getInstance());
                 break;
         }
+        dismissAllowingStateLoss();
     }
 
 
