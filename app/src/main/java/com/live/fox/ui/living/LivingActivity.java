@@ -1,7 +1,10 @@
 package com.live.fox.ui.living;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -68,7 +71,7 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     @Override
     public boolean isFullScreen() {
-        return true;
+        return false;
     }
 
     @Override
@@ -86,6 +89,8 @@ public class LivingActivity extends BaseBindingViewActivity {
     public void initView() {
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 //                | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        setFullscreen(true, true);
+        setAndroidNativeLightStatusBar(this, true);
 
         mBind=getViewDataBinding();
         mBind.drawerLayout.setScrimColor(0x00000000);
@@ -189,9 +194,9 @@ public class LivingActivity extends BaseBindingViewActivity {
         return mBind.drawerLayout;
     }
 
-    public void setUserScrollAvailAble(boolean isAvailable)
+    public ViewPager2 getViewPager()
     {
-        mBind.vp2.setUserInputEnabled(isAvailable);
+        return mBind.vp2;
     }
 
     public interface DialogListener
@@ -225,5 +230,42 @@ public class LivingActivity extends BaseBindingViewActivity {
     {
         FreeRoomToPrepaidRoomDialog dialog=FreeRoomToPrepaidRoomDialog.getInstance();
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),dialog);
+    }
+
+    public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
+        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+        if (!isShowStatusBar) {
+            uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+        if (!isShowNavigationBar) {
+            uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+
+        //隐藏标题栏
+        // getSupportActionBar().hide();
+        setNavigationStatusColor(Color.TRANSPARENT);
+    }
+
+    public void setNavigationStatusColor(int color) {
+        //VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setNavigationBarColor(color);
+            getWindow().setStatusBarColor(color);
+        }
+    }
+
+    private static void setAndroidNativeLightStatusBar(Activity activity, boolean dark) {
+        View decor = activity.getWindow().getDecorView();
+        if (dark) {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
     }
 }

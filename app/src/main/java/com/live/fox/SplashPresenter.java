@@ -382,16 +382,4 @@ public class SplashPresenter {
         }
     }
 
-    /**
-     * 取消页面的所有请求及弹框
-     * 注：界面onDestory时会主动调用此方法
-     */
-    public void cancelAllHttpAndDialog() {
-        LogUtils.e("cancelAllHttpAndDialog");
-        OkGoHttpUtil okGoHttpUtil = OkGoHttpUtil.getInstance();
-        okGoHttpUtil.cancel(Api_Config.getBaseConfig);
-        okGoHttpUtil.cancel(Api_Config.getAdVert);
-        okGoHttpUtil.cancel(Api_Auth.refreshToken);
-        okGoHttpUtil.cancel(Api_User.getUserInfo);
-    }
 }

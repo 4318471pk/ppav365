@@ -37,7 +37,6 @@ public class Api_User extends BaseApi {
         return InstanceHolder.instance;
     }
 
-    public static final String getUserInfo = "getUserInfo";
 
     /**
      * 用户信息
@@ -48,7 +47,7 @@ public class Api_User extends BaseApi {
         if (uid >= 0) params.put("uid", uid);
 
         OkGoHttpUtil.getInstance().doJsonPost(
-                getUserInfo,
+                url,
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
                 new Gson().toJson(params))
@@ -65,6 +64,28 @@ public class Api_User extends BaseApi {
                         }
                     }
                 });
+    }
+
+    /**
+     * 用户信息
+     */
+    public void getBaseInfoWithToken( JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.BaseInfoWithToken;
+        HashMap<String, Object> params = getCommonParams();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())))
+                .execute(callback);
+
+
+//        OkGoHttpUtil.getInstance().doJsonPost(
+//                url,
+//                url,
+//                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+//                new Gson().toJson(params))
+//                .execute(callback);
     }
 
     /**

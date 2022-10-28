@@ -2,12 +2,14 @@ package com.live.fox.dialog.bottomDialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.CompoundButton;
@@ -39,11 +41,41 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         return new ContributionRankDialog();
     }
 
-    @Override
-    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+    public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
+        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
+        if (!isShowStatusBar) {
+            uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+        if (!isShowNavigationBar) {
+            uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+        getDialog().getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+
+        //隐藏标题栏
+        // getSupportActionBar().hide();
+        setNavigationStatusColor(Color.TRANSPARENT);
+    }
+
+    public void setNavigationStatusColor(int color) {
+        //VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        if (Build.VERSION.SDK_INT >= 21) {
+            getDialog().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getDialog().getWindow().setNavigationBarColor(color);
+            getDialog().getWindow().setStatusBarColor(color);
+        }
+    }
+
+    private  void setAndroidNativeLightStatusBar( boolean dark) {
+        View decor =getDialog().getWindow().getDecorView();
+        if (dark) {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
     }
 
     @Nullable
@@ -51,10 +83,12 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-        //设置dialog背景色为透明色
+//        //设置dialog背景色为透明色
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //设置dialog窗体颜色透明
         getDialog().getWindow().setDimAmount(0);
+        setFullscreen(true, true);
+        setAndroidNativeLightStatusBar( true);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

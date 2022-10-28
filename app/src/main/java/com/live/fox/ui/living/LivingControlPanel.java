@@ -21,7 +21,7 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.ControlPanelLivingBinding;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
-import com.live.fox.dialog.TreasureBoxDialog;
+import com.live.fox.dialog.bottomDialog.TreasureBoxDialog;
 import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
@@ -116,6 +116,8 @@ public class LivingControlPanel extends RelativeLayout {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mBind.msgBox.setLayoutManager(linearLayoutManager);
+        LivingActivity livingActivity=(LivingActivity) fragment.getActivity();
+        mBind.msgBox.setViewPager(livingActivity.getViewPager());
 
         TimeCounter.getInstance().add(timeListener);
         setVisibility(VISIBLE);
@@ -128,14 +130,9 @@ public class LivingControlPanel extends RelativeLayout {
         {
             livingMsgBoxAdapter=new LivingMsgBoxAdapter(getContext(),livingMsgBoxBeans);
             mBind.msgBox.setAdapter(livingMsgBoxAdapter);
-            livingMsgBoxAdapter.getBeans().add(bean);
-            livingMsgBoxAdapter.notifyItemRangeInserted(livingMsgBoxBeans.size(),1);
         }
-        else
-        {
-            livingMsgBoxAdapter.getBeans().add(bean);
-            livingMsgBoxAdapter.notifyItemRangeInserted(livingMsgBoxBeans.size(),1);
-        }
+        livingMsgBoxAdapter.getBeans().add(bean);
+        livingMsgBoxAdapter.notifyDataSetChanged();
     }
 
     private void setViewLP(View view,int height,int topMargin)

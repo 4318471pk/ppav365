@@ -27,10 +27,17 @@ package com.live.fox.view.overscroll;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.live.fox.R;
 
@@ -41,6 +48,9 @@ public class RecyclerViewBouncy extends RecyclerView {
     private BouncyAdapter mBouncyAdapter;
     private Adapter mOriginalAdapter;
     private BouncyConfig mConfig = BouncyConfig.DEFAULT;
+    float x1,y1;
+    private GestureDetector mDetector;
+    private ViewPager2 viewPager;
 
     public RecyclerViewBouncy(Context context) {
         super(context);
@@ -55,6 +65,10 @@ public class RecyclerViewBouncy extends RecyclerView {
     public RecyclerViewBouncy(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
+    }
+
+    public void setViewPager(ViewPager2 viewPager) {
+        this.viewPager = viewPager;
     }
 
     @Override
@@ -136,6 +150,38 @@ public class RecyclerViewBouncy extends RecyclerView {
 
             mConfig = builder.build();
         }
+
+        mDetector = new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+                return true;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        viewPager.setUserInputEnabled(false);
+        switch (e.getAction())
+        {
+//            case MotionEvent.ACTION_DOWN:
+//            case MotionEvent.ACTION_MOVE:
+//                viewPager.setUserInputEnabled(false);
+//                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                viewPager.setUserInputEnabled(true);
+                break;
+        }
+
+        return super.onTouchEvent(e);
     }
 
     private final AdapterDataObserver mAdapterDataObserver = new AdapterDataObserver() {
@@ -169,4 +215,14 @@ public class RecyclerViewBouncy extends RecyclerView {
             mBouncyAdapter.notifyItemMoved(fromPosition + 1, toPosition + 1);
         }
     };
+
+    @Override
+    protected float getTopFadingEdgeStrength() {
+        return super.getTopFadingEdgeStrength();
+    }
+
+    @Override
+    protected float getBottomFadingEdgeStrength() {
+        return 0;
+    }
 }

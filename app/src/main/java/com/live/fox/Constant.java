@@ -68,8 +68,9 @@ public class Constant {
 
     public static class URL {
         //config-client 下面的接口 域名地址是不变的
-        public static final String BASE = "config-client/base";
+        public static final String BASE = "/config-client/base";
         public static final String BASE_baseinfo_URL = BASE + "/baseInfo";        //基础信息
+        public static final String BaseInfoWithToken=BASE+"/baseInfo/Auth";//基础信息需要验证
         public static final String BASE_ossToken_URL = BASE + "/ossToken";        //oss上传凭证
         public static final String BASE_version_URL = BASE + "/version";          //版本信息
         public static final String USER_getbanklist_URL = "/config-client/config-client/base/userBankList";        // 得到银行信息

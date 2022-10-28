@@ -345,14 +345,15 @@
 
             </RelativeLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.live.fox.view.overscroll.RecyclerViewBouncy
                 android:id="@+id/msgBox"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_above="@id/rlButtons"
                 android:layout_marginLeft="10dip"
-                android:fadingEdge="vertical"
-                android:fadingEdgeLength="53dp" />
+                android:scrollbars="none"
+                android:requiresFadingEdge="vertical"
+                android:fadingEdgeLength="50dp" />
 
         </RelativeLayout>
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -147,7 +148,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 try {
-                    hideLoadingDialog();
                     if (code == 0) {
                         JSONObject jsonObject = new JSONObject(data);
                         String token = jsonObject.optString("token", "");
@@ -172,6 +172,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String userJson) {
+                hideLoadingDialog();
                 if (code == 0) {
                     initTable();
                 } else {
@@ -184,6 +185,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
+
+        //获取基础信息 IM token appid之类的东西
+        Api_User.ins().getBaseInfoWithToken( new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String userJson) {
+                if (code == 0) {
+                    Log.e("getBaseInfoWithToken",userJson);
+                } else {
+
+                }
+            }
+        });
+
+
     }
 
     public void getCountryCode() {
