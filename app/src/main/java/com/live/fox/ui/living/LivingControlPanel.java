@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -27,13 +28,16 @@ import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
+import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.TimeCounter;
+import com.live.fox.utils.ViewWatch;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.MyFlowLayout;
 import com.live.fox.view.NotchInScreen;
 
 import java.util.ArrayList;
@@ -46,6 +50,8 @@ public class LivingControlPanel extends RelativeLayout {
     LivingFragment fragment;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans=new ArrayList<>();
+    ViewWatch viewWatch;
+
     TimeCounter.TimeListener timeListener=new TimeCounter.TimeListener(5) {
         @Override
         public void onSecondTick(TimeCounter.TimeListener listener) {
@@ -108,7 +114,9 @@ public class LivingControlPanel extends RelativeLayout {
                 StatusBarUtil.getStatusBarHeight(fragment.getActivity());
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext());
 
-        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),topPadding);
+        viewWatch=new ViewWatch();
+        viewWatch.watchView((LivingActivity) fragment.getActivity(),mBind);
+        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),StatusBarUtil.getStatusBarHeight(fragment.getActivity()));
         setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
         setViewLPRL(mBind.rlBotView,(int)(screenHeight*0.52f),0);
 
@@ -122,6 +130,24 @@ public class LivingControlPanel extends RelativeLayout {
         TimeCounter.getInstance().add(timeListener);
         setVisibility(VISIBLE);
 
+        int dip10=ScreenUtils.getDip2px(fragment.getActivity(),10);
+        mBind.flTempleLayout.setHorizontalMargin(dip10);
+        mBind.flTempleLayout.setVerticalMargin(dip10);
+        mBind.flTempleLayout.setTextMaxLength(20);
+        mBind.flTempleLayout.setTextBackground(R.drawable.bg_d8bde7);
+        mBind.flTempleLayout.setTextColor(0xffffffff);
+
+        List<FlowDataBean> mData = new ArrayList<>();
+        mData.add(new FlowDataBean("阿是假的"));
+        mData.add(new FlowDataBean("我气哦额我去哦额我去"));
+        mData.add(new FlowDataBean("i我去恶意我去额"));
+        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+        mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
+        mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
+        mBind.flTempleLayout.setTextList(mData);
     }
 
     private void addNewMessage(LivingMsgBoxBean bean)
@@ -190,25 +216,42 @@ public class LivingControlPanel extends RelativeLayout {
             case R.id.gtvContribution:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), ContributionRankDialog.getInstance());
                 break;
+            case R.id.rlMain:
+                viewWatch.hideInputLayout();
+                break;
+            case R.id.gtvMoreTemple:
+                if(viewWatch.isKeyboardShow())
+                {
+                    viewWatch.hideKeyboard();
+                }
+                else
+                {
+                    viewWatch.showKeyboard();
+                }
+                break;
             case R.id.gtvSaySomething:
-                InputMessageDialog dialog=InputMessageDialog.getInstance();
-                dialog.setDialogListener(new InputMessageDialog.DialogListener() {
-                    @Override
-                    public void onShowKeyBorad(int height) {
-                        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
-                        ll.bottomMargin=height;
-                        mBind.rlBotView.setLayoutParams(ll);
-                    }
-
-                    @Override
-                    public void onDismiss() {
-                        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
-                        ll.bottomMargin=0;
-                        mBind.rlBotView.setLayoutParams(ll);
-                    }
-                });
-                DialogFramentManager.getInstance().showDialog(fragment.getChildFragmentManager(),dialog);
-
+//                InputMessageDialog dialog=InputMessageDialog.getInstance();
+//                dialog.setDialogListener(new InputMessageDialog.DialogListener() {
+//                    @Override
+//                    public void onShowKeyBorad(int height) {
+//                        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
+//                        ll.bottomMargin=height;
+//                        mBind.rlBotView.setLayoutParams(ll);
+//                    }
+//
+//                    @Override
+//                    public void onDismiss() {
+//                        RelativeLayout.LayoutParams ll=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
+//                        ll.bottomMargin=0;
+//                        mBind.rlBotView.setLayoutParams(ll);
+//                    }
+//                });
+//                DialogFramentManager.getInstance().showDialog(fragment.getChildFragmentManager(),dialog);
+//                mBind.llInputLayout.setVisibility(VISIBLE);
+//                mBind.rlButtons.setVisibility(GONE);
+//                mBind.etDiaMessage.requestFocus();
+//                imm.showSoftInput(mBind.etDiaMessage,0);
+                viewWatch.showInputLayout();
                 break ;
         }
     }
