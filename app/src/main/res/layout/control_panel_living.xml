@@ -239,7 +239,7 @@
                 android:id="@+id/rlMidView"
                 android:layout_width="match_parent"
                 android:layout_height="200dip"
-                android:background="@color/red_ee">
+                >
 
 
             </RelativeLayout>
@@ -249,18 +249,9 @@
         <RelativeLayout
             android:id="@+id/rlBotView"
             android:layout_width="match_parent"
-            android:layout_height="200dip"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#977483">
-
-            <com.live.fox.view.overscroll.RecyclerViewBouncy
-                android:id="@+id/msgBox"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dip"
-                android:scrollbars="none"
-                android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="50dp" />
+            >
 
             <RelativeLayout
                 android:id="@+id/rlBotContent"
@@ -273,7 +264,7 @@
                 <RelativeLayout
                     android:id="@+id/rlButtons"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dip"
                     android:layout_alignParentBottom="true"
                     android:paddingBottom="5dip">
 
@@ -539,11 +530,24 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <ImageView
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/llMessages"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_marginBottom="45dip"
+            android:layout_alignParentBottom="true"
+            >
+            <com.live.fox.view.overscroll.RecyclerViewBouncy
+                android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#847744"
-                android:layout_above="@id/rlBotContent"/>
+                android:layout_marginLeft="10dip"
+                android:scrollbars="none"
+                android:requiresFadingEdge="vertical"
+                android:fadingEdgeLength="50dp" />
 
         </RelativeLayout>
 

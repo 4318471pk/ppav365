@@ -66,6 +66,7 @@ public class AppIMManager {
             } else {
                 config.setLogLevel(V2TIMSDKConfig.V2TIM_LOG_INFO);
             }
+
             int imSdk = Integer.parseInt(imSdkAppId);
             V2TIMManager.getInstance().addIMSDKListener(new V2TIMSDKListener() {
                 // 5. 监听 V2TIMSDKListener 回调

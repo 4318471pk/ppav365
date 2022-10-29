@@ -113,12 +113,19 @@ public class LivingControlPanel extends RelativeLayout {
         int topPadding= NotchInScreen.hasNotchInScreen(fragment.getActivity())?0:
                 StatusBarUtil.getStatusBarHeight(fragment.getActivity());
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext());
+        int screenWidth=ScreenUtils.getScreenWidth(parent.getContext());
 
         viewWatch=new ViewWatch();
         viewWatch.watchView((LivingActivity) fragment.getActivity(),mBind);
         setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),StatusBarUtil.getStatusBarHeight(fragment.getActivity()));
         setViewLP(mBind.rlMidView,(int)(screenHeight*0.16f),0);
-        setViewLPRL(mBind.rlBotView,(int)(screenHeight*0.52f),0);
+
+        RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
+        rlMessages.height=(int)(screenHeight*0.32f)-ScreenUtils.getDip2px(fragment.getActivity(),45);
+        rlMessages.width=(int)(screenWidth*0.7f);
+        rlMessages.bottomMargin=ScreenUtils.getDip2px(fragment.getActivity(),45);
+        rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
+        mBind.llMessages.setLayoutParams(rlMessages);
 
         mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());

@@ -19,6 +19,7 @@ import com.live.fox.ui.living.LivingActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import com.live.fox.utils.device.ScreenUtils;
 
 public class ViewWatch {
 
@@ -29,10 +30,14 @@ public class ViewWatch {
     ControlPanelLivingBinding mBind;
     InputMethodManager imm;
     final String ViewBOT="ViewBOT";
+    int screenHeight= 0;
+    int screenWidth= 0;
 
     public void watchView(LivingActivity activity, ControlPanelLivingBinding mbind) {
         this.activity = activity;
         this.mBind = mbind;
+        screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(activity);
+        screenWidth= ScreenUtils.getScreenWidth(activity);
         imm=(InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         mbind.rlMain.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -46,11 +51,10 @@ public class ViewWatch {
                     int bot = getBottomMargin();
                     SPUtils.getInstance().put(ViewBOT,bot);
                     Log.e("windowDefaultV22", bot+" "+isNavigationBarShow(activity.getWindowManager()));
-                    mbind.rlMessagesPanel.getLayoutParams().height=bot;
-//                    RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mbind.rlBotView.getLayoutParams();
-//                    rl.topMargin=rl.topMargin-bot;
-//                    mbind.rlBotView.setLayoutParams(rl);
-                    mbind.rlMain.requestLayout();
+//                    mbind.rlMessagesPanel.getLayoutParams().height=bot;
+//                    mbind.llInputLayout.getLayoutParams().height=bot+ScreenUtils.dp2px(activity,85);
+//                    mbind.rlMain.requestLayout();
+                    setLayout(true,bot);
                 }
             }
         });
@@ -92,16 +96,48 @@ public class ViewWatch {
 
     public void hideInputLayout()
     {
+
         hideKeyboard();
+        mBind.llMessages.setVisibility(VISIBLE);
+        RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
+        rlMessages.height=(int)(screenHeight*0.32f)- com.live.fox.utils.device.ScreenUtils.getDip2px(activity,45);
+        rlMessages.width=(int)(screenWidth*0.7f);
+        rlMessages.bottomMargin=ScreenUtils.getDip2px(activity,45);
+        rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
+        mBind.llMessages.setLayoutParams(rlMessages);
+
+        mBind.llMessages.setLayoutParams(rlMessages);
         mBind.llInputLayout.setVisibility(GONE);
         mBind.rlButtons.setVisibility(VISIBLE);
         activity.getViewPager().setUserInputEnabled(true);
     }
 
+    private void setLayout(boolean reloadLayout, int height)
+    {
+        mBind.llMessages.setVisibility(GONE);
+        RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
+        rlMessages.height=(int)(screenHeight*0.32f)- com.live.fox.utils.device.ScreenUtils.getDip2px(activity,45);
+        rlMessages.width=(int)(screenWidth*0.7f);
+        rlMessages.bottomMargin=height+ScreenUtils.getDip2px(activity,90);
+        rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
+        mBind.llMessages.setLayoutParams(rlMessages);
+
+        mBind.rlMessagesPanel.getLayoutParams().height=height;
+        mBind.llInputLayout.getLayoutParams().height=height+ScreenUtils.getDip2px(activity,85);
+        if(reloadLayout)
+        {
+            mBind.rlMain.requestLayout();
+        }
+    }
+
     public void showInputLayout()
     {
         int bot=SPUtils.getInstance().getInt(ViewBOT);
-        mBind.rlMessagesPanel.getLayoutParams().height=bot;
+        if(bot>0)
+        {
+            setLayout(false,bot);
+        }
+
 //        RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
 //        rl.topMargin=rl.topMargin-bot;
 //        mBind.rlBotView.setLayoutParams(rl);

@@ -64,6 +64,8 @@ import com.live.fox.windowmanager.WindowUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.v2.V2TIMCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -189,11 +191,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //获取基础信息 IM token appid之类的东西
         Api_User.ins().getBaseInfoWithToken( new JsonCallback<String>() {
             @Override
-            public void onSuccess(int code, String msg, String userJson) {
+            public void onSuccess(int code, String msg, String Str) {
                 if (code == 0) {
-                    Log.e("getBaseInfoWithToken",userJson);
-                } else {
+                    JSONObject jsonObject= null;
+                    try {
+                        jsonObject = new JSONObject(Str);
+                        JSONArray jsonArray= jsonObject.optJSONArray("configSystemBaseList");
+                        if(jsonArray!=null)
+                        {
+                            for (int i = 0; i <jsonArray.length() ; i++) {
+                                JSONObject json= jsonArray.optJSONObject(i);
+                                String mCode=json.optString("code","");
+                                String value=json.optString("value","");
+                                switch (mCode)
+                                {
+                                    case "tencent.im.sdkappid":
+                                        //腾讯im APPID
+                                        AppIMManager.init(value);
+                                        break;
+                                    case "tencent.im.identifier":
+                                        break;
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                } else {
+                    ToastUtils.showShort("IM TOKEN ERROR");
                 }
             }
         });
