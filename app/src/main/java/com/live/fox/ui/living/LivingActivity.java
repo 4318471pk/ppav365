@@ -21,10 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.effective.android.panel.PanelSwitchHelper;
-import com.effective.android.panel.interfaces.listener.OnKeyboardStateListener;
-import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
-import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingFragmentStateAdapter;
 import com.live.fox.adapter.RecommendLivingAnchorAdapter;
@@ -36,6 +32,7 @@ import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PersonalContactCardDialog;
 import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
 import com.live.fox.entity.FlowDataBean;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
@@ -52,16 +49,20 @@ import java.util.List;
 
 public class LivingActivity extends BaseBindingViewActivity {
 
+    static final String RoomList="RoomList";
+    static final String positionTag="position";
     ActivityLivingBinding mBind;
     LivingFragmentStateAdapter livingFragmentStateAdapter;
-    PanelSwitchHelper mHelper;
     DialogListener dialogListener;
     RecommendLivingAnchorAdapter recommendListAdapter;
+    ArrayList<RoomListBean> roomListBeans;
 
-    public static void startActivity(Context context)
+    public static void startActivity(Context context, ArrayList<RoomListBean> roomListBeans,int position)
     {
-        Log.e("startActivity","LivingActivity");
-        context.startActivity(new Intent(context,LivingActivity.class));
+        Intent intent=new Intent(context,LivingActivity.class);
+        intent.putParcelableArrayListExtra(RoomList,roomListBeans);
+        intent.putExtra(positionTag,position);
+        context.startActivity(intent);
     }
 
     @Override
@@ -79,7 +80,6 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     }
 
-
     @Override
     public int onCreateLayoutId() {
         return R.layout.activity_living;
@@ -87,18 +87,10 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-//                | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-//        setFullscreen(true, true);
-//        setAndroidNativeLightStatusBar(this, true);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        setWindowsFlag();
 
+
+        roomListBeans=getIntent().getParcelableArrayListExtra(RoomList);
         mBind=getViewDataBinding();
         mBind.drawerLayout.setScrimColor(0x00000000);
 
@@ -136,13 +128,10 @@ public class LivingActivity extends BaseBindingViewActivity {
         mBind.vp2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
         mBind.vp2.setOffscreenPageLimit(1);
 
-        List<String> strings=new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            strings.add(i+" ");
-        }
-        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,strings);
+        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,roomListBeans.size());
         mBind.vp2.setAdapter(livingFragmentStateAdapter);
-        mBind.vp2.setCurrentItem(Integer.MAX_VALUE/2,false);
+        int currentPosition= getIntent().getIntExtra(positionTag,0);
+        mBind.vp2.setCurrentItem(Integer.MAX_VALUE/2+currentPosition,false);
         mBind.vp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -152,14 +141,40 @@ public class LivingActivity extends BaseBindingViewActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                livingFragmentStateAdapter.getFragment(position)
-                        .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+
+
 
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
+                Log.e("onPageScrollSted",state+" ");
+                //限制用户滑动得太快 输入法反应不了那么快
+                if(state==0)
+                {
+                    mBind.vp2.setUserInputEnabled(false);
+
+                    int position=mBind.vp2.getCurrentItem();
+                    if(livingFragmentStateAdapter.getFragment(position)!=null)
+                    {
+                        //上中下页面都通知一下 做一些停止的操作
+                        if(position-1>-1)
+                        {
+                            livingFragmentStateAdapter.getFragment(position-1)
+                                    .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+                        }
+                        livingFragmentStateAdapter.getFragment(position)
+                                .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+
+                        if(position+1<Integer.MAX_VALUE)
+                        {
+                            livingFragmentStateAdapter.getFragment(position+1)
+                                    .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+                        }
+
+                    }
+                }
 
             }
         });
@@ -195,6 +210,9 @@ public class LivingActivity extends BaseBindingViewActivity {
     }
 
 
+    public ArrayList<RoomListBean> getRoomListBeans() {
+        return roomListBeans;
+    }
 
     public DrawerLayout getDrawLayout()
     {
@@ -204,6 +222,15 @@ public class LivingActivity extends BaseBindingViewActivity {
     public ViewPager2 getViewPager()
     {
         return mBind.vp2;
+    }
+
+    public int getCurrentPosition()
+    {
+        if(livingFragmentStateAdapter!=null)
+        {
+            return livingFragmentStateAdapter.getRealPosition(mBind.vp2.getCurrentItem());
+        }
+        return 0;
     }
 
     public interface DialogListener
@@ -274,5 +301,18 @@ public class LivingActivity extends BaseBindingViewActivity {
         } else {
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+    }
+
+    public void setWindowsFlag()
+    {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        setAndroidNativeLightStatusBar(this, true);
+//        setFullscreen(true, true);
     }
 }

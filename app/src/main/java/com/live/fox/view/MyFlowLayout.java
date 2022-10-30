@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.entity.FlowDataBean;
 import com.luck.picture.lib.tools.ScreenUtils;
@@ -227,7 +226,7 @@ public class MyFlowLayout extends ViewGroup {
             FrameLayout fl = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_flow_text, this, false);
             TextView textView = fl.findViewById(R.id.tv_item);
             TextView tvClose = fl.findViewById(R.id.tv_close);
-            if (mTextColor == 0) {
+            if (mTextColor != 0) {
                 textView.setTextColor(mTextColor);
             }
 

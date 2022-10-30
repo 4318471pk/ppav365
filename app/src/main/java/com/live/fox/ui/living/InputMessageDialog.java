@@ -16,10 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
-import com.effective.android.panel.PanelSwitchHelper;
-import com.effective.android.panel.interfaces.listener.OnKeyboardStateListener;
-import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
-import com.effective.android.panel.view.panel.IPanelView;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseBindingFragment;
@@ -35,7 +31,6 @@ import java.util.List;
 
 public class InputMessageDialog extends BaseBindingDialogFragment {
 
-    PanelSwitchHelper mHelper;
     DialogInputMessageBinding mBind;
     DialogListener dialogListener;
 
@@ -51,8 +46,7 @@ public class InputMessageDialog extends BaseBindingDialogFragment {
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
         if (!isShowStatusBar) {
             uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -112,7 +106,7 @@ public class InputMessageDialog extends BaseBindingDialogFragment {
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
-        initBotView();
+//        initBotView();
 //        mBind.etDiaMessage.postDelayed(new Runnable() {
 //            @RequiresApi(api = Build.VERSION_CODES.M)
 //            @Override
@@ -146,72 +140,6 @@ public class InputMessageDialog extends BaseBindingDialogFragment {
         myFlowLayout.setTextList(mData);
 
         LivingActivity livingActivity=(LivingActivity) getActivity();
-        if (mHelper == null) {
-            mHelper = new PanelSwitchHelper.Builder(this)
-                    .addKeyboardStateListener(new OnKeyboardStateListener() {
-                        @Override
-                        public void onKeyboardChange(boolean b, int i) {
-                            Log.e("onKeyboardChange",b+" "+i+" "+mHelper.isPanelState());
-                            if(b && i>0)
-                            {
-                                if(dialogListener!=null)
-                                {
-                                    dialogListener.onShowKeyBorad(i);
-                                }
-                            }
-                            else
-                            {
-//                                if(!mHelper.isPanelState())
-//                                {
-//                                    dismissAllowingStateLoss();
-//                                    if(dialogListener!=null)
-//                                    {
-//                                        dialogListener.onDismiss();
-//                                    }
-//                                }
-                            }
-                        }
-                    })
-                    //可选
-                    .addPanelChangeListener(new OnPanelChangeListener() {
-
-                        @Override
-                        public void onKeyboard() {
-//                            livingActivity.setUserScrollAvailAble(false);
-//                            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
-//                            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
-                        }
-
-                        @Override
-                        public void onNone() {
-                            dismissAllowingStateLoss();
-                            if(dialogListener!=null)
-                            {
-                                dialogListener.onDismiss();
-                            }
-                            Log.e("onNone",mHelper.isKeyboardState()+" "+mHelper.isPanelState()+" "+mHelper.isResetState());
-//                            livingActivity.setUserScrollAvailAble(true);
-//                            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
-//                            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
-                        }
-
-                        @Override
-                        public void onPanel(IPanelView view) {
-//                            livingActivity.setUserScrollAvailAble(false);
-//                            int height=ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
-//                            livingControlPanel.mBind.rlMain.getLayoutParams().height=height;
-                        }
-
-                        @Override
-                        public void onPanelSizeChange(IPanelView panelView, boolean portrait, int oldWidth, int oldHeight, int width, int height) {
-                            Log.e("onPanelSizeChange",oldHeight+" "+height);
-                        }
-                    })
-                    .logTrack(true)             //output log
-                    .build();
-
-            mHelper.setContentScrollOutsideEnable(false);
-        }
     }
 
     @Override

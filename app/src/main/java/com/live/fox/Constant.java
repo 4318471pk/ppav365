@@ -171,6 +171,7 @@ public class Constant {
 
         //live-client 直播相关接口
         public static final String LiveClient = "/live-client";
+        public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表
         public static final String anchorfind_URL = LiveClient + "/live/StartRecordList";        // 搜索主播
         public static final String anchorfind_URL2 = LiveClient + "/live/StartRecordTotalList";        // 搜索主播2
         public static final String Live_banuser_URL = LiveClient + "/live/ban/user";           //直播间踢用户
@@ -184,7 +185,6 @@ public class Constant {
         public static final String Live_chat_URL = LiveClient + "/live/chat";              //直播间发言
         public static final String Live_heart_URL = LiveClient + "/live/heart";            //主播心跳 30s
         public static final String Live_list_URL = LiveClient + "/home/channel/list";              //开播列表
-        public static final String LIVE_RECOMMEND_LIST_URL = LiveClient + "/live/recommendLiveList";              //开播列表
         public static final String Live_recordlist_URL = LiveClient + "/live/record/list";  //开播记录列表
         public static final String Live_start_URL = LiveClient + "/live/start";            //开播
         public static final String Live_stop_URL = LiveClient + "/live/stop";              //关播

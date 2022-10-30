@@ -267,6 +267,9 @@
             android:name=".ui.mine.MyBagAndStoreActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.mine.CenterOfAnchorActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.mine.MyBagActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -298,7 +301,6 @@
             android:screenOrientation="portrait" /> <!-- 搜索主播 -->
         <activity
             android:name=".ui.living.LivingActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:screenOrientation="portrait" /> <!-- 直播页面 -->
 
         <activity

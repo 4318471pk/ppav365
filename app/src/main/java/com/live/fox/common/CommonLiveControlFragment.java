@@ -1013,29 +1013,29 @@ public class CommonLiveControlFragment extends BaseFragment implements
     }
 
     private void requestRecommendListData() {
-        Api_Live.ins().getRecommendLiveList(1, new JsonCallback<List<Anchor>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<Anchor> data) {
-                if (data != null && data.size() > 0) {
-                    sourceListData = data;
-                    removeRecommendAnchor(anchor);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                recommendListSrl.finishRefresh();
-                recommendListSrl.finishLoadMore();
-            }
-
-            @Override
-            public void onError(Response<String> response) {
-                super.onError(response);
-                recommendListSrl.finishRefresh();
-                recommendListSrl.finishLoadMore();
-            }
-        });
+//        Api_Live.ins().getRecommendLiveList(1, new JsonCallback<List<Anchor>>() {
+//            @Override
+//            public void onSuccess(int code, String msg, List<Anchor> data) {
+//                if (data != null && data.size() > 0) {
+//                    sourceListData = data;
+//                    removeRecommendAnchor(anchor);
+//                }
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                super.onFinish();
+//                recommendListSrl.finishRefresh();
+//                recommendListSrl.finishLoadMore();
+//            }
+//
+//            @Override
+//            public void onError(Response<String> response) {
+//                super.onError(response);
+//                recommendListSrl.finishRefresh();
+//                recommendListSrl.finishLoadMore();
+//            }
+//        });
     }
 
     /**

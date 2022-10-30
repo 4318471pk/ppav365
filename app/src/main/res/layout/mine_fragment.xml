@@ -659,6 +659,43 @@
                     app:canLoop="true" />
 
                 <com.flyco.roundview.RoundLinearLayout
+                    android:id="@+id/centerOfAnchor"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingStart="10dip"
+                    android:paddingEnd="20dip"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    app:rv_backgroundColor="@color/white"
+                    app:rv_cornerRadius="10dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/icon_mine_live" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_weight="1"
+                        android:text="@string/centerOfAnchor"
+                        android:textColor="@color/color404040"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/icon_right" />
+
+                </com.flyco.roundview.RoundLinearLayout>
+
+                <com.flyco.roundview.RoundLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

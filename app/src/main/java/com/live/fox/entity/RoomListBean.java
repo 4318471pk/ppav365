@@ -1,8 +1,11 @@
 package com.live.fox.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chad.library.adapter.base.entity.SectionEntity;
 
-public class RoomListBean extends SectionEntity {
+public class RoomListBean extends SectionEntity implements Parcelable {
     private int id;
     private String title;
     private int aid;
@@ -23,7 +26,36 @@ public class RoomListBean extends SectionEntity {
         super(false, "header");
 
     }
+    protected RoomListBean(Parcel in) {
+        super(in);
+        id = in.readInt();
+        title = in.readString();
+        aid = in.readInt();
+        roomIcon = in.readString();
+        liveChannel = in.readInt();
+        roomCategory = in.readInt();
+        categoryId = in.readInt();
+        categoryType = in.readInt();
+        roomType = in.readInt();
+        status = in.readInt();
+        liveSum = in.readInt();
+        option = in.readInt();
+        videoUrl = in.readString();
+        hot = in.readInt();
+        recommend = in.readInt();
+    }
 
+    public static final Creator<RoomListBean> CREATOR = new Creator<RoomListBean>() {
+        @Override
+        public RoomListBean createFromParcel(Parcel in) {
+            return new RoomListBean(in);
+        }
+
+        @Override
+        public RoomListBean[] newArray(int size) {
+            return new RoomListBean[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -143,5 +175,29 @@ public class RoomListBean extends SectionEntity {
 
     public void setRecommend(int recommend) {
         this.recommend = recommend;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeInt(aid);
+        dest.writeString(roomIcon);
+        dest.writeInt(liveChannel);
+        dest.writeInt(roomCategory);
+        dest.writeInt(categoryId);
+        dest.writeInt(categoryType);
+        dest.writeInt(roomType);
+        dest.writeInt(status);
+        dest.writeInt(liveSum);
+        dest.writeInt(option);
+        dest.writeString(videoUrl);
+        dest.writeInt(hot);
+        dest.writeInt(recommend);
     }
 }

@@ -277,7 +277,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case R.id.main_rb_home:  //首页
                     showHomeFragment();
                     break;
-
                 case R.id.main_rb_live_list: //直播列表
                     if (!DataCenter.getInstance().getUserInfo().isLogin()) {
                         radioGroup.clearCheck();

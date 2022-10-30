@@ -7,6 +7,7 @@ import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
@@ -110,12 +111,10 @@ public class Api_Live extends BaseApi {
      * 获取推荐
      * 列表
      */
-    public void getRecommendLiveList(int type, JsonCallback<List<Anchor>> callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.LIVE_RECOMMEND_LIST_URL;
-        callback.setUrlTag("recommendLiveList");
+    public void getRecommendLiveList(JsonCallback<HomeFragmentRoomListBean> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.liveRecommendURL;
+        callback.setUrlTag(Constant.URL.liveRecommendURL);
         HashMap<String, Object> params = getCommonParams();
-        params.put("type", type);
-        params.put("uid", DataCenter.getInstance().getUserInfo().getUser() == null ? 0 : DataCenter.getInstance().getUserInfo().getUser().getUid());
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",

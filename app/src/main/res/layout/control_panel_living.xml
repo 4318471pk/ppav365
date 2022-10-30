@@ -372,7 +372,7 @@
                             android:id="@+id/rlBroadcast"
                             android:layout_width="70dp"
                             android:layout_height="35dip"
-                            android:layout_marginLeft="5dip"
+                            android:layout_marginLeft="10dip"
                             android:layout_centerVertical="true"
                             >
 
@@ -467,18 +467,21 @@
                             android:id="@+id/floatingTextSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="30dip"
+                            android:layout_marginLeft="10dip"
                             app:kswTextOff="@string/floatingText"
                             app:kswTextOn="@string/floatingText"
+                            app:kswThumbColor="#ffffff"
+                            app:kswBackColor="@color/switch_color_white_a800ff"
                             android:layout_centerVertical="true"
                             android:textColor="@color/white"
-                            android:paddingLeft="2dip"
-                            android:paddingRight="2dip"
+                            app:kswTextExtra="5dip"
                             />
 
                         <com.live.fox.view.GradientTextView
                             android:id="@+id/gtvSend"
                             android:layout_width="55dp"
                             android:layout_height="30dip"
+                            android:layout_marginRight="10dip"
                             android:gravity="center"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
@@ -498,8 +501,8 @@
                             android:layout_marginLeft="5dip"
                             android:layout_marginRight="5dip"
                             android:background="@drawable/bg_round_f4f1f8"
-                            android:paddingLeft="5dip"
-                            android:paddingRight="5dip"
+                            android:paddingLeft="12.5dip"
+                            android:paddingRight="12.55dip"
                             android:textSize="14sp" />
                     </RelativeLayout>
 

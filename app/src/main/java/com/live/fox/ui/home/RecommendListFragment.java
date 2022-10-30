@@ -122,7 +122,7 @@ public class RecommendListFragment extends BaseBindingFragment {
             if (DoubleUtils.isFastDoubleClick()) return;
             if (livelistAdapter.getItem(position) == null) return;
 
-            toLiveRoom(livelistAdapter.getItem(position));
+            toLiveRoom((ArrayList<RoomListBean>)adapter.getData(),position);
         });
 
 //        skeletonScreen = Skeleton.bind(livelistRv)
@@ -132,13 +132,13 @@ public class RecommendListFragment extends BaseBindingFragment {
     }
 
     //跳往直播间
-    public void toLiveRoom(RoomListBean roomListBean) {
+    public void toLiveRoom(ArrayList<RoomListBean> roomListBeans,int position) {
         if (!DataCenter.getInstance().getUserInfo().isLogin()) {
             LoginModeSelActivity.startActivity(requireContext());
             return;
         }
 
-        LivingActivity.startActivity(getActivity());
+        LivingActivity.startActivity(getActivity(),roomListBeans,position);
     }
 
     /**

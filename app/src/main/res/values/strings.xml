@@ -1358,4 +1358,6 @@
     <string name="InsufficientBalance2">余额不足，是否前往充值？</string>
     <string name="InsufficientDiamond">钻石不足，是否前往充值？</string>
     <string name="goToAnotherRoom">是否前往该直播间沾沾喜气？</string>
+    <string name="goOpenSteam">去开播</string>
+    <string name="centerOfAnchor">主播中心</string>
 </resources>

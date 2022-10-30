@@ -359,6 +359,9 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             case R.id.ll_vip: //贵族
                 NobleActivity.startActivity(requireActivity());
                 break;
+            case R.id.centerOfAnchor:
+                CenterOfAnchorActivity.startActivity(requireActivity());
+                break;
             case R.id.llLinkedPhone:
                 if(TextUtils.isEmpty(DataCenter.getInstance().getUserInfo().getUser().getPhone()))
                 {

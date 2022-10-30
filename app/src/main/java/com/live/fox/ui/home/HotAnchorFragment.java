@@ -80,7 +80,7 @@ public class HotAnchorFragment extends BaseBindingFragment {
             if (DoubleUtils.isFastDoubleClick()) return;
             if (adapter.getItem(position) == null) return;
 
-            toLiveRoom((RoomListBean) adapter.getItem(position));
+            toLiveRoom((ArrayList<RoomListBean>)adapter.getData(),position);
         });
     }
 
@@ -228,12 +228,12 @@ public class HotAnchorFragment extends BaseBindingFragment {
     }
 
     //跳往直播间
-    public void toLiveRoom(RoomListBean roomListBean) {
+    public void toLiveRoom(ArrayList<RoomListBean> roomListBeans,int position) {
         if (!DataCenter.getInstance().getUserInfo().isLogin()) {
             LoginModeSelActivity.startActivity(requireContext());
             return;
         }
 
-        LivingActivity.startActivity(getActivity());
+        LivingActivity.startActivity(getActivity(),roomListBeans,position);
     }
 }

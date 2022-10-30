@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -39,7 +41,20 @@ public class ViewWatch {
         screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(activity);
         screenWidth= ScreenUtils.getScreenWidth(activity);
         imm=(InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mbind.rlMain.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        mbind.llInputLayout.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getKeyCode()==KeyEvent.KEYCODE_BACK)
+                {
+                    if(isMessagesPanelOpen())
+                    {
+
+                    }
+                }
+                return false;
+            }
+        });
+        mbind.rlBotView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 if (windowDefaultVisibleHeight == 0) {
@@ -55,6 +70,7 @@ public class ViewWatch {
 //                    mbind.llInputLayout.getLayoutParams().height=bot+ScreenUtils.dp2px(activity,85);
 //                    mbind.rlMain.requestLayout();
                     setLayout(true,bot);
+                    setScrollEnable(false);
                 }
             }
         });
@@ -86,21 +102,34 @@ public class ViewWatch {
 
     public void showKeyboard()
     {
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        activity.setWindowsFlag();
         imm.showSoftInput(mBind.etDiaMessage,0);
     }
 
     public void hideKeyboard()
     {
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        activity.setWindowsFlag();
+        activity.getViewPager().requestLayout();
         imm.hideSoftInputFromWindow(mBind.etDiaMessage.getWindowToken(),0);
+    }
+
+    public boolean isMessagesPanelOpen()
+    {
+        boolean condition1=mBind.llInputLayout.getVisibility()==VISIBLE;
+        boolean condition2=mBind.llInputLayout.getLayoutParams().height
+                >ScreenUtils.getDip2px(activity,85);
+        return condition1 && condition2 && !isKeyboardShow();
     }
 
     public void hideInputLayout()
     {
-
-        hideKeyboard();
-        mBind.llMessages.setVisibility(VISIBLE);
+        mBind.llTopView.setVisibility(VISIBLE);
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
-        rlMessages.height=(int)(screenHeight*0.32f)- com.live.fox.utils.device.ScreenUtils.getDip2px(activity,45);
+        rlMessages.height=(int)(screenHeight*0.5f)- com.live.fox.utils.device.ScreenUtils.getDip2px(activity,45);
         rlMessages.width=(int)(screenWidth*0.7f);
         rlMessages.bottomMargin=ScreenUtils.getDip2px(activity,45);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
@@ -109,14 +138,18 @@ public class ViewWatch {
         mBind.llMessages.setLayoutParams(rlMessages);
         mBind.llInputLayout.setVisibility(GONE);
         mBind.rlButtons.setVisibility(VISIBLE);
-        activity.getViewPager().setUserInputEnabled(true);
+    }
+
+    public void setScrollEnable(boolean status)
+    {
+        activity.getViewPager().setUserInputEnabled(status);
     }
 
     private void setLayout(boolean reloadLayout, int height)
     {
-        mBind.llMessages.setVisibility(GONE);
+        mBind.llTopView.setVisibility(GONE);
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
-        rlMessages.height=(int)(screenHeight*0.32f)- com.live.fox.utils.device.ScreenUtils.getDip2px(activity,45);
+        rlMessages.height=(int)(screenHeight*0.5f)- com.live.fox.utils.device.ScreenUtils.getDip2px(activity,45);
         rlMessages.width=(int)(screenWidth*0.7f);
         rlMessages.bottomMargin=height+ScreenUtils.getDip2px(activity,90);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
@@ -124,6 +157,7 @@ public class ViewWatch {
 
         mBind.rlMessagesPanel.getLayoutParams().height=height;
         mBind.llInputLayout.getLayoutParams().height=height+ScreenUtils.getDip2px(activity,85);
+        mBind.llInputLayout.setVisibility(VISIBLE);
         if(reloadLayout)
         {
             mBind.rlMain.requestLayout();
@@ -141,12 +175,12 @@ public class ViewWatch {
 //        RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mBind.rlBotView.getLayoutParams();
 //        rl.topMargin=rl.topMargin-bot;
 //        mBind.rlBotView.setLayoutParams(rl);
-        mBind.llInputLayout.setVisibility(VISIBLE);
+
         mBind.rlButtons.setVisibility(GONE);
         mBind.etDiaMessage.requestFocus();
 
         showKeyboard();
-        activity.getViewPager().setUserInputEnabled(false);
+        setScrollEnable(false);
     }
 
     private int isNavigationBarShow(WindowManager windowManager) {
