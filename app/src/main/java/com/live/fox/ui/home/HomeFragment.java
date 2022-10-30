@@ -105,6 +105,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                    tabLayout.onPageSelected(0);
 //                }
             }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+                if(state==0)
+                {
+                    adapter.getFragmentList().get(viewPager.getCurrentItem()).onHiddenChanged(false);
+                }
+            }
         });
     }
 

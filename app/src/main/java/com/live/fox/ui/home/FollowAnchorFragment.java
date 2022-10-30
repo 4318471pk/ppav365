@@ -1,6 +1,7 @@
 package com.live.fox.ui.home;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.adapter.FollowAnchorListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentFollowAnchorBinding;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.RoomListBean;
+import com.live.fox.server.Api_Live;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.EmptyDataView;
@@ -27,6 +33,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +54,15 @@ public class FollowAnchorFragment extends BaseBindingFragment {
     @Override
     public void onClickView(View view) {
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
+        {
+            getRecommendList();
+        }
     }
 
     @Override
@@ -82,8 +100,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         int dip5=DeviceUtils.dp2px(requireActivity(), 5.0f);
         mBind.rvMain.addItemDecoration(new RecyclerSpace(dip5,RecyclerSpace.AnchorGrid));
 
-        List<Anchor> list=new ArrayList<>();
-        adapter=new FollowAnchorListAdapter(getActivity(),list);
+        adapter=new FollowAnchorListAdapter(getActivity(),new ArrayList());
         recommendAnchorListFooter=new RecommendAnchorListFooter(getActivity());
         adapter.setFooterView(recommendAnchorListFooter);
         mBind.rvMain.setAdapter(adapter);
@@ -107,5 +124,34 @@ public class FollowAnchorFragment extends BaseBindingFragment {
             recommendAnchorListFooter.setBotTextVisible(true);
         }
         adapter.notifyDataSetChanged();
+    }
+
+
+    private void getRecommendList() {
+        Api_Live.ins().getRecommendLiveList(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if (!TextUtils.isEmpty(data)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        JSONArray list = jsonObject.getJSONArray("list");
+                        if (list != null && list.length() > 0) {
+                            List<RoomListBean> listBeans=new ArrayList<>();
+                            for (int i = 0; i < list.length(); i++) {
+                                RoomListBean bean=new Gson().fromJson(list.getJSONObject(i).toString(),RoomListBean.class);
+                                listBeans.add(bean);
+                            }
+
+                            recommendAnchorListFooter.setData(listBeans);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        });
     }
 }

@@ -32,6 +32,10 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
         this.titleList=titleList;
     }
 
+    public SparseArray<BaseFragment> getFragmentList() {
+        return fragmentList;
+    }
+
     @NonNull
     @NotNull
     @Override

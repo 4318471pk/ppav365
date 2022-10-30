@@ -17,11 +17,16 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.live.fox.R;
+import com.live.fox.entity.RoomListBean;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
+import java.util.List;
+
 public class RecommendAnchorListFooter extends LinearLayout {
     TextView botText;
+    GridLayout gridLayout;
 
     public RecommendAnchorListFooter(Context context) {
         super(context);
@@ -80,22 +85,35 @@ public class RecommendAnchorListFooter extends LinearLayout {
 
 
         int dip2_5=ScreenUtils.getDip2px(getContext(),2.5f);
-        GridLayout gridLayout=new GridLayout(getContext());
+        gridLayout=new GridLayout(getContext());
         gridLayout.setBackgroundColor(0xffffff);
         gridLayout.setColumnCount(2);
         gridLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         gridLayout.setPadding(0,dip2*3,dip2_5*2,0);
 
+        addView(topRl);
+        addView(gridLayout);
+    }
+
+
+    public void setData(List<RoomListBean> listBeans)
+    {
+        int dip2_5=ScreenUtils.getDip2px(getContext(),2.5f);
+        int defaultDrawable=R.mipmap.icon_anchor_loading;
+        gridLayout.removeAllViews();
         Drawable clock,diamond;
         clock=getContext().getResources().getDrawable(R.mipmap.icon_clock);
         diamond=getContext().getResources().getDrawable(R.mipmap.icon_diamond);
         int itemWidth= (ScreenUtils.getScreenWidth(getContext())-ScreenUtils.getDip2px(getContext(),15))/2;
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < listBeans.size(); i++) {
             View view=View.inflate(getContext(),R.layout.item_anchor_list,null);
             view.setPadding(dip2_5*2,dip2_5*2,0,0);
 
             GradientTextView gtvUnitPrice = view.findViewById(R.id.gtvUnitPrice);  //类别
+            TextView name=view.findViewById(R.id.tv_nickname);
             ImageView ivRoundBG = view.findViewById(R.id.ivRoundBG);
+            GlideUtils.loadDefaultImage(getContext(), listBeans.get(i).getRoomIcon(),defaultDrawable, ivRoundBG);
+            name.setText(listBeans.get(i).getTitle());
 
             SpanUtils spUtils=new SpanUtils();
             spUtils.appendImage(clock,SpanUtils.ALIGN_CENTER);
@@ -106,9 +124,6 @@ public class RecommendAnchorListFooter extends LinearLayout {
 
             gridLayout.addView(view,itemWidth+dip2_5*2,itemWidth+dip2_5*2);
         }
-
-        addView(topRl);
-        addView(gridLayout);
     }
 
     public void setBotTextVisible(boolean isShow)
