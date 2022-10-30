@@ -7,7 +7,7 @@
     </data>
 
     <RelativeLayout
-        android:id="@+id/rlFragment"
+        android:id="@+id/rlContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -21,18 +21,18 @@
             android:background="@color/white"
             />
 
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:id="@+id/blurView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:realtimeBlurRadius="20dp"
-            app:realtimeOverlayColor="@color/black_30" />
+<!--        <com.github.mmin18.widget.RealtimeBlurView-->
+<!--            android:id="@+id/blurView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:realtimeBlurRadius="20dp"-->
+<!--            app:realtimeOverlayColor="@color/black_30" />-->
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+<!--        <androidx.viewpager.widget.ViewPager-->
+<!--            android:id="@+id/viewPager"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            />-->
 
     </RelativeLayout>
 </layout>

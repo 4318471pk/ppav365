@@ -51,6 +51,7 @@ public class RecyclerViewBouncy extends RecyclerView {
     float x1,y1;
     private GestureDetector mDetector;
     private ViewPager2 viewPager;
+    OnTouchViewUpListener onTouchViewUpListener;
 
     public RecyclerViewBouncy(Context context) {
         super(context);
@@ -65,6 +66,10 @@ public class RecyclerViewBouncy extends RecyclerView {
     public RecyclerViewBouncy(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
+    }
+
+    public void setOnTouchViewUpListener(OnTouchViewUpListener onTouchViewUpListener) {
+        this.onTouchViewUpListener = onTouchViewUpListener;
     }
 
     public void setViewPager(ViewPager2 viewPager) {
@@ -178,6 +183,10 @@ public class RecyclerViewBouncy extends RecyclerView {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 viewPager.setUserInputEnabled(true);
+                if(onTouchViewUpListener!=null)
+                {
+                    onTouchViewUpListener.onTouch();
+                }
                 break;
         }
 
@@ -224,5 +233,10 @@ public class RecyclerViewBouncy extends RecyclerView {
     @Override
     protected float getBottomFadingEdgeStrength() {
         return 0;
+    }
+
+    public interface OnTouchViewUpListener
+    {
+        void onTouch();
     }
 }

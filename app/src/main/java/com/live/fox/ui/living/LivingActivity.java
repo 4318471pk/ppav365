@@ -164,14 +164,15 @@ public class LivingActivity extends BaseBindingViewActivity {
                             livingFragmentStateAdapter.getFragment(position-1)
                                     .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
                         }
-                        livingFragmentStateAdapter.getFragment(position)
-                                .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
 
                         if(position+1<Integer.MAX_VALUE)
                         {
                             livingFragmentStateAdapter.getFragment(position+1)
                                     .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
                         }
+
+                        livingFragmentStateAdapter.getFragment(position)
+                                .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
 
                     }
                 }
@@ -193,11 +194,7 @@ public class LivingActivity extends BaseBindingViewActivity {
             }
         });
 
-        List<String> strs=new ArrayList<>();
-        for (int i = 0; i <10; i++) {
-            strs.add(i+"");
-        }
-        recommendListAdapter=new RecommendLivingAnchorAdapter(this,strs);
+        recommendListAdapter=new RecommendLivingAnchorAdapter(this,new ArrayList<>());
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mBind.rvRecommendList.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(this,5)));
@@ -209,6 +206,10 @@ public class LivingActivity extends BaseBindingViewActivity {
 //        showFreeRoomToPrepaidRoom();
     }
 
+    public void setRecommendListData(List<RoomListBean> list)
+    {
+        recommendListAdapter.setNewData(list);
+    }
 
     public ArrayList<RoomListBean> getRoomListBeans() {
         return roomListBeans;
@@ -313,6 +314,7 @@ public class LivingActivity extends BaseBindingViewActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         setAndroidNativeLightStatusBar(this, true);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 //        setFullscreen(true, true);
     }
 }

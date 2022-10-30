@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,21 +18,23 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
+import com.live.fox.entity.RoomListBean;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.GradientTextView;
 
 import java.util.List;
 
-public class RecommendLivingAnchorAdapter<T> extends RecyclerView.Adapter<RecommendLivingAnchorAdapter.RecommendListHolder> {
+public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<RecommendLivingAnchorAdapter.RecommendListHolder> {
 
     Context context;
     Drawable clock,diamond;
-    int itemWidth,dip5;
-    List<T> data;
+    int itemWidth,dip5,defaultDrawable;
+    List<RoomListBean> data;
     LayoutInflater layoutInflater;
 
-    public RecommendLivingAnchorAdapter(BaseActivity context, @Nullable List<T> data) {
+    public RecommendLivingAnchorAdapter(BaseActivity context, @Nullable List<RoomListBean> data) {
         this.data=data;
         this.context=context;
         itemWidth= ScreenUtils.getDip2px(context,112);
@@ -39,13 +42,19 @@ public class RecommendLivingAnchorAdapter<T> extends RecyclerView.Adapter<Recomm
         diamond=context.getResources().getDrawable(R.mipmap.icon_diamond);
         dip5=ScreenUtils.getDip2px(context,5);
         layoutInflater=context.getLayoutInflater();
+        defaultDrawable=R.mipmap.icon_anchor_loading;
     }
 
+    public void setNewData(List<RoomListBean> data)
+    {
+        this.data=data;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
     public RecommendListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view=layoutInflater.inflate(R.layout.item_anchor_list,parent,false);
+        View view=layoutInflater.inflate(R.layout.item_recommend_layout,parent,false);
         return new RecommendListHolder(view);
     }
 
@@ -56,17 +65,12 @@ public class RecommendLivingAnchorAdapter<T> extends RecyclerView.Adapter<Recomm
         vl.height=itemWidth;
         vl.width=itemWidth;
 
-        GradientTextView gtvUnitPrice = holder.itemView.findViewById(R.id.gtvUnitPrice);
-        GradientTextView tvAnchorPaymentType = holder.itemView.findViewById(R.id.tvAnchorPaymentType);
+        TextView name = holder.itemView.findViewById(R.id.tvName);
+        name.setText(data.get(position).getTitle());
 
-        SpanUtils spUtils=new SpanUtils();
-        spUtils.appendImage(clock,SpanUtils.ALIGN_CENTER);
-        spUtils.append(" 21 ").setAlign(Layout.Alignment.ALIGN_CENTER);
-        spUtils.appendImage(diamond,SpanUtils.ALIGN_CENTER);
-        spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
-        gtvUnitPrice.setText(spUtils.create());
+        ImageView ivRoundBG=holder.itemView.findViewById(R.id.ivRoundBG);
+        GlideUtils.loadDefaultImage(context, data.get(position).getRoomIcon(),defaultDrawable, ivRoundBG);
 
-        tvAnchorPaymentType.setText(context.getResources().getString(R.string.payByEachShow));
     }
 
     @Override

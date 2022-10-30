@@ -77,9 +77,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         super.onHiddenChanged(hidden);
         if (hidden) return;
 
-        StatusBarUtil.setStatusBarFulAlpha(requireActivity());
-        BarUtils.setStatusBarVisibility(requireActivity(), true);
-        BarUtils.setStatusBarLightMode(requireActivity(), true);
+//        StatusBarUtil.setStatusBarFulAlpha(requireActivity());
+//        BarUtils.setStatusBarVisibility(requireActivity(), true);
+//        BarUtils.setStatusBarLightMode(requireActivity(), true);
     }
 
     public void setView() {

@@ -514,12 +514,13 @@
                         >
                         <ScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            >
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
                                 android:orientation="vertical">
 
                                 <com.live.fox.view.MyFlowLayout
@@ -540,6 +541,7 @@
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
             android:layout_height="200dip"
+            android:onClick="@{click.onClickView}"
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
             >

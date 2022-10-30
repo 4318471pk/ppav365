@@ -171,6 +171,7 @@ public class Constant {
 
         //live-client 直播相关接口
         public static final String LiveClient = "/live-client";
+        public static final String LivingStart="/live-client/live/start";
         public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表
         public static final String anchorfind_URL = LiveClient + "/live/StartRecordList";        // 搜索主播
         public static final String anchorfind_URL2 = LiveClient + "/live/StartRecordTotalList";        // 搜索主播2

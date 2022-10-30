@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <com.live.fox.view.AnchorRoundImageView
+        android:id="@+id/ivRoundBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_anchor_loading"
+        app:riv_corner_radius="10dp" />
+
+    <com.live.fox.view.GradientTextView
+        android:id="@+id/gtvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="20dip"
+        app:gt_radius_dp="10dip"
+        app:gt_solidNoGradient="#4c000000"
+        android:textColor="@color/white"
+        android:text="sada"
+        android:paddingLeft="6.5dip"
+        android:paddingRight="6.5dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:gravity="center"
+        android:textSize="11sp"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginBottom="7dip"
+        android:layout_alignBottom="@id/ivRoundBG"
+        android:maxLines="1"
+        android:textSize="13sp"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

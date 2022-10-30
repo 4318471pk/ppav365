@@ -39,6 +39,7 @@ import com.live.fox.utils.ViewWatch;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
 import com.live.fox.view.NotchInScreen;
+import com.live.fox.view.overscroll.RecyclerViewBouncy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,31 +49,8 @@ public class LivingControlPanel extends RelativeLayout {
     //上中下模块比例 0.32 0.16 0.52
     ControlPanelLivingBinding mBind;
     LivingFragment fragment;
-    LivingMsgBoxAdapter livingMsgBoxAdapter;
-    List<LivingMsgBoxBean> livingMsgBoxBeans=new ArrayList<>();
     ViewWatch viewWatch;
 
-    TimeCounter.TimeListener timeListener=new TimeCounter.TimeListener(5) {
-        @Override
-        public void onSecondTick(TimeCounter.TimeListener listener) {
-            super.onSecondTick(listener);
-            LivingMsgBoxBean bean=new LivingMsgBoxBean();
-            bean.setBackgroundColor(0xffBDA3C8);
-            bean.setStrokeColor(0xff9E3FD4);
-            SpanUtils spanUtils=new SpanUtils();
-            spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(78,getContext()));
-            spanUtils.append(System.currentTimeMillis()+" ");
-
-            bean.setCharSequence(spanUtils.create());
-            addNewMessage(bean);
-        }
-
-        @Override
-        public void onConditionTrigger(TimeCounter.TimeListener listener) {
-            super.onConditionTrigger(listener);
-
-        }
-    };
 
     public LivingControlPanel(LivingFragment fragment, ViewGroup parent) {
         super(fragment.getActivity());
@@ -133,8 +111,15 @@ public class LivingControlPanel extends RelativeLayout {
         mBind.msgBox.setLayoutManager(linearLayoutManager);
         LivingActivity livingActivity=(LivingActivity) fragment.getActivity();
         mBind.msgBox.setViewPager(livingActivity.getViewPager());
+        mBind.msgBox.setOnTouchViewUpListener(new RecyclerViewBouncy.OnTouchViewUpListener() {
+            @Override
+            public void onTouch() {
+                viewWatch.hideInputLayout();
+                viewWatch.hideKeyboard();
+                viewWatch.setScrollEnable(true);
+            }
+        });
 
-        TimeCounter.getInstance().add(timeListener);
         setVisibility(VISIBLE);
 
         int dip10=ScreenUtils.getDip2px(fragment.getActivity(),10);
@@ -155,17 +140,6 @@ public class LivingControlPanel extends RelativeLayout {
         mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
         mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
         mBind.flTempleLayout.setTextList(mData);
-    }
-
-    private void addNewMessage(LivingMsgBoxBean bean)
-    {
-        if(livingMsgBoxAdapter==null)
-        {
-            livingMsgBoxAdapter=new LivingMsgBoxAdapter(getContext(),livingMsgBoxBeans);
-            mBind.msgBox.setAdapter(livingMsgBoxAdapter);
-        }
-        livingMsgBoxAdapter.getBeans().add(bean);
-        livingMsgBoxAdapter.notifyDataSetChanged();
     }
 
     private void setViewLP(View view,int height,int topMargin)

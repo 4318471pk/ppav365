@@ -39,12 +39,14 @@ public class TimeCounter {
         return timeCounter;
     }
 
-    public void add(TimeListener timeListener) {
+    public boolean add(TimeListener timeListener) {
         if (!listeners.contains(timeListener)) {
             timeListener.revertCounting();
             listeners.add(timeListener);
+            return true;
         }
 
+        return false;
     }
 
     public void remove(TimeListener timeListener) {

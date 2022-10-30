@@ -110,8 +110,9 @@ public class Api_Live extends BaseApi {
     /**
      * 获取推荐
      * 列表
+     * @param callback
      */
-    public void getRecommendLiveList(JsonCallback<HomeFragmentRoomListBean> callback) {
+    public void getRecommendLiveList(JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.liveRecommendURL;
         callback.setUrlTag(Constant.URL.liveRecommendURL);
         HashMap<String, Object> params = getCommonParams();
@@ -129,7 +130,7 @@ public class Api_Live extends BaseApi {
      * 获取主播认证状态
      */
     public void getAnchorAuth(JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.LIVE_isauth_URL;
+        String url = SPManager.getServerDomain() + Constant.URL.LivingStart;
         HashMap<String, Object> params = getCommonParams();
 
         OkGoHttpUtil.getInstance().doJsonPost(
