@@ -102,9 +102,11 @@ public class Constant {
         public static final String USER_RED_BAG_RAIN_INFO = CenterClient + "/red/joinRoom";       //红包雨=》按钮展示
         public static final String USER_userInfo_URL = CenterClient + "/user/get/info";          // 获取用户信息
         public static final String USER_cardInfo_URL = CenterClient + "/sys/user/get/card/info";     // 获取用户名片信息
-        public static final String USER_followlist_URL = CenterClient + "/sys/user/follow/list";     // 我的关注列表
-        public static final String USER_fanslist_URL = CenterClient + "/sys/user/fans/list";         // 我的粉丝列表
-        public static final String USER_modifyuserinfo_URL = CenterClient + "/sys/user/modify/user/info";    // 修改用户信息
+        public static final String USER_followlist_URL = CenterClient + "/user/follow/list";     // 我的关注列表
+        public static final String USER_follow_URL = CenterClient + "/user/follow";     //关注
+        public static final String USER_fanslist_URL = CenterClient + "/user/fans/list";         // 我的粉丝列表
+        public static final String USER_modifyuserinfo_URL = CenterClient + "/user/modify/user/info";    // 修改用户信息
+        public static final String USER_modifyusername_URL = CenterClient + "/user/modify/nickname";    // 修改用户昵称
         public static final String USER_reject_URL = CenterClient + "/sys/user/reject";              // 设置/取消 黑名单
         public static final String USER_rejectlist_URL = CenterClient + "/sys/user/reject/list";     // 黑名单列表
         public static final String USER_auth_URL = CenterClient + "/sys/user/user/auth";             // 用户认证
@@ -168,6 +170,25 @@ public class Constant {
         public static final String USER_changecoinlist_URL = CenterClient + "/assets/change/list";   //魅力值变成coin列表
         public static final String USER_liveUserAssets = CenterClient + "/assets/getLiveUserAssets"; //用户资产
         public static final String USER_chargeCenter= CenterClient + "/assets/recharge/centre"; //充值列表
+        public static final String USER_chargeCenter_list= CenterClient + "/assets/recharge/channel/list"; //充值渠道
+        public static final String USER_chargeCenter_type= CenterClient + "/assets/recharge/channel/type"; //充值类型
+        public static final String USER_withDraw_type= CenterClient + "/assets/withdraw/channel/type"; //提现type
+        public static final String USER_withDraw_list= CenterClient + "/assets/withdraw/channel/list"; //提现list
+        public static final String USER_AssetsInfo= CenterClient + "/assets/info"; //获取用户金币余额、钻石余额、累计送出等信息
+        public static final String USER_diamondList= CenterClient + "/assets/diamonds/list"; //钻石兑换列表
+        public static final String USER_diamondExchange= CenterClient + "/assets/diamonds/redeem"; //钻石兑换
+        public static final String USER_userBankInfo= CenterClient + "/user/user/bank/info"; //用户银行卡信息
+        public static final String USER_userBankList= CenterClient + "/user/bankList/Info"; //用户银行卡信息列表
+        public static final String USER_userAddBank= CenterClient + "/user/user/bank"; //用户添加银行卡
+        public static final String USER_bankList= CenterClient + "/user/getBankList"; //银行名称列表
+        public static final String USER_userStoreList= CenterClient + "/assets/store/list"; //商店列表
+        public static final String USER_deleteBank = CenterClient + "/user/user/deleteBankCard"; //删除银行卡
+        public static final String USER_setNorenBank = CenterClient + "/user/user/switchoverBank"; //设置默认银行卡
+        public static final String USER_buyCar= CenterClient + "/assets/buy/car"; //买座驾
+        public static final String USER_bagList= CenterClient + "/assets/backpack/list"; //我的背包
+        public static final String USER_withDraw= CenterClient + "/user/withdraw"; //提现
+        public static final String USER_withDrawRecord= CenterClient + "/assets/withdraw/record"; //提现记录
+        public static final String USER_diamondRecord= CenterClient + "/assets/profiex/record"; //钻石收入记录
 
         //live-client 直播相关接口
         public static final String LiveClient = "/live-client";

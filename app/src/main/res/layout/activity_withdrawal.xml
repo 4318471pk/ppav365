@@ -103,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="111111"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -132,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="111111"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -266,49 +266,100 @@
                     android:textSize="16sp"
                     android:textColor="@color/color404040"/>
 
-                <RadioGroup
-                    android:id="@+id/llRadioBtns"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcWay"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content" />
 
-                    <RadioButton
-                        android:id="@+id/rbUSDT"
-                        android:button="@null"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dip"
-                        android:layout_marginRight="5dip"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:textColor="@color/radiobtn_color"
-                        android:textSize="16sp"
-                        android:text="@string/USDT"
-                        android:drawableLeft="@mipmap/icon_usdt"
-                        android:paddingLeft="2dip"
-                        android:background="@drawable/radiobtn_background"
-                        />
+                <!--                <RadioGroup-->
+<!--                    android:id="@+id/llRadioBtns"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/rbRMB"
-                        android:button="@null"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dip"
-                        android:layout_marginLeft="5dip"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:textColor="@color/radiobtn_color"
-                        android:textSize="16sp"
-                        android:text="@string/bankCard"
-                        android:drawableLeft="@mipmap/icon_unionpay"
-                        android:paddingLeft="2dip"
-                        android:background="@drawable/radiobtn_background"
-                        />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbUSDT"-->
+<!--                        android:button="@null"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dip"-->
+<!--                        android:layout_marginRight="5dip"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:textColor="@color/radiobtn_color"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:text="@string/USDT"-->
+<!--                        android:drawableLeft="@mipmap/icon_usdt"-->
+<!--                        android:paddingLeft="2dip"-->
+<!--                        android:background="@drawable/radiobtn_background"-->
+<!--                        />-->
+
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbRMB"-->
+<!--                        android:button="@null"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dip"-->
+<!--                        android:layout_marginLeft="5dip"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:textColor="@color/radiobtn_color"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:text="@string/bankCard"-->
+<!--                        android:drawableLeft="@mipmap/icon_unionpay"-->
+<!--                        android:paddingLeft="2dip"-->
+<!--                        android:background="@drawable/radiobtn_background"-->
+<!--                        />-->
 
 
 
-                </RadioGroup>
+
+
+<!--                </RadioGroup>-->
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutUsdt"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="17dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/wallet_address"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_backgroundColor="#F4F1F8"
+                    app:rv_cornerRadius="8dip">
+
+
+                    <EditText
+                        android:id="@+id/etUsdtAddress"
+                        android:layout_toLeftOf="@id/tvMax"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:paddingLeft="15dip"
+                        android:paddingRight="15dip"
+                        android:background="@null"
+                        android:hint="@string/input_wallet_address"
+                        android:gravity="left|center_vertical"
+                        android:textColorHint="#B8B2C8"
+                        android:textSize="14sp"
+                        />
+
+                </com.flyco.roundview.RoundRelativeLayout>
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="wrap_content"

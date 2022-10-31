@@ -1169,7 +1169,31 @@
     <string name="long_time_act">长期活动</string>
     <string name="choice_pay_money">请选择充值金额</string>
     <string name="pay_tips_3">1.微信固定金额，请勿修改充值金额；\n2.超时支付需重新扫码，修改金额等错误方式将无法自动到账；\n3.由于微信风控较为严格，如出现风险提示，无需担心，请直接支付，或者重新发起订单支付；\n4.如遇到充值未到账，请及时联系在线客服处理。</string>
-
+    <string name="anchor_owner">主播专用</string>
+    <string name="upload_room_pic">上传\n房间封面</string>
+    <string name="fans_list">粉丝列表</string>
+    <string name="follow_list">关注列表</string>
+    <string name="please_input_name">请输入开户人姓名</string>
+    <string name="please_input_bank">请输入银行卡卡号</string>
+    <string name="add_suc">添加成功</string>
+    <string name="store">商店</string>
+    <string name="package_2">背包</string>
+    <string name="buy_car_money">原价：%1$s钻/月</string>
+    <string name="xu_car_money">续费：%1$s钻/月</string>
+    <string name="all">合计：%1$s</string>
+    <string name="delete_suc">删除成功</string>
+    <string name="set_suc">设置成功</string>
+    <string name="wallet_address">钱包地址：</string>
+    <string name="input_wallet_address">请输入钱包地址</string>
+    <string name="input_withdraw_money">请输入提现金额</string>
+    <string name="withdraw_suc">已成功提现，请查收</string>
+    <string name="bank_name">开户银行：</string>
+    <string name="bank_zhi">开户支行：</string>
+    <string name="please_choice_bank_name">请选择开户银行</string>
+    <string name="please_input_bank_zhi">请填写开户支行</string>
+    <string name="choise_open_bank">选择开户行</string>
+    <string name="txz">提现中</string>
+    <string name="fail">失败</string>
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

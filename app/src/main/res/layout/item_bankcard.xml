@@ -13,6 +13,7 @@
 
 
     <com.live.fox.view.GradientTextView
+        android:id="@+id/tvMoren1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -35,7 +36,8 @@
         android:layout_marginBottom="5dip"
         android:orientation="horizontal">
 
-        <com.live.fox.view.GradientTextView
+        <TextView
+            android:id="@+id/tvMoren2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
@@ -46,12 +48,22 @@
             android:paddingTop="3dip"
             android:paddingBottom="3dip"
             />
+        
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            />
 
-        <com.live.fox.view.GradientTextView
+        <TextView
+            android:id="@+id/tvDetele"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:text="@string/erase"
             android:paddingLeft="5dip"
             android:paddingRight="5dip"
@@ -75,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvBankName"
-        android:layout_marginLeft="15dip"
+        android:layout_marginStart="15dip"
         android:layout_marginTop="10dip"
         android:textColor="@color/white"
         android:text="------"

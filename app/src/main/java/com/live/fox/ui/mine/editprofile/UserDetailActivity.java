@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
 import com.live.fox.Constant;
@@ -45,6 +47,10 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
+import com.opensource.svgaplayer.SVGAParser;
+import com.opensource.svgaplayer.SVGAVideoEntity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -178,9 +184,11 @@ public class UserDetailActivity extends BaseActivity  {
         mBind.tvAge.setText(getString(R.string.privacyStr));
         mBind.tvArea.setText(TextUtils.isEmpty(user.getCity())?getString(R.string.privacyStr):user.getCity());
         mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
-        mBind.tvOccupation.setText(getString(R.string.privacyStr));
+        mBind.tvOccupation.setText(user.getJob());
         mBind.tvNickName.setText(TextUtils.isEmpty(user.getNickname())?"- -":user.getNickname());
         mBind.tvSignature.setText((StringUtils.isEmpty(user.getSignature()) ? getString(R.string.noWrite) : user.getSignature()));
+
+        mBind.ivSex.setBackground(user.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
 
         GlideUtils.loadDefaultImage(UserDetailActivity.this, user.getAvatar(), mBind.ivHeader);
         mBind.tvName.setText(TextUtils.isEmpty(user.getNickname())?"- -":user.getNickname());
@@ -194,6 +202,22 @@ public class UserDetailActivity extends BaseActivity  {
         }
 
         updateFollow();
+
+//        new SVGAParser(this).decodeFromAssets("living.svga", new SVGAParser.ParseCompletion() {
+//            @RequiresApi(api = Build.VERSION_CODES.P)
+//            @Override
+//            public void onComplete(@NotNull SVGAVideoEntity videoItem) {
+//                if (mBind.ivLiving != null) {
+//                    mBind.ivLiving.setVideoItem(videoItem);
+//                    mBind.ivLiving.stepToFrame(0, true);
+//                }
+//            }
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
     }
 
     public void updateFollow() {

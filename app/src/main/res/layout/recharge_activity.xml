@@ -122,8 +122,7 @@
             android:layout_height="160dp"
             android:layout_margin="5dp"
             android:layout_marginEnd="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+
             android:paddingTop="3.5dp"
             android:paddingBottom="3.5dp"
             android:orientation="vertical"
@@ -170,11 +169,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
                         android:text="@string/balance"/>
 
                     <ImageView
                         android:layout_width="15dp"
-                        android:layout_height="15dp"/>
+                        android:layout_height="15dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@mipmap/balance"
+                        />
 
                 </LinearLayout>
 
@@ -188,12 +192,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
                         android:layout_marginStart="2dp"
                         android:text="@string/grade_diamond"/>
 
                     <ImageView
                         android:layout_width="15dp"
-                        android:layout_height="15dp"/>
+                        android:layout_height="15dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@mipmap/diamond"
+                        />
 
                 </LinearLayout>
 
@@ -323,6 +332,7 @@
 
 
             <LinearLayout
+                android:id="@+id/layoutGold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -387,6 +397,7 @@
 
 
             <LinearLayout
+                android:id="@+id/layoutBot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -407,6 +418,7 @@
                 android:background="@drawable/bg_aa0af2_79a0ff" />
 
             <TextView
+                android:id="@+id/tvPayWay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -430,7 +442,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"/>
 
-            </LinearLayout>
+
 
     <TextView
         android:id="@+id/tv_service"
@@ -456,6 +468,7 @@
         >
 
         <TextView
+            android:id="@+id/tvOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lijichongzhi"
@@ -466,6 +479,7 @@
 
     </LinearLayout>
 
+            </LinearLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView

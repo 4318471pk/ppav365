@@ -3,20 +3,30 @@ package com.live.fox.ui.mine;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
+import com.live.fox.adapter.ServiceAdapter;
+import com.live.fox.adapter.TeamManageAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.MineFragmentBinding;
 import com.live.fox.db.DataBase;
+import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.temple.DialogGoBindPhoneOnWithdrawal;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
@@ -49,6 +59,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -61,6 +72,10 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     private User userinfo;
     String headUrl = "";
     private boolean isNoble;
+
+
+    private ServiceAdapter serviceAdapter;
+    private List<String> serviceList = new ArrayList<>();
 
     public static MineFragment newInstance() {
         return new MineFragment();
@@ -111,9 +126,11 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                     R.color.transparent, R.drawable.img_default, mBind.ivHeadimg);
         }
 
-        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGoldCoinWithDefault(0.0f)));
+        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f)));
+        mBind.diamondTv.setText(userinfo.getDiamond() + "");
         mBind.tvNickname.setText(userinfo.getNickname());
         mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
+        mBind.tvSign.setText(userinfo.getSignature());
         String format = String.format(getString(R.string.colon_number), getString(R.string.identity_id), userinfo.getUid());
         mBind.tvIdnum.setText(format);
         mBind.tvCirclenum.setText("0");
@@ -136,6 +153,18 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             mBind.ivRightdes.setVisibility(View.GONE);
             doGetLetterListApi();
         }
+
+        mBind.ivLiang.setVisibility(userinfo.getVipUid() == null ? View.GONE : View.VISIBLE );
+
+//        Api_User.ins().followUser(1028924366, true, new  JsonCallback<String>() {
+//            @Override
+//            public void onSuccess(int code, String msg, String data) {
+//                if (code == 0) {
+//
+//                }
+//            }
+//        });
+
     }
 
     @Override
@@ -342,10 +371,13 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 ClipboardUtils.copyText(userinfo.getUid() + "");
                 ToastUtils.showShort(getStringWithoutContext(R.string.userCopy));
                 break;
+            case R.id.ll_diamond:
+                RechargeActivity.startActivity(requireActivity(), false);
+                break;
             case R.id.ll_recharge: //充值
                 RechargeActivity.startActivity(requireActivity());
                 break;
-            case R.id.ll_moneyout: //提现
+            case R.id.ll_moneyout: //提现`
                 if(TextUtils.isEmpty(DataCenter.getInstance().getUserInfo().getUser().getPhone()))
                 {
                     DialogFramentManager.getInstance().showDialog(getChildFragmentManager(), DialogGoBindPhoneOnWithdrawal.getInstance(this));
@@ -367,12 +399,61 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 {
                     this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
                 }
+               // this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
+                break;
+            case R.id.layoutAchorPic:
+                DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
 //            case R.id.btn_yjzh: //一键回收
 //                showLoadingDialog();
 //                doBackAllGameCoinApi();
 //                break;
+            case R.id.llService:
+                setServicePop();
+                break;
+
         }
+    }
+
+
+    private void setServicePop(){
+        View popupView = this.getActivity().getLayoutInflater().inflate(R.layout.pop_rc,null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);// 设置同意在外点击消失
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //在dismiss中恢复透明度
+                setRootAlpha(1f);
+            }
+        });
+        popupWindow.setAnimationStyle(R.style.ActionSheetDialogAnimation);
+
+        RecyclerView rc = popupView.findViewById(R.id.rc);
+        if (serviceList.size() == 0) {
+            serviceList.add("1"); serviceList.add("");
+        }
+        if (serviceAdapter == null) {
+            serviceAdapter = new ServiceAdapter(serviceList);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rc.setLayoutManager(layoutManager);
+        rc.setAdapter(serviceAdapter);
+
+
+        popupWindow.showAtLocation(mBind.getRoot(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+        setRootAlpha(0.35f);
+    }
+
+    private void setRootAlpha(float al){
+        WindowManager.LayoutParams lp = this.getActivity().getWindow().getAttributes();
+        lp.alpha= al;
+        this.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        this.getActivity().getWindow().setAttributes(lp);
     }
 }
 

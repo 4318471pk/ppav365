@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,17 +12,49 @@
         android:orientation="vertical">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refersh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
+            android:paddingStart="5dip"
+            android:paddingEnd="5dip"
             >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMain"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvNoMore"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:gravity="center"
+                    android:text="@string/no_more"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/colorA2A0A9"
+                    android:textSize="14sp"
+                    />
+            </LinearLayout>
+
+
+
+
+            <com.live.fox.view.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srlAccentColor="@color/gray"
+                app:srlClassicsSpinnerStyle="Translate" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+
     </LinearLayout>
 </layout>

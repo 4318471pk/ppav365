@@ -354,8 +354,10 @@ public class ChatSpanUtils {
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         appendLevelTag(spanUtils, user.getUserLevel(), context);
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
-        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
+        if (user.getVipUid() != null) {
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
+            spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
+        }
         return spanUtils.create();
     }
 

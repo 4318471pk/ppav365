@@ -27,6 +27,7 @@
             app:rv_backgroundColor="#F4F1F8">
 
             <ImageView
+                android:id="@+id/ivCar"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_centerInParent="true"
