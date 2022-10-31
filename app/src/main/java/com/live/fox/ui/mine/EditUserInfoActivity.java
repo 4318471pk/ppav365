@@ -359,7 +359,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
                 localFilePath = localMedia.getPath();
             }
 
-            LogUtils.e(localFilePath + "," + ossToken.getBucketName() + "," + uploadFileServerName);
+            LogUtils.e("上传文件名：" + localFilePath + "," + ossToken.getBucketName() + "," + uploadFileServerName);
 
             // 構造上傳請求
             PutObjectRequest put = new PutObjectRequest(ossToken.getBucketName(), uploadFileServerName, localFilePath);

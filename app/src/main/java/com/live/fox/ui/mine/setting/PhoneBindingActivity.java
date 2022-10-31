@@ -200,6 +200,8 @@ public class PhoneBindingActivity extends BaseBindingViewActivity {
             OnPhoneNumSet(user.getArea(),user.getPhone());
         }
 
+        //getCountryCode();
+
     }
 
 

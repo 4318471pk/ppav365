@@ -132,6 +132,9 @@ public class Api_User extends BaseApi {
      */
     public void modifyUserInfo(User user, int type, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_modifyuserinfo_URL;
+        if (type == 2) {
+            url = SPManager.getServerDomain() + Constant.URL.USER_modifyusername_URL;
+        }
         HashMap<String, Object> params = getCommonParams();
         switch (type) {
             case 1: //修改头像
@@ -177,6 +180,22 @@ public class Api_User extends BaseApi {
                 .execute(callback);
     }
 
+
+    /**
+     * 关注
+     */
+    public void followUser(long targetId, boolean isFollow, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_follow_URL;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("isFollow", isFollow);
+        params.put("targetId", targetId);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
 
     /**
      * 粉丝列表

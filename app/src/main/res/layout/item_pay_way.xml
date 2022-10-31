@@ -16,10 +16,13 @@
         android:layout_marginTop="3dp"
         android:layout_centerInParent="true"
         android:id="@+id/tvName"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="13sp"
         android:textColor="@color/white"/>
 
     <ImageView
+        android:id="@+id/iv"
         android:layout_width="19dp"
         android:layout_height="19dp"
         android:src="@mipmap/gou_icon"

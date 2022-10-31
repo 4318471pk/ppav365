@@ -23,10 +23,12 @@ import com.live.fox.dialog.BuyPronFragment;
 import com.live.fox.dialog.SvgaPreview;
 import com.live.fox.entity.Gift;
 import com.live.fox.server.Api_Config;
+import com.live.fox.server.Api_Order;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class ShopActivity extends BaseHeadActivity {
     private SmartRefreshLayout refreshLayout;
 
     BaseQuickAdapter adapter;
+
 
     public static void startActivity(@NonNull Context context) {
         Constant.isAppInsideClick = true;
@@ -113,6 +116,7 @@ public class ShopActivity extends BaseHeadActivity {
      * 道具商城
      */
     public void doGetShopApi() {
+
         Api_Config.ins().getProp(new JsonCallback<List<Gift>>() {
             @Override
             public void onSuccess(int code, String msg, List<Gift> data) {

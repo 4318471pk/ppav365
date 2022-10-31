@@ -39,16 +39,31 @@ public class WithdrawHistoryAdapter extends BaseQuickAdapter<WithdrawHistoryBean
             switch (i)
             {
                 case 0:
-                    textView.setText(TimeUtils.longToTwoLinesString( item.getWithdrawTime()/1000));
+                    textView.setText(TimeUtils.longToTwoLinesString( item.getCreateTime()));
                     break;
                 case 1:
-                    textView.setText(item.getAmountOfMoney().toPlainString());
+                    textView.setText(item.getMoney());
                     break;
                 case 2:
-                    textView.setText(item.getWithdrawWay());
+                    if (item.getWithdrawType().equals("bankcard")) {
+                        textView.setText(mContext.getResources().getString(R.string.bankCard));
+                    } else {
+                        textView.setText(item.getWithdrawType());
+                    }
+
                     break;
                 case 3:
-                    textView.setText(item.getStatusStr());
+                    if (item.getStatus() == 0) {
+                        textView.setText(mContext.getResources().getString(R.string.txz));
+                        textView.setTextColor(mContext.getResources().getColor(R.color.colorF42C2C));
+                    } else if (item.getStatus() == 1) {
+                        textView.setText(mContext.getResources().getString(R.string.tab_change_success));
+                        textView.setTextColor(mContext.getResources().getColor(R.color.color1FC478));
+                    } else if (item.getStatus() == 2) {
+                        textView.setText(mContext.getResources().getString(R.string.fail));
+                        textView.setTextColor(mContext.getResources().getColor(R.color.color0F86FF));
+                    }
+
                     break;
             }
         }

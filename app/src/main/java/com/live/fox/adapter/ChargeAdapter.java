@@ -12,6 +12,7 @@ import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.live.fox.R;
 import com.live.fox.entity.ChargeCoinBean;
+import com.live.fox.entity.DiamondListBean;
 
 import java.util.List;
 
@@ -21,10 +22,10 @@ import java.util.List;
 public class ChargeAdapter extends BaseAdapter {
 
     Context context;
-    List<ChargeCoinBean.RechargeOptional> data;
+    List<DiamondListBean> data;
     private boolean isMoney;
 
-    public ChargeAdapter(Context context, List<ChargeCoinBean.RechargeOptional> data, boolean isMoney){
+    public ChargeAdapter(Context context, List<DiamondListBean> data, boolean isMoney){
         this.isMoney= isMoney;
         this.context = context;
         this.data = data;
@@ -65,12 +66,13 @@ public class ChargeAdapter extends BaseAdapter {
             } else {
                  layout.getDelegate().setBackgroundColor(context.getResources().getColor(R.color.white));
             }
-          tv.setText(data.get(position).getAmount() + "");
+          tv.setText(data.get(position).getValue()+ "");
         } else {
             TextView tvDiamond = view.findViewById(R.id.tv_diamond);
             TextView tvMoney = view.findViewById(R.id.tv_money);
-            tvDiamond.setText(data.get(position).getAmount() * 10+ "  "+ context.getResources().getString(R.string.zuan));
-            tvMoney.setText(data.get(position).getAmount()+ "  "+ context.getResources().getString(R.string.yuan));
+
+            tvDiamond.setText(data.get(position).getCode()+ "  "+ context.getResources().getString(R.string.zuan));
+            tvMoney.setText(data.get(position).getValue() + "  "+ context.getResources().getString(R.string.yuan));
         }
         return view;
     }
