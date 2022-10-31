@@ -57,10 +57,14 @@ public class LivingActivity extends BaseBindingViewActivity {
     RecommendLivingAnchorAdapter recommendListAdapter;
     ArrayList<RoomListBean> roomListBeans;
 
-    public static void startActivity(Context context, ArrayList<RoomListBean> roomListBeans,int position)
+    public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
         Intent intent=new Intent(context,LivingActivity.class);
-        intent.putParcelableArrayListExtra(RoomList,roomListBeans);
+        ArrayList<RoomListBean> listBeans=new ArrayList<>();
+        for (RoomListBean bean:roomListBeans) {
+            listBeans.add(bean);
+        }
+        intent.putParcelableArrayListExtra(RoomList,listBeans);
         intent.putExtra(positionTag,position);
         context.startActivity(intent);
     }

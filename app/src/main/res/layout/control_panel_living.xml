@@ -461,6 +461,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="@color/white"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true"
                         >
 
                         <com.live.fox.view.switchButtonWithText.SwitchButton
@@ -495,6 +497,8 @@
                             android:id="@+id/etDiaMessage"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@id/gtvSend"
                             android:layout_toRightOf="@id/floatingTextSwitch"
@@ -515,6 +519,8 @@
                         <ScrollView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:focusableInTouchMode="true"
+                            android:focusable="true"
                             android:background="@color/white"
                             >
 
