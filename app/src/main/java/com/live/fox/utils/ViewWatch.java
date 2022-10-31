@@ -70,6 +70,14 @@ public class ViewWatch {
 //                    mbind.llInputLayout.getLayoutParams().height=bot+ScreenUtils.dp2px(activity,85);
 //                    mbind.rlMain.requestLayout();
                         setLayout(true, bot);
+                        showKeyboard();
+                        mbind.etDiaMessage.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mbind.etDiaMessage.requestFocus();
+                            }
+                        },500);
+
                         setScrollEnable(false);
                     }
 
@@ -103,16 +111,24 @@ public class ViewWatch {
     }
 
     public void showKeyboard() {
-        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        activity.setWindowsFlag();
+        mBind.etDiaMessage.requestFocus();
+//        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+//                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        activity.setWindowsFlag();
         imm.showSoftInput(mBind.etDiaMessage, 0);
+        mBind.etDiaMessage.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBind.etDiaMessage.requestFocus();
+            }
+        },500);
     }
 
     public void hideKeyboard() {
-        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-        activity.setWindowsFlag();
+//        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+//                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+//        activity.setWindowsFlag();
+        mBind.etDiaMessage.clearFocus();
         activity.getViewPager().requestLayout();
         imm.hideSoftInputFromWindow(mBind.etDiaMessage.getWindowToken(), 0);
     }
@@ -170,7 +186,6 @@ public class ViewWatch {
         }
 
         mBind.rlButtons.setVisibility(GONE);
-        mBind.etDiaMessage.requestFocus();
 
         showKeyboard();
         setScrollEnable(false);
