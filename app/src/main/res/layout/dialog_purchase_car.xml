@@ -25,13 +25,14 @@
             app:rv_backgroundColor="#ffffff">
 
             <TextView
+                android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:layout_marginTop="17dip"
                 android:gravity="center"
                 android:textColor="#404040"
-                android:text="布加迪威龙"
+                android:text=""
                 android:textSize="20sp" />
 
             <View
@@ -49,6 +50,7 @@
                 app:rv_backgroundColor="#F4F1F8">
 
                 <ImageView
+                    android:id="@+id/ivCar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="5dip"
@@ -66,22 +68,22 @@
                 >
 
                 <TextView
+                    android:id="@+id/tvMoneyBuy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="#B6B6B6"
-                    android:text="原价：18888钻/月"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tvMoneyXu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="#B6B6B6"
-                    android:text="续费：15000钻/月"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -102,13 +104,13 @@
                 >
 
                 <TextView
+                    android:id="@+id/tvAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="#B6B6B6"
-                    android:text="合计：18888"
                     android:textSize="14sp" />
 
                 <com.live.fox.view.GradientTextView

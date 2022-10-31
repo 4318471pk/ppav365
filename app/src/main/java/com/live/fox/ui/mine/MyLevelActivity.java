@@ -8,9 +8,16 @@ import android.widget.RelativeLayout;
 
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMylevelBinding;
+import com.live.fox.entity.UserAssetsBean;
+import com.live.fox.server.Api_Order;
+import com.live.fox.server.BaseApi;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
+
+import java.util.HashMap;
 
 public class MyLevelActivity extends BaseBindingViewActivity {
 
@@ -60,6 +67,8 @@ public class MyLevelActivity extends BaseBindingViewActivity {
             }
         });
 
+        getData();
+
     }
 
     //persent 0.0f to 1.0f
@@ -77,6 +86,22 @@ public class MyLevelActivity extends BaseBindingViewActivity {
 
         mBind.lpv.setProgress(persent);
 
+    }
+
+    private void getData(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+            @Override
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
+                hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    mBind.tvLv.setText(data.getUserLevel() + "");
+                    mBind.floatingPoint.setText(data.getUserExp()+ "");
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
     }
 
 

@@ -4,16 +4,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.MyBagAndStoreAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.base.BaseFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMybagStoreBinding;
+import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.MyBagStoreListItemBean;
+import com.live.fox.server.Api_Order;
+import com.live.fox.ui.act.ActivityDetailFragment;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +38,9 @@ import java.util.List;
 public class MyBagAndStoreActivity extends BaseBindingViewActivity {
 
     ActivityMybagStoreBinding mBind;
-    MyBagAndStoreAdapter myBagAndStoreAdapter;
-    List<MyBagStoreListItemBean> beans;
+
+
+    List<BaseFragment> fragmentList = new ArrayList<>();
 
     public static void startActivity(Context context)
     {
@@ -42,38 +60,68 @@ public class MyBagAndStoreActivity extends BaseBindingViewActivity {
     @Override
     public void initView() {
         mBind=getViewDataBinding();
-        setActivityTitle(R.string.store_package);
+        setHeadGone();
+        mBind.ivBack.setOnClickListener(view-> finish());
+       // setActivityTitle(R.string.store_package);
 
-        GridLayoutManager grid = new GridLayoutManager(this, 2);
-        RecyclerSpace recyclerSpace = new RecyclerSpace(ScreenUtils.getDip2px(this, 5));
-        mBind.rvMain.addItemDecoration(recyclerSpace);
-        mBind.rvMain.setLayoutManager(grid);
-        mBind.srlMyBag.setRefreshHeader(new MyWaterDropHeader(this));
+        fragmentList.add(MyBagAndStoreFragment.newInstance(true));
+        fragmentList.add(MyBagAndStoreFragment.newInstance(false));
+        mBind.vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
+            }
 
-        beans=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            MyBagStoreListItemBean myBagStoreListItemBean = new MyBagStoreListItemBean();
-            myBagStoreListItemBean.setDes("中文啊啊啊");
-            myBagStoreListItemBean.setName("布加迪威龙哦");
-            myBagStoreListItemBean.setUsing(i%2==0);
-            myBagStoreListItemBean.setPurchased(i%3==0);
-            beans.add(myBagStoreListItemBean);
-        }
-        setMyBagAdapter();
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        });
+        mBind.vp.setCurrentItem(0);
+        mBind.vp.setOffscreenPageLimit(0);
+        mBind.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position ==0) {
+                    mBind.viewGame.setVisibility(View.VISIBLE);
+                    mBind.viewLiving.setVisibility(View.INVISIBLE);
+                } else {
+                    mBind.viewGame.setVisibility(View.INVISIBLE);
+                    mBind.viewLiving.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mBind.layoutGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBind.viewGame.setVisibility(View.VISIBLE);
+                mBind.viewLiving.setVisibility(View.INVISIBLE);
+                mBind.vp.setCurrentItem(0);
+            }
+        });
+
+        mBind.layoutLiving.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBind.viewGame.setVisibility(View.INVISIBLE);
+                mBind.viewLiving.setVisibility(View.VISIBLE);
+                mBind.vp.setCurrentItem(1);
+            }
+        });
 
     }
 
-    private void setMyBagAdapter()
-    {
-        if(myBagAndStoreAdapter ==null)
-        {
-            myBagAndStoreAdapter =new MyBagAndStoreAdapter(this,beans);
-            mBind.rvMain.setAdapter(myBagAndStoreAdapter);
-        }
-        else
-        {
-            myBagAndStoreAdapter.notifyDataSetChanged();
-        }
-    }
 
 }

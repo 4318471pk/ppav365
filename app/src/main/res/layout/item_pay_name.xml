@@ -10,14 +10,14 @@
     >
 
     <ImageView
-        android:src="@mipmap/wechat_pay"
+        android:id="@+id/ivPay"
         android:layout_width="25dp"
         android:layout_height="25dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/wechat"
+
         android:layout_marginTop="3dp"
         android:id="@+id/tvName"
         android:textSize="13sp"

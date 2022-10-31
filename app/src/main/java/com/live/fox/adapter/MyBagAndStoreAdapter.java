@@ -6,23 +6,27 @@ import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.flyco.roundview.RoundRelativeLayout;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.dialog.bottomDialog.PurchaseCarDialog;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.ui.mine.MyBagActivity;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.view.GradientTextView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdapter.ViewHolder> {
@@ -53,33 +57,22 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            return new ViewHolder(layoutInflater.inflate(R.layout.item_my_bagandstore, null, false));
-        } else {
-            return new ViewHolder(layoutInflater.inflate(R.layout.item_my_bagandstore2, null, false));
-        }
+        return new ViewHolder(layoutInflater.inflate(R.layout.item_my_bagandstore, null, false));
+//        if (viewType == 0) {
+//            return new ViewHolder(layoutInflater.inflate(R.layout.item_my_bagandstore, null, false));
+//        } else {
+//            return new ViewHolder(layoutInflater.inflate(R.layout.item_my_bagandstore2, null, false));
+//        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         MyBagStoreListItemBean bean = beans.get(position);
 
-
-        if (getItemViewType(position) == 0) {
+        //if (getItemViewType(position) == 0) {
             holder.tvName.setText(bean.getName());
-            holder.tvDes.setText(bean.getDes());
-            holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() {
-                @Override
-                public void onClickView(View view) {
-                    if(!bean.isPurchased())
-                    {
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(
-                                activity.getSupportFragmentManager(),
-                                PurchaseCarDialog.getInstance(PurchaseCarDialog.purchase));
-                    }
-
-                }
-            });
+            holder.tvDes.setText(bean.getDescript());
+        GlideUtils.loadDefaultImage(activity, bean.getLogUrl(), holder.ivCar);
 
             if (bean.isPurchased()) {
                 if (bean.isUsing()) {
@@ -92,7 +85,7 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
                         public void onClickView(View view) {
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(
                                     activity.getSupportFragmentManager(),
-                                    PurchaseCarDialog.getInstance(PurchaseCarDialog.renew));
+                                    PurchaseCarDialog.getInstance(PurchaseCarDialog.renew, bean));
                         }
                     });
                 } else {
@@ -100,28 +93,54 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
                     holder.llUsing.setVisibility(View.GONE);
                     holder.gtvCommit.setColors(colors);
                     holder.gtvCommit.setText(openStr);
+
                 }
+
+
+
             } else {
                 holder.gtvCommit.setVisibility(View.VISIBLE);
                 holder.llUsing.setVisibility(View.GONE);
                 holder.gtvCommit.setText(purchaseStr);
+
+                holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() {
+                    @Override
+                    public void onClickView(View view) {
+                        if(!bean.isPurchased())
+                        {
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(
+                                    activity.getSupportFragmentManager(),
+                                    PurchaseCarDialog.getInstance(PurchaseCarDialog.purchase, bean));
+                        }
+
+                    }
+                });
             }
-        }
-        else
-        {
-            holder.itemView.setOnClickListener(new OnClickFrequentlyListener() {
-                @Override
-                public void onClickView(View view) {
-                    MyBagActivity.startActivity(activity);
+
+//        holder.gtvCommit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (myBagStoreClick != null) {
+//                    myBagStoreClick.buy(position);
+//                }
+//            }
+//        });
+
+        holder.layoutAni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myBagStoreClick != null) {
+                    myBagStoreClick.startAni(position, bean.getAnimationUrl());
                 }
-            });
-        }
+            }
+        });
+
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position == 1 ? 1 : 0;
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        return position == 1 ? 1 : 0;
+//    }
 
     @Override
     public int getItemCount() {
@@ -137,6 +156,9 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
         LinearLayout llUsing;
         GradientTextView gtvCommit;
 
+        RoundRelativeLayout layoutAni;
+        ImageView ivCar;
+
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
@@ -145,6 +167,20 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
             tvRenew = itemView.findViewById(R.id.tvRenew);
             gtvCommit = itemView.findViewById(R.id.gtvCommit);
             llUsing = itemView.findViewById(R.id.llUsing);
+            layoutAni = itemView.findViewById(R.id.rrlPlay);
+            ivCar = itemView.findViewById(R.id.ivCar);
         }
+    }
+
+
+    public interface MyBagStoreClick{
+        public void startAni(int pos, String url);
+        public void buy(int pos);
+    }
+
+    private MyBagStoreClick myBagStoreClick;
+
+    public void setMyBagStoreClick(MyBagStoreClick myBagStoreClick) {
+        this.myBagStoreClick = myBagStoreClick;
     }
 }

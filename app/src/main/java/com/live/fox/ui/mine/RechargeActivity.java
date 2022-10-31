@@ -6,6 +6,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -48,6 +52,8 @@ import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.adapter.ChargeAdapter;
 import com.live.fox.adapter.MoneyAdapter;
+import com.live.fox.adapter.PayNameAdapter;
+import com.live.fox.adapter.PayWayAdapter;
 import com.live.fox.adapter.RechargeChannelAdapter;
 import com.live.fox.adapter.SupportBankAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
@@ -60,9 +66,12 @@ import com.live.fox.dialog.DialogFactory;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.BankInfo;
 import com.live.fox.entity.ChargeCoinBean;
+import com.live.fox.entity.DiamondListBean;
 import com.live.fox.entity.LanguageUtilsEntity;
 import com.live.fox.entity.RechargeChannel;
 import com.live.fox.entity.RecharegPrice;
+import com.live.fox.entity.RechargeTypeBean;
+import com.live.fox.entity.RechargeTypeListBean;
 import com.live.fox.entity.SupportBankEntity;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
@@ -103,6 +112,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -155,10 +165,22 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private View mView;
     private LinearLayout layoutConfirm;
 
+    private LinearLayout layoutGold;
+    private LinearLayout layoutBot;
+    private TextView tvPayWay;
+
     ChargeAdapter chargeMoneyAdapter;
     ChargeAdapter chargeDiamondAdapter;
-    List<ChargeCoinBean.RechargeOptional> chargeMoneyBeans = new ArrayList<>();
-    List<ChargeCoinBean.RechargeOptional> chargeDiamondBeans = new ArrayList<>();
+    List<DiamondListBean> chargeMoneyBeans = new ArrayList<>();
+    List<DiamondListBean> chargeDiamondBeans = new ArrayList<>();
+
+    RecyclerView rcPayName;
+    RecyclerView rcPayWay;
+    PayNameAdapter payNameAdapter;
+    PayWayAdapter payWayAdapter;
+    List<RechargeTypeBean> payNameList = new ArrayList<>();
+    List<RechargeTypeListBean> payWayList = new ArrayList<>();
+    HashMap<Integer, List<RechargeTypeListBean>> payWayMap = new HashMap<>();//
 
 
     BaseQuickAdapter<BankInfo, BaseViewHolder> bankAdapter;
@@ -182,7 +204,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private MoneyTextWatcher mMoneyWatcher;
     private MoneyTextWatcher mMoneyaWatcher;
     private String usdtInput = "0";
-    private int lastPosition; //上次选择的位置
+    private int nowPayId = 0; //现在选择的支付通道id
 
     private boolean isChargeMoney = true; //true:点击充值  false:点击兑换钻石
 
@@ -191,6 +213,14 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         Intent i = new Intent(context, RechargeActivity.class);
         context.startActivity(i);
     }
+
+    public static void startActivity(Context context, boolean isChargeMoney) {
+        Constant.isAppInsideClick = true;
+        Intent i = new Intent(context, RechargeActivity.class);
+        i.putExtra("isChargeMoney", isChargeMoney);
+        context.startActivity(i);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +231,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
+        isChargeMoney = getIntent().getBooleanExtra("isChargeMoney", isChargeMoney);
         commonDialog = new CommonDialog();
        // tvMymoney = findViewById(R.id.tv_mymoney);
         rvChannel = findViewById(R.id.rv_channel);
@@ -225,6 +256,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         gvCharge = findViewById(R.id.gv_charge);
         tvService = findViewById(R.id.tv_service);
         layoutConfirm = findViewById(R.id.confirm);
+        layoutGold = findViewById(R.id.layoutGold);
+        tvPayWay = findViewById(R.id.tvPayWay);
+        layoutBot = findViewById(R.id.layoutBot);
 
         setTvService(tvService);
 
@@ -252,17 +286,72 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 //                        }
 //                    }
 //                    chargeDiamondAdapter.notifyDataSetChanged();
-                    double money = chargeDiamondBeans.get(position).getAmount();
-                    if (userAssetsBean.getGoldCoin() >= money) { //金币兑换钻石
+                    if (userAssetsBean.getGold() >= Integer.parseInt(chargeDiamondBeans.get(position).getValue())) { //金币兑换钻石
                         String s =  String.format(getString(R.string.confirm_exchange_diamond),
-                                String.valueOf(money), String.valueOf(money*10));
-                        showMoneyDialog(s, false);
+                                String.valueOf(chargeDiamondBeans.get(position).getValue()), ""+chargeDiamondBeans.get(position).getCode());
+                        showMoneyDialog(chargeDiamondBeans.get(position).getValue(),s, false);
                     } else { //金币不足
-                        showMoneyDialog(getString(R.string.no_money_go_to_charge), true);
+                        showMoneyDialog(chargeDiamondBeans.get(position).getValue(),getString(R.string.no_money_go_to_charge), true);
                     }
                 }
             }
         });
+
+        rcPayName = findViewById(R.id.rcPayName);
+        rcPayWay = findViewById(R.id.rcPayWay);
+
+        payNameAdapter = new PayNameAdapter(payNameList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcPayName.setLayoutManager(layoutManager);
+        rcPayName.setAdapter(payNameAdapter);
+        payNameAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                int temp = 0;
+                for (int i = 0; i < payNameList.size() ; i++) {
+                    if (payNameList.get(i).isSelect()) {
+                        temp = i;
+                        break;
+                    }
+                }
+                if (temp != position) {
+                    payNameList.get(temp).setSelect(false);
+                    payNameList.get(position).setSelect(true);
+                    payNameAdapter.notifyItemChanged(temp);
+                    payNameAdapter.notifyItemChanged(position);
+                    getChannelType(payNameList.get(position).getType());
+                    nowPayId = payNameList.get(position).getType();
+                }
+            }
+        });
+        
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
+        layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcPayWay.setLayoutManager(layoutManager2);
+        payWayAdapter =new PayWayAdapter(payWayList);
+        rcPayWay.setAdapter(payWayAdapter);
+
+        payWayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                int temp = 0;
+                for (int i = 0; i < payWayMap.get(nowPayId).size() ; i++) {
+                    if (payWayMap.get(nowPayId).get(i).isSelect()) {
+                        temp = i;
+                        break;
+                    }
+                }
+                if (temp != position) {
+                    payWayMap.get(nowPayId).get(temp).setSelect(false);
+                    payWayMap.get(nowPayId).get(position).setSelect(true);
+                    payWayAdapter.notifyItemChanged(temp);
+                    payWayAdapter.notifyItemChanged(position);
+                    //getChannelType(payNameList.get(position).getId());
+                }
+            }
+        });
+
 
         layoutMoney.setOnClickListener(this);
         layoutDiamond.setOnClickListener(this);
@@ -290,13 +379,16 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
         AppIMManager.ins().addMessageListener(RechargeActivity.class, this);
 
+        changeChargeUi();
+
+
         initChannelRv();
         initSupportRv();
         initMoneyRv();
         initGongGao();
         showLoadingDialogWithNoBgBlack();
         //doGetVipChannelApi();
-        getUserAsset();
+        //getUserAsset();
         getChargeCenter();
     }
 
@@ -1070,6 +1162,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             gvCharge.setAdapter(chargeMoneyAdapter);
             tvService.setVisibility(View.VISIBLE);
             layoutConfirm.setVisibility(View.VISIBLE);
+
+            layoutGold.setVisibility(View.VISIBLE);
+            layoutBot.setBackgroundColor(getResources().getColor(R.color.white));
+            tvPayWay.setText(getResources().getString(R.string.choice_pay_money));
         } else {
             layoutMoney.setBackground(this.getResources().getDrawable(R.drawable.shape_ffeab1_2));
             tvCharge.setTextColor(this.getResources().getColor(R.color.colorFFEAB1));
@@ -1080,6 +1176,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             gvCharge.setAdapter(chargeDiamondAdapter);
             tvService.setVisibility(View.GONE);
             layoutConfirm.setVisibility(View.GONE);
+            layoutGold.setVisibility(View.GONE);
+            layoutBot.setBackgroundColor(getResources().getColor(R.color.colorF5F1F8));
+            tvPayWay.setText(getResources().getString(R.string.exchange_diamond));
         }
     }
 
@@ -1114,7 +1213,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     /**
      * 显示弹窗
      */
-    private void showMoneyDialog(String content, boolean isMoney) {
+    private void showMoneyDialog(String yuan, String content, boolean isMoney) {
         commonDialog.setDialogContent(
                 content,
                 getString(R.string.recharge_usdt_submit_dialog_content),
@@ -1127,25 +1226,22 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                         isChargeMoney = true;
                         changeChargeUi();
                     } else { //调用兑换钻石接口
-
+                        exchangeDiamond(yuan);
                     }
                     //doRecharge();
                 });
         commonDialog.show(getSupportFragmentManager(), "bank dialog");
     }
 
-
-    private UserAssetsBean userAssetsBean = null;
-    private void getUserAsset(){
+    private void exchangeDiamond(String yuan){
         HashMap<String, Object> commonParams = BaseApi.getCommonParams();
-        Api_Order.ins().getUserLiveUserAssets(new JsonCallback<UserAssetsBean>() {
+        commonParams.put("goldCoin", yuan);
+        Api_Order.ins().getDiamondExchange(new JsonCallback<String>() {
             @Override
-            public void onSuccess(int code, String msg, UserAssetsBean data) {
-                hideLoadingDialog();
+            public void onSuccess(int code, String msg, String data) {
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    userAssetsBean = data;
-                    tvBalanca.setText(data.getGoldCoin() + "");
-                    tvDiamond.setText("" +data.getDiamondCoin() + data.getVipCoin());
+                    ToastUtils.showShort(getString(R.string.duiSuccess));
+                    getAsset();
                 } else {
                     ToastUtils.showShort(msg);
                 }
@@ -1154,17 +1250,78 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    private void getChargeCenter(){
+
+    private UserAssetsBean userAssetsBean = null;
+
+
+    private void getAsset(){
         HashMap<String, Object> commonParams = BaseApi.getCommonParams();
-        Api_Order.ins().getChargeCoin(new JsonCallback<ChargeCoinBean>() {
+        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
             @Override
-            public void onSuccess(int code, String msg, ChargeCoinBean data) {
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
                 hideLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    if (data.getRechargeOptionalList() != null && data.getRechargeOptionalList().size() >0) {
-                        chargeMoneyBeans.addAll(data.getRechargeOptionalList());
-                        chargeDiamondBeans.addAll(data.getRechargeOptionalList());
-                        chargeMoneyAdapter.notifyDataSetChanged();
+                    userAssetsBean = data;
+                    tvBalanca.setText(data.getGold() + "");
+                    tvDiamond.setText(data.getDiamond() + data.getVipDiamond() + "");
+                    setMoneyColor(tvBalanca);
+                    setMoneyColor(tvDiamond);
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+    }
+
+    private void getChargeCenter(){
+        showLoadingDialog();
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+
+        getAsset();
+
+//        Api_Order.ins().getChargeCoin(new JsonCallback<ChargeCoinBean>() {
+//            @Override
+//            public void onSuccess(int code, String msg, ChargeCoinBean data) {
+//                hideLoadingDialog();
+//                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+//                    if (data.getRechargeOptionalList() != null && data.getRechargeOptionalList().size() >0) {
+//                        chargeMoneyBeans.addAll(data.getRechargeOptionalList());
+//                        chargeDiamondBeans.addAll(data.getRechargeOptionalList());
+//                        chargeMoneyAdapter.notifyDataSetChanged();
+//                        chargeDiamondAdapter.notifyDataSetChanged();
+//                    }
+//                } else {
+//                    ToastUtils.showShort(msg);
+//                }
+//            }
+//        }, commonParams);
+
+        Api_Order.ins().getChargeType(new JsonCallback<List<RechargeTypeBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<RechargeTypeBean> data) {
+                hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    if (data != null && data.size() > 0) {
+                        payNameList.addAll(data);
+                        payNameList.get(0).setSelect(true);
+                        nowPayId = payNameList.get(0).getType();
+                        getChannelType(payNameList.get(0).getType());
+                        payNameAdapter.notifyDataSetChanged();
+                    }
+
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+
+
+        Api_Order.ins().getDiamondList(new JsonCallback<List<DiamondListBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<DiamondListBean> data) {
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    if (data != null && data.size() >0) {
+                        chargeDiamondBeans.addAll(data);
                         chargeDiamondAdapter.notifyDataSetChanged();
                     }
                 } else {
@@ -1172,10 +1329,65 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         }, commonParams);
+
     }
 
 
+    private void getChannelType(int type) {
+        if(payWayMap.get(type) != null) {
+            payWayList.clear();
+            payWayList.addAll(payWayMap.get(type));
+            payWayAdapter.notifyDataSetChanged();
+            for (int i = 0; i< payWayList.size(); i++) {
+                if (payWayList.get(i).isSelect()) {
+                    setMoneyList(i);
+                    break;
+                }
+            }
+        } else {
+            showLoadingDialog();
+            Api_Order.ins().getChargeList(new JsonCallback<List<RechargeTypeListBean>>() { //
+                @Override
+                public void onSuccess(int code, String msg, List<RechargeTypeListBean> data) {
+                    hideLoadingDialog();
+                    if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                        if (data != null && data.size() > 0) {
+                            payWayMap.put(type, data);
+                            payWayList.clear();
+                            payWayList.addAll(data);
+                            payWayList.get(0).setSelect(true);
+                            payWayAdapter.notifyDataSetChanged();
+                            setMoneyList(0);
+                        }
+                    } else {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }, type);
+        }
+    }
 
+    private void setMoneyList(int pos){
+        chargeMoneyBeans.clear();
+        String[] arr = payWayList.get(pos).getAmountList().split(",");
+        for (int i= 0; i < arr.length; i++) {
+            DiamondListBean bean = new DiamondListBean();
+            bean.setValue(arr[i]);
+//            if (i==0) {
+//                bean.setSelect(true);
+//            }
+            chargeMoneyBeans.add(bean);
+        }
+        chargeMoneyAdapter.notifyDataSetChanged();
+    }
+
+    private void setMoneyColor(TextView tv){
+        int[] colors = {Color.parseColor("#FFE65A"), Color.parseColor("#FBFFC9")};
+        float[] position = {0f, 1.0f};
+        LinearGradient mLinearGradient = new LinearGradient(0, 0, tv.getPaint().getTextSize() * tv.getText().length(), 0, colors, position, Shader.TileMode.CLAMP);
+        tv.getPaint().setShader(mLinearGradient);
+        tv.invalidate();
+    }
 
     private void dealEditZero(EditText editText) {
         String str = editText.getText().toString().replace(",", "");

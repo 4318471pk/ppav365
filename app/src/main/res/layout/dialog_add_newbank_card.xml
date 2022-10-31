@@ -8,12 +8,18 @@
             type="com.live.fox.dialog.bottomDialog.AddNewBankCardDialog" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/rlBG"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{click.onClickView}"
+        android:orientation="vertical"
         >
+
+        <View
+            android:id="@+id/rlBG"
+            android:onClick="@{click.onClickView}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <com.flyco.roundview.RoundLinearLayout
             android:id="@+id/llMain"
@@ -37,11 +43,17 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/createBankCard"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorF4F1F8"
+                />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dip">
+                android:layout_marginTop="5dip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -62,12 +74,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:singleLine="true"
-                        android:inputType="numberDecimal"
                         android:paddingLeft="15dip"
                         android:paddingRight="15dip"
                         android:background="@null"
                         android:gravity="left|center_vertical"
                         android:textColorHint="#B8B2C8"
+                        android:hint="@string/please_input_name"
+                        android:textColor="@color/color404040"
                         android:textSize="14sp"
                         />
 
@@ -105,7 +118,98 @@
                         android:paddingRight="15dip"
                         android:background="@null"
                         android:gravity="left|center_vertical"
+                        android:hint="@string/please_input_bank"
                         android:textColorHint="#B8B2C8"
+                        android:textColor="@color/color404040"
+                        android:textSize="14sp"
+                        />
+
+                </com.flyco.roundview.RoundRelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/bank_name"
+                    android:textSize="16sp"
+                    android:textColor="@color/color404040"/>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_backgroundColor="#F4F1F8"
+                    app:rv_cornerRadius="8dip">
+
+                    <TextView
+                        android:id="@+id/etBankName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="15dip"
+                        android:paddingRight="15dip"
+                        android:background="@null"
+                        android:onClick="@{click.onClickView}"
+                        android:gravity="left|center_vertical"
+                        android:hint="@string/please_choice_bank_name"
+                        android:textColorHint="#B8B2C8"
+                        android:textColor="@color/color404040"
+                        android:textSize="14sp"
+                        />
+
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@mipmap/icon_arrow_right"
+                        />
+
+                </com.flyco.roundview.RoundRelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/bank_zhi"
+                    android:textColor="@color/color404040"
+                    android:textSize="16sp" />
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    app:rv_backgroundColor="#F4F1F8"
+                    app:rv_cornerRadius="8dip">
+
+                    <EditText
+                        android:id="@+id/etBankzhi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="15dip"
+                        android:paddingRight="15dip"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:hint="@string/please_input_bank_zhi"
+                        android:textColorHint="#B8B2C8"
+                        android:textColor="@color/color404040"
                         android:textSize="14sp"
                         />
 
@@ -125,7 +229,7 @@
                 android:id="@+id/gtCommit"
                 android:layout_width="match_parent"
                 android:layout_height="40dip"
-                android:layout_marginTop="50dip"
+                android:layout_marginTop="25dip"
                 android:layout_marginBottom="25dip"
                 android:gravity="center"
                 android:onClick="@{click.onClickView}"
@@ -137,5 +241,5 @@
         </com.flyco.roundview.RoundLinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

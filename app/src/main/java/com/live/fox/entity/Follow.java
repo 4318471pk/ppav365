@@ -11,6 +11,7 @@ public class Follow {
     private int sex;
     private String signature;
     private int userLevel;
+    private String vipName;
 
     public long getUid() {
         return uid;
@@ -74,5 +75,13 @@ public class Follow {
 
     public void setFollow(boolean follow) {
         isFollow = follow;
+    }
+
+    public String getVipName() {
+        return vipName;
+    }
+
+    public void setVipName(String vipName) {
+        this.vipName = vipName;
     }
 }

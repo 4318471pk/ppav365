@@ -64,6 +64,189 @@ public class User implements Serializable {
     Boolean come = false;
     Integer hasPayPwd;//是否有支付密码 1就是有
 
+    private int diamond;
+    private int emotionalState;//感情状态（1恋爱 2单身 3未婚 4已婚 5保密）
+    private int gameQuota; //游戏娱乐后提现额度
+    private float gold; //金币
+    private int incomeDiamond; //收入钻石
+    private int sendDiamond; //送出钻石
+    private int isCertified; //是否已认证：0未认证 1已认证
+    private int userExp;//用户经验
+    private String vipName; //	贵族靓号
+    private String job;
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getConstellation() {
+        return constellation;
+    }
+
+    public void setConstellation(String constellation) {
+        this.constellation = constellation;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public void setUserLevel(int userLevel) {
+        this.userLevel = userLevel;
+    }
+
+    public Boolean getReject() {
+        return isReject;
+    }
+
+    public Integer getSignInNum() {
+        return signInNum;
+    }
+
+    public void setSignInNum(Integer signInNum) {
+        this.signInNum = signInNum;
+    }
+
+    public Integer getChatHide() {
+        return chatHide;
+    }
+
+    public void setChatHide(Integer chatHide) {
+        this.chatHide = chatHide;
+    }
+
+    public Integer getRoomHide() {
+        return roomHide;
+    }
+
+    public void setRoomHide(Integer roomHide) {
+        this.roomHide = roomHide;
+    }
+
+    public Integer getRankHide() {
+        return rankHide;
+    }
+
+    public void setRankHide(Integer rankHide) {
+        this.rankHide = rankHide;
+    }
+
+    public Boolean getVip() {
+        return isVip;
+    }
+
+    public void setVip(Boolean vip) {
+        isVip = vip;
+    }
+
+    public Long getVipExp() {
+        return vipExp;
+    }
+
+    public Long getVipUid() {
+        return vipUid;
+    }
+
+    public void setVipUid(Long vipUid) {
+        this.vipUid = vipUid;
+    }
+
+    public Boolean getNotification() {
+        return isNotification;
+    }
+
+    public void setNotification(Boolean notification) {
+        isNotification = notification;
+    }
+
+    public Boolean getBlackChat() {
+        return isBlackChat;
+    }
+
+    public void setBlackChat(Boolean blackChat) {
+        isBlackChat = blackChat;
+    }
+
+    public Boolean getCome() {
+        return come;
+    }
+
+    public void setCome(Boolean come) {
+        this.come = come;
+    }
+
+    public int getEmotionalState() {
+        return emotionalState;
+    }
+
+    public void setEmotionalState(int emotionalState) {
+        this.emotionalState = emotionalState;
+    }
+
+    public int getGameQuota() {
+        return gameQuota;
+    }
+
+    public void setGameQuota(int gameQuota) {
+        this.gameQuota = gameQuota;
+    }
+
+    public float getGold() {
+        return gold;
+    }
+
+    public void setGold(float gold) {
+        this.gold = gold;
+    }
+
+    public int getIncomeDiamond() {
+        return incomeDiamond;
+    }
+
+    public void setIncomeDiamond(int incomeDiamond) {
+        this.incomeDiamond = incomeDiamond;
+    }
+
+    public int getSendDiamond() {
+        return sendDiamond;
+    }
+
+    public void setSendDiamond(int sendDiamond) {
+        this.sendDiamond = sendDiamond;
+    }
+
+    public int getIsCertified() {
+        return isCertified;
+    }
+
+    public void setIsCertified(int isCertified) {
+        this.isCertified = isCertified;
+    }
+
+    public int getUserExp() {
+        return userExp;
+    }
+
+    public void setUserExp(int userExp) {
+        this.userExp = userExp;
+    }
+
+    public String getVipName() {
+        return vipName;
+    }
+
+    public void setVipName(String vipName) {
+        this.vipName = vipName;
+    }
+
     public Integer getHasPayPwd() {
         return hasPayPwd;
     }
@@ -202,6 +385,10 @@ public class User implements Serializable {
 
     public Float getGoldCoinWithDefault(float defaultValue) {
         return goldCoin==null?defaultValue:goldCoin;
+    }
+
+    public Float getGold(float defaultValue) {
+        return gold==0.0?defaultValue:gold;
     }
 
     public void setGoldCoin(Float goldCoin) {
@@ -492,5 +679,11 @@ public class User implements Serializable {
     }
 
 
+    public int getDiamond() {
+        return diamond;
+    }
 
+    public void setDiamond(int diamond) {
+        this.diamond = diamond;
+    }
 }

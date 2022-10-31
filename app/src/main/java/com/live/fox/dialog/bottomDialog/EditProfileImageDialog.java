@@ -16,6 +16,7 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogProfileImageBinding;
 import com.live.fox.utils.ClickUtil;
+import com.live.fox.utils.LogUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -205,6 +206,7 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
         } else {
             imageUri = Uri.fromFile(cameraFile);
         }
+        LogUtils.e("返回图片：" , imageUri + "");
         return imageUri;
     }
 }

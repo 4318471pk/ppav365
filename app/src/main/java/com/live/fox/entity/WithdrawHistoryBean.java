@@ -4,18 +4,15 @@ import java.math.BigDecimal;
 
 public class WithdrawHistoryBean {
 
-    long withdrawTime;
+    long createTime;
     BigDecimal amountOfMoney;
-    String WithdrawWay;
-    String statusStr;
+    String money;
+    String receivedMoney;
+    int type;
+    int status;
+    long id;
+    String withdrawType;
 
-    public long getWithdrawTime() {
-        return withdrawTime;
-    }
-
-    public void setWithdrawTime(long withdrawTime) {
-        this.withdrawTime = withdrawTime;
-    }
 
     public BigDecimal getAmountOfMoney() {
         return amountOfMoney;
@@ -25,19 +22,61 @@ public class WithdrawHistoryBean {
         this.amountOfMoney = amountOfMoney;
     }
 
-    public String getWithdrawWay() {
-        return WithdrawWay;
+
+
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setWithdrawWay(String withdrawWay) {
-        WithdrawWay = withdrawWay;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
-    public String getStatusStr() {
-        return statusStr;
+    public String getMoney() {
+        return money;
     }
 
-    public void setStatusStr(String statusStr) {
-        this.statusStr = statusStr;
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getReceivedMoney() {
+        return receivedMoney;
+    }
+
+    public void setReceivedMoney(String receivedMoney) {
+        this.receivedMoney = receivedMoney;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getWithdrawType() {
+        return withdrawType;
+    }
+
+    public void setWithdrawType(String withdrawType) {
+        this.withdrawType = withdrawType;
     }
 }
