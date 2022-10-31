@@ -11,29 +11,29 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
-import com.live.fox.AnchorLiveActivity;
-import com.live.fox.BuildConfig;
-import com.live.fox.Constant;
-import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityCenterAnchorBinding;
-import com.live.fox.dialog.DialogFactory;
-import com.live.fox.entity.User;
+import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
-import com.live.fox.ui.AuthActivity;
-import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.utils.ClickUtil;
+import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import org.json.JSONObject;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -46,8 +46,47 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     }
 
     @Override
-    public void onClickView(View view) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.REQUEST_CAMERA:
+                    try {
+                        String url=  PictureFileUtils.getPicturePath(this);
+                        File file=new File(url);
+                        if(file!=null && file.exists())
+                        {
+                            EditProfileImageActivity.startActivity(this,EditProfileImageActivity.Square,url);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    break;
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 圖片選擇結果回調
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    if(selectList!=null && selectList.size()>0)
+                    {
+                        LocalMedia localMedia = selectList.get(0);
+                        LogUtils.e("图片-----》" + localMedia.getPath());
+                        EditProfileImageActivity.startActivity(this,EditProfileImageActivity.Square,localMedia.getPath());
+                    }
+                    break;
+            }
+        }
+    }
 
+    @Override
+    public void onClickView(View view) {
+        switch (view.getId())
+        {
+            case R.id.rlChangeRoomPic:
+                EditProfileImageDialog dialog= EditProfileImageDialog.getInstance();
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),dialog);
+                break;
+        }
     }
 
     @Override
@@ -57,7 +96,10 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
+        setWindowsFlag();
         mBind = getViewDataBinding();
+        mBind.setClick(this);
+
         setActivityTitle(getString(R.string.centerOfAnchor));
         getTvTitleRight().setText(getResources().getString(R.string.goOpenSteam));
         getTvTitleRight().setTextColor(0xffFF008A);
@@ -71,8 +113,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             }
         });
 
-        mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(this));
-
+        mBind.gtvTitleOfRoom.setText(DataCenter.getInstance().getUserInfo().getUser().getNickname());
     }
 
     private void openLive() {

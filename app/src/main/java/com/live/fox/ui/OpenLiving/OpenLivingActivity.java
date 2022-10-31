@@ -3,12 +3,11 @@ package com.live.fox.ui.OpenLiving;
 import android.view.View;
 
 import com.live.fox.R;
-import com.live.fox.adapter.CenterOfAnchorListAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 
 public class OpenLivingActivity extends BaseBindingViewActivity {
 
-    CenterOfAnchorListAdapter adapter;
+
 
     @Override
     public void onClickView(View view) {

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="click"
+            type="com.live.fox.ui.mine.CenterOfAnchorActivity" />
     </data>
 
     <LinearLayout
@@ -10,18 +13,181 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/srlRefresh"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="25dp"
+            android:background="#CCDEFF"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dip"
+            >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMain"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dip"
+                android:src="@mipmap/broadcast"/>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                />
+                android:layout_marginLeft="5dip"
+                android:gravity="center"
+                android:text="主播相关运营通知，主播相关运营通知主播相关运营通知主播相"
+                android:textSize="13sp"
+                android:textColor="@color/white"/>
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false"
+            app:contentPaddingTop="0dip"
+            app:cardBackgroundColor="#ffffffff"
+            app:cardCornerRadius="10dip"
+            android:padding="10dip"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="6dip"
+                        android:layout_height="16dip"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/icon_tag_ff1679_ff00f6"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:layout_marginLeft="8dip"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/myLivingRoom"
+                        android:textColor="#404040"
+                        android:textSize="15sp"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/rlChangeRoomPic"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:onClick="@{click.onClickView}"
+                        >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/icon_anchor_loading"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dip"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
+                            android:layout_centerInParent="true"
+                            android:background="#88000000"
+                            android:text="@string/changeBackground"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22.5dip"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/titleOfRoomTitle"
+                                android:textColor="#665275"
+                                android:textSize="13sp"/>
+
+                            <com.live.fox.view.GradientEditTextView
+                                android:id="@+id/gtvTitleOfRoom"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:singleLine="true"
+                                android:gravity="center"
+                                android:layout_marginLeft="8.5dip"
+                                android:textColor="#665275"
+                                android:textSize="13sp"
+                                app:gt_radius_dp="5dip"
+                                app:gt_solidNoGradient="#F4F1F8"
+                                android:background="@null"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/typeOfRoomTitle"
+                                android:textColor="#665275"
+                                android:textSize="13sp"/>
+
+                            <com.live.fox.view.GradientTextView
+                                android:id="@+id/gtvTypeOfRoom"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:maxLines="1"
+                                android:gravity="center"
+                                android:layout_marginLeft="8.5dip"
+                                android:textColor="#665275"
+                                android:textSize="13sp"
+                                app:gt_radius_dp="5dip"
+                                app:gt_solidNoGradient="#ffffff"
+                                app:gt_stroke_color="#D2CDE0"
+                                app:gt_stroke_width="1dip"
+                                />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </layout>

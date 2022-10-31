@@ -1385,5 +1385,8 @@
     <string name="goOpenSteam">去开播</string>
     <string name="centerOfAnchor">主播中心</string>
     <string name="myLivingRoom">我的直播间</string>
+    <string name="changeBackground">更换封面</string>
+    <string name="titleOfRoomTitle">房间名称:</string>
+    <string name="typeOfRoomTitle">房间类型:</string>
 
 </resources>

@@ -3,26 +3,24 @@ package com.live.fox.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.live.fox.R;
-import com.live.fox.utils.device.ScreenUtils;
 
-public class GradientTextView extends AppCompatTextView {
+import org.jetbrains.annotations.NotNull;
 
-    private final static String TAG = GradientTextView.class.getSimpleName();
+public class GradientEditTextView extends androidx.appcompat.widget.AppCompatEditText {
+
+    private final static String TAG = GradientEditTextView.class.getSimpleName();
     private int[] mColors;
     private int solidColor=0;
     private int mAngle = 0;
-    private DIRECTION mDIRECTION;
+    private GradientEditTextView.DIRECTION mDIRECTION;
     GradientDrawable mIndicatorDrawable=new GradientDrawable();
     float radius=10f;
     private int strokeColor=0;
@@ -42,50 +40,50 @@ public class GradientTextView extends AppCompatTextView {
         }
     }
 
-    public GradientTextView(Context context) {
+    public GradientEditTextView(Context context) {
         super(context);
         init(context, null);
     }
 
-    public GradientTextView(Context context, AttributeSet attrs) {
+    public GradientEditTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public GradientTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GradientEditTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attributeSet) {
-        final TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.GradientTextView);
+        final TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.GradientEditTextView);
         try {
-            int colorArrayResourceId = typedArray.getResourceId(R.styleable.GradientTextView_gt_color_list, 0);
+            int colorArrayResourceId = typedArray.getResourceId(R.styleable.GradientEditTextView_gt_color_list, 0);
             if (colorArrayResourceId != 0) {
                 mColors = getResources().getIntArray(colorArrayResourceId);
             }
-            if (typedArray.hasValue(R.styleable.GradientTextView_gt_gradient_direction)) {
-                int value = typedArray.getInt(R.styleable.GradientTextView_gt_gradient_direction, 0);
-                mDIRECTION = DIRECTION.values()[value];
+            if (typedArray.hasValue(R.styleable.GradientEditTextView_gt_gradient_direction)) {
+                int value = typedArray.getInt(R.styleable.GradientEditTextView_gt_gradient_direction, 0);
+                mDIRECTION = GradientEditTextView.DIRECTION.values()[value];
             }
 
-            if (typedArray.hasValue(R.styleable.GradientTextView_gt_gradient_angle)) {
-                mAngle = typedArray.getInt(R.styleable.GradientTextView_gt_gradient_angle, 0);
+            if (typedArray.hasValue(R.styleable.GradientEditTextView_gt_gradient_angle)) {
+                mAngle = typedArray.getInt(R.styleable.GradientEditTextView_gt_gradient_angle, 0);
             }
 
-            if (typedArray.hasValue(R.styleable.GradientTextView_gt_radius_dp)) {
-                radius = typedArray.getDimension(R.styleable.GradientTextView_gt_radius_dp, 0);
+            if (typedArray.hasValue(R.styleable.GradientEditTextView_gt_radius_dp)) {
+                radius = typedArray.getDimension(R.styleable.GradientEditTextView_gt_radius_dp, 0);
             }
 
-            if (typedArray.hasValue(R.styleable.GradientTextView_gt_stroke_color)) {
-                strokeColor = typedArray.getColor(R.styleable.GradientTextView_gt_stroke_color, 0);
+            if (typedArray.hasValue(R.styleable.GradientEditTextView_gt_stroke_color)) {
+                strokeColor = typedArray.getColor(R.styleable.GradientEditTextView_gt_stroke_color, 0);
             }
 
-            if (typedArray.hasValue(R.styleable.GradientTextView_gt_stroke_width)) {
-                strokeWidth = typedArray.getDimension(R.styleable.GradientTextView_gt_stroke_width, 0);
+            if (typedArray.hasValue(R.styleable.GradientEditTextView_gt_stroke_width)) {
+                strokeWidth = typedArray.getDimension(R.styleable.GradientEditTextView_gt_stroke_width, 0);
             }
 
-            if (typedArray.hasValue(R.styleable.GradientTextView_gt_solidNoGradient)) {
-                solidColor = typedArray.getColor(R.styleable.GradientTextView_gt_solidNoGradient, 0);
+            if (typedArray.hasValue(R.styleable.GradientEditTextView_gt_solidNoGradient)) {
+                solidColor = typedArray.getColor(R.styleable.GradientEditTextView_gt_solidNoGradient, 0);
             }
 
 
@@ -170,19 +168,19 @@ public class GradientTextView extends AppCompatTextView {
     }
 
 
-    public void setOrientation(DIRECTION direction) {
+    public void setOrientation(GradientEditTextView.DIRECTION direction) {
         if(direction!=null)
         {
-                switch (mDIRECTION) {
-                    case TOP:
-                        orientation=GradientDrawable.Orientation.TOP_BOTTOM;
-                    case RIGHT:
-                        orientation=GradientDrawable.Orientation.RIGHT_LEFT;
-                    case BOTTOM:
-                        orientation=GradientDrawable.Orientation.BOTTOM_TOP;
-                    case LEFT:
-                    default:
-                        orientation=GradientDrawable.Orientation.LEFT_RIGHT;
+            switch (mDIRECTION) {
+                case TOP:
+                    orientation=GradientDrawable.Orientation.TOP_BOTTOM;
+                case RIGHT:
+                    orientation=GradientDrawable.Orientation.RIGHT_LEFT;
+                case BOTTOM:
+                    orientation=GradientDrawable.Orientation.BOTTOM_TOP;
+                case LEFT:
+                default:
+                    orientation=GradientDrawable.Orientation.LEFT_RIGHT;
             }
             invalidate();
         }
