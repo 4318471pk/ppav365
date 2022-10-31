@@ -18,6 +18,9 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
@@ -121,6 +124,19 @@ public class RecommendAnchorListFooter extends LinearLayout {
             spUtils.appendImage(diamond,SpanUtils.ALIGN_CENTER);
             spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
             gtvUnitPrice.setText(spUtils.create());
+
+            view.setTag(i);
+            view.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+                        LoginModeSelActivity.startActivity(getContext());
+                        return;
+                    }
+                    int tag=(Integer)view.getTag();
+                    LivingActivity.startActivity(getContext(),listBeans,tag);
+                }
+            });
 
             gridLayout.addView(view,itemWidth+dip2_5*2,itemWidth+dip2_5*2);
         }

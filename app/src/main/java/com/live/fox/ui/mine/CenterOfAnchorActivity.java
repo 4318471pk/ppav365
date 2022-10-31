@@ -30,6 +30,7 @@ import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.ToastUtils;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONObject;
@@ -69,6 +70,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 openLive();
             }
         });
+
+        mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(this));
+
     }
 
     private void openLive() {
