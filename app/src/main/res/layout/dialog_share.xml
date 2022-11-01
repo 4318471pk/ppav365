@@ -20,7 +20,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/sharebg"
                 app:riv_corner_radius_top_left="5dp"
                 app:riv_corner_radius_top_right="5dp" />
 

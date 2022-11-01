@@ -11,6 +11,7 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.live.fox.AnchorLiveActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
@@ -154,8 +155,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
      * 开始直播
      */
     public void checkAuth() {
-        OpenLivingActivity.startActivity(this);
-
+//        OpenLivingActivity.startActivity(this);
+        Intent intent = new Intent(CenterOfAnchorActivity.this, AnchorLiveActivity.class);
+        startActivity(intent);
         Api_Live.ins().getAnchorAuth(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {

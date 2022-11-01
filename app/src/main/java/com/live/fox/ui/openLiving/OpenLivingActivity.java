@@ -45,7 +45,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag();

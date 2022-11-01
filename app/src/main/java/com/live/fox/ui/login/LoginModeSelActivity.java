@@ -254,7 +254,7 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
     @Override
     public void initView() {
         mBind=getViewDataBinding();
-        BarUtils.setStatusBarAlpha(this);
+        setWindowsFlag();
         initData(getIntent());
 
         boolean hasGuestLogin= getIntent().getBooleanExtra(ConstantValue.hasGuestLogin,true);
@@ -277,7 +277,7 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
         setLoginInfo();
 
         unBingTencentPush();
-        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/raw/login_video"));
+        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName()+"/"+ R.raw.login));
         videoView.start();
         videoView.setOnPreparedListener(mp -> {
             mediaPlayer = mp;
@@ -291,8 +291,7 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
             ToastUtils.showShort(showTip);
         }
 
-        ImageView applogo=(ImageView)findViewById(R.id.login_logo);
-        FixImageSize.setImageSizeOnWidthWithSRC(applogo, (int) (screenWidth * 0.192));
+        FixImageSize.setImageSizeOnWidthWithSRC(mBind.loginLogo, (int) (screenWidth * 0.44));
         mBind.guestLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
     }

@@ -70,7 +70,7 @@
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/app_name"
                 android:gravity="center_horizontal"
-                app:srcCompat="@mipmap/logo" />
+                android:src="@mipmap/logo" />
 
             <TextView
                 android:id="@+id/login_domain_name"

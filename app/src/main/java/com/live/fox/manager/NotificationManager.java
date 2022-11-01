@@ -56,7 +56,7 @@ public class NotificationManager {
 
         //设置应用通知图标
         XGBasicPushNotificationBuilder builder = new XGBasicPushNotificationBuilder();
-        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
         XGPushManager.setDefaultNotificationBuilder(app, builder);
         isInit = true;
         register(app);

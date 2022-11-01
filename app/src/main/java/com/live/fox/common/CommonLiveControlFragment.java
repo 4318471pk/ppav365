@@ -1215,7 +1215,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
         if (!isInit) return;
         initRedBagRain(TYPE_INIT_RED_BAG_RAIN_GET);
         GlideUtils.loadCircleRingImage(requireActivity(), anchor.getAvatar(),
-                onePx, Color.WHITE, R.drawable.img_default,
+                onePx, Color.WHITE, R.drawable.def,
                 R.drawable.img_default, anchorAvatar);
 
         tvAchorname.setText(anchor.getNickname());
@@ -2481,7 +2481,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
 
 
         if (TextUtils.isEmpty(audience.getAvatar())) {
-            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.def);
 
             dynamicEntity.setDynamicImage(bm, "avatar");
         } else {

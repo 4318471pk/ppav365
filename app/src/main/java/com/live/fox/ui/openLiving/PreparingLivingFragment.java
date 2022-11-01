@@ -28,7 +28,7 @@ public class PreparingLivingFragment extends BaseBindingFragment {
     public void onClickView(View view) {
         switch (view.getId())
         {
-            case R.id.llBotView:
+            case R.id.rlMain:
                 hideKeyBoard(getView());
                 break;
             case R.id.ivClose:

@@ -10,8 +10,11 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
 
         <ImageView
             android:id="@+id/ivClose"
@@ -101,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="@{click.onClickView}"
-                            android:layout_marginTop="16.5dip"
+                            android:layout_marginTop="10dip"
                             android:drawableRight="@mipmap/icon_room_location"
                             android:drawablePadding="5dip"
                             android:text="杭州"
@@ -121,7 +124,7 @@
             android:id="@+id/llBotView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{click.onClickView}"
+            android:clickable="false"
             >
 
             <com.live.fox.view.GradientTextView

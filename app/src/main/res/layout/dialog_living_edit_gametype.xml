@@ -15,14 +15,12 @@
         android:onClick="@{click.onClickView}"
         >
 
-        <com.flyco.roundview.RoundLinearLayout
+        <LinearLayout
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:rv_backgroundColor="#121212"
-            app:rv_cornerRadius_TL="20dip"
-            app:rv_cornerRadius_TR="20dip"
+            android:background="@drawable/bg_round_121212"
             android:orientation="vertical">
 
             <TextView
@@ -51,7 +49,7 @@
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="scrollable"
                 app:tabRippleColor="@android:color/transparent" />
-        </com.flyco.roundview.RoundLinearLayout>
+        </LinearLayout>
 
 
     </RelativeLayout>

@@ -31,6 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dip"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:gravity="center"
                 android:text="主播相关运营通知，主播相关运营通知主播相关运营通知主播相"
                 android:textSize="13sp"
