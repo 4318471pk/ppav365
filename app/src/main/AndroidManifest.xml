@@ -303,7 +303,7 @@
             android:name=".ui.living.LivingActivity"
             android:screenOrientation="portrait" /> <!-- 直播页面 -->
         <activity
-            android:name=".ui.OpenLiving.OpenLivingActivity"
+            android:name=".ui.openLiving.OpenLivingActivity"
             android:screenOrientation="portrait" /> <!-- 开播页面 -->
         <activity
             android:name=".ui.rank.RankActivity"

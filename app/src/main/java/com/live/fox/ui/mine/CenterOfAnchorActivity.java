@@ -19,12 +19,12 @@ import com.live.fox.databinding.ActivityCenterAnchorBinding;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
+import com.live.fox.ui.openLiving.OpenLivingActivity;
 import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -32,7 +32,6 @@ import com.luck.picture.lib.tools.PictureFileUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -155,6 +154,8 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
      * 开始直播
      */
     public void checkAuth() {
+        OpenLivingActivity.startActivity(this);
+
         Api_Live.ins().getAnchorAuth(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {

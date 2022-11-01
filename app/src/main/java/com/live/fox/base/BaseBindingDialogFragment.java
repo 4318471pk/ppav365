@@ -314,4 +314,20 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
         view.startAnimation(animation);
     }
 
+    public void setWindowsFlag()
+    {
+        if(getActivity()!=null && !getActivity().isFinishing() && !getActivity().isDestroyed())
+        {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                    WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+//        setFullscreen(true, true);
+    }
 }

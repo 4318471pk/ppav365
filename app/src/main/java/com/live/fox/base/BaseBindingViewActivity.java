@@ -1,12 +1,14 @@
 package com.live.fox.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
     public TextView tvTitleRight;
     int screenWidth;
     ViewDataBinding viewDataBinding;
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
         {
             BarUtils.setStatusBarVisibility(this, false);
         }
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         viewDataBinding=setBindLayoutID(onCreateLayoutId());
         viewDataBinding.setLifecycleOwner(this);
         initView();
@@ -139,6 +143,16 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
             viewDataBinding.unbind();
             viewDataBinding=null;
         }
+    }
+
+    public void hideKeyBoard(View view)
+    {
+        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
+
+    public void showKeyBoard(View view)
+    {
+        imm.showSoftInput(view,0);
     }
 
     public int getScaleWidth(float ratio) {

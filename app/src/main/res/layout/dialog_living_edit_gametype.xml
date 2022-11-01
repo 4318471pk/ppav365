@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.EditLivingGameTypeDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:rv_backgroundColor="#121212"
+            app:rv_cornerRadius_TL="20dip"
+            app:rv_cornerRadius_TR="20dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/editLivingGameTypeTitle"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#404040"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                app:tabPaddingStart="5dip"
+                app:tabPaddingEnd="5dip"
+                android:layout_alignParentBottom="true"
+                app:tabIndicatorHeight="0dp"
+                app:tabMode="scrollable"
+                app:tabRippleColor="@android:color/transparent" />
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+    </RelativeLayout>
+</layout>

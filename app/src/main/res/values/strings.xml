@@ -1388,5 +1388,9 @@
     <string name="changeBackground">更换封面</string>
     <string name="titleOfRoomTitle">房间名称:</string>
     <string name="typeOfRoomTitle">房间类型:</string>
+    <string name="enterLiving">开始视频直播</string>
+    <string name="useLocationByProfile">使用个人资料位置</string>
+    <string name="useLocationByCurrentIP">使用当前IP地址位置</string>
+    <string name="editLivingGameTypeTitle">配置房间内游戏</string>
 
 </resources>

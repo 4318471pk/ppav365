@@ -1,10 +1,14 @@
 package com.live.fox.base;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +26,7 @@ public abstract class BaseBindingFragment extends BaseFragment {
 
     ViewDataBinding viewDataBinding;
     LoadingBindingDialogFragment loadingBindingDialogFragment;
+    InputMethodManager imm;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -62,6 +67,7 @@ public abstract class BaseBindingFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         initView(view);
     }
 
@@ -85,6 +91,34 @@ public abstract class BaseBindingFragment extends BaseFragment {
         {
             return App.getInstance().getResources().getString(idRes);
         }
+    }
+
+
+    public void setWindowsFlag()
+    {
+        if(getActivity()!=null && !getActivity().isFinishing() && !getActivity().isDestroyed())
+        {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                    WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+//        setFullscreen(true, true);
+    }
+
+    public void hideKeyBoard(View view)
+    {
+        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
+
+    public void showKeyBoard(View view)
+    {
+        imm.showSoftInput(view,0);
     }
 
     public abstract void onClickView(View view);
