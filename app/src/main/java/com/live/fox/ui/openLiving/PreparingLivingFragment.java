@@ -13,9 +13,11 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.FragmentPreparingLivingBinding;
+import com.live.fox.dialog.bottomDialog.ContactCardObtainDialog;
 import com.live.fox.dialog.bottomDialog.EditLivingGameTypeDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SetLocationDialog;
+import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
 import com.live.fox.utils.device.ScreenUtils;
 
 public class PreparingLivingFragment extends BaseBindingFragment {
@@ -35,7 +37,8 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                 getActivity().finish();
                 break;
             case R.id.gtvStartLiving:
-
+                OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
+                openLivingActivity.showStartLiving();
                 break;
             case R.id.tvLocation:
                 SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
@@ -103,16 +106,22 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                     switch (index)
                     {
                         case 0:
+
                             break;
                         case 1:
+
                             break;
                         case 2:
                             EditLivingGameTypeDialog editLivingGameTypeDialog= EditLivingGameTypeDialog.getInstance();
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),editLivingGameTypeDialog);
                             break;
                         case 3:
+                            ContactCardObtainDialog contactCardObtainDialog=ContactCardObtainDialog.getInstance();
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contactCardObtainDialog);
                             break;
                         case 4:
+                            SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance();
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setRoomTypeDialog);
                             break;
                     }
                 }

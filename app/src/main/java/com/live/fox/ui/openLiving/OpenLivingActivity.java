@@ -17,6 +17,7 @@ import java.util.List;
 
 public class OpenLivingActivity extends BaseBindingViewActivity {
 
+
     ActivityOpenLivingBinding mBind;
     List<BaseBindingFragment> fragments=new ArrayList<>();
 
@@ -50,7 +51,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity {
         setWindowsFlag();
 
         fragments.add(new PreparingLivingFragment());
-        fragments.add(new StartLivingFrgament());
+        fragments.add(new StartLivingFragment());
 
         FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
         for (int i = 0; i <fragments.size() ; i++) {
@@ -80,4 +81,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity {
         fragmentTransaction.show(fragments.get(1));
         fragmentTransaction.commitAllowingStateLoss();
     }
+
+
 }

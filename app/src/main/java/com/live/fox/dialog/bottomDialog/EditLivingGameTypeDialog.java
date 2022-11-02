@@ -51,6 +51,7 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //设置dialog窗体颜色透明
         getDialog().getWindow().setDimAmount(0);
+        setWindowsFlag();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

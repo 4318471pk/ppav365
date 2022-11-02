@@ -87,6 +87,7 @@ public class LivingFragment extends BaseBindingFragment {
 
     public void notifyShow(int position) {
         Log.e("LivingFragment22", position + " ");
+        currentPagePosition = position;
         if (getView() != null && isAdded()) {
             loadData();
         }
@@ -231,6 +232,15 @@ public class LivingFragment extends BaseBindingFragment {
             }
         });
         viewPager.setCurrentItem(1);
+    }
+
+    public RoomListBean getRoomBean()
+    {
+        LivingActivity activity = (LivingActivity) getActivity();
+        if (activity.isFinishing() || activity.isDestroyed()) {
+            return null;
+        }
+        return activity.getRoomListBeans().get(currentPagePosition);
     }
 
     private void addNewMessage(LivingMsgBoxBean bean) {

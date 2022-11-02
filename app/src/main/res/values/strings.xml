@@ -1392,5 +1392,24 @@
     <string name="useLocationByProfile">使用个人资料位置</string>
     <string name="useLocationByCurrentIP">使用当前IP地址位置</string>
     <string name="editLivingGameTypeTitle">配置房间内游戏</string>
+    <string name="contactCardOfAnchor">主播名片</string>
+    <string name="contactWay">联系方式：</string>
+    <string name="obtainContactCardNeeds">获取名片额度：</string>
+    <string name="writeIDNum">填写号码：</string>
+    <string name="qq">QQ</string>
+    <string name="phone2">电话</string>
+    <string name="zhuan">钻</string>
+    <string name="tips6">(单人收礼总计达到后自动显示)</string>
+    <string name="setRoomType">房型设置</string>
+    <string name="paymentType">计费方式</string>
+    <string name="paymentAmount">计费金额：</string>
+
+    <string name="payPerHour">按时收费</string>
+    <string name="payEachShow">按场收费</string>
+    <string name="payNothing">免费房间</string>
+    <string name="payPerHourUnit">钻/分钟</string>
+    <string name="payEachShowUnit">钻/场</string>
+
+
 
 </resources>

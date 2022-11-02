@@ -155,9 +155,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
      * 开始直播
      */
     public void checkAuth() {
-//        OpenLivingActivity.startActivity(this);
-        Intent intent = new Intent(CenterOfAnchorActivity.this, AnchorLiveActivity.class);
-        startActivity(intent);
+        OpenLivingActivity.startActivity(this);
+//        Intent intent = new Intent(CenterOfAnchorActivity.this, AnchorLiveActivity.class);
+//        startActivity(intent);
         Api_Live.ins().getAnchorAuth(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {

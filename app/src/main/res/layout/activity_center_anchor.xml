@@ -134,7 +134,7 @@
                                 android:textColor="#665275"
                                 android:textSize="13sp"/>
 
-                            <com.live.fox.view.GradientEditTextView
+                            <EditText
                                 android:id="@+id/gtvTitleOfRoom"
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
@@ -143,9 +143,7 @@
                                 android:layout_marginLeft="8.5dip"
                                 android:textColor="#665275"
                                 android:textSize="13sp"
-                                app:gt_radius_dp="5dip"
-                                app:gt_solidNoGradient="#F4F1F8"
-                                android:background="@null"
+                                android:background="@drawable/round_5dp_f4f1f8"
                                 />
 
                         </LinearLayout>
