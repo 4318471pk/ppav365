@@ -24,7 +24,14 @@ public class StartLivingFragment extends BaseBindingFragment {
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
+        mBind.setClick(this);
 
-        CountTimerUtil.start(mBind.tvNumberAnim);
+        mBind.llTopView.setVisibility(View.GONE);
+        CountTimerUtil.getInstance().start(mBind.rlMain, new CountTimerUtil.OnAnimationFinishListener() {
+            @Override
+            public void onFinish() {
+                mBind.llTopView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

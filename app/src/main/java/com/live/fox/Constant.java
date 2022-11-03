@@ -82,6 +82,7 @@ public class Constant {
         public static final String Config_badge_URL = Config + "/badge";            // 获取徽章列表
         public static final String Config_cserver_URL = Config + "/cserver";        // 客服列表
         public static final String Config_notice_URL = Config + "/notice";          // 消息公告
+        public static final String Config_systemNotice_URL =  "/config-client/notice/systemNoticesByType";          // 消息公告 首页banner等等
         public static final String Config_pay_URL = Config + "/pay";                // 支付渠道列表
         public static final String Config_prop_URL = Config + "/prop";              // 道具列表
         public static final String CONFIG_ADMISSION_URL = Config + "/level/prop";    // 入场动画

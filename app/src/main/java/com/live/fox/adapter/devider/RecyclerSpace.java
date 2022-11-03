@@ -15,13 +15,14 @@ import com.live.fox.view.EmptyDataView;
 
 public class RecyclerSpace extends RecyclerView.ItemDecoration {
 
-    public static final int AnchorGrid=2;
-
+    public static final int AnchorGrid = 2;
+    public static final int TypeLeft = -2;
     private final int space;
     private int color = -1;
     private Drawable mDivider;
     private Paint mPaint;
-    private int type;
+    private int type = 0;
+
 
     public int getColor() {
         return color;
@@ -59,18 +60,22 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view,
                                RecyclerView parent, RecyclerView.State state) {
 
-
-
         if (parent.getLayoutManager() != null) {
             if (parent.getLayoutManager() instanceof LinearLayoutManager && !(parent.getLayoutManager() instanceof GridLayoutManager)) {
                 if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayoutManager.HORIZONTAL) {
-                    outRect.set(space, 0, space, 0);
+                    switch (type) {
+                        case TypeLeft:
+                            outRect.set(space, 0, 0, 0);
+                            break;
+                        default:
+                            outRect.set(space, 0, space, 0);
+                    }
+
                 } else {
                     outRect.set(0, space, 0, space);
                 }
             } else {
-                switch (type)
-                {
+                switch (type) {
                     case 2:
                         int position = parent.getChildAdapterPosition(view); // 获取view 在adapter中的位置。
                         int column = position % 2; // view 所在的列
@@ -96,8 +101,7 @@ public class RecyclerSpace extends RecyclerView.ItemDecoration {
                     drawVertical(c, parent);
                 }
             } else {
-                switch (type)
-                {
+                switch (type) {
                     case 0:
                         drawGrideview(c, parent);
                         break;
