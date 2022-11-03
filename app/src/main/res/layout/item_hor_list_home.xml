@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <com.live.fox.view.AnchorRoundImageView
+        android:id="@+id/ivRoundBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_anchor_loading"
+        app:riv_corner_radius="10dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/descri_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="74dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <TextView
+            android:id="@+id/tvArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="6dp"
+            android:layout_toStartOf="@+id/tv_num"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="台北市"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tvArea"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="3dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:text="名字不超过八汉字" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/circle_fe0d89"
+            android:layout_alignBottom="@id/tvArea"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="9dp"
+            android:drawablePadding="2dp"
+            android:text="2356"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -125,6 +125,13 @@ public class ConvenientBanner<T> extends LinearLayout {
         return this;
     }
 
+
+    public void setNewData(List<T> list)
+    {
+        this.mDatas.clear();
+        this.mDatas.addAll(list);
+        notifyDataSetChanged();
+    }
     /**
      * 通知数据变化
      * 如果只是增加数据建议使用 notifyDataSetAdd()

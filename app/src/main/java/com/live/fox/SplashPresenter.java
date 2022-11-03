@@ -370,7 +370,6 @@ public class SplashPresenter {
         });
 
         if (!SPManager.getISFirstInstall()) {  //第一次安装
-            LogUtils.e("Banner 安装");
             SPManager.saveFirstInstall();
 
             Api_Promotion.ins().installStat(SPManager.getPuid(), new JsonCallback<String>() {

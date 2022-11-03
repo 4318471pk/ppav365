@@ -1,11 +1,18 @@
 package com.live.fox.utils;
 
+import android.content.Context;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.live.fox.R;
 
 /**
  * @author keynes
@@ -20,8 +27,31 @@ public class CountTimerUtil {
     // 当前的计时
     private static int sCurCount = DEFAULT_REPEAT_COUNT;
 
-    public static <T extends TextView> void start(T animationViewTv) {
-        start(animationViewTv, DEFAULT_REPEAT_COUNT);
+    OnAnimationFinishListener listener;
+    static CountTimerUtil countTimerUtil;
+
+    public static CountTimerUtil getInstance()
+    {
+        if(countTimerUtil==null)
+        {
+            countTimerUtil=new CountTimerUtil();
+        }
+        return countTimerUtil;
+    }
+
+    public void start(RelativeLayout relativeLayout,OnAnimationFinishListener onAnimationFinishListener) {
+        listener=onAnimationFinishListener;
+        Context context=relativeLayout.getContext();
+        int dip100=ScreenUtils.dp2px(context,100);
+        TextView textView=new TextView(context);
+        RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(dip100,dip100);
+        rl.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
+        textView.setLayoutParams(rl);
+        textView.setTextColor(0xffffffff);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,48);
+        textView.setGravity(Gravity.CENTER);
+        textView.setBackground(context.getResources().getDrawable(R.drawable.live_room_anima_dot));
+        start(textView, DEFAULT_REPEAT_COUNT);
     }
 
     /**
@@ -63,7 +93,10 @@ public class CountTimerUtil {
                 // 减秒
                 --sCurCount;
                 // 设置文本
-                animationViewTv.setText(String.valueOf(sCurCount));
+                if (sCurCount == 0) {
+                   ViewGroup viewGroup=(ViewGroup) animationViewTv.getParent();
+                   viewGroup.removeView(animationViewTv);
+                }
             }
         });
 
@@ -74,4 +107,8 @@ public class CountTimerUtil {
         animationViewTv.startAnimation(animationSet);
     }
 
+    public interface OnAnimationFinishListener
+    {
+        void onFinish();
+    }
 }

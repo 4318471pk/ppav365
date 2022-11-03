@@ -11,6 +11,7 @@ import com.live.fox.entity.Game;
 import com.live.fox.entity.GameColumn;
 import com.live.fox.entity.GameListItem;
 import com.live.fox.entity.Gift;
+import com.live.fox.entity.HomeBanner;
 import com.live.fox.entity.HomeColumn;
 import com.live.fox.entity.HongdongBean;
 import com.live.fox.entity.Kefu;
@@ -142,6 +143,20 @@ public class Api_Config extends BaseApi {
         callback.setUrlTag("system/notice");
         doGetHeaders(url, callback);
     }
+
+    /**
+     * 获取首页Banner列表
+     */
+    public void getRecommendListBanner(JsonCallback<List<HomeBanner>> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(getBaseServerDomain());
+        stringBuilder.append(Constant.URL.Config_systemNotice_URL);
+        stringBuilder.append(String.format("?type=%s","1"));
+
+        callback.setUrlTag(Constant.URL.Config_systemNotice_URL);
+        doGetHeaders(stringBuilder.toString(), callback);
+    }
+
 
     /**
      * 主播标签
