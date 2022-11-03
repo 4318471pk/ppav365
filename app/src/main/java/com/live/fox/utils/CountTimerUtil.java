@@ -16,8 +16,6 @@ public class CountTimerUtil {
 
     // 默认计时
     private static final int DEFAULT_REPEAT_COUNT = 4;
-    // 最后一秒显示的文本
-    private static final String LAST_SECOND_TEXT = "Go";
 
     // 当前的计时
     private static int sCurCount = DEFAULT_REPEAT_COUNT;
@@ -65,8 +63,7 @@ public class CountTimerUtil {
                 // 减秒
                 --sCurCount;
                 // 设置文本
-                if (sCurCount == 0) animationViewTv.setText(LAST_SECOND_TEXT);
-                else animationViewTv.setText(String.valueOf(sCurCount));
+                animationViewTv.setText(String.valueOf(sCurCount));
             }
         });
 

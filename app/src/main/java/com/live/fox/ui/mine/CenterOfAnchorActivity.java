@@ -12,13 +12,16 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 import com.live.fox.AnchorLiveActivity;
+import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityCenterAnchorBinding;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
+import com.live.fox.entity.ConfigPathsBean;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.openLiving.OpenLivingActivity;
 import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
@@ -114,6 +117,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         });
 
         mBind.gtvTitleOfRoom.setText(DataCenter.getInstance().getUserInfo().getUser().getNickname());
+        getLineList();
     }
 
     private void openLive() {
@@ -191,6 +195,23 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 //                    } catch (Exception e) {
 //                        e.getStackTrace();
 //                    }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+
+    private void getLineList()
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_Config.ins().getConfigPaths(DataCenter.getInstance().getUserInfo().getUser().getUid(), new JsonCallback<List<ConfigPathsBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<ConfigPathsBean> data) {
+                hideLoadingDialog();
+                if (code == Constant.Code.SUCCESS) {
+
                 } else {
                     ToastUtils.showShort(msg);
                 }

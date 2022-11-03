@@ -94,7 +94,7 @@ public class Constant {
         public static final String Config_detaillist_URL = Config + "/detail/list"; // 开源游戏列表 parentId 查询全部的时候parentId传-1
         public static final String CONFIG_CP_URL = Config + "/cp/list"; // 开源游戏列表 parentId 查询全部的时候parentId传-1
         public static final String CONFIG_VIP_URL = Config + "/vip";
-        public static final String CONFIG_PATHS_URL = "config-client/liveConfig/livePathConfig";
+        public static final String CONFIG_PATHS_URL = "/config-client/liveConfig/livePathConfig";
 
         //center-client 下面的接口 用户相关接口
         public static final String CenterClient = "/center-client";

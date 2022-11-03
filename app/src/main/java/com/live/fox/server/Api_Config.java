@@ -232,6 +232,7 @@ public class Api_Config extends BaseApi {
      */
     public void getConfigPaths(long uid, JsonCallback<List<ConfigPathsBean>> callback) {
         String url = getBaseServerDomain() + Constant.URL.CONFIG_PATHS_URL + "?uid=" + uid;
+
         doGetHeaders(url, callback);
     }
 

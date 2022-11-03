@@ -4,14 +4,13 @@
     <data>
         <variable
             name="click"
-            type="" />
+            type="com.live.fox.ui.openLiving.StartLivingFragment" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <TextView
             android:id="@+id/tv_number_anim"
@@ -24,5 +23,5 @@
             android:textColor="#ffffff"
             android:textSize="48sp"
             android:visibility="gone" />
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

@@ -5,4 +5,6 @@
     <item name="statusbarutil_translucent_view" type="id" />
     <item name="cb_item_tag" type="id"/>
     <item name="gameTypeImg" type="id"/>
+    <item name="livingViewPager" type="id"/>
+    <item name="txLivingVideoView" type="id"/>
 </resources>

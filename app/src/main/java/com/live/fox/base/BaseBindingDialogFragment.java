@@ -92,7 +92,6 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         viewDataBinding= DataBindingUtil.inflate(inflater,onCreateLayoutId(),container,false);
         viewDataBinding.setLifecycleOwner(this);
         return viewDataBinding.getRoot();
