@@ -9,27 +9,31 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.PopupWindow;
 
+import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogPurchaseCarBinding;
+import com.live.fox.dialog.CommonDialog;
 import com.live.fox.dialog.temple.TempleDialog;
+import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
+import com.live.fox.ui.mine.MyBagAndStoreFragment;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 
 public class PurchaseCarDialog extends BaseBindingDialogFragment {
 
-    public static final int purchase=0;
-    public static final int renew=1;
 
     DialogPurchaseCarBinding mBind;
     int status;
@@ -51,9 +55,10 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
                 dismissAllowingStateLoss();
                 break;
             case R.id.gtvCommit:
-               // openAlert();
-                buyCar();
-                dismissAllowingStateLoss();
+                //openBuy();
+               // buyCar();
+                openAlert();
+                //dismissAllowingStateLoss();
                 break;
         }
     }
@@ -76,12 +81,12 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         mBind.tvAll.setText(String.format(getString(R.string.all), myBagStoreListItemBean.getPrice() + ""));
 
 
-        if(status==purchase)
+        if(!myBagStoreListItemBean.isHave())
         {
             mBind.gtvCommit.setColors(getResources().getIntArray(R.array.myBagBuyColor));
             mBind.gtvCommit.setText(getResources().getString(R.string.confirmPurchase));
         }
-        else if(status==renew)
+        else if(myBagStoreListItemBean.isEnable())
         {
             mBind.gtvCommit.setColors(getResources().getIntArray(R.array.confirmRenew));
             mBind.gtvCommit.setText(getResources().getString(R.string.confirmRenew));
@@ -134,6 +139,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         valueAnimator.start();
     }
 
+
     private void openAlert()
     {
         TempleDialog templeDialog=TempleDialog.getInstance();
@@ -147,112 +153,56 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
                 spanUtils.append(myBagStoreListItemBean.getPrice() + "").setForegroundColor(0xffF42C2C);
                 spanUtils.appendImage(getResources().getDrawable(R.mipmap.icon_diamond),SpanUtils.ALIGN_BASELINE);
 
-                if(status==purchase)
-                {
-                    dialog.getBind().gtCommit.setText(getString(R.string.confirm));
+                String confirm = getString(R.string.confirm);
+
+                if(!myBagStoreListItemBean.isHave()) {
                     spanUtils.append(getString(R.string.buy));
                 }
-                else if(status==renew)
-                {
-                    dialog.getBind().gtCommit.setText(getString(R.string.renew));
+                else if(myBagStoreListItemBean.isEnable()) {
+                    confirm = getString(R.string.renew);
                     spanUtils.append(getString(R.string.renew)).append(getString(R.string.buy));
                 }
+
                 spanUtils.append("\n");
                 spanUtils.append(myBagStoreListItemBean.getName()).setForegroundColor(0xffF42C2C);
                 spanUtils.append("30天吗?");
                 dialog.getBind().tvContent.setText(spanUtils.create());
 
-                dialog.getBind().gtCancel.setOnClickListener(new OnClickFrequentlyListener() {
-                    @Override
-                    public void onClickView(View view) {
-                        dialog.dismissAllowingStateLoss();
-                    }
-                });
-                dialog.getBind().gtCommit.setOnClickListener(new OnClickFrequentlyListener() {
-                    @Override
-                    public void onClickView(View view) {
-                        //buyCar(dialog);
+                dialog.getBind().gtCommit.setText(confirm);
 
-                    }
-                });
+            }
 
-//                dialog.getBind().gtCancel.setOnClickListener(new View.OnClickListener() {
-//                                                                 @Override
-//                                                                 public void onClick(View v) {
-//                                                                     dialog.dismissAllowingStateLoss();
-//                                                                 }
-//                                                             });
-//                        dialog.getBind().gtCommit.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                buyCar(dialog);
-//                            }
-//                        });
+            @Override
+            public void clickCancel(TempleDialog dialog) {
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void clickOk(TempleDialog dialog) {
+                buyCar(dialog);
             }
         });
 
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),templeDialog);
     }
 
-//    private void setPopOperate(){
-//        View popupView = this.getLayoutInflater().inflate(R.layout.dialog_temple,null);
-//
-//        PopupWindow popupWindowOperate = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
-//        popupWindowOperate.setFocusable(true);
-//        popupWindowOperate.setOutsideTouchable(false);// 设置同意在外点击消失
-//
-//        popupWindowOperate.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                //在dismiss中恢复透明度
-//                setRootAlpha(1f);
-//            }
-//        });
-//        popupWindowOperate.setAnimationStyle(R.style.ActionSheetDialogAnimation);
-//
-////        etLiving = popupView.findViewById(R.id.etLiving);
-////        etGame = popupView.findViewById(R.id.etGame);
-//
-//        popupView.findViewById(R.id.gtCancel).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                popupWindowOperate.dismiss();
-//            }
-//        });
-//
-//
-//        popupView.findViewById(R.id.gtCommit).setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        buyCar(popupWindowOperate);
-//                    }
-//                });
-//
-//        popupWindowOperate.showAtLocation(this.getActivity(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
-//
-//    }
-//
-//
-//
-//    private void setRootAlpha(float al){
-//        WindowManager.LayoutParams lp = this.getActivity().getWindow().getAttributes();
-//        lp.alpha= al;
-//        this.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        this.getActivity().getWindow().setAttributes(lp);
-//    }
 
 
-    private void buyCar(){
+    private void buyCar(TempleDialog dialog){
         HashMap<String, Object> commonParams = BaseApi.getCommonParams();
         commonParams.put("propId", myBagStoreListItemBean.getId());
         Api_Order.ins().buyCar(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                   dismissAllowingStateLoss();
-
-                    ToastUtils.showShort(getString(R.string.successfulOpening));
+                    dialog.dismissAllowingStateLoss();
+                    dismissAllowingStateLoss();
+                    if (!myBagStoreListItemBean.isHave()) {
+                        EventBus.getDefault().post(new MessageEvent(MyBagAndStoreFragment.EventCodeStore));
+                        ToastUtils.showShort(App.getInstance().getString(R.string.successfulOpening));
+                    } else {
+                        ToastUtils.showShort(App.getInstance().getString(R.string.xufei_suc));
+                    }
                 } else {
                     ToastUtils.showShort(msg);
                 }

@@ -9,6 +9,7 @@ public class NobleEquityBean {
     private String tips;
     private Drawable img;
     private boolean showPhoto = false;
+    private String ulr;
 
     public NobleEquityBean() {
 
@@ -65,5 +66,13 @@ public class NobleEquityBean {
 
     public void setShowPhoto(boolean showPhoto) {
         this.showPhoto = showPhoto;
+    }
+
+    public String getUlr() {
+        return ulr;
+    }
+
+    public void setUlr(String ulr) {
+        this.ulr = ulr;
     }
 }

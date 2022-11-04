@@ -14,6 +14,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.request.GetRequest;
 import com.lzy.okgo.request.PostRequest;
 
+import java.io.File;
 import java.net.Proxy;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -119,7 +120,6 @@ public class OkGoHttpUtil {
         if (params != null) {
             postRequest.params(params);
         }
-
         return postRequest;
     }
 

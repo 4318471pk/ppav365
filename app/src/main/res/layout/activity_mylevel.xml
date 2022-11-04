@@ -79,16 +79,17 @@
 
         </LinearLayout>
 
-        <com.live.fox.view.MagicTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="150dip"
-            android:text="LV.200"
-            android:textColor="#ffffff"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:strokeWidth="2dip"
-            app:strokeColor="#ffffff" />
+<!--        <com.live.fox.view.MagicTextView-->
+<!--            android:id="@+id/tvLevel"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginTop="150dip"-->
+<!--            android:text="LV.200"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:textSize="40sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:strokeWidth="2dip"-->
+<!--            app:strokeColor="#ffffff" />-->
     </RelativeLayout>
 </layout>

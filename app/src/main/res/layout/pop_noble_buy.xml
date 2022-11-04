@@ -10,8 +10,9 @@
         android:id="@+id/iv"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@mipmap/king"
+
         />
+<!--    android:src="@mipmap/king"-->
 
     <TextView
         android:id="@+id/tv_title"

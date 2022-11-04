@@ -95,7 +95,7 @@ public class MyLevelActivity extends BaseBindingViewActivity {
             public void onSuccess(int code, String msg, UserAssetsBean data) {
                 hideLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    mBind.tvLv.setText(data.getUserLevel() + "");
+                    mBind.tvLv.setText("LV." + data.getUserLevel());
                     mBind.floatingPoint.setText(data.getUserExp()+ "");
                 } else {
                     ToastUtils.showShort(msg);

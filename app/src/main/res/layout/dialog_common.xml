@@ -1,63 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.flyco.roundview.RoundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:rv_cornerRadius="15dp"
+    >
 
     <TextView
         android:id="@+id/dialog_common_title"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/shape_gradient_red_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/confirm"
-        android:textColor="@color/white"
+        android:textColor="@color/color404040"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp"
+      />
 
     <TextView
         android:id="@+id/dialog_common_content"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp"
-        android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_common_title"
+        android:gravity="center"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:textSize="14sp"
+        android:textColor="@color/color646464"
         tools:text="@string/recharge_usdt_address_title_qr" />
 
-    <TextView
-        android:id="@+id/dialog_common_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/selector_button_gry"
-        android:gravity="center"
-        android:paddingHorizontal="24dp"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/dialog_common_confirm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_common_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorD2CDE0"/>
 
-    <TextView
-        android:id="@+id/dialog_common_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/selector_button_them"
-        android:gravity="center"
-        android:paddingHorizontal="24dp"
-        android:text="@string/confirm"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/dialog_common_cancel"
-        app:layout_constraintTop_toBottomOf="@id/dialog_common_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/dialog_common_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button_gry"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/colorA800FF"
+            android:textSize="16sp"
+            app:rv_cornerRadius="18dp"
+            app:rv_strokeWidth="1dp"
+            app:rv_strokeColor="@color/colorA800FF"
+            />
+
+        <TextView
+            android:id="@+id/dialog_common_confirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_a800ff_d689ff_2"
+            android:gravity="center"
+            android:paddingHorizontal="24dp"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+
+            />
+
+
+    </LinearLayout>
+
+
+</com.flyco.roundview.RoundLinearLayout>

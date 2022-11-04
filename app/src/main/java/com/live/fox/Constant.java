@@ -134,6 +134,11 @@ public class Constant {
         public static final String AUTH_CheckToken_URL = CenterClient + "/sys/auth/check/token"; //检查Token是否有效
         public static final String AUTH_DETERPWD_URL = CenterClient + "/sys/user/determine/pwd";//判断是否设置密码
         public static final String AUTH_ISREGISTE_URL = CenterClient + "/sys/user/phone/isRegiste";//判断手机号是否注册接口
+        public static final String UPLOAD_USER_PGOTO_URL = "/config-client/file/uploadFileAvatar";//上传头像文件接口；
+
+        public static final String NOTICE_URL = "/config-client/notice/systemNoticesByType";
+        public static final String ACT_URL = "/pk-client/activity/activityListByCategory";
+
 
 
         //用户下的直播相关接口
@@ -186,10 +191,18 @@ public class Constant {
         public static final String USER_deleteBank = CenterClient + "/user/user/deleteBankCard"; //删除银行卡
         public static final String USER_setNorenBank = CenterClient + "/user/user/switchoverBank"; //设置默认银行卡
         public static final String USER_buyCar= CenterClient + "/assets/buy/car"; //买座驾
+        public static final String USER_openCar= CenterClient + "/assets/mount/enable"; //启用座驾
+        public static final String USER_closeCar= CenterClient + "/assets/mount/disable"; //禁用座驾
         public static final String USER_bagList= CenterClient + "/assets/backpack/list"; //我的背包
         public static final String USER_withDraw= CenterClient + "/user/withdraw"; //提现
         public static final String USER_withDrawRecord= CenterClient + "/assets/withdraw/record"; //提现记录
         public static final String USER_diamondRecord= CenterClient + "/assets/profiex/record"; //钻石收入记录
+        public static final String USER_diamondRecordExpend= CenterClient + "/assets/consum/record"; //钻石支出记录
+        public static final String USER_getNobleList =  "/vip/getNobleVipList"; //貴族列表
+        public static final String USER_getMyNoble = "/pk-client/vip/getMyNobility"; // 我的貴族
+        public static final String USER_buyNoble = "/pk-client/vip/buyOrRenewalVip"; // 购买续费貴族 /pk-client/vip/buyOrRenewalVip
+
+
 
         //live-client 直播相关接口
         public static final String LiveClient = "/live-client";

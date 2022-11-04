@@ -27,6 +27,7 @@ import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.common.JsonCallback;
@@ -41,6 +42,7 @@ import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginActivity;
 import com.live.fox.ui.login.LoginPageType;
+import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
@@ -295,45 +297,57 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
                 case PictureConfig.CHOOSE_REQUEST:
                     // 圖片選擇結果回調
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    if(selectList!=null && selectList.size()>0)
+                    {
+                        LocalMedia localMedia = selectList.get(0);
+                        LogUtils.e("图片-----》" + localMedia.getPath());
+                        EditProfileImageActivity.startActivity(this,localMedia.getPath());
+                    }
                     // 例如 LocalMedia 裏面返回三種path
                     // 1.media.getPath(); 為原圖path
                     // 2.media.getCutPath();為裁剪後path，需判斷media.isCut();是否為true
                     // 3.media.getCompressPath();為壓縮後path，需判斷media.isCompressed();是否為true
                     // 如果裁剪並壓縮了，已取壓縮路徑為準，因為是先裁剪後壓縮的
-                    for (LocalMedia media : selectList) {
-                        LogUtils.e("圖片-----》" + media.getPath());
-                    }
-                    localMedia = selectList.get(0);
-                    LogUtils.e("图片-----》" + localMedia.getPath());
-//                    GlideTools.loadImage(EditUserInfoActivity.this, localMedia.getPath(),ivHead);
-//                    RequestOptions options = new RequestOptions()
-//                            .centerCrop()
-//                            .placeholder(R.color.white)
-//                            .diskCacheStrategy(DiskCacheStrategy.ALL);
-                    loadingDialog = showLoadingDialog(getString(R.string.pictureUploading), false, true);
-                    Api_Config.ins().getOssToken(new JsonCallback<OssToken>() {
-                        @Override
-                        public void onSuccess(int code, String msg, OssToken ossToken) {
-                            if (ossToken != null) LogUtils.e(ossToken.toString());
-                            if (code == 0) {
-                                if (ossToken != null) {
-                                    //开启线程
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            uploadImage(ossToken);
-                                        }
-                                    }).start();
-                                } else {
-                                    hideLoadingDialog();
-                                    showToastTip(false, getString(R.string.configurationInformation));
-                                }
-                            } else {
-                                showToastTip(false, getString(R.string.fuwuInformation));
-                                hideLoadingDialog();
-                            }
-                        }
-                    });
+//                    for (LocalMedia media : selectList) {
+//                        LogUtils.e("圖片-----》" + media.getPath());
+//                    }
+//                    localMedia = selectList.get(0);
+//                    LogUtils.e("图片-----》" + localMedia.getPath());
+////                    GlideTools.loadImage(EditUserInfoActivity.this, localMedia.getPath(),ivHead);
+////                    RequestOptions options = new RequestOptions()
+////                            .centerCrop()
+////                            .placeholder(R.color.white)
+////                            .diskCacheStrategy(DiskCacheStrategy.ALL);
+//                    loadingDialog = showLoadingDialog(getString(R.string.pictureUploading), false, true);
+//                    Api_Config.ins().getOssToken(new JsonCallback<OssToken>() {
+//                        @Override
+//                        public void onSuccess(int code, String msg, OssToken ossToken) {
+//                            if (ossToken != null) LogUtils.e(ossToken.toString());
+//                            if (code == 0) {
+//                                if (ossToken != null) {
+//                                    //开启线程
+//                                    new Thread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            uploadImage(ossToken);
+//                                        }
+//                                    }).start();
+//                                } else {
+//                                    hideLoadingDialog();
+//                                    showToastTip(false, getString(R.string.configurationInformation));
+//                                }
+//                            } else {
+//                                showToastTip(false, getString(R.string.fuwuInformation));
+//                                hideLoadingDialog();
+//                            }
+//                        }
+//                    });
+                    break;
+                case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
+                    String pic = data.getStringExtra("data");
+                    user.setAvatar(pic);
+                    GlideUtils.loadImage(this, pic, ivHead);
+                    showToastTip(true, getString(R.string.modifySuccess));
                     break;
             }
         }

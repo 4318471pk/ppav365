@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundLinearLayout;
+import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.entity.ChargeCoinBean;
 import com.live.fox.entity.NobleEquityBean;
+import com.live.fox.utils.GlideUtils;
 
 import java.util.List;
 
@@ -66,7 +69,8 @@ public class NobleEquityAdapter extends BaseAdapter {
         if (data.get(position).isShowPhoto()) {
             img.setVisibility(View.GONE);
             photo.setVisibility(View.VISIBLE);
-            photo.setImageDrawable(data.get(position).getImg());
+           // photo.setImageDrawable(data.get(position).getImg());
+            Glide.with(context).load(data.get(position).getUlr()).error(data.get(position).getImg()).into(photo);
         } else {
             img.setVisibility(View.VISIBLE);
             photo.setVisibility(View.GONE);

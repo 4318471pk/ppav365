@@ -159,6 +159,26 @@ public final class TimeUtils {
         return myFormatter.parse(time).getTime();
     }
 
+    //时间格式转换  long转为yyyy-MM-dd格式的时间
+    public static String getToday2() {
+        long time = System.currentTimeMillis();
+        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        return myFormatter.format(time);
+    }
+
+    //时间格式转换  long转为yyyy-MM-dd  HH:mm格式的时间
+    public static String getDate(long time) {
+        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return myFormatter.format(time);
+    }
+
+    //时间格式转换  long转为yyyy-MM-dd  HH:mm格式的时间
+    public static String getDate2(long time) {
+        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        return myFormatter.format(time);
+    }
+
+
     //获取今天00:00:00的时间
     public static long getCurrentTodayStartTime() {
         String time = getCurrentTime("dd-MM-yyyy");
