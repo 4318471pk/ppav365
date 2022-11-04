@@ -1,6 +1,9 @@
 package com.live.fox.entity;
 
-public class ConfigPathsBean {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ConfigPathsBean implements Parcelable {
 
     /**
      * id : 1
@@ -40,6 +43,37 @@ public class ConfigPathsBean {
     private Object updateTime;
     private int type;
     private int  choicePosition;
+
+    protected ConfigPathsBean(Parcel in) {
+        id = in.readInt();
+        appId = in.readString();
+        licenceUrl = in.readString();
+        licenceKey = in.readString();
+        apiKey = in.readString();
+        authKey = in.readString();
+        bizid = in.readString();
+        name = in.readString();
+        status = in.readInt();
+        pushUrl = in.readString();
+        pullUrl = in.readString();
+        rtmp = in.readString();
+        operator = in.readString();
+        gmtCreate = in.readLong();
+        type = in.readInt();
+        choicePosition = in.readInt();
+    }
+
+    public static final Creator<ConfigPathsBean> CREATOR = new Creator<ConfigPathsBean>() {
+        @Override
+        public ConfigPathsBean createFromParcel(Parcel in) {
+            return new ConfigPathsBean(in);
+        }
+
+        @Override
+        public ConfigPathsBean[] newArray(int size) {
+            return new ConfigPathsBean[size];
+        }
+    };
 
     public int getChoicePosition() {
         return choicePosition;
@@ -183,5 +217,30 @@ public class ConfigPathsBean {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(appId);
+        dest.writeString(licenceUrl);
+        dest.writeString(licenceKey);
+        dest.writeString(apiKey);
+        dest.writeString(authKey);
+        dest.writeString(bizid);
+        dest.writeString(name);
+        dest.writeInt(status);
+        dest.writeString(pushUrl);
+        dest.writeString(pullUrl);
+        dest.writeString(rtmp);
+        dest.writeString(operator);
+        dest.writeLong(gmtCreate);
+        dest.writeInt(type);
+        dest.writeInt(choicePosition);
     }
 }

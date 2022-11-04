@@ -56,6 +56,7 @@ public class LivingActivity extends BaseBindingViewActivity {
     DialogListener dialogListener;
     RecommendLivingAnchorAdapter recommendListAdapter;
     ArrayList<RoomListBean> roomListBeans;
+    int pagerPosition;
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
@@ -155,8 +156,10 @@ public class LivingActivity extends BaseBindingViewActivity {
                 super.onPageScrollStateChanged(state);
                 Log.e("onPageScrollSted",state+" ");
                 //限制用户滑动得太快 输入法反应不了那么快
-                if(state==0)
+
+                if(state==0 && pagerPosition!=mBind.vp2.getCurrentItem())
                 {
+                    pagerPosition=mBind.vp2.getCurrentItem();
                     mBind.vp2.setUserInputEnabled(false);
 
                     int position=mBind.vp2.getCurrentItem();
@@ -166,19 +169,23 @@ public class LivingActivity extends BaseBindingViewActivity {
                         if(position-1>-1)
                         {
                             livingFragmentStateAdapter.getFragment(position-1)
-                                    .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+                                    .notifyShow(livingFragmentStateAdapter.getRealPosition(position-1),position);
                         }
 
                         if(position+1<Integer.MAX_VALUE)
                         {
                             livingFragmentStateAdapter.getFragment(position+1)
-                                    .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+                                    .notifyShow(livingFragmentStateAdapter.getRealPosition(position+1),position);
                         }
 
                         livingFragmentStateAdapter.getFragment(position)
-                                .notifyShow(livingFragmentStateAdapter.getRealPosition(position));
+                                .notifyShow(livingFragmentStateAdapter.getRealPosition(position),position);
 
                     }
+                }
+                else
+                {
+                    pagerPosition=mBind.vp2.getCurrentItem();
                 }
 
             }
@@ -236,6 +243,11 @@ public class LivingActivity extends BaseBindingViewActivity {
             return livingFragmentStateAdapter.getRealPosition(mBind.vp2.getCurrentItem());
         }
         return 0;
+    }
+
+    public int getPagerPosition()
+    {
+        return mBind.vp2.getCurrentItem();
     }
 
     public interface DialogListener

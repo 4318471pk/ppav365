@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.ContactCardObtainDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_round_121212"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dip"
+                    android:layout_marginTop="15dip"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="@string/contactCardOfAnchor"
+                    />
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="5dip"
+                    android:layout_marginTop="6dip"
+                    android:layout_marginBottom="9dip"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/tag_a800ff_ea00ff"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#404040"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"
+                android:layout_marginTop="20dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contactWay"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:button="@null"
+                            android:drawableRight="@drawable/radio_purple"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"
+                            android:text="@string/wechat"/>
+                        <RadioButton
+                            android:button="@null"
+                            android:drawableRight="@drawable/radio_purple"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dip"
+                            android:drawablePadding="5dp"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"
+                            android:text="@string/qq"/>
+                        <RadioButton
+                            android:button="@null"
+                            android:drawableRight="@drawable/radio_purple"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dip"
+                            android:drawablePadding="5dp"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"
+                            android:text="@string/phone2"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dip"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/obtainContactCardNeeds"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dip"
+                        android:paddingLeft="5dip"
+                        android:paddingRight="5dip"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:text="1111"
+                        android:minWidth="200dip"
+                        android:background="@drawable/round_5dp_4cf4f1f8"
+                       />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dip"
+                    android:layout_marginTop="27dip"
+                    android:layout_marginBottom="50dip"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/writeIDNum"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="5dip"
+                        android:paddingRight="5dip"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:text="1234"
+                        android:maxWidth="100dip"
+                        android:minWidth="70dip"
+                        android:background="@drawable/round_5dp_4cf4f1f8"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/zhuan"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/tips6"
+                        android:textColor="#E2B361"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+</layout>

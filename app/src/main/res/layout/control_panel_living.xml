@@ -10,7 +10,7 @@
             type="com.live.fox.ui.living.LivingControlPanel" />
     </data>
 
-    <RelativeLayout
+    <com.live.fox.view.MyRelativeLayoutNoFitSystem
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -562,5 +562,5 @@
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>

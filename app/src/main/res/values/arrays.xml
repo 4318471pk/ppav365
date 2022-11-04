@@ -136,6 +136,14 @@
         <item>一心人</item>
     </string-array>
 
+    <string-array name="startLivingTitles">
+        <item>翻转</item>
+        <item>美颜</item>
+        <item>配置游戏</item>
+        <item>福利</item>
+        <item>房型</item>
+    </string-array>
+
     <string-array name="giftListTag">
         <item>1314</item>
         <item>520</item>

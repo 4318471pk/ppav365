@@ -124,7 +124,7 @@ public class MyShareDialog extends Dialog implements View.OnClickListener {
     private void saveQRCodeImage() {
         if (currentQrBp == null) return;
 
-        Bitmap backbm = BitmapFactory.decodeResource(context.getResources(), R.drawable.sharebg);
+        Bitmap backbm = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
         Bitmap totalBp = addBackground(currentQrBp, backbm);
         saveBmp2Gallery(context, totalBp, "live"); // 保存
     }

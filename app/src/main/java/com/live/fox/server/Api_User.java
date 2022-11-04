@@ -184,7 +184,7 @@ public class Api_User extends BaseApi {
     /**
      * 关注
      */
-    public void followUser(long targetId, boolean isFollow, JsonCallback<String> callback) {
+    public void followUser(String targetId, boolean isFollow, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_follow_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("isFollow", isFollow);

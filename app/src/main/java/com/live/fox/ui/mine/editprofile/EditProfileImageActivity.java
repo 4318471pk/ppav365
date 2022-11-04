@@ -47,7 +47,11 @@ import java.io.File;
 public class EditProfileImageActivity extends BaseActivity {
 
     public static final String picUrl="picPath";
+    public static final String Shape="Shape";
+    public static final String Circle="Circle";
+    public static final String Square="Square";
     PictureCropView pictureCropView;
+
 
     public static void startActivity(Activity context,String url)
     {
@@ -56,11 +60,25 @@ public class EditProfileImageActivity extends BaseActivity {
         context.startActivityForResult( intent,ConstantValue.REQUEST_CROP_PIC);
     }
 
+    public static void startActivity(Activity context,String shape,String url)
+    {
+        Intent intent=new Intent(context,EditProfileImageActivity.class);
+        intent.putExtra(picUrl,url);
+        intent.putExtra(Shape,shape);
+        context.startActivityForResult( intent,ConstantValue.REQUEST_CROP_PIC);
+    }
+
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         String url=getIntent().getStringExtra(picUrl);
+        String shape=getIntent().getStringExtra(Shape);
+        if(TextUtils.isEmpty(shape))
+        {
+            shape=Circle;
+        }
+
         if(TextUtils.isEmpty(url))
         {
             ToastUtils.showShort(getString(R.string.uploadProfileImgTips));
@@ -71,7 +89,19 @@ public class EditProfileImageActivity extends BaseActivity {
         LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_header_layout,null);
 
         pictureCropView=new PictureCropView(this);
-        pictureCropView.setCircleRadius(ScreenUtils.getScreenWidth(this)/2-ScreenUtils.dip2px(this,10));
+        switch (shape)
+        {
+            case Circle:
+                pictureCropView.setShape(0);
+                pictureCropView.setRadius(ScreenUtils.getScreenWidth(this)/2-ScreenUtils.dip2px(this,10));
+                break;
+            case Square:
+                pictureCropView.setShape(1);
+                pictureCropView.setRadius(ScreenUtils.getScreenWidth(this)/2);
+                break;
+        }
+
+
         pictureCropView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         pictureCropView.setPicture(BitmapFactory.decodeFile(url));
 

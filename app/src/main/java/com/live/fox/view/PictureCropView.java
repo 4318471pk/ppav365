@@ -45,6 +45,7 @@ public class PictureCropView extends View {
     private boolean canNotTouch;
 
     private int mRadius = 320;
+    private int shape=0;//0 圆 1 正方形
 
     private Bitmap mCropBitmap;
     private boolean mFirstInitBitmap;
@@ -92,10 +93,15 @@ public class PictureCropView extends View {
     }
 
     /**
-     * 设置圆形半径大小
+     * 设置半径大小
      */
-    public void setCircleRadius(int mRadius) {
+    public void setRadius(int mRadius) {
         this.mRadius = mRadius;
+    }
+
+    public void setShape(int shape)
+    {
+        this.shape=shape;
     }
 
     @Override
@@ -124,7 +130,17 @@ public class PictureCropView extends View {
         }
         canvas.drawBitmap(mForeground, 0, 0, null);
 
-        mCanvas.drawCircle(getWidth() / 2, getHeight() / 2, mRadius, mCropPaint);
+       switch (shape)
+       {
+           case 0:
+               mCanvas.drawCircle(getWidth() / 2, getHeight() / 2, mRadius, mCropPaint);
+               break;
+           case 1:
+               mCanvas.drawRect(getWidth()/2 -mRadius, getHeight()/2 -mRadius,
+                       getWidth()/2+mRadius,getHeight()/2+mRadius, mCropPaint);
+               break;
+       }
+
     }
 
     @Override

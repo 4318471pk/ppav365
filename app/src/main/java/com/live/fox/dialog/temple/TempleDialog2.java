@@ -10,6 +10,7 @@ import com.live.fox.databinding.DialogTempleRoundBtnsBinding;
 import com.live.fox.utils.SpanUtils;
 
 public class TempleDialog2 extends BaseBindingDialogFragment {
+
     DialogTempleRoundBtnsBinding mBind;
 
 

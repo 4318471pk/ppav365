@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="click"
+            type="com.live.fox.ui.openLiving.PreparingLivingFragment" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
+            android:padding="20dip"
+            android:src="@mipmap/icon_close_living" />
+
+        <RelativeLayout
+            android:id="@+id/rlContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/ivClose">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.live.fox.view.GradientTextView
+                    android:layout_width="100dip"
+                    android:layout_height="20dip"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:text="xxx"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:gt_radius_dp="10dip"
+                    app:gt_solidNoGradient="#4c000000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/bg_round_4c000000"
+                    android:orientation="horizontal"
+                    android:padding="5dip">
+
+                    <RelativeLayout
+                        android:id="@+id/rlChangeRoomPic"
+                        android:layout_width="60dip"
+                        android:layout_height="60dip"
+                        android:onClick="@{click.onClickView}">
+
+                        <ImageView
+                            android:id="@+id/ivRoomPic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{click.onClickView}"
+                            android:scaleType="fitCenter"
+                            android:src="@mipmap/icon_anchor_loading" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dip"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerInParent="true"
+                            android:background="#88000000"
+                            android:gravity="center"
+                            android:text="@string/changeBackground"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableRight="@mipmap/icon_edit_pencil"
+                            android:drawablePadding="5dip"
+                            android:text="名字"
+                            android:background="@null"
+                            android:textColor="#ffffff"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{click.onClickView}"
+                            android:layout_marginTop="10dip"
+                            android:drawableRight="@mipmap/icon_room_location"
+                            android:drawablePadding="5dip"
+                            android:text="杭州"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/llBotView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            >
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvStartLiving"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:onClick="@{click.onClickView}"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:layout_marginBottom="20dip"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/enterLiving"
+                app:gt_radius_dp="25dip"
+                app:gt_color_list="@array/contactCardBtn"
+                />
+
+            <LinearLayout
+                android:id="@+id/llButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

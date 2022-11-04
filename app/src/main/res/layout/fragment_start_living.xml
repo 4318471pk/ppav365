@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.openLiving.StartLivingFragment" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llTopView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginTop="5dip">
+
+                    <com.flyco.roundview.RoundRelativeLayout
+                        android:id="@+id/roundRL"
+                        android:layout_width="170dip"
+                        android:layout_height="34dp"
+                        app:rv_backgroundColor="#3f000000"
+                        app:rv_cornerRadius="17dp">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/rivProfileImage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="2dip"
+                            android:onClick="@{click.onClickView}"
+                            android:src="@drawable/img_default"
+                            app:riv_oval="true" />
+
+                        <ImageView
+                            android:id="@+id/ivFollow"
+                            android:layout_width="29dp"
+                            android:layout_height="29dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="5dip"
+                            android:onClick="@{click.onClickView}"
+                            android:src="@mipmap/icon_small_follow" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="3dip"
+                            android:layout_toLeftOf="@id/ivFollow"
+                            android:layout_toRightOf="@id/rivProfileImage"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="名字名字名字名字"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ID:123456789123456"
+                                android:textColor="@color/white"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+                    </com.flyco.roundview.RoundRelativeLayout>
+
+                    <HorizontalScrollView
+                        android:id="@+id/horScrollview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:layout_toRightOf="@id/horScrollview"
+                        android:fadingEdge="horizontal"
+                        android:fadingEdgeLength="10dip" />
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvOnlineAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="5dp"
+                        android:drawableLeft="@mipmap/amount_ofpeople"
+                        android:drawablePadding="2dip"
+                        android:gravity="center"
+                        android:maxLength="6"
+                        android:onClick="@{click.onClickView}"
+                        android:paddingLeft="5dip"
+                        android:paddingRight="5dip"
+                        android:text="999999"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:gt_radius_dp="17dp"
+                        app:gt_solidNoGradient="#3f000000" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginTop="8dip">
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvContribution"
+                        android:layout_width="95dip"
+                        android:layout_height="22dip"
+                        android:drawableLeft="@mipmap/icon_contribution_tag"
+                        android:drawableRight="@mipmap/icon_arrow_right_white"
+                        android:gravity="center"
+                        android:onClick="@{click.onClickView}"
+                        android:paddingLeft="7dip"
+                        android:paddingRight="7dip"
+                        android:text="@string/contributionRank"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:gt_radius_dp="17dp"
+                        app:gt_solidNoGradient="#3f000000" />
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/gtvProtection"
+                        android:layout_width="95dip"
+                        android:layout_height="22dip"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/gtvContribution"
+                        android:drawableLeft="@mipmap/icon_protect_tag"
+                        android:drawableRight="@mipmap/icon_arrow_right_white"
+                        android:gravity="center"
+                        android:onClick="@{click.onClickView}"
+                        android:paddingLeft="7dip"
+                        android:paddingRight="7dip"
+                        android:text="0 人"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        app:gt_radius_dp="17dp"
+                        app:gt_solidNoGradient="#3f000000" />
+
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="@color/white"
+                        android:text="-----"
+                        android:drawableLeft="@mipmap/icon_connection_green"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="8dip"
+                        android:layout_marginRight="5dip"
+                        android:src="@mipmap/img_getanchor_card" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.live.fox.view.GradientTextView
+                            android:id="@+id/gtvUnitPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dip"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginTop="6dip"
+                            android:paddingLeft="10dip"
+                            android:paddingRight="10dip"
+                            android:text="99999999"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            app:gt_radius_dp="9.5dp"
+                            app:gt_solidNoGradient="#F2AD39" />
+
+                        <com.live.fox.view.GradientTextView
+                            android:id="@+id/gtv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="21dip"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginTop="6dip"
+                            android:paddingLeft="10dip"
+                            android:paddingRight="10dip"
+                            android:text="已观看3分钟"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            app:gt_radius_dp="9dp"
+                            app:gt_solidNoGradient="#3f000000"
+                            app:gt_stroke_color="#FF008A"
+                            app:gt_stroke_width="1.5dip" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlMidView"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                >
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlBotView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            >
+
+            <RelativeLayout
+                android:id="@+id/rlBotContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                >
+
+                <!--  各种底部图标-->
+                <RelativeLayout
+                    android:id="@+id/rlButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_alignParentBottom="true"
+                    android:paddingBottom="5dip">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivCameraChangeSide"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:onClick="@{click.onClickView}"
+                            android:background="@drawable/circle_3f000000"
+                            android:padding="5dip"
+                            android:src="@mipmap/icon_cameral_change" />
+
+                        <ImageView
+                            android:id="@+id/ivBeautyEffect"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:onClick="@{click.onClickView}"
+                            android:layout_marginLeft="7dip"
+                            android:background="@drawable/circle_3f000000"
+                            android:padding="5dip"
+                            android:src="@mipmap/icon_beaty_effect" />
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivRoomType"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:onClick="@{click.onClickView}"
+                            android:layout_marginLeft="7dip"
+                            android:background="@drawable/circle_3f000000"
+                            android:padding="5dip"
+                            android:src="@mipmap/icon_roomtype" />
+
+                        <ImageView
+                            android:id="@+id/ivGameType"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:onClick="@{click.onClickView}"
+                            android:layout_marginLeft="7dip"
+                            android:background="@drawable/circle_3f000000"
+                            android:padding="5dip"
+                            android:src="@mipmap/icon_game_living" />
+
+                        <ImageView
+                            android:id="@+id/ivMore"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="7dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@drawable/circle_3f000000"
+                            android:onClick="@{click.onClickView}"
+                            android:padding="10dip"
+                            android:src="@mipmap/icon_more_living" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/llMessages"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:onClick="@{click.onClickView}"
+            android:layout_marginBottom="45dip"
+            android:layout_alignParentBottom="true"
+            >
+            <com.live.fox.view.overscroll.RecyclerViewBouncy
+                android:id="@+id/msgBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dip"
+                android:scrollbars="none"
+                android:requiresFadingEdge="vertical"
+                android:fadingEdgeLength="50dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

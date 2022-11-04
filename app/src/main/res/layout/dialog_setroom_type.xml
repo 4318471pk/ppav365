@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.SetRoomTypeDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/rllContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_round_121212"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/setRoomType"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#404040"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dip"
+                android:layout_marginLeft="20dip"
+                android:text="@string/paymentType"
+                android:textSize="13sp"
+                android:textColor="#a1a1a1"/>
+
+            <LinearLayout
+                android:id="@+id/llRadioList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="15dip"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dip"
+                    android:layout_marginRight="30dip"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableRight="@drawable/radio_purple"
+                        android:drawablePadding="5dp"
+                        android:text="@string/payPerHour"
+                        android:textSize="13sp"
+                        android:textColor="#ffffff"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dip"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="40dip"
+                            android:text="@string/paymentAmount"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"/>
+
+                        <EditText
+                            android:layout_width="80dip"
+                            android:layout_height="30dip"
+                            android:paddingLeft="5dip"
+                            android:paddingRight="5dip"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:text="11"
+                            android:background="@drawable/round_5dp_4cf4f1f8"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/payPerHourUnit"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dip"
+                    android:layout_marginRight="30dip"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableRight="@drawable/radio_purple"
+                        android:drawablePadding="5dp"
+                        android:text="@string/payEachShow"
+                        android:textSize="13sp"
+                        android:textColor="#ffffff"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dip"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="40dip"
+                            android:text="@string/paymentAmount"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"/>
+
+                        <EditText
+                            android:layout_width="80dip"
+                            android:layout_height="30dip"
+                            android:paddingLeft="5dip"
+                            android:paddingRight="5dip"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:text="11"
+                            android:background="@drawable/round_5dp_4cf4f1f8"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/payEachShowUnit"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dip"
+                    android:layout_marginRight="30dip"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableRight="@drawable/radio_purple"
+                        android:drawablePadding="5dp"
+                        android:text="@string/payNothing"
+                        android:textSize="13sp"
+                        android:textColor="#ffffff"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dip"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="40dip"
+                            android:text="@string/paymentAmount"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"/>
+
+                        <EditText
+                            android:layout_width="80dip"
+                            android:layout_height="30dip"
+                            android:paddingLeft="5dip"
+                            android:paddingRight="5dip"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:text="11"
+                            android:background="@drawable/round_5dp_4cf4f1f8"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/zhuan"
+                            android:textSize="13sp"
+                            android:textColor="#ffffff"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvConfirmSwitch"
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:onClick="@{click.onClickView}"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="15dip"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:text="@string/confirmSwitchRoom"
+                app:gt_radius_dp="17.5dp"
+                app:gt_color_list="@array/identificationColor"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

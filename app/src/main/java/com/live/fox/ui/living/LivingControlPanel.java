@@ -2,6 +2,7 @@ package com.live.fox.ui.living;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ControlPanelLivingBinding;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.dialog.bottomDialog.TreasureBoxDialog;
@@ -30,11 +32,13 @@ import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.LivingMsgBoxBean;
+import com.live.fox.server.Api_User;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.TimeCounter;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ViewWatch;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
@@ -120,6 +124,19 @@ public class LivingControlPanel extends RelativeLayout {
             }
         });
 
+        mBind.rlMain.post(new Runnable() {
+            @Override
+            public void run() {
+                mBind.getRoot().setFitsSystemWindows(true);
+                mBind.getRoot().requestLayout();
+                Log.e("KKKK1",mBind.getRoot().getHeight()+"");
+                Log.e("KKKK2",mBind.rlMain.getHeight()+"");
+                Log.e("KKKK3",fragment.getView().getHeight()+"");
+                LivingActivity activity=(LivingActivity) fragment.getActivity();
+                Log.e("KKKK4", activity.getViewPager().getHeight()+"");
+            }
+        });
+
         setVisibility(VISIBLE);
 
         int dip10=ScreenUtils.getDip2px(fragment.getActivity(),10);
@@ -171,9 +188,13 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),onlineNobilityAndUserDialog);
                 break;
             case R.id.rivProfileImage:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience));
                 break;
             case R.id.ivFollow:
+                if(fragment.getRoomBean()!=null)
+                {
+                    follow(fragment.getRoomBean().getAid());
+                }
                 break;
             case R.id.ivGift:
                 TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
@@ -214,7 +235,6 @@ public class LivingControlPanel extends RelativeLayout {
                 }
                 break;
             case R.id.gtvSaySomething:
-                InputMessageDialog dialog=InputMessageDialog.getInstance();
 //                dialog.setDialogListener(new InputMessageDialog.DialogListener() {
 //                    @Override
 //                    public void onShowKeyBorad(int height) {
@@ -241,5 +261,23 @@ public class LivingControlPanel extends RelativeLayout {
     }
 
 
+    private void follow(String targetId)
+    {
+        mBind.ivFollow.setEnabled(false);
+        Api_User.ins().followUser(targetId, true, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                mBind.ivFollow.setEnabled(true);
+                if(code==0)
+                {
+                    mBind.ivFollow.setVisibility(GONE);
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
 
+            }
+        });
+    }
 }

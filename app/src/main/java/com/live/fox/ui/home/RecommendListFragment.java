@@ -3,6 +3,7 @@ package com.live.fox.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,8 +28,10 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentRecommendListBinding;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.HomeBanner;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SysNotice;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.svga.AnchorInfoBean;
 import com.live.fox.entity.GameColumn;
@@ -82,7 +85,6 @@ import java.util.List;
 public class RecommendListFragment extends BaseBindingFragment {
 
     FragmentRecommendListBinding mBind;
-    private ConvenientBanner<Advert> convenientBanner;
     private LiveListAdapter livelistAdapter;
     int tabIndex=0;
     User currentUser;
@@ -117,7 +119,6 @@ public class RecommendListFragment extends BaseBindingFragment {
         mBind.rvAnchorList.setAdapter(livelistAdapter = new LiveListAdapter(getActivity(),new ArrayList<>()));
         header=new LiveListHeader(getContext());
 
-        convenientBanner = header.findViewById(R.id.home_convenient_banner);
         livelistAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (DoubleUtils.isFastDoubleClick()) return;
             if (livelistAdapter.getItem(position) == null) return;
@@ -148,31 +149,33 @@ public class RecommendListFragment extends BaseBindingFragment {
         mBind.homeRefreshLayout.setEnableLoadMore(true);
         mBind.homeRefreshLayout.setOnRefreshListener(refreshLayout -> {
             doGetLiveListApi();
-//            doGetGameListApi();
-//            doGetLiveRecommendApi();
+            doGetBanner();
         });
     }
 
-    public void doGetLiveRecommendApi() {
-        if (!DataCenter.getInstance().getUserInfo().isLogin()) return;
-        Api_Live.ins().getRocketlist(currentUser.getUid(), new JsonCallback<List<Anchor>>() {
+    public void doGetBanner()
+    {
+        if(tabIndex!=0)
+        {
+            return;
+        }
+        Api_Config.ins().getRecommendListBanner(new JsonCallback<List<HomeBanner>>() {
             @Override
-            public void onSuccess(int code, String msg, List<Anchor> data) {
-                if (code == 0) {
-                    if (data != null && data.size() != 0) {
-
-                    }
+            public void onSuccess(int code, String msg, List<HomeBanner> data) {
+                if(data!=null && data.size()>0 && header!=null)
+                {
+                    header.setBannerList(data);
                 }
             }
         });
     }
 
-
     public void doGetLiveListApi() {
+
         Api_Live.ins().getLiveList(1, new JsonCallback<HomeFragmentRoomListBean>() {
             @Override
             public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
-                if (data == null) {
+                if (data == null || !isActivityOK()) {
                     if (isAdded()) {
                         showEmptyView(getString(R.string.noData));
                     }
@@ -202,40 +205,6 @@ public class RecommendListFragment extends BaseBindingFragment {
         });
     }
 
-    /**
-     * 初始化Banner
-     *
-     * @param bannerList banner 数据
-     */
-    public void initConvenientBanner(List<Advert> bannerList) {
-        if (bannerList != null && convenientBanner != null) {
-            convenientBanner.setPages(BannerHolder::new, bannerList)
-                    .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
-                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
-
-            convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
-
-            if (!convenientBanner.isTurning()) {
-                convenientBanner.startTurning(5000);
-            }
-
-            //点击Banner
-            convenientBanner.setOnItemClickListener(position -> {
-                if (!StringUtils.isEmpty(bannerList.get(position).getJumpUrl())) {
-                    if (bannerList.get(position).getOpenWay() == 0) { //打开方式 0站内，1站外
-                        FragmentContentActivity.startWebActivity(requireActivity(), "", bannerList.get(position).getJumpUrl());
-                    } else {
-                        IntentUtils.toBrowser(requireActivity(), bannerList.get(position).getJumpUrl());
-                    }
-                }
-            });
-        } else {
-            if (convenientBanner != null) {
-                convenientBanner.setVisibility(View.GONE);
-            }
-        }
-    }
-
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
@@ -245,9 +214,8 @@ public class RecommendListFragment extends BaseBindingFragment {
         initGongGao();
         initListRecycleView();
         initRefreshLayout();
-//        doGetLiveRecommendApi();
-//        doGetGameListApi();
         doGetLiveListApi();
+        doGetBanner();
     }
 
     private void initView() {
@@ -280,8 +248,44 @@ public class RecommendListFragment extends BaseBindingFragment {
         livelistAdapter.removeHeaderView(header);
         if (listBean!=null && listBean.getList().get(tabIndex).getRoomList()!=null &&
                 listBean.getList().get(tabIndex).getRoomList().size()> 0) {
-            livelistAdapter.addHeaderView(header);
-            livelistAdapter.setNewData(listBean.getList().get(tabIndex).getRoomList());
+
+            List<RoomListBean> gameLists=new ArrayList<>();
+            List<RoomListBean> AdultLists=new ArrayList<>();
+            List<RoomListBean> greenLists=new ArrayList<>();
+            for (int i = 0; i <listBean.getList().get(tabIndex).getRoomList().size() ; i++) {
+                RoomListBean roomListBean=listBean.getList().get(tabIndex).getRoomList().get(i);
+
+                int type=listBean.getList().get(tabIndex).getRoomList().get(i).getCategoryType();
+                switch (type)
+                {
+                    case 1:
+                        //游戏
+                        gameLists.add(roomListBean);
+                        break;
+                    case 2:
+                        //成人
+                        AdultLists.add(roomListBean);
+                        break;
+                    case 3:
+                        //绿播
+                        greenLists.add(roomListBean);
+                        break;
+
+                }
+            }
+
+            if(tabIndex==0)
+            {
+                header.setAdultLists(AdultLists);
+                header.setGameLists(gameLists);
+                livelistAdapter.addHeaderView(header);
+                livelistAdapter.setNewData(greenLists);
+            }
+            else
+            {
+                livelistAdapter.setNewData(listBean.getList().get(tabIndex).getRoomList());
+            }
+
         }
         else
         {
@@ -346,30 +350,6 @@ public class RecommendListFragment extends BaseBindingFragment {
         mBind.hostTypeTabs.selectTab(mBind.hostTypeTabs.getTabAt(tabIndex));
     }
 
-    public static class BannerHolder implements Holder<Advert> {
-
-        private ImageView bannerImg;
-
-        @Override
-        public View createView(Context context) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_live_banner, null);
-            bannerImg = view.findViewById(R.id.home_banner_image);
-            return view;
-        }
-
-        @Override
-        public void UpdateUI(Context context, int position, Advert banner) {
-            String jsonStr = banner.getContent();
-            String bannerUrl;
-            if (jsonStr.endsWith("{") && jsonStr.endsWith("}")) {
-                bannerUrl = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));
-            } else {
-                bannerUrl = jsonStr;
-            }
-
-            GlideUtils.loadDefaultImage(context, bannerUrl, bannerImg);
-        }
-    }
 
     public void initGongGao() {
         mBind.rlBroadcast.setVisibility(View.VISIBLE);
@@ -405,8 +385,8 @@ public class RecommendListFragment extends BaseBindingFragment {
             if (livelistAdapter != null) {
                 doGetLiveListApi();
             }
-            doGetLiveRecommendApi();
         }
     }
+
 
 }

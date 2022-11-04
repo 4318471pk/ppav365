@@ -1385,5 +1385,35 @@
     <string name="goOpenSteam">去开播</string>
     <string name="centerOfAnchor">主播中心</string>
     <string name="myLivingRoom">我的直播间</string>
+    <string name="changeBackground">更换封面</string>
+    <string name="titleOfRoomTitle">房间名称:</string>
+    <string name="typeOfRoomTitle">房间类型:</string>
+    <string name="enterLiving">开始视频直播</string>
+    <string name="useLocationByProfile">使用个人资料位置</string>
+    <string name="useLocationByCurrentIP">使用当前IP地址位置</string>
+    <string name="editLivingGameTypeTitle">配置房间内游戏</string>
+    <string name="contactCardOfAnchor">主播名片</string>
+    <string name="contactWay">联系方式：</string>
+    <string name="obtainContactCardNeeds">获取名片额度：</string>
+    <string name="writeIDNum">填写号码：</string>
+    <string name="qq">QQ</string>
+    <string name="phone2">电话</string>
+    <string name="zhuan">钻</string>
+    <string name="tips6">(单人收礼总计达到后自动显示)</string>
+    <string name="setRoomType">房型设置</string>
+    <string name="paymentType">计费方式</string>
+    <string name="paymentAmount">计费金额：</string>
+
+    <string name="payPerHour">按时收费</string>
+    <string name="payEachShow">按场收费</string>
+    <string name="payNothing">免费房间</string>
+    <string name="payPerHourUnit">钻/分钟</string>
+    <string name="payEachShowUnit">钻/场</string>
+    <string name="livingInterrupt">直播意外中断了，是否恢复直播？</string>
+    <string name="confirmSwitchRoom">确定切换</string>
+
+    <string name="setPersonToAdmin">设置管理员</string>
+    <string name="muteSendingMessage">禁言</string>
+
 
 </resources>

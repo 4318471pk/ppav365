@@ -40,7 +40,15 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
         {
             realPoi=realPoi+size;
         }
-        sparseArray.put(position,new WeakReference(LivingFragment.getInstance(realPoi)));
+        if(sparseArray.get(position)!=null && sparseArray.get(position).get()!=null)
+        {
+            return sparseArray.get(position).get();
+        }
+        else
+        {
+            sparseArray.put(position,new WeakReference(LivingFragment.getInstance(realPoi,position)));
+        }
+
         return sparseArray.get(position).get();
     }
 
@@ -58,4 +66,6 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
         }
         return realPoi;
     }
+
+
 }

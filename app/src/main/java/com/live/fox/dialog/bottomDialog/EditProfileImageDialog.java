@@ -54,6 +54,10 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
                 openPhoto();
                 dismissAllowingStateLoss();
                 break;
+            case R.id.ivCancel:
+            case R.id.rlMain:
+                dismissAllowingStateLoss();
+                break;
         }
 
     }
@@ -136,7 +140,7 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
                 //.videoQuality()// 視頻錄制質量 0 or 1
                 //.videoSecond()//顯示多少秒以內的視頻or音頻也可適用
                 //.recordVideoSecond()//錄制視頻秒數 默認60s
-                .forResult(PictureConfig.REQUEST_CAMERA);//結果回調onActivityResult code
+                .forResult(PictureConfig.CHOOSE_REQUEST);//結果回調onActivityResult code
     }
 
     public void onTakePhoto() {

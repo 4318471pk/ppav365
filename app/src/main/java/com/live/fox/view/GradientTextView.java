@@ -244,8 +244,5 @@ public class GradientTextView extends AppCompatTextView {
             return;
         }
 
-
-
-
     }
 }

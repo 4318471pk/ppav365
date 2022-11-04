@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
@@ -37,7 +38,7 @@ public class Api_Live extends BaseApi {
     /**
      * 用户进房
      */
-    public void interRoom(int liveId, long anchorId, int type, String password, int preview, JsonCallback<String> callback) {
+    public void interRoom(int liveId, String anchorId, int type, String password, int preview, JsonCallback<EnterRoomBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_interroom_URL;
         callback.setUrlTag("/live/inter/room");
         HashMap<String, Object> params = getCommonParams();
@@ -129,12 +130,18 @@ public class Api_Live extends BaseApi {
     /**
      * 获取主播认证状态
      */
-    public void getAnchorAuth(JsonCallback callback) {
+    public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,
+                              JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.LivingStart;
         HashMap<String, Object> params = getCommonParams();
+        params.put("liveConfigId",liveConfigId);
+        params.put("type",type);
+        params.put("nickName",nickName);
+        params.put("title",title);
+//        params.put("price",price);
 
         OkGoHttpUtil.getInstance().doJsonPost(
-                "",
+                Constant.URL.LivingStart,
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
                 new Gson().toJson(params))

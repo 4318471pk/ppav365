@@ -482,9 +482,9 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
             bundle.putSerializable(PictureConfig.EXTRA_PREVIEW_SELECT_LIST, (Serializable) medias);
             bundle.putSerializable(PictureConfig.EXTRA_SELECT_LIST, (Serializable) selectedImages);
             bundle.putBoolean(PictureConfig.EXTRA_BOTTOM_PREVIEW, true);
-//            startActivity(PicturePreviewActivity.class, bundle,
-//                    config.selectionMode == PictureConfig.SINGLE ? UCrop.REQUEST_CROP : UCropMulti.REQUEST_MULTI_CROP);
-//            overridePendingTransition(R.anim.a5, 0);
+            startActivity(PicturePreviewActivity.class, bundle,
+                   777);
+            overridePendingTransition(R.anim.a5, 0);
         }
 
         if (id == R.id.id_ll_ok) {

@@ -730,76 +730,12 @@
 
                 </com.flyco.roundview.RoundLinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/layoutZhubo"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
-
-                    <com.flyco.roundview.RoundTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/anchor_owner"
-                        android:textSize="12sp"
-                        android:textColor="@color/white"
-                        app:rv_backgroundColor="@color/colorB8B2C8"
-                        app:rv_cornerRadius_TL="10dp"
-                        app:rv_cornerRadius_BR="10dp"
-                        />
-
-                    <RelativeLayout
-                        android:id="@+id/layoutAchorPic"
-                        android:onClick="@{click.onClickView}"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/bg_stroke_a800ff_xu"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:textColor="@color/colorA800FF"
-                            android:text="@string/upload_room_pic"
-                            />
-
-                        <ImageView
-                            android:id="@+id/ivAnchor"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-
-
-
-                    </RelativeLayout>
-
-
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="30dp"
-                        android:src="@mipmap/start_live_stream"/>
-
-
-                </LinearLayout>
 
                 <com.flyco.roundview.RoundLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-
+                    android:layout_marginTop="5dip"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
                     app:rv_backgroundColor="@color/white"

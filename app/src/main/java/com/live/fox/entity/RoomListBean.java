@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.entity.SectionEntity;
 public class RoomListBean extends SectionEntity implements Parcelable {
     private int id;
     private String title;
-    private int aid;
+    private String aid;
     private String roomIcon;
     private int liveChannel;
     private int roomCategory;
@@ -30,7 +30,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         super(in);
         id = in.readInt();
         title = in.readString();
-        aid = in.readInt();
+        aid = in.readString();
         roomIcon = in.readString();
         liveChannel = in.readInt();
         roomCategory = in.readInt();
@@ -73,11 +73,11 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         this.title = title;
     }
 
-    public int getAid() {
+    public String getAid() {
         return aid;
     }
 
-    public void setAid(int aid) {
+    public void setAid(String aid) {
         this.aid = aid;
     }
 
@@ -186,7 +186,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
-        dest.writeInt(aid);
+        dest.writeString(aid);
         dest.writeString(roomIcon);
         dest.writeInt(liveChannel);
         dest.writeInt(roomCategory);

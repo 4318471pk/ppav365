@@ -603,50 +603,50 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
             getLiveInFragment().sendRoomBulletin(); //发送直播间公告
         }
 
-        Api_Live.ins().interRoom(anchor.getLiveId(), anchor.getAnchorId(), anchor.getType(),
-                pwd, preview, new JsonCallback<String>() {
-                    @Override
-                    public void onSuccess(int code, String msg, String jsonData) {
-                        hideLoadingView();
-                        //在进房接口调用过程中 退出此页面中 则获得结果后不做任何操作
-                        if (PlayLiveActivity.this.isFinishing() || isCloseRoom) return;
-                        if (code == 0 && jsonData != null) {
-                            Anchor tempAnchor = new Gson().fromJson(jsonData, Anchor.class);
-                            currentAnchor.setPullStreamUrl(tempAnchor.getPullStreamUrl());
-                            currentAnchor.setCarId(tempAnchor.getCarId());
-                            currentAnchor.setRoomManager(tempAnchor.isRoomManager());
-                            currentAnchor.setShowType(tempAnchor.getShowType());
-                            currentAnchor.setLevel(tempAnchor.getLevel());
-                            currentAnchor.setRoomHide(tempAnchor.getRoomHide());
-
-                            userAnchor = new Anchor();
-                            userAnchor.setPullStreamUrl(tempAnchor.getPullStreamUrl());
-                            userAnchor.setShowType(tempAnchor.getShowType());
-                            userAnchor.setCarId(tempAnchor.getCarId());
-                            userAnchor.setRoomManager(tempAnchor.isRoomManager());
-                            userAnchor.setLevel(tempAnchor.getLevel());
-                            userAnchor.setNickname(DataCenter.getInstance().getUserInfo().getUser().getNickname());
-                            userAnchor.setAvatar(DataCenter.getInstance().getUserInfo().getUser().getAvatar());
-
-                            if (isDoCharge) {
-                                doChargeRoomApi();
-                            } else {
-                                if (getLiveInFragment() != null)
-                                    getLiveInFragment().daojisi();
-                                startPlayAndRefreshLiveRoom();//10秒以后
-                            }
-
-                            //获取当前直播间PK状态
-                            doGetPKStatus(currentAnchor.getAnchorId());
-                        } else if (code == 3001) {
-                            hideRoomPayFragment();
-                            showLiveFinishFragment(currentAnchor, getString(R.string.roomClosed));
-                        } else {
-                            hideRoomPayFragment();
-                            showLiveFinishFragment(currentAnchor, msg);
-                        }
-                    }
-                });
+//        Api_Live.ins().interRoom(anchor.getLiveId(), anchor.getAnchorId()+"", anchor.getType(),
+//                pwd, preview, new JsonCallback<String>() {
+//                    @Override
+//                    public void onSuccess(int code, String msg, String jsonData) {
+//                        hideLoadingView();
+//                        //在进房接口调用过程中 退出此页面中 则获得结果后不做任何操作
+//                        if (PlayLiveActivity.this.isFinishing() || isCloseRoom) return;
+//                        if (code == 0 && jsonData != null) {
+//                            Anchor tempAnchor = new Gson().fromJson(jsonData, Anchor.class);
+//                            currentAnchor.setPullStreamUrl(tempAnchor.getPullStreamUrl());
+//                            currentAnchor.setCarId(tempAnchor.getCarId());
+//                            currentAnchor.setRoomManager(tempAnchor.isRoomManager());
+//                            currentAnchor.setShowType(tempAnchor.getShowType());
+//                            currentAnchor.setLevel(tempAnchor.getLevel());
+//                            currentAnchor.setRoomHide(tempAnchor.getRoomHide());
+//
+//                            userAnchor = new Anchor();
+//                            userAnchor.setPullStreamUrl(tempAnchor.getPullStreamUrl());
+//                            userAnchor.setShowType(tempAnchor.getShowType());
+//                            userAnchor.setCarId(tempAnchor.getCarId());
+//                            userAnchor.setRoomManager(tempAnchor.isRoomManager());
+//                            userAnchor.setLevel(tempAnchor.getLevel());
+//                            userAnchor.setNickname(DataCenter.getInstance().getUserInfo().getUser().getNickname());
+//                            userAnchor.setAvatar(DataCenter.getInstance().getUserInfo().getUser().getAvatar());
+//
+//                            if (isDoCharge) {
+//                                doChargeRoomApi();
+//                            } else {
+//                                if (getLiveInFragment() != null)
+//                                    getLiveInFragment().daojisi();
+//                                startPlayAndRefreshLiveRoom();//10秒以后
+//                            }
+//
+//                            //获取当前直播间PK状态
+//                            doGetPKStatus(currentAnchor.getAnchorId());
+//                        } else if (code == 3001) {
+//                            hideRoomPayFragment();
+//                            showLiveFinishFragment(currentAnchor, getString(R.string.roomClosed));
+//                        } else {
+//                            hideRoomPayFragment();
+//                            showLiveFinishFragment(currentAnchor, msg);
+//                        }
+//                    }
+//                });
     }
 
 

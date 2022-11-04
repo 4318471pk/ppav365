@@ -445,49 +445,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * 开始直播
-     */
-    public void checkAuth() {
-        Api_Live.ins().getAnchorAuth(new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                if (code == 0 && data != null) {
-                    try {
-                        JSONObject jb = new JSONObject(data);
-                        int auth = jb.optInt("auth");
-                        User user = DataCenter.getInstance().getUserInfo().getUser();
-                        if (user == null) {
-                            LogUtils.e("主播状态：" + "开启直播出错，用户信息失败");
-                            return;
-                        }
-
-                        user.setAuth(auth);
-                        DataCenter.getInstance().getUserInfo().updateUser(user);
-                        if (auth == 2 && BuildConfig.IsAnchorClient) {
-                            Constant.isAppInsideClick = true;
-                            Intent intent = new Intent(MainActivity.this, AnchorLiveActivity.class);
-                            startActivity(intent);
-                        } else if (auth == 1) { //1待审核
-                            showToastTip(false, getString(R.string.certificating));
-                        } else { //未认证
-                            DialogFactory.showTwoBtnDialog(MainActivity.this,
-                                    getString(R.string.certiGo), getString(R.string.cancel),
-                                    getString(R.string.goCerti), (button, dialog) -> dialog.dismiss(), (button, dialog) -> {
-                                        dialog.dismiss();
-                                        AuthActivity.startActivity(MainActivity.this);
-                                    });
-                        }
-                    } catch (Exception e) {
-                        e.getStackTrace();
-                    }
-                } else {
-                    ToastUtils.showShort(msg);
-                }
-            }
-        });
-    }
-
-    /**
      * 链接链接IM
      */
     private void connectIM() {

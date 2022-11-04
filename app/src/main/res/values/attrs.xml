@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <attr name="gt_color_list" format="reference" />
+    <attr name="gt_gradient_direction" format="enum">
+        <enum name="left" value="0" />
+        <enum name="up" value="1" />
+        <enum name="right" value="2" />
+        <enum name="bottom" value="3" />
+    </attr>
+    <attr name="gt_gradient_angle" format="integer" />
+    <attr name="gt_radius_dp" format="dimension" />
+    <attr name="gt_stroke_color" format="reference|color" />
+    <attr name="gt_stroke_width" format="dimension" />
+    <attr name="gt_solidNoGradient" format="color" />
+
     <!--直播间礼物数字-->
     <declare-styleable name="MagicTextView">
         <attr name="innerShadowColor" format="color" />
@@ -160,18 +173,25 @@
     </declare-styleable>
 
     <declare-styleable name="GradientTextView">
-        <attr name="gt_color_list" format="reference" />
-        <attr name="gt_gradient_direction" format="enum">
-            <enum name="left" value="0" />
-            <enum name="up" value="1" />
-            <enum name="right" value="2" />
-            <enum name="bottom" value="3" />
+        <attr name="gt_color_list"  />
+        <attr name="gt_gradient_direction" >
         </attr>
-        <attr name="gt_gradient_angle" format="integer" />
-        <attr name="gt_radius_dp" format="dimension" />
-        <attr name="gt_stroke_color" format="reference|color" />
-        <attr name="gt_stroke_width" format="dimension" />
-        <attr name="gt_solidNoGradient" format="color" />
+        <attr name="gt_gradient_angle"  />
+        <attr name="gt_radius_dp"  />
+        <attr name="gt_stroke_color"  />
+        <attr name="gt_stroke_width"  />
+        <attr name="gt_solidNoGradient"  />
+    </declare-styleable>
+
+    <declare-styleable name="GradientEditTextView">
+        <attr name="gt_color_list"  />
+        <attr name="gt_gradient_direction" >
+        </attr>
+        <attr name="gt_gradient_angle"  />
+        <attr name="gt_radius_dp"  />
+        <attr name="gt_stroke_color"  />
+        <attr name="gt_stroke_width"  />
+        <attr name="gt_solidNoGradient"  />
     </declare-styleable>
 
     <declare-styleable name="ConvenientBanner">
