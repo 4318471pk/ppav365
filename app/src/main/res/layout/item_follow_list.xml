@@ -115,7 +115,7 @@
                 android:layout_height="0dp"/>
 
             <TextView
-                android:id="@+id/tv_remove"
+                android:id="@+id/tvGz"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:minWidth="60dp"

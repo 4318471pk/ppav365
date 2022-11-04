@@ -2,11 +2,14 @@ package com.live.fox.server;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
+import com.live.fox.entity.ActBean;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.BankInfo;
 import com.live.fox.entity.BankListBean;
 import com.live.fox.entity.ChargeCoinBean;
 import com.live.fox.entity.DiamondListBean;
+import com.live.fox.entity.DiamondRecordBean;
+import com.live.fox.entity.NobleListBean;
 import com.live.fox.entity.RechargeTypeBean;
 import com.live.fox.entity.RechargeTypeListBean;
 import com.live.fox.entity.UserAssetsBean;
@@ -318,9 +321,9 @@ public class Api_Order extends BaseApi {
     /**
      * 钻石收入记录
      */
-    public void getDiamondRecord(JsonCallback<WithDrawRecordBean> callback, int pageNum, int pageSize) {
+    public void getDiamondGetRecord(JsonCallback<DiamondRecordBean> callback, int pageNum, int pageSize, String date) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_diamondRecord + "?language=" +
-                MultiLanguageUtils.getRequestHeader()+ "&pageNum=" + pageNum + "&pageSize=" + pageSize ;
+                MultiLanguageUtils.getRequestHeader()+ "&pageNum=" + pageNum + "&pageSize=" + pageSize + "&timeStr=" + date ;
         OkGoHttpUtil.getInstance().doGet(
                 "",
                 url,
@@ -328,11 +331,23 @@ public class Api_Order extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * 钻石支出记录
+     */
+    public void getDiamondOutRecord(JsonCallback<DiamondRecordBean> callback, int pageNum, int pageSize, String date) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_diamondRecordExpend + "?language=" +
+                MultiLanguageUtils.getRequestHeader()+ "&pageNum=" + pageNum + "&pageSize=" + pageSize + "&timeStr=" + date ;
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
 
     /**
      * 背包列表
      */
-    public void getBagList(JsonCallback<String> callback, int pageNum, int pageSize) {
+    public void getBagList(JsonCallback<BagAndStoreBean> callback, int pageNum, int pageSize) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_bagList
                 + "?language=" + MultiLanguageUtils.getRequestHeader() + "&pageNum=" + pageNum + "&pageSize=" + pageSize ;
         OkGoHttpUtil.getInstance().doGet(
@@ -369,5 +384,105 @@ public class Api_Order extends BaseApi {
                 .execute(callback);
 
     }
+
+
+
+
+    /**
+     * 启用座驾
+     */
+    public void openCar(JsonCallback<String> callback, Map<String, Object> params) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_openCar;
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+
+    }
+
+    /**
+     * 禁用座驾
+     */
+    public void closeCar(JsonCallback<String> callback, Map<String, Object> params) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_closeCar;
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+
+    }
+
+
+    /**
+     * 贵族列表
+     */
+    public void getNobleList(JsonCallback<List<NobleListBean>> callback) {
+//        String url = SPManager.getServerDomain() + Constant.URL.USER_getNobleList
+//                + "?language=" + MultiLanguageUtils.getRequestHeader();
+        String url = "http://47.242.62.138:8204" + Constant.URL.USER_getNobleList
+                + "?language=" + MultiLanguageUtils.getRequestHeader();
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+    /**
+     * 我的贵族
+     */
+    public void getMyNoble(JsonCallback<NobleListBean> callback) {
+        String url =  SPManager.getServerDomain() + Constant.URL.USER_getMyNoble  //"http://47.242.62.138:8204"
+                + "?language=" + MultiLanguageUtils.getRequestHeader();
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+    /**
+     * 购买续费贵族
+     */
+    public void buyNoble(JsonCallback<String> callback, Map<String, Object> params) {
+        String url = SPManager.getServerDomain()  + Constant.URL.USER_buyNoble;
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     *  根据类型查询系统公告信息(0系统公告1广告轮播2直播间公告3首页弹窗公告)
+     */
+    public void getNotice(JsonCallback<String> callback, int type) {
+        String url =  SPManager.getServerDomain() + Constant.URL.NOTICE_URL
+                + "?language=" + MultiLanguageUtils.getRequestHeader() + "&type=" + type;
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+    /**
+     *  获取活动
+     */
+    public void getAct(JsonCallback<List<ActBean>> callback, int isGame) {
+        String url =  SPManager.getServerDomain() + Constant.URL.ACT_URL
+                + "?language=" + MultiLanguageUtils.getRequestHeader() + "&activityCategory=" + isGame;
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
 
 }

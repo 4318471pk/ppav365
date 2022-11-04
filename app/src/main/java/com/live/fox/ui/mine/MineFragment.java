@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,10 +54,14 @@ import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -156,6 +161,14 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
 
         mBind.ivLiang.setVisibility(userinfo.getVipUid() == null ? View.GONE : View.VISIBLE );
 
+        mBind.refreshLayout.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                doGetUserInfoApi();
+            }
+        });
+
 //        Api_User.ins().followUser(1028924366, true, new  JsonCallback<String>() {
 //            @Override
 //            public void onSuccess(int code, String msg, String data) {
@@ -199,6 +212,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                mBind.refreshLayout.finishRefresh();
                 if (ActivityUtils.getTopActivity() instanceof MainActivity) {
                     if (code == 0) {
                         refreshUserinfo(true);
@@ -349,7 +363,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 MessageActivity.startActivity(requireActivity());
                 break;
             case R.id.ll_zhanghuan:
-                MyBalanceActivity.startActivity(requireActivity());
+                //MyBalanceActivity.startActivity(requireActivity());
                 break;
             case R.id.iv_headimg: //点击头像
                 UserDetailActivity.startActivity(requireActivity(), userinfo.getUid());
@@ -401,6 +415,9 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 }
                // this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
                 break;
+//            case R.id.layoutAchorPic:
+//                DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), EditProfileImageDialog.getInstance());
+//                break;
 //            case R.id.btn_yjzh: //一键回收
 //                showLoadingDialog();
 //                doBackAllGameCoinApi();

@@ -19,11 +19,16 @@ import com.live.fox.entity.Withdraw;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.manager.AppUserManger;
+import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -128,7 +133,7 @@ public class Api_User extends BaseApi {
 
     /**
      * 修改用户信息
-     * type 1修改头像 2修改昵称 3修改性别 4修改签名
+     * type 1修改头像 2修改昵称 3修改性别 4修改签名,5感情状态 6生日 7职业
      */
     public void modifyUserInfo(User user, int type, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_modifyuserinfo_URL;
@@ -150,6 +155,18 @@ public class Api_User extends BaseApi {
             case 4: //修改签名
                 if (!StringUtils.isEmpty(user.getSignature()))
                     params.put("signature", user.getSignature());
+                break;
+            case 5: //感情状况：
+                    params.put("emotionalState", user.getEmotionalState());
+                break;
+            case 6: //生日：
+                if (user.getBirthday() != null ) {
+                    params.put("birthday", user.getBirthday());
+                }
+            case 7: //职业
+                if (user.getJob() != null ) {
+                    params.put("job", user.getJob());
+                }
                 break;
         }
 
@@ -923,5 +940,16 @@ public class Api_User extends BaseApi {
                 .execute(callback);
     }
 
+
+    public void uploadUserPhoto(File file, JsonCallback<String> callback ){
+        String url = SPManager.getServerDomain() + Constant.URL.UPLOAD_USER_PGOTO_URL;
+        OkGo.<String>post(url)
+                .tag(this)
+                .headers(getCommonHeaders(System.currentTimeMillis()))
+                .params("myFile", file)
+                .isMultipart(true)
+                .execute(callback);
+
+    }
 
 }

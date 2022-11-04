@@ -26,7 +26,14 @@ public class TempleDialog extends BaseBindingDialogFragment {
     }
 
     public void onClick(View view){
-
+        if (view == mBind.gtCancel) {
+            if(onCreateDialogListener!=null)
+            {
+                onCreateDialogListener.clickCancel(this);
+            }
+        } else if (view  == mBind.gtCommit) {
+            onCreateDialogListener.clickOk(this);
+        }
     }
 
     @Override
@@ -55,5 +62,7 @@ public class TempleDialog extends BaseBindingDialogFragment {
     public interface OnCreateDialogListener
     {
         void onCreate(TempleDialog dialog);
+        void clickCancel(TempleDialog dialog);
+        void clickOk(TempleDialog dialog);
     }
 }

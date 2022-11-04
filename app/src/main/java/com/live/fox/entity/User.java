@@ -65,7 +65,7 @@ public class User implements Serializable {
     Integer hasPayPwd;//是否有支付密码 1就是有
 
     private int diamond;
-    private int emotionalState;//感情状态（1恋爱 2单身 3未婚 4已婚 5保密）
+    private int emotionalState = 5;//感情状态（1恋爱 2单身 3未婚 4已婚 5保密）
     private int gameQuota; //游戏娱乐后提现额度
     private float gold; //金币
     private int incomeDiamond; //收入钻石
@@ -74,6 +74,18 @@ public class User implements Serializable {
     private int userExp;//用户经验
     private String vipName; //	贵族靓号
     private String job;
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    private String birthday;
+
+
 
     public String getJob() {
         return job;

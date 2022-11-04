@@ -104,106 +104,106 @@ public class NobleFragment extends MvpBaseFragment<NoblePresenter> implements No
     }
 
     private void setLiveStyle(int level) {
-        switch (level) {
-            case 1:
-                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 0) {
-                    VipInfo mVipInfo = mActivity.vipInfoList.get(0);
-                    pk = mVipInfo.getPkAddition();
-                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownGold));
-                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
-                    setNobleTitle(getString(R.string.grade_gold), price);
-
-                    setBuyTitle(livePriceTitle, getString(R.string.grade_gold), price);
-                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
-                    setBuyGive(livePriceSel, getString(R.string.give), price);
-                    setRenewal(mVipInfo);
-
-                    tips = getString(R.string.jijiangPay) +
-                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
-                            String.format(getString(R.string.purchase), getString(R.string.grade_gold));
-                }
-
-                break;
-            case 2:
-                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 1) {
-                    VipInfo mVipInfo = mActivity.vipInfoList.get(1);
-                    pk = mVipInfo.getPkAddition();
-                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownPlatinum));
-                    setNobleTitle(getString(R.string.grade_platinum), String.valueOf(mVipInfo.getPrice()));
-
-                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
-                    setBuyTitle(livePriceTitle, getString(R.string.grade_platinum), price);
-
-                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
-                    setBuyGive(livePriceSel, getString(R.string.give), price);
-
-                    setRenewal(mVipInfo);
-
-                    tips = getString(R.string.jijiangPay) +
-                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
-                            String.format(getString(R.string.purchase), getString(R.string.grade_platinum));
-
-                }
-                break;
-            case 3:
-                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 2) {
-                    VipInfo mVipInfo = mActivity.vipInfoList.get(2);
-                    pk = mVipInfo.getPkAddition();
-                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownDiamond));
-                    setNobleTitle(getString(R.string.grade_diamond), String.valueOf(mVipInfo.getPrice()));
-
-                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
-                    setBuyTitle(livePriceTitle, getString(R.string.grade_diamond), price);
-
-                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
-                    setBuyGive(livePriceSel, getString(R.string.give), price);
-
-                    setRenewal(mVipInfo);
-
-                    tips = getString(R.string.jijiangPay) +
-                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
-                            String.format(getString(R.string.purchase), getString(R.string.grade_diamond));
-                }
-
-                break;
-            case 4:
-
-                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 3) {
-                    VipInfo mVipInfo = mActivity.vipInfoList.get(3);
-                    pk = mVipInfo.getPkAddition();
-                    setNobleTitle(getString(R.string.grade_master), String.valueOf(mVipInfo.getPrice()));
-                    setRenewal(mVipInfo);
-                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownMaster));
-                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
-                    setBuyTitle(livePriceTitle, getString(R.string.grade_master), price);
-
-                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
-                    setBuyGive(livePriceSel, getString(R.string.give), price);
-
-                    tips = getString(R.string.jijiangPay) +
-                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
-                            String.format(getString(R.string.purchase), getString(R.string.grade_master));
-                }
-                break;
-            case 5:
-                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 4) {
-                    VipInfo mVipInfo = mActivity.vipInfoList.get(4);
-                    pk = mVipInfo.getPkAddition();
-                    setNobleTitle(getString(R.string.grade_king), String.valueOf(mVipInfo.getPrice()));
-                    setRenewal(mVipInfo);
-                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownKing));
-                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
-                    setBuyTitle(livePriceTitle, getString(R.string.grade_king), price);
-
-                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
-                    setBuyGive(livePriceSel, getString(R.string.give), price);
-
-                    tips = getString(R.string.jijiangPay) +
-                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
-                            String.format(getString(R.string.purchase), getString(R.string.grade_king));
-                }
-                break;
-        }
+//        switch (level) {
+//            case 1:
+//                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 0) {
+//                    VipInfo mVipInfo = mActivity.vipInfoList.get(0);
+//                    pk = mVipInfo.getPkAddition();
+//                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownGold));
+//                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
+//                    setNobleTitle(getString(R.string.grade_gold), price);
+//
+//                    setBuyTitle(livePriceTitle, getString(R.string.grade_gold), price);
+//                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
+//                    setBuyGive(livePriceSel, getString(R.string.give), price);
+//                    setRenewal(mVipInfo);
+//
+//                    tips = getString(R.string.jijiangPay) +
+//                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
+//                            String.format(getString(R.string.purchase), getString(R.string.grade_gold));
+//                }
+//
+//                break;
+//            case 2:
+//                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 1) {
+//                    VipInfo mVipInfo = mActivity.vipInfoList.get(1);
+//                    pk = mVipInfo.getPkAddition();
+//                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownPlatinum));
+//                    setNobleTitle(getString(R.string.grade_platinum), String.valueOf(mVipInfo.getPrice()));
+//
+//                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
+//                    setBuyTitle(livePriceTitle, getString(R.string.grade_platinum), price);
+//
+//                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
+//                    setBuyGive(livePriceSel, getString(R.string.give), price);
+//
+//                    setRenewal(mVipInfo);
+//
+//                    tips = getString(R.string.jijiangPay) +
+//                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
+//                            String.format(getString(R.string.purchase), getString(R.string.grade_platinum));
+//
+//                }
+//                break;
+//            case 3:
+//                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 2) {
+//                    VipInfo mVipInfo = mActivity.vipInfoList.get(2);
+//                    pk = mVipInfo.getPkAddition();
+//                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownDiamond));
+//                    setNobleTitle(getString(R.string.grade_diamond), String.valueOf(mVipInfo.getPrice()));
+//
+//                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
+//                    setBuyTitle(livePriceTitle, getString(R.string.grade_diamond), price);
+//
+//                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
+//                    setBuyGive(livePriceSel, getString(R.string.give), price);
+//
+//                    setRenewal(mVipInfo);
+//
+//                    tips = getString(R.string.jijiangPay) +
+//                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
+//                            String.format(getString(R.string.purchase), getString(R.string.grade_diamond));
+//                }
+//
+//                break;
+//            case 4:
+//
+//                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 3) {
+//                    VipInfo mVipInfo = mActivity.vipInfoList.get(3);
+//                    pk = mVipInfo.getPkAddition();
+//                    setNobleTitle(getString(R.string.grade_master), String.valueOf(mVipInfo.getPrice()));
+//                    setRenewal(mVipInfo);
+//                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownMaster));
+//                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
+//                    setBuyTitle(livePriceTitle, getString(R.string.grade_master), price);
+//
+//                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
+//                    setBuyGive(livePriceSel, getString(R.string.give), price);
+//
+//                    tips = getString(R.string.jijiangPay) +
+//                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
+//                            String.format(getString(R.string.purchase), getString(R.string.grade_master));
+//                }
+//                break;
+//            case 5:
+//                if (mActivity.vipInfoList != null && mActivity.vipInfoList.size() > 4) {
+//                    VipInfo mVipInfo = mActivity.vipInfoList.get(4);
+//                    pk = mVipInfo.getPkAddition();
+//                    setNobleTitle(getString(R.string.grade_king), String.valueOf(mVipInfo.getPrice()));
+//                    setRenewal(mVipInfo);
+//                    levePrivilege.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBrownKing));
+//                    String price = RegexUtils.formatNumber(mVipInfo.getPrice());
+//                    setBuyTitle(livePriceTitle, getString(R.string.grade_king), price);
+//
+//                    price = RegexUtils.formatNumber(mVipInfo.getRewardPrice()) + getString(R.string.gold);
+//                    setBuyGive(livePriceSel, getString(R.string.give), price);
+//
+//                    tips = getString(R.string.jijiangPay) +
+//                            RegexUtils.formatNumber(mVipInfo.getPrice()) +
+//                            String.format(getString(R.string.purchase), getString(R.string.grade_king));
+//                }
+//                break;
+//        }
     }
 
 

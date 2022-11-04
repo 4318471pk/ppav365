@@ -14,13 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.live.fox.view.refreshhead2graycolor.ClassicsHeaderToGrayColor
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:srlAccentColor="@color/gray"
-            app:srlClassicsSpinnerStyle="Translate" />
-
         <androidx.core.widget.NestedScrollView
 
             android:id="@+id/layout_root"
@@ -38,7 +31,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="285dp"
+                    android:layout_height="265dp"
                     android:background="@mipmap/user_bg"
                     android:orientation="vertical">
 
@@ -106,13 +99,13 @@
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="100dp"
+                            android:layout_height="95dp"
                             android:layout_marginLeft="17dp">
 
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/iv_headimg"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="95dp"
+                                android:layout_height="match_parent"
                                 android:onClick="@{click.onClickView}"
                                 android:layout_centerInParent="true"
                                 android:elevation="6dp"
@@ -142,7 +135,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="6dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -226,9 +219,9 @@
                                             android:clickable="true"
                                             android:focusable="true"
                                             android:paddingLeft="12dp"
-                                            android:paddingTop="3dp"
+                                            android:paddingTop="2dp"
                                             android:paddingRight="12dp"
-                                            android:paddingBottom="3dp"
+                                            android:paddingBottom="2dp"
                                             android:text="@string/copy"
                                             android:textColor="@color/colorA800FF"
                                             android:textSize="14sp"
@@ -252,7 +245,7 @@
                                 android:id="@+id/tv_sign"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="3dp"
                                 android:layout_marginEnd="25dp"
                                 android:maxLines="2"
                                 android:text=""
@@ -270,7 +263,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="17dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="6dp"
                         android:layout_marginRight="17dp"
                         android:orientation="horizontal">
 
@@ -319,7 +312,7 @@
 
                             <TextView
                                 android:id="@+id/tv_follownum"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="@string/number_zero"
@@ -330,7 +323,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="2dp"
                                 android:gravity="center"
                                 android:text="@string/focus"
                                 android:textColor="#ff404040"
@@ -350,7 +343,7 @@
 
                             <TextView
                                 android:id="@+id/tv_fansnum"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="@string/number_zero"
@@ -361,7 +354,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="2dp"
                                 android:gravity="center"
                                 android:text="@string/fan"
                                 android:textColor="#ff404040"
@@ -378,7 +371,7 @@
 
                     <com.flyco.roundview.RoundLinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="34dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:orientation="horizontal"
@@ -468,7 +461,7 @@
                 <com.flyco.roundview.RoundLinearLayout
                     android:id="@+id/ll_profile_middle1"
                     android:layout_width="match_parent"
-                    android:layout_height="96dp"
+                    android:layout_height="90dp"
                     android:layout_marginHorizontal="5dp"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
@@ -479,9 +472,9 @@
                     app:rv_cornerRadius_BL="10dp"
                     app:rv_cornerRadius_BR="10dp">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/ll_recharge"
-                        android:layout_width="65dp"
+                        android:layout_width="64dp"
                         android:layout_height="match_parent"
                         android:onClick="@{click.onClickView}"
                         android:clickable="true"
@@ -490,25 +483,27 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
                             android:src="@drawable/recharge_ic" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="56dp"
                             android:text="@string/charge"
                             android:textColor="@color/color646464"
                             android:textSize="12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <View style="@style/AutoMatch" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/ll_moneyout"
-                        android:layout_width="65dp"
+                        android:layout_width="64dp"
                         android:layout_height="match_parent"
                         android:onClick="@{click.onClickView}"
                         android:clickable="true"
@@ -517,25 +512,27 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
                             android:src="@drawable/moneyout_ic" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="55dp"
                             android:text="@string/tixian"
                             android:textColor="@color/color646464"
                             android:textSize="12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <View style="@style/AutoMatch" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/ll_diamond"
-                        android:layout_width="65dp"
+                        android:layout_width="64dp"
                         android:layout_height="match_parent"
                         android:clickable="true"
                         android:focusable="true"
@@ -544,27 +541,29 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
                             android:src="@mipmap/redeem_diamonds" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="55dp"
                             android:maxLines="1"
                             android:text="@string/exchange_diamond"
                             android:textColor="@color/color646464"
                             android:textSize="12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <View style="@style/AutoMatch" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/ll_vip"
-                        android:layout_width="65dp"
+                        android:layout_width="64dp"
                         android:layout_height="match_parent"
                         android:onClick="@{click.onClickView}"
                         android:clickable="true"
@@ -573,28 +572,30 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
                             android:src="@mipmap/nobleman" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="55dp"
                             android:maxLines="1"
                             android:text="@string/noble_2"
                             android:textColor="@color/color646464"
                             android:textSize="12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <View style="@style/AutoMatch" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/llService"
                         android:onClick="@{click.onClickView}"
-                        android:layout_width="65dp"
+                        android:layout_width="64dp"
                         android:layout_height="match_parent"
                         android:clickable="true"
                         android:focusable="true"
@@ -602,21 +603,23 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
                             android:src="@mipmap/customer_service" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="55dp"
                             android:maxLines="1"
                             android:text="@string/service"
                             android:textColor="@color/color646464"
                             android:textSize="12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                     <LinearLayout
@@ -827,12 +830,13 @@
                         <ImageView
                             android:layout_width="22dp"
                             android:layout_height="22dp"
+                            android:layout_marginStart="2dp"
                             android:src="@mipmap/game_record" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="18dp"
                             android:layout_weight="1"
                             android:text="@string/game_record"
                             android:textColor="@color/color404040"

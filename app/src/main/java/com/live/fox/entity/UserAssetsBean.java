@@ -2,7 +2,7 @@ package com.live.fox.entity;
 
 public class UserAssetsBean {
 
-    private double diamond;
+    private float diamond;
     private double drawQuota;
     private double gameQuota;
     private long uid;
@@ -12,7 +12,7 @@ public class UserAssetsBean {
     private long vipExpireDate;
     private int vipLevel;
     private int vipExp;
-    private int vipDiamond;
+    private float vipDiamond;
 
     private int userExp;
     private int userLevel;
@@ -21,13 +21,8 @@ public class UserAssetsBean {
     private double incomeDiamond;
     private double sendDiamond;
 
-    public double getDiamond() {
-        return diamond;
-    }
 
-    public void setDiamond(double diamond) {
-        this.diamond = diamond;
-    }
+
 
     public double getDrawQuota() {
         return drawQuota;
@@ -93,11 +88,19 @@ public class UserAssetsBean {
         this.vipExp = vipExp;
     }
 
-    public int getVipDiamond() {
+    public float getDiamond() {
+        return diamond;
+    }
+
+    public void setDiamond(float diamond) {
+        this.diamond = diamond;
+    }
+
+    public float getVipDiamond() {
         return vipDiamond;
     }
 
-    public void setVipDiamond(int vipDiamond) {
+    public void setVipDiamond(float vipDiamond) {
         this.vipDiamond = vipDiamond;
     }
 

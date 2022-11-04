@@ -66,13 +66,20 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
 
         List<String> list = new ArrayList<>();
 
-        myFollowListAdapter = new MyFollowListAdapter(list);
+        myFollowListAdapter = new MyFollowListAdapter(list, isFans);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mBind.rv.setLayoutManager(layoutManager);
         mBind.rv.setAdapter(myFollowListAdapter);
         mBind.refreshLayout.setRefreshHeader(new MyWaterDropHeader(this));
+
+//        myFollowListAdapter.setMyFollowInterFace(new MyFollowListAdapter.MyFollowInterFace() {
+//            @Override
+//            public void clickFollow(int pos, boolean cancelFollow, Follow data) {
+//
+//            }
+//        });
 
         doGetFollowListApi(true);
 
@@ -100,9 +107,11 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
      * 我的关注列表
      */
     public void doGetFollowListApi(boolean isRefresh) {
+        showLoadingDialog();
         JsonCallback<List<Follow>> jsonCallback = new JsonCallback<List<Follow>>() {
             @Override
             public void onSuccess(int code, String msg, List<Follow> data) {
+                hideLoadingDialog();
                 if (data != null) LogUtils.e(code + "," + msg + "," + new Gson().toJson(data));
                 if (code == 0) {
                     if (isRefresh) {
@@ -139,9 +148,18 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
         }
 
 
-
     }
 
+    private void followFans(Long id){
+        Api_User.ins().followUser(1028924366, true, new  JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if (code == 0) {
+
+                }
+            }
+        });
+    }
 
 
 

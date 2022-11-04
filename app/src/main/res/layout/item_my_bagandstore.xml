@@ -27,17 +27,25 @@
             app:rv_backgroundColor="#F4F1F8">
 
             <ImageView
-                android:id="@+id/ivCar"
+                android:id="@+id/ivCar1"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/img_default"/>
 
             <ImageView
+                android:id="@+id/ivBo"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_centerInParent="true"
                 android:src="@mipmap/icon_play_mybag"/>
+
+            <ImageView
+                android:id="@+id/ivCar2"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/img_default"/>
 
         </com.flyco.roundview.RoundRelativeLayout>
 
@@ -55,7 +63,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textSize="13sp"
-                android:textColor="#404040"
+
                 android:text="-------"/>
 
             <TextView
@@ -68,26 +76,40 @@
                 android:text="-------"/>
 
             <LinearLayout
-                android:id="@+id/llUsing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="5dip"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tvDisable"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_marginEnd="5dp"
                     android:gravity="left"
-                    android:textColor="#0F86FF"
+                    android:textColor="#F42C2C"
                     android:textSize="12sp"
                     android:text="@string/forbiddenUse"/>
 
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvCommit"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:visibility="gone"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:text="@string/buy"
+                    android:gravity="center"
+                    app:gt_gradient_direction="bottom"
+                    app:gt_radius_dp="15dp"
+                    app:gt_color_list="@array/myBagBuyColor"/>
+
                 <TextView
                     android:id="@+id/tvRenew"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -99,20 +121,7 @@
 
             </LinearLayout>
 
-            <com.live.fox.view.GradientTextView
-                android:id="@+id/gtvCommit"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="5dip"
-                android:textSize="14sp"
-                android:textColor="#ffffff"
-                android:text="@string/buy"
-                android:gravity="center"
-                app:gt_gradient_direction="bottom"
-                app:gt_radius_dp="15dp"
-                app:gt_color_list="@array/myBagBuyColor"/>
+
         </LinearLayout>
 
     </com.flyco.roundview.RoundLinearLayout>

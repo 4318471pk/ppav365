@@ -16,9 +16,12 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
+import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.UserdetatilActivityBinding;
@@ -29,8 +32,11 @@ import com.live.fox.dialog.bottomDialog.SimpleSelectorDialog;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.dialog.temple.EditNickNameConfirmDialog;
 import com.live.fox.entity.User;
+import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
+import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
 import com.live.fox.utils.BarUtils;
@@ -54,6 +60,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -66,7 +73,10 @@ public class UserDetailActivity extends BaseActivity  {
     UserdetatilActivityBinding mBind;
 
     Long uid;
-    User user;
+    User mUser;
+
+    List<String> listJob = new ArrayList<>();
+
 
     public static void startActivity(Context context, long uid) {
         Constant.isAppInsideClick = true;
@@ -111,6 +121,13 @@ public class UserDetailActivity extends BaseActivity  {
                         EditProfileImageActivity.startActivity(this,localMedia.getPath());
                     }
                     break;
+                case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
+                    String pic = data.getStringExtra("data");
+                    mUser.setAvatar(pic);
+                    GlideUtils.loadImage(this, pic, mBind.ivHeader);
+                    showToastTip(true, getString(R.string.modifySuccess));
+                    break;
+
             }
         }
     }
@@ -161,17 +178,25 @@ public class UserDetailActivity extends BaseActivity  {
             mBind.btnFollow.setVisibility(View.GONE);
             mBind.btnLetter.setVisibility(View.GONE);
         }
+
+        listJob.add(getString(R.string.job_1));listJob.add(getString(R.string.job_2));listJob.add(getString(R.string.job_3));
+        listJob.add(getString(R.string.job_4));listJob.add(getString(R.string.job_5));listJob.add(getString(R.string.job_6));
+        listJob.add(getString(R.string.job_7));listJob.add(getString(R.string.job_8));listJob.add(getString(R.string.job_9));
+        listJob.add(getString(R.string.job_10));listJob.add(getString(R.string.job_11));listJob.add(getString(R.string.job_12));
+        listJob.add(getString(R.string.job_13));listJob.add(getString(R.string.job_14));
+
         doGetUserInfoByUidApi(uid);
+        getAssetsData();
     }
 
     public void refreshPage() {
-        user = DataCenter.getInstance().getUserInfo().getUser();
-        mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(user, context));
-        mBind.tvCirclenum.setText("0");
-        mBind.tvFollownum.setText(String.valueOf(user.getFollows()));
-        mBind.tvFansnum.setText(String.valueOf(user.getFans()));
+        mUser = DataCenter.getInstance().getUserInfo().getUser();
+        mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(mUser, context));
+        mBind.tvCirclenum.setText(mUser.getFans() + "");
+        mBind.tvFollownum.setText(String.valueOf(mUser.getFollows()));
+        mBind.tvFansnum.setText("");
 
-        String uid=String.valueOf(user.getUid());
+        String uid=String.valueOf(mUser.getUid());
         StringBuilder sb=new StringBuilder();
         sb.append(getString(R.string.identity_id_3));
         sb.append("  ");
@@ -179,21 +204,34 @@ public class UserDetailActivity extends BaseActivity  {
         SpannableString spannableString=new SpannableString(sb.toString());
         spannableString.setSpan(new ForegroundColorSpan(0xffb8b2c8),spannableString.length()-uid.length(), spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mBind.tvIdnum.setText(spannableString);
-        int sexResId = user.getSex() == 1 ? R.string.boy : R.string.girl;
+        int sexResId = mUser.getSex() == 1 ? R.string.boy : R.string.girl;
         mBind.tvGender.setText(getString(sexResId));
+
+        if (TextUtils.isEmpty(mUser.getBirthday())) {
+            mBind.tvAge.setText(getString(R.string.privacyStr));
+        } else {
+            mBind.tvAge.setText(mUser.getBirthday());
+        }
         mBind.tvAge.setText(getString(R.string.privacyStr));
-        mBind.tvArea.setText(TextUtils.isEmpty(user.getCity())?getString(R.string.privacyStr):user.getCity());
-        mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
-        mBind.tvOccupation.setText(user.getJob());
-        mBind.tvNickName.setText(TextUtils.isEmpty(user.getNickname())?"- -":user.getNickname());
-        mBind.tvSignature.setText((StringUtils.isEmpty(user.getSignature()) ? getString(R.string.noWrite) : user.getSignature()));
+        mBind.tvArea.setText(TextUtils.isEmpty(mUser.getCity())?getString(R.string.privacyStr):mUser.getCity());
+        setGq();
+      //  mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
+        if (TextUtils.isEmpty(mUser.getJob())) {
+            mBind.tvOccupation.setText(getString(R.string.privacyStr));
+        } else {
+            mBind.tvOccupation.setText(mUser.getJob());
+        }
+        mBind.tvNickName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
+        mBind.tvSignature.setText((StringUtils.isEmpty(mUser.getSignature()) ? getString(R.string.noWrite) : mUser.getSignature()));
 
-        mBind.ivSex.setBackground(user.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
+        mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
 
-        GlideUtils.loadDefaultImage(UserDetailActivity.this, user.getAvatar(), mBind.ivHeader);
-        mBind.tvName.setText(TextUtils.isEmpty(user.getNickname())?"- -":user.getNickname());
+        mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
+
+        GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), mBind.ivHeader);
+        mBind.tvName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
         if (DataCenter.getInstance().getUserInfo().getUser().getUid().longValue()
-                == user.getUid().longValue()) {
+                == mUser.getUid().longValue()) {
             mBind.btnFollow.setVisibility(View.GONE);
             mBind.btnLetter.setVisibility(View.GONE);
         } else {
@@ -221,7 +259,7 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
     public void updateFollow() {
-        if (user.isFollow()) {
+        if (mUser.isFollow()) {
             mBind.btnFollow.setBackgroundResource(R.drawable.shape_white_round_20);
             mBind.btnFollow.setTextColor(Color.parseColor("#868686"));
             mBind.btnFollow.setText(getString(R.string.focused));
@@ -252,6 +290,22 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
 
+    private void getAssetsData(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+            @Override
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
+                hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    mBind.tvFansnum.setText("LV." + data.getSendDiamond());
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+    }
+
+
 
 
     public void onViewClick(View view) {
@@ -264,13 +318,27 @@ public class UserDetailActivity extends BaseActivity  {
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
             case R.id.tvGender:
-                SimpleSelectorDialog dialog=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
+               // SimpleSelectorDialog ;
+              SimpleSelectorDialog dialog =  SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(int index) {
+                        User user=new User();
+
+                        if (index == 0) {
+                            user.setSex(1);
+                            modifyUser(user, 3);
+                        } else {
+                            user.setSex(2);
+                            modifyUser(user, 3);
+                        }
 
                     }
                 });
-                dialog.setData(new ArrayList<>());
+                simpleSelectorDialog = dialog;
+                List<String> list = new ArrayList();
+                list.add(getString(R.string.boy));
+                list.add(getString(R.string.girl));
+                dialog.setData(list);
                 dialog.setTitle(getString(R.string.selectGender));
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialog);
                 break;
@@ -278,27 +346,54 @@ public class UserDetailActivity extends BaseActivity  {
                 SimpleSelectorDialog dialogOccupation=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(int index) {
-
+                        User user=new User();
+                        user.setJob(listJob.get(index));
+                        modifyUser(user, 7);
                     }
                 });
-                dialogOccupation.setData(new ArrayList<>());
+
+                dialogOccupation.setData(listJob);
                 dialogOccupation.setTitle(getString(R.string.occupation));
+                simpleSelectorDialog = dialogOccupation;
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogOccupation);
                 break;
             case R.id.tvArea:
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), new AreaListSelectorDialog());
                 break;
             case R.id.tvAge:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),new TimePickerDialog());
+                TimePickerDialog timePickerDialog = new TimePickerDialog();
+                timePickerDialog.setOnSelectedListener(new TimePickerDialog.OnSelectedListener() {
+                    @Override
+                    public void onSelected(int year, int month, int date, long time) {
+                        String s = year + "-" + month + "-" + date;
+                        User user=new User();
+                        user.setBirthday(s);
+                        simpleSelectorDialog = timePickerDialog;
+                        modifyUser(user, 6);
+
+                    }
+                });
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),timePickerDialog);
                 break;
             case R.id.tvRelationshipStatus:
                 SimpleSelectorDialog dialogRelationshipStatus=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(int index) {
-
+                        User user=new User();
+                        index ++;
+                        user.setEmotionalState(index);
+                        modifyUser(user, 5);
                     }
                 });
-                dialogRelationshipStatus.setData(new ArrayList<>());
+                simpleSelectorDialog = dialogRelationshipStatus;
+                List<String> listGq = new ArrayList();
+                listGq.add(getString(R.string.loving_1));
+                listGq.add(getString(R.string.loving_2));
+                listGq.add(getString(R.string.loving_3));
+                listGq.add(getString(R.string.loving_4));
+                listGq.add(getString(R.string.privacyStr));
+
+                dialogRelationshipStatus.setData(listGq);
                 dialogRelationshipStatus.setTitle(getString(R.string.relationshipStatus2));
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogRelationshipStatus);
                 break;
@@ -312,14 +407,14 @@ public class UserDetailActivity extends BaseActivity  {
                 finish();
                 break;
             case R.id.btn_follow:
-                Api_User.ins().follow(user.getUid(), !user.isFollow(), new JsonCallback<String>() {
+                Api_User.ins().follow(mUser.getUid(), !mUser.isFollow(), new JsonCallback<String>() {
                     @Override
                     public void onSuccess(int code, String msg, String result) {
                         if (result != null) LogUtils.e("follow result : " + result);
                         if (code == 0 && result != null) {
-                            user.setFollow(!user.isFollow());
-                            user.setFans(user.isFollow() ? user.getFans() + 1 : user.getFans() - 1);
-                            mBind.tvFansnum.setText(user.getFans() + "");
+                            mUser.setFollow(!mUser.isFollow());
+                            mUser.setFans(mUser.isFollow() ? mUser.getFans() + 1 : mUser.getFans() - 1);
+                            mBind.tvFansnum.setText(mUser.getFans() + "");
                             updateFollow();
                         }
 
@@ -327,10 +422,10 @@ public class UserDetailActivity extends BaseActivity  {
                 });
                 break;
             case R.id.btn_letter:
-                ChatActivity.startActivity(UserDetailActivity.this, user);
+                ChatActivity.startActivity(UserDetailActivity.this, mUser);
                 break;
             case R.id.tvCopyId:
-                ClipboardUtils.copyText(String.valueOf(user.getUid()));
+                ClipboardUtils.copyText(String.valueOf(mUser.getUid()));
                 showToastTip(true, getString(R.string.userCopy));
                 break;
 //            case R.id.tvEditInfo:
@@ -338,5 +433,62 @@ public class UserDetailActivity extends BaseActivity  {
 //                break;
         }
     }
+
+
+    BaseBindingDialogFragment simpleSelectorDialog;
+
+    private void modifyUser(User userTemp, int type){
+        showLoadingDialog();
+        Api_User.ins().modifyUserInfo(userTemp, type, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (simpleSelectorDialog != null) {
+                    simpleSelectorDialog.dismissAllowingStateLoss();
+                }
+
+                if(code==0) {
+                    showToastTip(true, getString(R.string.modifySuccess));
+                    if (type == 3) {
+                        mUser.setSex(userTemp.getSex());
+                        mBind.tvGender.setText(mUser.getSex() == 1? getString(R.string.boy): getString(R.string.girl));
+                        mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
+                    } else if (type == 5) {
+                        mUser.setEmotionalState(userTemp.getEmotionalState());
+                        setGq();
+                    } else if (type == 6) {
+                        mBind.tvAge.setText(userTemp.getBirthday());
+                    } else if (type == 7){
+                        mBind.tvOccupation.setText(userTemp.getJob());
+                    }
+                    //DataCenter.getInstance().getUserInfo().updateUser(user);
+
+
+                } else {
+                    showToastTip(true, msg);
+                }
+            }
+
+        });
+
+    }
+
+    private void setGq(){
+        if (mUser.getEmotionalState() == 1) {
+            mBind.tvRelationshipStatus.setText(getString(R.string.loving_1));
+        } else if (mUser.getEmotionalState() == 2) {
+            mBind.tvRelationshipStatus.setText(getString(R.string.loving_2));
+        } else if (mUser.getEmotionalState() == 3) {
+            mBind.tvRelationshipStatus.setText(getString(R.string.loving_3));
+        } else if (mUser.getEmotionalState() == 4) {
+            mBind.tvRelationshipStatus.setText(getString(R.string.loving_4));
+        } else if (mUser.getEmotionalState() == 5) {
+            mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
+        }
+
+    }
+
+
+
 
 }

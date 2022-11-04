@@ -7,16 +7,29 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.DiamondExpensesAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentDiamondExpenseBinding;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.entity.DiamondIncomeAndExpenseBean;
+import com.live.fox.entity.DiamondRecordBean;
+import com.live.fox.entity.WithDrawRecordBean;
+import com.live.fox.server.Api_Order;
+import com.live.fox.utils.TimeUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +38,10 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
 
     FragmentDiamondExpenseBinding mBind;
     DiamondExpensesAdapter adapter;
+    List<DiamondIncomeAndExpenseBean> list = new ArrayList<>();
+
+    int pageSize = 20;
+    int pageNum = 1;
 
     @Override
     public void onClickView(View view) {
@@ -56,20 +73,39 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind=getViewDataBinding();
         mBind.setClick(this);
-
-        List<DiamondIncomeAndExpenseBean> list=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            DiamondIncomeAndExpenseBean bean=new DiamondIncomeAndExpenseBean();
-            bean.setAmountOfDiamond(System.currentTimeMillis());
-            bean.setNickname("我就是我不一样的果");
-            bean.setAmountOfDiamond(9999999l);
-            bean.setType("按时收费");
-            list.add(bean);
-        }
-        adapter=new DiamondExpensesAdapter(getContext(),list);
+        mBind.tvTime.setText(TimeUtils.getToday2());
+       // List<DiamondIncomeAndExpenseBean> list=new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            DiamondIncomeAndExpenseBean bean=new DiamondIncomeAndExpenseBean();
+//            bean.setAmountOfDiamond(System.currentTimeMillis());
+//            bean.setNickname("我就是我不一样的果");
+//            bean.setAmountOfDiamond(9999999l);
+//            bean.setType("按时收费");
+//            list.add(bean);
+//        }
+        adapter=new DiamondExpensesAdapter(getContext(),list, true);
         adapter.addHeaderView(makeHeader());
         mBind.rvMain.setLayoutManager(new LinearLayoutManager(getContext()));
         mBind.rvMain.setAdapter(adapter);
+
+        mBind.refersh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.refersh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull @NotNull RefreshLayout refreshLayout) {
+                pageNum ++ ;
+                getRecord(false);
+            }
+        });
+
+        mBind.refersh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                list.clear();
+                pageNum = 1;
+                getRecord(true);
+            }
+        });
+        getRecord(true);
 
     }
 
@@ -102,5 +138,61 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
         return linearLayout;
     }
 
+    private void getRecord(boolean isFrash){
+        showLoadingDialog();
+        Api_Order.ins().getDiamondGetRecord(new JsonCallback<DiamondRecordBean>() {
+            @Override
+            public void onSuccess(int code, String msg, DiamondRecordBean data) {
+                dismissLoadingDialog();
+                mBind.refersh.finishRefresh();
+                mBind.refersh.finishLoadMore();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                   if (data.getRecords() != null && data.getRecords().size() >0) {
+                        list.addAll(data.getRecords());
+                        if (data.getRecords().size() < pageSize ) {
+                            mBind.refersh.setEnableLoadMore(true);
+                        }
+                        if (isFrash) {
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            adapter.notifyItemRangeInserted(
+                                    list.size() - data.getRecords().size(), data.getSize());
+                        }
+
+                        mBind.tvNoMore.setVisibility(View.VISIBLE);
+                        if (list.size() /2 == 0) {
+                            mBind.tvNoMore.setBackgroundColor(getResources().getColor(R.color.white));
+                        } else {
+                            mBind.tvNoMore.setBackgroundColor(getResources().getColor(R.color.gray_bg));
+                        }
+                       setDiamondTv();
+                    } else {
+                        mBind.refersh.setEnableLoadMore(true);
+                        if (isFrash) {
+                            mBind.tvNoMore.setVisibility(View.GONE);
+                        }
+                    }
+                } else {
+                    if (!isFrash) {
+                        pageNum --;
+                    } else {
+                        mBind.tvNoMore.setVisibility(View.GONE);
+                    }
+
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, pageNum, pageSize, mBind.tvTime.getText().toString());
+    }
+
+
+    private void setDiamondTv(){
+        float all = 0;
+        for (int i = 0 ; i < list.size(); i++) {
+            all = all + list.get(i).getAmount();
+        }
+        String s = String.format(getString(R.string.get_diamond), all + "");
+        mBind.tvDiamond.setText(s);
+    }
 
 }

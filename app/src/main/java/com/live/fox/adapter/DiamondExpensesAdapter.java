@@ -22,10 +22,11 @@ public class DiamondExpensesAdapter extends BaseQuickAdapter<DiamondIncomeAndExp
     int width;
     Context context;
 
-    public DiamondExpensesAdapter(Context context,List<DiamondIncomeAndExpenseBean> data) {
+    boolean isGetDiamond = true;
+    public DiamondExpensesAdapter(Context context,List<DiamondIncomeAndExpenseBean> data, boolean isGetDiamond) {
         super(R.layout.item_diamond_income_expense, data);
         width= ScreenUtils.getScreenWidth(context)-ScreenUtils.getDip2px(context,10);
-
+        this.isGetDiamond = isGetDiamond;
     }
 
     @Override
@@ -41,16 +42,28 @@ public class DiamondExpensesAdapter extends BaseQuickAdapter<DiamondIncomeAndExp
             switch (i)
             {
                 case 0:
-                    textView.setText(TimeUtils.longToTwoLinesString( item.getTime()/1000));
+                    textView.setText(TimeUtils.longToTwoLinesString( item.getTime()));
                     break;
                 case 1:
-                    textView.setText(item.getNickname());
+                    textView.setText(item.getUserNick());
                     break;
                 case 2:
-                    textView.setText(item.getAmountOfDiamond()+"");
+                    textView.setText(item.getAmount() + "");
                     break;
                 case 3:
-                    textView.setText(item.getType());
+                    if (isGetDiamond) {
+                        if (item.getType() == 401) { //401 礼物 402守护收入 403按时收费 404按场收费
+                            textView.setText(mContext.getString(R.string.gift_get));
+                        } else if (item.getType() == 402)  {
+                            textView.setText(mContext.getString(R.string.guard_get));
+                        } else if (item.getType() == 403)  {
+                            textView.setText(mContext.getString(R.string.charge_on_time));
+                        } else if (item.getType() == 404)  {
+                            textView.setText(mContext.getString(R.string.charge_per_site));
+                        }
+                    } else { //消费类型:101送礼102弹幕103购买道具104购买守护105购买贵族201:彩票投注301三方游戏xx转出
+
+                    }
                     break;
             }
         }

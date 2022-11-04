@@ -15,7 +15,7 @@
         android:layout_height="80dp"
         app:riv_corner_radius_top_left="10dp"
         app:riv_corner_radius_top_right="10dp"
-        android:src="@mipmap/announcement"
+
         android:scaleType="fitXY"
         />
 
@@ -36,6 +36,7 @@
             android:src="@mipmap/time_icon"/>
         
         <TextView
+            android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

@@ -1029,6 +1029,7 @@
     <string name="king">国王</string>
     <string name="own_power">专属特权</string>
     <string name="now_start">立即开通</string>
+    <string name="now_xufei">立即续费</string>
     <string name="open_get">开通即享</string>
     <string name="noble_equity_title_1">贵族勋章</string>
     <string name="noble_equity_tips_1">专属标识</string>
@@ -1062,8 +1063,11 @@
         \n\n3、如果您的贵族身份已过期，则无法享受续费优惠，可重新开通任意等级贵族。</string>
     <string name="you_gonna_get">您即将获得对应尊荣</string>
     <string name="con_you_buy">恭喜您购买</string>
+    <string name="con_you_xufei">恭喜您续费</string>
     <string name="goto_charge_diamond">钻石不够了~快去看看有充有送活动吧！</string>
     <string name="confirm_buy_noble">确认消耗  %1$s钻石 开通 %2$s吗？</string>
+    <string name="confirm_buy_noble_2">确认消耗  %1$s钻石 续费 %2$s吗？</string>
+    <string name="cannot_open">无法开通！您已经有更高等级的爵位 在身，可以看看更好的哟！~</string>
     <string name="no_fans">您还没有粉丝哟~</string>
     <string name="no_anchor">您还没有关注的主播哟~</string>
     <string name="no_msg">暂无消息</string>
@@ -1194,6 +1198,42 @@
     <string name="choise_open_bank">选择开户行</string>
     <string name="txz">提现中</string>
     <string name="fail">失败</string>
+    <string name="gift_get">礼物收入</string>
+    <string name="guard_get">守护收入</string>
+    <string name="charge_on_time">按时收费</string>
+    <string name="charge_per_site">按场收费</string>
+    <string name="get_diamond">收入%1$s钻</string>
+    <string name="open_car_suc">座驾启用成功</string>
+    <string name="open_car_fail">座驾禁用成功</string>
+    <string name="xufei_suc">续费成功</string>
+    <string name="ge">个</string>
+    <string name="day">天</string>
+    <string name="cancle_gz">取消关注</string>
+    <string name="noble_tips1">开通%1$s钻石/月 赠送%2$s贵族钻石</string>
+    <string name="noble_tips2">续费%1$s钻石/月 赠送%2$s贵族钻石</string>
+    <string name="noble_time">%1$s年%2$s月%3$s日 %4$s结束</string>
+    <string name="loving_1">恋爱</string>
+    <string name="loving_2">单身</string>
+    <string name="loving_3">已婚</string>
+    <string name="loving_4">未婚</string>
+    <string name="act_finish">活动已结束</string>
+    <string name="job_1">歌手</string>
+    <string name="job_2">演员</string>
+    <string name="job_3">模特</string>
+    <string name="job_4">空姐</string>
+    <string name="job_5">主持人</string>
+    <string name="job_6">化妆师</string>
+    <string name="job_7">美容师</string>
+    <string name="job_8">摄影师</string>
+    <string name="job_9">白领</string>
+    <string name="job_10">学生</string>
+    <string name="job_11">老师</string>
+    <string name="job_12">护士</string>
+    <string name="job_13">自由职业</string>
+    <string name="job_14">全职主播</string>
+
+
+
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

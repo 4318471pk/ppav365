@@ -1215,8 +1215,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
      */
     private void showMoneyDialog(String yuan, String content, boolean isMoney) {
         commonDialog.setDialogContent(
+                getString(R.string.dialogWordsWithSpace),
                 content,
-                getString(R.string.recharge_usdt_submit_dialog_content),
                 getString(R.string.button_cancel),
                 isMoney ? getString(R.string.go_to_charge) : getString(R.string.sure),
                 view -> commonDialog.dismiss(),

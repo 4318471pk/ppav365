@@ -32,17 +32,28 @@ import com.live.fox.base.BaseActivity;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.OssToken;
+import com.live.fox.entity.User;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Config;
+import com.live.fox.server.Api_User;
+import com.live.fox.server.BaseApi;
+import com.live.fox.ui.agency.PromoMaterialActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.Utils;
+import com.live.fox.utils.okgo.OkGoHttpUtil;
 import com.live.fox.view.PictureCropView;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
 
 import java.io.File;
+
+import static com.live.fox.server.BaseApi.getCommonHeaders;
 
 public class EditProfileImageActivity extends BaseActivity {
 
@@ -138,7 +149,10 @@ public class EditProfileImageActivity extends BaseActivity {
                     File pic=new File(folderDir.getPath()+"/"+System.currentTimeMillis()+".png");
 
                     PictureFileUtils.saveBitmapToPNGFile(bitmap,pic,80);
-                    finish();
+                    LogUtils.e("上传头像地址：" + pic.getAbsolutePath());
+                    updateFile(pic);
+
+
                 }
             }
         });
@@ -172,7 +186,44 @@ public class EditProfileImageActivity extends BaseActivity {
                     });
     }
 
+    private void updateFile(File file){
+        showLoadingDialog();
+        Api_User.ins().uploadUserPhoto(file, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == 0 && data != null) {
+                    modifyUser(data, 1);
+                } else {
+                    showToastTip(true, msg);
+                }
 
+            }
+        });
+
+    }
+
+
+    private void modifyUser(String picUrl, int type){
+        User user = new User();
+        user.setAvatar(picUrl);
+        Api_User.ins().modifyUserInfo(user, type, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if(code==0) {
+                    Intent intent = new Intent();
+                    intent.setClass(EditProfileImageActivity.this, UserDetailActivity.class);
+                    intent.putExtra("data", picUrl);
+                    setResult(RESULT_OK, intent);
+                    onBackPressed();
+                } else {
+                    showToastTip(true, msg);
+                }
+            }
+
+        });
+    }
 //    public void uploadImage(OssToken ossToken) {
 //        if (oss == null) {
 //            OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossToken.getKey(), ossToken.getSecret(), ossToken.getToken());

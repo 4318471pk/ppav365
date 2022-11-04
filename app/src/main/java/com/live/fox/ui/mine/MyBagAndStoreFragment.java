@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.adapter.MyBagAndStoreAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
@@ -19,8 +20,10 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMybagStoreBinding;
 import com.live.fox.databinding.FragmentMybagStoreBinding;
 import com.live.fox.entity.BagAndStoreBean;
+import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.server.Api_Order;
+import com.live.fox.server.BaseApi;
 import com.live.fox.ui.act.ActivityDetailFragment;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
@@ -34,21 +37,25 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyBagAndStoreFragment extends BaseBindingFragment {
 
+    public static final int EventCodeStore = 10001;
+
     FragmentMybagStoreBinding mBind;
 
-
     boolean isStore= true;
-
 
     MyBagAndStoreAdapter myBagAndStoreAdapter;
     List<MyBagStoreListItemBean> beans;
@@ -80,6 +87,8 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
+        EventBus.getDefault().register(this);
+
         isStore = this.getArguments().getBoolean("isStore",isStore);
         parser = new SVGAParser(this.getContext());
         mBind.ivSvg.setLoops(0);
@@ -117,15 +126,38 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
             }
 
             @Override
-            public void buy(int pos) {
-
+            public void openCar(int pos, int id, boolean isOpen) {
+                HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+                commonParams.put("propId", id);
+                showLoadingDialog();
+                if (isOpen) {
+                    Api_Order.ins().openCar(getCarJsonBack(isOpen), commonParams);
+                } else {
+                    Api_Order.ins().closeCar(getCarJsonBack(isOpen), commonParams);
+                }
             }
+
         });
 
         getData(true);
        // setSvgStatus();
+    }
 
-
+    private JsonCallback getCarJsonBack(boolean isOpenCar){
+        return new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    ToastUtils.showShort(App.getInstance().getString(R.string.open_car_suc));
+                    pageNum = 1;
+                    getData(true);
+                    return;
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+                dismissLoadingDialog();
+            }
+        };
     }
 
 
@@ -133,7 +165,7 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
     {
         if(myBagAndStoreAdapter ==null)
         {
-            myBagAndStoreAdapter =new MyBagAndStoreAdapter((BaseActivity) this.getContext(),beans);
+            myBagAndStoreAdapter =new MyBagAndStoreAdapter((BaseActivity) this.getContext(),beans, isStore);
             mBind.rvMain.setAdapter(myBagAndStoreAdapter);
         }
         else
@@ -146,6 +178,34 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
         showLoadingDialog();
         if (isStore) {
             Api_Order.ins().getStoreList(new JsonCallback<BagAndStoreBean>() {
+                @Override
+                public void onSuccess(int code, String msg, BagAndStoreBean data) {
+                    dismissLoadingDialog();
+                    mBind.srlMyBag.finishRefresh();
+                    mBind.srlMyBag.finishLoadMore();
+                    if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                        if (data.getRecords() != null && data.getRecords().size() >0) {
+                            if (isFrash) {
+                                beans.clear();
+                            }
+                            beans.addAll(data.getRecords());
+                            if (data.getRecords().size() < pageSize ) {
+                                mBind.srlMyBag.setEnableLoadMore(true);
+                            }
+                            setMyBagAdapter();
+                        } else {
+                            mBind.srlMyBag.setEnableLoadMore(true);
+                        }
+                    } else {
+                        if (!isFrash) {
+                            pageNum --;
+                        }
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }, pageNum, pageSize);
+        } else {
+            Api_Order.ins().getBagList(new JsonCallback<BagAndStoreBean>() {
                 @Override
                 public void onSuccess(int code, String msg, BagAndStoreBean data) {
                     dismissLoadingDialog();
@@ -170,33 +230,24 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
                     }
                 }
             }, pageNum, pageSize);
-        } else {
-            Api_Order.ins().getBagList(new JsonCallback<String>() {
-                @Override
-                public void onSuccess(int code, String msg, String data) {
-                    dismissLoadingDialog();
-                    mBind.srlMyBag.finishRefresh();
-                    mBind.srlMyBag.finishLoadMore();
-                    if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-//                        if (data.getRecords() != null && data.getRecords().size() >0) {
-//                            beans.addAll(data.getRecords());
-//
-//                            if (data.getRecords().size() < pageSize ) {
-//                                mBind.srlMyBag.setEnableLoadMore(true);
-//                            }
-//                            setMyBagAdapter();
-//                        } else {
-//                            mBind.srlMyBag.setEnableLoadMore(true);
-//                        }
-                    } else {
-                        if (!isFrash) {
-                            pageNum --;
-                        }
-                        ToastUtils.showShort(msg);
-                    }
-                }
-            }, pageNum, pageSize);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent msg) {
+        if (msg.getType() == EventCodeStore) { //刷新列表
+            pageNum = 0;
+            getData(true);
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
     }
 
     private void setSvg(String url)   {

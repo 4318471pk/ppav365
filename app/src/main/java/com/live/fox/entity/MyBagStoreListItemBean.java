@@ -6,29 +6,76 @@ public class MyBagStoreListItemBean {
     private String name;
     String ename;
     private String des;
-    private boolean isUsing = false; //是否在使用
-    private boolean isPurchased = false; //是否已购买
+    private boolean enable = false; //是否在使用
+    private boolean isHave = false; //是否已购买
     int type;
     float price;
     String logUrl;
     String animationUrl;
-    boolean enable;
     String descript;
 
-    public boolean isPurchased() {
-        return isPurchased;
+    int propId;
+    String propName;
+    int propType; //道具类型:1礼物2坐骑3改名卡4贵族体验卡5靓号
+    int amount = 1;//数量，也暂时可以为天数
+    String remark;
+    int status;  //状态:0未使用1已使用
+
+
+    public int getPropId() {
+        return propId;
     }
 
-    public void setPurchased(boolean purchased) {
-        isPurchased = purchased;
+    public void setPropId(int propId) {
+        this.propId = propId;
     }
 
-    public boolean isUsing() {
-        return isUsing;
+    public String getPropName() {
+        return propName;
     }
 
-    public void setUsing(boolean using) {
-        isUsing = using;
+    public void setPropName(String propName) {
+        this.propName = propName;
+    }
+
+    public int getPropType() {
+        return propType;
+    }
+
+    public void setPropType(int propType) {
+        this.propType = propType;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public boolean isHave() {
+        return isHave;
+    }
+
+    public void setHave(boolean have) {
+        isHave = have;
     }
 
     public String getName() {
