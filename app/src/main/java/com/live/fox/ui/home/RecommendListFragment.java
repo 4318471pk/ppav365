@@ -172,7 +172,7 @@ public class RecommendListFragment extends BaseBindingFragment {
 
     public void doGetLiveListApi() {
 
-        Api_Live.ins().getLiveList(1, new JsonCallback<HomeFragmentRoomListBean>() {
+        Api_Live.ins().getLiveList(0, new JsonCallback<HomeFragmentRoomListBean>() {
             @Override
             public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
                 if (data == null || !isActivityOK()) {
@@ -296,6 +296,7 @@ public class RecommendListFragment extends BaseBindingFragment {
 
     private void setTabs(List<HomeFragmentRoomListBean.ChannelList> channelLists)
     {
+        mBind.hostTypeTabs.removeAllTabs();
         int dip1 = ScreenUtils.dip2px(getContext(), 1);
         int screenWidth = ScreenUtils.getScreenWidth(getContext());
         int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;

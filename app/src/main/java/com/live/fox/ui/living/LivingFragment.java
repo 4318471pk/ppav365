@@ -324,10 +324,6 @@ public class LivingFragment extends BaseBindingFragment {
     {
 
         if (getView() != null) {
-            if(getView().getPaddingTop()>0)
-            {
-                getView().setPadding(0,0,0,0);
-            }
             if (mLivePlayer != null) {
                 mLivePlayer.stopPlay(true);
                 mLivePlayer = null;
@@ -368,6 +364,7 @@ public class LivingFragment extends BaseBindingFragment {
 //            content.setBackground(null);
                 } else if (event == TXLiveConstants.PLAY_EVT_RCV_FIRST_I_FRAME) {
                     mBind.ivBG.setVisibility(View.GONE);
+                    mBind.txVideoView.setVisibility(View.VISIBLE);
                     // 2003 網絡接收到首個可渲染的視頻數據包(IDR)
 //                    dismissLiveLoadingAnimation();
 //                    LogUtils.e(Constant.mTXLivePlayer.isPlaying() + ",");
@@ -449,11 +446,11 @@ public class LivingFragment extends BaseBindingFragment {
         {
             LivingActivity activity = (LivingActivity) getActivity();
             RoomListBean bean= activity.getRoomListBeans().get(currentPagePosition);
-            Api_Live.ins().interRoom(120, "1028924365", 0,
+            Api_Live.ins().interRoom(bean.getId(), bean.getAid(), 0,
                     "", 0, new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
-                            if(mLivePlayer!=null)
+                            if(mLivePlayer!=null && enterRoomBean!=null && !TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()))
                             {
                                 mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(),TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
                             }

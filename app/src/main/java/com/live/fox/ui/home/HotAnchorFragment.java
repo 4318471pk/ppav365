@@ -86,7 +86,7 @@ public class HotAnchorFragment extends BaseBindingFragment {
 
 
     public void doGetLiveListApi() {
-        Api_Live.ins().getLiveList(2, new JsonCallback<HomeFragmentRoomListBean>() {
+        Api_Live.ins().getLiveList(1, new JsonCallback<HomeFragmentRoomListBean>() {
             @Override
             public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
                 if (data == null) {
@@ -135,6 +135,7 @@ public class HotAnchorFragment extends BaseBindingFragment {
 
     private void setTabs(List<HomeFragmentRoomListBean.ChannelList> channelLists)
     {
+        mBind.hotHostTypeTabs.removeAllTabs();
         mBind.hotHostTypeTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

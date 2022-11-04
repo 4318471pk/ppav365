@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -88,9 +89,14 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
 
         helper.setText(R.id.tv_nickname,data.getTitle());
 
-        GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
-
-
+        if(TextUtils.isEmpty(data.getRoomIcon()))
+        {
+            ivRoundBG.setImageDrawable(context.getResources().getDrawable(defaultDrawable));
+        }
+        else
+        {
+            GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
+        }
 
 //        //Views
 //        TextView category = helper.getView(R.id.tv_cai_category);  //类别

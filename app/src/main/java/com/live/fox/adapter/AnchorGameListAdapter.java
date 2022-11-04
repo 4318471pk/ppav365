@@ -3,6 +3,7 @@ package com.live.fox.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -32,7 +33,6 @@ public class AnchorGameListAdapter extends BaseQuickAdapter<RoomListBean, BaseVi
         clock=context.getResources().getDrawable(R.mipmap.icon_clock);
         diamond=context.getResources().getDrawable(R.mipmap.icon_diamond);
         defaultDrawable=R.mipmap.icon_anchor_loading;
-
     }
 
     @Override
@@ -57,6 +57,15 @@ public class AnchorGameListAdapter extends BaseQuickAdapter<RoomListBean, BaseVi
         tvAnchorPaymentType.setText(context.getResources().getString(R.string.payByEachShow));
 
         helper.setText(R.id.tv_nickname,data.getTitle());
-        GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
+
+        if(TextUtils.isEmpty(data.getRoomIcon()))
+        {
+            ivRoundBG.setImageDrawable(context.getResources().getDrawable(defaultDrawable));
+        }
+        else
+        {
+            GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
+        }
+
     }
 }

@@ -1454,6 +1454,10 @@
 
     <string name="setPersonToAdmin">设置管理员</string>
     <string name="muteSendingMessage">禁言</string>
+    <string name="baseFunction">基础功能</string>
+    <string name="audienceManage">人员管理</string>
+
+    <string name="plsFillTitleOfRoom">请填写房间名称</string>
 
 
 </resources>

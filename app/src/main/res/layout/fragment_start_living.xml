@@ -305,7 +305,7 @@
                             android:src="@mipmap/icon_game_living" />
 
                         <ImageView
-                            android:id="@+id/ivMore"
+                            android:id="@+id/ivSetting"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginLeft="7dip"

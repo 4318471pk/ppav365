@@ -118,6 +118,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         getTvTitleRight().setOnClickListener(new OnClickFrequentlyListener() {
             @Override
             public void onClickView(View view) {
+                if(mBind.gtvTitleOfRoom.getText().toString().length()==0)
+                {
+                    ToastUtils.showShort(getString(R.string.plsFillTitleOfRoom));
+                    return;
+                }
                 openLive();
             }
         });
@@ -167,7 +172,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     public void checkAuth() {
 
         showLoadingDialogWithNoBgBlack();
-        Api_Live.ins().getAnchorAuth("84","0","OP88","beasad","100",new JsonCallback<String>() {
+        String nickName=DataCenter.getInstance().getUserInfo().getUser().getNickname();
+        String title=mBind.gtvTitleOfRoom.getText().toString();
+        Api_Live.ins().getAnchorAuth("84","0",nickName,title,"100",new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
