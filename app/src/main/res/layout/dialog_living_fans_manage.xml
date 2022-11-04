@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.LivingAudiencesManageDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                app:rv_cornerRadius="20dip"
+                app:rv_backgroundColor="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:textColor="#0F86FF"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:text="@string/setPersonToAdmin"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#F4F1F8"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:textColor="#0F86FF"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:text="@string/black"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#F4F1F8"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:textColor="#0F86FF"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:text="@string/muteSendingMessage"
+                    />
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvCancel"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginBottom="20dip"
+                android:gravity="center"
+                android:onClick="@{click.onClickView}"
+                android:layout_marginTop="5dip"
+                android:textSize="16sp"
+                android:textColor="#404040"
+                android:text="@string/cancel"
+                app:gt_radius_dp="20dip"
+                app:gt_solidNoGradient="#ffffffff"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

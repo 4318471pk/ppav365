@@ -24,10 +24,18 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
 
     DialogSetroomTypeBinding mBind;
     List<TextView> textViews;
+    boolean hasSwitchButton=false;
+    OnSelectRoomTypeListener onSelectRoomTypeListener;
 
-    public static SetRoomTypeDialog  getInstance()
+    public static SetRoomTypeDialog  getInstance(boolean hasSwitchButton)
     {
-        return new SetRoomTypeDialog();
+        SetRoomTypeDialog dialog=new SetRoomTypeDialog();
+        dialog.hasSwitchButton=hasSwitchButton;
+        return dialog;
+    }
+
+    public void setOnSelectRoomTypeListener(OnSelectRoomTypeListener onSelectRoomTypeListener) {
+        this.onSelectRoomTypeListener = onSelectRoomTypeListener;
     }
 
     @Nullable
@@ -50,6 +58,9 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
             case R.id.rlMain:
                 startAnimate(mBind.rllContent,false);
                 break;
+            case R.id.gtvConfirmSwitch:
+
+                break;
         }
     }
 
@@ -63,6 +74,7 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        mBind.gtvConfirmSwitch.setVisibility(hasSwitchButton?View.VISIBLE:View.GONE);
         startAnimate(mBind.rllContent,true);
 
         for (int i = 0; i < mBind.llRadioList.getChildCount(); i++) {
@@ -80,5 +92,10 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
               }
           });
         }
+    }
+
+    public interface OnSelectRoomTypeListener
+    {
+        void onSelect(int position);
     }
 }

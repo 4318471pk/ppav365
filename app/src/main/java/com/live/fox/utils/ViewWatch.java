@@ -180,11 +180,11 @@ public class ViewWatch {
 
     public void showInputLayout() {
         int bot = SPUtils.getInstance().getInt(ViewBOT);
-        if(bot>0)
-        {
-            setLayout(false,bot);
-        }
-
+//        if(bot>0)
+//        {
+//            setLayout(false,bot);
+//        }
+        mBot=0;
         mBind.rlButtons.setVisibility(GONE);
 
         showKeyboard();

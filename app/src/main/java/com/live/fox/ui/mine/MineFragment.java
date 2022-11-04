@@ -401,9 +401,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 }
                // this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
                 break;
-            case R.id.layoutAchorPic:
-                DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), EditProfileImageDialog.getInstance());
-                break;
 //            case R.id.btn_yjzh: //一键回收
 //                showLoadingDialog();
 //                doBackAllGameCoinApi();

@@ -189,13 +189,16 @@
                         android:background="#b8b2c8"/>
 
                     <LinearLayout
+                        android:id="@+id/llBotView"
                         android:layout_width="match_parent"
                         android:layout_height="50dip"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tv1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
                             android:gravity="center"
                             android:layout_weight="1"
                             android:textColor="#404040"
@@ -203,8 +206,10 @@
                             android:text="@string/personalPage"/>
 
                         <TextView
+                            android:id="@+id/tv2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
                             android:gravity="center"
                             android:layout_weight="1"
                             android:textColor="#404040"
@@ -212,8 +217,10 @@
                             android:text="@string/tagHim"/>
 
                         <TextView
+                            android:id="@+id/tv3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
                             android:gravity="center"
                             android:layout_weight="1"
                             android:textColor="#ff008a"

@@ -127,13 +127,13 @@ public class LiveListHeader extends RelativeLayout {
         hsPlayGameList=findViewById(R.id.hsPlayGameList);
         ivHomePlayGameRolling=findViewById(R.id.ivHomePlayGameRolling);
         ivHomeHotRecommendRolling=findViewById(R.id.ivHomeHotRecommendRolling);
-        convenientBanner=findViewById(R.id.convenientBanner);
-        convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
-
+        convenientBanner=findViewById(R.id.home_convenient_banner);
 
         convenientBanner.setPages(BannerHolder::new, homeBanners)
                 .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+
+        convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
 
         //点击Banner
         convenientBanner.setOnItemClickListener(position -> {
@@ -211,7 +211,7 @@ public class LiveListHeader extends RelativeLayout {
 
         @Override
         public void UpdateUI(Context context, int position, HomeBanner banner) {
-            String jsonStr = banner.getContent();
+            String jsonStr = banner.getBannerImg();
             String bannerUrl;
             if (jsonStr.endsWith("{") && jsonStr.endsWith("}")) {
                 bannerUrl = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));

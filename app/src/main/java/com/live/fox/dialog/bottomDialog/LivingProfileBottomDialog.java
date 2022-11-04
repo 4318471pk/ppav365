@@ -21,6 +21,9 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.BotDialogLivingProfileBinding;
+import com.live.fox.dialog.temple.LivingInterruptDialog;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
@@ -30,11 +33,18 @@ import org.jetbrains.annotations.NotNull;
 
 public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
 
-    BotDialogLivingProfileBinding mBind;
+    public static final int Audience=0;//用户端直播间
+    public static final int AudienceInAnchorRoom=1;//主播端直播间 的用户
+    public static final int AnchorSelf=2;//主播端直播间 主播自己
 
-    public static LivingProfileBottomDialog getInstance()
+    BotDialogLivingProfileBinding mBind;
+    int mode;
+
+    public static LivingProfileBottomDialog getInstance(int mode)
     {
-        return new LivingProfileBottomDialog();
+        LivingProfileBottomDialog dialog=new LivingProfileBottomDialog();
+        dialog.mode=mode;
+        return dialog;
     }
 
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
@@ -117,7 +127,30 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
 
                     }
                 });
+                break;
+            case R.id.tv1:
+                Long uid=DataCenter.getInstance().getUserInfo().getUser().getUid();
+                if(uid!=null)
+                {
+                    UserDetailActivity.startActivity(requireActivity(), uid);
+                }
+                break;
+            case R.id.tv2:
+                break;
+            case R.id.tv3:
+                switch (mode)
+                {
+                    case Audience:
 
+                        break;
+                    case AudienceInAnchorRoom:
+                        LivingAudiencesManageDialog livingAudiencesManageDialog=LivingAudiencesManageDialog.getInstance();
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),livingAudiencesManageDialog);
+                        break;
+                    case AnchorSelf:
+
+                        break;
+                }
                 break;
         }
 
@@ -134,6 +167,24 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         mBind.setClick(this);
 
         view.setVisibility(View.INVISIBLE);
+        switch (mode)
+        {
+            case Audience:
+                mBind.tv2.setText(getResources().getString(R.string.tagHim));
+                mBind.tv3.setText(getResources().getString(R.string.follow2));
+                break;
+            case AudienceInAnchorRoom:
+                mBind.tv2.setText("");
+                mBind.tv2.setEnabled(false);
+                mBind.tv3.setText(getResources().getString(R.string.manager));
+                mBind.tvReport.setVisibility(View.INVISIBLE);
+                break;
+            case AnchorSelf:
+                mBind.llBotView.setVisibility(View.INVISIBLE);
+                mBind.tvReport.setVisibility(View.INVISIBLE);
+                break;
+        }
+
         mBind.rpv.setIndex(RankProfileView.NONE,0);
         mBind.rpv.setOnConfirmWidthAndHeightListener(new RankProfileView.OnConfirmWidthAndHeightListener() {
             @Override

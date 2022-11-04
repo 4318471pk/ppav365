@@ -26,13 +26,6 @@ public class ReportAnchorDialog extends BaseBindingDialogFragment {
         return new ReportAnchorDialog();
     }
 
-    @Override
-    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-
-    }
-
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -42,6 +35,7 @@ public class ReportAnchorDialog extends BaseBindingDialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //设置dialog窗体颜色透明
         getDialog().getWindow().setDimAmount(0);
+        setWindowsFlag();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

@@ -175,7 +175,7 @@ public class RecommendListFragment extends BaseBindingFragment {
         Api_Live.ins().getLiveList(1, new JsonCallback<HomeFragmentRoomListBean>() {
             @Override
             public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
-                if (data == null || isActivityOK()) {
+                if (data == null || !isActivityOK()) {
                     if (isAdded()) {
                         showEmptyView(getString(R.string.noData));
                     }

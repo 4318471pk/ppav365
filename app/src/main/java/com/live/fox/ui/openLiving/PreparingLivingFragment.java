@@ -102,11 +102,12 @@ public class PreparingLivingFragment extends BaseBindingFragment {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    OpenLivingActivity activity=(OpenLivingActivity)getActivity();
                     int index=(int)view.getTag();
                     switch (index)
                     {
                         case 0:
-
+                            activity.switchCamera();
                             break;
                         case 1:
 
@@ -120,7 +121,13 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contactCardObtainDialog);
                             break;
                         case 4:
-                            SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance();
+                            SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance(false);
+                            setRoomTypeDialog.setOnSelectRoomTypeListener(new SetRoomTypeDialog.OnSelectRoomTypeListener() {
+                                @Override
+                                public void onSelect(int position) {
+
+                                }
+                            });
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setRoomTypeDialog);
                             break;
                     }

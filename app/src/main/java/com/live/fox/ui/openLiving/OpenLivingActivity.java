@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -25,11 +26,14 @@ import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityOpenLivingBinding;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.dialog.TipDialog;
+import com.live.fox.dialog.temple.LivingInterruptDialog;
+import com.live.fox.dialog.temple.TempleDialog2;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.utils.KeyboardUtils;
@@ -52,19 +56,23 @@ import static com.tencent.rtmp.TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
 
 public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLivePushListener {
 
-
+    private static final String PushUrl="PushUrl";
     ActivityOpenLivingBinding mBind;
     private TXLivePusher mLivePusher;                    // SDK 推流类
     private TXLivePushConfig mLivePushConfig;                // SDK 推流 config
     List<BaseBindingFragment> fragments=new ArrayList<>();
     boolean stopCameraPreview=false;
     TXPhoneStateListener mPhoneListener;
-    TipDialog errorDialog;
-    String mPushUrl="rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70";
+    boolean isCameraInitFinish=false;
+    boolean isFrontCarame = true; //是否前置摄像头
+    String mPushUrl="";
+    //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
-    public static void startActivity(Context context)
+    public static void startActivity(Context context,String pushUrl)
     {
-        context.startActivity(new Intent(context,OpenLivingActivity.class));
+        Intent intent=new Intent(context,OpenLivingActivity.class);
+        intent.putExtra(PushUrl,pushUrl);
+        context.startActivity(intent);
     }
 
     @Override
@@ -87,6 +95,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        mPushUrl=getIntent().getStringExtra(PushUrl);
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag();
@@ -107,7 +116,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         initPusher();
         initListener();
         startCameraPreview();
-        showPreParingFragment();
 
     }
 
@@ -143,7 +151,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                     if (granted) {
                         stopCameraPreview = false;
                         mLivePusher.startCameraPreview(mBind.txVideoView);
-                        startRTMPPush();
                     } else {
                         // 有的权限被拒绝或被勾选不再提示
                         new AlertDialog.Builder(this)
@@ -240,6 +247,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
         //開始推流
         int result = mLivePusher.startPusher(mPushUrl);
+        LogUtils.e("startPublishImpl result : " + result);
         if (result == -5) {
             DialogFactory.showOneBtnDialog(this, getString(R.string.verificationFailed), new TipDialog.DialogButtonOnClickListener() {
                 @Override
@@ -250,18 +258,13 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
             return;
         }
 
-        LogUtils.e("startPublishImpl result : " + result);
+
     }
 
     /**
      * 初始化 SDK 推流器
      */
     private void initPusher() {
-
-        TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
-                "https://license.vod-control.com/license/v2/1313381501_1/v_cube.license",
-                "588574635d12a182671b999030910209");
-
 
         mLivePusher = new TXLivePusher(this);
 
@@ -274,41 +277,45 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 //        mLivePusher.setBeautyFilter(TXLiveConstants.BEAUTY_STYLE_SMOOTH, 5, 3, 2);
 
         // 设置自定义视频处理回调，在主播预览及编码前回调出来，用户可以用来做自定义美颜或者增加视频特效
-//        mLivePusher.setVideoProcessListener(new TXLivePusher.VideoCustomProcessListener() {
-//            /**
-//             * 在OpenGL线程中回调，在这里可以进行采集图像的二次处理
-//             * @param i  纹理ID
-//             * @param i1      纹理的宽度
-//             * @param i2     纹理的高度
-//             * @return 返回给SDK的纹理
-//             * 说明：SDK回调出来的纹理类型是GLES20.GL_TEXTURE_2D，接口返回给SDK的纹理类型也必须是GLES20.GL_TEXTURE_2D
-//             */
-//            @Override
-//            public int onTextureCustomProcess(int i, int i1, int i2) {
-//                if (mOnFirstCreate) {
-//                    mFURenderer.onSurfaceCreated();
-//                    mOnFirstCreate = false;
-//                }
-//                return mFURenderer.onDrawFrameSingleInputTex(i, i1, i2);
-//            }
-//
-//            /**
-//             * 增值版回调人脸坐标
-//             * @param floats   归一化人脸坐标，每两个值表示某点P的X,Y值。值域[0.f, 1.f]
-//             */
-//            @Override
-//            public void onDetectFacePoints(float[] floats) {
-//
-//            }
-//
-//            /**
-//             * 在OpenGL线程中回调，可以在这里释放创建的OpenGL资源
-//             */
-//            @Override
-//            public void onTextureDestoryed() {
-//                LogUtils.e("onTextureDestoryed: t:" + Thread.currentThread().getId());
-//            }
-//        });
+        mLivePusher.setVideoProcessListener(new TXLivePusher.VideoCustomProcessListener() {
+            /**
+             * 在OpenGL线程中回调，在这里可以进行采集图像的二次处理
+             * @param i  纹理ID
+             * @param i1      纹理的宽度
+             * @param i2     纹理的高度
+             * @return 返回给SDK的纹理
+             * 说明：SDK回调出来的纹理类型是GLES20.GL_TEXTURE_2D，接口返回给SDK的纹理类型也必须是GLES20.GL_TEXTURE_2D
+             */
+            @Override
+            public int onTextureCustomProcess(int i, int i1, int i2) {
+                LogUtils.e("VideoProcess: onTextureCustomProcess" );
+                if(!isCameraInitFinish)
+                {
+                    isCameraInitFinish=true;
+                    showPreParingFragment();
+                }
+
+
+                return i;
+            }
+
+            /**
+             * 增值版回调人脸坐标
+             * @param floats   归一化人脸坐标，每两个值表示某点P的X,Y值。值域[0.f, 1.f]
+             */
+            @Override
+            public void onDetectFacePoints(float[] floats) {
+                LogUtils.e("VideoProcess: onDetectFacePoints" );
+            }
+
+            /**
+             * 在OpenGL线程中回调，可以在这里释放创建的OpenGL资源
+             */
+            @Override
+            public void onTextureDestoryed() {
+                LogUtils.e("VideoProcess: onTextureDestoryed" );
+            }
+        });
     }
 
     @Override
@@ -468,24 +475,22 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
 
     public void showErrorDialog(String tipMes) {
-        if (errorDialog == null) {
-            errorDialog = new TipDialog(this);
-        }
-        errorDialog.setCanceledOnTouchOutside(false);
-        errorDialog.setPromptTitle(tipMes);
-        errorDialog.setButton1(getString(R.string.picture_quit_audio), (button, dialog) -> {
-            dialog.dismiss();
-            closeLiveRoom(getString(R.string.endLive), false);
+
+        LivingInterruptDialog dialog= LivingInterruptDialog.getInstance(new LivingInterruptDialog.OnClickButtonsListener() {
+            @Override
+            public void onClick(boolean isConfirm, LivingInterruptDialog dialog) {
+                dialog.dismissAllowingStateLoss();
+                if(isConfirm)
+                {
+                    startRTMPPush();
+                }
+                else
+                {
+                    closeLiveRoom(getString(R.string.endLive), false);
+                }
+            }
         });
-        errorDialog.setButton2(getString(R.string.retryConnect), (button, dialog) -> {
-            dialog.dismiss();
-            startRTMPPush();
-        });
-        if (isDestroyed() || isFinishing()) {
-            return;
-        }
-        errorDialog.show();
-        errorDialog.setCancelable(false);
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),dialog);
     }
 
 
@@ -509,5 +514,15 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 //            }
 //        });
         finish();
+    }
+
+    /**
+     * 旋转相机
+     */
+    public void switchCamera() {
+        if (mLivePusher != null) {
+            isFrontCarame = !isFrontCarame;
+            mLivePusher.switchCamera();
+        }
     }
 }

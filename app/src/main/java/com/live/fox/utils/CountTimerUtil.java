@@ -22,10 +22,10 @@ import com.live.fox.R;
 public class CountTimerUtil {
 
     // 默认计时
-    private static final int DEFAULT_REPEAT_COUNT = 4;
+    private  final int DEFAULT_REPEAT_COUNT = 2;
 
     // 当前的计时
-    private static int sCurCount = DEFAULT_REPEAT_COUNT;
+    private  int sCurCount = 3;
 
     OnAnimationFinishListener listener;
     static CountTimerUtil countTimerUtil;
@@ -40,6 +40,7 @@ public class CountTimerUtil {
     }
 
     public void start(RelativeLayout relativeLayout,OnAnimationFinishListener onAnimationFinishListener) {
+        sCurCount=3;
         listener=onAnimationFinishListener;
         Context context=relativeLayout.getContext();
         int dip100=ScreenUtils.dp2px(context,100);
@@ -51,6 +52,7 @@ public class CountTimerUtil {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,48);
         textView.setGravity(Gravity.CENTER);
         textView.setBackground(context.getResources().getDrawable(R.drawable.live_room_anima_dot));
+        relativeLayout.addView(textView);
         start(textView, DEFAULT_REPEAT_COUNT);
     }
 
@@ -58,10 +60,9 @@ public class CountTimerUtil {
      * @param animationViewTv 要被倒计时的控件
      * @param repeatCount     要倒计时多久，单位，秒。
      */
-    public static <T extends TextView> void start(final T animationViewTv, final int repeatCount) {
+    public  <T extends TextView> void start(final T animationViewTv, final int repeatCount) {
 
         // 设置计时
-        sCurCount = repeatCount - 1;
         animationViewTv.setText(String.valueOf(sCurCount));
         animationViewTv.setVisibility(View.VISIBLE);
 
@@ -73,8 +74,8 @@ public class CountTimerUtil {
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f);
 
-        scaleAnimation.setRepeatCount(sCurCount);
-        alphaAnimation.setRepeatCount(sCurCount);
+        scaleAnimation.setRepeatCount(DEFAULT_REPEAT_COUNT);
+        alphaAnimation.setRepeatCount(DEFAULT_REPEAT_COUNT);
         alphaAnimation.setDuration(1000);
         scaleAnimation.setDuration(1000);
         scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -85,7 +86,13 @@ public class CountTimerUtil {
             @Override
             public void onAnimationEnd(Animation animation) {
                 // 动画结束时，隐藏
-                animationViewTv.setVisibility(View.GONE);
+//                animationViewTv.setVisibility(View.GONE);
+                ViewGroup viewGroup=(ViewGroup) animationViewTv.getParent();
+                viewGroup.removeView(animationViewTv);
+                if(listener!=null)
+                {
+                    listener.onFinish();
+                }
             }
 
             @Override
@@ -94,9 +101,15 @@ public class CountTimerUtil {
                 --sCurCount;
                 // 设置文本
                 if (sCurCount == 0) {
-                   ViewGroup viewGroup=(ViewGroup) animationViewTv.getParent();
-                   viewGroup.removeView(animationViewTv);
+//                   ViewGroup viewGroup=(ViewGroup) animationViewTv.getParent();
+//                   viewGroup.removeView(animationViewTv);
                 }
+                else
+                {
+                    animationViewTv.setText(sCurCount+"");
+                }
+
+
             }
         });
 

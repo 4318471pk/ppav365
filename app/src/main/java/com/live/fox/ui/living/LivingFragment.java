@@ -27,10 +27,13 @@ import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
+import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
@@ -57,6 +60,7 @@ import static android.view.View.OVER_SCROLL_NEVER;
 public class LivingFragment extends BaseBindingFragment {
 
     int currentPagePosition;
+    int viewPagePosition;
     FragmentLivingBinding mBind;
     LivingControlPanel livingControlPanel;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
@@ -88,16 +92,18 @@ public class LivingFragment extends BaseBindingFragment {
         }
     };
 
-    public static LivingFragment getInstance(int position) {
+    public static LivingFragment getInstance(int position,int viewPagePosition) {
         Log.e("LivingFragment", position + " ");
         LivingFragment livingFragment = new LivingFragment();
         livingFragment.currentPagePosition = position;
+        livingFragment.viewPagePosition=viewPagePosition;
         return livingFragment;
     }
 
-    public void notifyShow(int position) {
+    public void notifyShow(int position,int viewPagePosition) {
         Log.e("LivingFragment22", position + " ");
         currentPagePosition = position;
+        this.viewPagePosition=viewPagePosition;
         if (getView() != null && isAdded()) {
             loadData();
         }
@@ -128,7 +134,7 @@ public class LivingFragment extends BaseBindingFragment {
     private void initView() {
         LivingActivity activity = (LivingActivity) getActivity();
         //是当前页才加载数据 不然就算了
-        if (activity.getCurrentPosition() == currentPagePosition) {
+        if (activity.getCurrentPosition() == currentPagePosition && activity.getPagerPosition()==viewPagePosition) {
             loadData();
 //            TimeCounter.getInstance().add(timeListener);
         } else {
@@ -147,7 +153,7 @@ public class LivingFragment extends BaseBindingFragment {
                 mBind.ivBG);
 
         Log.e("currentPagePosition", currentPagePosition + " " + activity.getCurrentPosition());
-        if (activity.getCurrentPosition() == currentPagePosition) {
+        if (activity.getCurrentPosition() == currentPagePosition && activity.getPagerPosition()==viewPagePosition) {
             getRecommendList();
             addViewPage();
 
@@ -169,6 +175,7 @@ public class LivingFragment extends BaseBindingFragment {
     }
 
     private void addViewPage() {
+
         //每次都用新的 就不用重置太多东西
         destroyView();
 
@@ -182,7 +189,6 @@ public class LivingFragment extends BaseBindingFragment {
         mLivePlayer.enableHardwareDecode(false);
         setLivePlayerListener();
         setPlayMode(2,mLivePlayer);
-        mLivePlayer.startPlay("rtmp://pull1.tencent live.xyz/live/781100_zb",TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
 
         TXCloudVideoView txCloudVideoView=new TXCloudVideoView(getActivity());
         txCloudVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -217,8 +223,9 @@ public class LivingFragment extends BaseBindingFragment {
 
             public Object instantiateItem(ViewGroup container, int position) {
 
+                int screenHeight=ScreenUtils.getScreenHeight(getActivity());
                 if (position == 1) {
-                    container.addView(livingControlPanel);
+                    container.addView(livingControlPanel,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
                     container.post(new Runnable() {
                         @Override
                         public void run() {
@@ -253,6 +260,8 @@ public class LivingFragment extends BaseBindingFragment {
             }
         });
         viewPager.setCurrentItem(1);
+
+        enterRoom();
     }
 
     public RoomListBean getRoomBean() {
@@ -267,6 +276,10 @@ public class LivingFragment extends BaseBindingFragment {
         if (livingMsgBoxAdapter == null) {
             livingMsgBoxAdapter = new LivingMsgBoxAdapter(getContext(), livingMsgBoxBeans);
             livingControlPanel.mBind.msgBox.setAdapter(livingMsgBoxAdapter);
+        }
+        if(livingMsgBoxAdapter.getBeans().size()>499)
+        {
+            livingMsgBoxAdapter.getBeans().remove(0);
         }
         livingMsgBoxAdapter.getBeans().add(bean);
         livingMsgBoxAdapter.notifyDataSetChanged();
@@ -309,7 +322,12 @@ public class LivingFragment extends BaseBindingFragment {
 
     private void destroyView()
     {
+
         if (getView() != null) {
+            if(getView().getPaddingTop()>0)
+            {
+                getView().setPadding(0,0,0,0);
+            }
             if (mLivePlayer != null) {
                 mLivePlayer.stopPlay(true);
                 mLivePlayer = null;
@@ -324,6 +342,13 @@ public class LivingFragment extends BaseBindingFragment {
                 txCloudVideoView.onDestroy();
                 mBind.rlContent.removeView(txCloudVideoView);
             }
+
+            livingMsgBoxBeans.clear();
+            if(livingMsgBoxAdapter!=null)
+            {
+                livingMsgBoxAdapter.getBeans().clear();
+            }
+            livingMsgBoxAdapter = null;
         }
     }
 
@@ -416,5 +441,25 @@ public class LivingFragment extends BaseBindingFragment {
                 mLivePlayer.setConfig(mTXPlayConfig);
                 break;
         }
+    }
+
+    private void enterRoom()
+    {
+        if(isActivityOK())
+        {
+            LivingActivity activity = (LivingActivity) getActivity();
+            RoomListBean bean= activity.getRoomListBeans().get(currentPagePosition);
+            Api_Live.ins().interRoom(120, "1028924365", 0,
+                    "", 0, new JsonCallback<EnterRoomBean>() {
+                        @Override
+                        public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
+                            if(mLivePlayer!=null)
+                            {
+                                mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(),TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
+                            }
+                        }
+                    });
+        }
+
     }
 }

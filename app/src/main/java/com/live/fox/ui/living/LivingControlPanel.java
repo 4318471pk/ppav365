@@ -124,6 +124,19 @@ public class LivingControlPanel extends RelativeLayout {
             }
         });
 
+        mBind.rlMain.post(new Runnable() {
+            @Override
+            public void run() {
+                mBind.getRoot().setFitsSystemWindows(true);
+                mBind.getRoot().requestLayout();
+                Log.e("KKKK1",mBind.getRoot().getHeight()+"");
+                Log.e("KKKK2",mBind.rlMain.getHeight()+"");
+                Log.e("KKKK3",fragment.getView().getHeight()+"");
+                LivingActivity activity=(LivingActivity) fragment.getActivity();
+                Log.e("KKKK4", activity.getViewPager().getHeight()+"");
+            }
+        });
+
         setVisibility(VISIBLE);
 
         int dip10=ScreenUtils.getDip2px(fragment.getActivity(),10);
@@ -175,7 +188,7 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),onlineNobilityAndUserDialog);
                 break;
             case R.id.rivProfileImage:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance());
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience));
                 break;
             case R.id.ivFollow:
                 if(fragment.getRoomBean()!=null)

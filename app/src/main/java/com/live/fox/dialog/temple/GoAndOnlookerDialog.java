@@ -34,4 +34,6 @@ public class GoAndOnlookerDialog extends TempleDialog2 {
 
     }
 
+
+
 }

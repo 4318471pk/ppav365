@@ -16,6 +16,7 @@ import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityCenterAnchorBinding;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
@@ -34,6 +35,10 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.rtmp.TXLiveBase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
@@ -43,6 +48,7 @@ import io.reactivex.disposables.Disposable;
 public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
     ActivityCenterAnchorBinding mBind;
+    List<ConfigPathsBean> configPathsBeans;
 
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, CenterOfAnchorActivity.class));
@@ -159,14 +165,21 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
      * 开始直播
      */
     public void checkAuth() {
-        OpenLivingActivity.startActivity(this);
-//        Intent intent = new Intent(CenterOfAnchorActivity.this, AnchorLiveActivity.class);
-//        startActivity(intent);
-        Api_Live.ins().getAnchorAuth(new JsonCallback<String>() {
+
+        showLoadingDialogWithNoBgBlack();
+        Api_Live.ins().getAnchorAuth("84","0","OP88","beasad","100",new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
                 if (code == 0 && data != null) {
                     Log.e("checkAuth",data);
+                    try {
+                        JSONObject jsonObject=new JSONObject(data);
+                        OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,jsonObject.optString("pushStreamUrl",""));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 //                    try {
 //                        JSONObject jb = new JSONObject(data);
 //                        int auth = jb.optInt("auth");
@@ -211,7 +224,12 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             public void onSuccess(int code, String msg, List<ConfigPathsBean> data) {
                 hideLoadingDialog();
                 if (code == Constant.Code.SUCCESS) {
-
+                    if(data!=null && data.size()>0)
+                    {
+                        TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
+                                data.get(0).getLicenceUrl(),data.get(0).getLicenceKey()
+                                );
+                    }
                 } else {
                     ToastUtils.showShort(msg);
                 }
