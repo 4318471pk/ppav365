@@ -288,7 +288,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
              */
             @Override
             public int onTextureCustomProcess(int i, int i1, int i2) {
-                LogUtils.e("VideoProcess: onTextureCustomProcess" );
                 if(!isCameraInitFinish)
                 {
                     isCameraInitFinish=true;

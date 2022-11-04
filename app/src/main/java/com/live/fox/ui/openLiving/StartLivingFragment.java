@@ -16,6 +16,7 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.FragmentStartLivingBinding;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.dialog.TipDialog;
+import com.live.fox.dialog.bottomDialog.AnchorLivingRoomSettingDialog;
 import com.live.fox.dialog.bottomDialog.AnchorProtectorListDialog;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
@@ -67,6 +68,10 @@ public class StartLivingFragment extends BaseBindingFragment {
                 break;
             case R.id.gtvContribution:
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), ContributionRankDialog.getInstance());
+                break;
+            case R.id.ivSetting:
+                AnchorLivingRoomSettingDialog anchorLivingRoomSettingDialog=AnchorLivingRoomSettingDialog.getInstance();
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),anchorLivingRoomSettingDialog);
                 break;
 
         }

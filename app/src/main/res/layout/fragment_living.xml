@@ -13,19 +13,20 @@
         android:fitsSystemWindows="true"
         >
 
-        <ImageView
-            android:id="@+id/ivBG"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:background="@color/white"
-            />
-
         <com.tencent.rtmp.ui.TXCloudVideoView
             android:id="@+id/txVideoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
+        <ImageView
+            android:id="@+id/ivBG"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_anchor_loading"
+            />
+
 
         <!--        <com.github.mmin18.widget.RealtimeBlurView-->
 <!--            android:id="@+id/blurView"-->

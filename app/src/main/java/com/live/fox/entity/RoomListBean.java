@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.chad.library.adapter.base.entity.SectionEntity;
 
 public class RoomListBean extends SectionEntity implements Parcelable {
-    private int id;
+    private String id;
     private String title;
     private String aid;
     private String roomIcon;
@@ -28,7 +28,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
     }
     protected RoomListBean(Parcel in) {
         super(in);
-        id = in.readInt();
+        id = in.readString();
         title = in.readString();
         aid = in.readString();
         roomIcon = in.readString();
@@ -57,11 +57,11 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -184,7 +184,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(aid);
         dest.writeString(roomIcon);

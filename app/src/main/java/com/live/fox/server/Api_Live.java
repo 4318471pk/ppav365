@@ -38,7 +38,7 @@ public class Api_Live extends BaseApi {
     /**
      * 用户进房
      */
-    public void interRoom(int liveId, String anchorId, int type, String password, int preview, JsonCallback<EnterRoomBean> callback) {
+    public void interRoom(String liveId, String anchorId, int type, String password, int preview, JsonCallback<EnterRoomBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_interroom_URL;
         callback.setUrlTag("/live/inter/room");
         HashMap<String, Object> params = getCommonParams();

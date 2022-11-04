@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -40,6 +41,10 @@ import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +76,12 @@ public class AnchorGameFragment extends BaseBindingFragment {
         mBind=getViewDataBinding();
 
         mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                doGetLiveListApi();
+            }
+        });
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 2, GridLayoutManager.VERTICAL, false);
         mBind.rvMain.setLayoutManager(layoutManager);
@@ -92,7 +103,7 @@ public class AnchorGameFragment extends BaseBindingFragment {
     }
 
     public void doGetLiveListApi() {
-        Api_Live.ins().getLiveList(3, new JsonCallback<HomeFragmentRoomListBean>() {
+        Api_Live.ins().getLiveList(2, new JsonCallback<HomeFragmentRoomListBean>() {
             @Override
             public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
                 if (data == null) {
@@ -141,6 +152,7 @@ public class AnchorGameFragment extends BaseBindingFragment {
 
     private void setTabs(List<HomeFragmentRoomListBean.ChannelList> channelLists)
     {
+        mBind.gameHostTypeTabs.removeAllTabs();
         mBind.gameHostTypeTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

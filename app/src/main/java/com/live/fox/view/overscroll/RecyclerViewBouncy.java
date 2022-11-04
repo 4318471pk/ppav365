@@ -173,6 +173,10 @@ public class RecyclerViewBouncy extends RecyclerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        if(viewPager==null)
+        {
+            return super.onTouchEvent(e);
+        }
         viewPager.setUserInputEnabled(false);
         switch (e.getAction())
         {

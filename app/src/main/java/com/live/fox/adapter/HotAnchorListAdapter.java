@@ -3,6 +3,7 @@ package com.live.fox.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -70,6 +71,13 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
 
         helper.setText(R.id.tv_nickname,data.getTitle());
 
-        GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
+        if(TextUtils.isEmpty(data.getRoomIcon()))
+        {
+            ivRoundBG.setImageDrawable(context.getResources().getDrawable(defaultDrawable));
+        }
+        else
+        {
+            GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
+        }
     }
 }
