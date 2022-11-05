@@ -111,7 +111,7 @@
                                 android:elevation="6dp"
                                 android:padding="2dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/img_default"
+                                android:src="@mipmap/user_head_error"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
                                 app:strokeColor="@color/white"
                                 app:strokeWidth="2dp" />
@@ -830,13 +830,12 @@
                         <ImageView
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:layout_marginStart="2dp"
                             android:src="@mipmap/game_record" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
+                            android:layout_marginStart="20dp"
                             android:layout_weight="1"
                             android:text="@string/game_record"
                             android:textColor="@color/color404040"

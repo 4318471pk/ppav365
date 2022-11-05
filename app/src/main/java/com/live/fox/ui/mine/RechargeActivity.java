@@ -1073,7 +1073,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.confirm:
                 if (isChargeMoney) {
-                   setPopCharge();
+                   //setPopCharge();
                 }
                 break;
             case R.id.iv_head_left:
@@ -1157,6 +1157,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             tvCharge.setTextColor(this.getResources().getColor(R.color.color533888));
             ivMoney.setImageDrawable(this.getResources().getDrawable(R.mipmap.rmb_b));
             layoutDiamond.setBackground(this.getResources().getDrawable(R.drawable.shape_ffeab1));
+
             tvExDiamond.setTextColor(this.getResources().getColor(R.color.colorFFEAB1));
             ivDiamond.setImageDrawable(this.getResources().getDrawable(R.mipmap.diamonds_y));
             gvCharge.setAdapter(chargeMoneyAdapter);
@@ -1262,10 +1263,12 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 hideLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
                     userAssetsBean = data;
-                    tvBalanca.setText(data.getGold() + "");
+                   tvBalanca.setText(data.getGold() + "");
                     tvDiamond.setText(data.getDiamond() + data.getVipDiamond() + "");
                     setMoneyColor(tvBalanca);
                     setMoneyColor(tvDiamond);
+                   // setTextViewStyles(tvBalanca);
+                    //setTextViewStyles(tvDiamond);
                 } else {
                     ToastUtils.showShort(msg);
                 }
@@ -1305,7 +1308,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                         payNameList.addAll(data);
                         payNameList.get(0).setSelect(true);
                         nowPayId = payNameList.get(0).getType();
-                        getChannelType(payNameList.get(0).getType());
+                        for (int i = 0; i < data.size(); i++) {
+                            getChannelType(payNameList.get(i).getType());
+                        }
                         payNameAdapter.notifyDataSetChanged();
                     }
 
@@ -1345,11 +1350,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         } else {
-            showLoadingDialog();
+           // showLoadingDialog();
             Api_Order.ins().getChargeList(new JsonCallback<List<RechargeTypeListBean>>() { //
                 @Override
                 public void onSuccess(int code, String msg, List<RechargeTypeListBean> data) {
-                    hideLoadingDialog();
+                   // hideLoadingDialog();
                     if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
                         if (data != null && data.size() > 0) {
                             payWayMap.put(type, data);
@@ -1381,12 +1386,29 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         chargeMoneyAdapter.notifyDataSetChanged();
     }
 
-    private void setMoneyColor(TextView tv){
-        int[] colors = {Color.parseColor("#FFE65A"), Color.parseColor("#FBFFC9")};
+    private void setMoneyColor(TextView tv){//#FFD14F
+        int[] colors = {Color.parseColor("#FBFFC9"), Color.parseColor("#fff000")};
         float[] position = {0f, 1.0f};
         LinearGradient mLinearGradient = new LinearGradient(0, 0, tv.getPaint().getTextSize() * tv.getText().length(), 0, colors, position, Shader.TileMode.CLAMP);
         tv.getPaint().setShader(mLinearGradient);
         tv.invalidate();
+    }
+
+    /**
+     * 字体颜色渐变
+     * @param textView
+     */
+    private void setTextViewStyles(TextView textView) {
+        float x1=textView.getPaint().measureText(textView.getText().toString());//测量文本 宽度
+        float y1=textView.getPaint().getTextSize();//测量文本 高度
+        int c1=Color.parseColor("#FFE65A");//初始颜色值
+        int c2= Color.parseColor("#FBFFC9");//结束颜色值
+
+        LinearGradient leftToRightLG = new LinearGradient(0, 0, x1, 0,c1, c2, Shader.TileMode.CLAMP);//从左到右渐变
+        LinearGradient topToBottomLG = new LinearGradient(0, 0, 0, y1,c1, c2, Shader.TileMode.CLAMP);//从上到下渐变
+
+        textView.getPaint().setShader(leftToRightLG);
+        textView.invalidate();
     }
 
     private void dealEditZero(EditText editText) {

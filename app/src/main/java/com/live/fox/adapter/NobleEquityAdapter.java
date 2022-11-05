@@ -27,10 +27,12 @@ public class NobleEquityAdapter extends BaseAdapter {
     Context context;
     List<NobleEquityBean> data;
     int type;
+    String nobleName;
 
-    public NobleEquityAdapter(Context context, List<NobleEquityBean> data){
+    public NobleEquityAdapter(Context context, List<NobleEquityBean> data, String nobleName){
         this.context = context;
         this.data = data;
+        this.nobleName = nobleName;
     }
 
     public void setType(int type){
@@ -63,7 +65,11 @@ public class NobleEquityAdapter extends BaseAdapter {
         TextView tvTitle = view.findViewById(R.id.tvTitle);
         tvTitle.setText(data.get(position).getTitle());
         TextView tvTips= view.findViewById(R.id.tvTips);
-        tvTips.setText(data.get(position).getTips());
+        if (position == 10) {
+            tvTips.setText(nobleName + context.getString(R.string.noble_equity_tips_11_2));
+        } else {
+            tvTips.setText(data.get(position).getTips());
+        }
         ImageView img = view.findViewById(R.id.img);
         ImageView photo = view.findViewById(R.id.photo);
         if (data.get(position).isShowPhoto()) {

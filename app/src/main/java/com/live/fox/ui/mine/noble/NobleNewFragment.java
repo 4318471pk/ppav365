@@ -92,21 +92,26 @@ public class NobleNewFragment extends BaseBindingFragment {
         setBuyView();
 
         mBind.tvNoble.setText(nobleBean.getVipName());
-        mBind.tvTips1.setText(String.format(getString(R.string.noble_tips1),
-                nobleBean.getOpenPrice()+"", nobleBean.getOpenGiveDiamond()+"" ));
+        if (nobleBean.getVipName().equals(getString(R.string.zijue))) {
+            mBind.tvTips1.setTextColor(getResources().getColor(R.color.color00FCFF));
+            mBind.tvTips2.setTextColor(getResources().getColor(R.color.color00FCFF));
+        }
 
-        mBind.tvTips2.setText(String.format(getString(R.string.noble_tips2),
-                nobleBean.getRenewalPrice()+"", nobleBean.getRenewalGiveDiamond()+"" ));
+        mBind.tvTips1.setText(Html.fromHtml(String.format(getString(R.string.noble_tips1),
+                nobleBean.getOpenPrice()+"", nobleBean.getOpenGiveDiamond()+"" )));
+
+        mBind.tvTips2.setText(Html.fromHtml(String.format(getString(R.string.noble_tips2),
+                nobleBean.getRenewalPrice()+"", nobleBean.getRenewalGiveDiamond()+"" )));
 
         showNoble();
         setData();
         getAss(false);
 
-        nobleEquityAdapter = new NobleEquityAdapter(this.getActivity(), mList);
+        nobleEquityAdapter = new NobleEquityAdapter(this.getActivity(), mList, nobleBean.getVipName());
         nobleEquityAdapter.setType(level);
         mBind.gv.setAdapter(nobleEquityAdapter);
 
-        mBind.layoutOpen.setOnClickListener(new View.OnClickListener() {
+        mBind.tvOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //setPopCharge();
@@ -144,6 +149,7 @@ public class NobleNewFragment extends BaseBindingFragment {
     private void setBuyView(){
         if (myLevel == nobleBean.getVipLevel()) {
             mBind.tvOpen.setText(getString(R.string.now_xufei));
+            mBind.tvOpen.setBackground(getResources().getDrawable(R.mipmap.ljxf));
             mBind.layoutTime.setVisibility(View.VISIBLE);
             mBind.tvOpenGet.setVisibility(View.GONE);
             if (outTime > 0) {
@@ -158,6 +164,7 @@ public class NobleNewFragment extends BaseBindingFragment {
             }
         } else {
             mBind.tvOpen.setText(getString(R.string.now_start));
+            mBind.tvOpen.setBackground(getResources().getDrawable(R.mipmap.ljkt));
             mBind.tvOpenGet.setVisibility(View.VISIBLE);
             mBind.layoutTime.setVisibility(View.GONE);
         }

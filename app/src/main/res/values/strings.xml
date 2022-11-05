@@ -1053,6 +1053,7 @@
     <string name="noble_equity_tips_10">低调看直播</string>
     <string name="noble_equity_title_11">专属座驾</string>
     <string name="noble_equity_tips_11">国王贵族专属</string>
+    <string name="noble_equity_tips_11_2">贵族专属</string>
     <string name="noble_equity_title_12">榜单隐身</string>
     <string name="noble_equity_tips_12">神秘低调\n默默守护主播</string>
     <string name="noble_equity_title_13">防禁言</string>
@@ -1209,8 +1210,8 @@
     <string name="ge">个</string>
     <string name="day">天</string>
     <string name="cancle_gz">取消关注</string>
-    <string name="noble_tips1">开通%1$s钻石/月 赠送%2$s贵族钻石</string>
-    <string name="noble_tips2">续费%1$s钻石/月 赠送%2$s贵族钻石</string>
+    <string name="noble_tips1">开通<![CDATA[<b><font color=#FF008A>%1$s</font></b>]]>钻石/月 赠送<![CDATA[<b><font color=#FF008A>%2$s</font></b>]]>贵族钻石</string>
+    <string name="noble_tips2">续费<![CDATA[<b><font color=#FF008A>%1$s</font></b>]]>钻石/月 赠送<![CDATA[<b><font color=#FF008A>%2$s</font></b>]]>贵族钻石</string>
     <string name="noble_time">%1$s年%2$s月%3$s日 %4$s结束</string>
     <string name="loving_1">恋爱</string>
     <string name="loving_2">单身</string>

@@ -61,7 +61,7 @@ public class ActivityDetailFragment extends BaseFragment {
         isGame = getArguments().getBoolean("isGame");
         rc = bindSource.findViewById(R.id.refresh_recycler_view);
         refreshLayout =  bindSource.findViewById(R.id.refresh_refresh_layout);
-
+        refreshLayout.setBackgroundColor(getResources().getColor(R.color.colorF5F1F8));//colorD2CDE0
         refreshLayout.setRefreshHeader(new MyWaterDropHeader(getActivity()));
 
         mAdapter = new ActAdapter(mData);
