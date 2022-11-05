@@ -139,7 +139,9 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f)));
         mBind.diamondTv.setText(userinfo.getDiamond() + "");
         mBind.tvNickname.setText(userinfo.getNickname());
-        mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
+        //mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
+
+        mBind.tvSex.setBackground(this.getResources().getDrawable(userinfo.getSex() == 1 ? R.mipmap.men : R.mipmap.women));
         mBind.tvSign.setText(userinfo.getSignature());
         String format = String.format(getString(R.string.colon_number), getString(R.string.identity_id), userinfo.getUid());
         mBind.tvIdnum.setText(format);

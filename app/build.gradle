@@ -21,7 +21,7 @@ bugly {
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 6
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
