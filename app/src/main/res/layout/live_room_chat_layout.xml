@@ -51,7 +51,7 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/shape_round_ef3272"
         android:gravity="center"
-        android:indeterminateDrawable="@drawable/rotare"
+        android:indeterminateDrawable="@drawable/rotate_white"
         android:paddingTop="4dp"
         android:paddingBottom="4dp" />
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,22 +16,23 @@ import androidx.annotation.Nullable;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogSetroomTypeBinding;
+import com.live.fox.utils.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SetRoomTypeDialog extends BaseBindingDialogFragment {
 
     DialogSetroomTypeBinding mBind;
-    List<TextView> textViews;
-    boolean hasSwitchButton=false;
+    List<RadioButton> textViews = new ArrayList<>();
+    boolean hasSwitchButton = false;
     OnSelectRoomTypeListener onSelectRoomTypeListener;
 
-    public static SetRoomTypeDialog  getInstance(boolean hasSwitchButton)
-    {
-        SetRoomTypeDialog dialog=new SetRoomTypeDialog();
-        dialog.hasSwitchButton=hasSwitchButton;
+    public static SetRoomTypeDialog getInstance(boolean hasSwitchButton) {
+        SetRoomTypeDialog dialog = new SetRoomTypeDialog();
+        dialog.hasSwitchButton = hasSwitchButton;
         return dialog;
     }
 
@@ -53,10 +55,9 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.rlMain:
-                startAnimate(mBind.rllContent,false);
+                startAnimate(mBind.rllContent, false);
                 break;
             case R.id.gtvConfirmSwitch:
 
@@ -71,31 +72,43 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
 
     @Override
     public void initView(View view) {
-        mBind=getViewDataBinding();
+        mBind = getViewDataBinding();
         mBind.setClick(this);
 
-        mBind.gtvConfirmSwitch.setVisibility(hasSwitchButton?View.VISIBLE:View.GONE);
-        startAnimate(mBind.rllContent,true);
+        int screeWidth = ScreenUtils.getScreenWidth(getActivity());
+
+        mBind.gtvConfirmSwitch.setVisibility(hasSwitchButton ? View.VISIBLE : View.GONE);
+        startAnimate(mBind.rllContent, true);
 
         for (int i = 0; i < mBind.llRadioList.getChildCount(); i++) {
-          LinearLayout linearLayout=(LinearLayout) mBind.llRadioList.getChildAt(i);
-          TextView textView=(TextView) linearLayout.getChildAt(0);
-          textViews.add((TextView) linearLayout.getChildAt(0));
-          textView.setTag(i);
-          textView.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  int index=(int)view.getTag();
-                  for (int j = 0; j < textViews.size(); j++) {
-                      textViews.get(j).setSelected(index==j);
-                  }
-              }
-          });
+            LinearLayout linearLayout = (LinearLayout) mBind.llRadioList.getChildAt(i);
+            LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
+            ll.leftMargin = (int) (screeWidth * 0.1f);
+            linearLayout.setLayoutParams(ll);
+
+            RadioButton textView = (RadioButton) linearLayout.getChildAt(0);
+            LinearLayout child = (LinearLayout) linearLayout.getChildAt(1);
+            LinearLayout.LayoutParams llChild = (LinearLayout.LayoutParams) child.getLayoutParams();
+            llChild.leftMargin = (int) (screeWidth * 0.08f);
+            child.setLayoutParams(llChild);
+
+            textViews.add(textView);
+            linearLayout.setTag(i);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int index = (int) view.getTag();
+                    for (int j = 0; j < textViews.size(); j++) {
+                        textViews.get(j).setChecked(index == j);
+                    }
+                }
+            });
         }
+
+        textViews.get(0).setChecked(true);
     }
 
-    public interface OnSelectRoomTypeListener
-    {
+    public interface OnSelectRoomTypeListener {
         void onSelect(int position);
     }
 }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.AudienceManagerDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_round_121212"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:text="@string/audienceManage"
+            />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#404040"/>
+
+            <RelativeLayout
+                android:id="@+id/rlSetAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:onClick="@{click.onClickView}"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:text="@string/setAudienceAdmin"
+                    android:layout_marginLeft="25dip"
+                    android:layout_centerVertical="true"/>
+
+
+                <ImageView
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginRight="25dip"
+                    android:src="@mipmap/icon_arrow_right_white"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlBlockAndMute"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:onClick="@{click.onClickView}"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:text="@string/blockAndMute"
+                    android:layout_marginLeft="25dip"
+                    android:layout_centerVertical="true"/>
+
+
+                <ImageView
+                    android:layout_width="10dip"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="25dip"
+                    android:src="@mipmap/icon_arrow_right_white"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

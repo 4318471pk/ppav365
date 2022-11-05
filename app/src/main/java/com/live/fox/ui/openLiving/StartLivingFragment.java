@@ -22,6 +22,7 @@ import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.CountTimerUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
@@ -44,6 +45,10 @@ public class StartLivingFragment extends BaseBindingFragment {
         switch (view.getId())
         {
             case R.id.ivCameraChangeSide:
+                if(ClickUtil.isClickWithShortTime(R.id.ivCameraChangeSide,3000))
+                {
+                    return;
+                }
                 activity.switchCamera();
                 break;
             case R.id.ivRoomType:
@@ -93,7 +98,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             public void onFinish() {
                 mBind.llTopView.setVisibility(View.VISIBLE);
                 OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
-                openLivingActivity.startRTMPPush();
+//                openLivingActivity.startRTMPPush();
             }
         });
     }

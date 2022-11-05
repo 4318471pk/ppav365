@@ -60,7 +60,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="3dp"
                     android:indeterminateBehavior="repeat"
-                    android:indeterminateDrawable="@drawable/rotare"
+                    android:indeterminateDrawable="@drawable/rotate_white"
                     android:indeterminateOnly="true" />
 
                 <ImageView

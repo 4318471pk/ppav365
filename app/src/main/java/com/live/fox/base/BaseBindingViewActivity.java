@@ -135,6 +135,18 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
 //        setFullscreen(true, true);
     }
 
+    public void setWindowsFlag(int softInputMode)
+    {
+        getWindow().setSoftInputMode(softInputMode);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        setFullscreen(true, true);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -25,7 +25,7 @@
             android:layout_height="27dp"
             android:layout_gravity="center_horizontal"
             android:indeterminateBehavior="repeat"
-            android:indeterminateDrawable="@drawable/rotare"
+            android:indeterminateDrawable="@drawable/rotate_white"
             android:indeterminateOnly="true" />
 
         <TextView

@@ -116,6 +116,10 @@ public class RankProfileView extends RelativeLayout {
             {
                 ivDecoration.setImageDrawable(getResources().getDrawable(decorationResource[decorationIndex]));
             }
+            else
+            {
+                return;
+            }
 
             Drawable drawable = crownIndex > -1 && crownIndex < 3 ? getResources().getDrawable(crownsResource[crownIndex]) : null;
             if (drawable == null) {

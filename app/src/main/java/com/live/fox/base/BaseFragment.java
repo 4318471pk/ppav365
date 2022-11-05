@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.live.fox.App;
 import com.live.fox.R;
+import com.live.fox.dialog.LoadingBindingDialogFragment;
 import com.live.fox.dialog.MMLoading;
 import com.live.fox.dialog.MMToast;
 import com.live.fox.helper.mvp.IBaseView;
@@ -74,24 +75,22 @@ public class BaseFragment extends Fragment implements IBaseView {
     /**
      * 显示 等待Dialog
      */
-    private MMLoading loadingDialog;
+    private LoadingBindingDialogFragment loadingFragment;
 
     @Override
-    public MMLoading showLoadingDialog(String msg, boolean isCancelable, boolean isBgBlack) {
-        if (loadingDialog != null) {
-            loadingDialog.dismiss();
+    public void showLoadingDialog(String msg, boolean isCancelable, boolean isBgBlack) {
+        if (loadingFragment != null && loadingFragment.getDialog()!=null && loadingFragment.getDialog().isShowing()) {
+            return;
         }
-        MMLoading.Builder builder = new MMLoading.Builder(getActivity())
-                .setMessage(msg);
-        if (isCancelable) {
-            builder.setCancelable(true).setCancelOutside(true);
-        } else {
-            builder.setCancelable(false).setCancelOutside(false);
+        if(DialogFramentManager.getInstance().isShowLoading(LoadingBindingDialogFragment.class.getName()))
+        {
+            return;
         }
-        loadingDialog = builder.create();
-        loadingDialog.setIsBgBlack(isBgBlack);
-        loadingDialog.show();
-        return loadingDialog;
+        loadingFragment=LoadingBindingDialogFragment.getInstance();
+        loadingFragment.setMsg(msg);
+        loadingFragment.setCancelable(isCancelable);
+        loadingFragment.setBgBlack(isBgBlack);
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),loadingFragment);
     }
 
     /**
@@ -99,8 +98,9 @@ public class BaseFragment extends Fragment implements IBaseView {
      */
     @Override
     public void hideLoadingDialog() {
-        if (loadingDialog != null && loadingDialog.isShowing()) {
-            loadingDialog.dismiss();
+        if (loadingFragment != null && loadingFragment.getDialog()!=null && loadingFragment.getDialog().isShowing() && getActivity()!=null
+                && !getActivity().isDestroyed() && !getActivity().isFinishing()) {
+            loadingFragment.dismissAllowingStateLoss();
         }
     }
 

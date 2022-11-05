@@ -15,7 +15,7 @@ public interface IBaseView {
 
     void showLoadingDialog();
     void showLoadingDialogWithNoBgBlack();
-    MMLoading showLoadingDialog(String msg, boolean isCancelable, boolean isBgBlack);
+    void showLoadingDialog(String msg, boolean isCancelable, boolean isBgBlack);
     void hideLoadingDialog();
 
     void showToastTip(boolean isSuccess, String msg);

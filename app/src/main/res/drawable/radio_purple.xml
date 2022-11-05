@@ -4,6 +4,4 @@
     <item android:state_checked="false" android:drawable="@mipmap/radio_perpul_normal"/>
     <item android:state_checked="true" android:drawable="@mipmap/radio_perpul_selected"/>
 
-    <item android:state_selected="false" android:drawable="@mipmap/radio_perpul_normal"/>
-    <item android:state_selected="true" android:drawable="@mipmap/radio_perpul_selected"/>
 </selector>

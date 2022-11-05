@@ -82,7 +82,12 @@ public class LivingActivity extends BaseBindingViewActivity {
 
     @Override
     public void onClickView(View view) {
-
+        switch (view.getId())
+        {
+            case R.id.ivSideIcon:
+                mBind.drawerLayout.closeDrawers();
+                break;
+        }
     }
 
     @Override

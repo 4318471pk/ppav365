@@ -19,6 +19,7 @@
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bg_round_121212"
             android:orientation="vertical">

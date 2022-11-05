@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:indeterminateBehavior="repeat"
-        android:indeterminateDrawable="@drawable/rotare" />
+        android:indeterminateDrawable="@drawable/rotate_white" />
 
     <TextView
         android:id="@+id/tv_loading"

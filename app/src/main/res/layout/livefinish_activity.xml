@@ -134,7 +134,7 @@
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:indeterminateBehavior="repeat"
-                android:indeterminateDrawable="@drawable/rotare" />
+                android:indeterminateDrawable="@drawable/rotate_white" />
 
         </RelativeLayout>
 

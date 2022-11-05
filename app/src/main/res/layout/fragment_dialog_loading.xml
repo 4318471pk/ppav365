@@ -26,13 +26,12 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp">
 
-            <ProgressBar
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+            <ImageView
+                android:id="@+id/pbLoading"
+                android:layout_width="27dip"
+                android:layout_height="27dip"
                 android:layout_gravity="center_horizontal"
-                android:indeterminateBehavior="repeat"
-                android:indeterminateDrawable="@drawable/rotare"
-                android:indeterminateOnly="true" />
+                />
 
             <TextView
                 android:id="@+id/tipTextView"

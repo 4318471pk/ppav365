@@ -14,7 +14,9 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.fragment.app.FragmentTransaction;
 
@@ -31,6 +33,7 @@ import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityOpenLivingBinding;
 import com.live.fox.dialog.DialogFactory;
+import com.live.fox.dialog.LoadingBindingDialogFragment;
 import com.live.fox.dialog.TipDialog;
 import com.live.fox.dialog.temple.LivingInterruptDialog;
 import com.live.fox.dialog.temple.TempleDialog2;
@@ -98,7 +101,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mPushUrl=getIntent().getStringExtra(PushUrl);
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
-        setWindowsFlag();
+        setWindowsFlag(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         fragments.add(new PreparingLivingFragment());
         fragments.add(new StartLivingFragment());
@@ -134,8 +138,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         fragmentTransaction.show(fragments.get(1));
         fragmentTransaction.commitAllowingStateLoss();
     }
-
-
 
     /**
      * 开启摄像头预览
@@ -266,6 +268,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
      */
     private void initPusher() {
 
+        LoadingBindingDialogFragment fragment=LoadingBindingDialogFragment.getInstance(LoadingBindingDialogFragment.purple);
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),fragment);
         mLivePusher = new TXLivePusher(this);
 
 //        mLivePusher.setZoom(5);//21.1.10
@@ -291,6 +295,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                 if(!isCameraInitFinish)
                 {
                     isCameraInitFinish=true;
+                    fragment.dismissAllowingStateLoss();
                     showPreParingFragment();
                 }
 
@@ -523,5 +528,14 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
             isFrontCarame = !isFrontCarame;
             mLivePusher.switchCamera();
         }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if(event.getKeyCode()==KeyEvent.KEYCODE_BACK)
+        {
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 }

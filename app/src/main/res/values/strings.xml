@@ -1444,6 +1444,10 @@
     <string name="paymentType">计费方式</string>
     <string name="paymentAmount">计费金额：</string>
 
+    <string name="netWorkGood">网络良好</string>
+    <string name="netWorkCommon">网络一般</string>
+    <string name="netWorkWorst">网络较差</string>
+
     <string name="payPerHour">按时收费</string>
     <string name="payEachShow">按场收费</string>
     <string name="payNothing">免费房间</string>
@@ -1452,10 +1456,20 @@
     <string name="livingInterrupt">直播意外中断了，是否恢复直播？</string>
     <string name="confirmSwitchRoom">确定切换</string>
 
+    <string name="remove">移除</string>
+    <string name="noMoreData">没有更多了</string>
     <string name="setPersonToAdmin">设置管理员</string>
     <string name="muteSendingMessage">禁言</string>
     <string name="baseFunction">基础功能</string>
     <string name="audienceManage">人员管理</string>
+    <string name="setAudienceAdmin">设置管理员</string>
+    <string name="blockAndMute">拉黑与禁言</string>
+    <string name="youDidNotSetAdmin">你暂未设置管理员</string>
+    <string name="dialogTitleAudienceList">管理员设置说明</string>
+    <string name="tips7">管理员拥有禁言、拉黑等权限</string>
+    <string name="tips8">1、直播间管理员可协助你进行直播间人员生态管理和操作部 分功能，具备一定特权，请合理添加；\n2、管理员的每个权限支持独立设置，且至少拥有一项权限；\n3、直播间管理员，最多设置5位，请谨慎添加；</string>
+
+
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>
 

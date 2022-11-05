@@ -148,22 +148,6 @@ public class DialogFactory {
     }
 
 
-    /*
-    用法：
-    Dialog loadingDialog = DialogFactory.createLoadingDialog(this);
-    loadingDialog.show();
-     */
-    public static LoadingDialog createLoadingDialog(Context context) {
-//        Dialog dialog = new Dialog(context, R.style.LoadingDialog);
-//        View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
-////        view.getBackground().setAlpha(130);
-////        final int viewWidth = DensityUtils.dp2px(context, 150);
-////        view.setMinimumWidth(viewWidth);
-//        dialog.setContentView(view);
-//        //设置点击屏幕不自动消失
-//        dialog.setCanceledOnTouchOutside(false);
-        return new LoadingDialog(context, R.style.LoadingDialog);
-    }
 
 
     /*

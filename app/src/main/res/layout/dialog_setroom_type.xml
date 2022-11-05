@@ -19,6 +19,7 @@
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bg_round_121212"
             android:orientation="vertical">
@@ -56,14 +57,14 @@
                 >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dip"
-                    android:layout_marginRight="30dip"
+                    android:layout_gravity="left"
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <RadioButton
+                        android:button="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -84,10 +85,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="40dip"
                             android:text="@string/paymentAmount"
-                            android:textSize="13sp"
-                            android:textColor="#ffffff"/>
+                            android:textColor="#ffffff"
+                            android:textSize="13sp" />
 
                         <EditText
                             android:layout_width="80dip"
@@ -115,15 +115,15 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dip"
-                    android:layout_marginRight="30dip"
+                    android:layout_gravity="left"
                     android:layout_marginTop="10dip"
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <RadioButton
+                        android:button="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -144,7 +144,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="40dip"
                             android:text="@string/paymentAmount"
                             android:textSize="13sp"
                             android:textColor="#ffffff"/>
@@ -175,15 +174,15 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dip"
-                    android:layout_marginRight="30dip"
+                    android:layout_gravity="left"
                     android:layout_marginTop="10dip"
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <RadioButton
+                        android:button="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -204,7 +203,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="40dip"
                             android:text="@string/paymentAmount"
                             android:textSize="13sp"
                             android:textColor="#ffffff"/>

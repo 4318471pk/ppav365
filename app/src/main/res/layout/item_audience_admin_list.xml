@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dip"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="5dip"
+    android:layout_marginRight="5dip"
+    android:layout_marginTop="1dip"
+    >
+
+    <com.live.fox.view.GradientTextView
+        android:id="@+id/tvRemove"
+        android:layout_width="80dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:textColor="#ffffff"
+        android:textSize="11sp"
+        android:text="@string/remove"
+        android:gravity="center"
+        app:gt_radius_dp="12dp"
+        app:gt_stroke_color="#99ffffff"
+        app:gt_stroke_width="0.5dip"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        >
+
+
+        <com.live.fox.view.RankProfileView
+            android:id="@+id/rpv"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:text="名字"/>
+
+            <TextView
+                android:id="@+id/tvIcons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5.5dp"
+                android:textSize="12sp"
+                android:textColor="#8B8B8B"
+                android:text="--"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

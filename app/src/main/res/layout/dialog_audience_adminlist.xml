@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.AudienceAdminListDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_round_121212"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivClose"
+                    android:layout_width="40dip"
+                    android:layout_height="40dip"
+                    android:onClick="@{click.onClickView}"
+                    android:padding="12.5dip"
+                    android:layout_marginLeft="7.5dip"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrow_left"/>
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="@string/setAudienceAdmin"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivIntroduction"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:onClick="@{click.onClickView}"
+                    android:padding="7.5dip"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dip"
+                    android:src="@mipmap/icon_introdution"/>
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#404040"/>
+
+
+            <TextView
+                android:id="@+id/tvAmountOfAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20.5dip"
+                android:layout_marginTop="14.5dip"
+                android:textSize="11sp"
+                android:textColor="#a3a3a3"
+                android:text="已设置管理员（0/5）"
+                />
+
+            <LinearLayout
+                android:id="@+id/llList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_marginLeft="30dip"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlEmptyDataView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/icon_emptydata"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#99ffffff"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/youDidNotSetAdmin"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dip"
+                        android:textColor="#99ffffff"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/tips7"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvTips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dip"
+                android:visibility="gone"
+                android:layout_marginTop="14.5dip"
+                android:textSize="13sp"
+                android:textColor="#99ffffff"
+                android:text="@string/tips8"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</layout>

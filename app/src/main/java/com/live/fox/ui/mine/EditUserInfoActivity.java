@@ -455,16 +455,16 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
     //调用修改用户信息接口
     public void requestApi() {
         // 開啓動畫，因爲定時原因，所以可能是在子線程
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (loadingDialog != null) {
-                    loadingDialog.setText(getString(R.string.interfaceCalling));
-                } else {
-                    loadingDialog = showLoadingDialog(getString(R.string.interfaceCalling), false, true);
-                }
-            }
-        });
-        doUpdateUserInfoApi(uploadImgUrl, user.getSex(), 1);
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (loadingDialog != null) {
+//                    loadingDialog.setText(getString(R.string.interfaceCalling));
+//                } else {
+//                    loadingDialog = showLoadingDialog(getString(R.string.interfaceCalling), false, true);
+//                }
+//            }
+//        });
+//        doUpdateUserInfoApi(uploadImgUrl, user.getSex(), 1);
     }
 }
