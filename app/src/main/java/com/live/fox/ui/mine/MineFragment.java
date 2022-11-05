@@ -1,6 +1,8 @@
 package com.live.fox.ui.mine;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -32,8 +34,10 @@ import com.live.fox.dialog.temple.DialogGoBindPhoneOnWithdrawal;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
 import com.live.fox.entity.MessageEvent;
+import com.live.fox.entity.NobleListBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.ui.mine.depositAndWithdrawHistory.DepositAndWithdrawHistoryActivity;
@@ -51,6 +55,7 @@ import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;
+import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -128,7 +133,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             headUrl = userinfo.getAvatar();
             GlideUtils.loadCircleOnePxRingImage(requireActivity(), userinfo.getAvatar(),
                     Color.parseColor("#979797"),
-                    R.color.transparent, R.drawable.img_default, mBind.ivHeadimg);
+                    R.color.transparent, R.mipmap.user_head_error, mBind.ivHeadimg);
         }
 
         mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f)));
@@ -184,6 +189,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     public void onResume() {
         super.onResume();
         doGetUserInfoApi();
+        getMyNoble();
     }
 
     @Override
@@ -239,7 +245,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
 
     public void doGetLetterListApi() {
         if (userinfo == null) return;
-        showLoadingDialog();
+        //showLoadingDialog();
         DataBase db = DataBase.getDbInstance();
         Letter lastLetter = db.getLastLetter(userinfo.getUid());
         List<LetterList> list = db.getLetterList(userinfo.getUid());
@@ -250,7 +256,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         Api_User.ins().getLetterList(lastLetter == null ? 0 : lastLetter.getLetterId(), new JsonCallback<List<Letter>>() {//
             @Override
             public void onSuccess(int code, String msg, List<Letter> data) {
-                dismissLoadingDialog();
+                //dismissLoadingDialog();
                 if (code == 0) {
                     if (data == null) return;
                     for (Letter letter : data) {
@@ -429,6 +435,24 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         }
     }
 
+    private void getMyNoble(){
+        Api_Order.ins().getMyNoble(new JsonCallback<NobleListBean>() {
+            @Override
+            public void onSuccess(int code, String msg, NobleListBean data) {
+                //  hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    if (data !=null && data.getVipLevel() > 0) {
+
+                        int index=data.getVipLevel()%7 - 1;
+                        int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
+                        Bitmap bitmap = BitmapFactory.decodeResource(MineFragment.this.getResources(), level[index]);
+                        mBind.ivNoble.setImageBitmap(bitmap);
+                    }
+                }
+
+            }
+        });
+    }
 
     private void setServicePop(){
         View popupView = this.getActivity().getLayoutInflater().inflate(R.layout.pop_rc,null);

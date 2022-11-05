@@ -148,7 +148,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
         user = DataCenter.getInstance().getUserInfo().getUser();
 
         GlideUtils.loadCircleOnePxRingImage(EditUserInfoActivity.this, user.getAvatar(), Color.parseColor("#979797"),
-                R.color.transparent, R.drawable.img_default, ivHead);
+                R.color.transparent, R.mipmap.user_head_error, ivHead);
 
         tvName.setText(user.getNickname());
         if (user.getSex() <= 0) {

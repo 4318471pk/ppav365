@@ -94,7 +94,7 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
     }
 
     private void followFans(Long id, boolean isFollow, int pos){
-        Api_User.ins().followUser(id+"", isFollow, new  JsonCallback<String>() {
+        Api_User.ins().followUser(id + "", isFollow, new  JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0) {

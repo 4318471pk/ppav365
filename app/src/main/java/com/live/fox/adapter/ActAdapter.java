@@ -4,6 +4,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestFutureTarget;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
@@ -16,15 +24,28 @@ import java.util.List;
 
 public class ActAdapter extends BaseQuickAdapter<ActBean, BaseViewHolder> {
 
-
+    int defaultDrawable;
     public ActAdapter(List data) {
         super(R.layout.item_activity, data);
+        defaultDrawable = R.mipmap.img_error;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ActBean data) {
-        RoundedImageView iv = helper.getView(R.id.iv);
-        GlideUtils.loadDefaultImage(mContext, data.getImgUrl(), iv);
+        RoundedImageView iv = helper.getView(R.id.iv);//
+        Glide.with(mContext).load(data.getImgUrl()).error(defaultDrawable).listener(new RequestListener() {
+            @Override
+            public boolean onLoadFailed(@Nullable @org.jetbrains.annotations.Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                iv.setScaleType(ImageView.ScaleType.FIT_XY);
+                return false;
+            }
+        }).into(iv);
         TextView tv = helper.getView(R.id.tvTime);
         if (data.getActivityStatus() == 1) {
             tv.setTextColor(mContext.getResources().getColor(R.color.color646464));

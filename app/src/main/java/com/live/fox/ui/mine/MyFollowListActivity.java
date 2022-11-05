@@ -150,6 +150,16 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
 
     }
 
+    private void followFans(Long id){
+        Api_User.ins().followUser(1028924366 +"", true, new  JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if (code == 0) {
+
+                }
+            }
+        });
+    }
 
 
 

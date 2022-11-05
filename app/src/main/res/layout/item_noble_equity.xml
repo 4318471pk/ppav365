@@ -13,7 +13,7 @@
     <com.flyco.roundview.RoundLinearLayout
         android:layout_width="45dp"
         android:layout_height="45dp"
-        app:rv_backgroundColor="#B8C5DC"
+        app:rv_backgroundColor="#1F2229"
         android:gravity="center"
         app:rv_cornerRadius="50dp"
         >

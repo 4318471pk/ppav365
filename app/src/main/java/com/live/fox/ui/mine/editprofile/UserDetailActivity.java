@@ -3,6 +3,8 @@ package com.live.fox.ui.mine.editprofile;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +33,7 @@ import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SimpleSelectorDialog;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.dialog.temple.EditNickNameConfirmDialog;
+import com.live.fox.entity.NobleListBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.manager.DataCenter;
@@ -39,12 +42,14 @@ import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
+import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -191,10 +196,10 @@ public class UserDetailActivity extends BaseActivity  {
 
     public void refreshPage() {
         mUser = DataCenter.getInstance().getUserInfo().getUser();
-        mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(mUser, context));
+       // mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(mUser, context));
         mBind.tvCirclenum.setText(mUser.getFans() + "");
         mBind.tvFollownum.setText(String.valueOf(mUser.getFollows()));
-        mBind.tvFansnum.setText("");
+      //  mBind.tvFansnum.setText("");
 
         String uid=String.valueOf(mUser.getUid());
         StringBuilder sb=new StringBuilder();
@@ -228,7 +233,7 @@ public class UserDetailActivity extends BaseActivity  {
 
         mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
 
-        GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), mBind.ivHeader);
+        GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), R.mipmap.user_head_error, mBind.ivHeader);
         mBind.tvName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
         if (DataCenter.getInstance().getUserInfo().getUser().getUid().longValue()
                 == mUser.getUid().longValue()) {
@@ -240,6 +245,7 @@ public class UserDetailActivity extends BaseActivity  {
         }
 
         updateFollow();
+        getMyNoble();
 
 //        new SVGAParser(this).decodeFromAssets("living.svga", new SVGAParser.ParseCompletion() {
 //            @RequiresApi(api = Build.VERSION_CODES.P)
@@ -297,7 +303,7 @@ public class UserDetailActivity extends BaseActivity  {
             public void onSuccess(int code, String msg, UserAssetsBean data) {
                 hideLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    mBind.tvFansnum.setText("LV." + data.getSendDiamond());
+                    mBind.tvFansnum.setText("" + data.getSendDiamond());
                 } else {
                     ToastUtils.showShort(msg);
                 }
@@ -305,7 +311,24 @@ public class UserDetailActivity extends BaseActivity  {
         }, commonParams);
     }
 
+    private void getMyNoble(){
+        Api_Order.ins().getMyNoble(new JsonCallback<NobleListBean>() {
+            @Override
+            public void onSuccess(int code, String msg, NobleListBean data) {
+                //  hideLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    if (data !=null && data.getVipLevel() > 0) {
 
+                        int index=data.getVipLevel()%7 - 1;
+                        int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
+                        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
+                        mBind.ivNoble.setImageBitmap(bitmap);
+                    }
+                }
+
+            }
+        });
+    }
 
 
     public void onViewClick(View view) {
