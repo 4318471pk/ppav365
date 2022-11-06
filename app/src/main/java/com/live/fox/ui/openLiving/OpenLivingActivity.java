@@ -490,7 +490,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                 }
                 else
                 {
-                    closeLiveRoom(getString(R.string.endLive), false);
+                    closeLiveRoom();
                 }
             }
         });
@@ -502,7 +502,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
      * 关闭直播间
      * 是否是管理员或者后台强制关播
      */
-    public void closeLiveRoom(String finishTip, boolean isKick) {
+    public void closeLiveRoom() {
         if (KeyboardUtils.isSoftInputVisible(this)) {
             KeyboardUtils.toggleSoftInput();
         }
@@ -520,6 +520,13 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         finish();
     }
 
+
+    public void onAnchorExitLiving()
+    {
+        //当主播主动点击退出直播弹窗
+        closeLiveRoom();
+        finish();
+    }
     /**
      * 旋转相机
      */

@@ -3,8 +3,6 @@ package com.live.fox.dialog.bottomDialog;
 import android.view.View;
 import android.view.animation.Animation;
 
-import androidx.fragment.app.FragmentManager;
-
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
@@ -24,6 +22,7 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.llContent,false);
                 break;
             case R.id.tvGift:
@@ -55,7 +54,8 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),audienceManagerDialog);
                         break;
                     case R.id.tvLivingSetting:
-
+                        AnchorLivingSettingDialog anchorLivingSettingDialog=AnchorLivingSettingDialog.getInstance();
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),anchorLivingSettingDialog);
                         break;
                 }
             }

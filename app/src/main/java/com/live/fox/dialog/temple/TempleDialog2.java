@@ -13,7 +13,6 @@ public class TempleDialog2 extends BaseBindingDialogFragment {
 
     DialogTempleRoundBtnsBinding mBind;
 
-
     @Override
     public void onClickView(View view) {
         onClick(view);
@@ -34,4 +33,6 @@ public class TempleDialog2 extends BaseBindingDialogFragment {
         mBind.setClick(this);
 
     }
+
+
 }

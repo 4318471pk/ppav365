@@ -7,6 +7,7 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.DialogAudienceManagerBinding;
+import com.live.fox.dialog.bottomDialog.livingRoomBlockAndMute.LivingRoomBlockAndMuteListDialog;
 
 public class AudienceManagerDialog extends BaseBindingDialogFragment {
 
@@ -22,6 +23,7 @@ public class AudienceManagerDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.llContent,false);
                 break;
             case R.id.rlBlockAndMute:
@@ -44,7 +46,8 @@ public class AudienceManagerDialog extends BaseBindingDialogFragment {
                 switch (id)
                 {
                     case R.id.rlBlockAndMute:
-
+                        LivingRoomBlockAndMuteListDialog livingRoomBlockAndMuteListDialog=LivingRoomBlockAndMuteListDialog.getInstance();
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),livingRoomBlockAndMuteListDialog);
                         break;
                     case R.id.rlSetAdmin:
                         AudienceAdminListDialog audienceAdminListDialog=AudienceAdminListDialog.getInstance();

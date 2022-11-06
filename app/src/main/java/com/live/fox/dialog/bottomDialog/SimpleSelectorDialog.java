@@ -38,6 +38,7 @@ public class SimpleSelectorDialog extends BaseBindingDialogFragment {
         {
             case R.id.rlMain:
             case R.id.tvCancel:
+                mBind.rlMain.setEnabled(false);
                 dismissAllowingStateLoss();
                 break;
             case R.id.tvConfirm:

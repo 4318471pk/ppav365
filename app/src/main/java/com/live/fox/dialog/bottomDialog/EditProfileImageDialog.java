@@ -56,6 +56,7 @@ public class EditProfileImageDialog extends BaseBindingDialogFragment {
                 break;
             case R.id.ivCancel:
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 dismissAllowingStateLoss();
                 break;
         }

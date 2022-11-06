@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dip"
+    android:layout_marginTop="1dip"
+    >
+
+    <com.live.fox.view.GradientTextView
+        android:id="@+id/tvRemove"
+        android:layout_width="80dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:gravity="center"
+        android:text="@string/remove"
+        android:textColor="#ffffff"
+        android:textSize="11sp"
+        app:gt_radius_dp="12dp"
+        app:gt_stroke_color="#99ffffff"
+        app:gt_stroke_width="0.5dip" />
+
+    <com.live.fox.view.RankProfileView
+        android:id="@+id/rpv"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_toLeftOf="@id/tvRemove"
+        android:layout_toRightOf="@id/rpv"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="名字"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvIcons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#8B8B8B"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvAdminName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="处理人名字"
+            android:textColor="#99ffffff"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2022.09.22 22:55:55"
+            android:textColor="#99ffffff"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

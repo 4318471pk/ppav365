@@ -52,6 +52,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 dismissAllowingStateLoss();
                 break;
             case R.id.gtvCommit:

@@ -16,7 +16,7 @@
         >
 
         <LinearLayout
-            android:id="@+id/llMain"
+            android:id="@+id/llContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

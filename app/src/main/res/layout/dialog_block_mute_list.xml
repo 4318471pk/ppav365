@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.livingRoomBlockAndMute.LivingRoomBlockAndMuteListDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_round_121212"
+            android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip">
+
+            <com.live.fox.view.tab.SimpleTabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="47.5dp"
+                android:layout_marginRight="47.5dp"
+                android:layout_centerInParent="true"
+                app:tl_tab_bottom_padding="5.5dp"
+                app:tl_indicator_color="#EA00FF"
+                app:tl_indicator_corner_radius="2.5dp"
+                app:tl_indicator_height="5dp"
+                app:tl_indicator_width="45dp"
+                app:tl_selected_textsize="16sp"
+                app:tl_textBold="SELECT"
+                app:tl_textSelectColor="#FFFFFFFF"
+                app:tl_textUnselectColor="#99FFFFFF"
+                app:tl_textsize="16sp" />
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:onClick="@{click.onClickView}"
+                android:padding="12.5dip"
+                android:layout_marginLeft="7.5dip"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/arrow_left"/>
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#404040"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

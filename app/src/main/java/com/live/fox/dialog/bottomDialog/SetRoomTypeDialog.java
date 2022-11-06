@@ -57,6 +57,7 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.rllContent, false);
                 break;
             case R.id.gtvConfirmSwitch:

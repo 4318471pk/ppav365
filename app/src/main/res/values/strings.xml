@@ -1469,6 +1469,12 @@
     <string name="dialogTitleAudienceList">管理员设置说明</string>
     <string name="tips7">管理员拥有禁言、拉黑等权限</string>
     <string name="tips8">1、直播间管理员可协助你进行直播间人员生态管理和操作部 分功能，具备一定特权，请合理添加；\n2、管理员的每个权限支持独立设置，且至少拥有一项权限；\n3、直播间管理员，最多设置5位，请谨慎添加；</string>
+    <string name="imageMirror">画面镜像</string>
+    <string name="gameInformation">游戏信息</string>
+    <string name="getInRoomEffect">座驾特效</string>
+    <string name="offLiving">关闭直播</string>
+    <string name="offLivingContent">观众正在赶来的路上 确定结束直播吗？</string>
+
 
 
 

@@ -106,6 +106,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.rllContent,false);
                 break;
             case R.id.introdution:

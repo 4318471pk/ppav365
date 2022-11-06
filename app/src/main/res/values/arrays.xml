@@ -6,6 +6,11 @@
         <item>0xFFD689FF</item>
     </integer-array>
 
+    <integer-array name="offLivingBtnColor">
+        <item>0xFF747474</item>
+        <item>0xFFC8C8C8</item>
+    </integer-array>
+
     <integer-array name="myBagBuyColor">
         <item>0xffFF4A97</item>
         <item>0xffFFDB72</item>

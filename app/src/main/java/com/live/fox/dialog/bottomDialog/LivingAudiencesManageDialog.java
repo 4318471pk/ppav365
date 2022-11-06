@@ -17,7 +17,14 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
 
     @Override
     public void onClickView(View view) {
-
+        switch (view.getId())
+        {
+            case R.id.rlMain:
+            case R.id.gtvCancel:
+                mBind.rlMain.setEnabled(false);
+                startAnimate(mBind.llContent,false);
+                break;
+        }
     }
 
     @Override
@@ -28,5 +35,8 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
+        mBind.setClick(this);
+
+        startAnimate(mBind.llContent,true);
     }
 }

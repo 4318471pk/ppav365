@@ -22,6 +22,7 @@ public class SetLocationDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.llMain,false);
                 break;
         }

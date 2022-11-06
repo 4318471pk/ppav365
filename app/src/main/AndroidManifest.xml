@@ -255,9 +255,6 @@
             android:name=".ui.mine.LiveRecordActivity"
             android:screenOrientation="portrait" /> <!-- 关于我们 -->
         <activity
-            android:name=".ui.mine.AboutUsActivity"
-            android:screenOrientation="portrait" /> <!-- 我的关注 -->
-        <activity
             android:name=".ui.mine.MyFollowActivity"
             android:screenOrientation="portrait" /> <!-- 我的粉丝 -->
         <activity

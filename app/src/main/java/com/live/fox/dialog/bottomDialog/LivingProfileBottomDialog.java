@@ -103,6 +103,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.rlContent,false);
                 break;
             case R.id.tvReport:

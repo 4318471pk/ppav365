@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.bottomDialog.AnchorLivingSettingDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{click.onClickView}"
+        >
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_round_121212"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/setAudienceAdmin"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#404040"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:layout_marginTop="15dip"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:textColor="#99ffffff"
+                    android:text="@string/imageMirror"/>
+
+                <com.live.fox.view.SwitchView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:ratioAspect="0.55"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dip"
+                    android:layout_alignParentRight="true"
+                    app:primaryColor="#A800FF"
+                    app:offColor="#D2CDE0"
+                    app:hasShadow="true"
+                    app:isOpened="false" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:layout_marginTop="15dip"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:textColor="#99ffffff"
+                    android:text="@string/gameInformation"/>
+
+                <com.live.fox.view.SwitchView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:ratioAspect="0.55"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dip"
+                    android:layout_alignParentRight="true"
+                    app:primaryColor="#A800FF"
+                    app:offColor="#D2CDE0"
+                    app:hasShadow="true"
+                    app:isOpened="false" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:layout_marginTop="15dip"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:textColor="#99ffffff"
+                    android:text="@string/getInRoomEffect"/>
+
+                <com.live.fox.view.SwitchView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:ratioAspect="0.55"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dip"
+                    android:layout_alignParentRight="true"
+                    app:primaryColor="#A800FF"
+                    app:offColor="#D2CDE0"
+                    app:hasShadow="true"
+                    app:isOpened="false" />
+            </RelativeLayout>
+
+            
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvOffLiving"
+                android:layout_width="140dp"
+                android:layout_height="35dip"
+                android:onClick="@{click.onClickView}"
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="10dip"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:text="@string/offLiving"
+                app:gt_radius_dp="17.5dp"
+                app:gt_color_list="@array/offLivingBtnColor"
+                app:gt_gradient_direction="up"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

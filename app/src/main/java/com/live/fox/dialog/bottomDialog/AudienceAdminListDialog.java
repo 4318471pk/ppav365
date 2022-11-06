@@ -53,6 +53,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
                 mBind.tvAmountOfAdmin.setVisibility(View.GONE);
                 break;
             case R.id.rlMain:
+                mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.llContent, false);
                 break;
         }
@@ -69,7 +70,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
             @Override
             public void onAnimationEnd(Animation animation) {
                 switch (id) {
-                    case R.id.rlSetAdmin:
+                    case R.id.ivClose:
                         AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance();
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(), audienceManagerDialog);
                         break;
@@ -126,7 +127,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
             SpanUtils spanUtils = new SpanUtils();
             spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(48, getActivity()));
 
-            TextView tvHuo = view.findViewById(R.id.tvHuo);
+            TextView tvRemove = view.findViewById(R.id.tvRemove);
             RankProfileView rpv = view.findViewById(R.id.rpv);
             TextView tvNickName = view.findViewById(R.id.tvNickName);
             TextView tvIcons = view.findViewById(R.id.tvIcons);
