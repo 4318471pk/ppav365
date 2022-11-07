@@ -132,16 +132,15 @@
                         
                         
                     </LinearLayout>
-                        
+
                         <com.opensource.svgaplayer.SVGAImageView
-                            android:visibility="gone"
                             android:id="@+id/ivLiving"
                             android:layout_width="70dp"
                             android:layout_height="29dp"
                             android:layout_marginEnd="15dp"
-                            app:source="living.svga"
+                            android:visibility="gone"
                             app:autoPlay="true"
-
+                            app:source="living.svga"
                             />
 
                     </LinearLayout>

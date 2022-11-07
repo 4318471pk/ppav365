@@ -22,7 +22,6 @@
         app:gt_radius_dp="10dip"
         app:gt_solidNoGradient="#4c000000"
         android:textColor="@color/white"
-        android:text="sada"
         android:paddingLeft="6.5dip"
         android:paddingRight="6.5dip"
         android:layout_marginLeft="5dip"

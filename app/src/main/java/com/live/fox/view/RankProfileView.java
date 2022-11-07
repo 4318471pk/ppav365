@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.utils.ResourceUtils;
+import com.opensource.svgaplayer.SVGAImageView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,21 +22,23 @@ public class RankProfileView extends RelativeLayout {
     public static final int NONE=-1;
     int crownIndex = -1;
     int decorationIndex=-1;
+    boolean isLiving=false;
     int crownsResource[] = new int[]{R.mipmap.icon_top1, R.mipmap.icon_top2, R.mipmap.icon_top3};
     int[] decorationResource = null;
-    float scaleAndMargins[][]={{0.87f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.3f},{0.85f,0.1f},{0.85f,0.08f}};
+    float scaleAndMargins[][]={{0.87f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.1f},{0.85f,0.1f},{0.85f,0.08f}};
     ImageView ivDecoration, ivCrown, ivProfile;
+    SVGAImageView ivLiving;
     OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener;
 
 
-    public RankProfileView(@NonNull @NotNull Context context, int crownIndex) {
+    public RankProfileView(@NonNull @NotNull Context context, int crownIndex,boolean isLiving) {
         super(context);
-        initView(crownIndex,-1);
+        initView(crownIndex,-1,isLiving);
     }
 
-    public RankProfileView(@NonNull @NotNull Context context, int crownIndex, int decorationIndex) {
+    public RankProfileView(@NonNull @NotNull Context context, int crownIndex, int decorationIndex,boolean isLiving) {
         super(context);
-        initView(crownIndex,decorationIndex);
+        initView(crownIndex,decorationIndex,isLiving);
     }
 
     public RankProfileView(@NonNull @NotNull Context context) {
@@ -58,14 +61,14 @@ public class RankProfileView extends RelativeLayout {
             array.recycle();
         }
 
-        initView(crownIndex,decorationIndex);
+        initView(crownIndex,decorationIndex,isLiving);
     }
 
     public void setOnConfirmWidthAndHeightListener(OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener) {
         this.onConfirmWidthAndHeightListener = onConfirmWidthAndHeightListener;
     }
 
-    private void initView(int crownIndex, int decorationIndex) {
+    private void initView(int crownIndex, int decorationIndex,boolean isLiving) {
         decorationResource=new ResourceUtils().getResourcesID(R.array.rankEdgePics);
         this.crownIndex = crownIndex;
         this.decorationIndex=decorationIndex;
@@ -73,6 +76,7 @@ public class RankProfileView extends RelativeLayout {
         ivProfile = view.findViewById(R.id.ivProfile);
         ivCrown = view.findViewById(R.id.ivCrown);
         ivDecoration = view.findViewById(R.id.ivDecoration);
+        ivLiving=view.findViewById(R.id.ivLiving);
         addView(view);
         view.post(new Runnable() {
             @Override
@@ -101,10 +105,11 @@ public class RankProfileView extends RelativeLayout {
 
     }
 
-    public void setIndex(int crownIndex,int decorationIndex)
+    public void setIndex(int crownIndex,int decorationIndex,boolean isLiving)
     {
         this.crownIndex = crownIndex;
         this.decorationIndex = decorationIndex;
+        this.isLiving=isLiving;
         adjustLayout();
     }
 
@@ -116,28 +121,46 @@ public class RankProfileView extends RelativeLayout {
             {
                 ivDecoration.setImageDrawable(getResources().getDrawable(decorationResource[decorationIndex]));
             }
-            else
-            {
-                return;
-            }
+
 
             Drawable drawable = crownIndex > -1 && crownIndex < 3 ? getResources().getDrawable(crownsResource[crownIndex]) : null;
             if (drawable == null) {
                 ivCrown.setVisibility(GONE);
-                RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
-                rlDe.width=getWidth();
-                ivDecoration.setLayoutParams(rlDe);
 
-                RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-                rlProfile.width=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
-                rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
-                rlProfile.topMargin=(int)(getHeight()*scaleAndMargins[decorationIndex][1]);
-                ivProfile.setLayoutParams(rlProfile);
-                if(onConfirmWidthAndHeightListener!=null)
+                if(decorationIndex>-1)
                 {
-                    onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.height+rlProfile.topMargin);
-                }
+                    RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
+                    rlDe.width=getWidth();
+                    ivDecoration.setLayoutParams(rlDe);
 
+                    int ivDecorationHeight=getWidth()*ivDecoration.getDrawable().getIntrinsicHeight()
+                            /ivDecoration.getDrawable().getIntrinsicWidth();
+
+                    RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+                    rlProfile.width=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
+                    rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
+                    rlProfile.topMargin=(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
+                    ivProfile.setLayoutParams(rlProfile);
+
+                    if(onConfirmWidthAndHeightListener!=null)
+                    {
+                        onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.height+rlProfile.topMargin);
+                    }
+                }
+                else
+                {
+                    ivDecoration.setVisibility(GONE);
+
+                    RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+                    rlProfile.width=getWidth();
+                    rlProfile.height=getWidth();
+                    ivProfile.setLayoutParams(rlProfile);
+
+                    if(onConfirmWidthAndHeightListener!=null)
+                    {
+                        onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.width);
+                    }
+                }
             } else {
                 ivCrown.setImageDrawable(drawable);
                 int crownDrawableWidth=drawable.getIntrinsicWidth();
@@ -162,7 +185,7 @@ public class RankProfileView extends RelativeLayout {
 
                 if(onConfirmWidthAndHeightListener!=null)
                 {
-                    onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.height+rlProfile.topMargin);
+                    onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlDe.height+rlDe.topMargin);
                 }
 //                ivProfile.setPadding(0,crownHeight/2,0,0);
 
@@ -171,8 +194,18 @@ public class RankProfileView extends RelativeLayout {
 //                    int padding=(int)( getWidth()*0.08f);
 //                    ivProfile.setPadding(padding,padding,padding,padding);
 
+
+            if(isLiving)
+            {
+                ivLiving.setVisibility(VISIBLE);
+            }
+            else
+            {
+                ivLiving.setVisibility(GONE);
+            }
         }
     }
+
 
     public interface OnConfirmWidthAndHeightListener
     {

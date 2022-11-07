@@ -20,7 +20,9 @@ import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.GradientTextView;
 
@@ -68,9 +70,19 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
         TextView name = holder.itemView.findViewById(R.id.tvName);
         name.setText(data.get(position).getTitle());
 
+        TextView gtvLocation=holder.itemView.findViewById(R.id.gtvLocation);
+        gtvLocation.setText(context.getString(R.string.mars));
+
+
         ImageView ivRoundBG=holder.itemView.findViewById(R.id.ivRoundBG);
         GlideUtils.loadDefaultImage(context, data.get(position).getRoomIcon(),defaultDrawable, ivRoundBG);
 
+        holder.itemView.setOnClickListener(new OnClickFrequentlyListener() {
+            @Override
+            public void onClickView(View view) {
+                ToastUtils.showShort("cccc");
+            }
+        });
     }
 
     @Override

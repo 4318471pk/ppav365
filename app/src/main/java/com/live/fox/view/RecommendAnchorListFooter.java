@@ -25,11 +25,20 @@ import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecommendAnchorListFooter extends LinearLayout {
+
     TextView botText;
     GridLayout gridLayout;
+    GradientTextView changeList;
+    onClickChangeListListener onClickChangeListListener;
+    List<RoomListBean> listBeans;
+
+    public void setOnClickChangeListListener(RecommendAnchorListFooter.onClickChangeListListener onClickChangeListListener) {
+        this.onClickChangeListListener = onClickChangeListListener;
+    }
 
     public RecommendAnchorListFooter(Context context) {
         super(context);
@@ -74,17 +83,27 @@ public class RecommendAnchorListFooter extends LinearLayout {
         ivTag.setImageDrawable(getResources().getDrawable(R.mipmap.icon_recommend_tag));
         topRl.addView(ivTag);
 
-        GradientTextView gradientTextView=new GradientTextView(getContext());
+        changeList=new GradientTextView(getContext());
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(dip2*31, dip2*11);
         rl.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
         rl.rightMargin=(int)(dip2*2.5);
-        gradientTextView.setLayoutParams(rl);
-        gradientTextView.setGravity(Gravity.CENTER);
-        gradientTextView.setTextColor(0xffA800FF);
-        gradientTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-        gradientTextView.setText(getResources().getString(R.string.changeAnother));
-        gradientTextView.setStokeBackground(0xffA800FF,dip2*5,dip2/2);
-        topRl.addView(gradientTextView);
+        changeList.setLayoutParams(rl);
+        changeList.setGravity(Gravity.CENTER);
+        changeList.setTextColor(0xffA800FF);
+        changeList.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        changeList.setText(getResources().getString(R.string.changeAnother));
+        changeList.setStokeBackground(0xffA800FF,dip2*5,dip2/2);
+        changeList.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeList.setEnabled(false);
+                if(onClickChangeListListener!=null)
+                {
+                    onClickChangeListListener.onChange();
+                }
+            }
+        });
+        topRl.addView(changeList);
 
 
         int dip2_5=ScreenUtils.getDip2px(getContext(),2.5f);
@@ -101,6 +120,12 @@ public class RecommendAnchorListFooter extends LinearLayout {
 
     public void setData(List<RoomListBean> listBeans)
     {
+        changeList.setEnabled(true);
+        if(listBeans==null)
+        {
+            this.listBeans=new ArrayList<>();
+        }
+
         int dip2_5=ScreenUtils.getDip2px(getContext(),2.5f);
         int defaultDrawable=R.mipmap.icon_anchor_loading;
         gridLayout.removeAllViews();
@@ -113,6 +138,7 @@ public class RecommendAnchorListFooter extends LinearLayout {
             view.setPadding(dip2_5*2,dip2_5*2,0,0);
 
             GradientTextView gtvUnitPrice = view.findViewById(R.id.gtvUnitPrice);  //类别
+            GradientTextView tvAnchorPaymentType=view.findViewById(R.id.tvAnchorPaymentType);
             TextView name=view.findViewById(R.id.tv_nickname);
             ImageView ivRoundBG = view.findViewById(R.id.ivRoundBG);
             GlideUtils.loadDefaultImage(getContext(), listBeans.get(i).getRoomIcon(),defaultDrawable, ivRoundBG);
@@ -125,6 +151,31 @@ public class RecommendAnchorListFooter extends LinearLayout {
             spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
             gtvUnitPrice.setText(spUtils.create());
 
+
+            //1普通房间2密码房间3计时房间4贵族房间5计场房间
+            switch (listBeans.get(i).getRoomType())
+            {
+                case 1:
+                case 2:
+                case 4:
+                    tvAnchorPaymentType.setVisibility(View.GONE);
+                    gtvUnitPrice.setVisibility(View.GONE);
+                    break;
+                case 3:
+                    tvAnchorPaymentType.setVisibility(View.VISIBLE);
+                    tvAnchorPaymentType.setText(getContext().getString(R.string.charge_on_time));
+                    gtvUnitPrice.setVisibility(View.VISIBLE);
+                    break;
+                case 5:
+                    tvAnchorPaymentType.setVisibility(View.VISIBLE);
+                    tvAnchorPaymentType.setText(getContext().getString(R.string.charge_per_site));
+                    gtvUnitPrice.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    tvAnchorPaymentType.setVisibility(View.GONE);
+                    gtvUnitPrice.setVisibility(View.GONE);
+            }
+
             view.setTag(i);
             view.setOnClickListener(new OnClickListener() {
                 @Override
@@ -134,7 +185,7 @@ public class RecommendAnchorListFooter extends LinearLayout {
                         return;
                     }
                     int tag=(Integer)view.getTag();
-                    LivingActivity.startActivity(getContext(),listBeans,tag);
+                    LivingActivity.startActivity(getContext(), RecommendAnchorListFooter.this.listBeans,tag);
                 }
             });
 
@@ -158,5 +209,10 @@ public class RecommendAnchorListFooter extends LinearLayout {
 //            botText.getLayoutParams().height=ScreenUtils.getDip2px(getContext(),0);
 
         }
+    }
+
+    public interface onClickChangeListListener
+    {
+        void onChange();
     }
 }

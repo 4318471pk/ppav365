@@ -46,7 +46,7 @@ public class RankAdapter extends BaseQuickAdapter<RankIndexBean, RankAdapter.Ran
         spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(item.getLevel(), context));
         helper.tvNickName.setText(spanUtils.create());
         helper.tvHuo.setText(item.getHuo());
-        helper.rpv.setIndex(-1,item.getLevel()%7);
+        helper.rpv.setIndex(RankProfileView.NONE,item.getLevel()%7,false);
         helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
     }
 

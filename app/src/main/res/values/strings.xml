@@ -283,7 +283,7 @@
     <string name="focusIt">关注她</string>
     <string name="backFirst">返回首页</string>
     <string name="roomClosed">该房间已关闭</string>
-    <string name="discRetry">服务器被截断，在重试链接…</string>
+    <string name="discRetry">连接中断，正在尝试重新连接</string>
     <string name="chatNoExist">聊天室不存在</string>
     <string name="chatWelcome">聊天连接成功，欢迎来到 %1$s 的直播间</string>
     <string name="insufficientRecharge">账户余额不足,是否前往充值</string>
@@ -1444,6 +1444,7 @@
     <string name="setRoomType">房型设置</string>
     <string name="paymentType">计费方式</string>
     <string name="paymentAmount">计费金额：</string>
+    <string name="mars">火星</string>
 
     <string name="netWorkGood">网络良好</string>
     <string name="netWorkCommon">网络一般</string>

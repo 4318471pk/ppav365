@@ -128,8 +128,7 @@ public class Api_Live extends BaseApi {
 
 
     /**
-     * 获取主播认证状态
-     */
+     * 获取主播认证状态*/
     public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,
                               JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.LivingStart;
@@ -138,7 +137,7 @@ public class Api_Live extends BaseApi {
         params.put("type",type);
         params.put("nickName",nickName);
         params.put("title",title);
-//        params.put("price",price);
+        params.put("price",price);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 Constant.URL.LivingStart,
@@ -429,12 +428,12 @@ public class Api_Live extends BaseApi {
     /**
      * 直播间聊天
      */
-    public void chat(int liveId, String msg, int preview, JsonCallback callback) {
+    public void sendMessage(String liveId, String msg, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_chat_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("msg", msg);
-        params.put("isRoomPreview", preview);
+//        params.put("isRoomPreview", preview);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,

@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.Gson;
+import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
@@ -33,14 +34,17 @@ import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
-import com.live.fox.ui.live.PlayLiveActivity;
+import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.TimeCounter;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
+import com.tencent.imsdk.v2.V2TIMCallback;
+import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -68,42 +72,19 @@ public class LivingFragment extends BaseBindingFragment {
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
 
-    TimeCounter.TimeListener timeListener = new TimeCounter.TimeListener(5) {
-        @Override
-        public void onSecondTick(TimeCounter.TimeListener listener) {
-            super.onSecondTick(listener);
-            if (isAdded() && getResources() != null) {
-                LivingMsgBoxBean bean = new LivingMsgBoxBean();
-                bean.setBackgroundColor(0xffBDA3C8);
-                bean.setStrokeColor(0xff9E3FD4);
-                SpanUtils spanUtils = new SpanUtils();
-                spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(78, getContext()));
-                spanUtils.append(System.currentTimeMillis() + " ");
 
-                bean.setCharSequence(spanUtils.create());
-                addNewMessage(bean);
-            }
-        }
-
-        @Override
-        public void onConditionTrigger(TimeCounter.TimeListener listener) {
-            super.onConditionTrigger(listener);
-
-        }
-    };
-
-    public static LivingFragment getInstance(int position,int viewPagePosition) {
+    public static LivingFragment getInstance(int position, int viewPagePosition) {
         Log.e("LivingFragment", position + " ");
         LivingFragment livingFragment = new LivingFragment();
         livingFragment.currentPagePosition = position;
-        livingFragment.viewPagePosition=viewPagePosition;
+        livingFragment.viewPagePosition = viewPagePosition;
         return livingFragment;
     }
 
-    public void notifyShow(int position,int viewPagePosition) {
+    public void notifyShow(int position, int viewPagePosition) {
         Log.e("LivingFragment22", position + " ");
         currentPagePosition = position;
-        this.viewPagePosition=viewPagePosition;
+        this.viewPagePosition = viewPagePosition;
         if (getView() != null && isAdded()) {
             loadData();
         }
@@ -128,13 +109,12 @@ public class LivingFragment extends BaseBindingFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        TimeCounter.getInstance().remove(timeListener);
     }
 
     private void initView() {
         LivingActivity activity = (LivingActivity) getActivity();
         //是当前页才加载数据 不然就算了
-        if (activity.getCurrentPosition() == currentPagePosition && activity.getPagerPosition()==viewPagePosition) {
+        if (activity.getCurrentPosition() == currentPagePosition && activity.getPagerPosition() == viewPagePosition) {
             loadData();
 //            TimeCounter.getInstance().add(timeListener);
         } else {
@@ -153,28 +133,28 @@ public class LivingFragment extends BaseBindingFragment {
                 mBind.ivBG);
 
         Log.e("currentPagePosition", currentPagePosition + " " + activity.getCurrentPosition());
-        if (activity.getCurrentPosition() == currentPagePosition && activity.getPagerPosition()==viewPagePosition) {
+        if (activity.getCurrentPosition() == currentPagePosition && activity.getPagerPosition() == viewPagePosition) {
             getRecommendList();
             addViewPage();
 
-            boolean isSuccess = TimeCounter.getInstance().add(timeListener);
-            Log.e("currentPagePosition333", isSuccess + " ");
             //如果刷新了主播的信息 设置可以滑动 但是如果消息框在的话不能设置
-            livingControlPanel.viewWatch.setScrollEnable(true);
-
             if (livingControlPanel != null) {
+                livingControlPanel.viewWatch.setScrollEnable(true);
                 livingControlPanel.viewWatch.hideInputLayout();
             }
         } else {
             destroyView();
-
             Log.e("currentPagePosition222", currentPagePosition + " " + activity.getCurrentPosition());
-            TimeCounter.getInstance().remove(timeListener);
         }
 
     }
 
     private void addViewPage() {
+
+        LivingActivity activity = (LivingActivity) getActivity();
+        if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
+            return;
+        }
 
         //每次都用新的 就不用重置太多东西
         destroyView();
@@ -183,19 +163,19 @@ public class LivingFragment extends BaseBindingFragment {
         livingMsgBoxBeans.clear();
 
         mTXPlayConfig = new TXLivePlayConfig();
-        mLivePlayer=new TXLivePlayer(getActivity());
+        mLivePlayer = new TXLivePlayer(getActivity());
         mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
         mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         mLivePlayer.enableHardwareDecode(false);
         setLivePlayerListener();
-        setPlayMode(2,mLivePlayer);
+        setPlayMode(2, mLivePlayer);
 
-        TXCloudVideoView txCloudVideoView=new TXCloudVideoView(getActivity());
+        TXCloudVideoView txCloudVideoView = new TXCloudVideoView(getActivity());
         txCloudVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mBind.rlContent.addView(txCloudVideoView);
         mLivePlayer.setPlayerView(txCloudVideoView);
 
-        LivingActivity activity = (LivingActivity) getActivity();
+
         ViewPager viewPager = new ViewPager(getActivity());
         viewPager.setId(R.id.livingViewPager);
         viewPager.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -223,13 +203,13 @@ public class LivingFragment extends BaseBindingFragment {
 
             public Object instantiateItem(ViewGroup container, int position) {
 
-                int screenHeight=ScreenUtils.getScreenHeight(getActivity());
+                int screenHeight = ScreenUtils.getScreenHeight(getActivity());
                 if (position == 1) {
-                    container.addView(livingControlPanel,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+                    container.addView(livingControlPanel, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     container.post(new Runnable() {
                         @Override
                         public void run() {
-//                            initBotView();
+                            livingControlPanel.setData(activity.getRoomListBeans().get(currentPagePosition), activity);
                         }
                     });
                     return livingControlPanel;
@@ -262,6 +242,7 @@ public class LivingFragment extends BaseBindingFragment {
         viewPager.setCurrentItem(1);
 
         enterRoom();
+        checkAndJoinIM(getRoomBean().getId());
     }
 
     public RoomListBean getRoomBean() {
@@ -272,23 +253,38 @@ public class LivingFragment extends BaseBindingFragment {
         return activity.getRoomListBeans().get(currentPagePosition);
     }
 
+    private void sendSystemMsgToChat(String msg)
+    {
+        LivingMsgBoxBean bean=new LivingMsgBoxBean();
+        bean.setBackgroundColor(0x66ffffff);
+        bean.setType(0);
+        bean.setCharSequence(msg);
+        addNewMessage(bean);
+    }
+
     private void addNewMessage(LivingMsgBoxBean bean) {
         if (livingMsgBoxAdapter == null) {
             livingMsgBoxAdapter = new LivingMsgBoxAdapter(getContext(), livingMsgBoxBeans);
             livingControlPanel.mBind.msgBox.setAdapter(livingMsgBoxAdapter);
         }
-        if(livingMsgBoxAdapter.getBeans().size()>499)
-        {
+        if (livingMsgBoxAdapter.getBeans().size() > 499) {
             livingMsgBoxAdapter.getBeans().remove(0);
         }
         livingMsgBoxAdapter.getBeans().add(bean);
         livingMsgBoxAdapter.notifyDataSetChanged();
     }
 
-    private void getRecommendList() {
+    public void getRecommendList() {
+        LivingActivity activity = (LivingActivity) getActivity();
+        activity.scrollRecommendViewToTop();
         Api_Live.ins().getRecommendLiveList(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                boolean isSuccess = false;
+                if (!isActivityOK()) {
+                    return;
+                }
+
                 if (!TextUtils.isEmpty(data)) {
                     try {
                         JSONObject jsonObject = new JSONObject(data);
@@ -299,17 +295,15 @@ public class LivingFragment extends BaseBindingFragment {
                                 RoomListBean bean = new Gson().fromJson(list.getJSONObject(i).toString(), RoomListBean.class);
                                 listBeans.add(bean);
                             }
-                            LivingActivity activity = (LivingActivity) getActivity();
-                            if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-                                activity.setRecommendListData(listBeans);
-                            }
+                            isSuccess = true;
+                            activity.setRecommendListData(listBeans);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-
                 }
+                activity.setRecommendFinish(isSuccess);
             }
         });
     }
@@ -320,16 +314,26 @@ public class LivingFragment extends BaseBindingFragment {
         destroyView();
     }
 
-    private void destroyView()
-    {
+    private void destroyView() {
 
         if (getView() != null) {
+
+            LivingActivity activity = (LivingActivity) getActivity();
+            if (!activity.isFinishing() && !activity.isDestroyed() && activity.getRoomListBeans() != null) {
+                AppIMManager.ins().loginOutGroup(activity.getRoomListBeans().get(currentPagePosition).getId());
+            }
+
             if (mLivePlayer != null) {
                 mLivePlayer.stopPlay(true);
                 mLivePlayer = null;
             }
             TXCloudVideoView txCloudVideoView = getView().findViewById(R.id.txLivingVideoView);
             ViewPager viewPager = getView().findViewById(R.id.livingViewPager);
+
+            if (livingControlPanel != null && livingControlPanel.viewWatch != null) {
+                livingControlPanel.viewWatch.onDestroy();
+            }
+
             if (viewPager != null) {
                 mBind.rlContent.removeView(viewPager);
             }
@@ -339,9 +343,9 @@ public class LivingFragment extends BaseBindingFragment {
                 mBind.rlContent.removeView(txCloudVideoView);
             }
 
+
             livingMsgBoxBeans.clear();
-            if(livingMsgBoxAdapter!=null)
-            {
+            if (livingMsgBoxAdapter != null) {
                 livingMsgBoxAdapter.getBeans().clear();
             }
             livingMsgBoxAdapter = null;
@@ -349,8 +353,7 @@ public class LivingFragment extends BaseBindingFragment {
     }
 
 
-    private void setLivePlayerListener( )
-    {
+    private void setLivePlayerListener() {
         mLivePlayer.setPlayListener(new ITXLivePlayListener() {
             @Override
             public void onPlayEvent(int event, Bundle bundle) {
@@ -413,7 +416,7 @@ public class LivingFragment extends BaseBindingFragment {
 
 
     //设置播放器模式
-    private void setPlayMode(int strategy,TXLivePlayer mLivePlayer) {
+    private void setPlayMode(int strategy, TXLivePlayer mLivePlayer) {
         if (mTXPlayConfig == null) {
             return;
         }
@@ -440,23 +443,136 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
-    private void enterRoom()
-    {
-        if(isActivityOK())
-        {
+    private void enterRoom() {
+        if (isActivityOK()) {
             LivingActivity activity = (LivingActivity) getActivity();
-            RoomListBean bean= activity.getRoomListBeans().get(currentPagePosition);
+            RoomListBean bean = activity.getRoomListBeans().get(currentPagePosition);
             Api_Live.ins().interRoom(bean.getId(), bean.getAid(), 0,
                     "", 0, new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
-                            if(mLivePlayer!=null && enterRoomBean!=null && !TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()))
-                            {
-                                mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(),TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
+                            if (mLivePlayer != null && enterRoomBean != null && !TextUtils.isEmpty(enterRoomBean.getPullStreamUrl())) {
+                                mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
                             }
                         }
                     });
         }
 
+    }
+
+    /**
+     * 加入群聊前
+     * 先判断用户是否连接IM
+     * 如果未连接
+     * 则先连接IM后再加入IM群聊
+     */
+    public void checkAndJoinIM(String liveId) {
+
+        String currentUser = V2TIMManager.getInstance().getLoginUser();
+        if (TextUtils.isEmpty(currentUser)) {
+            //当前IM未连接用户 则先让用户连接IM后
+            AppIMManager.ins().connectIM(new V2TIMCallback() {
+                @Override
+                public void onError(int code, String desc) {
+                    LogUtils.e("IMGroup->onError:" + code + "，" + desc);
+                    hideLoadingDialog();
+                    joinGroupFailed(liveId,1, code, desc);
+                }
+
+                @Override
+                public void onSuccess() {
+                    //连接IM成功后 加入群聊
+                    joinIMGroup(liveId);
+                }
+            });
+        } else {
+            LogUtils.e("IMGroup-> 当前连接IM的用户:" + currentUser+ " liveid "+liveId);
+            joinIMGroup(liveId);
+        }
+    }
+
+
+    /**
+     * 加入聊天群失败
+     *
+     * @param type 失败代码
+     * @param code 失败代码 类型
+     * @param desc 失败的原因
+     */
+    private void joinGroupFailed(String liveId,int type, int code, String desc) {
+        switch (code) {
+            case 6017:
+                if ("sdk not initialized".equals(desc)) {
+                    LogUtils.e("sdk not initialized");
+                }
+                break;
+            case 10010: //群组不存在，或者曾经存在过，但是目前已经被解散
+//                if (0 != currentAnchor.getLiveStatus()) {
+//                    closeRoomAndStopPlay(false, false, false);
+//                    sendSystemMsgToChat(getString(R.string.chatNoExist));
+//                    showLiveFinishFragment(currentAnchor, getString(R.string.chatNoExist));
+//                }
+                break;
+
+            case 6014://SDK 未登∂录，请先登录，成功回调之后重试，或者被踢下线，可使用 TIMManager getLoginUser 检查当前是否在线
+                AppIMManager.ins().connectIM(null);
+                joinIMGroup(liveId);
+                break;
+
+            case 6012: //请求超时，请等网络恢复后重试。（Android SDK 1.8.0 以上需要参考 Android 服务进程配置 方式进行配置，否则会出现此错误）
+                sendSystemMsgToChat(getString(R.string.discRetry));
+                if (type == 1) {
+                    checkAndJoinIM(liveId);
+                } else {
+                    joinIMGroup(liveId);
+                }
+                break;
+
+            case 10013://被邀请加入的用户已经是群成员
+                LogUtils.e("IMIMGroup->10013 被邀请加入的用户已经是群成员");
+                break;
+
+            case 9506:
+            case 9520:
+                //直播结束
+//                showLiveFinishFragment(currentAnchor, desc);
+            default:
+                //直播结束
+//                if (0 != currentAnchor.getLiveStatus()) {
+//                    sendSystemMsgToChat(getString(R.string.app_network_error_unknown) + code);
+//                    showLiveFinishFragment(currentAnchor, desc);
+//                }
+                break;
+        }
+    }
+
+    /**
+     * 加入如聊天群组
+     */
+    private void joinIMGroup(String liveId) {
+        AppIMManager.ins().loginGroup(String.valueOf(liveId),
+                getString(R.string.openJoinChat), new V2TIMCallback() {
+                    @Override
+                    public void onSuccess() {
+                        String nickName= DataCenter.getInstance().getUserInfo().getUser().getNickname();
+                        if(!TextUtils.isEmpty(nickName))
+                        {
+                            String welcome = String.format(getString(R.string.chatWelcome), nickName);
+                            sendSystemMsgToChat(welcome);
+                        }
+
+//                        if (currentAnchor.getShowType() == 0) {
+//                            if (getLiveInFragment() != null && currentAnchor.getRoomHide() == 0) {
+//                                showAdmission();
+//                            }
+//                        }
+                    }
+
+                    @Override
+                    public void onError(int code, String desc) {
+                        LogUtils.e("IMGroup-> 加入聊天失敗: code->" + code + "  , desc->" + desc);
+                        joinGroupFailed(liveId,2, code, desc);
+                    }
+                });
     }
 }

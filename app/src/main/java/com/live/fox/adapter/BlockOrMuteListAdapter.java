@@ -32,7 +32,7 @@ public class BlockOrMuteListAdapter extends BaseQuickAdapter<String, BlockOrMute
 
         helper.tvNickName.setText("名字");
         helper.tvIcons.setText(spanUtils.create());
-        helper.rpv.setIndex(RankProfileView.NONE, 48 % 7);
+        helper.rpv.setIndex(RankProfileView.NONE, 48 % 7,false);
     }
 
     public static class BlockAndMuteListHolder extends BaseViewHolder

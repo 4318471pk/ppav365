@@ -3,6 +3,7 @@ package com.live.fox.adapter;
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -36,5 +37,9 @@ public class HeaderHorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
         ImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
         GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
         helper.setText(R.id.tv_nickname,data.getTitle());
+
+        TextView tvNum=helper.getView(R.id.tvNum);
+        tvNum.setText(data.getLiveSum()+"");
+
     }
 }

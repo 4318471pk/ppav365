@@ -55,7 +55,11 @@ public class LivingMsgBoxAdapter extends RecyclerView.Adapter<LivingMsgBoxAdapte
 //        }
 
         LivingMsgBoxBean bean=beans.get(position);
-        holder.gradientTextView.setStokeWithSolidBackground(bean.getStrokeColor(),dip1,bean.getBackgroundColor(),dip10_5);
+        int strokeColor=bean.getStrokeColor()==null?0:bean.getStrokeColor();
+        int strokeWidth=bean.getStrokeColor()==null?0:1;
+        int backgroundColor=bean.getBackgroundColor()==null?0:bean.getBackgroundColor();
+        holder.gradientTextView.setStokeWithSolidBackground(strokeColor,strokeWidth,bean.getBackgroundColor(),dip10_5);
+
         holder.gradientTextView.setText(bean.getCharSequence());
 
     }

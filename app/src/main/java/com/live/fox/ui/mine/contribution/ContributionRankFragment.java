@@ -140,7 +140,7 @@ public class ContributionRankFragment extends BaseBindingFragment {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         int profileImageWidth=(int)(screenWidth*0.173f);
-        RankProfileView rankProfileView=new RankProfileView(getActivity(),crownIndex,decorationIndex);
+        RankProfileView rankProfileView=new RankProfileView(getActivity(),crownIndex,decorationIndex,false);
         LinearLayout.LayoutParams ivRL=new LinearLayout.LayoutParams(profileImageWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         ivRL.gravity= Gravity.CENTER_HORIZONTAL;
         rankProfileView.setLayoutParams(ivRL);

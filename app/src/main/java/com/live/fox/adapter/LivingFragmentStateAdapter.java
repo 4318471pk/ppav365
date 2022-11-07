@@ -16,10 +16,12 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
 
     int size;
     SparseArray<WeakReference<LivingFragment>> sparseArray;
+    boolean isLoop;
 
-    public LivingFragmentStateAdapter(@NonNull FragmentActivity fragmentActivity,int size) {
+    public LivingFragmentStateAdapter(@NonNull FragmentActivity fragmentActivity,int size,boolean isLoop) {
         super(fragmentActivity);
         this.size=size;
+        this.isLoop=isLoop;
         sparseArray=new SparseArray<>();
     }
 
@@ -35,11 +37,17 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        int realPoi=(position-(Integer.MAX_VALUE/2))%size;
-        if(realPoi<0)
+
+        int realPoi=position;
+        if(isLoop)
         {
-            realPoi=realPoi+size;
+            realPoi=(position-(Integer.MAX_VALUE/2))%size;
+            if(realPoi<0)
+            {
+                realPoi=realPoi+size;
+            }
         }
+
         if(sparseArray.get(position)!=null && sparseArray.get(position).get()!=null)
         {
             return sparseArray.get(position).get();
@@ -54,17 +62,32 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        if(isLoop)
+        {
+            return Integer.MAX_VALUE;
+        }
+        else
+        {
+            return size;
+        }
+
     }
 
     public int getRealPosition(int position)
     {
-        int realPoi=(position-(Integer.MAX_VALUE/2))%size;
-        if(realPoi<0)
+        if(isLoop)
         {
-            realPoi=realPoi+size;
+            int realPoi=(position-(Integer.MAX_VALUE/2))%size;
+            if(realPoi<0)
+            {
+                realPoi=realPoi+size;
+            }
+            return realPoi;
         }
-        return realPoi;
+        else
+        {
+            return position;
+        }
     }
 
 
