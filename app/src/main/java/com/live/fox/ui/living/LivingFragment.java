@@ -1,5 +1,6 @@
 package com.live.fox.ui.living;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,9 +39,11 @@ import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.PlayerUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.TimeCounter;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
 import com.tencent.imsdk.v2.V2TIMCallback;
@@ -451,8 +454,27 @@ public class LivingFragment extends BaseBindingFragment {
                     "", 0, new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
-                            if (mLivePlayer != null && enterRoomBean != null && !TextUtils.isEmpty(enterRoomBean.getPullStreamUrl())) {
-                                mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
+                            if (mLivePlayer != null && enterRoomBean != null ) {
+
+                                if(!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()))
+                                {
+                                    if(!PlayerUtils.checkPlayUrl(enterRoomBean.getPullStreamUrl(),getActivity()))
+                                    {
+                                        return;
+                                    }
+
+                                    //是否真实直播间(0虚拟 1真实)
+                                    switch (enterRoomBean.getIsReal())
+                                    {
+                                        case 0:
+                                            mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), PlayerUtils.getVideoType(enterRoomBean.getPullStreamUrl()));
+                                            break;
+                                        case 1:
+                                            mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), PlayerUtils.getVideoType(enterRoomBean.getPullStreamUrl()));
+                                            break;
+                                    }
+
+                                }
                             }
                         }
                     });
@@ -575,4 +597,5 @@ public class LivingFragment extends BaseBindingFragment {
                     }
                 });
     }
+
 }

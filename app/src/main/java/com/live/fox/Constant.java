@@ -135,6 +135,7 @@ public class Constant {
         public static final String AUTH_DETERPWD_URL = CenterClient + "/sys/user/determine/pwd";//判断是否设置密码
         public static final String AUTH_ISREGISTE_URL = CenterClient + "/sys/user/phone/isRegiste";//判断手机号是否注册接口
         public static final String UPLOAD_USER_PGOTO_URL = "/config-client/file/uploadFileAvatar";//上传头像文件接口；
+        public static final String UPLOAD_BG_LIVING_ROOM = "/config-client/file/uploadFileCover";//oss上传直播间封面；
 
         public static final String NOTICE_URL = "/config-client/notice/systemNoticesByType";
         public static final String ACT_URL = "/pk-client/activity/activityListByCategory";

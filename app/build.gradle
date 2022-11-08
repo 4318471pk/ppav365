@@ -494,7 +494,7 @@ dependencies {
     implementation 'com.tencent.jg:jg:1.1'
     implementation 'com.tencent.tpns:tpns:1.2.6.0-release'
     implementation 'com.tencent.liteavsdk:LiteAVSDK_Smart:9.4.10921'
-    implementation 'com.tencent.imsdk:imsdk-plus:5.8.1668'
+    implementation 'com.tencent.imsdk:imsdk-plus:6.7.3184'
     implementation 'com.tencent.tpns:fcm:1.2.3.1-release'
 
     //FireBase

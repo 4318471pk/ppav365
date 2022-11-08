@@ -10,7 +10,16 @@ public class EnterRoomBean {
     private int uid;
     private int level;
     private int isRoomPreview;
+    private int isReal;
     private boolean roomManager;
+
+    public int getIsReal() {
+        return isReal;
+    }
+
+    public void setIsReal(int isReal) {
+        this.isReal = isReal;
+    }
 
     public String getPullStreamUrl() {
         return pullStreamUrl;

@@ -952,4 +952,14 @@ public class Api_User extends BaseApi {
 
     }
 
+    public void uploadLivingRoomPicture(File file, JsonCallback<String> callback ){
+        String url = SPManager.getServerDomain() + Constant.URL.UPLOAD_BG_LIVING_ROOM;
+        OkGo.<String>post(url)
+                .tag(this)
+                .headers(getCommonHeaders(System.currentTimeMillis()))
+                .params("myFile", file)
+                .isMultipart(true)
+                .execute(callback);
+    }
+
 }

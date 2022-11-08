@@ -127,12 +127,15 @@ public class UserDetailActivity extends BaseActivity  {
                     }
                     break;
                 case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
-                    String pic = data.getStringExtra("data");
-                    mUser.setAvatar(pic);
-                    GlideUtils.loadImage(this, pic, mBind.ivHeader);
-                    showToastTip(true, getString(R.string.modifySuccess));
+                    if(data!=null && data.getStringExtra(ConstantValue.pictureOfUpload)!=null)
+                    {
+                        File file=new File(data.getStringExtra(ConstantValue.pictureOfUpload));
+                        if(file!=null && file.exists())
+                        {
+                            updateFile(file);
+                        }
+                    }
                     break;
-
             }
         }
     }
@@ -513,5 +516,39 @@ public class UserDetailActivity extends BaseActivity  {
 
 
 
+    private void updateFile(File file){
+        showLoadingDialog();
+        Api_User.ins().uploadUserPhoto(file, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == 0 && data != null) {
+                    modifyUser(data, 1);
+                } else {
+                    showToastTip(true, msg);
+                }
 
+            }
+        });
+
+    }
+
+
+    private void modifyUser(String picUrl, int type){
+        User user = new User();
+        user.setAvatar(picUrl);
+        Api_User.ins().modifyUserInfo(user, type, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if(code==0) {
+                    mUser.setAvatar(picUrl);
+                    GlideUtils.loadImage(UserDetailActivity.this, picUrl, mBind.ivHeader);
+                    showToastTip(true, getString(R.string.modifySuccess));
+                } else {
+                    showToastTip(true, msg);
+                }
+            }
+        });
+    }
 }

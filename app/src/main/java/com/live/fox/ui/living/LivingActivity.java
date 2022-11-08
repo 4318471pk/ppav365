@@ -36,6 +36,7 @@ import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.utils.BarUtils;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
@@ -64,6 +65,10 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
+        if(ClickUtil.isClickWithShortTime(LivingActivity.class.hashCode(),1000))
+        {
+            return;
+        }
         Intent intent=new Intent(context,LivingActivity.class);
         ArrayList<RoomListBean> listBeans=new ArrayList<>();
         for (RoomListBean bean:roomListBeans) {

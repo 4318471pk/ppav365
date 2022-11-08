@@ -301,7 +301,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
                     {
                         LocalMedia localMedia = selectList.get(0);
                         LogUtils.e("图片-----》" + localMedia.getPath());
-                        EditProfileImageActivity.startActivity(this,localMedia.getPath());
+//                        EditProfileImageActivity.startActivity(this,localMedia.getPath());
                     }
                     // 例如 LocalMedia 裏面返回三種path
                     // 1.media.getPath(); 為原圖path

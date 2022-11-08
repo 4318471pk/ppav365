@@ -150,80 +150,16 @@ public class EditProfileImageActivity extends BaseActivity {
 
                     PictureFileUtils.saveBitmapToPNGFile(bitmap,pic,80);
                     LogUtils.e("上传头像地址：" + pic.getAbsolutePath());
-                    updateFile(pic);
 
-
+                    Intent intent=new Intent();
+                    intent.putExtra(ConstantValue.pictureOfUpload,pic.toString());
+                    setResult(RESULT_OK,intent);
+                    finish();
                 }
             }
         });
     }
 
-    private void uploadPic()
-    {
-        showLoadingDialog();
-                    Api_Config.ins().getOssToken(new JsonCallback<OssToken>() {
-                        @Override
-                        public void onSuccess(int code, String msg, OssToken ossToken) {
-                            if (ossToken != null) LogUtils.e(ossToken.toString());
-                            if (code == 0) {
-                                if (ossToken != null) {
-//                                    //开启线程
-//                                    new Thread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            uploadImage(ossToken);
-//                                        }
-//                                    }).start();
-                                } else {
-                                    hideLoadingDialog();
-                                    showToastTip(false, getString(R.string.configurationInformation));
-                                }
-                            } else {
-                                showToastTip(false, getString(R.string.fuwuInformation));
-                                hideLoadingDialog();
-                            }
-                        }
-                    });
-    }
-
-    private void updateFile(File file){
-        showLoadingDialog();
-        Api_User.ins().uploadUserPhoto(file, new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                hideLoadingDialog();
-                if (code == 0 && data != null) {
-                    modifyUser(data, 1);
-                } else {
-                    showToastTip(true, msg);
-                }
-
-            }
-        });
-
-    }
-
-
-    private void modifyUser(String picUrl, int type){
-        User user = new User();
-        user.setAvatar(picUrl);
-        Api_User.ins().modifyUserInfo(user, type, new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                hideLoadingDialog();
-                if(code==0) {
-                    Intent intent = new Intent();
-                    intent.setClass(EditProfileImageActivity.this, UserDetailActivity.class);
-                    intent.putExtra("data", picUrl);
-                    setResult(RESULT_OK, intent);
-                    onBackPressed();
-                } else {
-                    showToastTip(true, msg);
-                }
-            }
-
-        });
-    }
 //    public void uploadImage(OssToken ossToken) {
 //        if (oss == null) {
 //            OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossToken.getKey(), ossToken.getSecret(), ossToken.getToken());
