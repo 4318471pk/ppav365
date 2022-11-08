@@ -14,6 +14,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,7 +108,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     public void initView() {
         setWindowsFlag();
-        AppIMManager.ins().addMessageListener(LivingActivity.class, this);
+
 
         roomListBeans=getIntent().getParcelableArrayListExtra(RoomList);
         mBind=getViewDataBinding();
@@ -240,6 +241,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
 
+        AppIMManager.ins().addMessageListener(LivingActivity.class, this);
 //        showFirstTimeTopUpDialog();
 //        showContactCardDialog();
 //        showFreeRoomToPrepaidRoom();
@@ -293,6 +295,15 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     public void onIMReceived(int protocol, String msg) {
         LogUtils.e(protocol + ", onIMReceived msg : " + msg);
+
+        if(livingFragmentStateAdapter!=null )
+        {
+            LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(mBind.vp2.getCurrentItem());
+            if(livingFragment!=null)
+            {
+                livingFragment.onNewMessageReceived(protocol,msg);
+            }
+        }
     }
 
     public interface DialogListener
@@ -373,10 +384,15 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setAndroidNativeLightStatusBar(this, true);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 //        setFullscreen(true, true);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);
+    }
 }

@@ -21,6 +21,12 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.CommonDialog;
 import com.live.fox.entity.BaseInfo;
 import com.live.fox.entity.CountryCode;
+import com.live.fox.entity.GiftResourceBean;
+import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.SendGiftResourceBean;
+import com.live.fox.entity.UserGuardResourceBean;
+import com.live.fox.entity.UserLevelResourceBean;
+import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.svga.AdmissionManager;
 import com.live.fox.svga.BadgesManager;
@@ -31,6 +37,7 @@ import com.live.fox.server.Api_Auth;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Promotion;
 import com.live.fox.server.Api_User;
+import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
@@ -39,6 +46,9 @@ import com.live.fox.utils.okgo.OkGoHttpUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -141,6 +151,7 @@ public class SplashPresenter {
                 .subscribe(granted -> {
                     if (granted) {  // 所有权限都同意
                         doBaseApi();
+                        getResourceList();
                     } else {    // 有的权限被拒绝或被勾选不再提示
                         LogUtils.e("有的权限被拒绝");
                         showAlertDialog(context.getString(R.string.smqx),
@@ -278,6 +289,55 @@ public class SplashPresenter {
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 LogUtils.e("doBaseApi onFailure: " + call.request().url() + "   " + t.getMessage());
+            }
+        });
+    }
+
+
+    /**
+     * 获取APP内的资源
+     *
+     */
+    private void getResourceList()
+    {
+        Api_Config.ins().getAPPResource(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(code==0 && !TextUtils.isEmpty(data))
+                {
+                    try {
+                        JSONObject jsonObject=new JSONObject(data);
+                        Gson gson = new Gson();
+                        String levelUserList=jsonObject.optString("levelUserList","");
+                        String levelVipList=jsonObject.optString("levelVipList","");
+                        String levelGuardList=jsonObject.optString("levelGuardList","");
+                        String propList=jsonObject.optString("propList","");
+                        String mountList=jsonObject.optString("mountList","");
+                        String settingList=jsonObject.optString("settingList","");
+
+                        Type userLevel = new TypeToken<List<UserLevelResourceBean>>() {}.getType();
+                        List<UserLevelResourceBean> userLevelResourceBeans= gson.fromJson(levelUserList,userLevel);
+
+                        Type userTag = new TypeToken<List<UserTagResourceBean>>() {}.getType();
+                        List<UserTagResourceBean> userTagResourceBeans= gson.fromJson(levelVipList,userTag);
+
+                        Type userGuard = new TypeToken<List<UserGuardResourceBean>>() {}.getType();
+                        List<UserGuardResourceBean> userGuardResourceBeans= gson.fromJson(levelGuardList,userGuard);
+
+                        Type gift = new TypeToken<List<GiftResourceBean>>() {}.getType();
+                        List<GiftResourceBean> giftResourceBeans= gson.fromJson(propList,gift);
+
+                        Type mount = new TypeToken<List<MountResourceBean>>() {}.getType();
+                        List<MountResourceBean> mountResourceBeans= gson.fromJson(mountList,mount);
+
+                        Type sendGift = new TypeToken<List<SendGiftResourceBean>>() {}.getType();
+                        List<SendGiftResourceBean> sendGiftResourceBeans= gson.fromJson(settingList,sendGift);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

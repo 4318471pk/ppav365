@@ -284,6 +284,7 @@ public class LivingControlPanel extends RelativeLayout {
 
     private void sendMessage()
     {
+        mBind.gtvSend.setEnabled(false);
         String msg=mBind.etDiaMessage.getText().toString();
         if(TextUtils.isEmpty(msg))
         {
@@ -293,6 +294,8 @@ public class LivingControlPanel extends RelativeLayout {
             @Override
             public void onSuccess(int code, String msg, String result) {
                 Log.e("sendMessage",code+" "+msg);
+                mBind.etDiaMessage.setText("");
+                mBind.gtvSend.setEnabled(true);
             }
         });
     }

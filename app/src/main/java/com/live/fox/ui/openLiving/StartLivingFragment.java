@@ -36,6 +36,7 @@ import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Pay;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.CountTimerUtil;
 import com.live.fox.utils.KeyboardUtils;
@@ -54,7 +55,7 @@ import java.util.List;
 
 import static com.tencent.rtmp.TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
 
-public class StartLivingFragment extends BaseBindingFragment {
+public class StartLivingFragment extends BaseBindingFragment implements AppIMManager.OnMessageReceivedListener{
 
     FragmentStartLivingBinding mBind;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
@@ -137,9 +138,11 @@ public class StartLivingFragment extends BaseBindingFragment {
             @Override
             public void onFinish() {
                 mBind.llTopView.setVisibility(View.VISIBLE);
+                AppIMManager.ins().addMessageListener(StartLivingFragment.class, StartLivingFragment.this);
                 OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
                 openLivingActivity.startRTMPPush();
                 checkAndJoinIM();
+
             }
         });
     }
@@ -216,5 +219,10 @@ public class StartLivingFragment extends BaseBindingFragment {
 //        LiveFinishActivity.startActivity(getActivity(), anchor, finishTip, isKick);
         openLivingActivity.stopRTMPPush();
         //游戏退出
+    }
+
+    @Override
+    public void onIMReceived(int protocol, String msg) {
+        sendSystemMsgToChat(msg);
     }
 }

@@ -157,6 +157,15 @@ public class Api_Config extends BaseApi {
         doGetHeaders(stringBuilder.toString(), callback);
     }
 
+    /**
+     * 获取所需要的动画 图片之类的东西
+     * 1.用户等级2.贵族等级3守护等级4礼物资源5坐骑资源6送礼列表,不填就是全部数据 category
+     */
+    public void getAPPResource(JsonCallback<String> jsonCallback) {
+        String url = getBaseServerDomain() + Constant.URL.BaseResource;
+        doGetHeaders(url, jsonCallback);
+    }
+
 
     /**
      * 主播标签

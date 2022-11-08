@@ -206,8 +206,6 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
         if (Constant.isOpenWindow) {
             AppIMManager.ins().removeMessageReceivedListener(PlayLiveActivity.class);
             Constant.isOpenWindow = false;
-            CommonApp.isFloatWindowClick = true;
-            CommonApp.getInstance().getFloatView().addToWindow(false, ActivityUtils.getTopActivity());
             PlayLiveActivity.startActivity(ActivityUtils.getTopActivity(), Constant.windowAnchor);
         }
     }
@@ -244,7 +242,6 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
         if (Constant.isShowWindow) {
             ivCloseWindow.setVisibility(View.VISIBLE);
             Constant.isOpenWindow = true;//是否开启小窗口
-            CommonApp.getInstance().getFloatView().setContentView(videoFrameLayout);
         }
     }
 
@@ -257,7 +254,6 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
         if (Constant.windowAnchor != null) {
             AppIMManager.ins().loginOutGroup(String.valueOf(Constant.windowAnchor.getLiveId()));
         }
-        CommonApp.getInstance().getFloatView().addToWindow(false, ActivityUtils.getTopActivity());
         WindowUtils.closeWindowResource(PlayLiveActivity.class);
     }
 
@@ -496,7 +492,6 @@ public class VideoFragment extends Fragment implements ITXLivePlayListener, View
         super.onResume();
         mTXCloudVideoView.onResume();
         if (Constant.isOpenWindow) {
-            CommonApp.getInstance().getFloatView().restoreContentView();
             ivCloseWindow.setVisibility(View.GONE);
         }
     }

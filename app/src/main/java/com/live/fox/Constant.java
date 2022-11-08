@@ -58,7 +58,6 @@ public class Constant {
     public static final String LOCAL_NOTIFICATION_TITLE = "localtest";
 
     //关于app
-    public static String aboutAppUrl;
     public static Anchor windowAnchor;
     public static boolean isPK = false;
     public static TXLivePlayer mTXLivePlayer;
@@ -71,6 +70,7 @@ public class Constant {
         public static final String BASE = "/config-client/base";
         public static final String BASE_baseinfo_URL = BASE + "/baseInfo";        //基础信息
         public static final String BaseInfoWithToken=BASE+"/baseInfo/Auth";//基础信息需要验证
+        public static final String BaseResource="/config-client/base/baseInfo/resource";//基础资源信息
         public static final String BASE_ossToken_URL = BASE + "/ossToken";        //oss上传凭证
         public static final String BASE_version_URL = BASE + "/version";          //版本信息
         public static final String USER_getbanklist_URL = "/config-client/config-client/base/userBankList";        // 得到银行信息

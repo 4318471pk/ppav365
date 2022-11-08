@@ -266,6 +266,10 @@ public class LivingFragment extends BaseBindingFragment {
     }
 
     private void addNewMessage(LivingMsgBoxBean bean) {
+        if(!isActivityOK())
+        {
+            return;
+        }
         if (livingMsgBoxAdapter == null) {
             livingMsgBoxAdapter = new LivingMsgBoxAdapter(getContext(), livingMsgBoxBeans);
             livingControlPanel.mBind.msgBox.setAdapter(livingMsgBoxAdapter);
@@ -598,4 +602,9 @@ public class LivingFragment extends BaseBindingFragment {
                 });
     }
 
+
+    public void onNewMessageReceived(int protocol, String msg)
+    {
+        sendSystemMsgToChat(msg);
+    }
 }

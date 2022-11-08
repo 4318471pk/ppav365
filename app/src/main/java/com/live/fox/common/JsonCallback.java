@@ -114,8 +114,13 @@ public abstract class JsonCallback<T> extends StringCallback {
 
     @Override
     public void onError(Response<String> response) {
-        String url=response.getRawCall().request().url().toString();
-        LogUtils.e(url+" "+response.message() + "," + response.getException().getMessage());
+
+        if(response.getRawCall()!=null )
+        {
+            String url=response.getRawCall().request().url().toString();
+            LogUtils.e(url+" "+response.message() + "," + response.getException().getMessage());
+        }
+
         String responseMsg = response.message();
         if (response.code() != 0 && StringUtils.isEmpty(responseMsg)) {
             responseMsg = CommonApp.getInstance().getString(R.string.dataWrong) + "(" + response.code() + ")";

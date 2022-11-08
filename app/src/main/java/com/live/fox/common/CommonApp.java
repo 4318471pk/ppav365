@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,7 +16,6 @@ import android.view.Gravity;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.firebase.FirebaseApp;
 import com.live.fox.AppConfig;
 import com.live.fox.BuildConfig;
@@ -33,12 +33,16 @@ import com.live.fox.windowmanager.FFloatView;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.wanjian.cockroach.Cockroach;
 
+import org.greenrobot.greendao.database.Database;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import app.resource.db.DaoMaster;
+import app.resource.db.DaoSession;
 import cn.net.shoot.sharetracesdk.ShareTrace;
 
 /**
@@ -51,16 +55,14 @@ public class CommonApp extends MultiDexApplication {
     public static boolean isNotificationClicked;   //点击了通知栏
 
     private static CommonApp sInstance;
-    public static boolean isFloatWindowClick = false;
-
     public static CommonApp getInstance() {
         return sInstance;
     }
 
     public static long S_COUNTDOWNa = 0;
     public static String LOTERNAME = "";
-    public FFloatView mFloatView;
     public static PhoneStateListener mPhoneListener = null;
+    DaoSession mDaoSession;
 
     @Override
     public void onCreate() {
@@ -82,55 +84,13 @@ public class CommonApp extends MultiDexApplication {
         if (Constant.isCarsh) initCrash();   //异常捕获初始化
         LogUtils.getConfig().setLogSwitch(Constant.isShowLog); //LogUtils日志是否打印到控制台
 
-        String shareTraceKey;
-        String shareDomain;
-        switch (BuildConfig.AppFlavor) {
-            case "MMLive":  //MM_live
-            default:
-                shareTraceKey = "784b6957e877d45a";
-                shareDomain = "https://www.ggc5tc66.com";
-                Constant.aboutAppUrl = "http://mmlive.com";
-                break;
-
-            case "QQLive": //QQ_live
-                shareTraceKey = "9a7b79a5969d5c2b";
-                shareDomain = "https://www.ggc5tc66.com";
-                Constant.aboutAppUrl = "http://QQLive.com";
-                break;
-
-            case "AiAi":  //AiAi_live
-                Constant.aboutAppUrl = "https://aiai-live.com";
-                shareDomain = "https://www.aiaisharetrace.com";
-                shareTraceKey = "8a9d89095f7c043f";
-                break;
-
-            case "Live24":  //24_live
-                Constant.aboutAppUrl = "http://www.24live8.com";
-                shareDomain = "https://www.aiaisharetrace.com";
-                shareTraceKey = "7850587a6e67f48a";
-                break;
-
-            case "ThiLive":  //Thi_live
-                Constant.aboutAppUrl = "https://www.thlive-stream1.com";
-                shareDomain = "https://www.ggc5tc66.com";
-                shareTraceKey = "67ca51e2455d695f";
-                break;
-        }
-
-//        ShareTrace.init(this, shareTraceKey);
-//        ShareTrace.setServerDomain(shareDomain);
         GlideUtils.defaultErrorImg = R.drawable.img_default;
         GlideUtils.defaultPlaceImg = R.drawable.img_default;
 
-        Fresco.initialize(this);
         initBugly();
+        initSQL();
     }
 
-    public FFloatView getFloatView() {
-        if (mFloatView == null)
-            mFloatView = new FFloatView(sInstance);
-        return mFloatView;
-    }
 
     /**
      * 应用程序是否运行在前台
@@ -298,4 +258,17 @@ public class CommonApp extends MultiDexApplication {
         }
         return strs;
     }
+
+    private void initSQL()
+    {
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(this,"resource.db");
+        Database sqLiteDatabase = devOpenHelper.getEncryptedReadableDb("1ad63^m*()-&%$");
+        DaoMaster daoMaster = new DaoMaster(sqLiteDatabase);
+        mDaoSession = daoMaster.newSession();
+    }
+
+    public DaoSession getDaoSession() {
+        return mDaoSession;
+    }
+
 }
