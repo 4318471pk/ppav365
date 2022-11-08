@@ -107,11 +107,15 @@ public class PictureCropView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int w = getWidth();
+        int h = getHeight();
         if (mCannotTouchRect == null) {
-            mCannotTouchRect = new RectF(getWidth() / 2 - mRadius, getHeight() / 2 - mRadius, getWidth() / 2 + mRadius, getHeight() / 2 + mRadius);
+            mCannotTouchRect = new RectF(w / 2 - mRadius, h / 2 - mRadius, w / 2 + mRadius, getHeight() / 2 + mRadius);
         }
         if (mCropBitmap != null) {
-            canvas.drawBitmap(mCropBitmap, getWidth() / 2 - mRadius, getHeight() / 2 - mRadius, null);
+            int left = w / 2 - mRadius;
+            int top = h / 2 - mRadius;
+            canvas.drawBitmap(mCropBitmap, left, top, null);
             return;
         }
         if (mPicture == null) {

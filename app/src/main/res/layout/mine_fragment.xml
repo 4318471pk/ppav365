@@ -117,6 +117,7 @@
                                 app:strokeWidth="2dp" />
 
                             <ImageView
+                                android:visibility="gone"
                                 android:id="@+id/iv_geren"
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
@@ -132,6 +133,8 @@
                         </RelativeLayout>
 
                         <LinearLayout
+                            android:id="@+id/layoutUserInfo"
+                            android:onClick="@{click.onClickView}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"

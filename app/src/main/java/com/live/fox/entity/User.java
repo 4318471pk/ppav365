@@ -73,7 +73,7 @@ public class User implements Serializable {
     private int isCertified; //是否已认证：0未认证 1已认证
     private int userExp;//用户经验
     private String vipName; //	贵族靓号
-    private String job;
+    private int job = -1;
 
     public String getBirthday() {
         return birthday;
@@ -87,11 +87,11 @@ public class User implements Serializable {
 
 
 
-    public String getJob() {
+    public int getJob() {
         return job;
     }
 
-    public void setJob(String job) {
+    public void setJob(int job) {
         this.job = job;
     }
 
