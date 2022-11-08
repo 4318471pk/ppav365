@@ -11,6 +11,9 @@ import app.resource.db.UserTagResourceBeanDao;
 public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceBean> {
 
     private static LocalUserTagResourceDao localUserTagDao;
+    private boolean isAvailable=true;
+    ResourceDataListener resourceDataListener;
+
     public static LocalUserTagResourceDao getInstance()
     {
         if(localUserTagDao==null)
@@ -20,13 +23,22 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
         return localUserTagDao;
     }
 
+    public void setResourceDataListener(ResourceDataListener resourceDataListener) {
+        this.resourceDataListener = resourceDataListener;
+        if(isAvailable)
+        {
+            resourceDataListener.onDataInsertDone(true);
+        }
+    }
+
     @Override
     public void insertOrReplaceList(List<UserTagResourceBean> list) {
-        if(null==list){
+        if(null==list || !isAvailable){
             return;
         }
 
         try{
+            isAvailable=false;
             CommonApp.getInstance().getDaoSession().runInTx(new Runnable() {
                 @Override
                 public void run() {
@@ -69,11 +81,15 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
 
                     deleteAll();
                     CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().insertOrReplaceInTx(list);
+                    isAvailable=true;
+                    resourceDataListener.onDataInsertDone(true);
                 }
             });
         }
         catch (Exception exception){
             LogUtils.e(exception.toString());
+            isAvailable=true;
+            resourceDataListener.onDataInsertDone(true);
         }
     }
 

@@ -18,6 +18,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.lahm.library.EasyProtectorLib;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.db.LocalGiftDao;
+import com.live.fox.db.LocalMountResourceDao;
+import com.live.fox.db.LocalSendGiftDao;
+import com.live.fox.db.LocalUserGuardDao;
+import com.live.fox.db.LocalUserLevelDao;
+import com.live.fox.db.LocalUserTagResourceDao;
 import com.live.fox.dialog.CommonDialog;
 import com.live.fox.entity.BaseInfo;
 import com.live.fox.entity.CountryCode;
@@ -317,22 +323,27 @@ public class SplashPresenter {
 
                         Type userLevel = new TypeToken<List<UserLevelResourceBean>>() {}.getType();
                         List<UserLevelResourceBean> userLevelResourceBeans= gson.fromJson(levelUserList,userLevel);
+                        LocalUserLevelDao.getInstance().insertOrReplaceList(userLevelResourceBeans);
 
                         Type userTag = new TypeToken<List<UserTagResourceBean>>() {}.getType();
                         List<UserTagResourceBean> userTagResourceBeans= gson.fromJson(levelVipList,userTag);
+                        LocalUserTagResourceDao.getInstance().insertOrReplaceList(userTagResourceBeans);
 
                         Type userGuard = new TypeToken<List<UserGuardResourceBean>>() {}.getType();
                         List<UserGuardResourceBean> userGuardResourceBeans= gson.fromJson(levelGuardList,userGuard);
+                        LocalUserGuardDao.getInstance().insertOrReplaceList(userGuardResourceBeans);
 
                         Type gift = new TypeToken<List<GiftResourceBean>>() {}.getType();
                         List<GiftResourceBean> giftResourceBeans= gson.fromJson(propList,gift);
+                        LocalGiftDao.getInstance().insertOrReplaceList(giftResourceBeans);
 
                         Type mount = new TypeToken<List<MountResourceBean>>() {}.getType();
                         List<MountResourceBean> mountResourceBeans= gson.fromJson(mountList,mount);
+                        LocalMountResourceDao.getInstance().insertOrReplaceList(mountResourceBeans);
 
                         Type sendGift = new TypeToken<List<SendGiftResourceBean>>() {}.getType();
                         List<SendGiftResourceBean> sendGiftResourceBeans= gson.fromJson(settingList,sendGift);
-
+                        LocalSendGiftDao.getInstance().insertOrReplaceList(sendGiftResourceBeans);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
