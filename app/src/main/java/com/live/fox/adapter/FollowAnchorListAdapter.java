@@ -78,5 +78,29 @@ public class FollowAnchorListAdapter<T> extends BaseQuickAdapter<T, BaseViewHold
         gtvUnitPrice.setText(spUtils.create());
 
         tvAnchorPaymentType.setText(context.getResources().getString(R.string.payByEachShow));
+
+//        //1普通房间2密码房间3计时房间4贵族房间5计场房间
+//        switch (data.getRoomType())
+//        {
+//            case 1:
+//            case 2:
+//            case 4:
+//                tvAnchorPaymentType.setVisibility(View.GONE);
+//                gtvUnitPrice.setVisibility(View.GONE);
+//                break;
+//            case 3:
+//                tvAnchorPaymentType.setVisibility(View.VISIBLE);
+//                tvAnchorPaymentType.setText(context.getString(R.string.charge_on_time));
+//                gtvUnitPrice.setVisibility(View.VISIBLE);
+//                break;
+//            case 5:
+//                tvAnchorPaymentType.setVisibility(View.VISIBLE);
+//                tvAnchorPaymentType.setText(context.getString(R.string.charge_per_site));
+//                gtvUnitPrice.setVisibility(View.VISIBLE);
+//                break;
+//            default:
+//                tvAnchorPaymentType.setVisibility(View.GONE);
+//                gtvUnitPrice.setVisibility(View.GONE);
+//        }
     }
 }

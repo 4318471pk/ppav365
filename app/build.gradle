@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'bugly'
+apply plugin: 'org.greenrobot.greendao'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -75,6 +76,13 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    greendao {
+        schemaVersion 1 //数据库版本号
+        daoPackage 'app.resource.db'
+        targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
+        generateTests false //设置为true以自动生成单元测试。
     }
 
 //    buildFeatures {  //DataBinding 数据绑定
@@ -483,7 +491,7 @@ dependencies {
     implementation 'com.github.AndyAls:QPopuWindow:v2.0.0'
     //https://github.com/yanzhenjie/SwipeRecyclerView
     implementation 'com.yanzhenjie:recyclerview-swipe:1.2.0'
-    implementation 'com.facebook.fresco:fresco:1.5.0'
+//    implementation 'com.facebook.fresco:fresco:1.5.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
     implementation 'com.lzy.net:okgo:3.0.4'
@@ -494,7 +502,7 @@ dependencies {
     implementation 'com.tencent.jg:jg:1.1'
     implementation 'com.tencent.tpns:tpns:1.2.6.0-release'
     implementation 'com.tencent.liteavsdk:LiteAVSDK_Smart:9.4.10921'
-    implementation 'com.tencent.imsdk:imsdk-plus:5.8.1668'
+    implementation 'com.tencent.imsdk:imsdk-plus:6.7.3184'
     implementation 'com.tencent.tpns:fcm:1.2.3.1-release'
 
     //FireBase
@@ -552,6 +560,11 @@ dependencies {
     //超级tablayout库  无混淆
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
+    //自适应Textview
     implementation 'me.grantland:autofittextview:0.2.1'
+    //回弹
     implementation 'com.facebook.rebound:rebound:0.3.8'
+    //数据库
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
 }

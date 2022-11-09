@@ -435,7 +435,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         }
     }
 
-    private void stopRTMPPush() {
+    public void stopRTMPPush() {
         if (mLivePusher != null) {
             // 停止BGM
             mLivePusher.stopBGM();

@@ -1749,12 +1749,6 @@ public class AnchorLiveActivity extends BaseActivity implements
     }
 
     @Override
-    public void addToWindow(boolean add) {
-        Constant.windowAnchor = null;
-        CommonApp.getInstance().getFloatView().addToWindow(false,this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 

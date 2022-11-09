@@ -34,5 +34,6 @@ public interface ConstantValue {
     public static final String ACCESS_KEY = "ACCESS_KEY";
     public static final String shareUrl = "shareUrl";
     public static final String NOTIFICATION_IS_SHOWED = "notification is showed";
+    public static final String pictureOfUpload="pictureOfUpload";
     String resourceDomain="resourceDomain";//资源域名
 }

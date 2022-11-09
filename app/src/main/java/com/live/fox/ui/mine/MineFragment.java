@@ -364,9 +364,10 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             case R.id.mine_set:
                 SettingActivity.startActivity(getActivity());
                 break ;
-            case R.id.iv_geren: //个人信息
-                EditUserInfoActivity.startActivity(requireActivity(), userinfo.getPhone());
-                break;
+            case R.id.layoutUserInfo:
+//            case R.id.iv_geren: //个人信息
+//                EditUserInfoActivity.startActivity(requireActivity(), userinfo.getPhone());
+//                break;
             case R.id.mine_message: //我的消息
                 MessageActivity.startActivity(requireActivity());
                 break;

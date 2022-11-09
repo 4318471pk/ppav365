@@ -444,6 +444,22 @@
 -keep class com.squareup.wire.** { *; }
 -keep class com.opensource.svgaplayer.proto.** { *; }
 
+#GreenDAO
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties { *; }
+
+# If you DO use SQLCipher:
+-keep class org.greenrobot.greendao.database.SqlCipherEncryptedHelper { *; }
+-keep class net.sqlcipher.** { *; }
+-keep class net.sqlcipher.database.* { *; }
+
+# If you do NOT use SQLCipher:
+-dontwarn net.sqlcipher.database.**
+# If you do NOT use RxJava:
+-dontwarn rx.**
+
 # BaseRecyclerViewAdapterHelper
 -keep class com.chad.library.adapter.** {
 *;

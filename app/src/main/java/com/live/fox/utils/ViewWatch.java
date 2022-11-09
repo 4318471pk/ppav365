@@ -35,6 +35,7 @@ public class ViewWatch {
     int screenHeight = 0;
     int screenWidth = 0;
     int mBot = 0;
+    ViewTreeObserver.OnGlobalLayoutListener listener;
 
     public void watchView(LivingActivity activity, ControlPanelLivingBinding mbind) {
         this.activity = activity;
@@ -53,7 +54,7 @@ public class ViewWatch {
                 return false;
             }
         });
-        mbind.rlBotView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        listener=new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 if (windowDefaultVisibleHeight == 0) {
@@ -83,7 +84,13 @@ public class ViewWatch {
 
                 }
             }
-        });
+        };
+        mbind.rlBotView.getViewTreeObserver().addOnGlobalLayoutListener(listener);
+    }
+
+    public void onDestroy()
+    {
+        mBind.rlBotView.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
     }
 
 

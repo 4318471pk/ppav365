@@ -375,13 +375,11 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     @Override
     protected void onResume() {
         super.onResume();
-        addToWindow(true);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        addToWindow(false);
     }
 
     @Override
@@ -389,22 +387,5 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
         super.onStart();
         ActivityManager.getInstance().onStart(this);
     }
-
-
-
-    public void addToWindow(boolean add) {
-        if (add) {
-            if (Constant.isShowWindow && Constant.windowAnchor != null) {
-                CommonApp.getInstance().getFloatView().addToWindow(true, this);
-            }
-        } else {
-            if (Constant.isShowWindow && !Constant.isAppInsideClick) {
-                CommonApp.getInstance().getFloatView().addToWindow(false, this);
-            } else {
-                Constant.isAppInsideClick = false;
-            }
-        }
-    }
-
 
 }

@@ -1091,7 +1091,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
 
         mChatPanelView.changeStata(1);
 
-        Api_Live.ins().chat(anchor.getLiveId(), msg, preview, new JsonCallback<String>() {
+        Api_Live.ins().sendMessage(anchor.getLiveId()+"", msg, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String result) {
                 LogUtils.i("sendChatMsg：preview-->" + preview);

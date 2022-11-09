@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.live.fox.AnchorLiveActivity;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
@@ -24,6 +25,7 @@ import com.live.fox.entity.ConfigPathsBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_User;
 import com.live.fox.ui.openLiving.OpenLivingActivity;
 import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
 import com.live.fox.utils.LogUtils;
@@ -81,6 +83,16 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         LocalMedia localMedia = selectList.get(0);
                         LogUtils.e("图片-----》" + localMedia.getPath());
                         EditProfileImageActivity.startActivity(this,EditProfileImageActivity.Square,localMedia.getPath());
+                    }
+                    break;
+                case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
+                    if(data!=null && data.getStringExtra(ConstantValue.pictureOfUpload)!=null)
+                    {
+                        File file=new File(data.getStringExtra(ConstantValue.pictureOfUpload));
+                        if(file!=null && file.exists())
+                        {
+                            uploadBGOfLivingRoom(file);
+                        }
                     }
                     break;
             }
@@ -237,6 +249,22 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                                 data.get(0).getLicenceUrl(),data.get(0).getLicenceKey()
                                 );
                     }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    private void uploadBGOfLivingRoom(File file)
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_User.ins().uploadLivingRoomPicture(file, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == Constant.Code.SUCCESS) {
+                    Log.e("uploadBGOfLivingRoom",data);
                 } else {
                     ToastUtils.showShort(msg);
                 }

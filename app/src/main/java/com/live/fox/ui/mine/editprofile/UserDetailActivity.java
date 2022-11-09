@@ -81,6 +81,7 @@ public class UserDetailActivity extends BaseActivity  {
     User mUser;
 
     List<String> listJob = new ArrayList<>();
+    List<String> listGq = new ArrayList();
 
 
     public static void startActivity(Context context, long uid) {
@@ -127,12 +128,15 @@ public class UserDetailActivity extends BaseActivity  {
                     }
                     break;
                 case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
-                    String pic = data.getStringExtra("data");
-                    mUser.setAvatar(pic);
-                    GlideUtils.loadImage(this, pic, mBind.ivHeader);
-                    showToastTip(true, getString(R.string.modifySuccess));
+                    if(data!=null && data.getStringExtra(ConstantValue.pictureOfUpload)!=null)
+                    {
+                        File file=new File(data.getStringExtra(ConstantValue.pictureOfUpload));
+                        if(file!=null && file.exists())
+                        {
+                            updateFile(file);
+                        }
+                    }
                     break;
-
             }
         }
     }
@@ -190,6 +194,13 @@ public class UserDetailActivity extends BaseActivity  {
         listJob.add(getString(R.string.job_10));listJob.add(getString(R.string.job_11));listJob.add(getString(R.string.job_12));
         listJob.add(getString(R.string.job_13));listJob.add(getString(R.string.job_14));
 
+        listGq.add(getString(R.string.loving_1));
+        listGq.add(getString(R.string.loving_2));
+        listGq.add(getString(R.string.loving_3));
+        listGq.add(getString(R.string.loving_4));
+        listGq.add(getString(R.string.privacyStr));
+
+
         doGetUserInfoByUidApi(uid);
         getAssetsData();
     }
@@ -217,19 +228,23 @@ public class UserDetailActivity extends BaseActivity  {
         } else {
             mBind.tvAge.setText(mUser.getBirthday());
         }
-        mBind.tvAge.setText(getString(R.string.privacyStr));
-        mBind.tvArea.setText(TextUtils.isEmpty(mUser.getCity())?getString(R.string.privacyStr):mUser.getCity());
+        //mBind.tvAge.setText(getString(R.string.privacyStr));
+        mBind.tvArea.setText(TextUtils.isEmpty(mUser.getCity())?
+                getString(R.string.privacyStr):mUser.getProvince() + "-" + mUser.getCity());
         setGq();
       //  mBind.tvRelationshipStatus.setText(getString(R.string.privacyStr));
-        if (TextUtils.isEmpty(mUser.getJob())) {
+        if (mUser.getJob() == -1) {
             mBind.tvOccupation.setText(getString(R.string.privacyStr));
         } else {
-            mBind.tvOccupation.setText(mUser.getJob());
+            if (mUser.getJob() < listJob.size()) {
+                mBind.tvOccupation.setText(listJob.get(mUser.getJob()));}
         }
         mBind.tvNickName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
         mBind.tvSignature.setText((StringUtils.isEmpty(mUser.getSignature()) ? getString(R.string.noWrite) : mUser.getSignature()));
 
-        mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
+        if (mUser!= null && mUser.getSex() != 0) {
+            mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
+        }
 
         mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
 
@@ -370,7 +385,7 @@ public class UserDetailActivity extends BaseActivity  {
                     @Override
                     public void onItemSelected(int index) {
                         User user=new User();
-                        user.setJob(listJob.get(index));
+                        user.setJob(index);
                         modifyUser(user, 7);
                     }
                 });
@@ -381,7 +396,18 @@ public class UserDetailActivity extends BaseActivity  {
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogOccupation);
                 break;
             case R.id.tvArea:
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), new AreaListSelectorDialog());
+                AreaListSelectorDialog areaListSelectorDialog =new AreaListSelectorDialog();
+                areaListSelectorDialog.setOnCityConfirm(new AreaListSelectorDialog.OnCityConfirm() {
+                    @Override
+                    public void onSelect(String province, String city) {
+                        User user = new User();
+                        user.setCity(city);
+                        user.setProvince(province);
+                        modifyUser(user, 8);
+                    }
+                });
+                simpleSelectorDialog = areaListSelectorDialog;
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), areaListSelectorDialog);
                 break;
             case R.id.tvAge:
                 TimePickerDialog timePickerDialog = new TimePickerDialog();
@@ -409,12 +435,7 @@ public class UserDetailActivity extends BaseActivity  {
                     }
                 });
                 simpleSelectorDialog = dialogRelationshipStatus;
-                List<String> listGq = new ArrayList();
-                listGq.add(getString(R.string.loving_1));
-                listGq.add(getString(R.string.loving_2));
-                listGq.add(getString(R.string.loving_3));
-                listGq.add(getString(R.string.loving_4));
-                listGq.add(getString(R.string.privacyStr));
+
 
                 dialogRelationshipStatus.setData(listGq);
                 dialogRelationshipStatus.setTitle(getString(R.string.relationshipStatus2));
@@ -482,7 +503,9 @@ public class UserDetailActivity extends BaseActivity  {
                     } else if (type == 6) {
                         mBind.tvAge.setText(userTemp.getBirthday());
                     } else if (type == 7){
-                        mBind.tvOccupation.setText(userTemp.getJob());
+                        mBind.tvOccupation.setText(listJob.get(userTemp.getJob()));
+                    } else if (type == 8){
+                        mBind.tvArea.setText(userTemp.getProvince() + "-" + userTemp.getCity());
                     }
                     //DataCenter.getInstance().getUserInfo().updateUser(user);
 
@@ -513,5 +536,39 @@ public class UserDetailActivity extends BaseActivity  {
 
 
 
+    private void updateFile(File file){
+        showLoadingDialog();
+        Api_User.ins().uploadUserPhoto(file, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == 0 && data != null) {
+                    modifyUser(data, 1);
+                } else {
+                    showToastTip(true, msg);
+                }
 
+            }
+        });
+
+    }
+
+
+    private void modifyUser(String picUrl, int type){
+        User user = new User();
+        user.setAvatar(picUrl);
+        Api_User.ins().modifyUserInfo(user, type, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if(code==0) {
+                    mUser.setAvatar(picUrl);
+                    GlideUtils.loadImage(UserDetailActivity.this, picUrl, mBind.ivHeader);
+                    showToastTip(true, getString(R.string.modifySuccess));
+                } else {
+                    showToastTip(true, msg);
+                }
+            }
+        });
+    }
 }

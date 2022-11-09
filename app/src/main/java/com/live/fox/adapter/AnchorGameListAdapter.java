@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -46,6 +48,8 @@ public class AnchorGameListAdapter extends BaseQuickAdapter<RoomListBean, BaseVi
         GradientTextView tvAnchorPaymentType = helper.getView(R.id.tvAnchorPaymentType);
 
         ImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
+        TextView tvNum=helper.getView(R.id.tvNum);
+        tvNum.setText(data.getLiveSum()+"");
 
         SpanUtils spUtils=new SpanUtils();
         spUtils.appendImage(clock,SpanUtils.ALIGN_CENTER);
@@ -54,7 +58,29 @@ public class AnchorGameListAdapter extends BaseQuickAdapter<RoomListBean, BaseVi
         spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
         gtvUnitPrice.setText(spUtils.create());
 
-        tvAnchorPaymentType.setText(context.getResources().getString(R.string.payByEachShow));
+        //1普通房间2密码房间3计时房间4贵族房间5计场房间
+        switch (data.getRoomType())
+        {
+            case 1:
+            case 2:
+            case 4:
+                tvAnchorPaymentType.setVisibility(View.GONE);
+                gtvUnitPrice.setVisibility(View.GONE);
+                break;
+            case 3:
+                tvAnchorPaymentType.setVisibility(View.VISIBLE);
+                tvAnchorPaymentType.setText(context.getString(R.string.charge_on_time));
+                gtvUnitPrice.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                tvAnchorPaymentType.setVisibility(View.VISIBLE);
+                tvAnchorPaymentType.setText(context.getString(R.string.charge_per_site));
+                gtvUnitPrice.setVisibility(View.VISIBLE);
+                break;
+            default:
+                tvAnchorPaymentType.setVisibility(View.GONE);
+                gtvUnitPrice.setVisibility(View.GONE);
+        }
 
         helper.setText(R.id.tv_nickname,data.getTitle());
 

@@ -37,7 +37,7 @@ public class AnchorProtectorAdapter extends BaseQuickAdapter<String, AnchorProte
 
         helper.tvNickName.setText("名字");
         helper.tvIcons.setText(spanUtils.create());
-        helper.rpv.setIndex(RankProfileView.NONE,48%7);
+        helper.rpv.setIndex(RankProfileView.NONE,48%7,false);
     }
 
 

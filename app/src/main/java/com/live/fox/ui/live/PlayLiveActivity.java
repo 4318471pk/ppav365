@@ -160,7 +160,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     @Override
     protected void onResume() {
         super.onResume();
-        CommonApp.getInstance().getFloatView().addToWindow(false, this);
     }
 
     /**
@@ -993,7 +992,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                     if (status == 1) {
                         //直播间的主播开始PK
                         if (Constant.isOpenWindow) {
-                            CommonApp.getInstance().getFloatView().adjustView(true);
                         } else {
                             videoFragment.changePKVideo(true);
                             if (getLiveInFragment() != null)
@@ -1001,7 +999,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                         }
                     } else {
                         if (Constant.isOpenWindow) {
-                            CommonApp.getInstance().getFloatView().adjustView(false);
                         } else {
                             //直播间的主播结束PK
                             videoFragment.changePKVideo(false);
@@ -1043,7 +1040,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     public void closeWindow() {
         Constant.isOpenWindow = false;
         Constant.isShowWindow = false;
-        CommonApp.getInstance().getFloatView().addToWindow(false, this);
 
         if (Constant.windowAnchor != null) {
             AppIMManager.ins().loginOutGroup(String.valueOf(Constant.windowAnchor.getLiveId()));
@@ -1107,7 +1103,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        CommonApp.isFloatWindowClick = false;
         if (payWaitHandler != null) {
             payWaitHandler.removeMessages(currentAnchor.getType());
         }

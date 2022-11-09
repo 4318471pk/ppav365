@@ -152,7 +152,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (DataCenter.getInstance().getUserInfo().isLogin()) {
             getCountryCode();
-            connectIM();
             if (!NotificationManager.getInstance().isBindingUser()) {
                 NotificationManager.getInstance().registerUserID(CommonApp.getInstance());
             }
@@ -224,6 +223,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                     case "tencent.im.sdkappid":
                                         //腾讯im APPID
                                         AppIMManager.init(value);
+                                        connectIM();
                                         break;
                                     case "tencent.im.identifier":
                                         break;

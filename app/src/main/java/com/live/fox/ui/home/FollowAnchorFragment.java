@@ -102,6 +102,12 @@ public class FollowAnchorFragment extends BaseBindingFragment {
 
         adapter=new FollowAnchorListAdapter(getActivity(),new ArrayList());
         recommendAnchorListFooter=new RecommendAnchorListFooter(getActivity());
+        recommendAnchorListFooter.setOnClickChangeListListener(new RecommendAnchorListFooter.onClickChangeListListener() {
+            @Override
+            public void onChange() {
+                getRecommendList();
+            }
+        });
         adapter.setFooterView(recommendAnchorListFooter);
         mBind.rvMain.setAdapter(adapter);
         emptyDataView=new EmptyDataView(getActivity());
@@ -141,9 +147,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
                                 RoomListBean bean=new Gson().fromJson(list.getJSONObject(i).toString(),RoomListBean.class);
                                 listBeans.add(bean);
                             }
-
                             recommendAnchorListFooter.setData(listBeans);
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

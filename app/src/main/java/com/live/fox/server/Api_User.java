@@ -133,7 +133,7 @@ public class Api_User extends BaseApi {
 
     /**
      * 修改用户信息
-     * type 1修改头像 2修改昵称 3修改性别 4修改签名,5感情状态 6生日 7职业
+     * type 1修改头像 2修改昵称 3修改性别 4修改签名,5感情状态 6生日 7职业 8.省份和城市
      */
     public void modifyUserInfo(User user, int type, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_modifyuserinfo_URL;
@@ -164,8 +164,14 @@ public class Api_User extends BaseApi {
                     params.put("birthday", user.getBirthday());
                 }
             case 7: //职业
-                if (user.getJob() != null ) {
+                if (user.getJob() != -1 ) {
                     params.put("job", user.getJob());
+                }
+                break;
+            case 8 :
+                if (user.getProvince() != null) {
+                    params.put("province", user.getProvince());
+                    params.put("city", user.getCity());
                 }
                 break;
         }
@@ -950,6 +956,16 @@ public class Api_User extends BaseApi {
                 .isMultipart(true)
                 .execute(callback);
 
+    }
+
+    public void uploadLivingRoomPicture(File file, JsonCallback<String> callback ){
+        String url = SPManager.getServerDomain() + Constant.URL.UPLOAD_BG_LIVING_ROOM;
+        OkGo.<String>post(url)
+                .tag(this)
+                .headers(getCommonHeaders(System.currentTimeMillis()))
+                .params("myFile", file)
+                .isMultipart(true)
+                .execute(callback);
     }
 
 }

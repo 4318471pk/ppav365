@@ -186,7 +186,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 break;
         }
 
-        mBind.rpv.setIndex(RankProfileView.NONE,0);
+        mBind.rpv.setIndex(RankProfileView.NONE,0,false);
         mBind.rpv.setOnConfirmWidthAndHeightListener(new RankProfileView.OnConfirmWidthAndHeightListener() {
             @Override
             public void onValue(int width, int height) {

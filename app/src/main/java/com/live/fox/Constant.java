@@ -58,7 +58,6 @@ public class Constant {
     public static final String LOCAL_NOTIFICATION_TITLE = "localtest";
 
     //关于app
-    public static String aboutAppUrl;
     public static Anchor windowAnchor;
     public static boolean isPK = false;
     public static TXLivePlayer mTXLivePlayer;
@@ -71,6 +70,7 @@ public class Constant {
         public static final String BASE = "/config-client/base";
         public static final String BASE_baseinfo_URL = BASE + "/baseInfo";        //基础信息
         public static final String BaseInfoWithToken=BASE+"/baseInfo/Auth";//基础信息需要验证
+        public static final String BaseResource="/config-client/base/baseInfo/resource";//基础资源信息
         public static final String BASE_ossToken_URL = BASE + "/ossToken";        //oss上传凭证
         public static final String BASE_version_URL = BASE + "/version";          //版本信息
         public static final String USER_getbanklist_URL = "/config-client/config-client/base/userBankList";        // 得到银行信息
@@ -135,6 +135,7 @@ public class Constant {
         public static final String AUTH_DETERPWD_URL = CenterClient + "/sys/user/determine/pwd";//判断是否设置密码
         public static final String AUTH_ISREGISTE_URL = CenterClient + "/sys/user/phone/isRegiste";//判断手机号是否注册接口
         public static final String UPLOAD_USER_PGOTO_URL = "/config-client/file/uploadFileAvatar";//上传头像文件接口；
+        public static final String UPLOAD_BG_LIVING_ROOM = "/config-client/file/uploadFileCover";//oss上传直播间封面；
 
         public static final String NOTICE_URL = "/config-client/notice/systemNoticesByType";
         public static final String ACT_URL = "/pk-client/activity/activityListByCategory";
@@ -208,6 +209,7 @@ public class Constant {
         public static final String LiveClient = "/live-client";
         public static final String LivingStart="/live-client/live/start";
         public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表
+        public static final String liveRoomRecommendList="/live-client/live/recommendLiveList";//直播间内右侧列表
         public static final String anchorfind_URL = LiveClient + "/live/StartRecordList";        // 搜索主播
         public static final String anchorfind_URL2 = LiveClient + "/live/StartRecordTotalList";        // 搜索主播2
         public static final String Live_banuser_URL = LiveClient + "/live/ban/user";           //直播间踢用户
@@ -218,7 +220,7 @@ public class Constant {
         public static final String Live_interroom_URL = LiveClient + "/live/inter/room";        //用户进房
         public static final String Live_kicklive_URL = LiveClient + "/live/kick/live";          //超管关播
         public static final String Live_leaveswitch_URL = LiveClient + "/live/leave/switch";   //主播离开状态更改
-        public static final String Live_chat_URL = LiveClient + "/live/chat";              //直播间发言
+        public static final String Live_chat_URL = LiveClient + "/live/room/chat/send";              //直播间发言
         public static final String Live_heart_URL = LiveClient + "/live/heart";            //主播心跳 30s
         public static final String Live_list_URL = LiveClient + "/home/channel/list";              //开播列表
         public static final String Live_recordlist_URL = LiveClient + "/live/record/list";  //开播记录列表

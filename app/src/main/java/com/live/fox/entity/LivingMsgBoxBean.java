@@ -5,6 +5,15 @@ public class LivingMsgBoxBean {
     CharSequence charSequence;
     Integer backgroundColor;
     Integer strokeColor;
+    int type;//0 系统 1用户
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public CharSequence getCharSequence() {
         return charSequence;

@@ -134,7 +134,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
 
             tvNickName.setText("名字");
             tvIcons.setText(spanUtils.create());
-            rpv.setIndex(RankProfileView.NONE, 48 % 7);
+            rpv.setIndex(RankProfileView.NONE, 48 % 7,false);
 
             if (list.size() < 5) {
                 TextView textView = new TextView(getActivity());
