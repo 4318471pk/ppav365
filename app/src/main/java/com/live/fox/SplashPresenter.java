@@ -34,6 +34,7 @@ import com.live.fox.entity.UserGuardResourceBean;
 import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.ResourceDownloadService;
 import com.live.fox.svga.AdmissionManager;
 import com.live.fox.svga.BadgesManager;
 import com.live.fox.svga.GiftManager;
@@ -345,6 +346,7 @@ public class SplashPresenter {
                         List<SendGiftResourceBean> sendGiftResourceBeans= gson.fromJson(settingList,sendGift);
                         LocalSendGiftDao.getInstance().insertOrReplaceList(sendGiftResourceBeans);
 
+                        ResourceDownloadService.startService(context);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

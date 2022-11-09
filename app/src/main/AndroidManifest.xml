@@ -58,6 +58,7 @@
         <service
             android:name="com.xtremeprog.sdk.ble.BleService"
             android:enabled="true" />
+        <service android:name="com.live.fox.manager.ResourceDownloadService"/>
 
         <uses-library
             android:name="org.apache.http.legacy"
