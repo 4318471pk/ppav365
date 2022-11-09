@@ -149,19 +149,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         mBind.vp2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
         mBind.vp2.setOffscreenPageLimit(1);
 
-        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,roomListBeans.size(),isLoop);
-        mBind.vp2.setAdapter(livingFragmentStateAdapter);
-        int currentPosition= getIntent().getIntExtra(positionTag,0);
-        if(isLoop)
-        {
-            pagerPosition=Integer.MAX_VALUE/2+currentPosition;
-            mBind.vp2.setCurrentItem(pagerPosition,false);
-        }
-        else
-        {
-            pagerPosition=currentPosition;
-            mBind.vp2.setCurrentItem(currentPosition,false);
-        }
+        setViewPagerAdapter(getIntent().getIntExtra(positionTag,0));
 
         mBind.vp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -240,11 +228,36 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         mBind.rvRecommendList.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(this,5)));
         mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
+        recommendListAdapter.setOnItemClickListener(new RecommendLivingAnchorAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position, List<RoomListBean> data) {
+                mBind.drawerLayout.closeDrawers();
+                roomListBeans.clear();
+                roomListBeans.addAll(data);
+                setViewPagerAdapter(position);
+            }
+        });
 
         AppIMManager.ins().addMessageListener(LivingActivity.class, this);
 //        showFirstTimeTopUpDialog();
 //        showContactCardDialog();
 //        showFreeRoomToPrepaidRoom();
+    }
+
+    private void setViewPagerAdapter(int currentPosition)
+    {
+        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,roomListBeans.size(),isLoop);
+        mBind.vp2.setAdapter(livingFragmentStateAdapter);
+        if(isLoop)
+        {
+            pagerPosition=Integer.MAX_VALUE/2+currentPosition;
+            mBind.vp2.setCurrentItem(pagerPosition,false);
+        }
+        else
+        {
+            pagerPosition=currentPosition;
+            mBind.vp2.setCurrentItem(currentPosition,false);
+        }
     }
 
     public void setRecommendListData(List<RoomListBean> list)

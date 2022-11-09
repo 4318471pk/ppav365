@@ -138,11 +138,7 @@ public class LivingControlPanel extends RelativeLayout {
             public void run() {
                 mBind.getRoot().setFitsSystemWindows(true);
                 mBind.getRoot().requestLayout();
-                Log.e("KKKK1",mBind.getRoot().getHeight()+"");
-                Log.e("KKKK2",mBind.rlMain.getHeight()+"");
-                Log.e("KKKK3",fragment.getView().getHeight()+"");
                 LivingActivity activity=(LivingActivity) fragment.getActivity();
-                Log.e("KKKK4", activity.getViewPager().getHeight()+"");
             }
         });
 
