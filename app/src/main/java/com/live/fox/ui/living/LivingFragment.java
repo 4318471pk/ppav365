@@ -2,6 +2,8 @@ package com.live.fox.ui.living;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -74,6 +76,7 @@ public class LivingFragment extends BaseBindingFragment {
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
+    Handler handler=new Handler(Looper.myLooper());
 
 
     public static LivingFragment getInstance(int position, int viewPagePosition) {
@@ -142,7 +145,14 @@ public class LivingFragment extends BaseBindingFragment {
 
             //如果刷新了主播的信息 设置可以滑动 但是如果消息框在的话不能设置
             if (livingControlPanel != null) {
-                livingControlPanel.viewWatch.setScrollEnable(true);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
+                        livingControlPanel.viewWatch.setScrollEnable(true);
+                    }
+                },1500);
+
                 livingControlPanel.viewWatch.hideInputLayout();
             }
         } else {
@@ -259,7 +269,7 @@ public class LivingFragment extends BaseBindingFragment {
     private void sendSystemMsgToChat(String msg)
     {
         LivingMsgBoxBean bean=new LivingMsgBoxBean();
-        bean.setBackgroundColor(0x66ffffff);
+        bean.setBackgroundColor(0x66000000);
         bean.setType(0);
         bean.setCharSequence(msg);
         addNewMessage(bean);
@@ -350,6 +360,7 @@ public class LivingFragment extends BaseBindingFragment {
                 mBind.rlContent.removeView(txCloudVideoView);
             }
 
+            mBind.ivBG.setVisibility(View.VISIBLE);
 
             livingMsgBoxBeans.clear();
             if (livingMsgBoxAdapter != null) {

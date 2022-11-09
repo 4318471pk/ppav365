@@ -62,6 +62,8 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
                                 {
                                     //设置为原来的状态 原来需要更新就更新
                                     list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                    list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
+                                    list.get(i).setLocalSvgPath(oldBean.getLocalSvgPath());
                                 }
                             }
                             else
@@ -73,23 +75,29 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
                     }
                     else
                     {
-                        //没有数据不用更新
+                        //本地没有数据 必须更新
                         for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setLocalShouldUpdate(0);
+                            list.get(i).setLocalShouldUpdate(1);
                         }
                     }
 
                     deleteAll();
                     CommonApp.getInstance().getDaoSession().getMountResourceBeanDao().insertOrReplaceInTx(list);
                     isAvailable=true;
-                    resourceDataListener.onDataInsertDone(true);
+                    if(resourceDataListener!=null)
+                    {
+                        resourceDataListener.onDataInsertDone(true);
+                    }
                 }
             });
         }
         catch (Exception exception){
             LogUtils.e(exception.toString());
             isAvailable=true;
-            resourceDataListener.onDataInsertDone(true);
+            if(resourceDataListener!=null)
+            {
+                resourceDataListener.onDataInsertDone(false);
+            }
         }
     }
 
@@ -102,5 +110,11 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
     public List<MountResourceBean> queryList() {
         List<MountResourceBean> mountResourceBeans= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao().queryBuilder().list();
         return mountResourceBeans;
+    }
+
+    @Override
+    public void updateData(MountResourceBean mountResourceBean) {
+       MountResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao();
+       dao.update(mountResourceBean);
     }
 }

@@ -137,6 +137,7 @@ public class SplashPresenter {
      */
     private void handDomains() {
         domains = AppConfig.getAppDomains();
+        SPUtils.getInstance().put(ConstantValue.BaseDomain, domains.get(0));
     }
 
     public void showAlertDialog(String msg, String btnTxt, DialogInterface.OnClickListener onClickListener) {
@@ -158,7 +159,8 @@ public class SplashPresenter {
                 .subscribe(granted -> {
                     if (granted) {  // 所有权限都同意
                         doBaseApi();
-                        getResourceList();
+                        //开启资源服务下载资源
+                        ResourceDownloadService.startService(context);
                     } else {    // 有的权限被拒绝或被勾选不再提示
                         LogUtils.e("有的权限被拒绝");
                         showAlertDialog(context.getString(R.string.smqx),
@@ -247,7 +249,6 @@ public class SplashPresenter {
                 LogUtils.e("doBaseApi onResponse: " + call.request().url());
                 JsonObject body = response.body();
                 if (body != null) {
-                    SPUtils.getInstance().put(ConstantValue.BaseDomain, domains.get(0));
 //                    doGetTraceInstall();//取消提交安装
                     JsonObject data = body.getAsJsonObject("data");
                     JsonArray jsonArray = data.getAsJsonArray("configSystemBaseList");
@@ -301,59 +302,6 @@ public class SplashPresenter {
     }
 
 
-    /**
-     * 获取APP内的资源
-     *
-     */
-    private void getResourceList()
-    {
-        Api_Config.ins().getAPPResource(new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                if(code==0 && !TextUtils.isEmpty(data))
-                {
-                    try {
-                        JSONObject jsonObject=new JSONObject(data);
-                        Gson gson = new Gson();
-                        String levelUserList=jsonObject.optString("levelUserList","");
-                        String levelVipList=jsonObject.optString("levelVipList","");
-                        String levelGuardList=jsonObject.optString("levelGuardList","");
-                        String propList=jsonObject.optString("propList","");
-                        String mountList=jsonObject.optString("mountList","");
-                        String settingList=jsonObject.optString("settingList","");
-
-                        Type userLevel = new TypeToken<List<UserLevelResourceBean>>() {}.getType();
-                        List<UserLevelResourceBean> userLevelResourceBeans= gson.fromJson(levelUserList,userLevel);
-                        LocalUserLevelDao.getInstance().insertOrReplaceList(userLevelResourceBeans);
-
-                        Type userTag = new TypeToken<List<UserTagResourceBean>>() {}.getType();
-                        List<UserTagResourceBean> userTagResourceBeans= gson.fromJson(levelVipList,userTag);
-                        LocalUserTagResourceDao.getInstance().insertOrReplaceList(userTagResourceBeans);
-
-                        Type userGuard = new TypeToken<List<UserGuardResourceBean>>() {}.getType();
-                        List<UserGuardResourceBean> userGuardResourceBeans= gson.fromJson(levelGuardList,userGuard);
-                        LocalUserGuardDao.getInstance().insertOrReplaceList(userGuardResourceBeans);
-
-                        Type gift = new TypeToken<List<GiftResourceBean>>() {}.getType();
-                        List<GiftResourceBean> giftResourceBeans= gson.fromJson(propList,gift);
-                        LocalGiftDao.getInstance().insertOrReplaceList(giftResourceBeans);
-
-                        Type mount = new TypeToken<List<MountResourceBean>>() {}.getType();
-                        List<MountResourceBean> mountResourceBeans= gson.fromJson(mountList,mount);
-                        LocalMountResourceDao.getInstance().insertOrReplaceList(mountResourceBeans);
-
-                        Type sendGift = new TypeToken<List<SendGiftResourceBean>>() {}.getType();
-                        List<SendGiftResourceBean> sendGiftResourceBeans= gson.fromJson(settingList,sendGift);
-                        LocalSendGiftDao.getInstance().insertOrReplaceList(sendGiftResourceBeans);
-
-                        ResourceDownloadService.startService(context);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
 
     /**
      * Base接口请求成功后做的一些操作

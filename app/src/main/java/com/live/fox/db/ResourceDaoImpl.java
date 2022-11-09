@@ -9,4 +9,5 @@ public interface ResourceDaoImpl<T> {
     public void insertOrReplaceList(final List<T> list);
     void deleteAll();
     List<T> queryList();
+    void updateData(T t);
 }

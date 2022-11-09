@@ -1,9 +1,13 @@
 package com.live.fox.db;
 
+import android.util.Log;
+
+import com.live.fox.Constant;
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.utils.LogUtils;
 
+import java.io.File;
 import java.util.List;
 
 import app.resource.db.UserLevelResourceBeanDao;
@@ -62,6 +66,7 @@ public class LocalUserLevelDao implements ResourceDaoImpl<UserLevelResourceBean>
                                 {
                                     //设置为原来的状态 原来需要更新就更新
                                     list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                    list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
                                 }
                             }
                             else
@@ -73,24 +78,37 @@ public class LocalUserLevelDao implements ResourceDaoImpl<UserLevelResourceBean>
                     }
                     else
                     {
-                        //没有数据不用更新
+                        //本地没有数据 必须更新
                         for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setLocalShouldUpdate(0);
+                            list.get(i).setLocalShouldUpdate(1);
                         }
                     }
 
                     deleteAll();
                     CommonApp.getInstance().getDaoSession().getUserLevelResourceBeanDao().insertOrReplaceInTx(list);
                     isAvailable=true;
-                    resourceDataListener.onDataInsertDone(true);
+                    if(resourceDataListener!=null)
+                    {
+                        resourceDataListener.onDataInsertDone(true);
+                    }
                 }
             });
         }
         catch (Exception exception){
             LogUtils.e(exception.toString());
             isAvailable=true;
-            resourceDataListener.onDataInsertDone(true);
+            if(resourceDataListener!=null)
+            {
+                resourceDataListener.onDataInsertDone(false);
+            }
         }
+    }
+
+    @Override
+    public void updateData(UserLevelResourceBean bean)
+    {
+        UserLevelResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getUserLevelResourceBeanDao();
+        dao.update(bean);
     }
 
     @Override

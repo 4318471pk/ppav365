@@ -34,6 +34,7 @@ import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.entity.FlowDataBean;
+import com.live.fox.entity.Gift;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.server.Api_Live;
@@ -224,6 +225,7 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), AnchorProtectorListDialog.getInstance());
                 break;
             case R.id.ivGetAnchorContactCard:
+                getContactCard();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), PersonalContactCardDialog.getInstance());
                 break;
             case R.id.gtvContribution:
@@ -232,7 +234,7 @@ public class LivingControlPanel extends RelativeLayout {
             case R.id.rlMain:
                 viewWatch.hideInputLayout();
                 viewWatch.hideKeyboard();
-                viewWatch.setScrollEnable(true);
+                viewWatch.setScrollEnable(viewWatch.isKeyboardShow());
                 break;
             case R.id.gtvMoreTemple:
                 if(viewWatch.isKeyboardShow())
@@ -299,4 +301,31 @@ public class LivingControlPanel extends RelativeLayout {
             }
         });
     }
+
+    private void getContactCard()
+    {
+        RoomListBean roomListBean=fragment.getRoomBean();
+        Api_Live.ins().getAnchorInfo(roomListBean.getId(), roomListBean.getAid(), new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("getContactCard",data+"");
+            }
+        });
+    }
+
+//    /**
+//     * 调用赠送礼物接口
+//     */
+//    public void doSendGiftApi(Gift gift, int count) {
+//        Api_Live.ins().sendGift(gift.getGid(), anchor.getAnchorId(),
+//                anchor.getLiveId(), 1, count, new JsonCallback<String>() {
+//                    @Override
+//                    public void onSuccess(int code, String msg, String result) {
+//                        LogUtils.e("json : " + result);
+//                        if (code != 0) {
+//                            ToastUtils.showShort(msg);
+//                        }
+//                    }
+//                });
+//    }
 }

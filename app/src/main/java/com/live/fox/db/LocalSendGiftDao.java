@@ -62,6 +62,8 @@ public class LocalSendGiftDao implements ResourceDaoImpl<SendGiftResourceBean> {
                                 {
                                     //设置为原来的状态 原来需要更新就更新
                                     list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                    list.get(i).setLocalSvgPath(oldBean.getLocalSvgPath());
+                                    list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
                                 }
                             }
                             else
@@ -73,23 +75,29 @@ public class LocalSendGiftDao implements ResourceDaoImpl<SendGiftResourceBean> {
                     }
                     else
                     {
-                        //没有数据不用更新
+                        //本地没有数据 必须更新
                         for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setLocalShouldUpdate(0);
+                            list.get(i).setLocalShouldUpdate(1);
                         }
                     }
 
                     deleteAll();
                     CommonApp.getInstance().getDaoSession().getSendGiftResourceBeanDao().insertOrReplaceInTx(list);
                     isAvailable=true;
-                    resourceDataListener.onDataInsertDone(true);
+                    if(resourceDataListener!=null)
+                    {
+                        resourceDataListener.onDataInsertDone(true);
+                    }
                 }
             });
         }
         catch (Exception exception){
             LogUtils.e(exception.toString());
             isAvailable=true;
-            resourceDataListener.onDataInsertDone(true);
+            if(resourceDataListener!=null)
+            {
+                resourceDataListener.onDataInsertDone(false);
+            }
         }
     }
 
@@ -102,5 +110,11 @@ public class LocalSendGiftDao implements ResourceDaoImpl<SendGiftResourceBean> {
     public List<SendGiftResourceBean> queryList() {
         List<SendGiftResourceBean> sendGiftResourceBeans= CommonApp.getInstance().getDaoSession().getSendGiftResourceBeanDao().queryBuilder().list();
         return sendGiftResourceBeans;
+    }
+
+    @Override
+    public void updateData(SendGiftResourceBean sendGiftResourceBean) {
+       SendGiftResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getSendGiftResourceBeanDao();
+       dao.update(sendGiftResourceBean);
     }
 }

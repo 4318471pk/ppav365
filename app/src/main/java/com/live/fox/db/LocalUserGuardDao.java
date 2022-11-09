@@ -62,6 +62,8 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
                                 {
                                     //设置为原来的状态 原来需要更新就更新
                                     list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                    list.get(i).setLocalImgSmallPath(oldBean.getLocalImgSmallPath());
+                                    list.get(i).setLocalImgMediumPath(oldBean.getLocalImgMediumPath());
                                 }
                             }
                             else
@@ -73,23 +75,29 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
                     }
                     else
                     {
-                        //没有数据不用更新
+                        //本地没有数据 必须更新
                         for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setLocalShouldUpdate(0);
+                            list.get(i).setLocalShouldUpdate(1);
                         }
                     }
 
                     deleteAll();
                     CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao().insertOrReplaceInTx(list);
                     isAvailable=true;
-                    resourceDataListener.onDataInsertDone(true);
+                    if(resourceDataListener!=null)
+                    {
+                        resourceDataListener.onDataInsertDone(true);
+                    }
                 }
             });
         }
         catch (Exception exception){
             LogUtils.e(exception.toString());
             isAvailable=true;
-            resourceDataListener.onDataInsertDone(true);
+            if(resourceDataListener!=null)
+            {
+                resourceDataListener.onDataInsertDone(false);
+            }
         }
     }
 
@@ -102,5 +110,11 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
     public List<UserGuardResourceBean> queryList() {
         List<UserGuardResourceBean> userGuardResourceBeans= CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao().queryBuilder().list();
         return userGuardResourceBeans;
+    }
+
+    @Override
+    public void updateData(UserGuardResourceBean userGuardResourceBean) {
+      UserGuardResourceBeanDao dao=  CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao();
+      dao.update(userGuardResourceBean);
     }
 }

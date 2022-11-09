@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.live.fox.entity.LivingMsgBoxBean;
+import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.GradientTextView;
 
@@ -53,7 +54,7 @@ public class LivingMsgBoxAdapter extends RecyclerView.Adapter<LivingMsgBoxAdapte
 //        {
 //
 //        }
-
+        SpanUtils spanUtils=new SpanUtils();
         LivingMsgBoxBean bean=beans.get(position);
         int strokeColor=bean.getStrokeColor()==null?0:bean.getStrokeColor();
         int strokeWidth=bean.getStrokeColor()==null?0:1;

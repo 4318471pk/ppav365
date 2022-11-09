@@ -166,6 +166,24 @@ public class Api_Live extends BaseApi {
     }
 
     /**
+     * 获取主播联系名片
+     */
+    public void getAnchorInfo(String liveId, String anchorId, JsonCallback callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.getAnchorCard;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+        params.put("anchorId", anchorId);
+
+//        OkGoHttpUtil.getInstance().doGet(url,url,getCommonHeaders(Long.parseLong(params.get("timestamp").toString()))
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
      * 更改房间类型
      */
     public void changeRoomType(int liveId, int type, int price, String password,
