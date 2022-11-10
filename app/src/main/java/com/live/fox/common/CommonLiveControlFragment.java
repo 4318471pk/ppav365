@@ -1631,7 +1631,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
      */
     private void refreshAudienceList() {
         if (!isInit) return;
-        Api_Live.ins().getAudienceList(anchor.getLiveId(), new JsonCallback<List<Audience>>() {
+        Api_Live.ins().getAudienceList(anchor.getLiveId()+"", new JsonCallback<List<Audience>>() {
             @Override
             public void onSuccess(int code, String msg, List<Audience> result) {
                 if (result != null) LogUtils.e("getAudience result : " + mGson.toJson(result));
@@ -2555,8 +2555,8 @@ public class CommonLiveControlFragment extends BaseFragment implements
      * 调用赠送礼物接口
      */
     public void doSendGiftApi(Gift gift, int count) {
-        Api_Live.ins().sendGift(gift.getGid(), anchor.getAnchorId(),
-                anchor.getLiveId(), 1, count, new JsonCallback<String>() {
+        Api_Live.ins().sendGift(gift.getGid()+"", anchor.getAnchorId()+"",
+                anchor.getLiveId()+"", 1, count, new JsonCallback<String>() {
                     @Override
                     public void onSuccess(int code, String msg, String result) {
                         LogUtils.e("json : " + result);

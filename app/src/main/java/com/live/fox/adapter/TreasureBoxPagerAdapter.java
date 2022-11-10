@@ -2,49 +2,48 @@ package com.live.fox.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.live.fox.R;
 import com.live.fox.entity.TreasureItemBean;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ScreenUtils;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
 public class TreasureBoxPagerAdapter extends RecyclerView.Adapter<TreasureBoxPagerAdapter.TreasureBoxHolder> {
 
     Context context;
-    List<List<TreasureItemBean>> lists;
+    List<List<? extends TreasureItemBean>> lists;
     int pageIndex=0;
     LayoutInflater layoutInflater;
     int itemHeight;
     int itemWidth;
 
-    public TreasureBoxPagerAdapter(Activity context,int viewPagerHeight, List<List<TreasureItemBean>> lists) {
+    public TreasureBoxPagerAdapter(Activity context,int viewPagerHeight,int pageIndex, List<List<? extends TreasureItemBean>> lists) {
         this.lists=lists;
         this.context=context;
         layoutInflater=context.getLayoutInflater();
         this.itemHeight=viewPagerHeight/2;
+        this.pageIndex=pageIndex;
         itemWidth= ScreenUtils.getScreenWidth(context)/4;
 
     }
 
-    public List<List<TreasureItemBean>> getLists() {
+    public List<List<? extends TreasureItemBean>> getLists() {
         return lists;
     }
-
-    public void setPageIndex(int pageIndex)
-    {
-        this.pageIndex=pageIndex;
-        notifyDataSetChanged();
-    }
-
 
     @NonNull
     @Override
@@ -67,9 +66,10 @@ public class TreasureBoxPagerAdapter extends RecyclerView.Adapter<TreasureBoxPag
                 holder.llEmpty.setVisibility(View.GONE);
                 for (int i = 0; i < holder.gridLayout.getChildCount(); i++) {
                     LinearLayout llContent=holder.gridLayout.getChildAt(i).findViewById(R.id.llContent);
+
                     if(position*8+i<lists.get(pageIndex).size())
                     {
-                        holder.gridLayout.getChildAt(i).setVisibility(View.VISIBLE);
+                        llContent.setVisibility(View.VISIBLE);
                         if(lists.get(pageIndex).get(position*8+i).isSelected())
                         {
                             llContent.setBackground(context.getResources().getDrawable(R.drawable.round_stroke_ff008a));
@@ -78,10 +78,27 @@ public class TreasureBoxPagerAdapter extends RecyclerView.Adapter<TreasureBoxPag
                         {
                             llContent.setBackground(null);
                         }
+
+                        RoundedImageView rivGiftImg= llContent.findViewById(R.id.rivGiftImg);
+                        TextView tvGiftName= llContent.findViewById(R.id.tvGiftName);
+                        TextView tvCostDiamond= llContent.findViewById(R.id.tvCostDiamond);
+
+                        TreasureItemBean treasureItemBean=lists.get(pageIndex).get(position*8+i);
+                        tvGiftName.setText(treasureItemBean.getName());
+                        if(TextUtils.isEmpty(treasureItemBean.getImgUrl()))
+                        {
+
+                        }
+                        else
+                        {
+                            GlideUtils.loadDefaultImage(context,treasureItemBean.getImgUrl(),R.mipmap.img_error,rivGiftImg);
+                        }
+
+                        tvCostDiamond.setText(treasureItemBean.getCostDiamond()+"");
                     }
                     else
                     {
-                        holder.gridLayout.getChildAt(i).setVisibility(View.INVISIBLE);
+                        llContent.setVisibility(View.INVISIBLE);
                     }
 
                     llContent.setTag(i);

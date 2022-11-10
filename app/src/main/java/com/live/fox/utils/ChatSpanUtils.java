@@ -9,19 +9,26 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
+import com.live.fox.db.LocalUserLevelDao;
 import com.live.fox.entity.ChatEntity;
 import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.Gift;
+import com.live.fox.entity.LivingMessageBean;
 import com.live.fox.entity.MessageEvent;
+import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.ReceiveGiftBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.response.LotteryItem;
@@ -458,7 +465,35 @@ public class ChatSpanUtils {
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
         if (bitmap == null) return;
-        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);//120/68
+        int height=ScreenUtils.getDip2px(context,16);
+        int width=ScreenUtils.getDip2px(context,40);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.append(" ");
+    }
+
+
+    /**
+     * 发送系统信息
+     *
+     */
+    public void appendSystemMessageType(SpanUtils spanUtils, String protocol, Context context) {
+        int resourceId = 1;
+        switch (protocol) {
+            case MessageProtocol.SYSTEM_NOTICE:// 系统
+            case MessageProtocol.SYSTEM_ADVERTISE:// 系统
+            case MessageProtocol.LIVE_ENTER_ROOM:
+                resourceId = R.mipmap.icon_tag_sys;
+                break;
+            case MessageProtocol.GAME_CP_WIN:// 中奖
+                resourceId = R.mipmap.icon_tag_win;
+                break;
+        }
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+        if (bitmap == null) return;
+        int height=ScreenUtils.getDip2px(context,16);
+        int width=ScreenUtils.getDip2px(context,40);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
     }
 
@@ -655,5 +690,56 @@ public class ChatSpanUtils {
         }
 
         return mNobleRes;
+    }
+
+    public static void appendLevelIcon(SpanUtils spanUtils,int level,Context context)
+    {
+      String levelIcon=LocalUserLevelDao.getInstance().getLevelIcon(level);
+        Bitmap bitmap = BitmapFactory.decodeFile(levelIcon);
+        if (bitmap == null) return;
+        int height=ScreenUtils.getDip2px(context,12);
+        int width=ScreenUtils.getDip2px(context,30);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.append(" ");
+
+    }
+
+    /**
+     * 发送进入房间欢迎语
+     *
+     */
+    public static SpanUtils enterRoom(LivingMessageBean livingMessageBean,Context context)
+    {
+        SpanUtils spanUtils=new SpanUtils();
+        appendLevelIcon(spanUtils,livingMessageBean.getUserLevel(),context);
+        spanUtils.append(livingMessageBean.getNickname()).setFontSize(13,true)
+                .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+        if(!TextUtils.isEmpty(livingMessageBean.getMessage()))
+        {
+            spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
+        }
+        return spanUtils;
+    }
+
+
+    /**
+     * 发送个人信息
+     *
+     */
+    public static void appendPersonalMessage(SpanUtils spanUtils, PersonalLivingMessageBean pBean, Context context) {
+        if(pBean==null || TextUtils.isEmpty(pBean.getProtocol()) )
+        {
+            return;
+        }
+
+        switch (pBean.getProtocol()) {
+            case MessageProtocol.LIVE_ROOM_CHAT:
+                appendLevelIcon(spanUtils,pBean.getUserLevel(),context);
+                spanUtils.append(pBean.getNickname()+": ").setFontSize(13,true)
+                        .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+                spanUtils.append(pBean.getMsg()).setFontSize(13,true)
+                        .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+                break;
+        }
     }
 }

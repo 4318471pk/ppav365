@@ -159,6 +159,7 @@ public class ViewWatch {
         mBind.llMessages.setLayoutParams(rlMessages);
         mBind.llInputLayout.setVisibility(GONE);
         mBind.rlButtons.setVisibility(VISIBLE);
+        setScrollEnable(true);
     }
 
     public void setScrollEnable(boolean status) {

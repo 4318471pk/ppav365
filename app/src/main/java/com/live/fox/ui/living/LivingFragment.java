@@ -33,11 +33,14 @@ import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.Audience;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingMessageBean;
 import com.live.fox.entity.LivingMsgBoxBean;
+import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ActivityUtils;
@@ -49,6 +52,7 @@ import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.TimeCounter;
 import com.live.fox.utils.ToastUtils;
+import com.live.fox.utils.ViewUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
 import com.tencent.imsdk.v2.V2TIMCallback;
@@ -65,6 +69,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.view.View.OVER_SCROLL_NEVER;
@@ -152,11 +157,14 @@ public class LivingFragment extends BaseBindingFragment {
                     @Override
                     public void run() {
                         //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
-                        livingControlPanel.viewWatch.setScrollEnable(true);
+                        if(!livingControlPanel.viewWatch.isMessagesPanelOpen())
+                        {
+                            livingControlPanel.viewWatch.setScrollEnable(true);
+                        }
                     }
                 }, 1500);
 
-                livingControlPanel.viewWatch.hideInputLayout();
+//                livingControlPanel.viewWatch.hideInputLayout();
             }
         } else {
             destroyView();
@@ -259,6 +267,8 @@ public class LivingFragment extends BaseBindingFragment {
 
         enterRoom();
         checkAndJoinIM(getRoomBean().getId());
+        refreshAudienceList();
+        doGetAudienceListApi();
     }
 
     public RoomListBean getRoomBean() {
@@ -275,8 +285,20 @@ public class LivingFragment extends BaseBindingFragment {
         bean.setType(0);
 
         SpanUtils spanUtils=new SpanUtils();
-        ChatSpanUtils.ins().appendMessageType(spanUtils,livingMessageBean.getProtocol(),getActivity());
+        ChatSpanUtils.ins().appendSystemMessageType(spanUtils,livingMessageBean.getProtocol(),getActivity());
         spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
+        bean.setCharSequence(spanUtils.create());
+        addNewMessage(bean);
+    }
+
+    private void sendPersonalMessage(PersonalLivingMessageBean pBean)
+    {
+        LivingMsgBoxBean bean = new LivingMsgBoxBean();
+        bean.setBackgroundColor(0x66000000);
+        bean.setType(1);
+
+        SpanUtils spanUtils=new SpanUtils();
+        ChatSpanUtils.appendPersonalMessage(spanUtils,pBean,getActivity());
         bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
@@ -342,7 +364,10 @@ public class LivingFragment extends BaseBindingFragment {
 
             LivingActivity activity = (LivingActivity) getActivity();
             if (!activity.isFinishing() && !activity.isDestroyed() && activity.getRoomListBeans() != null) {
-                AppIMManager.ins().loginOutGroup(activity.getRoomListBeans().get(currentPagePosition).getId());
+                if(activity.getRoomListBeans().size()>currentPagePosition)
+                {
+                    AppIMManager.ins().loginOutGroup(activity.getRoomListBeans().get(currentPagePosition).getId());
+                }
             }
 
             if (mLivePlayer != null) {
@@ -618,21 +643,90 @@ public class LivingFragment extends BaseBindingFragment {
 
 
     public void onNewMessageReceived(int protocol, String msg) {
+        if(!isActivityOK() || livingControlPanel==null)
+        {
+            return;
+        }
+
+        Log.e("onNewMessageReceived",msg);
+
         if (!TextUtils.isEmpty(msg)) {
-            LivingMessageBean livingMessageBean = new Gson().fromJson(msg, LivingMessageBean.class);
-            if(!TextUtils.isEmpty(livingMessageBean.getProtocol()))
-            {
-                switch (livingMessageBean.getProtocol()) {
-                    case MessageProtocol.SYSTEM_NOTICE:
-                    case MessageProtocol.GAME_CP_WIN:
-                        break;
-                    case MessageProtocol.LIVE_ENTER_ROOM:
-
-                        break;
+            try {
+                JSONObject msgJson=new JSONObject(msg);
+                String protocolCode=msgJson.optString("protocol","");
+                if(!TextUtils.isEmpty(msgJson.optString("protocol","")))
+                {
+                    switch (protocolCode) {
+                        case MessageProtocol.SYSTEM_NOTICE:
+                        case MessageProtocol.GAME_CP_WIN:
+                            break;
+                        case MessageProtocol.LIVE_ENTER_ROOM:
+                            LivingMessageBean livingMessageBean = new Gson().fromJson(msg, LivingMessageBean.class);
+                            livingMessageBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+                            livingControlPanel.mBind.vtEnterRoom.
+                                    addCharSequence(ChatSpanUtils.enterRoom(livingMessageBean,getActivity()).create());
+                            break;
+                        case MessageProtocol.LIVE_ROOM_CHAT:
+                            PersonalLivingMessageBean pBean = new Gson().fromJson(msg, PersonalLivingMessageBean.class);
+                            sendPersonalMessage(pBean);
+                            break;
+                    }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
 
         }
     }
+
+
+    /**
+     * 刷新观众列表
+     * 普通用戶根據用戶經驗排序
+     */
+    private void refreshAudienceList() {
+        if(!isActivityOK() || livingControlPanel==null)
+        {
+            return;
+        }
+
+        Api_Live.ins().getAudienceList(getRoomBean().getId(), new JsonCallback<List<Audience>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<Audience> result) {
+                if (code == 0 ) {
+                   if(result != null && getArg().equals(getRoomBean().getId()))
+                   {
+
+                   }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 观众列表
+     */
+    public void doGetAudienceListApi() {
+        if(!isActivityOK() || livingControlPanel==null)
+        {
+            return;
+        }
+
+        Api_Live.ins().getRoomuserList(getRoomBean().getId(), new JsonCallback<List<User>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<User> data) {
+                hideLoadingView();
+                if (code == 0 && getArg().equals(getRoomBean().getId())) {
+
+                } else {
+
+                }
+            }
+        });
+    }
+
 }

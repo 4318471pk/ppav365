@@ -13,12 +13,17 @@ import android.widget.TextView;
 
 import com.flyco.roundview.RoundLinearLayout;
 import com.live.fox.R;
+import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.utils.device.ScreenUtils;
+
+import java.util.List;
 
 public class BotTriangleBubbleView extends LinearLayout {
 
     RoundLinearLayout roundLinearLayout;
     onCLickItemListener onCLickItemListener;
+    List<SendGiftAmountBean> sendGiftAmountBeans;
+    int llWidth,dip10;
 
     public BotTriangleBubbleView(Context context) {
         this(context,null);
@@ -40,8 +45,8 @@ public class BotTriangleBubbleView extends LinearLayout {
     private void initView()
     {
         setOrientation(VERTICAL);
-        int dip10= ScreenUtils.getDip2px(getContext(),10);
-        int llWidth=dip10*12;
+        dip10= ScreenUtils.getDip2px(getContext(),10);
+        llWidth=dip10*12;
 
         roundLinearLayout=new RoundLinearLayout(getContext());
         roundLinearLayout.getDelegate().setCornerRadius(dip10/2);
@@ -63,15 +68,23 @@ public class BotTriangleBubbleView extends LinearLayout {
         String leftStrs[]=getResources().getStringArray(R.array.giftListTag);
         String rightStrs[]=getResources().getStringArray(R.array.giftListName);
 
-        for (int i = 0; i < leftStrs.length; i++) {
+
+
+    }
+
+    public void setSendGiftAmountBeans(List<SendGiftAmountBean> sendGiftAmountBeans)
+    {
+        roundLinearLayout.removeAllViews();
+        for (int i = 0; i < sendGiftAmountBeans.size(); i++) {
             RelativeLayout relativeLayout=new RelativeLayout(getContext());
             LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(llWidth,dip10*3);
             relativeLayout.setLayoutParams(ll);
 
+            SendGiftAmountBean sendGiftAmountBean= sendGiftAmountBeans.get(i);
             TextView left=new TextView(getContext());
             left.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
             left.setTextColor(0xffFF008A);
-            left.setText(leftStrs[i]);
+            left.setText(sendGiftAmountBean.getEflag());
             left.setGravity(Gravity.CENTER);
             left.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
             left.setPadding(dip10,0,0,0);
@@ -80,30 +93,29 @@ public class BotTriangleBubbleView extends LinearLayout {
             TextView right=new TextView(getContext());
             right.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
             right.setTextColor(0xff404040);
-            right.setText(rightStrs[i]);
+            right.setText(sendGiftAmountBean.getCflag());
             right.setGravity(Gravity.CENTER);
             RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             rl.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
             right.setLayoutParams(rl);
-            right.setText(rightStrs[i]);
             right.setPadding(0,0,dip10,0);
             relativeLayout.addView(right);
 
             roundLinearLayout.addView(relativeLayout);
 
-            relativeLayout.setTag(leftStrs[i]);
+            relativeLayout.setTag(sendGiftAmountBean.getAmount());
 
             relativeLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(onCLickItemListener!=null)
                     {
-                        onCLickItemListener.onClick((String) v.getTag());
+                        onCLickItemListener.onClick((int) v.getTag());
                     }
                 }
             });
 
-            if(i<leftStrs.length-1)
+            if(i<sendGiftAmountBeans.size()-1)
             {
                 ImageView line=new ImageView(getContext());
                 LinearLayout.LayoutParams llLine=new LinearLayout.LayoutParams(llWidth-dip10, dip10/20);
@@ -114,13 +126,11 @@ public class BotTriangleBubbleView extends LinearLayout {
                 roundLinearLayout.addView(line);
             }
         }
-
     }
-
 
     public interface onCLickItemListener
     {
-        void onClick(String amount);
+        void onClick(int amount);
     }
 
 

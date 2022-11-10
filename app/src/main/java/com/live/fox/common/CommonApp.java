@@ -73,7 +73,7 @@ public class CommonApp extends MultiDexApplication {
         AppConfig.setAppLanguage(this);
 
         GlideUtils.defaultPlaceImg = R.drawable.img_default;
-        GlideUtils.defaultErrorImg = R.drawable.img_default;
+        GlideUtils.defaultErrorImg = R.mipmap.img_error;
 
         NotificationManager.getInstance().init(this);
 
@@ -83,9 +83,6 @@ public class CommonApp extends MultiDexApplication {
         initToast();  //初始化日志
         if (Constant.isCarsh) initCrash();   //异常捕获初始化
         LogUtils.getConfig().setLogSwitch(Constant.isShowLog); //LogUtils日志是否打印到控制台
-
-        GlideUtils.defaultErrorImg = R.drawable.img_default;
-        GlideUtils.defaultPlaceImg = R.drawable.img_default;
 
         initBugly();
         initSQL();

@@ -568,13 +568,28 @@
                 android:layout_weight="1"
                 android:scrollbars="none"
                 android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="50dp" />
+                android:fadingEdgeLength="40dp" />
 
-            <com.live.fox.view.VerticalTextView
-                android:id="@+id/vtEnterRoom"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="21dip"
-                android:background="@drawable/bg_66000000_round_10dip"/>
+                android:layout_height="26dip"
+                android:layout_marginRight="40dip"
+                android:paddingLeft="5dip"
+                >
+            <com.live.fox.view.AutoVerticalScrollTextView
+                android:id="@+id/vtEnterRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dip"
+                android:paddingRight="25dip"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:maxLines="1"
+                android:gravity="center_vertical"
+                android:textSize="13sp"
+                android:layout_centerVertical="true"
+                />
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -40,7 +40,6 @@ public class Api_Auth extends BaseApi {
      */
     public void phoneLogin(String mobile, String password, String areaCode,JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.AUTH_PHONELOGIN_URL;
-        callback.setUrlTag("/phone/login");
         HashMap<String, Object> params = getCommonParams();
         params.put("mobile", mobile);
         params.put("password", password);

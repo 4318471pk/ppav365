@@ -1,6 +1,7 @@
 package com.live.fox.ui.living;
 
 import android.content.Context;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -19,9 +20,11 @@ import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
+import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ControlPanelLivingBinding;
@@ -38,6 +41,7 @@ import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.Gift;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_User;
 import com.live.fox.utils.ChatSpanUtils;
@@ -119,7 +123,7 @@ public class LivingControlPanel extends RelativeLayout {
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
-        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),21);
+        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),26);
         mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -140,7 +144,6 @@ public class LivingControlPanel extends RelativeLayout {
             public void run() {
                 mBind.getRoot().setFitsSystemWindows(true);
                 mBind.getRoot().requestLayout();
-                LivingActivity activity=(LivingActivity) fragment.getActivity();
             }
         });
 
@@ -165,14 +168,6 @@ public class LivingControlPanel extends RelativeLayout {
         mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
         mBind.flTempleLayout.setTextList(mData);
 
-        ArrayList<SpannableString> titleList = new ArrayList<>();
-        titleList.add(new SpannableString("sadsadsa"));
-        titleList.add(new SpannableString("213213"));
-        titleList.add(new SpannableString("cxv43543"));
-        mBind.vtEnterRoom.setTextList(titleList);
-        mBind.vtEnterRoom.setTextStillTime(3000);//设置停留时长间隔
-        mBind.vtEnterRoom.setAnimTime(300);//设置进入和退出的时间间隔
-        mBind.vtEnterRoom.startAutoScroll();
     }
 
     private void setViewLP(View view,int height,int topMargin)
@@ -189,6 +184,16 @@ public class LivingControlPanel extends RelativeLayout {
         ll.topMargin=topMargin;
         ll.height=height;
         view.setLayoutParams(ll);
+    }
+
+    private LivingActivity getActivity()
+    {
+        if(fragment.isActivityOK())
+        {
+            LivingActivity activity=(LivingActivity) fragment.getActivity();
+            return activity;
+        }
+        return null;
     }
 
     public void onClickView(View view)
@@ -213,8 +218,41 @@ public class LivingControlPanel extends RelativeLayout {
                 }
                 break;
             case R.id.ivGift:
-                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),treasureBoxDialog);
+
+                if(getActivity()!=null )
+                {
+                    List<SendGiftAmountBean> sendGiftAmountBeanList=getActivity().getSendGiftAmountBeans();
+                    if(sendGiftAmountBeanList!=null && sendGiftAmountBeanList.size()>0)
+                    {
+                        mBind.rlBotView.setVisibility(INVISIBLE);
+                        mBind.llMessages.setVisibility(INVISIBLE);
+                        TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
+                        treasureBoxDialog.setGiftListData(getActivity().getGiftListData());
+                        treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
+                        treasureBoxDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                //去掉选中状态
+                                if(getActivity().getGiftListData()!=null)
+                                {
+                                    for (int i = 0; i < getActivity().getGiftListData().size(); i++) {
+                                        getActivity().getGiftListData().get(i).setSelected(false);
+                                    }
+                                }
+                                mBind.rlBotView.setVisibility(VISIBLE);
+                                mBind.llMessages.setVisibility(VISIBLE);
+                            }
+                        });
+                        treasureBoxDialog.setOnSelectedGiftListener(new TreasureBoxDialog.OnSelectedGiftListener() {
+                            @Override
+                            public void onSelect(String gid, int amount) {
+                                doSendGiftApi(gid,amount);
+                            }
+                        });
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),treasureBoxDialog);
+                    }
+
+                }
                 break;
             case R.id.tvRecommendForYou:
                 LivingActivity activity=(LivingActivity) fragment.getActivity();
@@ -241,7 +279,8 @@ public class LivingControlPanel extends RelativeLayout {
             case R.id.rlMain:
                 viewWatch.hideInputLayout();
                 viewWatch.hideKeyboard();
-                viewWatch.setScrollEnable(viewWatch.isKeyboardShow());
+                Log.e("rlMain",viewWatch.isMessagesPanelOpen()+" ");
+//                viewWatch.setScrollEnable(!viewWatch.isMessagesPanelOpen());
                 break;
             case R.id.gtvMoreTemple:
                 if(viewWatch.isKeyboardShow())
@@ -320,19 +359,22 @@ public class LivingControlPanel extends RelativeLayout {
         });
     }
 
-//    /**
-//     * 调用赠送礼物接口
-//     */
-//    public void doSendGiftApi(Gift gift, int count) {
-//        Api_Live.ins().sendGift(gift.getGid(), anchor.getAnchorId(),
-//                anchor.getLiveId(), 1, count, new JsonCallback<String>() {
-//                    @Override
-//                    public void onSuccess(int code, String msg, String result) {
-//                        LogUtils.e("json : " + result);
-//                        if (code != 0) {
-//                            ToastUtils.showShort(msg);
-//                        }
-//                    }
-//                });
-//    }
+    /**
+     * 调用赠送礼物接口
+     */
+    public void doSendGiftApi(String gid, int count) {
+        if(fragment.isActivityOK())
+        {
+            Api_Live.ins().sendGift(gid, fragment.getRoomBean().getAid(),
+                    fragment.getRoomBean().getId()+"", 1, count, new JsonCallback<String>() {
+                        @Override
+                        public void onSuccess(int code, String msg, String result) {
+                            LogUtils.e("json : " + result);
+                            if (code != 0) {
+                                ToastUtils.showShort(msg);
+                            }
+                        }
+                    });
+        }
+    }
 }

@@ -29,12 +29,17 @@ import com.live.fox.adapter.RecommendLivingAnchorAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PersonalContactCardDialog;
 import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
 import com.live.fox.entity.FlowDataBean;
+import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SendGiftAmountBean;
+import com.live.fox.server.Api_Live;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
@@ -63,6 +68,8 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     ArrayList<RoomListBean> roomListBeans;
     int pagerPosition;
     boolean isLoop=false;//开启无限循环上下拉
+    List<LivingGiftBean> giftListData;//礼物列表;
+    List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
@@ -242,10 +249,17 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 //        showFirstTimeTopUpDialog();
 //        showContactCardDialog();
 //        showFreeRoomToPrepaidRoom();
+        getGiftList();//请求获取礼物
+        getAmountListOfGift();//请求获取发送礼物数量列表
     }
 
     private void setViewPagerAdapter(int currentPosition)
     {
+        if(livingFragmentStateAdapter!=null)
+        {
+            livingFragmentStateAdapter.clearCache();
+            livingFragmentStateAdapter=null;
+        }
         livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,roomListBeans.size(),isLoop);
         mBind.vp2.setAdapter(livingFragmentStateAdapter);
         if(isLoop)
@@ -265,6 +279,14 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         recommendListAdapter.setNewData(list);
     }
 
+    public List<SendGiftAmountBean> getSendGiftAmountBeans() {
+        return sendGiftAmountBeans;
+    }
+
+    public List<LivingGiftBean> getGiftListData() {
+        return giftListData;
+    }
+
     public void scrollRecommendViewToTop()
     {
         mBind.rvRecommendList.getLayoutManager().scrollToPosition(0);
@@ -274,7 +296,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     {
         mBind.srlRefresh.finishRefresh(isSuccess);
     }
-
 
 
     public ArrayList<RoomListBean> getRoomListBeans() {
@@ -410,5 +431,56 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     protected void onDestroy() {
         super.onDestroy();
         AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);
+    }
+
+    private void getGiftList()
+    {
+        Api_Live.ins().getGiftList(0, new JsonCallback<List<LivingGiftBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<LivingGiftBean> data) {
+                if(code==0)
+                {
+                    if(giftListData==null)
+                    {
+                        giftListData=new ArrayList<>();
+                    }
+                    if(data!=null)
+                    {
+                        for (int i = 0; i < data.size(); i++) {
+                            LivingGiftBean livingGiftBean=data.get(i);
+                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setSelected(false);
+                            livingGiftBean.setItemId(livingGiftBean.getId()+"");
+                            livingGiftBean.setImgUrl(livingGiftBean.getGitficon());
+                            livingGiftBean.setCostDiamond(livingGiftBean.getNeeddiamond());
+                            giftListData.add(data.get(i));
+                        }
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+
+            }
+        });
+    }
+
+    private void getAmountListOfGift()
+    {
+        Api_Live.ins().getGiftAmountList( new JsonCallback<List<SendGiftAmountBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<SendGiftAmountBean> data) {
+                if(code==0)
+                {
+                    Log.e("getAmountListOfGift",data.toString());
+                    LivingActivity.this.sendGiftAmountBeans=data;
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
     }
 }

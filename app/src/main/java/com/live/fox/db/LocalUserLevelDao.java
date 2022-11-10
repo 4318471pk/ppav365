@@ -7,6 +7,8 @@ import com.live.fox.common.CommonApp;
 import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.utils.LogUtils;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.io.File;
 import java.util.List;
 
@@ -120,5 +122,16 @@ public class LocalUserLevelDao implements ResourceDaoImpl<UserLevelResourceBean>
     public List<UserLevelResourceBean> queryList() {
         List<UserLevelResourceBean> userLevelResourceBeans= CommonApp.getInstance().getDaoSession().getUserLevelResourceBeanDao().queryBuilder().list();
         return userLevelResourceBeans;
+    }
+
+    public String getLevelIcon(int level)
+    {
+      QueryBuilder<UserLevelResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getUserLevelResourceBeanDao().queryBuilder();
+      UserLevelResourceBean userLevelResourceBeans= queryBuilder.where(UserLevelResourceBeanDao.Properties.Level.eq(level)).unique();
+      if(userLevelResourceBeans!=null)
+      {
+          return userLevelResourceBeans.getLocalImgPath();
+      }
+      return "";
     }
 }
