@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.gson.Gson;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
+import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
 import com.live.fox.base.BaseBindingFragment;
@@ -33,6 +35,7 @@ import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LivingMessageBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
@@ -76,7 +79,7 @@ public class LivingFragment extends BaseBindingFragment {
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
-    Handler handler=new Handler(Looper.myLooper());
+    Handler handler = new Handler(Looper.myLooper());
 
 
     public static LivingFragment getInstance(int position, int viewPagePosition) {
@@ -151,7 +154,7 @@ public class LivingFragment extends BaseBindingFragment {
                         //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
                         livingControlPanel.viewWatch.setScrollEnable(true);
                     }
-                },1500);
+                }, 1500);
 
                 livingControlPanel.viewWatch.hideInputLayout();
             }
@@ -266,18 +269,20 @@ public class LivingFragment extends BaseBindingFragment {
         return activity.getRoomListBeans().get(currentPagePosition);
     }
 
-    private void sendSystemMsgToChat(String msg)
-    {
-        LivingMsgBoxBean bean=new LivingMsgBoxBean();
+    private void sendSystemMsgToChat(LivingMessageBean livingMessageBean) {
+        LivingMsgBoxBean bean = new LivingMsgBoxBean();
         bean.setBackgroundColor(0x66000000);
         bean.setType(0);
-        bean.setCharSequence(msg);
+
+        SpanUtils spanUtils=new SpanUtils();
+        ChatSpanUtils.ins().appendMessageType(spanUtils,livingMessageBean.getProtocol(),getActivity());
+        spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
+        bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
 
     private void addNewMessage(LivingMsgBoxBean bean) {
-        if(!isActivityOK())
-        {
+        if (!isActivityOK()) {
             return;
         }
         if (livingMsgBoxAdapter == null) {
@@ -469,18 +474,15 @@ public class LivingFragment extends BaseBindingFragment {
                     "", 0, new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
-                            if (mLivePlayer != null && enterRoomBean != null ) {
+                            if (mLivePlayer != null && enterRoomBean != null) {
 
-                                if(!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()))
-                                {
-                                    if(!PlayerUtils.checkPlayUrl(enterRoomBean.getPullStreamUrl(),getActivity()))
-                                    {
+                                if (!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl())) {
+                                    if (!PlayerUtils.checkPlayUrl(enterRoomBean.getPullStreamUrl(), getActivity())) {
                                         return;
                                     }
 
                                     //是否真实直播间(0虚拟 1真实)
-                                    switch (enterRoomBean.getIsReal())
-                                    {
+                                    switch (enterRoomBean.getIsReal()) {
                                         case 0:
                                             mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), PlayerUtils.getVideoType(enterRoomBean.getPullStreamUrl()));
                                             break;
@@ -513,7 +515,7 @@ public class LivingFragment extends BaseBindingFragment {
                 public void onError(int code, String desc) {
                     LogUtils.e("IMGroup->onError:" + code + "，" + desc);
                     hideLoadingDialog();
-                    joinGroupFailed(liveId,1, code, desc);
+                    joinGroupFailed(liveId, 1, code, desc);
                 }
 
                 @Override
@@ -523,7 +525,7 @@ public class LivingFragment extends BaseBindingFragment {
                 }
             });
         } else {
-            LogUtils.e("IMGroup-> 当前连接IM的用户:" + currentUser+ " liveid "+liveId);
+            LogUtils.e("IMGroup-> 当前连接IM的用户:" + currentUser + " liveid " + liveId);
             joinIMGroup(liveId);
         }
     }
@@ -536,7 +538,7 @@ public class LivingFragment extends BaseBindingFragment {
      * @param code 失败代码 类型
      * @param desc 失败的原因
      */
-    private void joinGroupFailed(String liveId,int type, int code, String desc) {
+    private void joinGroupFailed(String liveId, int type, int code, String desc) {
         switch (code) {
             case 6017:
                 if ("sdk not initialized".equals(desc)) {
@@ -557,7 +559,8 @@ public class LivingFragment extends BaseBindingFragment {
                 break;
 
             case 6012: //请求超时，请等网络恢复后重试。（Android SDK 1.8.0 以上需要参考 Android 服务进程配置 方式进行配置，否则会出现此错误）
-                sendSystemMsgToChat(getString(R.string.discRetry));
+                LivingMessageBean bean=LivingMessageBean.simpleSystemMessage(getStringWithoutContext(R.string.discRetry),MessageProtocol.LIVE_ENTER_ROOM);
+                sendSystemMsgToChat(bean);
                 if (type == 1) {
                     checkAndJoinIM(liveId);
                 } else {
@@ -591,11 +594,11 @@ public class LivingFragment extends BaseBindingFragment {
                 getString(R.string.openJoinChat), new V2TIMCallback() {
                     @Override
                     public void onSuccess() {
-                        String nickName= DataCenter.getInstance().getUserInfo().getUser().getNickname();
+                        String nickName = DataCenter.getInstance().getUserInfo().getUser().getNickname();
                         if(!TextUtils.isEmpty(nickName))
                         {
                             String welcome = String.format(getString(R.string.chatWelcome), nickName);
-                            sendSystemMsgToChat(welcome);
+                            sendSystemMsgToChat(LivingMessageBean.simpleSystemMessage(welcome,MessageProtocol.LIVE_ENTER_ROOM));
                         }
 
 //                        if (currentAnchor.getShowType() == 0) {
@@ -608,14 +611,28 @@ public class LivingFragment extends BaseBindingFragment {
                     @Override
                     public void onError(int code, String desc) {
                         LogUtils.e("IMGroup-> 加入聊天失敗: code->" + code + "  , desc->" + desc);
-                        joinGroupFailed(liveId,2, code, desc);
+                        joinGroupFailed(liveId, 2, code, desc);
                     }
                 });
     }
 
 
-    public void onNewMessageReceived(int protocol, String msg)
-    {
-        sendSystemMsgToChat(msg);
+    public void onNewMessageReceived(int protocol, String msg) {
+        if (!TextUtils.isEmpty(msg)) {
+            LivingMessageBean livingMessageBean = new Gson().fromJson(msg, LivingMessageBean.class);
+            if(!TextUtils.isEmpty(livingMessageBean.getProtocol()))
+            {
+                switch (livingMessageBean.getProtocol()) {
+                    case MessageProtocol.SYSTEM_NOTICE:
+                    case MessageProtocol.GAME_CP_WIN:
+                        break;
+                    case MessageProtocol.LIVE_ENTER_ROOM:
+
+                        break;
+                }
+            }
+
+
+        }
     }
 }

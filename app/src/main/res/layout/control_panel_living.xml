@@ -550,24 +550,33 @@
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
             android:layout_height="200dip"
+            android:layout_marginLeft="10dip"
+            android:orientation="vertical"
             android:onClick="@{click.onClickView}"
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
             >
+
             <com.live.fox.view.overscroll.RecyclerViewBouncy
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
                 android:scrollbars="none"
                 android:requiresFadingEdge="vertical"
                 android:fadingEdgeLength="50dp" />
 
-        </RelativeLayout>
+            <com.live.fox.view.VerticalTextView
+                android:id="@+id/vtEnterRoom"
+                android:layout_width="match_parent"
+                android:layout_height="21dip"
+                android:background="@drawable/bg_66000000_round_10dip"/>
+
+        </LinearLayout>
 
     </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>

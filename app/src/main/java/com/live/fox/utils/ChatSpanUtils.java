@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
+import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.entity.ChatEntity;
 import com.live.fox.entity.FunctionItem;
@@ -164,7 +165,7 @@ public class ChatSpanUtils {
 
                 Gift gift = giftBean.getGift();
                 LogUtils.e(gift.getCover());
-                appendMessageType(spanUtils, 1, context);
+                appendMessageType(spanUtils, "", context);
                 appendBadges(context, spanUtils, jsonObject, chatHide);
                 appendText(spanUtils, giftBean.chatHide == 0 ? user.getNickname() : context.getString(R.string.mysteriousMan), ContentType.System, true, null);
                 appendText(spanUtils, context.getString(R.string.sended) + gift.getGname(),
@@ -256,7 +257,7 @@ public class ChatSpanUtils {
                 String lottryName = jsonObject.optString("code");
                 int times = jsonObject.optInt("times");
                 List<LotteryItem> payList = GsonUtil.getObjects(String.valueOf(jsonObject.opt("payList")), LotteryItem[].class);
-                appendMessageType(spanUtils, 1, context);
+                appendMessageType(spanUtils, "", context);
 
                 String strFormat = String.format(context.getString(R.string.already_bet_format),
                         nickName, name, RegexUtils.westMoney(totalCoin) + context.getString(R.string.gold));
@@ -275,7 +276,7 @@ public class ChatSpanUtils {
                 String nickName27 = jsonObject.optString("nickName");
                 String name27 = jsonObject.optString("name");
                 double winMoney = jsonObject.optDouble("winMoney");
-                appendMessageType(spanUtils, 2, context);
+                appendMessageType(spanUtils, "", context);
                 String strFormatLottery = String.format(context.getString(R.string.win_format),
                         nickName27, name27, RegexUtils.westMoney(winMoney) + context.getString(R.string.gold));
                 appendText(spanUtils, strFormatLottery, ContentType.Hint, true, null);
@@ -287,11 +288,11 @@ public class ChatSpanUtils {
                 long uid28 = jsonObject.optLong("uid");
                 int type28 = jsonObject.optInt("type");
                 if (uid28 == DataCenter.getInstance().getUserInfo().getUser().getUid()) {
-                    appendMessageType(spanUtils, 1, context);
+                    appendMessageType(spanUtils, "", context);
                     String msg = type28 == 1 ? context.getString(R.string.gxnnbrmwfg) : context.getString(R.string.hyhnbqxlfg);
                     appendText(spanUtils, msg, ContentType.System, true, null);
                 } else {
-                    appendMessageType(spanUtils, 1, context);
+                    appendMessageType(spanUtils, "", context);
                     String msg = type28 == 1 ? context.getString(R.string.congratulation) + nickName28 + context.getString(R.string.brmwfg) : nickName28 + context.getString(R.string.bqxlfg);
                     appendText(spanUtils, msg, ContentType.System, true, null);
                 }
@@ -442,20 +443,22 @@ public class ChatSpanUtils {
 
     }
 
-    public void appendMessageType(SpanUtils spanUtils, int type, Context context) {
+    public void appendMessageType(SpanUtils spanUtils, String protocol, Context context) {
         int resourceId = 1;
-        switch (type) {
-            case 1:// 系统
-                resourceId = R.drawable.danmu_xitong;
+        switch (protocol) {
+            case MessageProtocol.SYSTEM_NOTICE:// 系统
+            case MessageProtocol.SYSTEM_ADVERTISE:// 系统
+            case MessageProtocol.LIVE_ENTER_ROOM:
+                resourceId = R.mipmap.icon_tag_sys;
                 break;
-            case 2:// 中奖
-                resourceId = R.drawable.danmu_zhongjiang;
+            case MessageProtocol.GAME_CP_WIN:// 中奖
+                resourceId = R.mipmap.icon_tag_win;
                 break;
         }
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
         if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 88, 50), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
     }
 

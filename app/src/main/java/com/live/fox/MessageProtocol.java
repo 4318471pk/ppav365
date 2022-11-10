@@ -16,7 +16,7 @@ public interface MessageProtocol {
     public static final String LIVE_STOP_LIVE= "2002";//关播
     public static final String LIVE_ANCHOR_LEAVE_BACK = "2003";//主播离开或返回
     public static final String LIVE_FOLLOW = "2004";//关注
-    public static final String LIVE_INTER_ROOM = "2005";//进房:{}来了
+    public static final String LIVE_ENTER_ROOM = "2005";//进房:{}来了
     public static final String LIVE_UP_LEVEL = "2006";//主播或用户 升级
     public static final String LIVE_ROOM_CHAT = "2007";//直播间聊天
     public static final String LIVE_SEND_GIFT = "2008";//送礼消息

@@ -1,6 +1,7 @@
 package com.live.fox.ui.living;
 
 import android.content.Context;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -118,6 +119,7 @@ public class LivingControlPanel extends RelativeLayout {
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
+        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),21);
         mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -162,6 +164,15 @@ public class LivingControlPanel extends RelativeLayout {
         mData.add(new FlowDataBean("阿是达拉斯空间的合理撒娇的拉萨剪刀手拉大距离撒娇了撒开多久啊深刻的哈萨克"));
         mData.add(new FlowDataBean("222撒娇了撒开多哈萨克"));
         mBind.flTempleLayout.setTextList(mData);
+
+        ArrayList<SpannableString> titleList = new ArrayList<>();
+        titleList.add(new SpannableString("sadsadsa"));
+        titleList.add(new SpannableString("213213"));
+        titleList.add(new SpannableString("cxv43543"));
+        mBind.vtEnterRoom.setTextList(titleList);
+        mBind.vtEnterRoom.setTextStillTime(3000);//设置停留时长间隔
+        mBind.vtEnterRoom.setAnimTime(300);//设置进入和退出的时间间隔
+        mBind.vtEnterRoom.startAutoScroll();
     }
 
     private void setViewLP(View view,int height,int topMargin)
