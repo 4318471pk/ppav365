@@ -18,10 +18,23 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.lahm.library.EasyProtectorLib;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.db.LocalGiftDao;
+import com.live.fox.db.LocalMountResourceDao;
+import com.live.fox.db.LocalSendGiftDao;
+import com.live.fox.db.LocalUserGuardDao;
+import com.live.fox.db.LocalUserLevelDao;
+import com.live.fox.db.LocalUserTagResourceDao;
 import com.live.fox.dialog.CommonDialog;
 import com.live.fox.entity.BaseInfo;
 import com.live.fox.entity.CountryCode;
+import com.live.fox.entity.GiftResourceBean;
+import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.SendGiftResourceBean;
+import com.live.fox.entity.UserGuardResourceBean;
+import com.live.fox.entity.UserLevelResourceBean;
+import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.ResourceDownloadService;
 import com.live.fox.svga.AdmissionManager;
 import com.live.fox.svga.BadgesManager;
 import com.live.fox.svga.GiftManager;
@@ -31,6 +44,7 @@ import com.live.fox.server.Api_Auth;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Promotion;
 import com.live.fox.server.Api_User;
+import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
@@ -39,6 +53,9 @@ import com.live.fox.utils.okgo.OkGoHttpUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -120,6 +137,7 @@ public class SplashPresenter {
      */
     private void handDomains() {
         domains = AppConfig.getAppDomains();
+        SPUtils.getInstance().put(ConstantValue.BaseDomain, domains.get(0));
     }
 
     public void showAlertDialog(String msg, String btnTxt, DialogInterface.OnClickListener onClickListener) {
@@ -141,6 +159,8 @@ public class SplashPresenter {
                 .subscribe(granted -> {
                     if (granted) {  // 所有权限都同意
                         doBaseApi();
+                        //开启资源服务下载资源
+                        ResourceDownloadService.startService(context);
                     } else {    // 有的权限被拒绝或被勾选不再提示
                         LogUtils.e("有的权限被拒绝");
                         showAlertDialog(context.getString(R.string.smqx),
@@ -229,7 +249,6 @@ public class SplashPresenter {
                 LogUtils.e("doBaseApi onResponse: " + call.request().url());
                 JsonObject body = response.body();
                 if (body != null) {
-                    SPUtils.getInstance().put(ConstantValue.BaseDomain, domains.get(0));
 //                    doGetTraceInstall();//取消提交安装
                     JsonObject data = body.getAsJsonObject("data");
                     JsonArray jsonArray = data.getAsJsonArray("configSystemBaseList");
@@ -281,6 +300,8 @@ public class SplashPresenter {
             }
         });
     }
+
+
 
     /**
      * Base接口请求成功后做的一些操作

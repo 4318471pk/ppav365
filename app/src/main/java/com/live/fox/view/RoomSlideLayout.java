@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -15,6 +13,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -22,12 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.MotionEventCompat;
 import androidx.customview.widget.ViewDragHelper;
 
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.live.fox.R;
 import com.live.fox.entity.Anchor;
-import com.live.fox.utils.FrescoUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
@@ -92,7 +87,7 @@ public class RoomSlideLayout extends RelativeLayout {
 
     private ArrayList<Anchor> anchorList;
 
-    private SimpleDraweeView sdNextAnchor;
+    private ImageView sdNextAnchor;
 
     public RoomSlideLayout(Context context) {
         this(context, null);
@@ -120,11 +115,6 @@ public class RoomSlideLayout extends RelativeLayout {
                 mainLayout = findViewById(R.id.main_container);
                 videoLayout = findViewById(R.id.video_container);
                 sdNextAnchor = findViewById(R.id.sd_next_anchor_cover);
-                AbstractScaleType abstractScaleType = new AbstractScaleType(mHeight);
-                GenericDraweeHierarchy hierarchy = sdNextAnchor.getHierarchy();
-                hierarchy.setPlaceholderImage(R.drawable.liveing_star, abstractScaleType);
-                hierarchy.setActualImageScaleType(abstractScaleType);
-                getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
 
@@ -152,31 +142,6 @@ public class RoomSlideLayout extends RelativeLayout {
     }
 
 
-    private static class AbstractScaleType implements ScalingUtils.ScaleType {
-
-        int height;
-
-        AbstractScaleType(int height) {
-            this.height = height;
-        }
-
-        @Override
-        public Matrix getTransform(Matrix outTransform, Rect parentRect, int childWidth, int childHeight, float focusX, float focusY) {
-            // 取宽度和高度需要缩放的倍数中最大的一个
-            final float sX = (float) parentRect.width() / (float) childWidth;
-            final float sY = (float) height / (float) childHeight;
-            float scale = Math.max(sX, sY);
-
-            // 计算为了均分空白区域，需要偏移的x、y方向的距离
-            float dx = parentRect.left + (parentRect.width() - childWidth * scale) * 0.5f;
-            float dy = parentRect.top + (parentRect.height() - childHeight * scale) * 0.5f;
-
-            // 最后我们应用它
-            outTransform.setScale(scale, scale);
-            outTransform.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
-            return outTransform;
-        }
-    }
 
 
     @Override
@@ -408,7 +373,6 @@ public class RoomSlideLayout extends RelativeLayout {
         String bigPic = replaceDomain(anchorList.get(index).getAvatar()).toString();
         if (!bigPic.equals(sdNextAnchor.getContentDescription())) {
             sdNextAnchor.setContentDescription(bigPic);
-            FrescoUtil.loadUrl(bigPic, sdNextAnchor);
 //            GlideUtils.loadImage(getContext(), bigPic, sdNextAnchor);
         }
         if (Math.abs(oldTranslationY) != mHeight) {

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Audience implements Serializable {
 
-    boolean isInter;
     long liveId;
     long uid;
     String nickname;
@@ -46,14 +45,6 @@ public class Audience implements Serializable {
 
     public void setRankHide(int mRankHide) {
         rankHide = mRankHide;
-    }
-
-    public boolean isInter() {
-        return isInter;
-    }
-
-    public void setInter(boolean inter) {
-        isInter = inter;
     }
 
     public long getLiveId() {

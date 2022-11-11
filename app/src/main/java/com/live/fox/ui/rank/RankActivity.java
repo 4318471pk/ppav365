@@ -27,6 +27,7 @@ import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.tab.SimpleTabLayout;
+import com.opensource.svgaplayer.SVGAParser;
 
 import org.json.JSONObject;
 
@@ -65,6 +66,8 @@ public class RankActivity extends BaseBindingViewActivity {
     public void initView()
     {
         mBind=getViewDataBinding();
+
+        SVGAParser.Companion.shareParser().init(this);
         int widthScreen= ScreenUtils.getScreenWidth(this);
         mBind.tabLayout.setGradient(0xffA800FF,0xffEA00FF);
 

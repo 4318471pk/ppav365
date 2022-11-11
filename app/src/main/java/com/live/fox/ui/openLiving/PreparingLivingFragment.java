@@ -1,6 +1,7 @@
 package com.live.fox.ui.openLiving;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -12,13 +13,21 @@ import android.widget.TextView;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentPreparingLivingBinding;
 import com.live.fox.dialog.bottomDialog.ContactCardObtainDialog;
 import com.live.fox.dialog.bottomDialog.EditLivingGameTypeDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SetLocationDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Live;
+import com.live.fox.ui.mine.CenterOfAnchorActivity;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PreparingLivingFragment extends BaseBindingFragment {
 
@@ -137,6 +146,5 @@ public class PreparingLivingFragment extends BaseBindingFragment {
 
         view.setVisibility(View.VISIBLE);
     }
-
 
 }

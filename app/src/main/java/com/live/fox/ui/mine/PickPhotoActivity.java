@@ -128,7 +128,6 @@ public class PickPhotoActivity extends AppCompatActivity implements ViewPager.On
         super.onResume();
         if (Constant.isShowWindow) {
             Constant.isOpenWindow = true;
-            App.getInstance().getFloatView().addToWindow(true, this);
         }
     }
 }

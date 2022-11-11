@@ -59,7 +59,7 @@ import static com.tencent.rtmp.TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
 
 public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLivePushListener {
 
-    private static final String PushUrl="PushUrl";
+    private static final String Title="Title";
     ActivityOpenLivingBinding mBind;
     private TXLivePusher mLivePusher;                    // SDK 推流类
     private TXLivePushConfig mLivePushConfig;                // SDK 推流 config
@@ -68,13 +68,26 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     TXPhoneStateListener mPhoneListener;
     boolean isCameraInitFinish=false;
     boolean isFrontCarame = true; //是否前置摄像头
-    String mPushUrl="";
+    String mPushUrl="",roomTitle;
     //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
-    public static void startActivity(Context context,String pushUrl)
+    public String getRoomTitle()
+    {
+        return roomTitle;
+    }
+
+    public String getPushUrl() {
+        return mPushUrl;
+    }
+
+    public void setPushUrl(String mPushUrl) {
+        this.mPushUrl = mPushUrl;
+    }
+
+    public static void startActivity(Context context, String roomTitle)
     {
         Intent intent=new Intent(context,OpenLivingActivity.class);
-        intent.putExtra(PushUrl,pushUrl);
+        intent.putExtra(Title,roomTitle);
         context.startActivity(intent);
     }
 
@@ -98,7 +111,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-        mPushUrl=getIntent().getStringExtra(PushUrl);
+        roomTitle=getIntent().getStringExtra(Title);
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |

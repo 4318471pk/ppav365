@@ -2,6 +2,7 @@ package com.live.fox.entity;
 
 public class TreasureItemBean {
 
+    String itemId;
     String name;
     int costDiamond;
     String imgUrl;
@@ -9,6 +10,14 @@ public class TreasureItemBean {
 
     public String getName() {
         return name;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public void setName(String name) {

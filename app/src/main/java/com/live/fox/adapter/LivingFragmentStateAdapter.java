@@ -25,6 +25,11 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
         sparseArray=new SparseArray<>();
     }
 
+    public void clearCache()
+    {
+        sparseArray.clear();
+    }
+
     public LivingFragment getFragment(int position)
     {
         if(sparseArray.get(position)==null)

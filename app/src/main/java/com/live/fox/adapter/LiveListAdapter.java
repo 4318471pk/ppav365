@@ -22,9 +22,10 @@ import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
+import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StringUtils;
-import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.AnchorRoundImageView;
 import com.live.fox.view.GradientTextView;
 
 import java.util.List;
@@ -39,14 +40,16 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
     Context context;
     Drawable clock,diamond;
     int defaultDrawable;
+    int dip10;
 
 
     public LiveListAdapter(Context context,List<RoomListBean> data) {
         super(R.layout.item_anchor_list, R.layout.item_liveroomlist_adbanner, data);
-        itemWidth= (ScreenUtils.getScreenWidth(context)-ScreenUtils.getDip2px(context,15))/2;
+        itemWidth= (ScreenUtils.getScreenWidth(context)-ScreenUtils.dp2px(context,15))/2;
         clock=context.getResources().getDrawable(R.mipmap.icon_clock);
         diamond=context.getResources().getDrawable(R.mipmap.icon_diamond);
         defaultDrawable=R.mipmap.icon_anchor_loading;
+        dip10= ScreenUtils.dp2px(context,10);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
 
         GradientTextView gtvUnitPrice = helper.getView(R.id.gtvUnitPrice);  //类别
         GradientTextView tvAnchorPaymentType=helper.getView(R.id.tvAnchorPaymentType);
-        ImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
+        AnchorRoundImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
         TextView tvNum=helper.getView(R.id.tvNum);
         tvNum.setText(data.getLiveSum()+"");
 
@@ -93,14 +96,8 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
 
         helper.setText(R.id.tv_nickname,data.getTitle());
 
-        if(TextUtils.isEmpty(data.getRoomIcon()))
-        {
-            ivRoundBG.setImageDrawable(context.getResources().getDrawable(defaultDrawable));
-        }
-        else
-        {
-            GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
-        }
+        ivRoundBG.setRadius(dip10);
+        GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
 
         //1普通房间2密码房间3计时房间4贵族房间5计场房间
         switch (data.getRoomType())

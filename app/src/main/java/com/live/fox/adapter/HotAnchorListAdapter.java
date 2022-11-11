@@ -13,8 +13,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
-import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.AnchorRoundImageView;
 import com.live.fox.view.GradientTextView;
 
 import android.content.Context;
@@ -30,7 +31,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.utils.SpanUtils;
-import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.GradientTextView;
 
 import java.util.List;
@@ -39,15 +39,16 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
     Context context;
     int itemWidth;
     Drawable clock,diamond;
-    int defaultDrawable;
+    int defaultDrawable,dip10;
 
     public HotAnchorListAdapter(Context context,  List<RoomListBean> data) {
         super(R.layout.item_anchor_list, data);
         this.context=context;
-        itemWidth= (ScreenUtils.getScreenWidth(context)-ScreenUtils.getDip2px(context,15))/2;
+        itemWidth= (ScreenUtils.getScreenWidth(context)-ScreenUtils.dp2px(context,15))/2;
         clock=context.getResources().getDrawable(R.mipmap.icon_clock);
         diamond=context.getResources().getDrawable(R.mipmap.icon_diamond);
         defaultDrawable=R.mipmap.icon_anchor_loading;
+        dip10=ScreenUtils.dp2px(context,10);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
 
         GradientTextView gtvUnitPrice = helper.getView(R.id.gtvUnitPrice);
         GradientTextView tvAnchorPaymentType = helper.getView(R.id.tvAnchorPaymentType);
-        ImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
+        AnchorRoundImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
         TextView tvNum=helper.getView(R.id.tvNum);
         tvNum.setText(data.getLiveSum()+"");
 
@@ -102,7 +103,8 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
         }
         else
         {
-            GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
+            ivRoundBG.setRadius(dip10);
+            GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),defaultDrawable,defaultDrawable, ivRoundBG);
         }
     }
 }

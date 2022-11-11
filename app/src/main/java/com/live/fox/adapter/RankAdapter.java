@@ -20,6 +20,8 @@ import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.view.RankProfileView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class RankAdapter extends BaseQuickAdapter<RankIndexBean, RankAdapter.RankViewHold> {
@@ -29,7 +31,12 @@ public class RankAdapter extends BaseQuickAdapter<RankIndexBean, RankAdapter.Ran
     public RankAdapter(Activity context, @Nullable List data) {
         super(R.layout.item_rank_profile, data);
         this.context=context;
+        setHasStableIds(true);
+    }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public void notifyData(List data)
@@ -46,10 +53,27 @@ public class RankAdapter extends BaseQuickAdapter<RankIndexBean, RankAdapter.Ran
         spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(item.getLevel(), context));
         helper.tvNickName.setText(spanUtils.create());
         helper.tvHuo.setText(item.getHuo());
-        helper.rpv.setIndex(RankProfileView.NONE,item.getLevel()%7,false);
+        helper.rpv.setIndex(RankProfileView.NONE,item.getLevel()%7,item.getLevel()%7==0);
         helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
     }
 
+    @Override
+    public void onViewRecycled(@NonNull @NotNull RankViewHold holder) {
+        super.onViewRecycled(holder);
+        if(holder.rpv!=null)
+        {
+            holder.rpv.stopLivingAnimation();
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RankViewHold holder) {
+        super.onViewAttachedToWindow(holder);
+        if(holder.rpv!=null)
+        {
+            holder.rpv.startLivingAnimation();
+        }
+    }
 
     public class RankViewHold extends BaseViewHolder
     {
@@ -68,4 +92,6 @@ public class RankAdapter extends BaseQuickAdapter<RankIndexBean, RankAdapter.Ran
             tvIndex=view.findViewById(R.id.tvIndex);
         }
     }
+
+
 }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.IdRes;
@@ -59,6 +60,7 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     ViewDataBinding viewDataBinding;
     LoadingBindingDialogFragment loadingBindingDialogFragment;
+    OnDismissListener onDismissListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +75,8 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     public boolean isConditionOk()
     {
-        return mWeakContext!=null && mWeakContext.get()!=null ;
+        return mWeakContext!=null && mWeakContext.get()!=null
+                && getActivity()!=null && !getActivity().isFinishing() && !getActivity().isDestroyed();
     }
 
     public <T extends ViewDataBinding> T getViewDataBinding() {
@@ -139,6 +142,9 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
         }
     }
 
+    public void setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
 
     @Override
     public void onResume() {
@@ -159,12 +165,20 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     public void dismiss() {
         super.dismiss();
         DialogFramentManager.getInstance().removeDialog(this);
+        if(onDismissListener!=null)
+        {
+            onDismissListener.onDismiss();
+        }
     }
 
     @Override
     public void dismissAllowingStateLoss() {
         super.dismissAllowingStateLoss();
         DialogFramentManager.getInstance().removeDialog(this);
+        if(onDismissListener!=null)
+        {
+            onDismissListener.onDismiss();
+        }
     }
 
     @Override
@@ -323,9 +337,18 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
             getDialog().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
             getDialog().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getDialog().getWindow().setStatusBarColor(Color.TRANSPARENT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getDialog().getWindow().setStatusBarColor(Color.TRANSPARENT);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
             getDialog().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+    }
+
+    public interface OnDismissListener
+    {
+        void onDismiss();
     }
 }

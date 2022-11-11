@@ -24,6 +24,8 @@ import com.live.fox.R;
 import com.live.fox.adapter.TreasureBoxPagerAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogTreasureBoxBinding;
+import com.live.fox.entity.LivingGiftBean;
+import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.TreasureItemBean;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.ScreenUtils;
@@ -38,13 +40,31 @@ import java.util.List;
 public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
     DialogTreasureBoxBinding mBind;
-    List<List<TreasureItemBean>> lists;
+    List<List<? extends TreasureItemBean>> lists;
     TreasureBoxPagerAdapter adapter;
+    List<? extends TreasureItemBean> giftListData;
+    List<SendGiftAmountBean> sendGiftAmountBeans;
+    int topMargin=0;
+    OnSelectedGiftListener onSelectedGiftListener;
 
 
     public static TreasureBoxDialog getInstance()
     {
-        return new TreasureBoxDialog();
+        TreasureBoxDialog treasureBoxDialog=new TreasureBoxDialog();
+        treasureBoxDialog.lists=new ArrayList<>();
+        return treasureBoxDialog;
+    }
+
+    public void setGiftListData(List<? extends TreasureItemBean> giftListData) {
+        this.giftListData = giftListData;
+    }
+
+    public void setSendGiftAmountBeans(List<SendGiftAmountBean> sendGiftAmountBeans) {
+        this.sendGiftAmountBeans = sendGiftAmountBeans;
+    }
+
+    public void setOnSelectedGiftListener(OnSelectedGiftListener onSelectedGiftListener) {
+        this.onSelectedGiftListener = onSelectedGiftListener;
     }
 
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
@@ -109,6 +129,24 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
             case R.id.rlAmount:
                 addBubbleView();
                 break;
+            case R.id.tvGive:
+                if(onSelectedGiftListener!=null)
+                {
+                    if(lists.size()>mBind.viewPager.getCurrentItem() && lists.get(mBind.viewPager.getCurrentItem()).size()>0)
+                    {
+                        for (int i = 0; i < lists.get(mBind.viewPager.getCurrentItem()).size(); i++) {
+                            TreasureItemBean treasureItemBean=lists.get(mBind.viewPager.getCurrentItem()).get(i);
+                            if(treasureItemBean.isSelected())
+                            {
+                                onSelectedGiftListener.onSelect(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
+                                dismissAllowingStateLoss();
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                break;
         }
     }
 
@@ -121,8 +159,6 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
     public void initView(View view) {
         mBind=getViewDataBinding();
         mBind.setClick(this);
-
-
 
         view.setVisibility(View.GONE);
         int screenWidth= ScreenUtils.getScreenWidth(getActivity());
@@ -149,6 +185,11 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
     private void addBubbleView()
     {
+        if(sendGiftAmountBeans==null || sendGiftAmountBeans.size()==0)
+        {
+            return;
+        }
+
         int screenWidth=ScreenUtils.getScreenWidth(getActivity());
         int height=mBind.rlContent.getLayoutParams().height;
         RelativeLayout relativeLayout=new RelativeLayout(getActivity());
@@ -161,16 +202,18 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         });
 
         BotTriangleBubbleView botTriangleBubbleView=new BotTriangleBubbleView(getActivity());
+        botTriangleBubbleView.setSendGiftAmountBeans(sendGiftAmountBeans);
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rl.leftMargin=screenWidth-ScreenUtils.dp2px(getActivity(),132);
         rl.bottomMargin=ScreenUtils.dp2px(getActivity(),50);
         rl.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         botTriangleBubbleView.setLayoutParams(rl);
         relativeLayout.addView(botTriangleBubbleView);
+
         botTriangleBubbleView.setOnCLickItemListener(new BotTriangleBubbleView.onCLickItemListener() {
             @Override
-            public void onClick(String amount) {
-                mBind.tvAmount.setText(amount);
+            public void onClick(int amount) {
+                mBind.tvAmount.setText(amount+"");
                 mBind.rlContent.removeView(relativeLayout);
             }
         });
@@ -239,10 +282,19 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
     private void initAdapter(int marginTop)
     {
-        lists=new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        this.topMargin=marginTop;
+        if(giftListData!=null)
+        {
+            lists.add(giftListData);
+        }
+        else
+        {
+            lists.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < 2; i++) {
             List<TreasureItemBean> list=new ArrayList<>();
-            if(i<2)
+            if(i<1)
             {
                 for (int j = 0; j < 36; j++) {
                     TreasureItemBean bean=new TreasureItemBean();
@@ -256,11 +308,8 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
             lists.add(list);
         }
 
-        int dip10=ScreenUtils.dp2px(getActivity(),10);
-        int viewPagerHeight= mBind.rlContent.getLayoutParams().height-marginTop-dip10*12;
-        adapter=new TreasureBoxPagerAdapter(getActivity(),viewPagerHeight,lists);
+
         mBind.viewPager.setOffscreenPageLimit(1);
-        mBind.viewPager.setAdapter(adapter);
         setAdapterIndex(0);
 
         mBind.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -285,7 +334,10 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
     private void setAdapterIndex(int index)
     {
         mBind.viewPager.setCurrentItem(0);
-        adapter.setPageIndex(index);
+        int dip10=ScreenUtils.dp2px(getActivity(),10);
+        int viewPagerHeight= mBind.rlContent.getLayoutParams().height-topMargin-dip10*12;
+        adapter=new TreasureBoxPagerAdapter(getActivity(),viewPagerHeight,index,lists);
+        mBind.viewPager.setAdapter(adapter);
         if(adapter.getLists().get(index)==null)
         {
             mBind.rlCircles.setIndicatorAmount(0);
@@ -299,4 +351,8 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
     }
 
+    public interface OnSelectedGiftListener
+    {
+        void onSelect(String gid,int amount);
+    }
 }

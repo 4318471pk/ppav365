@@ -9,18 +9,29 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.live.fox.Constant;
+import com.live.fox.MessageProtocol;
 import com.live.fox.R;
+import com.live.fox.db.LocalGiftDao;
+import com.live.fox.db.LocalUserLevelDao;
 import com.live.fox.entity.ChatEntity;
 import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.Gift;
+import com.live.fox.entity.GiftResourceBean;
+import com.live.fox.entity.LivingMessageBean;
+import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.MessageEvent;
+import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.ReceiveGiftBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.response.LotteryItem;
@@ -164,7 +175,7 @@ public class ChatSpanUtils {
 
                 Gift gift = giftBean.getGift();
                 LogUtils.e(gift.getCover());
-                appendMessageType(spanUtils, 1, context);
+                appendMessageType(spanUtils, "", context);
                 appendBadges(context, spanUtils, jsonObject, chatHide);
                 appendText(spanUtils, giftBean.chatHide == 0 ? user.getNickname() : context.getString(R.string.mysteriousMan), ContentType.System, true, null);
                 appendText(spanUtils, context.getString(R.string.sended) + gift.getGname(),
@@ -256,7 +267,7 @@ public class ChatSpanUtils {
                 String lottryName = jsonObject.optString("code");
                 int times = jsonObject.optInt("times");
                 List<LotteryItem> payList = GsonUtil.getObjects(String.valueOf(jsonObject.opt("payList")), LotteryItem[].class);
-                appendMessageType(spanUtils, 1, context);
+                appendMessageType(spanUtils, "", context);
 
                 String strFormat = String.format(context.getString(R.string.already_bet_format),
                         nickName, name, RegexUtils.westMoney(totalCoin) + context.getString(R.string.gold));
@@ -275,7 +286,7 @@ public class ChatSpanUtils {
                 String nickName27 = jsonObject.optString("nickName");
                 String name27 = jsonObject.optString("name");
                 double winMoney = jsonObject.optDouble("winMoney");
-                appendMessageType(spanUtils, 2, context);
+                appendMessageType(spanUtils, "", context);
                 String strFormatLottery = String.format(context.getString(R.string.win_format),
                         nickName27, name27, RegexUtils.westMoney(winMoney) + context.getString(R.string.gold));
                 appendText(spanUtils, strFormatLottery, ContentType.Hint, true, null);
@@ -287,11 +298,11 @@ public class ChatSpanUtils {
                 long uid28 = jsonObject.optLong("uid");
                 int type28 = jsonObject.optInt("type");
                 if (uid28 == DataCenter.getInstance().getUserInfo().getUser().getUid()) {
-                    appendMessageType(spanUtils, 1, context);
+                    appendMessageType(spanUtils, "", context);
                     String msg = type28 == 1 ? context.getString(R.string.gxnnbrmwfg) : context.getString(R.string.hyhnbqxlfg);
                     appendText(spanUtils, msg, ContentType.System, true, null);
                 } else {
-                    appendMessageType(spanUtils, 1, context);
+                    appendMessageType(spanUtils, "", context);
                     String msg = type28 == 1 ? context.getString(R.string.congratulation) + nickName28 + context.getString(R.string.brmwfg) : nickName28 + context.getString(R.string.bqxlfg);
                     appendText(spanUtils, msg, ContentType.System, true, null);
                 }
@@ -442,20 +453,50 @@ public class ChatSpanUtils {
 
     }
 
-    public void appendMessageType(SpanUtils spanUtils, int type, Context context) {
+    public void appendMessageType(SpanUtils spanUtils, String protocol, Context context) {
         int resourceId = 1;
-        switch (type) {
-            case 1:// 系统
-                resourceId = R.drawable.danmu_xitong;
+        switch (protocol) {
+            case MessageProtocol.SYSTEM_NOTICE:// 系统
+            case MessageProtocol.SYSTEM_ADVERTISE:// 系统
+            case MessageProtocol.LIVE_ENTER_ROOM:
+                resourceId = R.mipmap.icon_tag_sys;
                 break;
-            case 2:// 中奖
-                resourceId = R.drawable.danmu_zhongjiang;
+            case MessageProtocol.GAME_CP_WIN:// 中奖
+                resourceId = R.mipmap.icon_tag_win;
                 break;
         }
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
         if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 88, 50), SpanUtils.ALIGN_CENTER);//120/68
+        int height=ScreenUtils.getDip2px(context,16);
+        int width=ScreenUtils.getDip2px(context,40);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.append(" ");
+    }
+
+
+    /**
+     * 发送系统信息
+     *
+     */
+    public void appendSystemMessageType(SpanUtils spanUtils, String protocol, Context context) {
+        int resourceId = 1;
+        switch (protocol) {
+            case MessageProtocol.SYSTEM_NOTICE:// 系统
+            case MessageProtocol.SYSTEM_ADVERTISE:// 系统
+            case MessageProtocol.LIVE_ENTER_ROOM:
+                resourceId = R.mipmap.icon_tag_sys;
+                break;
+            case MessageProtocol.GAME_CP_WIN:// 中奖
+                resourceId = R.mipmap.icon_tag_win;
+                break;
+        }
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+        if (bitmap == null) return;
+        int height=ScreenUtils.getDip2px(context,16);
+        int width=ScreenUtils.getDip2px(context,40);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
     }
 
@@ -652,5 +693,95 @@ public class ChatSpanUtils {
         }
 
         return mNobleRes;
+    }
+
+    public static void appendLevelIcon(SpanUtils spanUtils,int level,Context context)
+    {
+        if(level<1)
+        {
+            return;
+        }
+      String levelIcon=LocalUserLevelDao.getInstance().getLevelIcon(level);
+        Bitmap bitmap = BitmapFactory.decodeFile(levelIcon);
+        if (bitmap == null) return;
+        int height=ScreenUtils.getDip2px(context,12);
+        int width=ScreenUtils.getDip2px(context,30);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.append(" ");
+
+    }
+
+    /**
+     * 发送进入房间欢迎语
+     *
+     */
+    public static synchronized SpanUtils enterRoom(LivingMessageBean livingMessageBean,Context context)
+    {
+        SpanUtils spanUtils=new SpanUtils();
+        appendLevelIcon(spanUtils,livingMessageBean.getUserLevel(),context);
+        if(!TextUtils.isEmpty(livingMessageBean.getNickname()))
+        {
+            spanUtils.append(livingMessageBean.getNickname()).setFontSize(13,true)
+                    .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+        }
+
+        if(!TextUtils.isEmpty(livingMessageBean.getMessage()))
+        {
+            spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
+        }
+        return spanUtils;
+    }
+
+
+    /**
+     * 发送个人信息
+     *
+     */
+    public static void appendPersonalMessage(SpanUtils spanUtils, PersonalLivingMessageBean pBean, Context context) {
+        if(pBean==null || TextUtils.isEmpty(pBean.getProtocol()) )
+        {
+            return;
+        }
+
+        switch (pBean.getProtocol()) {
+            case MessageProtocol.LIVE_ROOM_CHAT:
+                appendLevelIcon(spanUtils,pBean.getUserLevel(),context);
+                spanUtils.append(pBean.getNickname()+": ").setFontSize(13,true)
+                        .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+                spanUtils.append(pBean.getMsg()).setFontSize(13,true)
+                        .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+                break;
+        }
+    }
+
+    /**
+     * 发送个人信息
+     *{"anchorId":1028924365,"avatar":"","combo":1,"count":1,"gid":5,"liveId":100029,"nickname":"lbMOLjbzsb","protocol":"2008","rq":39102,"timestamp":1668156260903,"tipType":0,"uid":1028924366,"userLevel":1,"zb":39102}
+     */
+    public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context) {
+        if(gBean==null || TextUtils.isEmpty(gBean.getProtocol()) )
+        {
+            return;
+        }
+
+        switch (gBean.getProtocol()) {
+            case MessageProtocol.LIVE_SEND_GIFT:
+                appendLevelIcon(spanUtils,gBean.getUserLevel(),context);
+                spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
+                        .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+
+                GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
+                if(giftResourceBean!=null)
+                {
+                    StringBuilder sb=new StringBuilder();
+                    sb.append(context.getResources().getString(R.string.hasSent));
+                    sb.append(giftResourceBean.getName()).append("x").append(gBean.getCount());
+
+                    spanUtils.append(sb.toString()).setFontSize(13,true)
+                            .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+                }
+
+                break;
+        }
     }
 }

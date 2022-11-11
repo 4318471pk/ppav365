@@ -3,6 +3,7 @@ package com.live.fox.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -140,9 +141,18 @@ public class RecommendAnchorListFooter extends LinearLayout {
             GradientTextView gtvUnitPrice = view.findViewById(R.id.gtvUnitPrice);  //类别
             GradientTextView tvAnchorPaymentType=view.findViewById(R.id.tvAnchorPaymentType);
             TextView name=view.findViewById(R.id.tv_nickname);
-            ImageView ivRoundBG = view.findViewById(R.id.ivRoundBG);
-            GlideUtils.loadDefaultImage(getContext(), listBeans.get(i).getRoomIcon(),defaultDrawable, ivRoundBG);
-            name.setText(listBeans.get(i).getTitle());
+            TextView tvNum=view.findViewById(R.id.tvNum);
+            AnchorRoundImageView ivRoundBG = view.findViewById(R.id.ivRoundBG);
+            RoomListBean data=listBeans.get(i);
+            if(TextUtils.isEmpty(data.getRoomIcon()))
+            {
+                ivRoundBG.setImageDrawable(getResources().getDrawable(defaultDrawable));
+            }
+            else
+            {
+                ivRoundBG.setRadius(dip2_5*4);
+                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
+            }            name.setText(listBeans.get(i).getTitle());
 
             SpanUtils spUtils=new SpanUtils();
             spUtils.appendImage(clock,SpanUtils.ALIGN_CENTER);
@@ -151,6 +161,7 @@ public class RecommendAnchorListFooter extends LinearLayout {
             spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
             gtvUnitPrice.setText(spUtils.create());
 
+            tvNum.setText(data.getLiveSum()+"");
 
             //1普通房间2密码房间3计时房间4贵族房间5计场房间
             switch (listBeans.get(i).getRoomType())

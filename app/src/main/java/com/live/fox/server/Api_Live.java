@@ -8,7 +8,10 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LivingCurrentAnchorBean;
+import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.AppUtils;
@@ -34,6 +37,44 @@ public class Api_Live extends BaseApi {
     }
 
     public static final String interRoom = "interRoom";
+
+
+    /**
+     * 获取礼物列表 0普通礼物1守护礼物2贵族礼物
+     */
+    public void getGiftList(int type, JsonCallback<List<LivingGiftBean>> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.GiftList);
+        stringBuilder.append(String.format("?type=%d",type));
+
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+    /**
+     * 获取礼物数量列表
+     */
+    public void getGiftAmountList(JsonCallback<List<SendGiftAmountBean>> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.SendGiftAmountList);
+
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
 
     /**
      * 用户进房
@@ -151,12 +192,31 @@ public class Api_Live extends BaseApi {
     /**
      * 获取主播信息
      */
-    public void getAnchorInfo(int liveId, long anchorId, JsonCallback callback) {
+    public void getAnchorInfo(String liveId, String anchorId, JsonCallback<LivingCurrentAnchorBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_anchorinfo_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("anchorId", anchorId);
 
+        callback.setArg(liveId);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 获取主播联系名片
+     */
+    public void getAnchorContactCard(String liveId, String anchorId, JsonCallback callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.getAnchorCard;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+        params.put("anchorId", anchorId);
+
+//        OkGoHttpUtil.getInstance().doGet(url,url,getCommonHeaders(Long.parseLong(params.get("timestamp").toString()))
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,
@@ -391,11 +451,12 @@ public class Api_Live extends BaseApi {
     /**
      * 获取观众列表
      */
-    public void getAudienceList(int liveId, JsonCallback callback) {
+    public void getAudienceList(String liveId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_roominfo_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
 
+        callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,
@@ -407,7 +468,7 @@ public class Api_Live extends BaseApi {
     /**
      * 送礼物
      */
-    public void sendGift(int gid, long anchorId, int liveId, int combo, int count, JsonCallback callback) {
+    public void sendGift(String gid, String anchorId, String liveId, int combo, int count, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_sendgift_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("gid", gid);
@@ -445,11 +506,12 @@ public class Api_Live extends BaseApi {
     /**
      * 直播间观众列表
      */
-    public void getRoomuserList(long liveId, JsonCallback callback) {
+    public void getRoomuserList(String liveId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_roomuserlist_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
 
+        callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,

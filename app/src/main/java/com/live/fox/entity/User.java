@@ -380,9 +380,6 @@ public class User implements Serializable {
     }
 
     public String getAvatar() {
-        if (StringUtils.isEmpty(avatar) || avatar.contains("live-api") || avatar.contains("www.baidu.com")) {
-            return "";
-        }
         return avatar;
     }
 

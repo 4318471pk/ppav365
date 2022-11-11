@@ -124,7 +124,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         setActivityTitle(getString(R.string.centerOfAnchor));
         getTvTitleRight().setText(getResources().getString(R.string.goOpenSteam));
         getTvTitleRight().setTextColor(0xffFF008A);
-        Drawable leftIcon = getDrawable(R.mipmap.icon_small_live);
+        Drawable leftIcon = getResources().getDrawable(R.mipmap.icon_small_live);
         getTvTitleRight().setCompoundDrawablesRelativeWithIntrinsicBounds(leftIcon, null, null, null);
         getTvTitleRight().setCompoundDrawablePadding(ScreenUtils.dp2px(this, 3));
         getTvTitleRight().setOnClickListener(new OnClickFrequentlyListener() {
@@ -163,7 +163,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                     Manifest.permission.RECORD_AUDIO)
                     .subscribe(granted -> {
                         if (granted) {
-                            checkAuth();
+                            OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,mBind.gtvTitleOfRoom.getText().toString());
                         } else { // 有的权限被拒绝或被勾选不再提示
                             LogUtils.e("有的权限被拒绝");
                             new AlertDialog.Builder(CenterOfAnchorActivity.this)
@@ -174,65 +174,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         }
                     });
         } else {
-            checkAuth();
+            OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,mBind.gtvTitleOfRoom.getText().toString());
         }
     }
 
-    /**
-     * 开始直播
-     */
-    public void checkAuth() {
 
-        showLoadingDialogWithNoBgBlack();
-        String nickName=DataCenter.getInstance().getUserInfo().getUser().getNickname();
-        String title=mBind.gtvTitleOfRoom.getText().toString();
-        Api_Live.ins().getAnchorAuth("84","0",nickName,title,"100",new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                hideLoadingDialog();
-                if (code == 0 && data != null) {
-                    Log.e("checkAuth",data);
-                    try {
-                        JSONObject jsonObject=new JSONObject(data);
-                        OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,jsonObject.optString("pushStreamUrl",""));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-//                    try {
-//                        JSONObject jb = new JSONObject(data);
-//                        int auth = jb.optInt("auth");
-//                        User user = DataCenter.getInstance().getUserInfo().getUser();
-//                        if (user == null) {
-//                            LogUtils.e("主播状态：" + "开启直播出错，用户信息失败");
-//                            return;
-//                        }
-//
-//                        user.setAuth(auth);
-//                        DataCenter.getInstance().getUserInfo().updateUser(user);
-//                        if (auth == 2 && BuildConfig.IsAnchorClient) {
-//                            Constant.isAppInsideClick = true;
-//                            Intent intent = new Intent(CenterOfAnchorActivity.this, AnchorLiveActivity.class);
-//                            startActivity(intent);
-//                        } else if (auth == 1) { //1待审核
-//                            showToastTip(false, getString(R.string.certificating));
-//                        } else { //未认证
-//                            DialogFactory.showTwoBtnDialog(CenterOfAnchorActivity.this,
-//                                    getString(R.string.certiGo), getString(R.string.cancel),
-//                                    getString(R.string.goCerti), (button, dialog) -> dialog.dismiss(), (button, dialog) -> {
-//                                        dialog.dismiss();
-//                                        AuthActivity.startActivity(CenterOfAnchorActivity.this);
-//                                    });
-//                        }
-//                    } catch (Exception e) {
-//                        e.getStackTrace();
-//                    }
-                } else {
-                    ToastUtils.showShort(msg);
-                }
-            }
-        });
-    }
 
 
     private void getLineList()

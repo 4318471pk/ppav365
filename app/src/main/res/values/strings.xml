@@ -609,7 +609,7 @@
     <string name="anchorCome">主播回来了</string>
     <string name="focusAnchor">关注了主播</string>
     <string name="welcomeVIP">欢迎尊贵的 %1$s 大驾光临</string>
-    <string name="comeWelcome">来了, 欢迎</string>
+    <string name="comeWelcome">来了!</string>
     <string name="congraAnchor">恭喜主播升级到</string>
     <string name="sended">送出了&#160;</string>
     <string name="niAnchorSilence">你被主播禁言了</string>
@@ -1472,9 +1472,10 @@
     <string name="imageMirror">画面镜像</string>
     <string name="gameInformation">游戏信息</string>
     <string name="getInRoomEffect">座驾特效</string>
+    <string name="startLivingFail">开启直播失败</string>
     <string name="offLiving">关闭直播</string>
     <string name="offLivingContent">观众正在赶来的路上 确定结束直播吗？</string>
-
+    <string name="hasSent">发送了</string>
 
 
 

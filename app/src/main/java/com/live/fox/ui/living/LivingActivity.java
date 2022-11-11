@@ -14,6 +14,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,12 +29,17 @@ import com.live.fox.adapter.RecommendLivingAnchorAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PersonalContactCardDialog;
 import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
 import com.live.fox.entity.FlowDataBean;
+import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SendGiftAmountBean;
+import com.live.fox.server.Api_Live;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
@@ -44,6 +50,7 @@ import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.ClassicsFooter;
 import com.live.fox.view.MyFlowLayout;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.opensource.svgaplayer.SVGAParser;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -62,6 +69,8 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     ArrayList<RoomListBean> roomListBeans;
     int pagerPosition;
     boolean isLoop=false;//开启无限循环上下拉
+    List<LivingGiftBean> giftListData;//礼物列表;
+    List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
@@ -107,8 +116,8 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     public void initView() {
         setWindowsFlag();
-        AppIMManager.ins().addMessageListener(LivingActivity.class, this);
 
+        SVGAParser.Companion.shareParser().init(this);
         roomListBeans=getIntent().getParcelableArrayListExtra(RoomList);
         mBind=getViewDataBinding();
         mBind.setClick(this);
@@ -148,19 +157,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         mBind.vp2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
         mBind.vp2.setOffscreenPageLimit(1);
 
-        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,roomListBeans.size(),isLoop);
-        mBind.vp2.setAdapter(livingFragmentStateAdapter);
-        int currentPosition= getIntent().getIntExtra(positionTag,0);
-        if(isLoop)
-        {
-            pagerPosition=Integer.MAX_VALUE/2+currentPosition;
-            mBind.vp2.setCurrentItem(pagerPosition,false);
-        }
-        else
-        {
-            pagerPosition=currentPosition;
-            mBind.vp2.setCurrentItem(currentPosition,false);
-        }
+        setViewPagerAdapter(getIntent().getIntExtra(positionTag,0));
 
         mBind.vp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -239,15 +236,56 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         mBind.rvRecommendList.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(this,5)));
         mBind.rvRecommendList.setLayoutManager(linearLayoutManager);
         mBind.rvRecommendList.setAdapter(recommendListAdapter);
+        recommendListAdapter.setOnItemClickListener(new RecommendLivingAnchorAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position, List<RoomListBean> data) {
+                mBind.drawerLayout.closeDrawers();
+                roomListBeans.clear();
+                roomListBeans.addAll(data);
+                setViewPagerAdapter(position);
+            }
+        });
 
+        AppIMManager.ins().addMessageListener(LivingActivity.class, this);
 //        showFirstTimeTopUpDialog();
 //        showContactCardDialog();
 //        showFreeRoomToPrepaidRoom();
+        getGiftList();//请求获取礼物
+        getAmountListOfGift();//请求获取发送礼物数量列表
+    }
+
+    private void setViewPagerAdapter(int currentPosition)
+    {
+        if(livingFragmentStateAdapter!=null)
+        {
+            livingFragmentStateAdapter.clearCache();
+            livingFragmentStateAdapter=null;
+        }
+        livingFragmentStateAdapter=new LivingFragmentStateAdapter(this,roomListBeans.size(),isLoop);
+        mBind.vp2.setAdapter(livingFragmentStateAdapter);
+        if(isLoop)
+        {
+            pagerPosition=Integer.MAX_VALUE/2+currentPosition;
+            mBind.vp2.setCurrentItem(pagerPosition,false);
+        }
+        else
+        {
+            pagerPosition=currentPosition;
+            mBind.vp2.setCurrentItem(currentPosition,false);
+        }
     }
 
     public void setRecommendListData(List<RoomListBean> list)
     {
         recommendListAdapter.setNewData(list);
+    }
+
+    public List<SendGiftAmountBean> getSendGiftAmountBeans() {
+        return sendGiftAmountBeans;
+    }
+
+    public List<LivingGiftBean> getGiftListData() {
+        return giftListData;
     }
 
     public void scrollRecommendViewToTop()
@@ -259,7 +297,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     {
         mBind.srlRefresh.finishRefresh(isSuccess);
     }
-
 
 
     public ArrayList<RoomListBean> getRoomListBeans() {
@@ -293,6 +330,15 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     public void onIMReceived(int protocol, String msg) {
         LogUtils.e(protocol + ", onIMReceived msg : " + msg);
+
+        if(livingFragmentStateAdapter!=null )
+        {
+            LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(mBind.vp2.getCurrentItem());
+            if(livingFragment!=null)
+            {
+                livingFragment.onNewMessageReceived(protocol,msg);
+            }
+        }
     }
 
     public interface DialogListener
@@ -373,10 +419,69 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE );
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         setAndroidNativeLightStatusBar(this, true);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        setFullscreen(true, true);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);
+    }
+
+    private void getGiftList()
+    {
+        Api_Live.ins().getGiftList(0, new JsonCallback<List<LivingGiftBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<LivingGiftBean> data) {
+                if(code==0)
+                {
+                    if(giftListData==null)
+                    {
+                        giftListData=new ArrayList<>();
+                    }
+                    if(data!=null)
+                    {
+                        for (int i = 0; i < data.size(); i++) {
+                            LivingGiftBean livingGiftBean=data.get(i);
+                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setSelected(false);
+                            livingGiftBean.setItemId(livingGiftBean.getId()+"");
+                            livingGiftBean.setImgUrl(livingGiftBean.getGitficon());
+                            livingGiftBean.setCostDiamond(livingGiftBean.getNeeddiamond());
+                            giftListData.add(data.get(i));
+                        }
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+
+            }
+        });
+    }
+
+    private void getAmountListOfGift()
+    {
+        Api_Live.ins().getGiftAmountList( new JsonCallback<List<SendGiftAmountBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<SendGiftAmountBean> data) {
+                if(code==0)
+                {
+                    Log.e("getAmountListOfGift",data.toString());
+                    LivingActivity.this.sendGiftAmountBeans=data;
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/rlContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
+        android:background="#987682"
         >
 
         <com.tencent.rtmp.ui.TXCloudVideoView
@@ -25,6 +25,13 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_anchor_loading"
+            />
+
+        <com.opensource.svgaplayer.SVGAImageView
+            android:id="@+id/svImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:loopCount="1"
             />
 
 

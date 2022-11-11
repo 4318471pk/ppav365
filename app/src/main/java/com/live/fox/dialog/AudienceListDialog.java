@@ -177,7 +177,7 @@ public class AudienceListDialog extends DialogFragment {
      * 观众列表
      */
     public void doGetAudienceListApi() {
-        Api_Live.ins().getRoomuserList(liveId, new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomuserList(liveId+"", new JsonCallback<List<User>>() {
             @Override
             public void onSuccess(int code, String msg, List<User> data) {
                 hideLoadingView();

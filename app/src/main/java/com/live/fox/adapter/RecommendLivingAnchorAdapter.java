@@ -35,6 +35,7 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
     int itemWidth,dip5,defaultDrawable;
     List<RoomListBean> data;
     LayoutInflater layoutInflater;
+    OnItemClickListener onItemClickListener;
 
     public RecommendLivingAnchorAdapter(BaseActivity context, @Nullable List<RoomListBean> data) {
         this.data=data;
@@ -51,6 +52,10 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
     {
         this.data=data;
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -77,10 +82,15 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
         ImageView ivRoundBG=holder.itemView.findViewById(R.id.ivRoundBG);
         GlideUtils.loadDefaultImage(context, data.get(position).getRoomIcon(),defaultDrawable, ivRoundBG);
 
+        holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new OnClickFrequentlyListener() {
             @Override
             public void onClickView(View view) {
-                ToastUtils.showShort("cccc");
+                if(onItemClickListener!=null)
+                {
+                    int position=(int)view.getTag();
+                    onItemClickListener.onClick(position,data);
+                }
             }
         });
     }
@@ -96,5 +106,10 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
         public RecommendListHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public interface OnItemClickListener
+    {
+        void onClick(int position,List<RoomListBean> data);
     }
 }

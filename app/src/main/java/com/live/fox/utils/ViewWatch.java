@@ -147,6 +147,13 @@ public class ViewWatch {
         return condition1 && condition2 && !isKeyboardShow();
     }
 
+    public boolean isBotViewShow() {
+        boolean condition1 = mBind.llInputLayout.getVisibility() == VISIBLE;
+        boolean condition2 = mBind.llInputLayout.getLayoutParams().height
+                > ScreenUtils.getDip2px(activity, 85);
+        return condition1 && condition2 ;
+    }
+
     public void hideInputLayout() {
         mBind.llTopView.setVisibility(VISIBLE);
         RelativeLayout.LayoutParams rlMessages = (RelativeLayout.LayoutParams) mBind.llMessages.getLayoutParams();
@@ -159,6 +166,7 @@ public class ViewWatch {
         mBind.llMessages.setLayoutParams(rlMessages);
         mBind.llInputLayout.setVisibility(GONE);
         mBind.rlButtons.setVisibility(VISIBLE);
+        setScrollEnable(true);
     }
 
     public void setScrollEnable(boolean status) {

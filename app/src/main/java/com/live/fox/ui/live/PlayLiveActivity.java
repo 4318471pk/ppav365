@@ -160,7 +160,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     @Override
     protected void onResume() {
         super.onResume();
-        CommonApp.getInstance().getFloatView().addToWindow(false, this);
     }
 
     /**
@@ -372,35 +371,35 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         if (currentAnchor != null) {
             isPay = false;
             if (1 == currentAnchor.getLiveStatus() || 3 == currentAnchor.getLiveStatus()) {
-                Api_Live.ins().getAnchorInfo(currentAnchor.getLiveId(),
-                        currentAnchor.getAnchorId(), new JsonCallback<Anchor>() {
-                            @Override
-                            public void onSuccess(int code, String msg, Anchor data) {
-                                if (data != null) LogUtils.e("getAnchorInfo result : " + data);
-                                if (code == 0 && data != null) {
-                                    currentAnchor.setZb(data.getZb());
-                                    currentAnchor.setFollow(data.isFollow());
-                                    currentAnchor.setType(data.getType());
-                                    currentAnchor.setPrice(data.getPrice());
-                                    currentAnchor.setLiveStartLottery(data.getLiveStartLottery());
-
-                                    if (flag) {
-                                        flag = false;
-                                        addHSlideFragment(currentAnchor);
-                                    }
-                                    if (data.getType() == 3) {
-                                        showRoomPayFragment();
-                                        roomPayFragment.refreshPage(currentAnchor);
-                                    } else {
-                                        checkLiveRoomCanBePreview(currentAnchor, "", false);
-                                    }
-                                } else if (code == 3001) {
-                                    showLiveFinishFragment(currentAnchor, getString(R.string.roomClosed));
-                                } else {
-                                    ToastUtils.showShort(msg);
-                                }
-                            }
-                        });
+//                Api_Live.ins().getAnchorInfo(currentAnchor.getLiveId()+"",
+//                        currentAnchor.getAnchorId()+"", new JsonCallback<Anchor>() {
+//                            @Override
+//                            public void onSuccess(int code, String msg, Anchor data) {
+//                                if (data != null) LogUtils.e("getAnchorInfo result : " + data);
+//                                if (code == 0 && data != null) {
+//                                    currentAnchor.setZb(data.getZb());
+//                                    currentAnchor.setFollow(data.isFollow());
+//                                    currentAnchor.setType(data.getType());
+//                                    currentAnchor.setPrice(data.getPrice());
+//                                    currentAnchor.setLiveStartLottery(data.getLiveStartLottery());
+//
+//                                    if (flag) {
+//                                        flag = false;
+//                                        addHSlideFragment(currentAnchor);
+//                                    }
+//                                    if (data.getType() == 3) {
+//                                        showRoomPayFragment();
+//                                        roomPayFragment.refreshPage(currentAnchor);
+//                                    } else {
+//                                        checkLiveRoomCanBePreview(currentAnchor, "", false);
+//                                    }
+//                                } else if (code == 3001) {
+//                                    showLiveFinishFragment(currentAnchor, getString(R.string.roomClosed));
+//                                } else {
+//                                    ToastUtils.showShort(msg);
+//                                }
+//                            }
+//                        });
             } else {
                 if (flag) {
                     flag = false;
@@ -993,7 +992,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                     if (status == 1) {
                         //直播间的主播开始PK
                         if (Constant.isOpenWindow) {
-                            CommonApp.getInstance().getFloatView().adjustView(true);
                         } else {
                             videoFragment.changePKVideo(true);
                             if (getLiveInFragment() != null)
@@ -1001,7 +999,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                         }
                     } else {
                         if (Constant.isOpenWindow) {
-                            CommonApp.getInstance().getFloatView().adjustView(false);
                         } else {
                             //直播间的主播结束PK
                             videoFragment.changePKVideo(false);
@@ -1043,7 +1040,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     public void closeWindow() {
         Constant.isOpenWindow = false;
         Constant.isShowWindow = false;
-        CommonApp.getInstance().getFloatView().addToWindow(false, this);
 
         if (Constant.windowAnchor != null) {
             AppIMManager.ins().loginOutGroup(String.valueOf(Constant.windowAnchor.getLiveId()));
@@ -1107,7 +1103,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        CommonApp.isFloatWindowClick = false;
         if (payWaitHandler != null) {
             payWaitHandler.removeMessages(currentAnchor.getType());
         }

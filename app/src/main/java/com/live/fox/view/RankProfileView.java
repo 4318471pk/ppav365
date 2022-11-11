@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,9 +14,15 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.utils.ResourceUtils;
+import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAImageView;
+import com.opensource.svgaplayer.SVGAParser;
+import com.opensource.svgaplayer.SVGAVideoEntity;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.util.List;
 
 public class RankProfileView extends RelativeLayout {
 
@@ -29,6 +36,10 @@ public class RankProfileView extends RelativeLayout {
     ImageView ivDecoration, ivCrown, ivProfile;
     SVGAImageView ivLiving;
     OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener;
+    boolean isInit=false;
+    boolean resumeAfterAttached=false;
+    SVGAVideoEntity svgaVideoEntity;
+
 
 
     public RankProfileView(@NonNull @NotNull Context context, int crownIndex,boolean isLiving) {
@@ -72,19 +83,31 @@ public class RankProfileView extends RelativeLayout {
         decorationResource=new ResourceUtils().getResourcesID(R.array.rankEdgePics);
         this.crownIndex = crownIndex;
         this.decorationIndex=decorationIndex;
+        this.isLiving=isLiving;
         View view = View.inflate(getContext(), R.layout.view_rank_profile, null);
         ivProfile = view.findViewById(R.id.ivProfile);
         ivCrown = view.findViewById(R.id.ivCrown);
         ivDecoration = view.findViewById(R.id.ivDecoration);
         ivLiving=view.findViewById(R.id.ivLiving);
         addView(view);
-        view.post(new Runnable() {
+
+        SVGAParser parser = SVGAParser.Companion.shareParser();
+        parser.decodeFromAssets("living_profile.svga", new SVGAParser.ParseCompletion() {
             @Override
-            public void run() {
-                adjustLayout();
+            public void onComplete(SVGAVideoEntity svgaVideoEntity) {
+                RankProfileView.this.svgaVideoEntity = svgaVideoEntity;
+
+            }
+
+            @Override
+            public void onError() {
+            }
+        }, new SVGAParser.PlayCallback() {
+            @Override
+            public void onPlay(@NotNull List<? extends File> list) {
+
             }
         });
-
     }
 
     @Override
@@ -96,7 +119,16 @@ public class RankProfileView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
+        if(w>0 && !isInit)
+        {
+            isInit=true;
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    adjustLayout();
+                }
+            });
+        }
     }
 
     @Override
@@ -113,15 +145,18 @@ public class RankProfileView extends RelativeLayout {
         adjustLayout();
     }
 
+    public ImageView getProfileImage() {
+        return ivProfile;
+    }
+
     private void adjustLayout()
     {
         if (getWidth() > 0) {
-
+            isInit=true;
             if(decorationIndex>-1)
             {
                 ivDecoration.setImageDrawable(getResources().getDrawable(decorationResource[decorationIndex]));
             }
-
 
             Drawable drawable = crownIndex > -1 && crownIndex < 3 ? getResources().getDrawable(crownsResource[crownIndex]) : null;
             if (drawable == null) {
@@ -177,8 +212,11 @@ public class RankProfileView extends RelativeLayout {
                 rlDe.topMargin=crownHeight/2;
                 ivDecoration.setLayoutParams(rlDe);
 
+                int ivDecorationHeight=getWidth()*ivDecoration.getDrawable().getIntrinsicHeight()
+                        /ivDecoration.getDrawable().getIntrinsicWidth();
+
                 RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-                rlProfile.topMargin=crownHeight/2+(int)(getHeight()*scaleAndMargins[decorationIndex][1]);
+                rlProfile.topMargin=crownHeight/2+(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
                 rlProfile.width=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
                 rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
                 ivProfile.setLayoutParams(rlProfile);
@@ -198,14 +236,105 @@ public class RankProfileView extends RelativeLayout {
             if(isLiving)
             {
                 ivLiving.setVisibility(VISIBLE);
+                RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+
+                RelativeLayout.LayoutParams rlLiving=(RelativeLayout.LayoutParams)ivLiving.getLayoutParams();
+                rlLiving.width=rlProfile.width;
+                rlLiving.height=rlProfile.height;
+                rlLiving.topMargin=rlProfile.topMargin;
+                rlLiving.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
+                ivLiving.setLayoutParams(rlLiving);
+                ivLiving.setScaleX(1.9f);
+                ivLiving.setScaleY(1.9f);
+                ivLiving.setClearsAfterDetached(false);
+
+                startLivingAnimation();
             }
             else
             {
+                ivLiving.stopAnimation();
                 ivLiving.setVisibility(GONE);
             }
         }
     }
 
+    //viewPager出bug用的方法
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if(resumeAfterAttached && isLiving)
+        {
+            ivLiving.pauseAnimation();
+        }
+    }
+
+    //viewPager出bug用的方法
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if(resumeAfterAttached && isLiving)
+        {
+            if(svgaVideoEntity!=null)
+            {
+                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
+                ivLiving.startAnimation();
+            }
+        }
+    }
+
+    public void setResumeAniAfterAttached(boolean resumeAfterAttached)
+    {
+        this.resumeAfterAttached=resumeAfterAttached;
+    }
+
+
+    // recycleView出bug用的方法
+    public void stopLivingAnimation()
+    {
+        if(isLiving)
+        {
+            ivLiving.pauseAnimation();
+//            ivLiving.clear();
+        }
+    }
+
+    // recycleView出bug用的方法
+    public void startLivingAnimation()
+    {
+        if(isLiving)
+        {
+//            SVGAParser parser = SVGAParser.Companion.shareParser();
+//            parser.decodeFromAssets("living_profile.svga", new SVGAParser.ParseCompletion() {
+//                @Override
+//                public void onComplete(SVGAVideoEntity svgaVideoEntity) {
+//                    SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
+////                    int width=(int)(svgaVideoEntity.getVideoSize().getWidth());
+////                    int height=(int)(svgaVideoEntity.getVideoSize().getHeight());
+////
+////                    int bot=(int)(-1*(height*1.6f/12));
+//
+////                    Log.e("SVGADrawable",svgaVideoEntity.getVideoSize().getWidth()+" "+svgaVideoEntity.getVideoSize().getHeight());
+////                        drawable.setBounds(width/4,height/2,width/2,height/2-(height/12));
+//                    ivLiving.setImageDrawable(drawable);
+//                    ivLiving.startAnimation();
+//                }
+//
+//                @Override
+//                public void onError() {
+//                }
+//            }, new SVGAParser.PlayCallback() {
+//                @Override
+//                public void onPlay(@NotNull List<? extends File> list) {
+//
+//                }
+//            });
+            if(svgaVideoEntity!=null)
+            {
+                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
+                ivLiving.startAnimation();
+            }
+        }
+    }
 
     public interface OnConfirmWidthAndHeightListener
     {

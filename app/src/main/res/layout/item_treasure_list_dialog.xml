@@ -13,15 +13,17 @@
         android:orientation="vertical"
         >
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
+        android:id="@+id/ivGiftImg"
         android:layout_width="60dip"
         android:layout_height="60dip"
+        android:scaleType="fitCenter"
         android:layout_marginBottom="8dip"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/img_default"
-        app:riv_corner_radius="7.5dp"/>
+        />
 
     <TextView
+        android:id="@+id/tvGiftName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -31,6 +33,7 @@
         android:text="名字"/>
 
     <TextView
+        android:id="@+id/tvCostDiamond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

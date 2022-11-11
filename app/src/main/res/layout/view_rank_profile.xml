@@ -4,13 +4,14 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="#ff000000" />
+        android:src="#ff000000"
+        app:riv_oval="true"
+        />
 
     <ImageView
         android:id="@+id/ivDecoration"
@@ -34,7 +35,7 @@
         android:id="@+id/ivLiving"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivCrown"
+        android:layout_centerHorizontal="true"
         app:source="living_profile.svga"
         app:autoPlay="true"
         />
