@@ -78,8 +78,14 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         GlideUtils.loadDefaultImage(this.getContext(), myBagStoreListItemBean.getLogUrl(), mBind.ivCar);
 
         mBind.tvMoneyBuy.setText(String.format(getString(R.string.buy_car_money), myBagStoreListItemBean.getPrice() + ""));
-        mBind.tvMoneyBuy.setText(String.format(getString(R.string.xu_car_money), myBagStoreListItemBean.getPrice() + ""));
-        mBind.tvAll.setText(String.format(getString(R.string.all), myBagStoreListItemBean.getPrice() + ""));
+        mBind.tvMoneyXu.setText(String.format(getString(R.string.xu_car_money), myBagStoreListItemBean.getPrice() + ""));
+
+        SpanUtils spanUtils=new SpanUtils();
+        spanUtils.append(String.format(getString(R.string.all), myBagStoreListItemBean.getPrice() + ""));
+        spanUtils.append(" ");
+        spanUtils.appendImage(getResources().getDrawable(R.mipmap.icon_diamond),SpanUtils.ALIGN_BASELINE);
+
+        mBind.tvAll.setText(spanUtils.create());
 
 
         if(!myBagStoreListItemBean.isHave())

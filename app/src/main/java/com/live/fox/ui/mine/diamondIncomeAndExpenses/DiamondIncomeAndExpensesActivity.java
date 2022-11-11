@@ -19,7 +19,7 @@ import java.util.List;
 public class DiamondIncomeAndExpensesActivity extends BaseBindingViewActivity {
 
     ActivityDiamondIncomeExpensesBinding mBind;
-    private int titles[]=new int[]{R.string.diamondIncome,R.string.diamondExpense};
+    private int titles[]=new int[]{R.string.diamondExpense, R.string.diamondIncome};
 
     public static void startActivity(Context context)
     {
