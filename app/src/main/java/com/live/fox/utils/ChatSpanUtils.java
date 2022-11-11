@@ -695,6 +695,16 @@ public class ChatSpanUtils {
         return mNobleRes;
     }
 
+
+    public static void appendSexIcon(SpanUtils spanUtils, int sex, Context context) {
+        int sexResId = sex == 1 ? R.mipmap.men : R.mipmap.women;
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
+        if (bitmap == null) return;
+        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
+        spanUtils.append(" ");
+
+    }
+
     public static void appendLevelIcon(SpanUtils spanUtils,int level,Context context)
     {
         if(level<1)
@@ -784,4 +794,7 @@ public class ChatSpanUtils {
                 break;
         }
     }
+
+
+
 }

@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+//弃用
 public class InputMessageDialog extends BaseBindingDialogFragment {
 
     DialogInputMessageBinding mBind;

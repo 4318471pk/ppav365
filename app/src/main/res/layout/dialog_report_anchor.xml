@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <com.flyco.roundview.RoundLinearLayout
+                android:id="@+id/rllTVs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"

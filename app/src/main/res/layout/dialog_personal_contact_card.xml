@@ -80,7 +80,7 @@
                             android:layout_gravity="center"
                             android:textSize="14sp"
                             android:textColor="@color/white"
-                            android:text="她好像忘记说些什么了~"
+                            android:text="@string/tips9"
                             />
                     </LinearLayout>
 

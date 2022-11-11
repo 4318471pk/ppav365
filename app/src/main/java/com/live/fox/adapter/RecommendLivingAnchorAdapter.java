@@ -24,6 +24,7 @@ import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.AnchorRoundImageView;
 import com.live.fox.view.GradientTextView;
 
 import java.util.List;
@@ -79,8 +80,9 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
         gtvLocation.setText(context.getString(R.string.mars));
 
 
-        ImageView ivRoundBG=holder.itemView.findViewById(R.id.ivRoundBG);
-        GlideUtils.loadDefaultImage(context, data.get(position).getRoomIcon(),defaultDrawable, ivRoundBG);
+        AnchorRoundImageView ivRoundBG=holder.itemView.findViewById(R.id.ivRoundBG);
+        ivRoundBG.setRadius(dip5*2);
+        GlideUtils.loadRoundedImage(context, dip5*2,data.get(position).getRoomIcon(),0,defaultDrawable, ivRoundBG);
 
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new OnClickFrequentlyListener() {

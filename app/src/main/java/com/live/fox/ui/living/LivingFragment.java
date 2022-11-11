@@ -87,6 +87,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static android.view.View.OVER_SCROLL_NEVER;
 
 public class LivingFragment extends BaseBindingFragment {
@@ -100,9 +101,8 @@ public class LivingFragment extends BaseBindingFragment {
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
     Handler handler = new Handler(Looper.myLooper());
-    LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
-    List<User> userList=new ArrayList<>();//当前在线用户
 
+    LivingCurrentAnchorBean livingCurrentAnchorBean;//当前主播的数据
 
     public static LivingFragment getInstance(int position, int viewPagePosition) {
         Log.e("LivingFragment", position + " ");
@@ -282,8 +282,6 @@ public class LivingFragment extends BaseBindingFragment {
 
         enterRoom();
         checkAndJoinIM(getRoomBean().getId());
-        refreshAudienceList();
-        doGetAudienceListApi();
         getAnchorInfo();
     }
 
@@ -439,7 +437,7 @@ public class LivingFragment extends BaseBindingFragment {
         mLivePlayer.setPlayListener(new ITXLivePlayListener() {
             @Override
             public void onPlayEvent(int event, Bundle bundle) {
-                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
+//                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
 
                 if (event == TXLiveConstants.PLAY_EVT_CONNECT_SUCC) {
                     // 2001 連接服務器成功
@@ -724,70 +722,6 @@ public class LivingFragment extends BaseBindingFragment {
 
 
     /**
-     * 刷新观众列表
-     * 普通用戶根據用戶經驗排序
-     */
-    private void refreshAudienceList() {
-        if(!isActivityOK() || livingControlPanel==null)
-        {
-            return;
-        }
-
-        Api_Live.ins().getAudienceList(getRoomBean().getId(), new JsonCallback<List<Audience>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<Audience> result) {
-                if (code == 0 ) {
-                   if(result != null )
-                   {
-                       if(isActivityOK() && getArg().equals(getRoomBean().getId()))
-                       {
-                           if(livingTop20OnlineUserAdapter==null)
-                           {
-                               livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
-                               livingControlPanel.mBind.rvTop20Online.setAdapter(livingTop20OnlineUserAdapter);
-                           }
-                           else
-                           {
-                               livingTop20OnlineUserAdapter.setNewData(result);
-                           }
-                       }
-                   }
-                }
-                else
-                {
-                    ToastUtils.showShort(msg);
-                }
-            }
-        });
-    }
-
-
-    /**
-     * 观众列表 进入直播间就缓存下数据
-     */
-    public void doGetAudienceListApi() {
-        if(!isActivityOK())
-        {
-            return;
-        }
-
-        Api_Live.ins().getRoomuserList(getRoomBean().getId(), new JsonCallback<List<User>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<User> data) {
-                if (code == 0 ) {
-                    if(isActivityOK() && getArg().equals(getRoomBean().getId()) && data!=null)
-                    {
-                        userList.clear();
-                        userList.addAll(data);
-                    }
-                } else {
-
-                }
-            }
-        });
-    }
-
-    /**
      * 获取当前主播数据
      */
     public void getAnchorInfo() {
@@ -801,12 +735,20 @@ public class LivingFragment extends BaseBindingFragment {
                 if (code == 0 ) {
                     if(livingControlPanel!=null && isActivityOK() && getArg().equals(getRoomBean().getId()) )
                     {
+                        LivingFragment.this.livingCurrentAnchorBean=data;
+                        GlideUtils.loadCircleImage(getActivity(), data.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
+                                livingControlPanel.mBind.rivProfileImage);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum()+"");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
+                        if(data.getFollow()!=null)
+                        {
+                            livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow()?View.GONE:View.VISIBLE);
+                        }
+
                     }
 
                 } else {
-
+                    ToastUtils.showShort(msg);
                 }
             }
         });

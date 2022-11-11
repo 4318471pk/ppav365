@@ -13,7 +13,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 public class AnchorRoundImageView extends AppCompatImageView {
 
     GradientDrawable gradientDrawable=new GradientDrawable();
-    int mColors[]=new int[]{0x00000000,0x66000000};
+    int mColors[]=new int[]{0x00000000,0x77000000};
     float radius=0f;
 
     public AnchorRoundImageView(Context context) {
@@ -42,7 +42,8 @@ public class AnchorRoundImageView extends AppCompatImageView {
             gradientDrawable.setColors(mColors);
             gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             gradientDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
-            gradientDrawable.setCornerRadius(radius);
+//            gradientDrawable.setCornerRadii(radius);
+            gradientDrawable.setCornerRadii(new float[]{0f,0f,0f,0f,radius,radius,radius,radius});
             gradientDrawable.draw(canvas);
         }
     }

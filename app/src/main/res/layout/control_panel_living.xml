@@ -82,6 +82,7 @@
                             android:id="@+id/ivFollow"
                             android:layout_width="29dp"
                             android:layout_height="29dp"
+                            android:visibility="invisible"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dip"
                             android:onClick="@{click.onClickView}"
@@ -115,11 +116,12 @@
                         android:id="@+id/rvTop20Online"
                         android:layout_width="match_parent"
                         android:layout_height="34dp"
-                        android:layout_marginLeft="15dip"
+                        android:layout_marginLeft="10dip"
+                        android:layout_marginRight="10dip"
                         android:layout_toRightOf="@id/roundRL"
                         android:layout_toLeftOf="@id/gtvOnlineAmount"
-                        android:fadingEdge="horizontal"
-                        android:fadingEdgeLength="10dip" />
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="20dip" />
                 </RelativeLayout>
 
                 <RelativeLayout

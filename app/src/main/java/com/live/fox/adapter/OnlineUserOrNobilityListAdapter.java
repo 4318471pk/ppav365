@@ -41,7 +41,7 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<User, Onli
         helper.tvNickName.setText(item.getNickname());
         helper.tvIcons.setText(spanUtils.create());
         helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
-        GlideUtils.loadCircleImage(context,item.getAvatar(),0,R.mipmap.user_head_error,helper.rpv.getProfileImage());
+        GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
     }
 
 

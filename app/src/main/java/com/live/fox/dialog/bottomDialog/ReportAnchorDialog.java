@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,17 +14,23 @@ import androidx.fragment.app.DialogFragment;
 
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogReportAnchorBinding;
+import com.live.fox.server.Api_Live;
+import com.live.fox.utils.ToastUtils;
 
 import org.jetbrains.annotations.NotNull;
 
 public class ReportAnchorDialog extends BaseBindingDialogFragment {
 
     DialogReportAnchorBinding mBind;
+    String uid;
 
-    public static ReportAnchorDialog getInstance()
+    public static ReportAnchorDialog getInstance(String uid)
     {
-        return new ReportAnchorDialog();
+        ReportAnchorDialog reportAnchorDialog =new ReportAnchorDialog();
+        reportAnchorDialog.uid=uid;
+        return reportAnchorDialog;
     }
 
     @Nullable
@@ -61,6 +68,41 @@ public class ReportAnchorDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        for (int i = 0; i < mBind.rllTVs.getChildCount(); i++) {
+            if(mBind.rllTVs.getChildAt(i) instanceof TextView)
+            {
+                mBind.rllTVs.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView textView=(TextView)v;
+                        reportAnchor(textView.getText().toString());
+                    }
+                });
+            }
+        }
+
         startAnimate(mBind.llMain,true);
+    }
+
+    private void reportAnchor(String content)
+    {
+        Api_Live.ins().reportAnchor(uid, content, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(isConditionOk())
+                {
+                    if(code==0)
+                    {
+                        ToastUtils.showShort(getStringWithoutContext(R.string.reportSuccess));
+                        dismissAllowingStateLoss();
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+
+            }
+        });
     }
 }

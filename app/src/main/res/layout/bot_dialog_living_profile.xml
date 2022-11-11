@@ -48,7 +48,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:padding="15dip"
                     android:text="name"
                     android:textColor="#404040"
                     android:textSize="16sp" />
@@ -117,13 +116,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/layout_follow"
+                            android:id="@+id/layoutFollow"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -151,9 +151,10 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/layout_fans"
+                            android:id="@+id/layoutFans"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:onClick="@{click.onClickView}"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -185,13 +186,13 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginTop="10dip"
+                        android:layout_marginTop="20dip"
                         android:background="#b8b2c8"/>
 
                     <LinearLayout
                         android:id="@+id/llBotView"
                         android:layout_width="match_parent"
-                        android:layout_height="50dip"
+                        android:layout_height="65dip"
                         android:orientation="horizontal">
 
                         <TextView
@@ -205,6 +206,12 @@
                             android:textSize="16sp"
                             android:text="@string/personalPage"/>
 
+                        <ImageView
+                            android:layout_width="0.5dip"
+                            android:layout_height="10dip"
+                            android:background="#B8B2C8"
+                            android:layout_gravity="center_vertical"/>
+
                         <TextView
                             android:id="@+id/tv2"
                             android:layout_width="match_parent"
@@ -215,6 +222,12 @@
                             android:textColor="#404040"
                             android:textSize="16sp"
                             android:text="@string/tagHim"/>
+
+                        <ImageView
+                            android:layout_width="0.5dip"
+                            android:layout_height="10dip"
+                            android:background="#B8B2C8"
+                            android:layout_gravity="center_vertical"/>
 
                         <TextView
                             android:id="@+id/tv3"

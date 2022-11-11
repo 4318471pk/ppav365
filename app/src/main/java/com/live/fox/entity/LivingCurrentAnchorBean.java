@@ -5,7 +5,7 @@ public class LivingCurrentAnchorBean {
 
     public Integer zb;
     public Boolean follow;
-    public Integer anchorId;
+    public String anchorId;
     public String nickname;
     public String avatar;
     public Integer type;
@@ -30,11 +30,11 @@ public class LivingCurrentAnchorBean {
         this.follow = follow;
     }
 
-    public Integer getAnchorId() {
+    public String getAnchorId() {
         return anchorId;
     }
 
-    public void setAnchorId(Integer anchorId) {
+    public void setAnchorId(String anchorId) {
         this.anchorId = anchorId;
     }
 

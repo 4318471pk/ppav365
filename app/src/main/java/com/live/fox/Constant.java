@@ -208,7 +208,8 @@ public class Constant {
         //live-client 直播相关接口
         public static final String GiftList="/live-client/live/queryGift";//礼物列表
         public static final String LiveClient = "/live-client";
-        public static final String LivingStart="/live-client/live/start";
+        public static final String reportAnchor="/live-client/live/insertComplaintInfo";//举报主播
+        public static final String vipOnlineList="/live-client/live/room/vip/online";//房间在线贵族列表(显示全部)
         public static final String SendGiftAmountList="/live-client/live/gift/setting/list";
         public static final String getAnchorCard="/live-client/live/getAnchorBusinessCard";//获取主播名片
         public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表

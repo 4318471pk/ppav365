@@ -43,10 +43,11 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
     List<String> strings=new ArrayList<>();
     List<View> views=new ArrayList<>();
     String amount,liveId;
-    OnlineUserOrNobilityListAdapter adapter;
     List<User> userList=new ArrayList<>();
+    List<User> vipUserList=new ArrayList<>();
+    DataChangeListener dataChangeListener;
 
-    public static OnlineNobilityAndUserDialog getInstance(String amount,String liveId,List<User> userList)
+    public static OnlineNobilityAndUserDialog getInstance(String amount,String liveId,List<User> userList,List<User> vipUserList)
     {
         OnlineNobilityAndUserDialog dialog=new OnlineNobilityAndUserDialog();
         dialog.amount=amount;
@@ -56,7 +57,17 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
             dialog.userList.clear();
             dialog.userList.addAll(userList);
         }
+
+        if(vipUserList!=null && vipUserList.size()>0)
+        {
+            dialog.vipUserList.clear();
+            dialog.vipUserList.addAll(vipUserList);
+        }
         return dialog;
+    }
+
+    public void setDataChangeListener(DataChangeListener dataChangeListener) {
+        this.dataChangeListener = dataChangeListener;
     }
 
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
@@ -132,6 +143,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         mBind.setClick(this);
 
         doGetAudienceListApi();
+        doGetVipAudienceListApi();
         view.setVisibility(View.GONE);
         String str1=getResources().getString(R.string.onlineNobility);
         String str2=getResources().getString(R.string.onlineUser);
@@ -195,15 +207,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position)
-                {
-                    case 0:
-                        setNobilityData();
-                        break;
-                    case 1:
-                        setUserData();
-                        break;
-                }
+                setData();
             }
 
             @Override
@@ -223,12 +227,22 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
     {
         View view=views.get(0);
         RoundRelativeLayout rrl=view.findViewById(R.id.rrlTopView);
+        LinearLayout linearLayout=view.findViewById(R.id.llEmptyData);
         RecyclerView rvMain=view.findViewById(R.id.rvMain);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rvMain.setLayoutManager(linearLayoutManager);
-        rrl.setVisibility(View.VISIBLE);
-        rvMain.setVisibility(View.GONE);
+
+        if(vipUserList.size()==0)
+        {
+            linearLayout.setVisibility(View.VISIBLE);
+            rvMain.setVisibility(View.GONE);
+        }
+        else
+        {
+            linearLayout.setVisibility(View.GONE);
+            rvMain.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -239,33 +253,38 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         LinearLayout linearLayout=view.findViewById(R.id.llEmptyData);
         RecyclerView rvMain=view.findViewById(R.id.rvMain);
         rrl.setVisibility(View.GONE);
-        linearLayout.setVisibility(View.GONE);
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rvMain.setLayoutManager(linearLayoutManager);
-        rvMain.setVisibility(View.VISIBLE);
 
-    }
-
-    private void setNobilityData()
-    {
-
-    }
-
-    private void setUserData()
-    {
-        View view=views.get(mBind.vpMain.getCurrentItem());
-        RecyclerView rvMain=view.findViewById(R.id.rvMain);
-        if(adapter==null)
+        if(userList.size()==0)
         {
-            adapter=new OnlineUserOrNobilityListAdapter(getActivity(),userList);
+            linearLayout.setVisibility(View.VISIBLE);
+            rvMain.setVisibility(View.GONE);
         }
         else
         {
-            adapter.setNewData(userList);
+            linearLayout.setVisibility(View.GONE);
+            rvMain.setVisibility(View.VISIBLE);
         }
-        rvMain.setAdapter(adapter);
+
+    }
+
+    private void setData()
+    {
+        View view=views.get(mBind.vpMain.getCurrentItem());
+        RecyclerView rvMain=view.findViewById(R.id.rvMain);
+        List<User> tempList=mBind.vpMain.getCurrentItem()==0?vipUserList:userList;
+        if(rvMain.getAdapter()==null)
+        {
+            rvMain.setAdapter(new OnlineUserOrNobilityListAdapter(getActivity(),tempList));
+        }
+        else
+        {
+            OnlineUserOrNobilityListAdapter adapter=(OnlineUserOrNobilityListAdapter)rvMain.getAdapter();
+            adapter.setNewData(tempList);
+        }
     }
 
     /**
@@ -277,7 +296,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
             return;
         }
 
-        Api_Live.ins().getRoomuserList(liveId, new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomUserList(liveId, new JsonCallback<List<User>>() {
             @Override
             public void onSuccess(int code, String msg, List<User> data) {
                 if (code == 0 ) {
@@ -285,15 +304,51 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
                     {
                         userList.clear();
                         userList.addAll(data);
-                        if(mBind.vpMain.getCurrentItem()==1)
+                        if(dataChangeListener!=null)
                         {
-                            setUserData();
+                            dataChangeListener.onChange(userList,null);
                         }
+                        initUserList();
                     }
                 } else {
                     ToastUtils.showShort(msg);
                 }
             }
         });
+    }
+
+    /**
+     * 观众列表 进入直播间就缓存下数据
+     */
+    public void doGetVipAudienceListApi() {
+        if(!isConditionOk())
+        {
+            return;
+        }
+
+        Api_Live.ins().getRoomVipList(liveId, new JsonCallback<List<User>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<User> data) {
+                if (code == 0 ) {
+                    if(isConditionOk() && getArg().equals(liveId) && data!=null)
+                    {
+                        vipUserList.clear();
+                        vipUserList.addAll(data);
+                        if(dataChangeListener!=null)
+                        {
+                            dataChangeListener.onChange(null,vipUserList);
+                        }
+                        initNobilityList();
+                    }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    public interface DataChangeListener
+    {
+        void onChange(List<User> userList,List<User> vipUserList);
     }
 }
