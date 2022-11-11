@@ -96,15 +96,8 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
 
         helper.setText(R.id.tv_nickname,data.getTitle());
 
-        if(TextUtils.isEmpty(data.getRoomIcon()))
-        {
-            ivRoundBG.setImageDrawable(context.getResources().getDrawable(defaultDrawable));
-        }
-        else
-        {
-            ivRoundBG.setRadius(dip10);
-            GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),defaultDrawable,defaultDrawable, ivRoundBG);
-        }
+        ivRoundBG.setRadius(dip10);
+        GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
 
         //1普通房间2密码房间3计时房间4贵族房间5计场房间
         switch (data.getRoomType())

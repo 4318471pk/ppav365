@@ -62,6 +62,7 @@ import com.live.fox.utils.ViewUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
 import com.live.fox.view.RankProfileView;
+import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
 import com.opensource.svgaplayer.SVGAVideoEntity;
@@ -414,6 +415,7 @@ public class LivingFragment extends BaseBindingFragment {
 
             if(mBind.svImage!=null)
             {
+                mBind.svImage.stopAnimation();
                 mBind.svImage.clear();
             }
 
@@ -708,7 +710,7 @@ public class LivingFragment extends BaseBindingFragment {
                             GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
                             if(giftResourceBean!=null && !TextUtils.isEmpty(giftResourceBean.getLocalSvgPath()))
                             {
-                                playSVGAAnimal(giftResourceBean.getLocalSvgPath());
+                                playSVGAAnimal(giftResourceBean.getLocalSvgPath(),gBean.getCount());
                             }
                             break;
                     }
@@ -810,7 +812,7 @@ public class LivingFragment extends BaseBindingFragment {
         });
     }
 
-    public void playSVGAAnimal(String path)
+    public void playSVGAAnimal(String path,int times)
     {
         File file = new File(path);
         if(file==null || !file.exists())
@@ -818,7 +820,30 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
+        mBind.svImage.setLoops(times);
         SVGAParser parser = SVGAParser.Companion.shareParser();
+        mBind.svImage.setCallback(new SVGACallback() {
+            @Override
+            public void onPause() {
+            }
+
+            @Override
+            public void onFinished() {
+                if(mBind.svImage!=null)
+                {
+                    mBind.svImage.clear();
+                }
+            }
+
+            @Override
+            public void onRepeat() {
+            }
+
+            @Override
+            public void onStep(int i, double v) {
+            }
+        });
+
         try {
             BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
             parser.decodeFromInputStream(bufferedInputStream, file.getAbsolutePath(),
@@ -828,7 +853,6 @@ public class LivingFragment extends BaseBindingFragment {
                             SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
                             mBind.svImage.setImageDrawable(drawable);
                             mBind.svImage.startAnimation();
-                            mBind.svImage.stepToFrame(0, true);
                         }
 
                         @Override

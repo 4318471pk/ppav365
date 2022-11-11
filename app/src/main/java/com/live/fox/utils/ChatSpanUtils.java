@@ -697,6 +697,10 @@ public class ChatSpanUtils {
 
     public static void appendLevelIcon(SpanUtils spanUtils,int level,Context context)
     {
+        if(level<1)
+        {
+            return;
+        }
       String levelIcon=LocalUserLevelDao.getInstance().getLevelIcon(level);
         Bitmap bitmap = BitmapFactory.decodeFile(levelIcon);
         if (bitmap == null) return;
@@ -711,12 +715,16 @@ public class ChatSpanUtils {
      * 发送进入房间欢迎语
      *
      */
-    public static SpanUtils enterRoom(LivingMessageBean livingMessageBean,Context context)
+    public static synchronized SpanUtils enterRoom(LivingMessageBean livingMessageBean,Context context)
     {
         SpanUtils spanUtils=new SpanUtils();
         appendLevelIcon(spanUtils,livingMessageBean.getUserLevel(),context);
-        spanUtils.append(livingMessageBean.getNickname()).setFontSize(13,true)
-                .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+        if(!TextUtils.isEmpty(livingMessageBean.getNickname()))
+        {
+            spanUtils.append(livingMessageBean.getNickname()).setFontSize(13,true)
+                    .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+        }
+
         if(!TextUtils.isEmpty(livingMessageBean.getMessage()))
         {
             spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
@@ -757,7 +765,7 @@ public class ChatSpanUtils {
         }
 
         switch (gBean.getProtocol()) {
-            case MessageProtocol.LIVE_ROOM_CHAT:
+            case MessageProtocol.LIVE_SEND_GIFT:
                 appendLevelIcon(spanUtils,gBean.getUserLevel(),context);
                 spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
                         .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
