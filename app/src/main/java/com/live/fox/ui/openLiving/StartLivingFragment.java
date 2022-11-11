@@ -96,7 +96,7 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AnchorSelf));
                 break;
             case R.id.gtvOnlineAmount:
-                OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString(),liveId,null);
+                OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString(),liveId,null,null);
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),onlineNobilityAndUserDialog);
                 break;
             case R.id.gtvProtection:
