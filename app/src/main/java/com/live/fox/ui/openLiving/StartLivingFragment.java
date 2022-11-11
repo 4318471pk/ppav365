@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -35,6 +36,7 @@ import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.ClickUtil;
@@ -50,6 +52,9 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +66,7 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     Handler mHandler=new Handler(Looper.myLooper());
+    String liveId;
 
     @Override
     public void onClickView(View view) {
@@ -90,7 +96,7 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AnchorSelf));
                 break;
             case R.id.gtvOnlineAmount:
-                OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString());
+                OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString(),liveId,null);
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),onlineNobilityAndUserDialog);
                 break;
             case R.id.gtvProtection:
@@ -138,11 +144,7 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
             @Override
             public void onFinish() {
                 mBind.llTopView.setVisibility(View.VISIBLE);
-                AppIMManager.ins().addMessageListener(StartLivingFragment.class, StartLivingFragment.this);
-                OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
-                openLivingActivity.startRTMPPush();
-                checkAndJoinIM();
-
+                checkAuth();
             }
         });
     }
@@ -224,5 +226,84 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
     @Override
     public void onIMReceived(int protocol, String msg) {
         sendSystemMsgToChat(msg);
+    }
+
+
+
+    /**
+     * 开始直播
+     */
+    public void checkAuth() {
+
+        showLoadingDialogWithNoBgBlack();
+        String nickName= DataCenter.getInstance().getUserInfo().getUser().getNickname();
+        String title=getMainActivity().getRoomTitle();
+        Api_Live.ins().getAnchorAuth("84","0",nickName,title,"100",new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == 0 && data != null) {
+                    Log.e("checkAuth",data);
+                    try {
+                        JSONObject jsonObject=new JSONObject(data);
+                        String pushStreamUrl=jsonObject.optString("pushStreamUrl","");
+                        liveId=jsonObject.optString("liveId","");
+                        if(TextUtils.isEmpty(pushStreamUrl) || TextUtils.isEmpty(liveId))
+                        {
+                            ToastUtils.showShort(getString(R.string.startLivingFail));
+                            return;
+                        }
+                        getMainActivity().setPushUrl(pushStreamUrl);
+                        AppIMManager.ins().addMessageListener(StartLivingFragment.class, StartLivingFragment.this);
+                        OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
+                        openLivingActivity.startRTMPPush();
+                        checkAndJoinIM();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    try {
+//                        JSONObject jb = new JSONObject(data);
+//                        int auth = jb.optInt("auth");
+//                        User user = DataCenter.getInstance().getUserInfo().getUser();
+//                        if (user == null) {
+//                            LogUtils.e("主播状态：" + "开启直播出错，用户信息失败");
+//                            return;
+//                        }
+//
+//                        user.setAuth(auth);
+//                        DataCenter.getInstance().getUserInfo().updateUser(user);
+//                        if (auth == 2 && BuildConfig.IsAnchorClient) {
+//                            Constant.isAppInsideClick = true;
+//                            Intent intent = new Intent(CenterOfAnchorActivity.this, AnchorLiveActivity.class);
+//                            startActivity(intent);
+//                        } else if (auth == 1) { //1待审核
+//                            showToastTip(false, getString(R.string.certificating));
+//                        } else { //未认证
+//                            DialogFactory.showTwoBtnDialog(CenterOfAnchorActivity.this,
+//                                    getString(R.string.certiGo), getString(R.string.cancel),
+//                                    getString(R.string.goCerti), (button, dialog) -> dialog.dismiss(), (button, dialog) -> {
+//                                        dialog.dismiss();
+//                                        AuthActivity.startActivity(CenterOfAnchorActivity.this);
+//                                    });
+//                        }
+//                    } catch (Exception e) {
+//                        e.getStackTrace();
+//                    }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    private  OpenLivingActivity getMainActivity()
+    {
+        if(isActivityOK())
+        {
+            return ((OpenLivingActivity)getActivity());
+        }
+        return null;
     }
 }

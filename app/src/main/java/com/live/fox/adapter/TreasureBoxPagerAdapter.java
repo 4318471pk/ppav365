@@ -79,7 +79,7 @@ public class TreasureBoxPagerAdapter extends RecyclerView.Adapter<TreasureBoxPag
                             llContent.setBackground(null);
                         }
 
-                        RoundedImageView rivGiftImg= llContent.findViewById(R.id.rivGiftImg);
+                        ImageView rivGiftImg= llContent.findViewById(R.id.ivGiftImg);
                         TextView tvGiftName= llContent.findViewById(R.id.tvGiftName);
                         TextView tvCostDiamond= llContent.findViewById(R.id.tvCostDiamond);
 
@@ -91,8 +91,9 @@ public class TreasureBoxPagerAdapter extends RecyclerView.Adapter<TreasureBoxPag
                         }
                         else
                         {
-                            GlideUtils.loadDefaultImage(context,treasureItemBean.getImgUrl(),R.mipmap.img_error,rivGiftImg);
+
                         }
+                        GlideUtils.loadDefaultImage(context,treasureItemBean.getImgUrl(),0,R.mipmap.img_error,rivGiftImg);
 
                         tvCostDiamond.setText(treasureItemBean.getCostDiamond()+"");
                     }

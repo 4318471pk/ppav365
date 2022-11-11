@@ -145,6 +145,10 @@ public class RankProfileView extends RelativeLayout {
         adjustLayout();
     }
 
+    public ImageView getProfileImage() {
+        return ivProfile;
+    }
+
     private void adjustLayout()
     {
         if (getWidth() > 0) {

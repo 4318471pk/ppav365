@@ -49,7 +49,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="2dip"
                             android:onClick="@{click.onClickView}"
-                            android:src="@drawable/img_default"
+                            android:src="@mipmap/user_head_error"
                             app:riv_oval="true" />
 
                         <LinearLayout
@@ -90,19 +90,11 @@
 
                     </LinearLayout>
 
-                    <HorizontalScrollView
-                        android:id="@+id/horScrollview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dip"
-                        android:layout_toRightOf="@id/horScrollview"
-                        android:fadingEdge="horizontal"
-                        android:fadingEdgeLength="10dip" />
-
                     <com.live.fox.view.GradientTextView
                         android:id="@+id/gtvOnlineAmount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dip"
                         android:layout_height="34dp"
+                        android:visibility="invisible"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="5dp"
                         android:drawableLeft="@mipmap/amount_ofpeople"
@@ -112,13 +104,22 @@
                         android:onClick="@{click.onClickView}"
                         android:paddingLeft="5dip"
                         android:paddingRight="5dip"
-                        android:text="999999"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        app:gt_radius_dp="17dp"
+                        app:gt_radius_dp="20dp"
                         app:gt_solidNoGradient="#3f000000" />
 
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTop20Online"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginLeft="15dip"
+                        android:layout_toRightOf="@id/roundRL"
+                        android:layout_toLeftOf="@id/gtvOnlineAmount"
+                        android:fadingEdge="horizontal"
+                        android:fadingEdgeLength="10dip" />
                 </RelativeLayout>
 
                 <RelativeLayout

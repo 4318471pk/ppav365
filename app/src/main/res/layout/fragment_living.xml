@@ -27,6 +27,12 @@
             android:src="@mipmap/icon_anchor_loading"
             />
 
+        <com.opensource.svgaplayer.SVGAImageView
+            android:id="@+id/svImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
 
         <!--        <com.github.mmin18.widget.RealtimeBlurView-->
 <!--            android:id="@+id/blurView"-->

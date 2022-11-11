@@ -13,13 +13,14 @@
         android:orientation="vertical"
         >
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/rivGiftImg"
+    <ImageView
+        android:id="@+id/ivGiftImg"
         android:layout_width="60dip"
         android:layout_height="60dip"
+        android:scaleType="fitCenter"
         android:layout_marginBottom="8dip"
         android:layout_gravity="center_horizontal"
-        app:riv_corner_radius="7.5dp"/>
+        />
 
     <TextView
         android:id="@+id/tvGiftName"

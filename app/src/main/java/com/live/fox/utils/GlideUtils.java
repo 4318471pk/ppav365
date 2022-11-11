@@ -29,6 +29,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -102,6 +103,13 @@ public class GlideUtils {
      */
     public static void loadDefaultImage(Context context, Object path,int defaultImg, ImageView imageView) {
         loadImage(context, path, defaultImg, defaultImg, true, imageView);
+    }
+
+    /**
+     * 加载图片->默认预览图&错误图
+     */
+    public static void loadDefaultImage(Context context, Object path,int defaultImg,int errorImg, ImageView imageView) {
+        loadImage(context, path, defaultImg, errorImg, true, imageView);
     }
 
     /**
@@ -192,11 +200,12 @@ public class GlideUtils {
     @SafeVarargs
     public static void loadImage(Context context, Object path, int placeholderImg, int errorImg, boolean isFade, ImageView imageView, Transformation<Bitmap>... transformations) {
         if ((isValidContextForGlide(context))) return;
-        RequestOptions options;
-        if (placeholderImg > 0) {
-            options = new RequestOptions().placeholder(placeholderImg).error(errorImg);
-        } else {
-            options = new RequestOptions();
+        RequestOptions options=new RequestOptions();
+        if (placeholderImg != 0) {
+            options.placeholder(placeholderImg);
+        }
+        if (errorImg != 0) {
+            options.error(errorImg);
         }
 
         if (transformations != null && transformations.length > 0) {
@@ -208,32 +217,85 @@ public class GlideUtils {
                     .load(path)
                     .apply(options)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
-                            imageView.setImageDrawable(resource);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
-
-                        }
-                    });
+                    .into(imageView);
+//                    .into(new CustomTarget<Drawable>() {
+//                        @Override
+//                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
+//                            boolean isSuccess=transition.transition(resource,new BitmapImageViewTarget(imageView));
+//                            if(!isSuccess)
+//                            {
+//                                imageView.setImageDrawable(resource);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
+//                            if(placeholder!=null)
+//                            {
+//                                imageView.setImageDrawable(placeholder);
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onLoadStarted(@Nullable Drawable placeholder) {
+//                            super.onLoadStarted(placeholder);
+//                            if(placeholder!=null)
+//                            {
+//                                imageView.setImageDrawable(placeholder);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//                            super.onLoadFailed(errorDrawable);
+//                            if(errorDrawable!=null)
+//                            {
+//                                imageView.setImageDrawable(errorDrawable);
+//                            }
+//                        }
+//                    });
         } else {
             Glide.with(context)
                     .load(path)
                     .apply(options)
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
-                            imageView.setImageDrawable(resource);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
-
-                        }
-                    });
+                    .into(imageView);
+//                    .into(new CustomTarget<Drawable>() {
+//                        @Override
+//                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
+//                            boolean isSuccess=transition.transition(resource,new BitmapImageViewTarget(imageView));
+//                            if(!isSuccess)
+//                            {
+//                                imageView.setImageDrawable(resource);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
+//                            if(placeholder!=null)
+//                            {
+//                                imageView.setImageDrawable(placeholder);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onLoadStarted(@Nullable Drawable placeholder) {
+//                            super.onLoadStarted(placeholder);
+//                            if(placeholder!=null)
+//                            {
+//                                imageView.setImageDrawable(placeholder);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//                            super.onLoadFailed(errorDrawable);
+//                            if(errorDrawable!=null)
+//                            {
+//                                imageView.setImageDrawable(errorDrawable);
+//                            }
+//                        }
+//                    });
         }
     }
 

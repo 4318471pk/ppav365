@@ -26,17 +26,22 @@ import com.live.fox.Constant;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
+import com.live.fox.adapter.LivingTop20OnlineUserAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentLivingBinding;
+import com.live.fox.db.LocalGiftDao;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PleaseDontLeaveDialog;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.Audience;
 import com.live.fox.entity.EnterRoomBean;
+import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingMessageBean;
+import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.RoomListBean;
@@ -46,6 +51,7 @@ import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.IOUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.PlayerUtils;
 import com.live.fox.utils.SPUtils;
@@ -55,6 +61,10 @@ import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ViewUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.MyFlowLayout;
+import com.live.fox.view.RankProfileView;
+import com.opensource.svgaplayer.SVGADrawable;
+import com.opensource.svgaplayer.SVGAParser;
+import com.opensource.svgaplayer.SVGAVideoEntity;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.rtmp.ITXLivePlayListener;
@@ -68,6 +78,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,6 +99,8 @@ public class LivingFragment extends BaseBindingFragment {
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
     Handler handler = new Handler(Looper.myLooper());
+    LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
+    List<User> userList=new ArrayList<>();//当前在线用户
 
 
     public static LivingFragment getInstance(int position, int viewPagePosition) {
@@ -132,7 +148,7 @@ public class LivingFragment extends BaseBindingFragment {
             loadData();
 //            TimeCounter.getInstance().add(timeListener);
         } else {
-            GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(),
+            GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(),R.mipmap.icon_anchor_loading,
                     mBind.ivBG);
         }
     }
@@ -143,7 +159,7 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
-        GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(),
+        GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(),R.mipmap.icon_anchor_loading,
                 mBind.ivBG);
 
         Log.e("currentPagePosition", currentPagePosition + " " + activity.getCurrentPosition());
@@ -157,7 +173,7 @@ public class LivingFragment extends BaseBindingFragment {
                     @Override
                     public void run() {
                         //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
-                        if(!livingControlPanel.viewWatch.isMessagesPanelOpen())
+                        if(!livingControlPanel.viewWatch.isBotViewShow())
                         {
                             livingControlPanel.viewWatch.setScrollEnable(true);
                         }
@@ -168,7 +184,6 @@ public class LivingFragment extends BaseBindingFragment {
             }
         } else {
             destroyView();
-            Log.e("currentPagePosition222", currentPagePosition + " " + activity.getCurrentPosition());
         }
 
     }
@@ -198,7 +213,6 @@ public class LivingFragment extends BaseBindingFragment {
         txCloudVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mBind.rlContent.addView(txCloudVideoView);
         mLivePlayer.setPlayerView(txCloudVideoView);
-
 
         ViewPager viewPager = new ViewPager(getActivity());
         viewPager.setId(R.id.livingViewPager);
@@ -269,11 +283,12 @@ public class LivingFragment extends BaseBindingFragment {
         checkAndJoinIM(getRoomBean().getId());
         refreshAudienceList();
         doGetAudienceListApi();
+        getAnchorInfo();
     }
 
     public RoomListBean getRoomBean() {
         LivingActivity activity = (LivingActivity) getActivity();
-        if (activity.isFinishing() || activity.isDestroyed()) {
+        if (activity==null || activity.isFinishing() || activity.isDestroyed()) {
             return null;
         }
         return activity.getRoomListBeans().get(currentPagePosition);
@@ -299,6 +314,18 @@ public class LivingFragment extends BaseBindingFragment {
 
         SpanUtils spanUtils=new SpanUtils();
         ChatSpanUtils.appendPersonalMessage(spanUtils,pBean,getActivity());
+        bean.setCharSequence(spanUtils.create());
+        addNewMessage(bean);
+    }
+
+    private void personalSendGiftMessage(LivingMessageGiftBean livingMessageGiftBean)
+    {
+        LivingMsgBoxBean bean = new LivingMsgBoxBean();
+        bean.setBackgroundColor(0x66000000);
+        bean.setType(1);
+
+        SpanUtils spanUtils=new SpanUtils();
+        ChatSpanUtils.appendPersonalSendGiftMessage(spanUtils,livingMessageGiftBean,getActivity());
         bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
@@ -383,6 +410,11 @@ public class LivingFragment extends BaseBindingFragment {
 
             if (viewPager != null) {
                 mBind.rlContent.removeView(viewPager);
+            }
+
+            if(mBind.svImage!=null)
+            {
+                mBind.svImage.clear();
             }
 
             if (txCloudVideoView != null) {
@@ -670,6 +702,15 @@ public class LivingFragment extends BaseBindingFragment {
                             PersonalLivingMessageBean pBean = new Gson().fromJson(msg, PersonalLivingMessageBean.class);
                             sendPersonalMessage(pBean);
                             break;
+                        case MessageProtocol.LIVE_SEND_GIFT:
+                            LivingMessageGiftBean gBean = new Gson().fromJson(msg, LivingMessageGiftBean.class);
+                            personalSendGiftMessage(gBean);
+                            GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
+                            if(giftResourceBean!=null && !TextUtils.isEmpty(giftResourceBean.getLocalSvgPath()))
+                            {
+                                playSVGAAnimal(giftResourceBean.getLocalSvgPath());
+                            }
+                            break;
                     }
                 }
             } catch (JSONException e) {
@@ -694,9 +735,20 @@ public class LivingFragment extends BaseBindingFragment {
             @Override
             public void onSuccess(int code, String msg, List<Audience> result) {
                 if (code == 0 ) {
-                   if(result != null && getArg().equals(getRoomBean().getId()))
+                   if(result != null )
                    {
-
+                       if(isActivityOK() && getArg().equals(getRoomBean().getId()))
+                       {
+                           if(livingTop20OnlineUserAdapter==null)
+                           {
+                               livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
+                               livingControlPanel.mBind.rvTop20Online.setAdapter(livingTop20OnlineUserAdapter);
+                           }
+                           else
+                           {
+                               livingTop20OnlineUserAdapter.setNewData(result);
+                           }
+                       }
                    }
                 }
                 else
@@ -707,11 +759,12 @@ public class LivingFragment extends BaseBindingFragment {
         });
     }
 
+
     /**
-     * 观众列表
+     * 观众列表 进入直播间就缓存下数据
      */
     public void doGetAudienceListApi() {
-        if(!isActivityOK() || livingControlPanel==null)
+        if(!isActivityOK())
         {
             return;
         }
@@ -719,14 +772,73 @@ public class LivingFragment extends BaseBindingFragment {
         Api_Live.ins().getRoomuserList(getRoomBean().getId(), new JsonCallback<List<User>>() {
             @Override
             public void onSuccess(int code, String msg, List<User> data) {
-                hideLoadingView();
-                if (code == 0 && getArg().equals(getRoomBean().getId())) {
+                if (code == 0 ) {
+                    if(isActivityOK() && getArg().equals(getRoomBean().getId()) && data!=null)
+                    {
+                        userList.clear();
+                        userList.addAll(data);
+                    }
+                } else {
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取当前主播数据
+     */
+    public void getAnchorInfo() {
+        if(!isActivityOK())
+        {
+            return;
+        }
+        Api_Live.ins().getAnchorInfo(getRoomBean().getId(),getRoomBean().getAid(), new JsonCallback<LivingCurrentAnchorBean>() {
+            @Override
+            public void onSuccess(int code, String msg, LivingCurrentAnchorBean data) {
+                if (code == 0 ) {
+                    if(livingControlPanel!=null && isActivityOK() && getArg().equals(getRoomBean().getId()) )
+                    {
+                        livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum()+"");
+                        livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
+                    }
 
                 } else {
 
                 }
             }
         });
+    }
+
+    public void playSVGAAnimal(String path)
+    {
+        File file = new File(path);
+        if(file==null || !file.exists())
+        {
+            return;
+        }
+
+        SVGAParser parser = SVGAParser.Companion.shareParser();
+        try {
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+            parser.decodeFromInputStream(bufferedInputStream, file.getAbsolutePath(),
+                    new SVGAParser.ParseCompletion() {
+                        @Override
+                        public void onComplete(@NonNull SVGAVideoEntity svgaVideoEntity) {
+                            SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
+                            mBind.svImage.setImageDrawable(drawable);
+                            mBind.svImage.startAnimation();
+                            mBind.svImage.stepToFrame(0, true);
+                        }
+
+                        @Override
+                        public void onError() {
+                            Log.e("playSvg", "onError: ");
+                        }
+                    }, true, null, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

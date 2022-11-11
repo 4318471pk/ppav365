@@ -8,6 +8,7 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
@@ -191,12 +192,13 @@ public class Api_Live extends BaseApi {
     /**
      * 获取主播信息
      */
-    public void getAnchorInfo(int liveId, long anchorId, JsonCallback callback) {
+    public void getAnchorInfo(String liveId, String anchorId, JsonCallback<LivingCurrentAnchorBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_anchorinfo_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("anchorId", anchorId);
 
+        callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,
@@ -208,7 +210,7 @@ public class Api_Live extends BaseApi {
     /**
      * 获取主播联系名片
      */
-    public void getAnchorInfo(String liveId, String anchorId, JsonCallback callback) {
+    public void getAnchorContactCard(String liveId, String anchorId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.getAnchorCard;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);

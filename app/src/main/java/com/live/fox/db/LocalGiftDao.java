@@ -2,11 +2,15 @@ package com.live.fox.db;
 
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.GiftResourceBean;
+import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.utils.LogUtils;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import app.resource.db.GiftResourceBeanDao;
+import app.resource.db.UserLevelResourceBeanDao;
 
 public class LocalGiftDao implements ResourceDaoImpl<GiftResourceBean>{
 
@@ -118,4 +122,10 @@ public class LocalGiftDao implements ResourceDaoImpl<GiftResourceBean>{
        dao.update(giftResourceBean);
     }
 
+    public GiftResourceBean getGift(long gid)
+    {
+        QueryBuilder<GiftResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getGiftResourceBeanDao().queryBuilder();
+        GiftResourceBean giftResourceBean= queryBuilder.where(GiftResourceBeanDao.Properties.Id.eq(gid)).unique();
+        return giftResourceBean;
+    }
 }

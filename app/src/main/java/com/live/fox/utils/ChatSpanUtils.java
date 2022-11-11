@@ -22,11 +22,14 @@ import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
+import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalUserLevelDao;
 import com.live.fox.entity.ChatEntity;
 import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.Gift;
+import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingMessageBean;
+import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.ReceiveGiftBean;
@@ -739,6 +742,37 @@ public class ChatSpanUtils {
                         .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
                 spanUtils.append(pBean.getMsg()).setFontSize(13,true)
                         .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+                break;
+        }
+    }
+
+    /**
+     * 发送个人信息
+     *{"anchorId":1028924365,"avatar":"","combo":1,"count":1,"gid":5,"liveId":100029,"nickname":"lbMOLjbzsb","protocol":"2008","rq":39102,"timestamp":1668156260903,"tipType":0,"uid":1028924366,"userLevel":1,"zb":39102}
+     */
+    public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context) {
+        if(gBean==null || TextUtils.isEmpty(gBean.getProtocol()) )
+        {
+            return;
+        }
+
+        switch (gBean.getProtocol()) {
+            case MessageProtocol.LIVE_ROOM_CHAT:
+                appendLevelIcon(spanUtils,gBean.getUserLevel(),context);
+                spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
+                        .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+
+                GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
+                if(giftResourceBean!=null)
+                {
+                    StringBuilder sb=new StringBuilder();
+                    sb.append(context.getResources().getString(R.string.hasSent));
+                    sb.append(giftResourceBean.getName()).append("x").append(gBean.getCount());
+
+                    spanUtils.append(sb.toString()).setFontSize(13,true)
+                            .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+                }
+
                 break;
         }
     }

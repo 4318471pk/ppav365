@@ -50,6 +50,7 @@ import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.ClassicsFooter;
 import com.live.fox.view.MyFlowLayout;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.opensource.svgaplayer.SVGAParser;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -116,7 +117,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     public void initView() {
         setWindowsFlag();
 
-
+        SVGAParser.Companion.shareParser().init(this);
         roomListBeans=getIntent().getParcelableArrayListExtra(RoomList);
         mBind=getViewDataBinding();
         mBind.setClick(this);

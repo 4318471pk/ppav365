@@ -24,8 +24,12 @@ import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.adapter.OnlineUserOrNobilityListAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogOnlineUserNobilityBinding;
+import com.live.fox.entity.User;
+import com.live.fox.server.Api_Live;
 import com.live.fox.ui.rank.RankFragment;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,15 +42,20 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
     DialogOnlineUserNobilityBinding mBind;
     List<String> strings=new ArrayList<>();
     List<View> views=new ArrayList<>();
-    String amount;
+    String amount,liveId;
     OnlineUserOrNobilityListAdapter adapter;
-    List<String> datas=new ArrayList<>();
+    List<User> userList=new ArrayList<>();
 
-
-    public static OnlineNobilityAndUserDialog getInstance(String amount)
+    public static OnlineNobilityAndUserDialog getInstance(String amount,String liveId,List<User> userList)
     {
         OnlineNobilityAndUserDialog dialog=new OnlineNobilityAndUserDialog();
         dialog.amount=amount;
+        dialog.liveId=liveId;
+        if(userList!=null && userList.size()>0)
+        {
+            dialog.userList.clear();
+            dialog.userList.addAll(userList);
+        }
         return dialog;
     }
 
@@ -122,6 +131,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        doGetAudienceListApi();
         view.setVisibility(View.GONE);
         String str1=getResources().getString(R.string.onlineNobility);
         String str2=getResources().getString(R.string.onlineUser);
@@ -206,7 +216,6 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         mBind.rllContent.getLayoutParams().height=(int)(screenHeight*0.57f);
 
         view.setVisibility(View.VISIBLE);
-
         startAnimate(mBind.rllContent,true);
     }
 
@@ -246,21 +255,45 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
 
     private void setUserData()
     {
-        View view=views.get(1);
+        View view=views.get(mBind.vpMain.getCurrentItem());
         RecyclerView rvMain=view.findViewById(R.id.rvMain);
-        datas.clear();
-        for (int i = 0; i < 50; i++) {
-            datas.add("");
-        }
         if(adapter==null)
         {
-            adapter=new OnlineUserOrNobilityListAdapter(getActivity(),datas);
+            adapter=new OnlineUserOrNobilityListAdapter(getActivity(),userList);
         }
         else
         {
-            adapter.setNewData(datas);
+            adapter.setNewData(userList);
         }
         rvMain.setAdapter(adapter);
+    }
 
+    /**
+     * 观众列表
+     */
+    public void doGetAudienceListApi() {
+        if(!isConditionOk())
+        {
+            return;
+        }
+
+        Api_Live.ins().getRoomuserList(liveId, new JsonCallback<List<User>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<User> data) {
+                if (code == 0 ) {
+                    if(isConditionOk() && getArg().equals(liveId) && data!=null && data.size()>0)
+                    {
+                        userList.clear();
+                        userList.addAll(data);
+                        if(mBind.vpMain.getCurrentItem()==1)
+                        {
+                            setUserData();
+                        }
+                    }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
     }
 }

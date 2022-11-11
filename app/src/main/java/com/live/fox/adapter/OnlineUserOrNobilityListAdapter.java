@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.User;
 import com.live.fox.utils.ChatSpanUtils;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ImageUtils;
 import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.SpanUtils;
@@ -22,32 +24,29 @@ import com.live.fox.view.RankProfileView;
 
 import java.util.List;
 
-public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<String, OnlineUserOrNobilityListAdapter.OnlineUserOrNobilityListHolder> {
+public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<User, OnlineUserOrNobilityListAdapter.OnlineUserOrNobilityListHolder> {
 
     Context context;
-    public OnlineUserOrNobilityListAdapter(Context context, List<String> data) {
+    public OnlineUserOrNobilityListAdapter(Context context, List<User> data) {
         super(R.layout.item_online_user_nobility, data);
         this.context=context;
     }
 
     @Override
-    protected void convert(OnlineUserOrNobilityListHolder helper, String item) {
+    protected void convert(OnlineUserOrNobilityListHolder helper, User item) {
 
-
-        User user=new User();
-        user.setSex(1);
-        user.setUserLevel(34);
         SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(getAllIconSpan(user, context));
+        spanUtils.append(getAllIconSpan(item, context));
 
-        helper.tvNickName.setText("名字");
+        helper.tvNickName.setText(item.getNickname());
         helper.tvIcons.setText(spanUtils.create());
-        helper.rpv.setIndex(RankProfileView.NONE,48%7,false);
+        helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
+        GlideUtils.loadCircleImage(context,item.getAvatar(),0,R.mipmap.user_head_error,helper.rpv.getProfileImage());
     }
 
 
-    public void appendSex(SpanUtils spanUtils, User user, Context context) {
-        int sexResId = user.getSex() == 1 ? R.mipmap.men : R.mipmap.women;
+    public void appendSex(SpanUtils spanUtils, int sex, Context context) {
+        int sexResId = sex == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
         if (bitmap == null) return;
         spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_BOTTOM);
@@ -75,17 +74,17 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<String, On
 
     public Spanned getAllIconSpan(User user, Context context) {
         SpanUtils spanUtils = new SpanUtils();
-        appendSex(spanUtils,user,context);
-        appendLevel(spanUtils, user.getUserLevel(), context);
+        appendSex(spanUtils,user.getSex(),context);
+        ChatSpanUtils.appendLevelIcon(spanUtils,user.getUserLevel(),context);
 
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
-        Bitmap admin = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_admin);
-        spanUtils.appendImage(admin, SpanUtils.ALIGN_BOTTOM);
-
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
-        Bitmap shouhu = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_small_shouhu);
-        spanUtils.appendImage(shouhu, SpanUtils.ALIGN_BOTTOM);
-
+//        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+//        Bitmap admin = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_admin);
+//        spanUtils.appendImage(admin, SpanUtils.ALIGN_BOTTOM);
+//
+//        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+//        Bitmap shouhu = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_small_shouhu);
+//        spanUtils.appendImage(shouhu, SpanUtils.ALIGN_BOTTOM);
+//
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
         spanUtils.appendImage(bitmap, SpanUtils.ALIGN_BOTTOM);

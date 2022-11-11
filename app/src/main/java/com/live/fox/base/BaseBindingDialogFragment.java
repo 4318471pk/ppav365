@@ -75,7 +75,8 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     public boolean isConditionOk()
     {
-        return mWeakContext!=null && mWeakContext.get()!=null ;
+        return mWeakContext!=null && mWeakContext.get()!=null
+                && getActivity()!=null && !getActivity().isFinishing() && !getActivity().isDestroyed();
     }
 
     public <T extends ViewDataBinding> T getViewDataBinding() {
