@@ -61,8 +61,12 @@ public class Api_User extends BaseApi {
                 .execute(new JsonCallback<String>() {
                     @Override
                     public void onSuccess(int code, String msg, String data) {
-                        if (code == 0 && !TextUtils.isEmpty(data)) {
-                            DataCenter.getInstance().getUserInfo().setUser(data);
+                        boolean isMe=DataCenter.getInstance().getUserInfo().getUser().getUid()==uid || uid<=0;
+                        if (code == 0 && !TextUtils.isEmpty(data) ) {
+                            if(isMe)
+                            {
+                                DataCenter.getInstance().getUserInfo().setUser(data);
+                            }
                         }
 
                         if(callback!=null)

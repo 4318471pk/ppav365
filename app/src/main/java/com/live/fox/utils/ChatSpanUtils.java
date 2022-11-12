@@ -28,6 +28,7 @@ import com.live.fox.entity.ChatEntity;
 import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.Gift;
 import com.live.fox.entity.GiftResourceBean;
+import com.live.fox.entity.LivingFollowMessage;
 import com.live.fox.entity.LivingMessageBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.MessageEvent;
@@ -479,12 +480,15 @@ public class ChatSpanUtils {
      * 发送系统信息
      *
      */
-    public void appendSystemMessageType(SpanUtils spanUtils, String protocol, Context context) {
+    public static SpanUtils appendSystemMessageType(String protocol,CharSequence message, Context context) {
+        SpanUtils spanUtils = new SpanUtils();
+
         int resourceId = 1;
         switch (protocol) {
             case MessageProtocol.SYSTEM_NOTICE:// 系统
             case MessageProtocol.SYSTEM_ADVERTISE:// 系统
             case MessageProtocol.LIVE_ENTER_ROOM:
+            case MessageProtocol.LIVE_FOLLOW:
                 resourceId = R.mipmap.icon_tag_sys;
                 break;
             case MessageProtocol.GAME_CP_WIN:// 中奖
@@ -493,11 +497,14 @@ public class ChatSpanUtils {
         }
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
-        if (bitmap == null) return;
+        if (bitmap == null) return spanUtils;
         int height=ScreenUtils.getDip2px(context,16);
         int width=ScreenUtils.getDip2px(context,40);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
+
+        spanUtils.append(message).setForegroundColor(0xffffffff);
+        return spanUtils;
     }
 
     /**
@@ -761,11 +768,12 @@ public class ChatSpanUtils {
                 spanUtils.append(pBean.getMsg()).setFontSize(13,true)
                         .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
                 break;
+
         }
     }
 
     /**
-     * 发送个人信息
+     * 发送礼物信息
      *{"anchorId":1028924365,"avatar":"","combo":1,"count":1,"gid":5,"liveId":100029,"nickname":"lbMOLjbzsb","protocol":"2008","rq":39102,"timestamp":1668156260903,"tipType":0,"uid":1028924366,"userLevel":1,"zb":39102}
      */
     public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context) {
@@ -785,8 +793,16 @@ public class ChatSpanUtils {
                 {
                     StringBuilder sb=new StringBuilder();
                     sb.append(context.getResources().getString(R.string.hasSent));
-                    sb.append(giftResourceBean.getName()).append("x").append(gBean.getCount());
+                    sb.append("[");
 
+                    spanUtils.append(sb.toString()).setFontSize(13,true)
+                            .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+
+                    spanUtils.append(giftResourceBean.getName()).setFontSize(13,true)
+                            .setForegroundColor(0xffFFF796).setAlign(Layout.Alignment.ALIGN_CENTER);
+
+                    sb.delete(0,sb.length());
+                    sb.append("]x").append(gBean.getCount());
                     spanUtils.append(sb.toString()).setFontSize(13,true)
                             .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
                 }
@@ -795,6 +811,25 @@ public class ChatSpanUtils {
         }
     }
 
+    /**
+     * 发送关注信息
+     *
+     */
+    public static SpanUtils appendFollowMessage(SpanUtils spanUtils, LivingFollowMessage fBean, Context context) {
+        if(fBean==null || TextUtils.isEmpty(fBean.getProtocol()) )
+        {
+            return spanUtils;
+        }
 
+        switch (fBean.getProtocol()) {
+            case MessageProtocol.LIVE_FOLLOW:
+                spanUtils.append(fBean.getNickname()).setForegroundColor(0xff85EFFF);
+                spanUtils.append(context.getString(R.string.focusAnchor)).setForegroundColor(0xffffffff);
+                spanUtils.append(fBean.getAnchorNickName()).setForegroundColor(0xff85EFFF);
+                break;
+
+        }
+        return spanUtils;
+    }
 
 }

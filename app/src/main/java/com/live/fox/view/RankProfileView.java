@@ -3,8 +3,12 @@ package com.live.fox.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,8 +44,17 @@ public class RankProfileView extends RelativeLayout {
     int viewHeight=0,viewWidth=0;
     boolean resumeAfterAttached=false;
     SVGAVideoEntity svgaVideoEntity;
-
-
+    Handler handler=new Handler(Looper.myLooper()){
+        @Override
+        public void handleMessage(@NonNull @NotNull Message msg) {
+            super.handleMessage(msg);
+            Log.e("BBBBBN","decodeFromAssets "+isLiving);
+            if(isLiving)
+            {
+                startLivingAnimation();
+            }
+        }
+    };
 
     public RankProfileView(@NonNull @NotNull Context context, int crownIndex,boolean isLiving) {
         super(context);
@@ -80,7 +93,7 @@ public class RankProfileView extends RelativeLayout {
         this.onConfirmWidthAndHeightListener = onConfirmWidthAndHeightListener;
         if(isInit && onConfirmWidthAndHeightListener!=null)
         {
-           onConfirmWidthAndHeightListener.onValue(viewWidth,viewHeight);
+            onConfirmWidthAndHeightListener.onValue(viewWidth,viewHeight);
         }
     }
 
@@ -89,19 +102,20 @@ public class RankProfileView extends RelativeLayout {
         this.crownIndex = crownIndex;
         this.decorationIndex=decorationIndex;
         this.isLiving=isLiving;
-        View view = View.inflate(getContext(), R.layout.view_rank_profile, null);
-        ivProfile = view.findViewById(R.id.ivProfile);
-        ivCrown = view.findViewById(R.id.ivCrown);
-        ivDecoration = view.findViewById(R.id.ivDecoration);
-        ivLiving=view.findViewById(R.id.ivLiving);
-        addView(view);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_rank_profile,this,true);
+        ivProfile = findViewById(R.id.ivProfile);
+        ivCrown = findViewById(R.id.ivCrown);
+        ivDecoration = findViewById(R.id.ivDecoration);
+        ivLiving=findViewById(R.id.ivLiving);
+
+        Log.e("BBBBBN","initView  "+isLiving);
 
         SVGAParser parser = SVGAParser.Companion.shareParser();
         parser.decodeFromAssets("living_profile.svga", new SVGAParser.ParseCompletion() {
             @Override
             public void onComplete(SVGAVideoEntity svgaVideoEntity) {
                 RankProfileView.this.svgaVideoEntity = svgaVideoEntity;
-
+                handler.sendEmptyMessage(0);
             }
 
             @Override
@@ -133,14 +147,8 @@ public class RankProfileView extends RelativeLayout {
 //                    adjustLayout();
 //                }
 //            });
-            adjustLayout();
+//            adjustLayout();
         }
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
     }
 
     public void setIndex(int crownIndex,int decorationIndex,boolean isLiving)
@@ -148,7 +156,11 @@ public class RankProfileView extends RelativeLayout {
         this.crownIndex = crownIndex;
         this.decorationIndex = decorationIndex;
         this.isLiving=isLiving;
-        adjustLayout();
+        if(isLiving)
+        {
+            startLivingAnimation();
+        }
+        Log.e("BBBBBN","setIndex  "+isLiving);
     }
 
     public ImageView getProfileImage() {
@@ -157,6 +169,10 @@ public class RankProfileView extends RelativeLayout {
 
     private void adjustLayout()
     {
+        if(getLayoutParams()==null)
+        {
+            return;
+        }
         viewWidth=getLayoutParams().width;
         if(viewWidth==0)
         {
@@ -262,11 +278,15 @@ public class RankProfileView extends RelativeLayout {
                 ivLiving.setScaleY(1.9f);
                 ivLiving.setClearsAfterDetached(false);
 
-                startLivingAnimation();
+                if(isLiving && !ivLiving.isAnimating())
+                {
+                    startLivingAnimation();
+                }
+
             }
             else
             {
-                ivLiving.stopAnimation();
+//                ivLiving.stopAnimation();
                 ivLiving.setVisibility(GONE);
             }
         }
@@ -276,7 +296,7 @@ public class RankProfileView extends RelativeLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if(resumeAfterAttached && isLiving)
+        if(resumeAfterAttached && isLiving && ivLiving!=null)
         {
             ivLiving.pauseAnimation();
         }
@@ -286,14 +306,15 @@ public class RankProfileView extends RelativeLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if(resumeAfterAttached && isLiving)
-        {
-            if(svgaVideoEntity!=null)
-            {
-                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
-                ivLiving.startAnimation();
-            }
-        }
+        adjustLayout();
+//        if(resumeAfterAttached && isLiving && ivLiving!=null)
+//        {
+//            if(svgaVideoEntity!=null)
+//            {
+//                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
+//                ivLiving.startAnimation();
+//            }
+//        }
     }
 
     public void setResumeAniAfterAttached(boolean resumeAfterAttached)

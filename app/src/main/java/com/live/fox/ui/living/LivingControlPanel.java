@@ -348,7 +348,7 @@ public class LivingControlPanel extends RelativeLayout {
             {
                 mBind.rlBotView.setVisibility(INVISIBLE);
                 mBind.llMessages.setVisibility(INVISIBLE);
-                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
+                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance(fragment.getRoomBean().getId(),fragment.getRoomBean().getAid());
                 treasureBoxDialog.setGiftListData(getActivity().giftListData);
                 treasureBoxDialog.setVipGiftListData(getActivity().vipGiftListData);
                 treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
@@ -378,6 +378,7 @@ public class LivingControlPanel extends RelativeLayout {
                         doSendGiftApi(gid,amount);
                     }
                 });
+
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),treasureBoxDialog);
             }
 
@@ -442,25 +443,6 @@ public class LivingControlPanel extends RelativeLayout {
                 Log.e("getContactCard",data+"");
             }
         });
-    }
-
-    /**
-     * 调用赠送礼物接口
-     */
-    public void doSendGiftApi(String gid, int count) {
-        if(fragment.isActivityOK())
-        {
-            Api_Live.ins().sendGift(gid, fragment.getRoomBean().getAid(),
-                    fragment.getRoomBean().getId()+"", 1, count, new JsonCallback<String>() {
-                        @Override
-                        public void onSuccess(int code, String msg, String result) {
-                            LogUtils.e("json : " + result);
-                            if (code != 0) {
-                                ToastUtils.showShort(msg);
-                            }
-                        }
-                    });
-        }
     }
 
 
@@ -550,6 +532,25 @@ public class LivingControlPanel extends RelativeLayout {
                 }
             }
         });
+    }
+
+    /**
+     * 调用赠送礼物接口
+     */
+    public void doSendGiftApi(String gid, int count) {
+        if(fragment.isActivityOK())
+        {
+            Api_Live.ins().sendGift(gid, fragment.getRoomBean().getAid(),
+                    fragment.getRoomBean().getId()+"", 1, count, new JsonCallback<String>() {
+                        @Override
+                        public void onSuccess(int code, String msg, String result) {
+                            LogUtils.e("json : " + result);
+                            if (code != 0) {
+                                ToastUtils.showShort(msg);
+                            }
+                        }
+                    });
+        }
     }
 
     /**

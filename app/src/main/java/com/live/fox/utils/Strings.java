@@ -2,6 +2,8 @@ package com.live.fox.utils;
 
 import android.text.TextUtils;
 
+import com.live.fox.manager.SPManager;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -236,34 +238,31 @@ public final class Strings {
         return val;
     }
 
-//    //url connection
-//    public static String urlConnect(String para)
-//    {
-//        String domain ="";
-//        BoxApplication boxApplication=(BoxApplication)BoxApplication.getContext().getApplicationContext();
-//        //内存比io好
-//        if(boxApplication!=null && !TextUtils.isEmpty(boxApplication.getAppDomain()))
-//        {
-//            domain=boxApplication.getAppDomain();
-//        }
-//        else
-//        {
-//            domain=SPTool.get(ConstantValue.APP_IMAGE_DOMAIN,"");
-//            boxApplication.setAppDomain(domain);
-//        }
-//
-//        StringBuilder sb=new StringBuilder();
-//        sb.append(domain);
-//        if(!TextUtils.isEmpty(para) && para.startsWith("/"))
-//        {
-//            sb.append(para.substring(1));
-//        }
-//        else
-//        {
-//            sb.append(para);
-//        }
-//        return sb.toString();
-//    }
+    //url connection
+    public static String urlConnect(String downloadUrl)
+    {
+        String domain = SPManager.getServerDomain();
+
+        StringBuilder sb=new StringBuilder();
+
+        if(!TextUtils.isEmpty(downloadUrl))
+        {
+            if(!downloadUrl.toLowerCase().startsWith("http") && !downloadUrl.toLowerCase().startsWith("https"))
+            {
+                sb.append(domain);
+            }
+        }
+
+        if(!TextUtils.isEmpty(downloadUrl) && downloadUrl.startsWith("/"))
+        {
+            sb.append(downloadUrl);
+        }
+        else
+        {
+            sb.append("/").append(downloadUrl);
+        }
+        return sb.toString();
+    }
 //
 //    public static String urlConnectH5(String para)
 //    {

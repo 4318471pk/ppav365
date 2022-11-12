@@ -46,7 +46,7 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
                 switch (id)
                 {
                     case R.id.tvGift:
-                        TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
+                        TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance("","");
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),treasureBoxDialog);
                         break;
                     case R.id.tvAudienceManage:

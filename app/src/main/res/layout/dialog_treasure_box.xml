@@ -19,6 +19,7 @@
             android:id="@+id/rlContent"
             android:layout_width="match_parent"
             android:layout_height="400dip"
+            android:clickable="true"
             android:layout_alignParentBottom="true"
             >
 
@@ -69,6 +70,7 @@
                                 android:id="@+id/gtvExchangeDiamond"
                                 android:layout_width="60dip"
                                 android:layout_height="15dip"
+                                android:onClick="@{click.onClickView}"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center"
                                 android:layout_centerVertical="true"
@@ -102,8 +104,9 @@
 
                         <RelativeLayout
                             android:id="@+id/rlAmount"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="60dip"
+                            android:layout_height="30dip"
+                            android:focusableInTouchMode="true"
                             android:onClick="@{click.onClickView}"
                             android:layout_weight="1"
                             android:background="@drawable/half_round_black_storke_b931ff"
@@ -113,6 +116,8 @@
                                 android:id="@+id/ivArrow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:clickable="false"
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="3dip"
@@ -122,6 +127,7 @@
                                 android:id="@+id/tvAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="@{click.onClickView}"
                                 android:layout_toLeftOf="@id/ivArrow"
                                 android:maxLines="1"
                                 app:sizeToFit="true"
@@ -138,10 +144,9 @@
 
                         <TextView
                             android:id="@+id/tvGive"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="60dip"
+                            android:layout_height="30dip"
                             android:onClick="@{click.onClickView}"
-                            android:layout_weight="1"
                             android:text="@string/give"
                             android:textColor="@color/white"
                             android:textSize="13sp"

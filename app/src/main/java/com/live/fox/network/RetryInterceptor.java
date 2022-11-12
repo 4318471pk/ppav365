@@ -24,6 +24,7 @@ public class RetryInterceptor implements Interceptor {
         Response response=chain.proceed(request);
         while (!response.isSuccessful() && retryCount<maxRequest)
         {
+            response.close();
             retryCount++;
             response=chain.proceed(request);
         }

@@ -40,6 +40,7 @@ import com.live.fox.server.BaseApi;
 import com.live.fox.svga.GiftManager;
 import com.live.fox.utils.FileUtils;
 import com.live.fox.utils.IOUtils;
+import com.live.fox.utils.Strings;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -278,7 +279,9 @@ public class ResourceDownloadService extends IntentService {
     }
 
     private Response getResponse(String downloadUrl) {
-        Request request = new Request.Builder().get().url(downloadUrl).build();
+
+        String url=Strings.urlConnect(downloadUrl);
+        Request request = new Request.Builder().get().url(url).build();
         Call call = mOkHttpClient.newCall(request);
         try {
             Response response = call.execute();
