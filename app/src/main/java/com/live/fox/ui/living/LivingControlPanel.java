@@ -349,16 +349,23 @@ public class LivingControlPanel extends RelativeLayout {
                 mBind.rlBotView.setVisibility(INVISIBLE);
                 mBind.llMessages.setVisibility(INVISIBLE);
                 TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
-                treasureBoxDialog.setGiftListData(getActivity().getGiftListData());
+                treasureBoxDialog.setGiftListData(getActivity().giftListData);
+                treasureBoxDialog.setVipGiftListData(getActivity().vipGiftListData);
                 treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
                 treasureBoxDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         //去掉选中状态
-                        if(getActivity().getGiftListData()!=null)
+                        if(getActivity().giftListData!=null)
                         {
-                            for (int i = 0; i < getActivity().getGiftListData().size(); i++) {
-                                getActivity().getGiftListData().get(i).setSelected(false);
+                            for (int i = 0; i < getActivity().giftListData.size(); i++) {
+                                getActivity().giftListData.get(i).setSelected(false);
+                            }
+                        }
+                        if(getActivity().vipGiftListData!=null)
+                        {
+                            for (int i = 0; i < getActivity().vipGiftListData.size(); i++) {
+                                getActivity().vipGiftListData.get(i).setSelected(false);
                             }
                         }
                         mBind.rlBotView.setVisibility(VISIBLE);

@@ -69,7 +69,9 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     ArrayList<RoomListBean> roomListBeans;
     int pagerPosition;
     boolean isLoop=false;//开启无限循环上下拉
-    List<LivingGiftBean> giftListData;//礼物列表;
+    List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
+    List<LivingGiftBean> vipGiftListData=new ArrayList<>();//特权礼物列表;
+
     List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
@@ -251,6 +253,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 //        showContactCardDialog();
 //        showFreeRoomToPrepaidRoom();
         getGiftList();//请求获取礼物
+        getVipGiftList();//请求特权礼物
         getAmountListOfGift();//请求获取发送礼物数量列表
     }
 
@@ -282,10 +285,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
     public List<SendGiftAmountBean> getSendGiftAmountBeans() {
         return sendGiftAmountBeans;
-    }
-
-    public List<LivingGiftBean> getGiftListData() {
-        return giftListData;
     }
 
     public void scrollRecommendViewToTop()
@@ -441,10 +440,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
             public void onSuccess(int code, String msg, List<LivingGiftBean> data) {
                 if(code==0)
                 {
-                    if(giftListData==null)
-                    {
-                        giftListData=new ArrayList<>();
-                    }
                     if(data!=null)
                     {
                         for (int i = 0; i < data.size(); i++) {
@@ -466,6 +461,37 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
             }
         });
     }
+
+    private void getVipGiftList()
+    {
+        Api_Live.ins().getGiftList(2, new JsonCallback<List<LivingGiftBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<LivingGiftBean> data) {
+                if(code==0)
+                {
+                    if(data!=null)
+                    {
+                        for (int i = 0; i < data.size(); i++) {
+                            LivingGiftBean livingGiftBean=data.get(i);
+                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setSelected(false);
+                            livingGiftBean.setItemId(livingGiftBean.getId()+"");
+                            livingGiftBean.setImgUrl(livingGiftBean.getGitficon());
+                            livingGiftBean.setCostDiamond(livingGiftBean.getNeeddiamond());
+                            vipGiftListData.add(data.get(i));
+                        }
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+
+            }
+        });
+    }
+
+
 
     private void getAmountListOfGift()
     {
