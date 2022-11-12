@@ -43,6 +43,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
     List<List<? extends TreasureItemBean>> lists;
     TreasureBoxPagerAdapter adapter;
     List<? extends TreasureItemBean> giftListData;
+    List<? extends TreasureItemBean> vipGiftListData;
     List<SendGiftAmountBean> sendGiftAmountBeans;
     int topMargin=0;
     OnSelectedGiftListener onSelectedGiftListener;
@@ -57,6 +58,10 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
     public void setGiftListData(List<? extends TreasureItemBean> giftListData) {
         this.giftListData = giftListData;
+    }
+
+    public void setVipGiftListData(List<? extends TreasureItemBean> vipGiftListData) {
+        this.vipGiftListData = vipGiftListData;
     }
 
     public void setSendGiftAmountBeans(List<SendGiftAmountBean> sendGiftAmountBeans) {
@@ -292,22 +297,17 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
             lists.add(new ArrayList<>());
         }
 
-        for (int i = 0; i < 2; i++) {
-            List<TreasureItemBean> list=new ArrayList<>();
-            if(i<1)
-            {
-                for (int j = 0; j < 36; j++) {
-                    TreasureItemBean bean=new TreasureItemBean();
-                    bean.setCostDiamond(99);
-                    bean.setImgUrl("");
-                    bean.setSelected(false);
-                    bean.setName("谢谢");
-                    list.add(bean);
-                }
-            }
-            lists.add(list);
+        if(vipGiftListData!=null)
+        {
+            lists.add(vipGiftListData);
+        }
+        else
+        {
+            lists.add(new ArrayList<>());
         }
 
+        //背包列表
+        lists.add(new ArrayList<>());
 
         mBind.viewPager.setOffscreenPageLimit(1);
         setAdapterIndex(0);
@@ -333,6 +333,14 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
     private void setAdapterIndex(int index)
     {
+        if(index>0)
+        {
+            mBind.ivFirstTimeTopUp.setImageDrawable(getResources().getDrawable(R.mipmap.bg_living_firsttime_vip));
+        }
+        else
+        {
+            mBind.ivFirstTimeTopUp.setImageDrawable(getResources().getDrawable(R.mipmap.bg_living_firsttime_topup));
+        }
         mBind.viewPager.setCurrentItem(0);
         int dip10=ScreenUtils.dp2px(getActivity(),10);
         int viewPagerHeight= mBind.rlContent.getLayoutParams().height-topMargin-dip10*12;
