@@ -25,7 +25,11 @@ import com.live.fox.adapter.AnchorProtectorAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogAnchorlistProtectorBinding;
+import com.live.fox.entity.AnchorGuardListBean;
+import com.live.fox.server.Api_Live;
+import com.live.fox.ui.living.LivingControlPanel;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.device.ScreenUtils;
@@ -40,10 +44,21 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
     DialogAnchorlistProtectorBinding mBind;
     AnchorProtectorAdapter adapter;
+    String uid,liveId;
+    AnchorGuardListBean anchorGuardListBean;
+    OnRefreshDataListener onRefreshDataListener;
 
-    public static AnchorProtectorListDialog getInstance()
+    public static AnchorProtectorListDialog getInstance(String uid,String liveId,AnchorGuardListBean anchorGuardListBean)
     {
-        return new AnchorProtectorListDialog();
+        AnchorProtectorListDialog anchorProtectorListDialog=new AnchorProtectorListDialog();
+        anchorProtectorListDialog.uid=uid;
+        anchorProtectorListDialog.liveId=liveId;
+        anchorProtectorListDialog.anchorGuardListBean=anchorGuardListBean;
+        return anchorProtectorListDialog;
+    }
+
+    public void setOnRefreshDataListener(OnRefreshDataListener onRefreshDataListener) {
+        this.onRefreshDataListener = onRefreshDataListener;
     }
 
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
@@ -120,7 +135,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        BuyAndBeProtectorDialog dialog=BuyAndBeProtectorDialog.getInstance();
+                        BuyAndBeProtectorDialog dialog=BuyAndBeProtectorDialog.getInstance(uid,liveId);
                         FragmentManager fragmentManager=getParentFragmentManager();
                         if(fragmentManager==null)
                         {
@@ -166,12 +181,12 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         mBind.ivBeMyProtector.setLayoutParams(rl);
         view.setVisibility(View.VISIBLE);
 
-        List<String> strings=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            strings.add(" ");
+        List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
+        if(anchorGuardListBean!=null && anchorGuardListBean.getLiveGuardList()!=null)
+        {
+            list.addAll(anchorGuardListBean.getLiveGuardList());
         }
-
-        adapter=new AnchorProtectorAdapter(getActivity(),strings);
+        adapter=new AnchorProtectorAdapter(getActivity(),list);
         LinearLayout linearLayout=new LinearLayout(getContext());
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width,ScreenUtils.getDip2px(getActivity(),20)));
         adapter.addHeaderView(linearLayout);
@@ -182,7 +197,42 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         mBind.rvMain.setAdapter(adapter);
 
         startAnimate(mBind.rllContent,true);
+
+        getGuardList();
     }
 
 
+    private void getGuardList()
+    {
+        if(!isConditionOk())
+        {
+            return;
+        }
+
+        Api_Live.ins().queryGuardListByAnchor(liveId, uid, new JsonCallback<AnchorGuardListBean>() {
+            @Override
+            public void onSuccess(int code, String msg, AnchorGuardListBean data) {
+                if(code==0)
+                {
+                    if(isConditionOk() && getArg().equals(liveId) && data!=null)
+                    {
+                        adapter.setNewData(anchorGuardListBean.getLiveGuardList());
+                        if(onRefreshDataListener!=null)
+                        {
+                            onRefreshDataListener.onRefresh(data);
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        });
+    }
+
+    public interface OnRefreshDataListener
+    {
+        void onRefresh(AnchorGuardListBean anchorGuardListBean);
+    }
 }

@@ -26,8 +26,10 @@ package com.live.fox.view.overscroll;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -799,6 +801,7 @@ class BouncyAdapter extends RecyclerView.Adapter implements SpringScroller.Sprin
         }
 
         view.setLayoutParams(params);
+        view.setBackground(new ColorDrawable(Color.RED));
 
         return view;
     }

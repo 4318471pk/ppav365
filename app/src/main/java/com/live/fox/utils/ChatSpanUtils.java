@@ -24,6 +24,7 @@ import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalUserLevelDao;
+import com.live.fox.db.LocalUserTagResourceDao;
 import com.live.fox.entity.ChatEntity;
 import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.Gift;
@@ -35,6 +36,7 @@ import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.ReceiveGiftBean;
 import com.live.fox.entity.User;
+import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.entity.response.LotteryItem;
 import com.live.fox.entity.response.MinuteTabItem;
 import com.live.fox.manager.DataCenter;
@@ -712,6 +714,10 @@ public class ChatSpanUtils {
 
     }
 
+    /**
+     * 等级图标
+     *
+     */
     public static void appendLevelIcon(SpanUtils spanUtils,int level,Context context)
     {
         if(level<1)
@@ -725,6 +731,29 @@ public class ChatSpanUtils {
         int width=ScreenUtils.getDip2px(context,30);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
+
+    }
+
+    /**
+     * 爵位图标 7以下
+     *
+     */
+    public static void appendVipLevelIcon(SpanUtils spanUtils,int level,Context context)
+    {
+        if(level<1 || level>7)
+        {
+            return;
+        }
+        UserTagResourceBean levelTagBean= LocalUserTagResourceDao.getInstance().getLevelTag(level);
+        if(levelTagBean!=null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath()))
+        {
+            Bitmap bitmap = BitmapFactory.decodeFile(levelTagBean.getLocalVipImgPath());
+            if (bitmap == null) return;
+            int height=ScreenUtils.getDip2px(context,12);
+            int width=ScreenUtils.getDip2px(context,30);
+            spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+            spanUtils.append(" ");
+        }
 
     }
 

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="5dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="false"
     app:contentPaddingTop="0dip"
-    app:cardBackgroundColor="#00000000"
+    app:contentPadding="0dip"
+    app:cardBackgroundColor="#ffffffff"
+    android:background="#00000000"
+    app:cardCornerRadius="10dip"
     >
 
     <LinearLayout
@@ -15,12 +18,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/rivImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dip"
+            android:layout_weight="1"
             app:riv_corner_radius_top_left="10dip"
             app:riv_corner_radius_top_right="10dip"
             android:adjustViewBounds="true"
-            android:src="@mipmap/testbanner"/>
+            />
 
         <com.flyco.roundview.RoundLinearLayout
             android:layout_width="match_parent"
@@ -38,6 +43,7 @@
                 android:src="@mipmap/time_icon"/>
 
             <TextView
+                android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

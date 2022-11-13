@@ -141,6 +141,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
         mBind.gtvTitleOfRoom.setText(DataCenter.getInstance().getUserInfo().getUser().getNickname());
         getLineList();
+        getCenterData();
     }
 
     private void openLive() {
@@ -214,6 +215,18 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 } else {
                     ToastUtils.showShort(msg);
                 }
+            }
+        });
+    }
+
+    private void getCenterData()
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_Live.ins().getAnchorCenterInfo(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                Log.e("getCenterData",data);
             }
         });
     }

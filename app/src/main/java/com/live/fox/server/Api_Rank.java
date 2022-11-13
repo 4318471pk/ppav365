@@ -26,9 +26,9 @@ public class Api_Rank extends BaseApi{
 
     /**
      * 获取榜单列表
-     * type 榜单类型：1星值2财富
+     * 榜单类型：1:主播榜；2:土豪榜(用户送礼贡献榜单);
      */
-    public void getRankList(int type, JsonCallback callback) {
+    public void getRankList(int type, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.RANK_list_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("type", type);
@@ -42,36 +42,17 @@ public class Api_Rank extends BaseApi{
                 .execute(callback);
     }
 
-    /**
-     * 获取榜单列表
-     * type     1星值2财富
-     * rankType 1日榜2周榜3月榜4昨日榜
-     */
-    public void getRankLDetailsList(int type, int rankType, JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.RANK_detail_URL;
-        HashMap<String, Object> params = getCommonParams();
-        params.put("type", type);
-        params.put("rankType", rankType);
-
-//        OkHttpUtil.doJsonPost(url, new Gson().toJson(params), Long.parseLong(params.get("timestamp").toString()), callback);
-        OkGoHttpUtil.getInstance().doJsonPost(
-                "",
-                url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
-    }
-
-
 
     /**
-     * 主播个人榜单
+     * 主播个人榜单（贡献榜）
+     *
      */
-    public void getRankList(long anchorId, JsonCallback callback) {
+    public void getContributionRankList(String liveId, String uid, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.RANK_anchorlist_URL;
         HashMap<String, Object> params = getCommonParams();
-        params.put("anchorId", anchorId);
+        params.put("anchorId",uid);
 
+        callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,
@@ -79,6 +60,12 @@ public class Api_Rank extends BaseApi{
                 new Gson().toJson(params))
                 .execute(callback);
     }
+
+
+
+
+
+
 
 
 }

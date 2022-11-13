@@ -274,8 +274,21 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
     private void setData()
     {
         View view=views.get(mBind.vpMain.getCurrentItem());
+        LinearLayout linearLayout=view.findViewById(R.id.llEmptyData);
         RecyclerView rvMain=view.findViewById(R.id.rvMain);
         List<User> tempList=mBind.vpMain.getCurrentItem()==0?vipUserList:userList;
+
+        if(tempList.size()==0)
+        {
+            linearLayout.setVisibility(View.VISIBLE);
+            rvMain.setVisibility(View.GONE);
+        }
+        else
+        {
+            linearLayout.setVisibility(View.GONE);
+            rvMain.setVisibility(View.VISIBLE);
+        }
+
         if(rvMain.getAdapter()==null)
         {
             rvMain.setAdapter(new OnlineUserOrNobilityListAdapter(getActivity(),tempList));
@@ -318,7 +331,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
     }
 
     /**
-     * 观众列表 进入直播间就缓存下数据
+     * 贵族列表
      */
     public void doGetVipAudienceListApi() {
         if(!isConditionOk())
@@ -338,7 +351,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
                         {
                             dataChangeListener.onChange(null,vipUserList);
                         }
-                        initNobilityList();
+                        setData();
                     }
                 } else {
                     ToastUtils.showShort(msg);

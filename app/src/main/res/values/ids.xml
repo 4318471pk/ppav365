@@ -7,4 +7,6 @@
     <item name="gameTypeImg" type="id"/>
     <item name="livingViewPager" type="id"/>
     <item name="txLivingVideoView" type="id"/>
+    <item name="rankTopView" type="id"/>
+    <item name="rankBotView" type="id"/>
 </resources>

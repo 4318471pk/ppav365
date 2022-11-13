@@ -112,7 +112,7 @@ public class ActivityDetailFragment extends BaseFragment {
         if (isGame) {
             game = 2;
         }
-        Api_Order.ins().getAct(new JsonCallback<List<ActBean>>() {
+        Api_Order.ins().getAct(game,new JsonCallback<List<ActBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<ActBean> data) {
                 hideLoadingDialog();
@@ -125,7 +125,7 @@ public class ActivityDetailFragment extends BaseFragment {
                     }
                 }
             }
-        }, game);
+        });
     }
 
 }

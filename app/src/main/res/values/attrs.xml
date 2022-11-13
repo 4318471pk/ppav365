@@ -276,4 +276,10 @@
         <attr name="maxAdapterSizeToEstimate" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="AnchorRoundImageView">
+        <attr name="viewRadius" format="dimension" />
+    </declare-styleable>
+
+
+
 </resources>

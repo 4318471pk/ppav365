@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_anchor_loading"
+        app:viewRadius="10dip"
        />
 
     <LinearLayout

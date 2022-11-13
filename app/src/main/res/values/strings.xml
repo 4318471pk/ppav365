@@ -1478,8 +1478,11 @@
     <string name="hasSent">送出</string>
     <string name="tips9" translatable="false">TA好像忘记说些什么了~</string>
     <string name="reportSuccess">举报成功</string>
+    <string name="operateSuccess">操作成功</string>
+    <string name="ren">人</string>
 
-
+    <string name="tip10">落后%1$s火力</string>
+    <string name="emptyPosition">虚位以待</string>
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>
 

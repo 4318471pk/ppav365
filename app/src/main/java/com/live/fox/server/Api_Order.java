@@ -3,6 +3,7 @@ package com.live.fox.server;
 import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.entity.ActBean;
+import com.live.fox.entity.AvailableGuardBean;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.BankInfo;
 import com.live.fox.entity.BankListBean;
@@ -21,6 +22,9 @@ import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.manager.SPManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
+import com.lzy.okgo.model.HttpParams;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -474,7 +478,7 @@ public class Api_Order extends BaseApi {
     /**
      *  获取活动
      */
-    public void getAct(JsonCallback<List<ActBean>> callback, int isGame) {
+    public void getAct(int isGame,JsonCallback<List<ActBean>> callback) {
         String url =  SPManager.getServerDomain() + Constant.URL.ACT_URL
                 + "?language=" + MultiLanguageUtils.getRequestHeader() + "&activityCategory=" + isGame;
         OkGoHttpUtil.getInstance().doGet(
@@ -484,5 +488,38 @@ public class Api_Order extends BaseApi {
                 .execute(callback);
     }
 
+
+    /**
+     * 购买、续费守护
+     */
+    public void buyGuard(String aid, String liveId, AvailableGuardBean bean, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain()  + Constant.URL.GurardOpen;
+
+        HashMap<String,Object> httpParams=getCommonParams();
+        httpParams.put("guardId",bean.getId());
+        httpParams.put("guardLevel",bean.getGuardLevel());
+        httpParams.put("guardName",bean.getName());
+        httpParams.put("aid",aid);
+        httpParams.put("tags",liveId);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(httpParams.get("timestamp").toString())),
+                new Gson().toJson(httpParams))
+                .execute(callback);
+    }
+
+    /**
+     * 查询可购买守护列表
+     */
+    public void buyAvailableGuard(JsonCallback<List<AvailableGuardBean>> callback) {
+        String url = SPManager.getServerDomain()  + Constant.URL.GurardAvailableList;
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
 
 }

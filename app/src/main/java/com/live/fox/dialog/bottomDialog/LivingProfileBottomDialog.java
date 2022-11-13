@@ -57,6 +57,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
     ButtonClickListener buttonClickListener;
     BotDialogLivingProfileBinding mBind;
     String uid;
+    String nickName;
     int mode;
 
     public static LivingProfileBottomDialog getInstance(int mode)
@@ -71,6 +72,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         if(livingCurrentAnchorBean!=null)
         {
             uid=livingCurrentAnchorBean.getAnchorId();
+            nickName=livingCurrentAnchorBean.getNickname();
         }
     }
 
@@ -83,6 +85,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         if(audience!=null)
         {
             uid=audience.getUid()+"";
+            nickName=audience.getNickname();
         }
     }
 
@@ -184,26 +187,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 }
                 break;
             case R.id.tv2:
-                startAnimate(mBind.rlContent, false, new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        if(buttonClickListener!=null && Strings.isDigitOnly(uid))
-                        {
-                            buttonClickListener.onClick(uid,false,true);
-                        }
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-
+                startAnimate2(mBind.rlContent, false);
                 break;
             case R.id.tv3:
                 switch (mode)
@@ -228,6 +212,43 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 break;
         }
 
+    }
+
+
+    public void startAnimate2(View view,boolean isOpen){
+
+        Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,0
+                ,Animation.RELATIVE_TO_PARENT,isOpen?1f:0f
+                ,Animation.RELATIVE_TO_PARENT,isOpen?0f:1f);
+        animation.setDuration(300);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(!isOpen)
+                {
+                    dismissAllowingStateLoss();
+                }
+                if(buttonClickListener!=null && Strings.isDigitOnly(uid))
+                {
+                    if(!TextUtils.isEmpty(nickName))
+                    {
+                        buttonClickListener.onClick(uid,false,true,nickName);
+                    }
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        view.startAnimation(animation);
     }
 
     @Override
@@ -413,7 +434,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                         mBind.tv3.setText(getStringWithoutContext(R.string.concerned));
                         if(buttonClickListener!=null)
                         {
-                            buttonClickListener.onClick(targetId,true,false);
+                            buttonClickListener.onClick(targetId,true,false,"");
                         }
                     }
                     else
@@ -427,6 +448,6 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
 
     public interface ButtonClickListener
     {
-        void onClick(String uid,boolean follow,boolean tagSomeone);
+        void onClick(String uid,boolean follow,boolean tagSomeone,String nickName);
     }
 }

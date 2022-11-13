@@ -158,7 +158,7 @@
                         android:onClick="@{click.onClickView}"
                         android:paddingLeft="7dip"
                         android:paddingRight="7dip"
-                        android:text="0 人"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         app:gt_radius_dp="17dp"
@@ -562,16 +562,18 @@
             android:onClick="@{click.onClickView}"
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="30dp"
             >
 
-            <com.live.fox.view.overscroll.RecyclerViewBouncy
+            <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scrollbars="none"
                 android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="40dp" />
+                android:fadingEdgeLength="30dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

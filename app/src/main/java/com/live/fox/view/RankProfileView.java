@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.utils.ResourceUtils;
+import com.live.fox.utils.ScreenUtils;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAImageView;
 import com.opensource.svgaplayer.SVGAParser;
@@ -160,7 +161,7 @@ public class RankProfileView extends RelativeLayout {
         {
             startLivingAnimation();
         }
-        Log.e("BBBBBN","setIndex  "+isLiving);
+        adjustLayout();
     }
 
     public ImageView getProfileImage() {
@@ -180,7 +181,7 @@ public class RankProfileView extends RelativeLayout {
         }
         if (viewWidth > 0) {
             isInit=true;
-            if(decorationIndex>-1)
+            if(decorationIndex>-1 && decorationIndex<decorationResource.length)
             {
                 ivDecoration.setImageDrawable(getResources().getDrawable(decorationResource[decorationIndex]));
             }
@@ -203,6 +204,7 @@ public class RankProfileView extends RelativeLayout {
                     rlProfile.height=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
                     rlProfile.topMargin=(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
                     ivProfile.setLayoutParams(rlProfile);
+                    ivProfile.setPadding(0,0,0,0);
 
                     viewHeight=rlProfile.height+rlProfile.topMargin;
                     if(onConfirmWidthAndHeightListener!=null)
@@ -214,10 +216,12 @@ public class RankProfileView extends RelativeLayout {
                 {
                     ivDecoration.setVisibility(GONE);
 
+                    int dip15=ScreenUtils.dp2px(getContext(),15);
                     RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
                     rlProfile.width=viewWidth;
                     rlProfile.height=viewWidth;
                     ivProfile.setLayoutParams(rlProfile);
+                    ivProfile.setPadding(dip15/2,dip15/2,dip15/2,dip15/2);
 
                     viewHeight=rlProfile.height;
                     if(onConfirmWidthAndHeightListener!=null)
@@ -249,6 +253,7 @@ public class RankProfileView extends RelativeLayout {
                 rlProfile.width=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
                 rlProfile.height=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
                 ivProfile.setLayoutParams(rlProfile);
+                ivProfile.setPadding(0,0,0,0);
 
                 viewHeight=rlDe.height+rlDe.topMargin;
                 if(onConfirmWidthAndHeightListener!=null)

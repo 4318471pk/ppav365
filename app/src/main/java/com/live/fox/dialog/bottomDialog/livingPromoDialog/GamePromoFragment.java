@@ -2,16 +2,28 @@ package com.live.fox.dialog.bottomDialog.livingPromoDialog;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.live.fox.R;
 import com.live.fox.adapter.DialogPromoAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.LayoutListWithRefreshBinding;
+import com.live.fox.entity.ActBean;
+import com.live.fox.server.Api_Order;
+import com.live.fox.ui.h5.H5Activity;
+import com.live.fox.ui.mine.RechargeActivity;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +53,66 @@ public class GamePromoFragment extends BaseBindingFragment {
         mBind=getViewDataBinding();
 
         mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                getPromoList2();
+            }
+        });
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mBind.rvMain.setLayoutManager(linearLayoutManager);
         mBind.rvMain.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getActivity(),5)));
 
-        List<String> strings=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            strings.add("");
-        }
-        dialogPromoAdapter=new DialogPromoAdapter(getActivity(),strings);
+        getPromoList2();
+        dialogPromoAdapter=new DialogPromoAdapter(getActivity(),new ArrayList<>());
+        dialogPromoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                List<ActBean> mData=adapter.getData();
+                if (mData.get(position).getJumpType() == 1) { //跳轉到内部
+                    if (mData.get(position).getJumpCodeType() ==1) {
+                        RechargeActivity.startActivity(GamePromoFragment.this.getContext());
+                    } else if (mData.get(position).getJumpCodeType() == 2 ) { //直播间
+
+                    } else if (mData.get(position).getJumpCodeType() == 3 ) { //游戏
+
+                    }
+                } else {
+                    H5Activity.start(GamePromoFragment.this.getContext(),mData.get(position).getActivityName(),
+                            mData.get(position).getContent());
+                }
+            }
+        });
         mBind.rvMain.setAdapter(dialogPromoAdapter);
+    }
+
+    /**
+     *  获取游戏活动
+     */
+    public void getPromoList2() {
+        Api_Order.ins().getAct(2, new JsonCallback<List<ActBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<ActBean> data) {
+                boolean isSuccess=false;
+                if(isActivityOK())
+                {
+                    if(code==0)
+                    {
+                        if(data!=null)
+                        {
+                            isSuccess=true;
+                            dialogPromoAdapter.setNewData(data);
+                        }
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                    mBind.srlRefresh.finishRefresh(isSuccess);
+                }
+
+            }
+        });
     }
 }

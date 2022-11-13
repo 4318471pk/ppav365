@@ -97,6 +97,7 @@ import static android.view.View.OVER_SCROLL_NEVER;
 public class LivingFragment extends BaseBindingFragment {
 
     final int playSVGA = 123;
+    final int userHeartBeat=987;
     int currentPagePosition;
     int viewPagePosition;
     FragmentLivingBinding mBind;
@@ -113,6 +114,10 @@ public class LivingFragment extends BaseBindingFragment {
             switch (msg.what) {
                 case playSVGA:
                     playSVGAAnimal();
+                    break;
+                case userHeartBeat:
+                    Api_Live.ins().watchHeart();
+                    sendEmptyMessageDelayed(userHeartBeat,40000);
                     break;
             }
         }
@@ -296,7 +301,6 @@ public class LivingFragment extends BaseBindingFragment {
         viewPager.setCurrentItem(1);
 
         enterRoom();
-        checkAndJoinIM(getRoomBean().getId());
         getAnchorInfo();
     }
 
@@ -395,7 +399,7 @@ public class LivingFragment extends BaseBindingFragment {
         if(handler!=null)
         {
             handler.removeMessages(playSVGA);
-            handler=null;
+            handler.removeMessages(userHeartBeat);
         }
         destroyView();
     }
@@ -666,12 +670,17 @@ public class LivingFragment extends BaseBindingFragment {
                 getString(R.string.openJoinChat), new V2TIMCallback() {
                     @Override
                     public void onSuccess() {
-                        String nickName = DataCenter.getInstance().getUserInfo().getUser().getNickname();
-                        if (!TextUtils.isEmpty(nickName)) {
-                            String welcome = String.format(getString(R.string.chatWelcome), nickName);
-                            SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,welcome,getActivity());
-                            sendSystemMsgToChat(spanUtils.create());
+                        if(isActivityOK() && livingCurrentAnchorBean!=null)
+                        {
+                            if (!TextUtils.isEmpty(livingCurrentAnchorBean.nickname)) {
+                                String welcome = String.format(getString(R.string.chatWelcome), livingCurrentAnchorBean.nickname);
+                                SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,welcome,getActivity());
+                                sendSystemMsgToChat(spanUtils.create());
+
+                                handler.sendEmptyMessageDelayed(userHeartBeat,40000);
+                            }
                         }
+
 
 //                        if (currentAnchor.getShowType() == 0) {
 //                            if (getLiveInFragment() != null && currentAnchor.getRoomHide() == 0) {
@@ -754,7 +763,7 @@ public class LivingFragment extends BaseBindingFragment {
                             break;
                     }
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -782,7 +791,7 @@ public class LivingFragment extends BaseBindingFragment {
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }
-
+                        checkAndJoinIM(getRoomBean().getId());
                     }
 
                 } else {
