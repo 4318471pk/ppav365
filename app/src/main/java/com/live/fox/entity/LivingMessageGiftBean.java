@@ -16,6 +16,15 @@ public class LivingMessageGiftBean {
     public Integer uid;
     public Integer userLevel;
     public Integer zb;
+    GiftResourceBean giftResourceBean;
+
+    public GiftResourceBean getGiftResourceBean() {
+        return giftResourceBean;
+    }
+
+    public void setGiftResourceBean(GiftResourceBean giftResourceBean) {
+        this.giftResourceBean = giftResourceBean;
+    }
 
     public Integer getAnchorId() {
         return anchorId;

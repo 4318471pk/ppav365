@@ -75,7 +75,7 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     public boolean isConditionOk()
     {
-        return mWeakContext!=null && mWeakContext.get()!=null
+        return mWeakContext!=null && mWeakContext.get()!=null && getDialog()!=null
                 && getActivity()!=null && !getActivity().isFinishing() && !getActivity().isDestroyed();
     }
 
@@ -326,6 +326,8 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
         });
         view.startAnimation(animation);
     }
+
+
 
     public void setWindowsFlag()
     {

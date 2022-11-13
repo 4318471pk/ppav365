@@ -74,9 +74,14 @@ public class UserInfo {
             user.setAnchorCoin(mUser.getAnchorCoin());
         }
 
-        if(mUser.getGoldCoin()!=null)
+        if(mUser.getGold()!=null)
         {
-            user.setGoldCoin(mUser.getGoldCoin());
+            user.setGold(mUser.getGold());
+        }
+
+        if(mUser.getDiamond()!=null)
+        {
+            user.setDiamond(mUser.getDiamond());
         }
 
         if(mUser.getAuth()!=null)

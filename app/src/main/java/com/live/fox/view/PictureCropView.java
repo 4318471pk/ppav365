@@ -18,11 +18,15 @@ import android.view.View;
 
 import androidx.core.view.MotionEventCompat;
 
+import com.luck.picture.lib.tools.ScreenUtils;
+
 /**
  * 图片裁剪
  * create by msilemsile
  */
 public class PictureCropView extends View {
+
+    Context mContext;
 
     private Bitmap mPicture, mForeground;
     private Paint mCropPaint;
@@ -52,11 +56,13 @@ public class PictureCropView extends View {
 
     public PictureCropView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         init();
     }
 
     public PictureCropView(Context context) {
         this(context, null);
+        mContext = context;
     }
 
     private void init() {
@@ -76,6 +82,9 @@ public class PictureCropView extends View {
         this.mPicture = mPicture;
         mPicWidth = mPicture.getWidth();
         mPicHeight = mPicture.getHeight();
+        if (ScreenUtils.getScreenWidth(mContext) > mPicWidth) {
+            mRadius = mPicWidth / 2;
+        }
         int minEdge = mPicWidth > mPicHeight ? mPicHeight : mPicWidth;
         int normalEdge = mRadius * 2;
         if (mPicWidth < normalEdge && mPicHeight < normalEdge) {

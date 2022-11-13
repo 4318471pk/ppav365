@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +41,7 @@ import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
+import com.live.fox.entity.LivingFollowMessage;
 import com.live.fox.entity.LivingMessageBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
@@ -83,26 +85,45 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static android.view.View.OVER_SCROLL_NEVER;
 
 public class LivingFragment extends BaseBindingFragment {
 
+    final int playSVGA = 123;
+    final int userHeartBeat=987;
     int currentPagePosition;
     int viewPagePosition;
     FragmentLivingBinding mBind;
     LivingControlPanel livingControlPanel;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
+    List<LivingMessageGiftBean> livingMessageGiftBeans = new LinkedList<>();//礼物消息
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
-    Handler handler = new Handler(Looper.myLooper());
-    LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
-    List<User> userList=new ArrayList<>();//当前在线用户
+    Handler handler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(@NonNull @NotNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case playSVGA:
+                    playSVGAAnimal();
+                    break;
+                case userHeartBeat:
+                    Api_Live.ins().watchHeart();
+                    sendEmptyMessageDelayed(userHeartBeat,40000);
+                    break;
+            }
+        }
+    };
 
+    LivingCurrentAnchorBean livingCurrentAnchorBean;//当前主播的数据
 
     public static LivingFragment getInstance(int position, int viewPagePosition) {
         Log.e("LivingFragment", position + " ");
@@ -149,7 +170,7 @@ public class LivingFragment extends BaseBindingFragment {
             loadData();
 //            TimeCounter.getInstance().add(timeListener);
         } else {
-            GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(),R.mipmap.icon_anchor_loading,
+            GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(), R.mipmap.icon_anchor_loading,
                     mBind.ivBG);
         }
     }
@@ -160,7 +181,7 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
-        GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(),R.mipmap.icon_anchor_loading,
+        GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(), R.mipmap.icon_anchor_loading,
                 mBind.ivBG);
 
         Log.e("currentPagePosition", currentPagePosition + " " + activity.getCurrentPosition());
@@ -174,8 +195,7 @@ public class LivingFragment extends BaseBindingFragment {
                     @Override
                     public void run() {
                         //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
-                        if(!livingControlPanel.viewWatch.isBotViewShow())
-                        {
+                        if (!livingControlPanel.viewWatch.isBotViewShow()) {
                             livingControlPanel.viewWatch.setScrollEnable(true);
                         }
                     }
@@ -281,52 +301,45 @@ public class LivingFragment extends BaseBindingFragment {
         viewPager.setCurrentItem(1);
 
         enterRoom();
-        checkAndJoinIM(getRoomBean().getId());
-        refreshAudienceList();
-        doGetAudienceListApi();
         getAnchorInfo();
     }
 
     public RoomListBean getRoomBean() {
         LivingActivity activity = (LivingActivity) getActivity();
-        if (activity==null || activity.isFinishing() || activity.isDestroyed()) {
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
             return null;
         }
         return activity.getRoomListBeans().get(currentPagePosition);
     }
 
-    private void sendSystemMsgToChat(LivingMessageBean livingMessageBean) {
+    private void sendSystemMsgToChat(CharSequence charSequence) {
         LivingMsgBoxBean bean = new LivingMsgBoxBean();
         bean.setBackgroundColor(0x66000000);
         bean.setType(0);
 
-        SpanUtils spanUtils=new SpanUtils();
-        ChatSpanUtils.ins().appendSystemMessageType(spanUtils,livingMessageBean.getProtocol(),getActivity());
-        spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
-        bean.setCharSequence(spanUtils.create());
+        bean.setCharSequence(charSequence);
         addNewMessage(bean);
     }
 
-    private void sendPersonalMessage(PersonalLivingMessageBean pBean)
-    {
+
+    private void sendPersonalMessage(PersonalLivingMessageBean pBean) {
         LivingMsgBoxBean bean = new LivingMsgBoxBean();
         bean.setBackgroundColor(0x66000000);
         bean.setType(1);
 
-        SpanUtils spanUtils=new SpanUtils();
-        ChatSpanUtils.appendPersonalMessage(spanUtils,pBean,getActivity());
+        SpanUtils spanUtils = new SpanUtils();
+        ChatSpanUtils.appendPersonalMessage(spanUtils, pBean, getActivity());
         bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
 
-    private void personalSendGiftMessage(LivingMessageGiftBean livingMessageGiftBean)
-    {
+    private void personalSendGiftMessage(LivingMessageGiftBean livingMessageGiftBean) {
         LivingMsgBoxBean bean = new LivingMsgBoxBean();
         bean.setBackgroundColor(0x66000000);
         bean.setType(1);
 
-        SpanUtils spanUtils=new SpanUtils();
-        ChatSpanUtils.appendPersonalSendGiftMessage(spanUtils,livingMessageGiftBean,getActivity());
+        SpanUtils spanUtils = new SpanUtils();
+        ChatSpanUtils.appendPersonalSendGiftMessage(spanUtils, livingMessageGiftBean, getActivity());
         bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
@@ -383,6 +396,11 @@ public class LivingFragment extends BaseBindingFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(handler!=null)
+        {
+            handler.removeMessages(playSVGA);
+            handler.removeMessages(userHeartBeat);
+        }
         destroyView();
     }
 
@@ -390,10 +408,10 @@ public class LivingFragment extends BaseBindingFragment {
 
         if (getView() != null) {
 
+            livingMessageGiftBeans.clear();
             LivingActivity activity = (LivingActivity) getActivity();
             if (!activity.isFinishing() && !activity.isDestroyed() && activity.getRoomListBeans() != null) {
-                if(activity.getRoomListBeans().size()>currentPagePosition)
-                {
+                if (activity.getRoomListBeans().size() > currentPagePosition) {
                     AppIMManager.ins().loginOutGroup(activity.getRoomListBeans().get(currentPagePosition).getId());
                 }
             }
@@ -413,8 +431,7 @@ public class LivingFragment extends BaseBindingFragment {
                 mBind.rlContent.removeView(viewPager);
             }
 
-            if(mBind.svImage!=null)
-            {
+            if (mBind.svImage != null) {
                 mBind.svImage.stopAnimation();
                 mBind.svImage.clear();
             }
@@ -439,7 +456,7 @@ public class LivingFragment extends BaseBindingFragment {
         mLivePlayer.setPlayListener(new ITXLivePlayListener() {
             @Override
             public void onPlayEvent(int event, Bundle bundle) {
-                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
+//                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
 
                 if (event == TXLiveConstants.PLAY_EVT_CONNECT_SUCC) {
                     // 2001 連接服務器成功
@@ -618,8 +635,8 @@ public class LivingFragment extends BaseBindingFragment {
                 break;
 
             case 6012: //请求超时，请等网络恢复后重试。（Android SDK 1.8.0 以上需要参考 Android 服务进程配置 方式进行配置，否则会出现此错误）
-                LivingMessageBean bean=LivingMessageBean.simpleSystemMessage(getStringWithoutContext(R.string.discRetry),MessageProtocol.LIVE_ENTER_ROOM);
-                sendSystemMsgToChat(bean);
+                SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,getStringWithoutContext(R.string.discRetry),getActivity());
+                sendSystemMsgToChat(spanUtils.create());
                 if (type == 1) {
                     checkAndJoinIM(liveId);
                 } else {
@@ -653,12 +670,17 @@ public class LivingFragment extends BaseBindingFragment {
                 getString(R.string.openJoinChat), new V2TIMCallback() {
                     @Override
                     public void onSuccess() {
-                        String nickName = DataCenter.getInstance().getUserInfo().getUser().getNickname();
-                        if(!TextUtils.isEmpty(nickName))
+                        if(isActivityOK() && livingCurrentAnchorBean!=null)
                         {
-                            String welcome = String.format(getString(R.string.chatWelcome), nickName);
-                            sendSystemMsgToChat(LivingMessageBean.simpleSystemMessage(welcome,MessageProtocol.LIVE_ENTER_ROOM));
+                            if (!TextUtils.isEmpty(livingCurrentAnchorBean.nickname)) {
+                                String welcome = String.format(getString(R.string.chatWelcome), livingCurrentAnchorBean.nickname);
+                                SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,welcome,getActivity());
+                                sendSystemMsgToChat(spanUtils.create());
+
+                                handler.sendEmptyMessageDelayed(userHeartBeat,40000);
+                            }
                         }
+
 
 //                        if (currentAnchor.getShowType() == 0) {
 //                            if (getLiveInFragment() != null && currentAnchor.getRoomHide() == 0) {
@@ -677,19 +699,17 @@ public class LivingFragment extends BaseBindingFragment {
 
 
     public void onNewMessageReceived(int protocol, String msg) {
-        if(!isActivityOK() || livingControlPanel==null)
-        {
+        if (!isActivityOK() || livingControlPanel == null) {
             return;
         }
 
-        Log.e("onNewMessageReceived",msg);
+        Log.e("onNewMessageReceived", msg);
 
         if (!TextUtils.isEmpty(msg)) {
             try {
-                JSONObject msgJson=new JSONObject(msg);
-                String protocolCode=msgJson.optString("protocol","");
-                if(!TextUtils.isEmpty(msgJson.optString("protocol","")))
-                {
+                JSONObject msgJson = new JSONObject(msg);
+                String protocolCode = msgJson.optString("protocol", "");
+                if (!TextUtils.isEmpty(msgJson.optString("protocol", ""))) {
                     switch (protocolCode) {
                         case MessageProtocol.SYSTEM_NOTICE:
                         case MessageProtocol.GAME_CP_WIN:
@@ -698,7 +718,7 @@ public class LivingFragment extends BaseBindingFragment {
                             LivingMessageBean livingMessageBean = new Gson().fromJson(msg, LivingMessageBean.class);
                             livingMessageBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
                             livingControlPanel.mBind.vtEnterRoom.
-                                    addCharSequence(ChatSpanUtils.enterRoom(livingMessageBean,getActivity()).create());
+                                    addCharSequence(ChatSpanUtils.enterRoom(livingMessageBean, getActivity()).create());
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT:
                             PersonalLivingMessageBean pBean = new Gson().fromJson(msg, PersonalLivingMessageBean.class);
@@ -706,16 +726,44 @@ public class LivingFragment extends BaseBindingFragment {
                             break;
                         case MessageProtocol.LIVE_SEND_GIFT:
                             LivingMessageGiftBean gBean = new Gson().fromJson(msg, LivingMessageGiftBean.class);
-                            personalSendGiftMessage(gBean);
-                            GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
-                            if(giftResourceBean!=null && !TextUtils.isEmpty(giftResourceBean.getLocalSvgPath()))
-                            {
-                                playSVGAAnimal(giftResourceBean.getLocalSvgPath(),gBean.getCount());
+                            if (gBean != null) {
+                                personalSendGiftMessage(gBean);
+                                GiftResourceBean giftResourceBean = LocalGiftDao.getInstance().getGift(gBean.getGid());
+                                if (giftResourceBean != null && !TextUtils.isEmpty(giftResourceBean.getLocalSvgPath())) {
+                                    gBean.setGiftResourceBean(giftResourceBean);
+                                    livingMessageGiftBeans.add(gBean);
+                                    handler.sendEmptyMessage(playSVGA);
+                                }
                             }
+                            break;
+                        case MessageProtocol.LIVE_FOLLOW:
+                            LivingFollowMessage followMessage=new Gson().fromJson(msg,LivingFollowMessage.class);
+                            if(followMessage!=null && livingCurrentAnchorBean!=null)
+                            {
+                                followMessage.setAnchorNickName(livingCurrentAnchorBean.nickname);
+                                SpanUtils spanUtils=ChatSpanUtils.appendFollowMessage(new SpanUtils(),followMessage,getActivity());
+                                sendSystemMsgToChat(spanUtils.create());
+                            }
+                            break;
+                        case MessageProtocol.GOLD_COIN_CHANGE:
+                            JSONObject jsonObject=new JSONObject(msg);
+                            try {
+                                String diamondCoin=jsonObject.optString("diamondCoin","");
+                                String goldCoin=jsonObject.optString("goldCoin","");
+                                User user=new User();
+                                user.setDiamond(new BigDecimal(diamondCoin));
+                                user.setGold(new BigDecimal(goldCoin));
+                                DataCenter.getInstance().getUserInfo().updateUser(user);
+                            }
+                            catch (Exception exception)
+                            {
+                                exception.printStackTrace();
+                            }
+
                             break;
                     }
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -724,103 +772,52 @@ public class LivingFragment extends BaseBindingFragment {
 
 
     /**
-     * 刷新观众列表
-     * 普通用戶根據用戶經驗排序
+     * 获取当前主播数据
      */
-    private void refreshAudienceList() {
-        if(!isActivityOK() || livingControlPanel==null)
-        {
+    public void getAnchorInfo() {
+        if (!isActivityOK()) {
             return;
         }
-
-        Api_Live.ins().getAudienceList(getRoomBean().getId(), new JsonCallback<List<Audience>>() {
+        Api_Live.ins().getAnchorInfo(getRoomBean().getId(), getRoomBean().getAid(), new JsonCallback<LivingCurrentAnchorBean>() {
             @Override
-            public void onSuccess(int code, String msg, List<Audience> result) {
-                if (code == 0 ) {
-                   if(result != null )
-                   {
-                       if(isActivityOK() && getArg().equals(getRoomBean().getId()))
-                       {
-                           if(livingTop20OnlineUserAdapter==null)
-                           {
-                               livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
-                               livingControlPanel.mBind.rvTop20Online.setAdapter(livingTop20OnlineUserAdapter);
-                           }
-                           else
-                           {
-                               livingTop20OnlineUserAdapter.setNewData(result);
-                           }
-                       }
-                   }
-                }
-                else
-                {
+            public void onSuccess(int code, String msg, LivingCurrentAnchorBean data) {
+                if (code == 0) {
+                    if (livingControlPanel != null && data!=null && isActivityOK() && getArg().equals(getRoomBean().getId())) {
+                        LivingFragment.this.livingCurrentAnchorBean = data;
+                        GlideUtils.loadCircleImage(getActivity(), data.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
+                                livingControlPanel.mBind.rivProfileImage);
+                        livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
+                        livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
+                        if (data.getFollow() != null) {
+                            livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
+                        }
+                        checkAndJoinIM(getRoomBean().getId());
+                    }
+
+                } else {
                     ToastUtils.showShort(msg);
                 }
             }
         });
     }
 
+    public void playSVGAAnimal() {
+        if(livingMessageGiftBeans.size()<1)
+        {
+            return;
+        }
+        LivingMessageGiftBean bean=livingMessageGiftBeans.get(0);
+        File file = new File(bean.getGiftResourceBean().getLocalSvgPath());
+        if (file == null || !file.exists()) {
+            return;
+        }
 
-    /**
-     * 观众列表 进入直播间就缓存下数据
-     */
-    public void doGetAudienceListApi() {
-        if(!isActivityOK())
+        if(mBind.svImage.isAnimating())
         {
             return;
         }
 
-        Api_Live.ins().getRoomuserList(getRoomBean().getId(), new JsonCallback<List<User>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<User> data) {
-                if (code == 0 ) {
-                    if(isActivityOK() && getArg().equals(getRoomBean().getId()) && data!=null)
-                    {
-                        userList.clear();
-                        userList.addAll(data);
-                    }
-                } else {
-
-                }
-            }
-        });
-    }
-
-    /**
-     * 获取当前主播数据
-     */
-    public void getAnchorInfo() {
-        if(!isActivityOK())
-        {
-            return;
-        }
-        Api_Live.ins().getAnchorInfo(getRoomBean().getId(),getRoomBean().getAid(), new JsonCallback<LivingCurrentAnchorBean>() {
-            @Override
-            public void onSuccess(int code, String msg, LivingCurrentAnchorBean data) {
-                if (code == 0 ) {
-                    if(livingControlPanel!=null && isActivityOK() && getArg().equals(getRoomBean().getId()) )
-                    {
-                        livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum()+"");
-                        livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
-                    }
-
-                } else {
-
-                }
-            }
-        });
-    }
-
-    public void playSVGAAnimal(String path,int times)
-    {
-        File file = new File(path);
-        if(file==null || !file.exists())
-        {
-            return;
-        }
-
-        mBind.svImage.setLoops(times);
+        mBind.svImage.setLoops(bean.getCount());
         SVGAParser parser = SVGAParser.Companion.shareParser();
         mBind.svImage.setCallback(new SVGACallback() {
             @Override
@@ -829,9 +826,13 @@ public class LivingFragment extends BaseBindingFragment {
 
             @Override
             public void onFinished() {
-                if(mBind.svImage!=null)
-                {
+                if (mBind.svImage != null) {
                     mBind.svImage.clear();
+                }
+                livingMessageGiftBeans.remove(0);
+                if(livingMessageGiftBeans.size()>0)
+                {
+                    handler.sendEmptyMessage(playSVGA);
                 }
             }
 
@@ -864,5 +865,6 @@ public class LivingFragment extends BaseBindingFragment {
             e.printStackTrace();
         }
     }
+
 
 }

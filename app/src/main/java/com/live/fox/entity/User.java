@@ -6,6 +6,7 @@ import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.Utils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class User implements Serializable {
@@ -16,7 +17,6 @@ public class User implements Serializable {
     private Integer auth;  //0:否 1:認證中 2:認證成功
     private String avatar;  //头像
     private String constellation;  //星座
-    private Float goldCoin ; //金币
     private String hobby;  // 爱好
     private String nickname; //昵称
     private String phone;  // 手机号
@@ -64,10 +64,10 @@ public class User implements Serializable {
     Boolean come = false;
     Integer hasPayPwd;//是否有支付密码 1就是有
 
-    private int diamond;
+    private BigDecimal diamond;
     private int emotionalState = 5;//感情状态（1恋爱 2单身 3未婚 4已婚 5保密）
     private int gameQuota; //游戏娱乐后提现额度
-    private float gold; //金币
+    private BigDecimal gold; //金币
     private int incomeDiamond; //收入钻石
     private int sendDiamond; //送出钻石
     private int isCertified; //是否已认证：0未认证 1已认证
@@ -211,11 +211,11 @@ public class User implements Serializable {
         this.gameQuota = gameQuota;
     }
 
-    public float getGold() {
+    public BigDecimal getGold() {
         return gold;
     }
 
-    public void setGold(float gold) {
+    public void setGold(BigDecimal gold) {
         this.gold = gold;
     }
 
@@ -389,19 +389,14 @@ public class User implements Serializable {
 
 
     public Float getGoldCoin() {
-        return goldCoin;
+        return 0f;
     }
 
-    public Float getGoldCoinWithDefault(float defaultValue) {
-        return goldCoin==null?defaultValue:goldCoin;
-    }
-
-    public Float getGold(float defaultValue) {
-        return gold==0.0?defaultValue:gold;
+    public BigDecimal getGold(float defaultValue) {
+        return gold==null?new BigDecimal(defaultValue):gold;
     }
 
     public void setGoldCoin(Float goldCoin) {
-        this.goldCoin = goldCoin;
     }
 
     public String getNickname() {
@@ -688,11 +683,15 @@ public class User implements Serializable {
     }
 
 
-    public int getDiamond() {
+    public BigDecimal getDiamond() {
         return diamond;
     }
 
-    public void setDiamond(int diamond) {
+    public BigDecimal getDiamond(String defaultValue) {
+        return diamond==null?new BigDecimal(defaultValue):diamond;
+    }
+
+    public void setDiamond(BigDecimal diamond) {
         this.diamond = diamond;
     }
 }

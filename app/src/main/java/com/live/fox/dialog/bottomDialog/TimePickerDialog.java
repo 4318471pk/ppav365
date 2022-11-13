@@ -64,7 +64,7 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
                 break;
             case R.id.tvConfirm:
                 int year=mTimeWheel.getCurrentYear();
-                int month=mTimeWheel.getCurrentMonth()-1;
+                int month=mTimeWheel.getCurrentMonth();
                 int date=mTimeWheel.getCurrentDay();
 
                 Calendar calendar = Calendar.getInstance();

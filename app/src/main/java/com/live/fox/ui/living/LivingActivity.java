@@ -500,7 +500,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
             public void onSuccess(int code, String msg, List<SendGiftAmountBean> data) {
                 if(code==0)
                 {
-                    Log.e("getAmountListOfGift",data.toString());
                     LivingActivity.this.sendGiftAmountBeans=data;
                 }
                 else

@@ -10,8 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.live.fox.base.BaseFragment;
-import com.live.fox.entity.HomeColumn;
-import com.live.fox.ui.WebFragment;
 import com.live.fox.ui.home.AnchorGameFragment;
 import com.live.fox.ui.home.FollowAnchorFragment;
 import com.live.fox.ui.home.HotAnchorFragment;
@@ -19,8 +17,6 @@ import com.live.fox.ui.home.NearByPeopleFragment;
 import com.live.fox.ui.home.RecommendListFragment;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentStatePagerAdapter {
 

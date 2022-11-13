@@ -332,7 +332,7 @@
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
             >
-            <com.live.fox.view.overscroll.RecyclerViewBouncy
+            <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

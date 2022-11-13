@@ -20,9 +20,11 @@ import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
+import com.live.fox.adapter.LivingTop20OnlineUserAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
@@ -37,12 +39,17 @@ import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
+import com.live.fox.entity.AnchorGuardListBean;
+import com.live.fox.entity.Audience;
+import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.Gift;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
+import com.live.fox.entity.User;
 import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
@@ -55,6 +62,7 @@ import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.ViewWatch;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.ContactCardProgressView;
+import com.live.fox.view.LivingRecycleView;
 import com.live.fox.view.MyFlowLayout;
 import com.live.fox.view.NotchInScreen;
 import com.live.fox.view.overscroll.RecyclerViewBouncy;
@@ -68,7 +76,10 @@ public class LivingControlPanel extends RelativeLayout {
     ControlPanelLivingBinding mBind;
     LivingFragment fragment;
     ViewWatch viewWatch;
-
+    LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
+    List<User> userList=new ArrayList<>();//当前在线用户
+    List<User> vipUserList=new ArrayList<>();//当前贵族在线用户
+    AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
 
     public LivingControlPanel(LivingFragment fragment, ViewGroup parent) {
         super(fragment.getActivity());
@@ -81,6 +92,11 @@ public class LivingControlPanel extends RelativeLayout {
 
     public LivingControlPanel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public boolean isActivityOK()
+    {
+        return fragment.isActivityOK();
     }
 
     public void initView(LivingFragment fragment,ViewGroup parent)
@@ -130,7 +146,7 @@ public class LivingControlPanel extends RelativeLayout {
         mBind.msgBox.setLayoutManager(linearLayoutManager);
         LivingActivity livingActivity=(LivingActivity) fragment.getActivity();
         mBind.msgBox.setViewPager(livingActivity.getViewPager());
-        mBind.msgBox.setOnTouchViewUpListener(new RecyclerViewBouncy.OnTouchViewUpListener() {
+        mBind.msgBox.setOnTouchViewUpListener(new LivingRecycleView.OnTouchViewUpListener() {
             @Override
             public void onTouch() {
                 viewWatch.hideInputLayout();
@@ -203,17 +219,48 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void onClickView(View view)
     {
-        if(ClickUtil.isClickWithShortTime(view.getId(),1000))
+        if(ClickUtil.isClickWithShortTime(view.getId(),500))
         {
             return;
         }
+        String aid=fragment.getRoomBean().getAid();
+        String liveId=fragment.getRoomBean().getId();
         switch (view.getId())
         {
             case R.id.gtvOnlineAmount:
                 showOnlineAudience();
                 break;
             case R.id.rivProfileImage:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience));
+                if(fragment.livingCurrentAnchorBean!=null)
+                {
+                    LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor);
+                    dialog.setLivingCurrentAnchorBean(fragment.livingCurrentAnchorBean);
+                    dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
+                        @Override
+                        public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
+                            if(fragment.getRoomBean()!=null && uid.equals(fragment.getRoomBean().getAid()))
+                            {
+                                if(tagSomeone)
+                                {
+                                    postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mBind.etDiaMessage.setText("@"+nickName+" ");
+                                            mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
+                                            viewWatch.showInputLayout();
+                                        }
+                                    },200);
+                                }
+                                if(follow)
+                                {
+                                    fragment.livingCurrentAnchorBean.setFollow(true);
+                                    mBind.ivFollow.setVisibility(GONE);
+                                }
+                            }
+                        }
+                    });
+                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), dialog);
+                }
                 break;
             case R.id.ivFollow:
                 if(fragment.getRoomBean()!=null)
@@ -237,14 +284,23 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),livingPromoDialog);
                 break;
             case R.id.gtvProtection:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), AnchorProtectorListDialog.getInstance());
+                AnchorProtectorListDialog anchorProtectorListDialog=AnchorProtectorListDialog.getInstance(aid,liveId,anchorGuardListBean);
+                anchorProtectorListDialog.setOnRefreshDataListener(new AnchorProtectorListDialog.OnRefreshDataListener() {
+                    @Override
+                    public void onRefresh(AnchorGuardListBean anchorGuardListBean) {
+                        LivingControlPanel.this.anchorGuardListBean=anchorGuardListBean;
+                    }
+                });
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),
+                        anchorProtectorListDialog);
                 break;
             case R.id.ivGetAnchorContactCard:
                 getContactCard();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), PersonalContactCardDialog.getInstance());
                 break;
             case R.id.gtvContribution:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), ContributionRankDialog.getInstance());
+                ContributionRankDialog contributionRankDialog=ContributionRankDialog.getInstance(liveId,aid);
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),contributionRankDialog);
                 break;
             case R.id.rlMain:
                 viewWatch.hideInputLayout();
@@ -278,12 +334,27 @@ public class LivingControlPanel extends RelativeLayout {
             mBind.rlBotView.setVisibility(INVISIBLE);
             mBind.llMessages.setVisibility(INVISIBLE);
             OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString(),
-                    fragment.getRoomBean().getId(),fragment.userList);
+                    fragment.getRoomBean().getId(),userList,vipUserList);
             onlineNobilityAndUserDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
                 @Override
                 public void onDismiss() {
                     mBind.rlBotView.setVisibility(VISIBLE);
                     mBind.llMessages.setVisibility(VISIBLE);
+                }
+            });
+            onlineNobilityAndUserDialog.setDataChangeListener(new OnlineNobilityAndUserDialog.DataChangeListener() {
+                @Override
+                public void onChange(List<User> userList, List<User> vipUserList) {
+                    if(userList!=null)
+                    {
+                        LivingControlPanel.this.userList.clear();
+                        LivingControlPanel.this.userList.addAll(userList);
+                    }
+                    if(vipUserList!=null)
+                    {
+                        LivingControlPanel.this.vipUserList.clear();
+                        LivingControlPanel.this.vipUserList.addAll(vipUserList);
+                    }
                 }
             });
             DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),onlineNobilityAndUserDialog);
@@ -300,7 +371,7 @@ public class LivingControlPanel extends RelativeLayout {
             {
                 mBind.rlBotView.setVisibility(INVISIBLE);
                 mBind.llMessages.setVisibility(INVISIBLE);
-                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance();
+                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance(fragment.getRoomBean().getId(),fragment.getRoomBean().getAid());
                 treasureBoxDialog.setGiftListData(getActivity().giftListData);
                 treasureBoxDialog.setVipGiftListData(getActivity().vipGiftListData);
                 treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
@@ -330,6 +401,7 @@ public class LivingControlPanel extends RelativeLayout {
                         doSendGiftApi(gid,amount);
                     }
                 });
+
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),treasureBoxDialog);
             }
 
@@ -337,10 +409,12 @@ public class LivingControlPanel extends RelativeLayout {
     }
     public void setData(RoomListBean roomListBean,LivingActivity activity)
     {
-        GlideUtils.loadCircleImage(activity, roomListBean.getRoomIcon(),R.mipmap.user_head_error,R.mipmap.user_head_error,
-                mBind.rivProfileImage);
         mBind.tvAnchorName.setText(roomListBean.getTitle());
         mBind.tvAnchorID.setText("ID:"+roomListBean.getId());
+        refreshAudienceList();
+        doGetAudienceListApi();
+        doGetVipAudienceListApi();
+        getGuardList();
     }
 
     private void follow(String targetId)
@@ -355,6 +429,7 @@ public class LivingControlPanel extends RelativeLayout {
                     if(code==0)
                     {
                         mBind.ivFollow.setVisibility(GONE);
+                        fragment.livingCurrentAnchorBean.setFollow(true);
                     }
                     else
                     {
@@ -371,8 +446,15 @@ public class LivingControlPanel extends RelativeLayout {
         String msg=mBind.etDiaMessage.getText().toString();
         if(TextUtils.isEmpty(msg))
         {
+            mBind.gtvSend.setEnabled(true);
             return;
         }
+        mBind.gtvSend.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBind.gtvSend.setEnabled(true);
+            }
+        },2000);
         Api_Live.ins().sendMessage(fragment.getRoomBean().getId(), msg, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String result) {
@@ -385,11 +467,109 @@ public class LivingControlPanel extends RelativeLayout {
 
     private void getContactCard()
     {
+        if(!fragment.isActivityOK() )
+        {
+            return;
+        }
+
         RoomListBean roomListBean=fragment.getRoomBean();
         Api_Live.ins().getAnchorContactCard(roomListBean.getId(), roomListBean.getAid(), new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 Log.e("getContactCard",data+"");
+            }
+        });
+    }
+
+
+    /**
+     * 刷新观众列表
+     * 普通用戶根據用戶經驗排序
+     */
+    private void refreshAudienceList() {
+        if(!fragment.isActivityOK() )
+        {
+            return;
+        }
+
+        Api_Live.ins().getAudienceList(fragment.getRoomBean().getId(), new JsonCallback<List<Audience>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<Audience> result) {
+                if (code == 0 ) {
+                    if(result != null )
+                    {
+                        if(fragment.isActivityOK() && getArg().equals(fragment.getRoomBean().getId()))
+                        {
+                            if(livingTop20OnlineUserAdapter==null)
+                            {
+                                livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
+                                livingTop20OnlineUserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        Audience audience= (Audience)adapter.getData().get(position);
+                                        if(audience!=null)
+                                        {
+                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience);
+                                            dialog.setAudience(audience);
+                                            dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
+                                                @Override
+                                                public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
+                                                    if(tagSomeone)
+                                                    {
+                                                        postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                mBind.etDiaMessage.setText("@"+nickName+" ");
+                                                                mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
+                                                                viewWatch.showInputLayout();
+                                                            }
+                                                        },200);
+                                                    }
+                                                }
+                                            });
+                                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), dialog);
+                                        }
+                                    }
+                                });
+                                mBind.rvTop20Online.setAdapter(livingTop20OnlineUserAdapter);
+                            }
+                            else
+                            {
+                                livingTop20OnlineUserAdapter.setNewData(result);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 观众列表 进入直播间就缓存下数据
+     */
+    public void doGetAudienceListApi() {
+        if(!isActivityOK())
+        {
+            return;
+        }
+
+        Api_Live.ins().getRoomUserList(fragment.getRoomBean().getId(), new JsonCallback<List<User>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<User> data) {
+                if (code == 0 ) {
+                    if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
+                    {
+                        userList.clear();
+                        userList.addAll(data);
+                    }
+                } else {
+
+                }
             }
         });
     }
@@ -412,4 +592,70 @@ public class LivingControlPanel extends RelativeLayout {
                     });
         }
     }
+
+    /**
+     * 观众列表 进入直播间就缓存下数据
+     */
+    public void doGetVipAudienceListApi() {
+        if(!isActivityOK())
+        {
+            return;
+        }
+
+        Api_Live.ins().getRoomVipList(fragment.getRoomBean().getId(), new JsonCallback<List<User>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<User> data) {
+                if (code == 0 ) {
+                    if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
+                    {
+                        vipUserList.clear();
+                        vipUserList.addAll(data);
+                    }
+                } else {
+
+                }
+            }
+        });
+    }
+
+    private void getGuardList()
+    {
+        if(!isActivityOK())
+        {
+            return;
+        }
+
+        mBind.gtvProtection.setEnabled(false);
+        Api_Live.ins().queryGuardListByAnchor(fragment.getRoomBean().getId(), fragment.getRoomBean().getAid(), new JsonCallback<AnchorGuardListBean>() {
+            @Override
+            public void onSuccess(int code, String msg, AnchorGuardListBean data) {
+                mBind.gtvProtection.setEnabled(true);
+                if(code==0)
+                {
+                    if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
+                    {
+                        StringBuilder sb=new StringBuilder();
+                        sb.append(data.getGuardCount()).append(fragment.getStringWithoutContext(R.string.ren));
+                        mBind.gtvProtection.setText(sb.toString());
+                        LivingControlPanel.this.anchorGuardListBean=data;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        });
+    }
+
+//    private void getasdsad9()
+//    {
+//        Api_Live.ins().getContribution(fragment.getRoomBean().getAid(), new JsonCallback<String>() {
+//            @Override
+//            public void onSuccess(int code, String msg, String data) {
+//                Log.e("getasdsad9",data);
+//            }
+//        });
+//    }
+
 }

@@ -1,11 +1,15 @@
 package com.live.fox.db;
 
 import com.live.fox.common.CommonApp;
+import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.utils.LogUtils;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
+import app.resource.db.UserLevelResourceBeanDao;
 import app.resource.db.UserTagResourceBeanDao;
 
 public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceBean> {
@@ -116,5 +120,12 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
     public void updateData(UserTagResourceBean userTagResourceBean) {
       UserTagResourceBeanDao dao=  CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao();
       dao.update(userTagResourceBean);
+    }
+
+    public UserTagResourceBean getLevelTag(int level)
+    {
+        QueryBuilder<UserTagResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().queryBuilder();
+        UserTagResourceBean userTagResourceBean= queryBuilder.where(UserTagResourceBeanDao.Properties.VipLevel.eq(level)).unique();
+        return userTagResourceBean;
     }
 }

@@ -145,7 +145,7 @@ public class DiamondIncomeFragment extends BaseBindingFragment {
 
     private void getRecord(boolean isFrash){
         showLoadingDialog();
-        Api_Order.ins().getDiamondOutRecord(new JsonCallback<DiamondRecordBean>() {
+        Api_Order.ins().getDiamondGetRecord(new JsonCallback<DiamondRecordBean>() {
             @Override
             public void onSuccess(int code, String msg, DiamondRecordBean data) {
                 dismissLoadingDialog();

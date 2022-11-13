@@ -76,20 +76,6 @@ public class AnchorRankActivity extends BaseHeadActivity {
     }
 
     private void doGetRankListApi() {
-        Api_Rank.ins().getRankList(anchorId, new JsonCallback<AnchorRank>() {
-            @Override
-            public void onSuccess(int code, String msg, AnchorRank data) {
-                if (code == 0 && data != null) {
-                    if (data.getDayList() != null && data.getDayList().size() > 0) {
-                        anchorRankFragment1.refreshPage(data.getDayList());
-                    }
-                    if (data.getAllList() != null && data.getAllList().size() > 0) {
-                        anchorRankFragment2.refreshPage(data.getAllList());
-                    }
-                } else {
-                    showToastTip(false, msg);
-                }
-            }
-        });
+
     }
 }

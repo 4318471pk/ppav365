@@ -130,6 +130,7 @@ public abstract class BaseBindingFragment extends BaseFragment {
         imm.showSoftInput(view,0);
     }
 
+    public void notifyFragment(){}
     public abstract void onClickView(View view);
     public abstract int onCreateLayoutId();
     public abstract void initView(View view);

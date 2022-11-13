@@ -607,7 +607,7 @@
     <string name="search">搜索</string>
     <string name="anchorleft">主播离开了</string>
     <string name="anchorCome">主播回来了</string>
-    <string name="focusAnchor">关注了主播</string>
+    <string name="focusAnchor">关注了</string>
     <string name="welcomeVIP">欢迎尊贵的 %1$s 大驾光临</string>
     <string name="comeWelcome">来了!</string>
     <string name="congraAnchor">恭喜主播升级到</string>
@@ -1232,8 +1232,7 @@
     <string name="job_12">护士</string>
     <string name="job_13">自由职业</string>
     <string name="job_14">全职主播</string>
-
-
+    <string name="out_diamond">消费%1$s钻</string>
 
 
     <!--新加的字符-->
@@ -1338,7 +1337,7 @@
     <string name="inputLimitTips">限制8个中文字长度</string>
     <string name="inputLimitTips2">可免费改名1次</string>
     <string name="plzInputNickname">请输入昵称</string>
-    <string name="plzInputPersonalIntro">请输入个性签名</string>
+    <string name="plzInputPersonalIntro">请输入签名内容</string>
     <string name="editNicknameShouldSpend">改名需要花费</string>
     <string name="plzConfirm">请确认</string>
     <string name="selectGender">选择性别</string>
@@ -1476,9 +1475,14 @@
     <string name="startLivingFail">开启直播失败</string>
     <string name="offLiving">关闭直播</string>
     <string name="offLivingContent">观众正在赶来的路上 确定结束直播吗？</string>
-    <string name="hasSent">发送了</string>
+    <string name="hasSent">送出</string>
+    <string name="tips9" translatable="false">TA好像忘记说些什么了~</string>
+    <string name="reportSuccess">举报成功</string>
+    <string name="operateSuccess">操作成功</string>
+    <string name="ren">人</string>
 
-
+    <string name="tip10">落后%1$s火力</string>
+    <string name="emptyPosition">虚位以待</string>
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>
 

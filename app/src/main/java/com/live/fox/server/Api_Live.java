@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
+import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
@@ -75,6 +76,22 @@ public class Api_Live extends BaseApi {
     }
 
 
+    /**
+     * 根据主播id查询守护列表、守护总人数
+     */
+    public void queryGuardListByAnchor(String liveId, String anchorId, JsonCallback<AnchorGuardListBean> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.queryGuardListByAnchor;
+        callback.setArg(liveId);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("aid", anchorId);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "queryGuardListByAnchor",
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
 
     /**
      * 用户进房
@@ -169,10 +186,50 @@ public class Api_Live extends BaseApi {
 
 
     /**
+     *
+     * 举报主播
+     * @param callback
+     */
+    public void reportAnchor(String anchorId,String content,JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.reportAnchor;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("anchorId",anchorId);
+        params.put("content",content);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     *
+     *主播贡献榜
+     * @param callback
+     */
+    public void getContribution(String anchorId,JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.ContributionDaily;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("aid",anchorId);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+
+
+
+    /**
      * 获取主播认证状态*/
     public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,
                               JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.LivingStart;
+        String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveConfigId",liveConfigId);
         params.put("type",type);
@@ -181,7 +238,7 @@ public class Api_Live extends BaseApi {
         params.put("price",price);
 
         OkGoHttpUtil.getInstance().doJsonPost(
-                Constant.URL.LivingStart,
+                Constant.URL.Live_start_URL,
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
                 new Gson().toJson(params))
@@ -207,23 +264,48 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
+
     /**
      * 获取主播联系名片
      */
     public void getAnchorContactCard(String liveId, String anchorId, JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.getAnchorCard;
-        HashMap<String, Object> params = getCommonParams();
-        params.put("liveId", liveId);
-        params.put("anchorId", anchorId);
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.getAnchorCard);
+        stringBuilder.append("?anchorId=").append(anchorId);
 
-//        OkGoHttpUtil.getInstance().doGet(url,url,getCommonHeaders(Long.parseLong(params.get("timestamp").toString()))
-        OkGoHttpUtil.getInstance().doJsonPost(
-                "",
-                url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
+        OkGoHttpUtil.getInstance().doGet(stringBuilder.toString(),
+                stringBuilder.toString(),
+                getCommonHeaders(System.currentTimeMillis())).execute(callback);
+//        OkGoHttpUtil.getInstance().doJsonPost(
+//                "",
+//                url,
+//                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+//                new Gson().toJson(params))
+//                .execute(callback);
     }
+
+    /**
+     * 获取主播中心
+     */
+    public void getAnchorCenterInfo(JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.LIVE_AnchorCenter);
+
+        OkGoHttpUtil.getInstance().doGet(stringBuilder.toString(),
+                stringBuilder.toString(),
+                getCommonHeaders(System.currentTimeMillis())).execute(callback);
+//        OkGoHttpUtil.getInstance().doJsonPost(
+//                "",
+//                url,
+//                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+//                new Gson().toJson(params))
+//                .execute(callback);
+    }
+
+
+
 
     /**
      * 更改房间类型
@@ -364,7 +446,7 @@ public class Api_Live extends BaseApi {
     /**
      * 用户端心跳
      */
-    public void watchHeart(JsonCallback callback) {
+    public void watchHeart() {
         String url = SPManager.getServerDomain() + Constant.URL.Live_watchheart_URL;
         HashMap<String, Object> params = getCommonParams();
 
@@ -373,8 +455,8 @@ public class Api_Live extends BaseApi {
                 "",
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
+                new Gson().toJson(params));
+//                .execute(callback);
     }
 
     /**
@@ -506,8 +588,25 @@ public class Api_Live extends BaseApi {
     /**
      * 直播间观众列表
      */
-    public void getRoomuserList(String liveId, JsonCallback callback) {
+    public void getRoomUserList(String liveId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_roomuserlist_URL;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+
+        callback.setArg(liveId);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 直播间贵族列表
+     */
+    public void getRoomVipList(String liveId, JsonCallback callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.vipOnlineList;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
 

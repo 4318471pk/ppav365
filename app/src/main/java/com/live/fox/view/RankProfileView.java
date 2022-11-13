@@ -3,8 +3,12 @@ package com.live.fox.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.live.fox.R;
 import com.live.fox.utils.ResourceUtils;
+import com.live.fox.utils.ScreenUtils;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAImageView;
 import com.opensource.svgaplayer.SVGAParser;
@@ -37,10 +42,20 @@ public class RankProfileView extends RelativeLayout {
     SVGAImageView ivLiving;
     OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener;
     boolean isInit=false;
+    int viewHeight=0,viewWidth=0;
     boolean resumeAfterAttached=false;
     SVGAVideoEntity svgaVideoEntity;
-
-
+    Handler handler=new Handler(Looper.myLooper()){
+        @Override
+        public void handleMessage(@NonNull @NotNull Message msg) {
+            super.handleMessage(msg);
+            Log.e("BBBBBN","decodeFromAssets "+isLiving);
+            if(isLiving)
+            {
+                startLivingAnimation();
+            }
+        }
+    };
 
     public RankProfileView(@NonNull @NotNull Context context, int crownIndex,boolean isLiving) {
         super(context);
@@ -77,6 +92,10 @@ public class RankProfileView extends RelativeLayout {
 
     public void setOnConfirmWidthAndHeightListener(OnConfirmWidthAndHeightListener onConfirmWidthAndHeightListener) {
         this.onConfirmWidthAndHeightListener = onConfirmWidthAndHeightListener;
+        if(isInit && onConfirmWidthAndHeightListener!=null)
+        {
+            onConfirmWidthAndHeightListener.onValue(viewWidth,viewHeight);
+        }
     }
 
     private void initView(int crownIndex, int decorationIndex,boolean isLiving) {
@@ -84,19 +103,20 @@ public class RankProfileView extends RelativeLayout {
         this.crownIndex = crownIndex;
         this.decorationIndex=decorationIndex;
         this.isLiving=isLiving;
-        View view = View.inflate(getContext(), R.layout.view_rank_profile, null);
-        ivProfile = view.findViewById(R.id.ivProfile);
-        ivCrown = view.findViewById(R.id.ivCrown);
-        ivDecoration = view.findViewById(R.id.ivDecoration);
-        ivLiving=view.findViewById(R.id.ivLiving);
-        addView(view);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_rank_profile,this,true);
+        ivProfile = findViewById(R.id.ivProfile);
+        ivCrown = findViewById(R.id.ivCrown);
+        ivDecoration = findViewById(R.id.ivDecoration);
+        ivLiving=findViewById(R.id.ivLiving);
+
+        Log.e("BBBBBN","initView  "+isLiving);
 
         SVGAParser parser = SVGAParser.Companion.shareParser();
         parser.decodeFromAssets("living_profile.svga", new SVGAParser.ParseCompletion() {
             @Override
             public void onComplete(SVGAVideoEntity svgaVideoEntity) {
                 RankProfileView.this.svgaVideoEntity = svgaVideoEntity;
-
+                handler.sendEmptyMessage(0);
             }
 
             @Override
@@ -122,19 +142,14 @@ public class RankProfileView extends RelativeLayout {
         if(w>0 && !isInit)
         {
             isInit=true;
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    adjustLayout();
-                }
-            });
+//            post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    adjustLayout();
+//                }
+//            });
+//            adjustLayout();
         }
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
     }
 
     public void setIndex(int crownIndex,int decorationIndex,boolean isLiving)
@@ -142,6 +157,10 @@ public class RankProfileView extends RelativeLayout {
         this.crownIndex = crownIndex;
         this.decorationIndex = decorationIndex;
         this.isLiving=isLiving;
+        if(isLiving)
+        {
+            startLivingAnimation();
+        }
         adjustLayout();
     }
 
@@ -151,9 +170,18 @@ public class RankProfileView extends RelativeLayout {
 
     private void adjustLayout()
     {
-        if (getWidth() > 0) {
+        if(getLayoutParams()==null)
+        {
+            return;
+        }
+        viewWidth=getLayoutParams().width;
+        if(viewWidth==0)
+        {
+            viewWidth=getWidth();
+        }
+        if (viewWidth > 0) {
             isInit=true;
-            if(decorationIndex>-1)
+            if(decorationIndex>-1 && decorationIndex<decorationResource.length)
             {
                 ivDecoration.setImageDrawable(getResources().getDrawable(decorationResource[decorationIndex]));
             }
@@ -165,18 +193,20 @@ public class RankProfileView extends RelativeLayout {
                 if(decorationIndex>-1)
                 {
                     RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
-                    rlDe.width=getWidth();
+                    rlDe.width=viewWidth;
                     ivDecoration.setLayoutParams(rlDe);
 
-                    int ivDecorationHeight=getWidth()*ivDecoration.getDrawable().getIntrinsicHeight()
+                    int ivDecorationHeight=viewWidth*ivDecoration.getDrawable().getIntrinsicHeight()
                             /ivDecoration.getDrawable().getIntrinsicWidth();
 
                     RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-                    rlProfile.width=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
-                    rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
+                    rlProfile.width=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
+                    rlProfile.height=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
                     rlProfile.topMargin=(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
                     ivProfile.setLayoutParams(rlProfile);
+                    ivProfile.setPadding(0,0,0,0);
 
+                    viewHeight=rlProfile.height+rlProfile.topMargin;
                     if(onConfirmWidthAndHeightListener!=null)
                     {
                         onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.height+rlProfile.topMargin);
@@ -186,11 +216,14 @@ public class RankProfileView extends RelativeLayout {
                 {
                     ivDecoration.setVisibility(GONE);
 
+                    int dip15=ScreenUtils.dp2px(getContext(),15);
                     RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-                    rlProfile.width=getWidth();
-                    rlProfile.height=getWidth();
+                    rlProfile.width=viewWidth;
+                    rlProfile.height=viewWidth;
                     ivProfile.setLayoutParams(rlProfile);
+                    ivProfile.setPadding(dip15/2,dip15/2,dip15/2,dip15/2);
 
+                    viewHeight=rlProfile.height;
                     if(onConfirmWidthAndHeightListener!=null)
                     {
                         onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlProfile.width);
@@ -202,25 +235,27 @@ public class RankProfileView extends RelativeLayout {
                 int crownDrawableHeight=drawable.getIntrinsicHeight();
 
                 RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) ivCrown.getLayoutParams();
-                rl.width=getWidth()/2;
+                rl.width=viewWidth/2;
                 int crownHeight=crownDrawableHeight*rl.width/crownDrawableWidth;
                 rl.height=crownHeight;
                 ivCrown.setLayoutParams(rl);
 
                 RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
-                rlDe.width=getWidth();
+                rlDe.width=viewWidth;
                 rlDe.topMargin=crownHeight/2;
                 ivDecoration.setLayoutParams(rlDe);
 
-                int ivDecorationHeight=getWidth()*ivDecoration.getDrawable().getIntrinsicHeight()
+                int ivDecorationHeight=viewWidth*ivDecoration.getDrawable().getIntrinsicHeight()
                         /ivDecoration.getDrawable().getIntrinsicWidth();
 
                 RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
                 rlProfile.topMargin=crownHeight/2+(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
-                rlProfile.width=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
-                rlProfile.height=(int)(getWidth()*scaleAndMargins[decorationIndex][0]);
+                rlProfile.width=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
+                rlProfile.height=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
                 ivProfile.setLayoutParams(rlProfile);
+                ivProfile.setPadding(0,0,0,0);
 
+                viewHeight=rlDe.height+rlDe.topMargin;
                 if(onConfirmWidthAndHeightListener!=null)
                 {
                     onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlDe.height+rlDe.topMargin);
@@ -229,7 +264,7 @@ public class RankProfileView extends RelativeLayout {
 
             }
 
-//                    int padding=(int)( getWidth()*0.08f);
+//                    int padding=(int)( viewWidth*0.08f);
 //                    ivProfile.setPadding(padding,padding,padding,padding);
 
 
@@ -248,11 +283,15 @@ public class RankProfileView extends RelativeLayout {
                 ivLiving.setScaleY(1.9f);
                 ivLiving.setClearsAfterDetached(false);
 
-                startLivingAnimation();
+                if(isLiving && !ivLiving.isAnimating())
+                {
+                    startLivingAnimation();
+                }
+
             }
             else
             {
-                ivLiving.stopAnimation();
+//                ivLiving.stopAnimation();
                 ivLiving.setVisibility(GONE);
             }
         }
@@ -262,7 +301,7 @@ public class RankProfileView extends RelativeLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if(resumeAfterAttached && isLiving)
+        if(resumeAfterAttached && isLiving && ivLiving!=null)
         {
             ivLiving.pauseAnimation();
         }
@@ -272,14 +311,15 @@ public class RankProfileView extends RelativeLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if(resumeAfterAttached && isLiving)
-        {
-            if(svgaVideoEntity!=null)
-            {
-                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
-                ivLiving.startAnimation();
-            }
-        }
+        adjustLayout();
+//        if(resumeAfterAttached && isLiving && ivLiving!=null)
+//        {
+//            if(svgaVideoEntity!=null)
+//            {
+//                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
+//                ivLiving.startAnimation();
+//            }
+//        }
     }
 
     public void setResumeAniAfterAttached(boolean resumeAfterAttached)
@@ -308,12 +348,12 @@ public class RankProfileView extends RelativeLayout {
 //                @Override
 //                public void onComplete(SVGAVideoEntity svgaVideoEntity) {
 //                    SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
-////                    int width=(int)(svgaVideoEntity.getVideoSize().getWidth());
+////                    int width=(int)(svgaVideoEntity.getVideoSize().viewWidth);
 ////                    int height=(int)(svgaVideoEntity.getVideoSize().getHeight());
 ////
 ////                    int bot=(int)(-1*(height*1.6f/12));
 //
-////                    Log.e("SVGADrawable",svgaVideoEntity.getVideoSize().getWidth()+" "+svgaVideoEntity.getVideoSize().getHeight());
+////                    Log.e("SVGADrawable",svgaVideoEntity.getVideoSize().viewWidth+" "+svgaVideoEntity.getVideoSize().getHeight());
 ////                        drawable.setBounds(width/4,height/2,width/2,height/2-(height/12));
 //                    ivLiving.setImageDrawable(drawable);
 //                    ivLiving.startAnimation();

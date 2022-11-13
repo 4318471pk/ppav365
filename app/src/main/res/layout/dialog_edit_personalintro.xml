@@ -39,7 +39,7 @@
                     android:paddingBottom="15dip"
                     android:paddingLeft="20dip"
                     android:paddingRight="20dip"
-                    android:textColor="#A800FF"
+                    android:textColor="@color/color0F86FF"
                     android:textSize="16sp"
                     android:text="@string/cancel" />
 
@@ -54,9 +54,9 @@
                     android:paddingBottom="15dip"
                     android:paddingLeft="20dip"
                     android:paddingRight="20dip"
-                    android:textColor="#A800FF"
+                    android:textColor="@color/color0F86FF"
                     android:textSize="16sp"
-                    android:text="@string/confirm" />
+                    android:text="@string/save" />
 
                 <TextView
                     android:layout_width="wrap_content"

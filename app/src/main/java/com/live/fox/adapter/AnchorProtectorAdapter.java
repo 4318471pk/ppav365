@@ -4,23 +4,22 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
-import com.live.fox.entity.RankIndexBean;
+import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.utils.ChatSpanUtils;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.view.RankProfileView;
 
 import java.util.List;
 
-public class AnchorProtectorAdapter extends BaseQuickAdapter<String, AnchorProtectorAdapter.ProtectListHolder> {
+public class AnchorProtectorAdapter extends BaseQuickAdapter<AnchorGuardListBean.LiveGuardBean, AnchorProtectorAdapter.ProtectListHolder> {
 
     Activity context;
 
-    public AnchorProtectorAdapter(Activity context,  List<String> data) {
+    public AnchorProtectorAdapter(Activity context,  List<AnchorGuardListBean.LiveGuardBean> data) {
         super(R.layout.item_protect_anchor_list, data);
         this.context=context;
     }
@@ -31,13 +30,18 @@ public class AnchorProtectorAdapter extends BaseQuickAdapter<String, AnchorProte
     }
 
     @Override
-    protected void convert(ProtectListHolder helper, String item) {
+    protected void convert(ProtectListHolder helper, AnchorGuardListBean.LiveGuardBean item) {
         SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(48, context));
-
-        helper.tvNickName.setText("名字");
+        ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context);
+        ChatSpanUtils.appendVipLevelIcon(spanUtils,item.getVipLevel(), context);
+        helper.tvNickName.setText(item.getNickname());
         helper.tvIcons.setText(spanUtils.create());
-        helper.rpv.setIndex(RankProfileView.NONE,48%7,false);
+
+//        StringBuilder stringBuilder=new StringBuilder();
+//        stringBuilder.append(context.getString(R.string.gongxianzhi)).append(item.get);
+//        helper.tvHuo.setText();
+        helper.rpv.setIndex(RankProfileView.NONE,item.getVipLevel(),false);
+        GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
     }
 
 

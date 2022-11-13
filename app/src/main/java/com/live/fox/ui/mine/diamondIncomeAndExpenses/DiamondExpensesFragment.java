@@ -140,7 +140,7 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
 
     private void getRecord(boolean isFrash){
         showLoadingDialog();
-        Api_Order.ins().getDiamondGetRecord(new JsonCallback<DiamondRecordBean>() {
+        Api_Order.ins().getDiamondOutRecord(new JsonCallback<DiamondRecordBean>() {
             @Override
             public void onSuccess(int code, String msg, DiamondRecordBean data) {
                 dismissLoadingDialog();
@@ -191,7 +191,7 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
         for (int i = 0 ; i < list.size(); i++) {
             all = all + list.get(i).getAmount();
         }
-        String s = String.format(getString(R.string.get_diamond), all + "");
+        String s = String.format(getString(R.string.out_diamond), all + "");
         mBind.tvDiamond.setText(s);
     }
 

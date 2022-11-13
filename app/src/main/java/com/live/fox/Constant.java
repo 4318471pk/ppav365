@@ -123,14 +123,14 @@ public class Constant {
         //授权相关接口
         public static final String CountryCodeURl=CenterClient +"/auth/area/list";//国家对应手机前缀号码
         public static final String Auth_Guest_Login=CenterClient +"/auth/tourists/login";//游客登录
-        public static final String AUTH_PHONELOGIN_URL = CenterClient + "/sys/auth/phone/login";  // 手机号密码登录
-        public static final String AUTH_PHONEREQ_URL = CenterClient + "/sys/auth/phone/reg/codeValidate";      // 验证码校验接口
+        public static final String AUTH_PHONELOGIN_URL = CenterClient + "/auth/phone/login";  // 手机号密码登录
+        public static final String AUTH_PHONEREQ_URL = CenterClient + "/auth/phone/reg/codeValidate";      // 验证码校验接口
         public static final String AUTH_SENDVCODE_URL = CenterClient + "/auth/send/vcode";    // 验证码发送
         public static final String AUTH_GUEST_BIND_PHONE=CenterClient+"/user/touristsBindPhone";//游客绑定手机号码
-        public static final String AUTH_SENDVCODE_URL2 = CenterClient + "/sys/user/cash/sendCashCode";    // 绑定银行卡验证码发送
-        public static final String AUTH_VCODELOGIN_URL = CenterClient + "/sys/auth/vcode/login";  // 验证码快捷登录
-        public static final String AUTH_RESETPWD_URL = CenterClient + "/sys/auth/reset/pwd";      // 忘记密码-密码重置
-        public static final String AUTH_PHONEREGINFO_URL = CenterClient + "/sys/auth/phone/reg/info"; //完善信息
+        public static final String AUTH_SENDVCODE_URL2 = CenterClient + "/user/cash/sendCashCode";    // 绑定银行卡验证码发送
+        public static final String AUTH_VCODELOGIN_URL = CenterClient + "/auth/vcode/login";  // 验证码快捷登录
+        public static final String AUTH_RESETPWD_URL = CenterClient + "/auth/reset/pwd";      // 忘记密码-密码重置
+        public static final String AUTH_PHONEREGINFO_URL = CenterClient + "/auth/phone/reg/info"; //完善信息
         public static final String AUTH_CheckToken_URL = CenterClient + "/sys/auth/check/token"; //检查Token是否有效
         public static final String AUTH_DETERPWD_URL = CenterClient + "/sys/user/determine/pwd";//判断是否设置密码
         public static final String AUTH_ISREGISTE_URL = CenterClient + "/sys/user/phone/isRegiste";//判断手机号是否注册接口
@@ -139,7 +139,9 @@ public class Constant {
 
         public static final String NOTICE_URL = "/config-client/notice/systemNoticesByType";
         public static final String ACT_URL = "/pk-client/activity/activityListByCategory";
-
+        public static final String GurardOpen="/pk-client/guard/buyOrRenewalGuard";//购买、续费守护
+        public static final String GurardAvailableList="/pk-client/guard/list";//查询可购买守护列表
+        public static final String queryGuardListByAnchor="/pk-client/guard/liveGuardListByAid";//根据主播id查询守护列表、守护总人数
 
 
         //用户下的直播相关接口
@@ -206,9 +208,11 @@ public class Constant {
 
 
         //live-client 直播相关接口
+        public static final String ContributionDaily="/live-client/live/anchor/contribute/daily";//今日主播贡献榜: 日榜、
         public static final String GiftList="/live-client/live/queryGift";//礼物列表
         public static final String LiveClient = "/live-client";
-        public static final String LivingStart="/live-client/live/start";
+        public static final String reportAnchor="/live-client/live/insertComplaintInfo";//举报主播
+        public static final String vipOnlineList="/live-client/live/room/vip/online";//房间在线贵族列表(显示全部)
         public static final String SendGiftAmountList="/live-client/live/gift/setting/list";
         public static final String getAnchorCard="/live-client/live/getAnchorBusinessCard";//获取主播名片
         public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表
@@ -240,6 +244,7 @@ public class Constant {
         public static final String Live_rocketlist_URL = LiveClient + "/live/rocketlist"; //火箭位列表
         public static final String LIVE_VIPLIST_URL = LiveClient + "/live/room/user/viplist"; //房间人员列表(显示全部)
         public static final String LIVE_ROOM_PERMISSIONS_URL = LiveClient + "/live/charge/room/chLoginP"; //房间人员列表(显示全部)
+        public static final String LIVE_AnchorCenter ="/live-client/live/getAnchorCenterInfo"; //更改玩具状态
 
         /**
          * promotion-client  分享相关接口

@@ -23,12 +23,21 @@ import com.google.android.material.tabs.TabLayout;
 import com.live.fox.R;
 import com.live.fox.adapter.TreasureBoxPagerAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogTreasureBoxBinding;
 import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.TreasureItemBean;
+import com.live.fox.entity.User;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.manager.SPManager;
+import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.BotTriangleBubbleView;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,12 +56,15 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
     List<SendGiftAmountBean> sendGiftAmountBeans;
     int topMargin=0;
     OnSelectedGiftListener onSelectedGiftListener;
+    String liveId,anchorId;
 
 
-    public static TreasureBoxDialog getInstance()
+    public static TreasureBoxDialog getInstance(String liveId,String anchorId)
     {
         TreasureBoxDialog treasureBoxDialog=new TreasureBoxDialog();
         treasureBoxDialog.lists=new ArrayList<>();
+        treasureBoxDialog.anchorId=anchorId;
+        treasureBoxDialog.liveId=liveId;
         return treasureBoxDialog;
     }
 
@@ -131,7 +143,11 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                 mBind.rlMain.setEnabled(false);
                 startAnimate(mBind.rlContent,false);
                 break;
+            case R.id.gtvExchangeDiamond:
+                RechargeActivity.startActivity(requireActivity(), false);
+                break;
             case R.id.rlAmount:
+            case R.id.tvAmount:
                 addBubbleView();
                 break;
             case R.id.tvGive:
@@ -145,6 +161,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                             {
                                 onSelectedGiftListener.onSelect(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
                                 dismissAllowingStateLoss();
+//                                doSendGiftApi(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
                                 break;
                             }
                         }
@@ -165,6 +182,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        reFreshPersonalData();
         view.setVisibility(View.GONE);
         int screenWidth= ScreenUtils.getScreenWidth(getActivity());
         int screenHeight=ScreenUtils.getScreenHeight(getActivity());
@@ -357,6 +375,48 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
             mBind.rlCircles.setIndicatorAmount(pageSize);
         }
 
+    }
+
+
+    private void reFreshPersonalData()
+    {
+        Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String userJson) {
+                if (code == 0) {
+                    User user=DataCenter.getInstance().getUserInfo().getUser();
+                    mBind.tvBalance.setText(getStringWithoutContext(R.string.balance2));
+                    mBind.tvBalance.append(user.getGold(0.0f).toPlainString());
+
+                    mBind.tvDiamond.setText(getStringWithoutContext(R.string.diamond2));
+                    mBind.tvDiamond.append(user.getDiamond("0.0").toPlainString());
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 调用赠送礼物接口
+     */
+    public void doSendGiftApi(String gid, int count) {
+        if(isConditionOk())
+        {
+            mBind.tvGive.setEnabled(false);
+            Api_Live.ins().sendGift(gid, anchorId,
+                    liveId, 1, count, new JsonCallback<String>() {
+                        @Override
+                        public void onSuccess(int code, String msg, String result) {
+                            LogUtils.e("json : " + result);
+                            mBind.tvGive.setEnabled(true);
+                            if (code != 0) {
+                                ToastUtils.showShort(msg);
+                            }
+                        }
+                    });
+        }
     }
 
     public interface OnSelectedGiftListener

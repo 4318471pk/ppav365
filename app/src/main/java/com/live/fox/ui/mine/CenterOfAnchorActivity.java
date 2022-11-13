@@ -26,8 +26,8 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.openLiving.OpenLivingActivity;
 import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
+import com.live.fox.ui.openLiving.OpenLivingActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
@@ -141,6 +141,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
         mBind.gtvTitleOfRoom.setText(DataCenter.getInstance().getUserInfo().getUser().getNickname());
         getLineList();
+        getCenterData();
     }
 
     private void openLive() {
@@ -214,6 +215,18 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 } else {
                     ToastUtils.showShort(msg);
                 }
+            }
+        });
+    }
+
+    private void getCenterData()
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_Live.ins().getAnchorCenterInfo(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                Log.e("getCenterData",data);
             }
         });
     }

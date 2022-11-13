@@ -9,21 +9,28 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.ContributionRankAdapter;
-import com.live.fox.adapter.RankAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.FragmentContributionRankBinding;
-import com.live.fox.entity.ContributionRankIndexBean;
-import com.live.fox.entity.RankIndexBean;
+import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
+import com.live.fox.entity.ContributionRankItemBean;
+import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.User;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.RankProfileView;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +42,13 @@ public class ContributionRankFragment extends BaseBindingFragment {
 
     FragmentContributionRankBinding mBind;
     ContributionRankAdapter adapter;
-    int position;
+    int pagePosition;
+    RelativeLayout header;
 
     public static ContributionRankFragment newInstance(int position)
     {
         ContributionRankFragment fragment=new ContributionRankFragment();
-        fragment.position=position;
+        fragment.pagePosition=position;
         return fragment;
     }
 
@@ -55,26 +63,35 @@ public class ContributionRankFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void notifyFragment() {
+        super.notifyFragment();
+        mBind.srlRefresh.finishRefresh(true);
+        setPageData();
+    }
+
+    @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
 
-        List<ContributionRankIndexBean> list=new ArrayList<>();
+        List<ContributionRankItemBean> list=new ArrayList<>();
         for (int i = 0; i <27 ; i++) {
-            ContributionRankIndexBean rankIndexBean=new ContributionRankIndexBean();
-            rankIndexBean.setLevel(i+20);
-            rankIndexBean.setFollow(i%2==0);
-            rankIndexBean.setHuo("落后2.68万火力");
-            rankIndexBean.setNickName("名字");
-            rankIndexBean.setImageUrl("");
-            list.add(rankIndexBean);
+            list.add(null);
         }
         adapter=new ContributionRankAdapter(getActivity(),list);
 
         int widthScreen= ScreenUtils.getScreenWidth(getActivity());
         int dip5=ScreenUtils.getDip2px(getActivity(),5);
         int margin=(widthScreen-(int)(widthScreen*0.147f*6))/10;
-        View header=makeHeader(widthScreen);
+        header=makeHeader(widthScreen);
         adapter.addHeaderView(header);
+
+        mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                getContributionRankDialog().getContributionList();
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -83,7 +100,98 @@ public class ContributionRankFragment extends BaseBindingFragment {
 
     }
 
-    private View makeHeader(int screenWidth)
+    private void setEmptyData()
+    {
+        List list=new ArrayList();
+        for (int i = 0; i < 27; i++) {
+            list.add(null);
+        }
+        adapter.setNewData(list);
+    }
+
+    private ContributionRankDialog getContributionRankDialog()
+    {
+        ContributionRankDialog contributionRankDialog=(ContributionRankDialog)getParentFragment();
+        return contributionRankDialog;
+    }
+
+    private void setPageData()
+    {
+        if(header==null)
+        {
+            return;
+        }
+
+        List<ContributionRankItemBean> list;
+        if(getContributionRankDialog().getDataLists().size()>pagePosition)
+        {
+            list=getContributionRankDialog().getDataLists().get(pagePosition);
+            if(list!=null)
+            {
+                if(list.size()>3)
+                {
+                    adapter.setNewData(list);
+                }
+                else
+                {
+                    setHeadData();
+                    setEmptyData();
+                }
+            }
+        }
+    }
+
+    private void setHeadData()
+    {
+        for (int i = 1; i <4 ; i++) {
+            LinearLayout linearLayout=(LinearLayout) header.getChildAt(i);
+            RankProfileView profileView=(RankProfileView)linearLayout.getChildAt(0);
+            TextView nickName=(TextView)linearLayout.getChildAt(1);
+            TextView icons=(TextView)linearLayout.getChildAt(2);
+
+            if(getContributionRankDialog().getDataLists().get(pagePosition).size()>i-1)
+            {
+                ContributionRankItemBean contributionRankItemBean=getContributionRankDialog().getDataLists().get(pagePosition).get(i-1);
+                nickName.setText(contributionRankItemBean.getNickname());
+                GlideUtils.loadCircleImage(getActivity(),contributionRankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
+//                icons.setText("");
+            }
+            else
+            {
+                profileView.setIndex(i-1,0,false);
+                profileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
+                nickName.setText(getStringWithoutContext(R.string.emptyPosition));
+                icons.setText("");
+            }
+        }
+
+        String templeText=getActivity().getResources().getString(R.string.tip10);
+        String followString=getActivity().getResources().getString(R.string.follow);
+        String followedString=getActivity().getResources().getString(R.string.followed);
+        for (int i = 4; i <7 ; i++) {
+            LinearLayout relativeLayout=(LinearLayout) header.getChildAt(i);
+            TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
+            TextView follow=(TextView)relativeLayout.getChildAt(1);
+
+            if(getContributionRankDialog().getDataLists().get(pagePosition).size()>i-4)
+            {
+                ContributionRankItemBean rankItemBean=getContributionRankDialog().getDataLists().get(pagePosition).get(i-4);
+                tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
+                follow.setVisibility(View.VISIBLE);
+                follow.setSelected(rankItemBean.isFollow());
+                follow.setText(rankItemBean.isFollow()?followedString:followString);
+                follow.setEnabled(!rankItemBean.isFollow());
+//                icons.setText("");
+            }
+            else
+            {
+                follow.setVisibility(View.INVISIBLE);
+                tvHuo.setText("");
+            }
+        }
+    }
+
+    private RelativeLayout makeHeader(int screenWidth)
     {
         RelativeLayout relativeLayout=new RelativeLayout(getActivity());
         relativeLayout.setPadding(0,0,0,ScreenUtils.getDip2px(getActivity(),10));
@@ -99,9 +207,9 @@ public class ContributionRankFragment extends BaseBindingFragment {
         FixImageSize.setImageSizeOnWidthWithSRC(ivBackground, screenWidth, new FixImageSize.OnFixListener() {
             @Override
             public void onfix(int width, int height, float ratio) {
-                relativeLayout.addView(makeTop3View(width,height,0,2));
-                relativeLayout.addView(makeTop3View(width,height,1,3));
-                relativeLayout.addView(makeTop3View(width,height,2,4));
+                relativeLayout.addView(makeTop3View(width,height,0,0));
+                relativeLayout.addView(makeTop3View(width,height,1,0));
+                relativeLayout.addView(makeTop3View(width,height,2,0));
 
                 relativeLayout.addView(makeBotView(width,height,0));
                 relativeLayout.addView(makeBotView(width,height,1));
@@ -142,12 +250,15 @@ public class ContributionRankFragment extends BaseBindingFragment {
         int profileImageWidth=(int)(screenWidth*0.173f);
         RankProfileView rankProfileView=new RankProfileView(getActivity(),crownIndex,decorationIndex,false);
         LinearLayout.LayoutParams ivRL=new LinearLayout.LayoutParams(profileImageWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ivRL.gravity= Gravity.CENTER_HORIZONTAL;
+        ivRL.gravity=Gravity.CENTER_HORIZONTAL;
+        rankProfileView.setResumeAniAfterAttached(true);
         rankProfileView.setLayoutParams(ivRL);
+        rankProfileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
+//        rankProfileView.setIndex(crownIndex,decorationIndex,true);
         linearLayout.addView(rankProfileView);
 
         AutofitTextView textView=new AutofitTextView(getActivity());
-        textView.setText("你的名字你的名字");
+        textView.setText(getStringWithoutContext(R.string.emptyPosition));
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(0xffffffff);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
@@ -164,11 +275,11 @@ public class ContributionRankFragment extends BaseBindingFragment {
         llIcons.gravity=Gravity.CENTER_HORIZONTAL;
         icons.setGravity(Gravity.CENTER);
         icons.setLayoutParams(llIcons);
-        User user=new User();
-        user.setUserLevel(new Random().nextInt(200)+2);
-        SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(user, getActivity()));
-        icons.setText(spanUtils.create());
+//        User user=new User();
+//        user.setUserLevel(new Random().nextInt(200)+2);
+//        SpanUtils spanUtils=new SpanUtils();
+//        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(user, getActivity()));
+//        icons.setText(spanUtils.create());
         linearLayout.addView(icons);
 
         return linearLayout;
@@ -200,7 +311,7 @@ public class ContributionRankFragment extends BaseBindingFragment {
 
         TextView huo=new TextView(getActivity());
         huo.setTextSize(TypedValue.COMPLEX_UNIT_SP,11);
-        huo.setText("落后2.88万火力");
+        huo.setText("");
         huo.setGravity(Gravity.CENTER);
         huo.setTextColor(0xffffffff);
         huo.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

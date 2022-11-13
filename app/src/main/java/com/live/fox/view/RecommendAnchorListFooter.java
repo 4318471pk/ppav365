@@ -119,13 +119,15 @@ public class RecommendAnchorListFooter extends LinearLayout {
     }
 
 
-    public void setData(List<RoomListBean> listBeans)
+    public void setData(List<RoomListBean> mListBeans)
     {
         changeList.setEnabled(true);
-        if(listBeans==null)
+        if(this.listBeans==null)
         {
             this.listBeans=new ArrayList<>();
         }
+        listBeans.clear();
+        listBeans.addAll(mListBeans);
 
         int dip2_5=ScreenUtils.getDip2px(getContext(),2.5f);
         int defaultDrawable=R.mipmap.icon_anchor_loading;

@@ -246,6 +246,12 @@ public class UserDetailActivity extends BaseActivity  {
             mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
         }
 
+        if (mUser.getUserLevel() > 10) {
+            mBind.editProfileImage.setVisibility(View.VISIBLE);
+        } else {
+            mBind.editProfileImage.setVisibility(View.GONE);
+        }
+
         mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
 
         GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), R.mipmap.user_head_error, mBind.ivHeader);

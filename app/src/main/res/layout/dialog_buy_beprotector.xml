@@ -21,6 +21,7 @@
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="400dip"
+            android:clickable="true"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             app:rv_backgroundColor="@color/white"
@@ -63,132 +64,6 @@
                     android:orientation="horizontal"
                     android:paddingRight="10dip">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dip"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dip"
-                        android:background="@drawable/bg_buy_protector">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@mipmap/icon_big_shouhu1" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="#404040"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dip"
-                                android:drawableLeft="@mipmap/icon_diamond"
-                                android:drawablePadding="5dip"
-                                android:gravity="center"
-                                android:text=""
-                                android:textColor="#404040"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dip"
-                        android:layout_marginLeft="10dip"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_buy_protector">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@mipmap/icon_big_shouhu2" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="#404040"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dip"
-                                android:drawableLeft="@mipmap/icon_diamond"
-                                android:drawablePadding="5dip"
-                                android:gravity="center"
-                                android:text=""
-                                android:textColor="#404040"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dip"
-                        android:layout_marginLeft="10dip"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_buy_protector">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@mipmap/icon_big_shouhu3" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="#404040"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dip"
-                                android:drawableLeft="@mipmap/icon_diamond"
-                                android:drawablePadding="2dip"
-                                android:gravity="center"
-                                android:text=""
-                                android:textColor="#404040"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
                 </LinearLayout>
 
                 <com.flyco.roundview.RoundRelativeLayout
@@ -225,6 +100,7 @@
                                 android:id="@+id/gtvExchangeDiamond"
                                 android:layout_width="60dip"
                                 android:layout_height="15dip"
+                                android:onClick="@{click.onClickView}"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center"
                                 android:layout_centerVertical="true"

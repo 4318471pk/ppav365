@@ -4,38 +4,61 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
-import com.live.fox.entity.ContributionRankIndexBean;
+import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.utils.ChatSpanUtils;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.view.RankProfileView;
 
 import java.util.List;
 
-public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIndexBean, ContributionRankAdapter.RankViewHold> {
+public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankItemBean, ContributionRankAdapter.RankViewHold> {
 
     Context context;
+    String templeText;
+    String emptyPosition,followed,follow;
 
-    public ContributionRankAdapter(Context context,List<ContributionRankIndexBean> data) {
+    public ContributionRankAdapter(Context context,List<ContributionRankItemBean> data) {
         super(R.layout.item_contribution_rank_profile, data);
         this.context=context;
+        templeText=context.getResources().getString(R.string.tip10);
+        emptyPosition=context.getResources().getString(R.string.emptyPosition);
+        follow=context.getResources().getString(R.string.follow);
+        followed=context.getResources().getString(R.string.followed);
 
     }
 
     @Override
-    protected void convert(RankViewHold helper, ContributionRankIndexBean item) {
-        helper.tvFollow.setSelected(item.isFollow());
-        SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(item.getNickName());
-        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(item.getLevel(), context));
-        helper.tvNickName.setText(spanUtils.create());
-        helper.tvHuo.setText(item.getHuo());
-        helper.rpv.setIndex(RankProfileView.NONE,item.getLevel()%7,false);
-        helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
+    protected void convert(RankViewHold helper, ContributionRankItemBean item) {
+        if(item!=null)
+        {
+            helper.tvFollow.setVisibility(View.VISIBLE);
+            helper.tvFollow.setSelected(item.isFollow());
+            helper.tvFollow.setText(item.isFollow()?followed:follow);
+            helper.tvFollow.setEnabled(!item.isFollow());
+
+            SpanUtils spanUtils=new SpanUtils();
+            spanUtils.append(item.getNickname());
+            ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context);
+            helper.tvNickName.setText(spanUtils.create());
+            helper.tvHuo.setText(String.format(templeText,item.getRankValue()+""));
+            helper.tvHuo.setVisibility(View.VISIBLE);
+            helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
+            GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
+            helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
+        }
+        else
+        {
+            helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
+            helper.tvFollow.setVisibility(View.INVISIBLE);
+            helper.tvHuo.setVisibility(View.GONE);
+            helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
+            helper.tvNickName.setText(emptyPosition);
+            helper.rpv.getProfileImage().setImageDrawable(context.getResources().getDrawable(R.mipmap.user_head_error));
+        }
     }
 
     public class RankViewHold extends BaseViewHolder

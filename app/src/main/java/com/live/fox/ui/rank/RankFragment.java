@@ -20,13 +20,15 @@ import com.live.fox.R;
 import com.live.fox.adapter.RankAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.RankFragmentBinding;
-import com.live.fox.entity.RankIndexBean;
+import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.User;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.RankProfileView;
+import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -42,6 +44,8 @@ public class RankFragment extends BaseBindingFragment {
     RankFragmentBinding mBind;
     RankAdapter rankAdapter;
     int type;
+    int currentTimePosition=0;
+    RelativeLayout header;
 
     public static RankFragment newInstance(int type) {
         RankFragment fragment = new RankFragment();
@@ -52,6 +56,16 @@ public class RankFragment extends BaseBindingFragment {
     @Override
     public void onClickView(View view) {
 
+    }
+
+    private RankActivity getRankActivity()
+    {
+        if(isActivityOK())
+        {
+            RankActivity rankActivity=(RankActivity)getActivity();
+            return rankActivity;
+        }
+        return null;
     }
 
     @Override
@@ -75,22 +89,26 @@ public class RankFragment extends BaseBindingFragment {
         mBind.rvList.setLayoutManager(layoutManager);
 //        mBind.rvList.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 4)));
 
-        List<RankIndexBean> list=new ArrayList<>();
+        List<RankItemBean> list=new ArrayList<>();
         for (int i = 0; i <27 ; i++) {
-            RankIndexBean rankIndexBean=new RankIndexBean();
-            rankIndexBean.setLevel(i+20);
-            rankIndexBean.setFollow(i%2==0);
-            rankIndexBean.setHuo("落后2.68万火力");
-            rankIndexBean.setNickName("名字");
-            rankIndexBean.setImageUrl("");
-            list.add(rankIndexBean);
+            list.add(null);
         }
         rankAdapter=new RankAdapter(getActivity(),list);
 
         mBind.smartRefresh.setEnableAutoLoadMore(false);
+        mBind.smartRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
         mBind.smartRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                switch (type)
+                {
+                    case 0:
+                        getRankActivity().getAnchorList();
+                        break;
+                    case 1:
+                        getRankActivity().getRichManList();
+                        break;
+                }
 
             }
         });
@@ -102,6 +120,7 @@ public class RankFragment extends BaseBindingFragment {
             radioButton.setTextColor(0xffa800ff);
             radioButton.setGravity(Gravity.CENTER);
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            radioButton.setTag(i);
             RadioGroup.LayoutParams rl=new RadioGroup.LayoutParams((int)(widthScreen*0.147f),dip5*6);
             rl.leftMargin=margin;
             rl.topMargin=dip5*2;
@@ -115,20 +134,142 @@ public class RankFragment extends BaseBindingFragment {
             radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b)
+                    {
+                        int index=(int)compoundButton.getTag();
+                        currentTimePosition=index;
+                        setPageData();
+                    }
                     compoundButton.setTextColor(b?0xffffffff:0xffa800ff);
                     compoundButton.setBackgroundResource(b?R.drawable.round_gradient_a800ff_d689ff:R.drawable.round_stroke_a800ff);
                 }
             });
             mBind.rgTabs.addView(radioButton);
         }
+        RadioButton radioButton=(RadioButton)mBind.rgTabs.getChildAt(0);
+        radioButton.setChecked(true);
 
-        View header=makeHeader(widthScreen);
+        header=makeHeader(widthScreen);
         rankAdapter.addHeaderView(header);
         mBind.rvList.setAdapter(rankAdapter);
     }
 
+    @Override
+    public void notifyFragment() {
+        super.notifyFragment();
+        mBind.smartRefresh.finishRefresh(true);
+        setPageData();
+    }
 
-    private View makeHeader(int screenWidth)
+    private void setPageData()
+    {
+        List<RankItemBean> list;
+        switch (type)
+        {
+            case 0:
+                if(getRankActivity().rankAnchorBeans.size()>currentTimePosition)
+                {
+                    list=getRankActivity().rankAnchorBeans.get(currentTimePosition);
+                    if(list!=null)
+                    {
+                        if(list.size()>3)
+                        {
+                            rankAdapter.setNewData(list);
+                        }
+                        else
+                        {
+                            setHeadData();
+                            setEmptyData();
+                        }
+                    }
+                }
+                break;
+            case 1:
+                if(getRankActivity().rankRichManBeans.size()>currentTimePosition)
+                {
+                    list=getRankActivity().rankRichManBeans.get(currentTimePosition);
+                    if(list!=null)
+                    {
+                        if(list.size()>3)
+                        {
+                            rankAdapter.setNewData(list);
+                        }
+                        else
+                        {
+                            setHeadData();
+                            setEmptyData();
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    private void setEmptyData()
+    {
+        List list=new ArrayList();
+        for (int i = 0; i < 27; i++) {
+            list.add(null);
+        }
+        rankAdapter.setNewData(list);
+    }
+
+    private void setHeadData()
+    {
+        if(header==null)
+        {
+            return;
+        }
+
+        for (int i = 1; i <4 ; i++) {
+            LinearLayout linearLayout=(LinearLayout) header.getChildAt(i);
+            RankProfileView profileView=(RankProfileView)linearLayout.getChildAt(0);
+            TextView nickName=(TextView)linearLayout.getChildAt(1);
+            TextView icons=(TextView)linearLayout.getChildAt(2);
+
+            if(getRankActivity().rankAnchorBeans.get(currentTimePosition).size()>i-1)
+            {
+                RankItemBean rankItemBean=getRankActivity().rankAnchorBeans.get(currentTimePosition).get(i-1);
+                nickName.setText(rankItemBean.getNickname());
+                GlideUtils.loadCircleImage(getActivity(),rankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
+//                icons.setText("");
+            }
+            else
+            {
+                profileView.setIndex(i-1,0,false);
+                profileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
+                nickName.setText(getStringWithoutContext(R.string.emptyPosition));
+                icons.setText("");
+            }
+        }
+
+        String templeText=getActivity().getResources().getString(R.string.tip10);
+        String followString=getActivity().getResources().getString(R.string.follow);
+        String followedString=getActivity().getResources().getString(R.string.followed);
+        for (int i = 4; i <7 ; i++) {
+            LinearLayout relativeLayout=(LinearLayout) header.getChildAt(i);
+            TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
+            TextView follow=(TextView)relativeLayout.getChildAt(1);
+
+            if(getRankActivity().rankAnchorBeans.get(currentTimePosition).size()>i-4)
+            {
+                RankItemBean rankItemBean=getRankActivity().rankAnchorBeans.get(currentTimePosition).get(i-4);
+                tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
+                follow.setVisibility(View.VISIBLE);
+                follow.setSelected(rankItemBean.isFollow());
+                follow.setText(rankItemBean.isFollow()?followedString:followString);
+                follow.setEnabled(!rankItemBean.isFollow());
+//                icons.setText("");
+            }
+            else
+            {
+                follow.setVisibility(View.INVISIBLE);
+                tvHuo.setText("");
+            }
+        }
+    }
+
+    private RelativeLayout makeHeader(int screenWidth)
     {
         RelativeLayout relativeLayout=new RelativeLayout(getActivity());
         relativeLayout.setPadding(0,0,0,ScreenUtils.getDip2px(getActivity(),10));
@@ -151,9 +292,9 @@ public class RankFragment extends BaseBindingFragment {
         FixImageSize.setImageSizeOnWidthWithSRC(ivBackground, screenWidth, new FixImageSize.OnFixListener() {
             @Override
             public void onfix(int width, int height, float ratio) {
-                relativeLayout.addView(makeTop3View(width,height,0,2));
-                relativeLayout.addView(makeTop3View(width,height,1,3));
-                relativeLayout.addView(makeTop3View(width,height,2,4));
+                relativeLayout.addView(makeTop3View(width,height,0,0));
+                relativeLayout.addView(makeTop3View(width,height,1,0));
+                relativeLayout.addView(makeTop3View(width,height,2,0));
 
                 relativeLayout.addView(makeBotView(width,height,0));
                 relativeLayout.addView(makeBotView(width,height,1));
@@ -192,15 +333,17 @@ public class RankFragment extends BaseBindingFragment {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         int profileImageWidth=(int)(screenWidth*0.173f);
-        RankProfileView rankProfileView=new RankProfileView(getActivity(),crownIndex,decorationIndex,true);
+        RankProfileView rankProfileView=new RankProfileView(getActivity(),crownIndex,decorationIndex,false);
         LinearLayout.LayoutParams ivRL=new LinearLayout.LayoutParams(profileImageWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         ivRL.gravity=Gravity.CENTER_HORIZONTAL;
         rankProfileView.setResumeAniAfterAttached(true);
         rankProfileView.setLayoutParams(ivRL);
+        rankProfileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
+//        rankProfileView.setIndex(crownIndex,decorationIndex,true);
         linearLayout.addView(rankProfileView);
 
         AutofitTextView textView=new AutofitTextView(getActivity());
-        textView.setText("你的名字你的名字");
+        textView.setText(getStringWithoutContext(R.string.emptyPosition));
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(0xffffffff);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
@@ -217,11 +360,11 @@ public class RankFragment extends BaseBindingFragment {
         llIcons.gravity=Gravity.CENTER_HORIZONTAL;
         icons.setGravity(Gravity.CENTER);
         icons.setLayoutParams(llIcons);
-        User user=new User();
-        user.setUserLevel(new Random().nextInt(200));
-        SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(user, getActivity()));
-        icons.setText(spanUtils.create());
+//        User user=new User();
+//        user.setUserLevel(new Random().nextInt(200));
+//        SpanUtils spanUtils=new SpanUtils();
+//        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(user, getActivity()));
+//        icons.setText(spanUtils.create());
         linearLayout.addView(icons);
 
         return linearLayout;
@@ -233,6 +376,7 @@ public class RankFragment extends BaseBindingFragment {
         int itemWidth=(int)(screenWidth*0.275f);
         LinearLayout linearLayout=new LinearLayout(getActivity());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         switch (crownIndex)
         {
@@ -253,7 +397,7 @@ public class RankFragment extends BaseBindingFragment {
 
         TextView huo=new TextView(getActivity());
         huo.setTextSize(TypedValue.COMPLEX_UNIT_SP,11);
-        huo.setText("落后2.88万火力");
+        huo.setText("");
         huo.setGravity(Gravity.CENTER);
         huo.setTextColor(0xffffffff);
         huo.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -272,6 +416,7 @@ public class RankFragment extends BaseBindingFragment {
         follow.setTextColor(0xffffffff);
         follow.setText(getStringWithoutContext(R.string.follow));
         follow.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
+        follow.setVisibility(View.INVISIBLE);
         linearLayout.addView(follow);
 
         return linearLayout;

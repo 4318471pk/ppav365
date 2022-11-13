@@ -14,11 +14,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogLivingPromoBinding;
+import com.live.fox.entity.ActBean;
+import com.live.fox.language.MultiLanguageUtils;
+import com.live.fox.manager.SPManager;
+import com.live.fox.server.Api_Order;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.utils.okgo.OkGoHttpUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -148,4 +155,7 @@ public class LivingPromoDialog extends BaseBindingDialogFragment {
 
         startAnimate(mBind.rllContent,true);
     }
+
+
+
 }

@@ -82,6 +82,7 @@
                             android:id="@+id/ivFollow"
                             android:layout_width="29dp"
                             android:layout_height="29dp"
+                            android:visibility="invisible"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="5dip"
                             android:onClick="@{click.onClickView}"
@@ -115,11 +116,12 @@
                         android:id="@+id/rvTop20Online"
                         android:layout_width="match_parent"
                         android:layout_height="34dp"
-                        android:layout_marginLeft="15dip"
+                        android:layout_marginLeft="10dip"
+                        android:layout_marginRight="10dip"
                         android:layout_toRightOf="@id/roundRL"
                         android:layout_toLeftOf="@id/gtvOnlineAmount"
-                        android:fadingEdge="horizontal"
-                        android:fadingEdgeLength="10dip" />
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="20dip" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -156,7 +158,7 @@
                         android:onClick="@{click.onClickView}"
                         android:paddingLeft="7dip"
                         android:paddingRight="7dip"
-                        android:text="0 人"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         app:gt_radius_dp="17dp"
@@ -560,16 +562,18 @@
             android:onClick="@{click.onClickView}"
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="30dp"
             >
 
-            <com.live.fox.view.overscroll.RecyclerViewBouncy
+            <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scrollbars="none"
                 android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="40dp" />
+                android:fadingEdgeLength="30dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -136,8 +136,8 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                     R.color.transparent, R.mipmap.user_head_error, mBind.ivHeadimg);
         }
 
-        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f)));
-        mBind.diamondTv.setText(userinfo.getDiamond() + "");
+        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f).doubleValue()));
+        mBind.diamondTv.setText(userinfo.getDiamond().toPlainString() + "");
         mBind.tvNickname.setText(userinfo.getNickname());
         //mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
 
@@ -365,6 +365,8 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 SettingActivity.startActivity(getActivity());
                 break ;
             case R.id.layoutUserInfo:
+                UserDetailActivity.startActivity(requireActivity(), userinfo.getUid());
+                break;
 //            case R.id.iv_geren: //个人信息
 //                EditUserInfoActivity.startActivity(requireActivity(), userinfo.getPhone());
 //                break;

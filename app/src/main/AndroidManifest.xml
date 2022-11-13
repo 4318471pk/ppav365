@@ -307,9 +307,7 @@
         <activity
             android:name=".ui.rank.RankActivity"
             android:screenOrientation="portrait" /> <!-- 主播榜 -->
-        <activity
-            android:name=".ui.rank.RankDetaiActivity"
-            android:screenOrientation="portrait" /> <!-- 提现到银行卡 -->
+     
         <activity
             android:name=".ui.mine.withdraw.MoneyOutToCardActivity"
             android:screenOrientation="portrait" /> <!-- 绑定、更换银行卡 -->

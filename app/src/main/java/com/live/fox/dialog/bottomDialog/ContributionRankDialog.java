@@ -4,41 +4,59 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogContributionRankBinding;
+import com.live.fox.entity.ContributionRankItemBean;
+import com.live.fox.server.Api_Rank;
 import com.live.fox.ui.mine.contribution.ContributionRankFragment;
 import com.live.fox.ui.rank.RankActivity;
+import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContributionRankDialog extends BaseBindingDialogFragment {
 
     DialogContributionRankBinding mBind;
+    String liveId,uid;
+    int currentPosition=0;
+    List<ContributionRankFragment> fragmentList=new ArrayList<>();
+    List<List<ContributionRankItemBean>> dataLists=new ArrayList<>();
 
-    public static final ContributionRankDialog getInstance()
+
+    public static final ContributionRankDialog getInstance(String liveId,String uid)
     {
-        return new ContributionRankDialog();
+        ContributionRankDialog contributionRankDialog= new ContributionRankDialog();
+        contributionRankDialog.liveId=liveId;
+        contributionRankDialog.uid=uid;
+        return contributionRankDialog;
+    }
+
+    public List<List<ContributionRankItemBean>> getDataLists() {
+        return dataLists;
     }
 
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar) {
@@ -121,6 +139,7 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         mBind.rllContent.getLayoutParams().height=(int)(screenHeight*0.7f);
 
         setData();
+        getContributionList();
         startAnimate(mBind.rllContent,true);
     }
 
@@ -130,10 +149,15 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         String titles[]=getResources().getStringArray(R.array.rank_tab_contribution);
         int widthScreen= ScreenUtils.getScreenWidth(getActivity());
 
+        fragmentList.add(ContributionRankFragment.newInstance(0));
+        fragmentList.add(ContributionRankFragment.newInstance(1));
+        fragmentList.add(ContributionRankFragment.newInstance(2));
+        fragmentList.add(ContributionRankFragment.newInstance(3));
+
         mBind.vpDialogMain.setAdapter(new BaseFragmentPagerAdapter(getChildFragmentManager()){
             @Override
             public Fragment getFragment(int position) {
-                return ContributionRankFragment.newInstance(position);
+                return fragmentList.get(position);
             }
 
             @Override
@@ -147,6 +171,7 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
             }
         });
 
+        mBind.vpDialogMain.setOffscreenPageLimit(3);
         mBind.vpDialogMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -157,6 +182,8 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
             public void onPageSelected(int position) {
                 RadioButton radioButton=(RadioButton)mBind.rgTabs.getChildAt(position);
                 radioButton.setChecked(true);
+                currentPosition=position;
+                fragmentList.get(currentPosition).notifyFragment();
             }
 
             @Override
@@ -207,5 +234,48 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         ((RadioButton)mBind.rgTabs.getChildAt(0)).setChecked(true);
     }
 
+    public void getContributionList()
+    {
+        Api_Rank.ins().getContributionRankList(liveId,uid,new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("getContributionList",data);
+                if(isConditionOk())
+                {
+                    if(code==0 && getArg().equals(liveId))
+                    {
+                        try {
+                            JSONObject jsonObject=new JSONObject(data);
+                            dataLists.clear();
+                            analysisData(jsonObject,"dayList");
+                            analysisData(jsonObject,"weekList");
+                            analysisData(jsonObject,"monthList");
+                            analysisData(jsonObject,"allList");
 
+                            fragmentList.get(currentPosition).notifyFragment();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+        });
+    }
+
+    private void analysisData(JSONObject jsonObject, String arrayTitle)
+    {
+        String rankDayList=jsonObject.optString(arrayTitle);
+        if(rankDayList!=null && rankDayList.length()>0)
+        {
+            dataLists.add(GsonUtil.getObjects(rankDayList, ContributionRankItemBean[].class));
+        }
+        else
+        {
+            dataLists.add(new ArrayList<>());
+        }
+    }
 }
