@@ -350,6 +350,14 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     public boolean dispatchKeyEvent(KeyEvent event) {
         if(event.getKeyCode()==KeyEvent.KEYCODE_BACK)
         {
+            if(livingFragmentStateAdapter!=null )
+            {
+                LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(mBind.vp2.getCurrentItem());
+                if(livingFragment!=null)
+                {
+                    livingFragment.onKeyBack();
+                }
+            }
             return true;
         }
         return super.dispatchKeyEvent(event);

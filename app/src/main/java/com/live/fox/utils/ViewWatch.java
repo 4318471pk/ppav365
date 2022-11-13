@@ -43,7 +43,7 @@ public class ViewWatch {
         screenHeight = ScreenUtils.getScreenHeightWithoutBtnsBar(activity);
         screenWidth = ScreenUtils.getScreenWidth(activity);
         imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mbind.llInputLayout.setOnKeyListener(new View.OnKeyListener() {
+        mbind.etDiaMessage.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
