@@ -503,7 +503,7 @@
                             app:gt_color_list="@array/identificationColor"
                             app:gt_radius_dp="15dip" />
 
-                        <EditText
+                        <com.live.fox.view.MyHoldKeyBackEditText
                             android:id="@+id/etDiaMessage"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"

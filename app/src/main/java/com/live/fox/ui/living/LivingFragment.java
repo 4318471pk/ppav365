@@ -150,10 +150,7 @@ public class LivingFragment extends BaseBindingFragment {
     @Override
     public void onKeyBack() {
         super.onKeyBack();
-        if(livingControlPanel!=null)
-        {
-            livingControlPanel.mBind.rlMain.performClick();
-        }
+
     }
 
     @Override

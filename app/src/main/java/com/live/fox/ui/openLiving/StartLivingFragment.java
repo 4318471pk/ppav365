@@ -109,7 +109,6 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
                 AnchorLivingRoomSettingDialog anchorLivingRoomSettingDialog=AnchorLivingRoomSettingDialog.getInstance();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),anchorLivingRoomSettingDialog);
                 break;
-
         }
     }
 

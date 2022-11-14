@@ -160,14 +160,6 @@ public class LivingControlPanel extends RelativeLayout {
         mBind.rvTop20Online.setLayoutManager(horLayoutManager);
         mBind.rvTop20Online.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
 
-        mBind.rlMain.post(new Runnable() {
-            @Override
-            public void run() {
-                mBind.getRoot().setFitsSystemWindows(true);
-                mBind.getRoot().requestLayout();
-            }
-        });
-
         setVisibility(VISIBLE);
 
         int dip10=ScreenUtils.getDip2px(fragment.getActivity(),10);

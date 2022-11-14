@@ -23,6 +23,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.MyHoldKeyBackEditText;
 
 public class ViewWatch {
 
@@ -43,17 +44,14 @@ public class ViewWatch {
         screenHeight = ScreenUtils.getScreenHeightWithoutBtnsBar(activity);
         screenWidth = ScreenUtils.getScreenWidth(activity);
         imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mbind.etDiaMessage.setOnKeyListener(new View.OnKeyListener() {
+        mbind.etDiaMessage.setOnKeyBackListener(new MyHoldKeyBackEditText.OnKeyBackListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-                    if (isMessagesPanelOpen()) {
-
-                    }
-                }
-                return false;
+            public void onKeyBack() {
+                hideInputLayout();
+                hideKeyboard();
             }
         });
+
         listener=new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
