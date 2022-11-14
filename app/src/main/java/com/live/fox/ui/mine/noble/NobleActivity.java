@@ -123,7 +123,7 @@ public class NobleActivity extends BaseActivity {
     }
 
     private void getNobleList(){
-        showLoadingDialog();
+        //showLoadingDialog();
         Api_Order.ins().getNobleList(new JsonCallback<List<NobleListBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<NobleListBean> data) {

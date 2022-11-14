@@ -4,33 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.live.fox.R;
-import com.live.fox.adapter.MyBagAndStoreAdapter;
-import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.BaseFragment;
-import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMybagStoreBinding;
-import com.live.fox.entity.BagAndStoreBean;
-import com.live.fox.entity.MyBagStoreListItemBean;
-import com.live.fox.server.Api_Order;
-import com.live.fox.ui.act.ActivityDetailFragment;
-import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.myHeader.MyWaterDropHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

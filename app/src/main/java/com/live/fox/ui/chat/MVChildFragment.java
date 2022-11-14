@@ -11,29 +11,15 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseFragment;
-import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
-import com.live.fox.manager.DataCenter;
-import com.live.fox.svga.AnchorInfoBean;
-import com.live.fox.server.Api_Live;
 import com.live.fox.adapter.LiveListAdapter;
-import com.live.fox.ui.live.PlayLiveActivity;
-import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.utils.ClickUtil;
-import com.live.fox.utils.IntentUtils;
-import com.live.fox.utils.LogUtils;
-import com.live.fox.utils.LruCacheUtil;
-import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.device.DeviceUtils;
-import com.luck.picture.lib.tools.DoubleUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MVChildFragment extends BaseFragment {

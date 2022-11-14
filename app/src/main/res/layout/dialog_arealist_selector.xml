@@ -8,12 +8,19 @@
             type="com.live.fox.dialog.bottomDialog.AreaListSelectorDialog" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/rlMain"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{click.onClickView}"
+        android:orientation="vertical"
         >
+
+        <View
+            android:id="@+id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{click.onClickView}"
+            />
 
 
         <com.flyco.roundview.RoundLinearLayout
@@ -90,5 +97,5 @@
 
         </com.flyco.roundview.RoundLinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

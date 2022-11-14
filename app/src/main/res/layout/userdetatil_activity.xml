@@ -152,7 +152,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:orientation="horizontal"
                             android:paddingLeft="20dip"
@@ -167,7 +167,7 @@
                                 android:gravity="center"
                                 android:text="0"
                                 android:textColor="#A800FF"
-                                android:textSize="24sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -179,7 +179,7 @@
                                 android:gravity="center"
                                 android:text="0"
                                 android:textColor="#A800FF"
-                                android:textSize="24sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -191,15 +191,16 @@
                                 android:gravity="center"
                                 android:text="0"
                                 android:textColor="@color/black"
-                                android:textSize="24sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="30dip"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_marginTop="5dp"
                             android:paddingLeft="20dip"
                             android:paddingRight="20dip">
 
@@ -210,8 +211,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="@string/focus"
-                                android:textColor="#7A7A7A"
-                                android:textSize="12sp" />
+                                android:textColor="@color/color404040"
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -220,8 +221,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="@string/fan"
-                                android:textColor="#7A7A7A"
-                                android:textSize="12sp" />
+                                android:textColor="@color/color404040"
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -230,8 +231,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="@string/giftSent"
-                                android:textColor="#7A7A7A"
-                                android:textSize="12sp" />
+                                android:textColor="@color/color404040"
+                                android:textSize="13sp" />
                         </LinearLayout>
 
                         <RelativeLayout
@@ -271,7 +272,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/icon_diamond"
+                                android:src="@mipmap/edit1"
                                 android:layout_marginBottom="10dip"
                                 android:layout_marginRight="10dip"
                                 android:layout_alignParentRight="true"
@@ -286,77 +287,84 @@
                             android:layout_height="55dip"
                             android:onClick="@{click.onViewClick}"
                             android:layout_marginTop="18dp"
-                            android:background="@drawable/shape_gradual_orange_light_corners_20">
+                            android:background="@mipmap/gxb">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="25dip"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="5dip"
                                 android:layout_alignParentRight="true"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_marginRight="13dip"
                                     >
 
                                     <com.makeramen.roundedimageview.RoundedImageView
                                         android:layout_width="30dip"
                                         android:layout_height="30dip"
-                                        android:layout_marginTop="10dip"
+                                        android:layout_centerInParent="true"
                                         android:scaleType="centerCrop"
                                         android:src="@drawable/img_default"
                                         app:riv_oval="true" />
 
                                     <ImageView
-                                        android:layout_width="20dip"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="26dip"
+                                        android:layout_height="16dp"
                                         android:layout_centerHorizontal="true"
                                         android:src="@mipmap/icon_top1" />
 
                                 </RelativeLayout>
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_marginRight="13dip"
                                     >
 
                                     <com.makeramen.roundedimageview.RoundedImageView
                                         android:layout_width="30dip"
                                         android:layout_height="30dip"
-                                        android:layout_marginTop="10dip"
+                                        android:layout_centerInParent="true"
                                         android:scaleType="centerCrop"
                                         android:src="@drawable/img_default"
                                         app:riv_oval="true" />
 
                                     <ImageView
-                                        android:layout_width="20dip"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="26dip"
+                                        android:layout_height="16dp"
                                         android:layout_centerHorizontal="true"
                                         android:src="@mipmap/icon_top2" />
 
                                 </RelativeLayout>
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     >
 
                                     <com.makeramen.roundedimageview.RoundedImageView
                                         android:layout_width="30dip"
                                         android:layout_height="30dip"
-                                        android:layout_marginTop="10dip"
+                                       android:layout_centerInParent="true"
                                         android:scaleType="centerCrop"
                                         android:src="@drawable/img_default"
                                         app:riv_oval="true" />
 
                                     <ImageView
-                                        android:layout_width="20dip"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="26dip"
+                                        android:layout_height="16dp"
                                         android:layout_centerHorizontal="true"
                                         android:src="@mipmap/icon_top3" />
 
                                 </RelativeLayout>
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:padding="8dp"
+                                    android:layout_gravity="center"
+                                    android:src="@mipmap/gxb_right"/>
 
                             </LinearLayout>
                         </RelativeLayout>
@@ -395,7 +403,7 @@
                                 android:textSize="12sp"
                                 app:gt_stroke_color="#A800FF"
                                 app:gt_stroke_width="1dip"
-                                app:gt_radius_dp="5dp" />
+                                app:gt_radius_dp="10dp" />
 
                         </LinearLayout>
 
@@ -407,10 +415,10 @@
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:gravity="center_vertical"
-                                android:textColor="#404040"
                                 android:text="@string/gender"
+                                android:textColor="#404040"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -418,6 +426,7 @@
                                 android:onClick="@{click.onViewClick}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="7dp"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
                                 android:textSize="13sp" />
@@ -442,6 +451,7 @@
                                 android:id="@+id/tvAge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="7dp"
                                 android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
@@ -467,6 +477,7 @@
                                 android:id="@+id/tvArea"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="7dp"
                                 android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
@@ -492,6 +503,7 @@
                                 android:id="@+id/tvRelationshipStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="7dp"
                                 android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"
@@ -517,6 +529,7 @@
                                 android:id="@+id/tvOccupation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="7dp"
                                 android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
                                 android:textColor="#A800FF"

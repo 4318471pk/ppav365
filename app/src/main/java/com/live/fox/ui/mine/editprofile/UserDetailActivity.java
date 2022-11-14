@@ -215,13 +215,16 @@ public class UserDetailActivity extends BaseActivity  {
         String uid=String.valueOf(mUser.getUid());
         StringBuilder sb=new StringBuilder();
         sb.append(getString(R.string.identity_id_3));
-        sb.append("  ");
         sb.append(uid);
         SpannableString spannableString=new SpannableString(sb.toString());
         spannableString.setSpan(new ForegroundColorSpan(0xffb8b2c8),spannableString.length()-uid.length(), spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mBind.tvIdnum.setText(spannableString);
-        int sexResId = mUser.getSex() == 1 ? R.string.boy : R.string.girl;
-        mBind.tvGender.setText(getString(sexResId));
+        if (mUser.getSex() == 0 ){
+            mBind.tvGender.setText(getString(R.string.privacyStr));
+        } else{
+            int sexResId = mUser.getSex() == 1 ? R.string.boy : R.string.girl;
+            mBind.tvGender.setText(getString(sexResId));
+        }
 
         if (TextUtils.isEmpty(mUser.getBirthday())) {
             mBind.tvAge.setText(getString(R.string.privacyStr));

@@ -28,6 +28,7 @@ import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
 import com.live.fox.ui.openLiving.OpenLivingActivity;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
@@ -211,7 +212,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
                 if (code == Constant.Code.SUCCESS) {
-                    Log.e("uploadBGOfLivingRoom",data);
+                    GlideUtils.loadImage(CenterOfAnchorActivity.this, data, mBind.ivHead);
+                    showToastTip(true, getString(R.string.modifySuccess));
+                    //Log.e("uploadBGOfLivingRoom",data);
                 } else {
                     ToastUtils.showShort(msg);
                 }

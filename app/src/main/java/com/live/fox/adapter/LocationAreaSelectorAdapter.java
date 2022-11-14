@@ -50,7 +50,7 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
     @NonNull
     @NotNull
     @Override
-    public LocationAreaSelectorAdapter.AreaHold onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public AreaHold onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
         if (viewType == 0) {
             return new AreaHold(layoutInflater.inflate(R.layout.header_dialog_nearby, parent, false), viewType);
@@ -76,7 +76,7 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull LocationAreaSelectorAdapter.AreaHold holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull AreaHold holder, int position) {
 
         if (getItemViewType(position) == 1) {
             RelativeLayout.LayoutParams rl = (RelativeLayout.LayoutParams) holder.textView.getLayoutParams();

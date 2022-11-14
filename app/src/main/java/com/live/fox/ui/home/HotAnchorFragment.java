@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.live.fox.R;
-import com.live.fox.adapter.AnchorGameListAdapter;
 import com.live.fox.adapter.HotAnchorListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentHotAnchorBinding;
 import com.live.fox.entity.Advert;
-import com.live.fox.entity.Anchor;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;

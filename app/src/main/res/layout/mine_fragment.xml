@@ -823,6 +823,8 @@
                         android:background="@color/color1a331F48" />
 
                     <LinearLayout
+                        android:id="@+id/llGame"
+                        android:onClick="@{click.onClickView}"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginStart="10dp"

@@ -12,11 +12,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
-import com.live.fox.AppConfig;
 import com.live.fox.R;
-import com.live.fox.SplashActivity;
 import com.live.fox.adapter.NobleEquityAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
@@ -221,12 +218,14 @@ public class NobleNewFragment extends BaseBindingFragment {
 
     float diamonds = -1;
     private void getAss(boolean isReq){
-        showLoadingDialog();
+        if (isReq) {
+            showLoadingDialog();
+        }
         HashMap<String, Object> commonParams = BaseApi.getCommonParams();
         Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
             @Override
             public void onSuccess(int code, String msg, UserAssetsBean data) {
-                dismissLoadingDialog();
+                if (isReq) dismissLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
                     diamonds = data.getDiamond() + data.getVipDiamond();
                     if (isReq) {

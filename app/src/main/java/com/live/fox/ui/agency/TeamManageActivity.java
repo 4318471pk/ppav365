@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -17,8 +16,6 @@ import com.live.fox.R;
 import com.live.fox.adapter.TeamManageAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityTeamManageBinding;
-import com.live.fox.utils.ClipboardUtils;
-import com.live.fox.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;

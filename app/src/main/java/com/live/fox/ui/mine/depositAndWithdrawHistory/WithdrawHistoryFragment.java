@@ -11,12 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.live.fox.R;
-import com.live.fox.adapter.DepositHistoryAdapter;
 import com.live.fox.adapter.WithdrawHistoryAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentWithdrawHistoryBinding;
-import com.live.fox.entity.DepositeHistoryBean;
 import com.live.fox.entity.WithDrawRecordBean;
 import com.live.fox.entity.WithdrawHistoryBean;
 import com.live.fox.server.Api_Order;
@@ -28,10 +26,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

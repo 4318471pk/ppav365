@@ -19,7 +19,6 @@ import com.live.fox.databinding.FragmentDiamondExpenseBinding;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.entity.DiamondIncomeAndExpenseBean;
 import com.live.fox.entity.DiamondRecordBean;
-import com.live.fox.entity.WithDrawRecordBean;
 import com.live.fox.server.Api_Order;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;

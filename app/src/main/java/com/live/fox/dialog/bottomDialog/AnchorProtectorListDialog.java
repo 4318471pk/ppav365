@@ -1,6 +1,5 @@
 package com.live.fox.dialog.bottomDialog;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,7 +15,6 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,9 +29,7 @@ import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.living.LivingControlPanel;
 import com.live.fox.utils.ClickUtil;
-import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import org.jetbrains.annotations.NotNull;
 
