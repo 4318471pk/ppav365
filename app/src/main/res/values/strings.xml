@@ -1444,10 +1444,14 @@
     <string name="paymentType">计费方式</string>
     <string name="paymentAmount">计费金额：</string>
     <string name="mars">火星</string>
+    <string name="enterRoomTag">进入房间!</string>
 
     <string name="netWorkGood">网络良好</string>
     <string name="netWorkCommon">网络一般</string>
     <string name="netWorkWorst">网络较差</string>
+
+    <string name="hint2">已开启弹幕评论，10钻石/条</string>
+    <string name="hint1">输入想跟主播说的话</string>
 
     <string name="payPerHour">按时收费</string>
     <string name="payEachShow">按场收费</string>

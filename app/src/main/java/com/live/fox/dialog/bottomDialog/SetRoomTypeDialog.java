@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -49,7 +50,8 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //设置dialog窗体颜色透明
         getDialog().getWindow().setDimAmount(0);
-        setWindowsFlag();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -107,6 +109,11 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
         }
 
         textViews.get(0).setChecked(true);
+    }
+
+    private void setRoomType()
+    {
+
     }
 
     public interface OnSelectRoomTypeListener {

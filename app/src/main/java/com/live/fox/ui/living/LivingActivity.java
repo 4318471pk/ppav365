@@ -23,6 +23,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.live.fox.AppIMManager;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingFragmentStateAdapter;
 import com.live.fox.adapter.RecommendLivingAnchorAdapter;
@@ -44,6 +45,7 @@ import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
@@ -255,6 +257,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getGiftList();//请求获取礼物
         getVipGiftList();//请求特权礼物
         getAmountListOfGift();//请求获取发送礼物数量列表
+        cacheBulletMessageList();//缓存弹幕列表
     }
 
     private void setViewPagerAdapter(int currentPosition)
@@ -513,6 +516,24 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
                 else
                 {
                     ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    //快捷消息列表
+    private void cacheBulletMessageList()
+    {
+        Api_Live.ins().getBulletMessageList( new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg,String data) {
+                if(code==0)
+                {
+                    SPUtils.getInstance().put(ConstantValue.BulletMessageList,data);
+                }
+                else
+                {
+
                 }
             }
         });

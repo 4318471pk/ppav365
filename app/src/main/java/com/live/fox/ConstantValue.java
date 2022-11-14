@@ -28,6 +28,7 @@ public interface ConstantValue {
     public static String hasGuestLogin = "hasGuestLogin";
     String BaseDomain ="BaseDomain";//基础网关
     String SPDefaultName ="aibo";//sharePreference默认名字
+    String BulletMessageList ="BulletMessageList";//弹幕列表
 
     public static final String IM_SDK_APP_ID = "im sdk app id key";
     public static final String ACCESS_ID = "ACCESS_ID";

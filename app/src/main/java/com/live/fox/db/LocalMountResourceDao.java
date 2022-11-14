@@ -25,10 +25,6 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
 
     public void setResourceDataListener(ResourceDataListener resourceDataListener) {
         this.resourceDataListener = resourceDataListener;
-        if(isAvailable)
-        {
-            resourceDataListener.onDataInsertDone(true);
-        }
     }
 
     @Override

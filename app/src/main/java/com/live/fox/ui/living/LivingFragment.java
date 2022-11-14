@@ -1,45 +1,32 @@
 package com.live.fox.ui.living;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.Gson;
 import com.live.fox.AppIMManager;
-import com.live.fox.Constant;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
-import com.live.fox.adapter.LivingTop20OnlineUserAdapter;
 import com.live.fox.base.BaseBindingFragment;
-import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.db.LocalGiftDao;
-import com.live.fox.dialog.FirstTimeTopUpDialog;
-import com.live.fox.dialog.PleaseDontLeaveDialog;
-import com.live.fox.entity.Anchor;
-import com.live.fox.entity.Audience;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.GiftResourceBean;
-import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingFollowMessage;
 import com.live.fox.entity.LivingMessageBean;
@@ -50,20 +37,16 @@ import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
-import com.live.fox.utils.ActivityUtils;
+import com.live.fox.utils.BulletViewUtils;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
-import com.live.fox.utils.IOUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.PlayerUtils;
-import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.SpanUtils;
-import com.live.fox.utils.TimeCounter;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.ViewUtils;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.MyFlowLayout;
-import com.live.fox.view.RankProfileView;
+import com.live.fox.view.BulletMessage.BulletMessageView;
+import com.live.fox.view.BulletMessage.VipEnterRoomMessageView;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
@@ -87,11 +70,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
-import static android.view.View.GONE;
 import static android.view.View.OVER_SCROLL_NEVER;
 
 public class LivingFragment extends BaseBindingFragment {
@@ -201,8 +183,8 @@ public class LivingFragment extends BaseBindingFragment {
                     @Override
                     public void run() {
                         //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
-                        if (!livingControlPanel.viewWatch.isBotViewShow()) {
-                            livingControlPanel.viewWatch.setScrollEnable(true);
+                        if (!livingControlPanel.messageViewWatch.isBotViewShow()) {
+                            livingControlPanel.messageViewWatch.setScrollEnable(true);
                         }
                     }
                 }, 1500);
@@ -363,6 +345,7 @@ public class LivingFragment extends BaseBindingFragment {
         }
         livingMsgBoxAdapter.getBeans().add(bean);
         livingMsgBoxAdapter.notifyDataSetChanged();
+        livingControlPanel.mBind.msgBox.smoothScrollToPosition(livingMsgBoxAdapter.getBeans().size());
     }
 
     public void getRecommendList() {
@@ -429,8 +412,8 @@ public class LivingFragment extends BaseBindingFragment {
             TXCloudVideoView txCloudVideoView = getView().findViewById(R.id.txLivingVideoView);
             ViewPager viewPager = getView().findViewById(R.id.livingViewPager);
 
-            if (livingControlPanel != null && livingControlPanel.viewWatch != null) {
-                livingControlPanel.viewWatch.onDestroy();
+            if (livingControlPanel != null && livingControlPanel.messageViewWatch != null) {
+                livingControlPanel.messageViewWatch.onDestroy();
             }
 
             if (viewPager != null) {
@@ -729,6 +712,7 @@ public class LivingFragment extends BaseBindingFragment {
                         case MessageProtocol.LIVE_ROOM_CHAT:
                             PersonalLivingMessageBean pBean = new Gson().fromJson(msg, PersonalLivingMessageBean.class);
                             sendPersonalMessage(pBean);
+                            playBulletMessage(pBean);
                             break;
                         case MessageProtocol.LIVE_SEND_GIFT:
                             LivingMessageGiftBean gBean = new Gson().fromJson(msg, LivingMessageGiftBean.class);
@@ -872,5 +856,30 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
+
+    private void playBulletMessage(PersonalLivingMessageBean bean)
+    {
+        if(getActivity()!=null && livingControlPanel!=null)
+        {
+            int bulletMessageHeight=ScreenUtils.getDip2px(getActivity(),40);
+            int height=livingControlPanel.mBind.rlMidView.getHeight();
+            int topMargin=0;
+            if(height>bulletMessageHeight)
+            {
+                topMargin=new Random().nextInt(height-bulletMessageHeight);
+            }
+//            BulletMessageView bulletMessageView=new BulletMessageView(getActivity(),bean);
+//            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            ll.topMargin=topMargin;
+//            bulletMessageView.setLayoutParams(ll);
+//            bulletMessageView.setVisibility(View.GONE);
+//            livingControlPanel.mBind.rlMidView.addView(bulletMessageView);
+//            BulletViewUtils.goRightToLeftDisappear(bulletMessageView,getActivity());
+
+            VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),bean);
+            livingControlPanel.mBind.rlMidView.addView(vipEnterRoomMessageView);
+            BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView,getActivity());
+        }
+    }
 
 }

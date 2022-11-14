@@ -180,9 +180,6 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         }
     }
 
-
-
-
     private void getLineList()
     {
         showLoadingDialogWithNoBgBlack();

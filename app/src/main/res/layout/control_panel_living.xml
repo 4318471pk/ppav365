@@ -244,14 +244,6 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlMidView"
-                android:layout_width="match_parent"
-                android:layout_height="200dip"
-                >
-
-
-            </RelativeLayout>
         </LinearLayout>
 
 
@@ -377,73 +369,52 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dip">
 
-                        <RelativeLayout
-                            android:id="@+id/rlBroadcast"
-                            android:layout_width="70dp"
-                            android:layout_height="35dip"
-                            android:layout_marginLeft="10dip"
-                            android:layout_centerVertical="true"
+                        <LinearLayout
+                            android:id="@+id/llMessageTabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
                             >
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@mipmap/bg_broadcast_amount"/>
-
-                            <ImageView
-                                android:id="@+id/ivBroadcastLeft"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dip"
+                            <RelativeLayout
+                                android:id="@+id/rlBroadcast"
+                                android:layout_width="70dp"
+                                android:layout_height="35dip"
                                 android:layout_marginLeft="10dip"
-                                android:src="@mipmap/icon_broadcast_left"/>
+                                android:visibility="gone"
+                                android:layout_centerVertical="true"
+                                >
 
-                            <TextView
-                                android:id="@+id/tvAmountOfBroadcast"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dip"
-                                android:layout_toRightOf="@id/ivBroadcastLeft"
-                                android:textSize="13sp"
-                                android:textColor="@color/white"
-                                android:text="x888"
-                                />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/bg_broadcast_amount"/>
 
-                        </RelativeLayout>
+                                <ImageView
+                                    android:id="@+id/ivBroadcastLeft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dip"
+                                    android:layout_marginLeft="10dip"
+                                    android:src="@mipmap/icon_broadcast_left"/>
 
-                        <com.live.fox.view.GradientTextView
-                            android:id="@+id/gtvTempleMessageFirst"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:layout_centerVertical="true"
-                            android:maxLines="1"
-                            android:textSize="12sp"
-                            android:textColor="#404040"
-                            android:paddingLeft="12dip"
-                            android:paddingRight="12dip"
-                            android:layout_marginLeft="5dip"
-                            android:layout_toRightOf="@id/rlBroadcast"
-                            app:gt_radius_dp="15dp"
-                            app:gt_solidNoGradient="#F4F1F8"
-                            android:text="xxxxx"/>
+                                <TextView
+                                    android:id="@+id/tvAmountOfBroadcast"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dip"
+                                    android:layout_toRightOf="@id/ivBroadcastLeft"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/white"
+                                    android:text="x888"
+                                    />
 
-                        <com.live.fox.view.GradientTextView
-                            android:id="@+id/gtvTempleMessageSecond"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:layout_centerVertical="true"
-                            android:maxLines="1"
-                            android:textSize="12sp"
-                            android:textColor="#404040"
-                            android:gravity="center"
-                            android:paddingLeft="12dip"
-                            android:paddingRight="12dip"
-                            android:layout_marginLeft="5dip"
-                            android:layout_toRightOf="@id/gtvTempleMessageFirst"
-                            app:gt_radius_dp="15dp"
-                            app:gt_solidNoGradient="#F4F1F8"
-                            android:text="xxxxx"/>
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+
+
 
 
                         <com.live.fox.view.GradientTextView
@@ -497,6 +468,8 @@
                             android:gravity="center"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            android:hint="@string/hint1"
+                            android:textColorHint="#A2A0A9"
                             android:text="@string/send"
                             android:textColor="@color/white"
                             android:textSize="14sp"
@@ -597,6 +570,15 @@
             </RelativeLayout>
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlMidView"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            >
+
+
+        </RelativeLayout>
 
     </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>

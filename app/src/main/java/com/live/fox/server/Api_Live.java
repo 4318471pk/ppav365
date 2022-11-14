@@ -75,6 +75,23 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * 获取礼物数量列表
+     */
+    public void getBulletMessageList(JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.BulletMessageList);
+
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
 
     /**
      * 根据主播id查询守护列表、守护总人数
@@ -226,7 +243,8 @@ public class Api_Live extends BaseApi {
 
 
     /**
-     * 获取主播认证状态*/
+     *  主播开播
+     * */
     public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,
                               JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
@@ -573,6 +591,23 @@ public class Api_Live extends BaseApi {
      */
     public void sendMessage(String liveId, String msg, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_chat_URL;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+        params.put("msg", msg);
+//        params.put("isRoomPreview", preview);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 直播间发送弹幕
+     */
+    public void sendBulletMessage(String liveId, String msg, JsonCallback callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.sendBulletMessage;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("msg", msg);

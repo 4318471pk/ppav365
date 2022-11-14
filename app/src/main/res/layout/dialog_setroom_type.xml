@@ -8,10 +8,12 @@
             type="com.live.fox.dialog.bottomDialog.SetRoomTypeDialog" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="horizontal"
         android:onClick="@{click.onClickView}"
         >
 
@@ -20,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{click.onClickView}"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="@drawable/bg_round_121212"
             android:orientation="vertical">
 
@@ -251,5 +253,5 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

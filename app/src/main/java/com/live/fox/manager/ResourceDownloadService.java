@@ -62,6 +62,7 @@ import okhttp3.Response;
 
 public class ResourceDownloadService extends IntentService {
 
+    private String DEFAULT_DOWNLOAD_DIR;
     Long timeOut = 3000l;//项目实际所需最大时间
     Long netWorkTimeOut = 3000l;//okhttp 的超时时间
     private final String TAG = "ResourceDownloadService";
@@ -73,6 +74,7 @@ public class ResourceDownloadService extends IntentService {
     private String userTagFolderPath;
     private String mountFolderPath;
     private String giftFolderPath;
+    private String guardFolderPath;
 
 
     public ResourceDownloadService() {
@@ -135,15 +137,18 @@ public class ResourceDownloadService extends IntentService {
         }
 
         requestResource();
-        userLevelFolderPath=new StringBuilder().append(Constant.DEFAULT_DOWNLOAD_DIR)
+        DEFAULT_DOWNLOAD_DIR=getExternalCacheDir().getAbsolutePath();
+        Log.e("DEFAULT_DOWNLOAD_DIR",DEFAULT_DOWNLOAD_DIR);
+        userLevelFolderPath=new StringBuilder().append(DEFAULT_DOWNLOAD_DIR).append(File.separator)
                 .append("LevelIcon").append(File.separator).toString();
-        userTagFolderPath=new StringBuilder().append(Constant.DEFAULT_DOWNLOAD_DIR)
+        userTagFolderPath=new StringBuilder().append(DEFAULT_DOWNLOAD_DIR).append(File.separator)
                 .append("VIPLevelIcon").append(File.separator).toString();
-        mountFolderPath=new StringBuilder().append(Constant.DEFAULT_DOWNLOAD_DIR)
+        mountFolderPath=new StringBuilder().append(DEFAULT_DOWNLOAD_DIR).append(File.separator)
                 .append("MountImg").append(File.separator).toString();
-        giftFolderPath=new StringBuilder().append(Constant.DEFAULT_DOWNLOAD_DIR)
+        giftFolderPath=new StringBuilder().append(DEFAULT_DOWNLOAD_DIR).append(File.separator)
                 .append("GiftImg").append(File.separator).toString();
-
+        guardFolderPath=new StringBuilder().append(DEFAULT_DOWNLOAD_DIR).append(File.separator)
+                .append("GuardImg").append(File.separator).toString();
 
     }
 
@@ -175,6 +180,8 @@ public class ResourceDownloadService extends IntentService {
                                 String mountList = jsonObject.optString("mountList", "");
                                 String settingList = jsonObject.optString("settingList", "");
 
+                                dataWatch();
+
                                 Type userLevel = new TypeToken<List<UserLevelResourceBean>>() {
                                 }.getType();
                                 List<UserLevelResourceBean> userLevelResourceBeans = gson.fromJson(levelUserList, userLevel);
@@ -205,7 +212,7 @@ public class ResourceDownloadService extends IntentService {
                                 List<SendGiftResourceBean> sendGiftResourceBeans = gson.fromJson(settingList, sendGift);
                                 LocalSendGiftDao.getInstance().insertOrReplaceList(sendGiftResourceBeans);
 
-                                dataWatch();
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -273,7 +280,11 @@ public class ResourceDownloadService extends IntentService {
         LocalUserGuardDao.getInstance().setResourceDataListener(new ResourceDataListener() {
             @Override
             public void onDataInsertDone(boolean isAvailable) {
-
+                if(isAvailable)
+                {
+                    List<UserGuardResourceBean> beans = LocalUserGuardDao.getInstance().queryList();
+                    downloadGuardResource(beans);
+                }
             }
         });
     }
@@ -476,5 +487,53 @@ public class ResourceDownloadService extends IntentService {
         }
     }
 
+    private void downloadGuardResource(List<UserGuardResourceBean> beans) {
+        for (UserGuardResourceBean bean : beans) {
+            if (bean.getLocalShouldUpdate() == 1) {
+                executors.execute(new DownloadRunnable<UserGuardResourceBean>(bean) {
+                    @Override
+                    public void run(UserGuardResourceBean uBean) {
+                        super.run(uBean);
+
+                        boolean isDownloadSuccess=false;
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(guardFolderPath);
+                        sb.append("small").append(uBean.getId());
+                        sb.append(getFileSuffix(uBean.getImgUrl()));
+
+                        String small=sb.toString();
+                        Response response = getResponse(uBean.getMedalUrl());
+                        if (response != null) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                isDownloadSuccess = IOUtils.writeFileFromIS(sb.toString(), response.body().byteStream());
+                            }
+                        }
+
+                        sb.delete(0,sb.length());
+                        sb.append(guardFolderPath);
+                        sb.append("medium").append(uBean.getId());
+                        sb.append(getFileSuffix(uBean.getImgUrl()));
+
+                        String medium=sb.toString();
+                        Response response2= getResponse(uBean.getImgUrl());
+                        if (response2 != null) {
+                            if (response2.isSuccessful() && response2.body() != null) {
+                                isDownloadSuccess = isDownloadSuccess && IOUtils.writeFileFromIS(sb.toString(), response2.body().byteStream());
+                            }
+                        }
+
+                        if (isDownloadSuccess) {
+                            uBean.setLocalShouldUpdate(0);
+                            uBean.setLocalImgSmallPath(small);
+                            uBean.setLocalImgMediumPath(medium);
+                            LocalUserGuardDao.getInstance().updateData(uBean);
+                        }
+
+                    }
+                });
+            }
+        }
+    }
 
 }

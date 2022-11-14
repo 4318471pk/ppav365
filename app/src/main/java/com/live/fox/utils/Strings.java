@@ -222,19 +222,21 @@ public final class Strings {
 
         StringBuilder sb = new StringBuilder();
 
-        if(TextUtils.isEmpty(downloadUrl))
+        if(!TextUtils.isEmpty(downloadUrl))
         {
             if (!downloadUrl.toLowerCase().startsWith("http") && !downloadUrl.toLowerCase().startsWith("https")) {
                 sb.append(domain);
-            }
-            else
-            {
                 if ( downloadUrl.startsWith("/")) {
                     sb.append(downloadUrl);
                 } else {
                     sb.append("/").append(downloadUrl);
                 }
             }
+            else
+            {
+                return downloadUrl;
+            }
+
         }
         else
         {

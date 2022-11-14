@@ -50,8 +50,8 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                 openLivingActivity.showStartLiving();
                 break;
             case R.id.tvLocation:
-                SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
+//                SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
+//                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
                 break;
             case R.id.ivRoomPic:
                 EditProfileImageDialog dialog= EditProfileImageDialog.getInstance();

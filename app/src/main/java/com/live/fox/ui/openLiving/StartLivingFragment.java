@@ -237,7 +237,7 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
         showLoadingDialogWithNoBgBlack();
         String nickName= DataCenter.getInstance().getUserInfo().getUser().getNickname();
         String title=getMainActivity().getRoomTitle();
-        Api_Live.ins().getAnchorAuth("84","0",nickName,title,"100",new JsonCallback<String>() {
+        Api_Live.ins().getAnchorAuth("84","0",nickName,title,"0",new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
