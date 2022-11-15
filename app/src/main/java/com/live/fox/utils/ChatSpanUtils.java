@@ -23,6 +23,7 @@ import com.live.fox.Constant;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.db.LocalGiftDao;
+import com.live.fox.db.LocalUserGuardDao;
 import com.live.fox.db.LocalUserLevelDao;
 import com.live.fox.db.LocalUserTagResourceDao;
 import com.live.fox.entity.ChatEntity;
@@ -36,6 +37,7 @@ import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.ReceiveGiftBean;
 import com.live.fox.entity.User;
+import com.live.fox.entity.UserGuardResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.entity.response.LotteryItem;
 import com.live.fox.entity.response.MinuteTabItem;
@@ -735,10 +737,10 @@ public class ChatSpanUtils {
     }
 
     /**
-     * 爵位图标 7以下
+     * 爵位图标 长的 7以下
      *
      */
-    public static void appendVipLevelIcon(SpanUtils spanUtils,int level,Context context)
+    public static void appendVipLevelRectangleIcon(SpanUtils spanUtils,int level,Context context)
     {
         if(level<1 || level>7)
         {
@@ -754,7 +756,53 @@ public class ChatSpanUtils {
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
             spanUtils.append(" ");
         }
+    }
 
+    /**
+     * 爵位图标 圆的 7以下
+     *
+     */
+    public static void appendVipLevelCircleIcon(SpanUtils spanUtils,int level,Context context)
+    {
+        if(level<1 || level>7)
+        {
+            return;
+        }
+        UserTagResourceBean levelTagBean= LocalUserTagResourceDao.getInstance().getLevelTag(level);
+        if(levelTagBean!=null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath()))
+        {
+            Bitmap bitmap = BitmapFactory.decodeFile(levelTagBean.getLocalVipImgPath());
+            if (bitmap == null) return;
+            int height=ScreenUtils.getDip2px(context,12);
+            int width=ScreenUtils.getDip2px(context,30);
+            spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+            spanUtils.append(" ");
+        }
+    }
+
+
+    /**
+     * 守护图标 7以下
+     *
+     */
+    public static void appendGuardIcon(SpanUtils spanUtils,int level,Context context)
+    {
+        long count=LocalUserGuardDao.getInstance().getCount();
+        if(level<1 || level>count)
+        {
+            return;
+        }
+
+        UserGuardResourceBean guardResourceBean= LocalUserGuardDao.getInstance().getLevel(level);
+        if(guardResourceBean!=null && !TextUtils.isEmpty(guardResourceBean.getLocalImgMediumPath()))
+        {
+            Bitmap bitmap = BitmapFactory.decodeFile(guardResourceBean.getLocalImgSmallPath());
+            if (bitmap == null) return;
+            int height=ScreenUtils.getDip2px(context,12);
+            int width=ScreenUtils.getDip2px(context,30);
+            spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+            spanUtils.append(" ");
+        }
     }
 
     /**

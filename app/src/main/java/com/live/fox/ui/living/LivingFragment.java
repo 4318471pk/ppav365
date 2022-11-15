@@ -315,6 +315,12 @@ public class LivingFragment extends BaseBindingFragment {
         bean.setBackgroundColor(0x66000000);
         bean.setType(1);
 
+        switch (pBean.getProtocol())
+        {
+            case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
+                playBulletMessage(pBean);
+                break;
+        }
         SpanUtils spanUtils = new SpanUtils();
         ChatSpanUtils.appendPersonalMessage(spanUtils, pBean, getActivity());
         bean.setCharSequence(spanUtils.create());
@@ -709,10 +715,10 @@ public class LivingFragment extends BaseBindingFragment {
                             livingControlPanel.mBind.vtEnterRoom.
                                     addCharSequence(ChatSpanUtils.enterRoom(livingMessageBean, getActivity()).create());
                             break;
+                        case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
                             PersonalLivingMessageBean pBean = new Gson().fromJson(msg, PersonalLivingMessageBean.class);
                             sendPersonalMessage(pBean);
-                            playBulletMessage(pBean);
                             break;
                         case MessageProtocol.LIVE_SEND_GIFT:
                             LivingMessageGiftBean gBean = new Gson().fromJson(msg, LivingMessageGiftBean.class);
@@ -876,9 +882,9 @@ public class LivingFragment extends BaseBindingFragment {
 //            livingControlPanel.mBind.rlMidView.addView(bulletMessageView);
 //            BulletViewUtils.goRightToLeftDisappear(bulletMessageView,getActivity());
 
-            VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),bean);
-            livingControlPanel.mBind.rlMidView.addView(vipEnterRoomMessageView);
-            BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView,getActivity());
+//            VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),bean);
+//            livingControlPanel.mBind.rlMidView.addView(vipEnterRoomMessageView);
+//            BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView,getActivity());
         }
     }
 

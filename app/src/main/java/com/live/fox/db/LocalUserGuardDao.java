@@ -125,4 +125,10 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
         return userGuardResourceBean;
     }
 
+    public long getCount()
+    {
+        long count=CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao().count();
+        return count;
+    }
+
 }

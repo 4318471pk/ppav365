@@ -1486,6 +1486,7 @@
     <string name="ren">人</string>
 
     <string name="tip10">落后%1$s火力</string>
+    <string name="tip11">上周贡献&#32;%1$s&#32;火力</string>
     <string name="emptyPosition">虚位以待</string>
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>

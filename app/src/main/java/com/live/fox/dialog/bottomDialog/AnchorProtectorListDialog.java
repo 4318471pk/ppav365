@@ -28,11 +28,15 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogAnchorlistProtectorBinding;
 import com.live.fox.entity.AnchorGuardListBean;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.living.LivingControlPanel;
+import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FixImageSize;
-import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.SpanUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import org.jetbrains.annotations.NotNull;
@@ -165,12 +169,12 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
         view.setVisibility(View.GONE);
         int screenHeight= ScreenUtils.getScreenHeight(getActivity());
+        int screenWidth=ScreenUtils.getScreenWidth(getActivity());
         mBind.rllContent.getLayoutParams().height=(int)(screenHeight*0.7f);
-        mBind.anchorProtect.getLayoutParams().height=(int)(screenHeight*0.35f);
-        mBind.anchorProtect.setDecorationIndex(5);
+        mBind.anchorProtect.getLayoutParams().width=(int)(screenWidth*0.35f);
 
         Drawable drawable=mBind.ivBeMyProtector.getBackground();
-        int dip31=ScreenUtils.getDip2px(getActivity(),31);
+        int dip31=ScreenUtils.dp2px(getActivity(),31);
         int width=drawable.getIntrinsicWidth()*dip31/drawable.getIntrinsicHeight();
         RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mBind.ivBeMyProtector.getLayoutParams();
         rl.width=width;
@@ -182,18 +186,29 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         view.setVisibility(View.VISIBLE);
 
         List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
-        if(anchorGuardListBean!=null && anchorGuardListBean.getLiveGuardList()!=null)
+        if(anchorGuardListBean!=null && anchorGuardListBean.getLiveGuardList()!=null && anchorGuardListBean.getLiveGuardList().size()>0)
         {
-            list.addAll(anchorGuardListBean.getLiveGuardList());
+            setTopView();
+
+            String myUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
+            for (int i = 0; i <anchorGuardListBean.getLiveGuardList().size() ; i++) {
+                if(i>0)
+                {
+                    list.add(anchorGuardListBean.getLiveGuardList().get(i));
+                }
+                if (anchorGuardListBean.getLiveGuardList().get(i).getUid().equals(myUid)) {
+                    mBind.rlFloating.setVisibility(View.INVISIBLE);
+                }
+            }
         }
         adapter=new AnchorProtectorAdapter(getActivity(),list);
         LinearLayout linearLayout=new LinearLayout(getContext());
-        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width,ScreenUtils.getDip2px(getActivity(),20)));
+        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width,ScreenUtils.dp2px(getActivity(),20)));
         adapter.addHeaderView(linearLayout);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mBind.rvMain.setLayoutManager(linearLayoutManager);
-        mBind.rvMain.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getActivity(),5)));
+        mBind.rvMain.addItemDecoration(new RecyclerSpace(ScreenUtils.dp2px(getActivity(),5)));
         mBind.rvMain.setAdapter(adapter);
 
         startAnimate(mBind.rllContent,true);
@@ -201,6 +216,31 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         getGuardList();
     }
 
+    private void setTopView()
+    {
+        if (anchorGuardListBean.getLiveGuardList().size() > 0)
+        {
+            AnchorGuardListBean.LiveGuardBean liveGuardBean=anchorGuardListBean.getLiveGuardList().get(0);
+            String tips=getResources().getString(R.string.tip11);
+            mBind.tvTitle.setText(String.format(tips,liveGuardBean.getWeekUpAmount()+""));
+
+            SpanUtils spanUtils=new SpanUtils();
+            ChatSpanUtils.appendLevelIcon(spanUtils,liveGuardBean.getUserLevel(),getActivity());
+            ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity());
+            ChatSpanUtils.appendGuardIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity());
+            mBind.tvIcons.setText(spanUtils.create());
+            mBind.tvNickName.setText(liveGuardBean.getNickname());
+            mBind.anchorProtect.setDecorationIndex(liveGuardBean.getVipLevel()-1);
+            GlideUtils.loadCircleImage(getActivity(),liveGuardBean.getAvatar(),
+                    R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.anchorProtect.getIvProfile());
+
+        }else
+        {
+            mBind.tvTitle.setText(getResources().getString(R.string.protectTag2));
+            mBind.tvNickName.setText("");
+            mBind.tvIcons.setText("");
+        }
+    }
 
     private void getGuardList()
     {
@@ -214,13 +254,25 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             public void onSuccess(int code, String msg, AnchorGuardListBean data) {
                 if(code==0)
                 {
-                    if(isConditionOk() && getArg().equals(liveId) && data!=null)
-                    {
-                        adapter.setNewData(anchorGuardListBean.getLiveGuardList());
-                        if(onRefreshDataListener!=null)
-                        {
+                    if(isConditionOk() && getArg().equals(liveId) && data!=null) {
+                        String myUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
+                        if (onRefreshDataListener != null) {
                             onRefreshDataListener.onRefresh(data);
                         }
+                        anchorGuardListBean=data;
+                        setTopView();
+                        List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
+
+                        for (int i = 0; i < data.getLiveGuardList().size(); i++) {
+                            if (data.getLiveGuardList().get(i).getUid().equals(uid)) {
+                                mBind.rlFloating.setVisibility(View.INVISIBLE);
+                            }
+                            if(i>0)
+                            {
+                                list.add(anchorGuardListBean.getLiveGuardList().get(i));
+                            }
+                        }
+                        adapter.setNewData(list);
                     }
                 }
                 else
