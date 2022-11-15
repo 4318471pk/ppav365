@@ -208,6 +208,7 @@ public class Constant {
 
 
         //live-client 直播相关接口
+        public static final String amountOfSpeaker="/live-client/live/getSpeakersNumber";//喇叭数量
         public static final String BulletMessageList="/live-client/live/getBarrageList";//弹幕列表
         public static final String sendBulletMessage="/live-client/live/room/barrage/send";//发送弹幕消息
         public static final String ContributionDaily="/live-client/live/anchor/contribute/daily";//今日主播贡献榜: 日榜、

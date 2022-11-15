@@ -10,10 +10,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -723,42 +725,41 @@ public class ChatSpanUtils {
      * 等级图标
      *
      */
-    public static void appendLevelIcon(SpanUtils spanUtils,int level,Context context)
+    public static boolean appendLevelIcon(SpanUtils spanUtils,int level,Context context)
     {
         if(level<1)
         {
-            return;
+            return false;
         }
       String levelIcon=LocalUserLevelDao.getInstance().getLevelIcon(level);
         Bitmap bitmap = BitmapFactory.decodeFile(levelIcon);
-        if (bitmap == null) return;
+        if (bitmap == null) return false;
         int height=ScreenUtils.getDip2px(context,12);
         int width=ScreenUtils.getDip2px(context,30);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
-        spanUtils.append(" ");
-
+        return true;
     }
 
     /**
      * 爵位图标 长的 7以下
      *
      */
-    public static void appendVipLevelRectangleIcon(SpanUtils spanUtils,int level,Context context)
+    public static boolean appendVipLevelRectangleIcon(SpanUtils spanUtils,int level,Context context)
     {
         if(level<1 || level>7)
         {
-            return;
+            return false;
         }
         UserTagResourceBean levelTagBean= LocalUserTagResourceDao.getInstance().getLevelTag(level);
         if(levelTagBean!=null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath()))
         {
             Bitmap bitmap = BitmapFactory.decodeFile(levelTagBean.getLocalVipImgPath());
-            if (bitmap == null) return;
+            if (bitmap == null) return false;
             int height=ScreenUtils.getDip2px(context,12);
-            int width=ScreenUtils.getDip2px(context,30);
+            int width=ScreenUtils.getDip2px(context,38.5f);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
-            spanUtils.append(" ");
         }
+        return true;
     }
 
     /**
@@ -779,7 +780,6 @@ public class ChatSpanUtils {
             int height=ScreenUtils.getDip2px(context,12);
             int width=ScreenUtils.getDip2px(context,30);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
-            spanUtils.append(" ");
         }
     }
 
@@ -801,10 +801,9 @@ public class ChatSpanUtils {
         {
             Bitmap bitmap = BitmapFactory.decodeFile(guardResourceBean.getLocalImgSmallPath());
             if (bitmap == null) return;
-            int height=ScreenUtils.getDip2px(context,12);
-            int width=ScreenUtils.getDip2px(context,30);
+            int height=ScreenUtils.getDip2px(context,11.5f);
+            int width=ScreenUtils.getDip2px(context,14);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
-            spanUtils.append(" ");
         }
     }
 
@@ -843,13 +842,34 @@ public class ChatSpanUtils {
         switch (pBean.getProtocol()) {
             case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
             case MessageProtocol.LIVE_ROOM_CHAT:
-                appendLevelIcon(spanUtils,pBean.getUserLevel(),context);
-                LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(pBean.getUid()+"",0xff85EFFF);
+                if(appendLevelIcon(spanUtils,pBean.getUserLevel(),context))
+                {
+                    spanUtils.append(" ");
+                }
+
+                if(appendVipLevelRectangleIcon(spanUtils,pBean.getVipLevel(),context))
+                {
+                    spanUtils.append(" ");
+                }
+
+                if(Strings.isDigitOnly(pBean.getGuardLevel()))
+                {
+                    appendGuardIcon(spanUtils,Integer.valueOf(pBean.getGuardLevel()),context);
+                }
+                spanUtils.append(" ");
+
+                LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(pBean,0xff85EFFF);
                 livingClickTextSpan.setOnClickTextItemListener(listener);
-                spanUtils.append(pBean.getNickname()+": ").setClickSpan(livingClickTextSpan).setFontSize(13,true)
-                        .setAlign(Layout.Alignment.ALIGN_CENTER);
+//                SpannableString spannableString=new SpannableString(pBean.getNickname()+": ");
+//                spannableString.setSpan(livingClickTextSpan,0,spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                String nickName=pBean.getNickname()+": ";
+                spanUtils.append(nickName);
+                int length1 = spanUtils.getLength();
+
                 spanUtils.append(pBean.getMsg()).setFontSize(13,true)
                         .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+                int length2 = spanUtils.getLength();
+                spanUtils.getBuilder().setSpan(livingClickTextSpan,length1,length2,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 break;
 
         }
@@ -859,7 +879,7 @@ public class ChatSpanUtils {
      * 发送礼物信息
      *{"anchorId":1028924365,"avatar":"","combo":1,"count":1,"gid":5,"liveId":100029,"nickname":"lbMOLjbzsb","protocol":"2008","rq":39102,"timestamp":1668156260903,"tipType":0,"uid":1028924366,"userLevel":1,"zb":39102}
      */
-    public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context) {
+    public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context,LivingClickTextSpan.OnClickTextItemListener listener) {
         if(gBean==null || TextUtils.isEmpty(gBean.getProtocol()) )
         {
             return;
@@ -867,19 +887,42 @@ public class ChatSpanUtils {
 
         switch (gBean.getProtocol()) {
             case MessageProtocol.LIVE_SEND_GIFT:
-                appendLevelIcon(spanUtils,gBean.getUserLevel(),context);
-                spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
-                        .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
 
                 GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
                 if(giftResourceBean!=null)
                 {
+                    LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(gBean,0xff85EFFF);
+                    livingClickTextSpan.setOnClickTextItemListener(listener);
+
+                    if(appendLevelIcon(spanUtils,gBean.getUserLevel(),context))
+                    {
+                        spanUtils.append(" ");
+                    }
+
+                    if(appendVipLevelRectangleIcon(spanUtils,gBean.getVipLevel(),context))
+                    {
+                        spanUtils.append(" ");
+                    }
+
+                    if(Strings.isDigitOnly(gBean.getGuardLevel()))
+                    {
+                        appendGuardIcon(spanUtils,Integer.valueOf(gBean.getGuardLevel()),context);
+                    }
+                    spanUtils.append(" ");
+
+                    spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
+                            .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+                    int length1 = spanUtils.getLength();
+
                     StringBuilder sb=new StringBuilder();
                     sb.append(context.getResources().getString(R.string.hasSent));
                     sb.append("[");
 
                     spanUtils.append(sb.toString()).setFontSize(13,true)
                             .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
+
+                    int length2 = spanUtils.getLength();
+                    spanUtils.getBuilder().setSpan(livingClickTextSpan,length1,length2,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     spanUtils.append(giftResourceBean.getName()).setFontSize(13,true)
                             .setForegroundColor(0xffFFF796).setAlign(Layout.Alignment.ALIGN_CENTER);

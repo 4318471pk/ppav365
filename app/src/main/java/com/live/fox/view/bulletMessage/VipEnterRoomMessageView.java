@@ -1,4 +1,4 @@
-package com.live.fox.view.BulletMessage;
+package com.live.fox.view.bulletMessage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,9 +21,7 @@ import com.live.fox.db.LocalUserLevelDao;
 import com.live.fox.db.LocalUserTagResourceDao;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.UserGuardResourceBean;
-import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
-import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.Strings;
 

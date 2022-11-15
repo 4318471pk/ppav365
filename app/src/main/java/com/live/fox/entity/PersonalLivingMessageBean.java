@@ -11,10 +11,11 @@ public class PersonalLivingMessageBean {
     private String msg;
     private String nickname;
     private String protocol;
-    private int uid;
+    private String uid;
     private int userLevel;
     private int vipLevel;
     private String avatar;
+    private boolean isMoving;//弹幕用的字段
 
     public String getGuardLevel() {
         return guardLevel;
@@ -88,11 +89,11 @@ public class PersonalLivingMessageBean {
         this.protocol = protocol;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -110,5 +111,13 @@ public class PersonalLivingMessageBean {
 
     public void setVipLevel(int vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 }

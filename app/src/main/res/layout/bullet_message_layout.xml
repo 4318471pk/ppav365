@@ -16,8 +16,7 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dip"
-            android:text="名字名字名字"
+            android:paddingLeft="15dip"
             android:textColor="#85EFFF"
             android:textSize="13sp" />
 

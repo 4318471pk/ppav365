@@ -379,8 +379,8 @@
                                 android:id="@+id/rlBroadcast"
                                 android:layout_width="70dp"
                                 android:layout_height="35dip"
-                                android:layout_marginLeft="10dip"
                                 android:visibility="gone"
+                                android:layout_marginLeft="10dip"
                                 android:layout_centerVertical="true"
                                 >
 
@@ -405,7 +405,7 @@
                                     android:layout_toRightOf="@id/ivBroadcastLeft"
                                     android:textSize="13sp"
                                     android:textColor="@color/white"
-                                    android:text="x888"
+                                    android:text=""
                                     />
 
                             </RelativeLayout>
@@ -571,14 +571,15 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <com.live.fox.view.bulletMessage.BulletMessageParentView
             android:id="@+id/rlMidView"
             android:layout_width="match_parent"
             android:layout_height="200dip"
+            android:orientation="vertical"
             >
 
 
-        </RelativeLayout>
+        </com.live.fox.view.bulletMessage.BulletMessageParentView>
 
     </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>

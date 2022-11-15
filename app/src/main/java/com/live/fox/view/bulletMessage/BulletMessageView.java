@@ -1,4 +1,4 @@
-package com.live.fox.view.BulletMessage;
+package com.live.fox.view.bulletMessage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +21,6 @@ import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.Strings;
-import com.live.fox.view.RankProfileView;
 
 public class BulletMessageView extends LinearLayout {
 

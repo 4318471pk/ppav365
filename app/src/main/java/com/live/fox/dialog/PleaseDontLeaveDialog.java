@@ -3,6 +3,7 @@ package com.live.fox.dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogPlzDontLeaveBinding;
+import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_User;
+import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,9 +28,13 @@ import org.jetbrains.annotations.NotNull;
 public class PleaseDontLeaveDialog extends BaseBindingDialogFragment {
 
     DialogPlzDontLeaveBinding mBind;
+    String image,uid;
 
-    public static PleaseDontLeaveDialog getInstance() {
-        return new PleaseDontLeaveDialog();
+    public static PleaseDontLeaveDialog getInstance(String image,String uid) {
+        PleaseDontLeaveDialog pleaseDontLeaveDialog=new PleaseDontLeaveDialog();
+        pleaseDontLeaveDialog.image=image;
+        pleaseDontLeaveDialog.uid=uid;
+        return pleaseDontLeaveDialog;
     }
 
     @Override
@@ -58,6 +68,18 @@ public class PleaseDontLeaveDialog extends BaseBindingDialogFragment {
                 dismissAllowingStateLoss();
                 break;
             case R.id.tvFollowAndExit:
+                if(!TextUtils.isEmpty(uid))
+                {
+                    Api_User.ins().followUser(uid, true, new JsonCallback<String>() {
+                        @Override
+                        public void onSuccess(int code, String msg, String data) {
+
+                        }
+                    });
+                }
+                getActivity().finish();
+                dismissAllowingStateLoss();
+                break;
             case R.id.tvJustLeave:
                 getActivity().finish();
                 dismissAllowingStateLoss();
@@ -90,6 +112,11 @@ public class PleaseDontLeaveDialog extends BaseBindingDialogFragment {
         followAndLeaveLL.height = followAndLeaveLL.width * 120 / 750;
         mBind.tvFollowAndExit.setLayoutParams(followAndLeaveLL);
         view.setVisibility(View.VISIBLE);
+
+        if(!TextUtils.isEmpty(image))
+        {
+            GlideUtils.loadCircleImage(getContext(),image,R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.rivImage);
+        }
 
     }
 

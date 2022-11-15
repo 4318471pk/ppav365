@@ -92,6 +92,26 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * 获取喇叭数量
+     */
+    public void getAmountOfSpeaker(String liveId,JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.amountOfSpeaker);
+
+        callback.setArg(liveId);
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
+
 
     /**
      * 根据主播id查询守护列表、守护总人数

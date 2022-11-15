@@ -67,6 +67,14 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         return dialog;
     }
 
+    public static LivingProfileBottomDialog getInstance(int mode,String uid)
+    {
+        LivingProfileBottomDialog dialog=new LivingProfileBottomDialog();
+        dialog.mode=mode;
+        dialog.uid=uid;
+        return dialog;
+    }
+
     public void setLivingCurrentAnchorBean(LivingCurrentAnchorBean livingCurrentAnchorBean) {
         this.livingCurrentAnchorBean = livingCurrentAnchorBean;
         if(livingCurrentAnchorBean!=null)
@@ -277,7 +285,6 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                     sb.append(audience.getUid());
                     mBind.tvID.setText(sb.toString());
                     mBind.tvName.setText(audience.getNickname());
-                    getUserInfo(audience.getUid()+"");
                 }
                 break;
             case AudienceAnchor:
@@ -292,7 +299,6 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                     sb.append(livingCurrentAnchorBean.getAnchorId());
                     mBind.tvID.setText(sb.toString());
                     mBind.tvName.setText(livingCurrentAnchorBean.getNickname());
-                    getUserInfo(livingCurrentAnchorBean.getAnchorId());
                     if(livingCurrentAnchorBean.getFollow()!=null && livingCurrentAnchorBean.getFollow())
                     {
                         mBind.tv3.setEnabled(false);
@@ -316,6 +322,11 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 mBind.llBotView.setVisibility(View.INVISIBLE);
                 mBind.tvReport.setVisibility(View.INVISIBLE);
                 break;
+        }
+
+        if(!TextUtils.isEmpty(uid))
+        {
+            getUserInfo(uid);
         }
 
         mBind.rpv.setOnConfirmWidthAndHeightListener(new RankProfileView.OnConfirmWidthAndHeightListener() {
@@ -358,6 +369,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                                     .setForegroundColor(0xff404040).setAlign(Layout.Alignment.ALIGN_CENTER);
                             ChatSpanUtils.appendSexIcon(spanUtils,user.getSex(),getContext());
                             mBind.tvName.setText(spanUtils.create());
+                            nickName=user.getNickname();
 
                             sb.delete(0,sb.length());
                             if(TextUtils.isEmpty(user.getCity()) && TextUtils.isEmpty(user.getProvince()))
@@ -403,6 +415,9 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                             }
 
                             mBind.tvSmallLogo.setText(icons.create());
+
+                            GlideUtils.loadCircleImage(getActivity(), user.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
+                                    mBind.rpv.getProfileImage());
 
                         }
                     } else {

@@ -27,7 +27,6 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.db.LocalGiftDao;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
-import com.live.fox.entity.Audience;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
@@ -42,14 +41,14 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.utils.BulletViewUtils;
 import com.live.fox.utils.ChatSpanUtils;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.PlayerUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.BulletMessage.BulletMessageView;
-import com.live.fox.view.BulletMessage.VipEnterRoomMessageView;
+import com.live.fox.view.bulletMessage.BulletMessageView;
 import com.live.fox.view.LivingClickTextSpan;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
@@ -84,6 +83,8 @@ public class LivingFragment extends BaseBindingFragment {
 
     final int playSVGA = 123;
     final int userHeartBeat=987;
+    final int alertWhenExit=87272;
+
     int currentPagePosition;
     int viewPagePosition;
     FragmentLivingBinding mBind;
@@ -104,6 +105,12 @@ public class LivingFragment extends BaseBindingFragment {
                 case userHeartBeat:
                     Api_Live.ins().watchHeart();
                     sendEmptyMessageDelayed(userHeartBeat,40000);
+                    break;
+                case alertWhenExit:
+                    if(livingControlPanel!=null && livingCurrentAnchorBean!=null && !livingCurrentAnchorBean.getFollow())
+                    {
+                        livingControlPanel.shouldAlertOnExit=true;
+                    }
                     break;
             }
         }
@@ -329,29 +336,7 @@ public class LivingFragment extends BaseBindingFragment {
         ChatSpanUtils.appendPersonalMessage(spanUtils, pBean, getActivity(), new LivingClickTextSpan.OnClickTextItemListener<PersonalLivingMessageBean>() {
             @Override
             public void onClick(PersonalLivingMessageBean bean) {
-                if(bean!=null && livingControlPanel!=null)
-                {
-                    LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience);
-                    dialog.setAudience(Audience.convertData(bean));
-                    dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
-                        @Override
-                        public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
-                            if(tagSomeone)
-                            {
-                                livingControlPanel.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        livingControlPanel.mBind.etDiaMessage.setText("@"+nickName+" ");
-                                        livingControlPanel.mBind.etDiaMessage.setSelection(livingControlPanel.mBind.etDiaMessage.getText().length());
-                                        livingControlPanel.messageViewWatch.showInputLayout();
-                                    }
-                                },200);
-                            }
-                        }
-                    });
-                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), dialog);
-                }
-
+                showBotDialog(bean.getUid());
             }
         });
         bean.setCharSequence(spanUtils.create());
@@ -364,7 +349,15 @@ public class LivingFragment extends BaseBindingFragment {
         bean.setType(1);
 
         SpanUtils spanUtils = new SpanUtils();
-        ChatSpanUtils.appendPersonalSendGiftMessage(spanUtils, livingMessageGiftBean, getActivity());
+        ChatSpanUtils.appendPersonalSendGiftMessage(spanUtils, livingMessageGiftBean, getActivity(), new LivingClickTextSpan.OnClickTextItemListener<LivingMessageGiftBean>() {
+            @Override
+            public void onClick(LivingMessageGiftBean bean) {
+                if(bean!=null )
+                {
+                    showBotDialog(bean.getUid()+"");
+                }
+            }
+        });
         bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
@@ -422,17 +415,19 @@ public class LivingFragment extends BaseBindingFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(handler!=null)
-        {
-            handler.removeMessages(playSVGA);
-            handler.removeMessages(userHeartBeat);
-        }
         destroyView();
     }
 
     private void destroyView() {
 
         if (getView() != null) {
+
+            if(handler!=null)
+            {
+                handler.removeMessages(playSVGA);
+                handler.removeMessages(userHeartBeat);
+                handler.removeMessages(alertWhenExit);
+            }
 
             livingMessageGiftBeans.clear();
             LivingActivity activity = (LivingActivity) getActivity();
@@ -704,6 +699,7 @@ public class LivingFragment extends BaseBindingFragment {
                                 sendSystemMsgToChat(spanUtils.create());
 
                                 handler.sendEmptyMessageDelayed(userHeartBeat,40000);
+                                handler.sendEmptyMessageDelayed(alertWhenExit,5*60000);
                             }
                         }
 
@@ -731,11 +727,15 @@ public class LivingFragment extends BaseBindingFragment {
 
         Log.e("onNewMessageReceived", msg);
 
-        if (!TextUtils.isEmpty(msg)) {
+        if (!TextUtils.isEmpty(msg) && getRoomBean()!=null) {
             try {
                 JSONObject msgJson = new JSONObject(msg);
                 String protocolCode = msgJson.optString("protocol", "");
-                if (!TextUtils.isEmpty(msgJson.optString("protocol", ""))) {
+                String liveId = msgJson.optString("liveId", "");
+                boolean isHasProtocolCode=!TextUtils.isEmpty(msgJson.optString("protocol", ""));
+                boolean isCurrentLiveId=getRoomBean().getId().equals(liveId);
+
+                if (isHasProtocolCode && isCurrentLiveId) {
                     switch (protocolCode) {
                         case MessageProtocol.SYSTEM_NOTICE:
                         case MessageProtocol.GAME_CP_WIN:
@@ -905,18 +905,49 @@ public class LivingFragment extends BaseBindingFragment {
             {
                 topMargin=new Random().nextInt(height-bulletMessageHeight);
             }
-            BulletMessageView bulletMessageView=new BulletMessageView(getActivity(),bean);
-            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ll.topMargin=topMargin;
-            bulletMessageView.setLayoutParams(ll);
-            bulletMessageView.setVisibility(View.GONE);
-            livingControlPanel.mBind.rlMidView.addView(bulletMessageView);
-            BulletViewUtils.goRightToLeftDisappear(bulletMessageView,getActivity());
 
+            livingControlPanel.mBind.rlMidView.postBulletMessage(bean,getActivity());
 //            VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),bean);
 //            livingControlPanel.mBind.rlMidView.addView(vipEnterRoomMessageView);
 //            BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView,getActivity());
         }
     }
 
+    private void showBotDialog(String uid)
+    {
+        if( livingControlPanel!=null && !ClickUtil.isClickWithShortTime(uid.hashCode(),500))
+        {
+            if(livingControlPanel.messageViewWatch.isKeyboardShow() || livingControlPanel.messageViewWatch.isMessagesPanelOpen())
+            {
+                livingControlPanel.messageViewWatch.hideInputLayout();
+                livingControlPanel.messageViewWatch.hideKeyboard();
+                livingControlPanel.messageViewWatch.setScrollEnable(true);
+            }
+            else
+            {
+                if(!DialogFramentManager.getInstance().isShowLoading(LivingProfileBottomDialog.class.getName()))
+                {
+                    LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience,uid);
+                    dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
+                        @Override
+                        public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
+                            if(tagSomeone)
+                            {
+                                livingControlPanel.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        livingControlPanel.mBind.etDiaMessage.setText("@"+nickName+" ");
+                                        livingControlPanel.mBind.etDiaMessage.setSelection(livingControlPanel.mBind.etDiaMessage.getText().length());
+                                        livingControlPanel.messageViewWatch.showInputLayout();
+                                    }
+                                },200);
+                            }
+                        }
+                    });
+                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), dialog);
+                }
+            }
+
+        }
+    }
 }

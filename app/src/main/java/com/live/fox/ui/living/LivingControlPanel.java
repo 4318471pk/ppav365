@@ -1,6 +1,7 @@
 package com.live.fox.ui.living;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -35,20 +36,18 @@ import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.Audience;
-import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_User;
-import com.live.fox.utils.BulletViewUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.MessageViewWatch;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.BulletMessage.BulletMessageView;
 import com.live.fox.view.LivingRecycleView;
 import com.live.fox.view.NotchInScreen;
 
@@ -65,6 +64,7 @@ public class LivingControlPanel extends RelativeLayout {
     List<User> userList=new ArrayList<>();//当前在线用户
     List<User> vipUserList=new ArrayList<>();//当前贵族在线用户
     AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
+    boolean shouldAlertOnExit=false;
 
     public LivingControlPanel(LivingFragment fragment, ViewGroup parent) {
         super(fragment.getActivity());
@@ -115,7 +115,18 @@ public class LivingControlPanel extends RelativeLayout {
         messageViewWatch =new MessageViewWatch();
         messageViewWatch.watchView(this,mBind);
         setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),StatusBarUtil.getStatusBarHeight(fragment.getActivity()));
-        setViewLPRL(mBind.rlMidView,(int)(screenHeight*0.16f),(int)(screenHeight*0.32f));
+        setViewLPRL(mBind.rlMidView,(int)(screenHeight*0.2f),(int)(screenHeight*0.32f));
+
+        //加入弹幕弹道
+        int height=(int)(screenHeight*0.2f);
+        int dip40= ScreenUtils.getDip2px(getActivity(),40);
+        int size=height/dip40;
+        for (int i = 0; i < size; i++) {
+            RelativeLayout relativeLayout=new RelativeLayout(getActivity());
+            LinearLayout.LayoutParams rl=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dip40);
+            relativeLayout.setLayoutParams(rl);
+            mBind.rlMidView.addView(relativeLayout);
+        }
 
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),45);
@@ -215,8 +226,20 @@ public class LivingControlPanel extends RelativeLayout {
                 activity.getDrawLayout().openDrawer(Gravity.RIGHT);
                 break;
             case R.id.ivClose:
-                PleaseDontLeaveDialog pleaseDontLeaveDialog=new PleaseDontLeaveDialog();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),pleaseDontLeaveDialog);
+                if(shouldAlertOnExit)
+                {
+                    String iconPath="";
+                    if(fragment.livingCurrentAnchorBean!=null)
+                    {
+                        iconPath=fragment.livingCurrentAnchorBean.getAvatar();
+                    }
+                    PleaseDontLeaveDialog pleaseDontLeaveDialog=PleaseDontLeaveDialog.getInstance(iconPath,aid);
+                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),pleaseDontLeaveDialog);
+                }
+                else
+                {
+                    getActivity().finish();
+                }
                 break;
             case R.id.rlPromo:
                 LivingPromoDialog livingPromoDialog=LivingPromoDialog.getInstance();
@@ -392,6 +415,7 @@ public class LivingControlPanel extends RelativeLayout {
         doGetAudienceListApi();
         doGetVipAudienceListApi();
         getGuardList();
+        getAmountOfSpeaker(roomListBean.getId());
     }
 
     private void follow(String targetId)
@@ -642,5 +666,30 @@ public class LivingControlPanel extends RelativeLayout {
         });
     }
 
+    private void getAmountOfSpeaker(String liveId)
+    {
+        Api_Live.ins().getAmountOfSpeaker(liveId,new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if (code == 0 ) {
+                    if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
+                    {
+                       if(Strings.isDigitOnly(data) && Integer.valueOf(data)>0)
+                       {
+                           mBind.rlBroadcast.setVisibility(VISIBLE);
+                           mBind.tvAmountOfBroadcast.setText("x"+data);
+                       }
+                       else
+                       {
+                           mBind.rlBroadcast.setVisibility(GONE);
+                       }
+                    }
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+
+    }
 
 }

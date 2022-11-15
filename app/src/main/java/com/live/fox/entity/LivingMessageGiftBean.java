@@ -2,21 +2,27 @@ package com.live.fox.entity;
 
 public class LivingMessageGiftBean {
 
-    public Integer anchorId;
-    public String avatar;
-    public Integer combo;
-    public Integer count;
-    public Integer gid;
-    public Integer liveId;
-    public String nickname;
-    public String protocol;
-    public Integer rq;
-    public Long timestamp;
-    public Integer tipType;
-    public Integer uid;
-    public Integer userLevel;
-    public Integer zb;
+
     GiftResourceBean giftResourceBean;
+    private int anchorId;
+    private String avatar;
+    private int combo;
+    private int count;
+    private int gid;
+    private String guardLevel;
+    private boolean isGuard;
+    private boolean isRoomManage;
+    private boolean isVipUid;
+    private int liveId;
+    private String nickname;
+    private String protocol;
+    private int rq;
+    private long timestamp;
+    private int tipType;
+    private int uid;
+    private int userLevel;
+    private int vipLevel;
+    private int zb;
 
     public GiftResourceBean getGiftResourceBean() {
         return giftResourceBean;
@@ -26,11 +32,12 @@ public class LivingMessageGiftBean {
         this.giftResourceBean = giftResourceBean;
     }
 
-    public Integer getAnchorId() {
+
+    public int getAnchorId() {
         return anchorId;
     }
 
-    public void setAnchorId(Integer anchorId) {
+    public void setAnchorId(int anchorId) {
         this.anchorId = anchorId;
     }
 
@@ -42,35 +49,67 @@ public class LivingMessageGiftBean {
         this.avatar = avatar;
     }
 
-    public Integer getCombo() {
+    public int getCombo() {
         return combo;
     }
 
-    public void setCombo(Integer combo) {
+    public void setCombo(int combo) {
         this.combo = combo;
     }
 
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
-    public Integer getGid() {
+    public int getGid() {
         return gid;
     }
 
-    public void setGid(Integer gid) {
+    public void setGid(int gid) {
         this.gid = gid;
     }
 
-    public Integer getLiveId() {
+    public String getGuardLevel() {
+        return guardLevel;
+    }
+
+    public void setGuardLevel(String guardLevel) {
+        this.guardLevel = guardLevel;
+    }
+
+    public boolean isIsGuard() {
+        return isGuard;
+    }
+
+    public void setIsGuard(boolean isGuard) {
+        this.isGuard = isGuard;
+    }
+
+    public boolean isIsRoomManage() {
+        return isRoomManage;
+    }
+
+    public void setIsRoomManage(boolean isRoomManage) {
+        this.isRoomManage = isRoomManage;
+    }
+
+    public boolean isIsVipUid() {
+        return isVipUid;
+    }
+
+    public void setIsVipUid(boolean isVipUid) {
+        this.isVipUid = isVipUid;
+    }
+
+    public int getLiveId() {
         return liveId;
     }
 
-    public void setLiveId(Integer liveId) {
+    public void setLiveId(int liveId) {
         this.liveId = liveId;
     }
 
@@ -90,51 +129,59 @@ public class LivingMessageGiftBean {
         this.protocol = protocol;
     }
 
-    public Integer getRq() {
+    public int getRq() {
         return rq;
     }
 
-    public void setRq(Integer rq) {
+    public void setRq(int rq) {
         this.rq = rq;
     }
 
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Integer getTipType() {
+    public int getTipType() {
         return tipType;
     }
 
-    public void setTipType(Integer tipType) {
+    public void setTipType(int tipType) {
         this.tipType = tipType;
     }
 
-    public Integer getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
-    public Integer getUserLevel() {
+    public int getUserLevel() {
         return userLevel;
     }
 
-    public void setUserLevel(Integer userLevel) {
+    public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
     }
 
-    public Integer getZb() {
+    public int getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(int vipLevel) {
+        this.vipLevel = vipLevel;
+    }
+
+    public int getZb() {
         return zb;
     }
 
-    public void setZb(Integer zb) {
+    public void setZb(int zb) {
         this.zb = zb;
     }
 }

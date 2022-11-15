@@ -152,13 +152,13 @@ public class DialogFramentManager {
         if (dialogFragments.size() == 0) {
             return false;
         }
-        if(dialogFragments.get(dialogFragments.size() - 1)==null || dialogFragments.get(dialogFragments.size() - 1).getTag()==null)
-        {
-            return false;
+        for (BaseBindingDialogFragment fragment:dialogFragments) {
+            if(fragment.getClass().getName().equals(name))
+            {
+                return true;
+            }
         }
-        String tag=dialogFragments.get(dialogFragments.size() - 1).getClass().getName();
-        boolean isShow = tag.equals(name);
-        return isShow;
+        return false;
     }
 
 
