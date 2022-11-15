@@ -70,7 +70,7 @@ public class LotteryDialog extends BaseBindingDialogFragment {
         lotteryNameAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                changeLotteryHead(position);
+                changeLotteryHead(position,true);
             }
         });
 
@@ -95,7 +95,7 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
             @Override
             public void onPageSelected(int position) {
-                changeLotteryHead(position);
+                changeLotteryHead(position, false);
             }
 
             @Override
@@ -106,7 +106,7 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
     }
 
-    private void changeLotteryHead(int position){
+    private void changeLotteryHead(int position, boolean changeItem){
         for (int i = 0; i < lotteryNameList.size(); i ++) {
             if (lotteryNameList.get(i)) {
                 if (i == position) {
@@ -119,6 +119,9 @@ public class LotteryDialog extends BaseBindingDialogFragment {
         }
         lotteryNameList.set(position, true);
         lotteryNameAdapter.notifyDataSetChanged();
+        if (changeItem){
+            mBind.vp.setCurrentItem(position);
+        }
     }
 
     private void test(){

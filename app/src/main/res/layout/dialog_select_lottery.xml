@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.lottery.SelectLotteryDialog" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <View
+            android:id="@+id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{click.onClickView}"
+            />
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/rllMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:rv_cornerRadius_TL="20dip"
+            app:rv_cornerRadius_TR="20dip"
+            app:rv_backgroundColor="@color/white"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textColor="@color/color404040"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/select_game"
+                />
+
+            <GridView
+                android:id="@+id/gv"
+                android:layout_width="match_parent"
+                android:background="@color/colorF4F1F8"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:layout_height="215dp"
+                android:numColumns="3"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="10dp"
+                />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+    </LinearLayout>
+</layout>

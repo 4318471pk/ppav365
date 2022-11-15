@@ -1237,6 +1237,37 @@
     <string name="qi_end_2">本期截止</string>
     <string name="last_kai">上期开彩</string>
     <string name="more_kj">更多开奖</string>
+    <string name="more_tz">更多投注</string>
+    <string name="da">大</string>
+    <string name="xiao">小</string>
+    <string name="dan">单</string>
+    <string name="shuang">双</string>
+    <string name="xutou">续 投</string>
+    <string name="all_zt">全部状态</string>
+    <string name="zj">中奖</string>
+    <string name="yl">盈利</string>
+    <string name="qihao_2">期号：</string>
+    <string name="bet_content">投注内容：</string>
+    <string name="bet_time">投注时间：</string>
+    <string name="yi_zj">已中奖</string>
+    <string name="no_zj">未中奖</string>
+    <string name="heju">和局</string>
+    <string name="select_game">选择查询游戏</string>
+    <string name="select_status">选择记录状态</string>
+    <string name="wait_kc">待开彩</string>
+    <string name="yi_zz">已中注</string>
+    <string name="no_zz">未中注</string>
+    <string name="bet_2">投 注</string>
+    <string name="confirm_2">确 定</string>
+    <string name="please_selcet_chouma">请选择筹码</string>
+    <string name="please_input_chouma">请输入筹码</string>
+    <string name="please_input_score">请输入自定义底分</string>
+    <string name="please_input_score_2">请输入2到10000之间的底分</string>
+    <string name="please_input">请输入</string>
+    <string name="zdyfw">自定义范围：</string>
+    <string name="confirm_touzhu">确认投注</string>
+
+
 
     <!--新加的字符-->
     <string name="downloadingError">数据正在下载中,请稍后再试</string>

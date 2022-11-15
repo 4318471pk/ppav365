@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:rv_cornerRadius="15dp"
+    >
+
+    <TextView
+        android:id="@+id/dialog_common_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/please_input_score"
+        android:textColor="@color/color404040"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        />
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginEnd="37dp"
+        app:rv_cornerRadius="10dp"
+        app:rv_backgroundColor="@color/colorF4F1F8"
+        >
+
+        <EditText
+            android:id="@+id/etChouma"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/colorF4F1F8"
+            android:textSize="16sp"
+            android:hint="@string/please_input"
+            android:inputType="number"
+            android:textColorHint="#B8B2C8"
+            android:textColor="@color/color404040"
+            />
+
+
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:text="@string/zdyfw"
+            android:textColor="@color/colorB8B2C8"
+
+            android:textSize="12sp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="2~10000"
+            android:textColor="@color/colorB8B2C8"
+            android:textSize="12sp"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorD2CDE0"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button_gry"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/colorA800FF"
+            android:textSize="16sp"
+            app:rv_cornerRadius="18dp"
+            app:rv_strokeWidth="1dp"
+            app:rv_strokeColor="@color/colorA800FF"
+            />
+
+        <TextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_a800ff_d689ff_2"
+            android:gravity="center"
+            android:paddingHorizontal="24dp"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+
+            />
+
+
+    </LinearLayout>
+
+
+</com.flyco.roundview.RoundLinearLayout>

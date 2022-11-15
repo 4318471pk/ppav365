@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tvTz"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        app:rv_cornerRadius="10dp"
+        app:rv_backgroundColor="@color/color7A757F"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="1"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="0.99"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+
+
+</LinearLayout>

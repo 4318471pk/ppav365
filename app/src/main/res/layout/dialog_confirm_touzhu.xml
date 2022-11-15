@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.lottery.ChouMaDialog" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <View
+            android:id="@+id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{click.onClickView}"
+            />
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/layoutChouMa"
+            android:layout_width="match_parent"
+            android:layout_height="375dp"
+            android:orientation="vertical"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius_TL="20dp"
+            app:rv_cornerRadius_TR="20dp"
+            >
+
+            <com.flyco.roundview.RoundTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+
+                android:gravity="center"
+                android:text="@string/confirm_touzhu"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                app:rv_backgroundColor="@color/colorA800FF"
+                app:rv_cornerRadius_TL="20dp"
+                app:rv_cornerRadius_TR="20dp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcTouzhu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
+
+
+
+
+
+        </com.flyco.roundview.RoundLinearLayout>
+    </LinearLayout>
+</layout>

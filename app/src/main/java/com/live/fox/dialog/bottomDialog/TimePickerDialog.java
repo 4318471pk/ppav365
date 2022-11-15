@@ -122,6 +122,11 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
         mTimeWheel = new TimeWheel(view, mPickerConfig);
     }
 
+    public void setBtnColor(int color){
+        mBind.tvCancel.setTextColor(color);
+        mBind.tvConfirm.setTextColor(color);
+    }
+
     private void initialize(PickerConfig pickerConfig) {
         mPickerConfig = pickerConfig;
     }
