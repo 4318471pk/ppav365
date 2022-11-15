@@ -198,33 +198,7 @@ public class LivingControlPanel extends RelativeLayout {
             case R.id.rivProfileImage:
                 if(fragment.livingCurrentAnchorBean!=null)
                 {
-                    LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor);
-                    dialog.setLivingCurrentAnchorBean(fragment.livingCurrentAnchorBean);
-                    dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
-                        @Override
-                        public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
-                            if(fragment.getRoomBean()!=null && uid.equals(fragment.getRoomBean().getAid()))
-                            {
-                                if(tagSomeone)
-                                {
-                                    postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            mBind.etDiaMessage.setText("@"+nickName+" ");
-                                            mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
-                                            messageViewWatch.showInputLayout();
-                                        }
-                                    },200);
-                                }
-                                if(follow)
-                                {
-                                    fragment.livingCurrentAnchorBean.setFollow(true);
-                                    mBind.ivFollow.setVisibility(GONE);
-                                }
-                            }
-                        }
-                    });
-                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), dialog);
+                    showProfileBotWindows();
                 }
                 break;
             case R.id.ivFollow:
@@ -331,6 +305,38 @@ public class LivingControlPanel extends RelativeLayout {
             DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),onlineNobilityAndUserDialog);
         }
     }
+
+    public void showProfileBotWindows()
+    {
+        LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor);
+        dialog.setLivingCurrentAnchorBean(fragment.livingCurrentAnchorBean);
+        dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
+            @Override
+            public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
+                if(fragment.getRoomBean()!=null && uid.equals(fragment.getRoomBean().getAid()))
+                {
+                    if(tagSomeone)
+                    {
+                        postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBind.etDiaMessage.setText("@"+nickName+" ");
+                                mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
+                                messageViewWatch.showInputLayout();
+                            }
+                        },200);
+                    }
+                    if(follow)
+                    {
+                        fragment.livingCurrentAnchorBean.setFollow(true);
+                        mBind.ivFollow.setVisibility(GONE);
+                    }
+                }
+            }
+        });
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), dialog);
+    }
+
 
     //显示礼物弹窗
     private void showTreasureDialog()

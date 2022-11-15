@@ -62,7 +62,6 @@
             android:layout_width="14dip"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/icon_setting_gift"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
 

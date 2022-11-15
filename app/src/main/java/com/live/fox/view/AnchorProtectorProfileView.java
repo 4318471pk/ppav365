@@ -2,6 +2,7 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -67,46 +68,71 @@ public class AnchorProtectorProfileView extends RelativeLayout {
 
     private void adjustLayout()
     {
-        if(getWidth()>0 && decorationIndex>-1)
+        if(getWidth()>0 )
         {
-            Drawable decorationDrawable=getResources().getDrawable(decorationResource[decorationIndex]);
-            int deDrawableWidth=decorationDrawable.getIntrinsicWidth();
-            int deDrawableHeight=decorationDrawable.getIntrinsicHeight();
-
             if(decorationIndex>-1)
             {
+                Drawable decorationDrawable=getResources().getDrawable(decorationResource[decorationIndex]);
+                int deDrawableWidth=decorationDrawable.getIntrinsicWidth();
+                int deDrawableHeight=decorationDrawable.getIntrinsicHeight();
+
                 ivDecoration.setImageDrawable(decorationDrawable);
+
+                int viewWidth=ivWings.getDrawable().getIntrinsicWidth();
+                int viewHeight=ivWings.getDrawable().getIntrinsicHeight();
+
+                RelativeLayout.LayoutParams rlWings = (RelativeLayout.LayoutParams) ivWings.getLayoutParams();
+                rlWings.width=getWidth();
+                rlWings.height=rlWings.width*viewHeight/viewWidth;
+                ivWings.setLayoutParams(rlWings);
+
+                RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
+                rlDe.width=(int)(getWidth()*0.5f);
+                rlDe.height=rlDe.width*deDrawableHeight/deDrawableWidth;
+                rlDe.topMargin=(int)(rlWings.height*0.3f);
+                rlDe.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
+                ivDecoration.setLayoutParams(rlDe);
+
+                RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+                rlProfile.width=(int)(rlDe.width*scaleAndMargins[decorationIndex][0]);
+                rlProfile.height=(int)(rlDe.width*scaleAndMargins[decorationIndex][0]);
+                rlProfile.topMargin=(int)(rlDe.height*scaleAndMargins[decorationIndex][1])+rlDe.topMargin;
+                ivProfile.setLayoutParams(rlProfile);
+
+                getLayoutParams().height=rlDe.topMargin+rlDe.height;
             }
             else
             {
-                return;
+                Drawable decorationDrawable=getResources().getDrawable(R.mipmap.bg_guard_circle);
+                int deDrawableWidth=decorationDrawable.getIntrinsicWidth();
+                int deDrawableHeight=decorationDrawable.getIntrinsicHeight();
+
+                ivDecoration.setImageDrawable(decorationDrawable);
+
+                int viewWidth=ivWings.getDrawable().getIntrinsicWidth();
+                int viewHeight=ivWings.getDrawable().getIntrinsicHeight();
+
+                RelativeLayout.LayoutParams rlWings = (RelativeLayout.LayoutParams) ivWings.getLayoutParams();
+                rlWings.width=getWidth();
+                rlWings.height=rlWings.width*viewHeight/viewWidth;
+                ivWings.setLayoutParams(rlWings);
+
+                RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
+                rlDe.width=(int)(getWidth()*0.5f);
+                rlDe.height=rlDe.width*deDrawableHeight/deDrawableWidth;
+                rlDe.topMargin=(int)(rlWings.height*0.3f);
+                rlDe.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
+                ivDecoration.setLayoutParams(rlDe);
+
+                RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+                rlProfile.width=(int)(rlDe.width*0.95);
+                rlProfile.height=(int)(rlDe.width*0.95);
+                rlProfile.topMargin=(int)(rlDe.width*0.05)+rlDe.topMargin;
+                ivProfile.setLayoutParams(rlProfile);
+                ivProfile.setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
+
+                getLayoutParams().height=rlDe.topMargin+rlDe.height;
             }
-
-            int viewWidth=ivWings.getDrawable().getIntrinsicWidth();
-            int viewHeight=ivWings.getDrawable().getIntrinsicHeight();
-
-            RelativeLayout.LayoutParams rlWings = (RelativeLayout.LayoutParams) ivWings.getLayoutParams();
-            rlWings.width=getWidth();
-            rlWings.height=rlWings.width*viewHeight/viewWidth;
-            ivWings.setLayoutParams(rlWings);
-
-            RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
-            rlDe.width=(int)(getWidth()*0.5f);
-            rlDe.height=rlDe.width*deDrawableHeight/deDrawableWidth;
-            rlDe.topMargin=(int)(rlWings.height*0.3f);
-            rlDe.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
-            ivDecoration.setLayoutParams(rlDe);
-
-            RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-            rlProfile.width=(int)(rlDe.width*scaleAndMargins[decorationIndex][0]);
-            rlProfile.height=(int)(rlDe.width*scaleAndMargins[decorationIndex][0]);
-            Log.e("sdsad",rlDe.height*scaleAndMargins[decorationIndex][1]+"");
-            Log.e("sdsad2",rlDe.topMargin+"");
-            rlProfile.topMargin=(int)(rlDe.height*scaleAndMargins[decorationIndex][1])+rlDe.topMargin;
-            ivProfile.setLayoutParams(rlProfile);
-
-            getLayoutParams().height=rlDe.topMargin+rlDe.height;
-
         }
 
     }

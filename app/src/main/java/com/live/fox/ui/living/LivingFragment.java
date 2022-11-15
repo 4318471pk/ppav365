@@ -22,9 +22,12 @@ import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.db.LocalGiftDao;
+import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
+import com.live.fox.entity.Audience;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
@@ -47,6 +50,7 @@ import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.BulletMessage.BulletMessageView;
 import com.live.fox.view.BulletMessage.VipEnterRoomMessageView;
+import com.live.fox.view.LivingClickTextSpan;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
@@ -322,7 +326,34 @@ public class LivingFragment extends BaseBindingFragment {
                 break;
         }
         SpanUtils spanUtils = new SpanUtils();
-        ChatSpanUtils.appendPersonalMessage(spanUtils, pBean, getActivity());
+        ChatSpanUtils.appendPersonalMessage(spanUtils, pBean, getActivity(), new LivingClickTextSpan.OnClickTextItemListener<PersonalLivingMessageBean>() {
+            @Override
+            public void onClick(PersonalLivingMessageBean bean) {
+                if(bean!=null && livingControlPanel!=null)
+                {
+                    LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience);
+                    dialog.setAudience(Audience.convertData(bean));
+                    dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
+                        @Override
+                        public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
+                            if(tagSomeone)
+                            {
+                                livingControlPanel.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        livingControlPanel.mBind.etDiaMessage.setText("@"+nickName+" ");
+                                        livingControlPanel.mBind.etDiaMessage.setSelection(livingControlPanel.mBind.etDiaMessage.getText().length());
+                                        livingControlPanel.messageViewWatch.showInputLayout();
+                                    }
+                                },200);
+                            }
+                        }
+                    });
+                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), dialog);
+                }
+
+            }
+        });
         bean.setCharSequence(spanUtils.create());
         addNewMessage(bean);
     }
@@ -874,13 +905,13 @@ public class LivingFragment extends BaseBindingFragment {
             {
                 topMargin=new Random().nextInt(height-bulletMessageHeight);
             }
-//            BulletMessageView bulletMessageView=new BulletMessageView(getActivity(),bean);
-//            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            ll.topMargin=topMargin;
-//            bulletMessageView.setLayoutParams(ll);
-//            bulletMessageView.setVisibility(View.GONE);
-//            livingControlPanel.mBind.rlMidView.addView(bulletMessageView);
-//            BulletViewUtils.goRightToLeftDisappear(bulletMessageView,getActivity());
+            BulletMessageView bulletMessageView=new BulletMessageView(getActivity(),bean);
+            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ll.topMargin=topMargin;
+            bulletMessageView.setLayoutParams(ll);
+            bulletMessageView.setVisibility(View.GONE);
+            livingControlPanel.mBind.rlMidView.addView(bulletMessageView);
+            BulletViewUtils.goRightToLeftDisappear(bulletMessageView,getActivity());
 
 //            VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),bean);
 //            livingControlPanel.mBind.rlMidView.addView(vipEnterRoomMessageView);

@@ -80,7 +80,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         this.buttonClickListener = buttonClickListener;
     }
 
-    public void setAudience(com.live.fox.entity.Audience audience) {
+    public void setAudience(Audience audience) {
         this.audience = audience;
         if(audience!=null)
         {

@@ -18,6 +18,7 @@ import com.live.fox.db.LocalUserTagResourceDao;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.UserGuardResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.Strings;
 import com.live.fox.view.RankProfileView;
@@ -99,6 +100,8 @@ public class BulletMessageView extends LinearLayout {
 
             tvName.setText(bean.getNickname());
             tvBulletMessage.setText(bean.getMsg());
+            GlideUtils.loadCircleImage(getContext(),bean.getAvatar(),
+                    R.mipmap.user_head_error,R.mipmap.user_head_error,ivUserImg);
 
         }
     }

@@ -150,4 +150,14 @@ public class Audience implements Serializable {
     public void setIsRoomPreview(int isRoomPreview) {
         this.isRoomPreview = isRoomPreview;
     }
+
+    public static Audience convertData(PersonalLivingMessageBean bean)
+    {
+        Audience audience=new Audience();
+        audience.setAvatar(bean.getAvatar());
+        audience.setLevel(bean.getUserLevel());
+        audience.setNickname(bean.getNickname());
+        audience.setLiveId(bean.getLiveId());
+        return audience;
+    }
 }

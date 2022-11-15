@@ -14,6 +14,7 @@ public class PersonalLivingMessageBean {
     private int uid;
     private int userLevel;
     private int vipLevel;
+    private String avatar;
 
     public String getGuardLevel() {
         return guardLevel;
@@ -21,6 +22,14 @@ public class PersonalLivingMessageBean {
 
     public void setGuardLevel(String guardLevel) {
         this.guardLevel = guardLevel;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public boolean isIsGuard() {

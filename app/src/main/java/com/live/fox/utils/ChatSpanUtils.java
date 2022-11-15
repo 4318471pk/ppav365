@@ -45,6 +45,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.mine.noble.NobleFragment;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
+import com.live.fox.view.LivingClickTextSpan;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -56,6 +57,8 @@ import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.OptIn;
 
 public class ChatSpanUtils {
 
@@ -831,17 +834,20 @@ public class ChatSpanUtils {
      * 发送个人信息
      *
      */
-    public static void appendPersonalMessage(SpanUtils spanUtils, PersonalLivingMessageBean pBean, Context context) {
+    public static void appendPersonalMessage(SpanUtils spanUtils, PersonalLivingMessageBean pBean, Context context, LivingClickTextSpan.OnClickTextItemListener listener ) {
         if(pBean==null || TextUtils.isEmpty(pBean.getProtocol()) )
         {
             return;
         }
 
         switch (pBean.getProtocol()) {
+            case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
             case MessageProtocol.LIVE_ROOM_CHAT:
                 appendLevelIcon(spanUtils,pBean.getUserLevel(),context);
-                spanUtils.append(pBean.getNickname()+": ").setFontSize(13,true)
-                        .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
+                LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(pBean.getUid()+"",0xff85EFFF);
+                livingClickTextSpan.setOnClickTextItemListener(listener);
+                spanUtils.append(pBean.getNickname()+": ").setClickSpan(livingClickTextSpan).setFontSize(13,true)
+                        .setAlign(Layout.Alignment.ALIGN_CENTER);
                 spanUtils.append(pBean.getMsg()).setFontSize(13,true)
                         .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
                 break;
