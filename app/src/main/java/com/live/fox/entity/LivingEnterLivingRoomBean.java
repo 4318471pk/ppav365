@@ -19,6 +19,15 @@ public class LivingEnterLivingRoomBean {
     public int userLevel;
     public int vipLevel;
     public String message;
+    String carId;
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
 
     public String getMessage() {
         return message;

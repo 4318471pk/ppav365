@@ -3,6 +3,7 @@ package com.live.fox.view.bulletMessage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -27,23 +28,23 @@ import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.Strings;
 
-public class VipEnterRoomMessageView extends RelativeLayout {
+public class EnterRoomMessageView extends RelativeLayout {
 
     Drawable bgDrawable;
     ImageView ivBg;
-    TextView tvEnterRoom;
     LinearLayout llContent;
+    int widthEnterRoom;
 
-    public VipEnterRoomMessageView(Context context, LivingEnterLivingRoomBean bean) {
+    public EnterRoomMessageView(Context context, LivingEnterLivingRoomBean bean) {
         super(context);
         initView(bean);
     }
 
-    public VipEnterRoomMessageView(Context context, AttributeSet attrs) {
+    public EnterRoomMessageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public VipEnterRoomMessageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EnterRoomMessageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -52,21 +53,26 @@ public class VipEnterRoomMessageView extends RelativeLayout {
         bgDrawable=getResources().getDrawable(R.mipmap.bg_vip_floating_enterroom);
         int viewWidth=bgDrawable.getIntrinsicWidth();
         int viewHeight=bgDrawable.getIntrinsicHeight();
+        Paint paint = new Paint();
+        paint.setTextSize(ScreenUtils.sp2px(getContext(),13));
+        widthEnterRoom = (int)(paint.measureText(getResources().getString(R.string.enterRoomTag)));
 
         LayoutInflater.from(getContext()).inflate(R.layout.layout_vip_enterroom_message,this,true);
         ivBg=findViewById(R.id.ivBg);
-        tvEnterRoom=findViewById(R.id.tvEnterRoom);
         llContent=findViewById(R.id.llContent);
         RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams)ivBg.getLayoutParams();
         rl.height= ScreenUtils.dp2px(getContext(),21);
         rl.width=rl.height*viewWidth/viewHeight;
         ivBg.setLayoutParams(rl);
-        ivBg.setImageDrawable(bgDrawable);
+
 
         RelativeLayout.LayoutParams rlContent=(RelativeLayout.LayoutParams) llContent.getLayoutParams();
-        rlContent.leftMargin=(int)(rl.width*0.157f);
+        rlContent.leftMargin=(int)(rl.width*0.15f);
+        rlContent.width=(int)(rl.width*0.85f);
         llContent.setLayoutParams(rlContent);
 
+        int totalWidth=(int)(rl.width*0.85f);
+        int iconWidth=0;
         if(bean!=null)
         {
             if(bean.getUserLevel()>0)
@@ -77,7 +83,8 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                     Bitmap bitmap=BitmapFactory.decodeFile(imgPath);
                     if(bitmap!=null)
                     {
-                        addIcon(bitmap,12f,30f);
+                        addIcon(bitmap,30f,12f);
+                        iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),32);
                     }
                 }
             }
@@ -91,7 +98,8 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                     Bitmap bitmap=BitmapFactory.decodeFile(userTagResourceBean.getLocalVipImgPath());
                     if(bitmap!=null)
                     {
-                        addIcon(bitmap,12f,38.5f);
+                        addIcon(bitmap,38.5f,12f);
+                        iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),40.5f);
                     }
                 }
             }
@@ -106,6 +114,7 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                     if(bitmap!=null)
                     {
                         addIcon(bitmap,14f,11.5f);
+                        iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),16f);
                     }
                 }
             }
@@ -113,13 +122,17 @@ public class VipEnterRoomMessageView extends RelativeLayout {
             if(bean.isRoomManage())
             {
                 addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag),16f,16f);
+                iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),18f);
             }
 
             if(!TextUtils.isEmpty( bean.getNickname()))
             {
+                int dip2=ScreenUtils.dp2px(getContext(),2);
+                int width=totalWidth-iconWidth-widthEnterRoom-dip2*5;
                 TextView textView=new TextView(getContext());
-                LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
                 ll.gravity= Gravity.CENTER_VERTICAL;
+                ll.leftMargin=ScreenUtils.dp2px(getContext(),2);
                 textView.setLayoutParams(ll);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
                 textView.setTextColor(0xff85EFFF);
@@ -127,6 +140,28 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                 textView.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 textView.setText(bean.getNickname());
                 llContent.addView(textView);
+
+                TextView enterRoom=new TextView(getContext());
+                LinearLayout.LayoutParams llEnterRoom= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                llEnterRoom.gravity= Gravity.CENTER_VERTICAL;
+                enterRoom.setLayoutParams(llEnterRoom);
+                enterRoom.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
+                enterRoom.setTextColor(0xffFFFFFF);
+                enterRoom.setSingleLine();
+                enterRoom.setText(getResources().getString(R.string.enterRoomTag));
+                llContent.addView(enterRoom);
+            }
+
+            if(bean.isGuard())
+            {
+                ivBg.setImageDrawable(getResources().getDrawable(R.mipmap.bg_guard_floating_enterroom));
+            }
+            else
+            {
+                if(bean.getVipLevel()>0)
+                {
+                    ivBg.setImageDrawable(getResources().getDrawable(R.mipmap.bg_vip_floating_enterroom));
+                }
             }
 
         }
@@ -140,6 +175,7 @@ public class VipEnterRoomMessageView extends RelativeLayout {
         int dipHeight=ScreenUtils.dp2px(getContext(),height);
         ImageView imageView=new ImageView(getContext());
         LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(dipWidth,dipHeight);
+        ll.leftMargin=ScreenUtils.dp2px(getContext(),2);
         ll.gravity= Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(ll);
         imageView.setImageBitmap(bitmap);
@@ -152,6 +188,7 @@ public class VipEnterRoomMessageView extends RelativeLayout {
         int dipHeight=ScreenUtils.dp2px(getContext(),height);
         ImageView imageView=new ImageView(getContext());
         LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(dipWidth, dipHeight);
+        ll.leftMargin=ScreenUtils.dp2px(getContext(),2);
         ll.gravity= Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(ll);
         imageView.setImageDrawable(drawable);

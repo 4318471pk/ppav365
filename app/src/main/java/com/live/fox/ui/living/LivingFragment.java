@@ -48,7 +48,8 @@ import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
-import com.live.fox.view.bulletMessage.VipEnterRoomMessageView;
+import com.live.fox.view.bulletMessage.BulletMessageView;
+import com.live.fox.view.bulletMessage.EnterRoomMessageView;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
@@ -743,28 +744,8 @@ public class LivingFragment extends BaseBindingFragment {
                             livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
                             livingControlPanel.mBind.vtEnterRoom.
                                     addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
-                            //判断是不是守护或者贵族
-                            if(livingEnterLivingRoomBean.isGuard())
-                            {
-
-                            }
-                            else
-                            {
-                                if(livingEnterLivingRoomBean.getVipLevel()>0)
-                                {
-                                    VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),livingEnterLivingRoomBean);
-                                    BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView, getActivity(), new BulletViewUtils.OnFinishAniListener() {
-                                        @Override
-                                        public void onFinish(Object obj) {
-                                            if(obj instanceof PersonalLivingMessageBean)
-                                            {
-
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-
+                            if(livingControlPanel==null)return;
+                            livingControlPanel.mBind.rlEnterRoom.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
@@ -816,7 +797,6 @@ public class LivingFragment extends BaseBindingFragment {
 
         }
     }
-
 
     /**
      * 获取当前主播数据

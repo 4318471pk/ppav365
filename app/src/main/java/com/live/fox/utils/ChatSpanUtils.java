@@ -825,17 +825,6 @@ public class ChatSpanUtils {
             spanUtils.append(" ");
         }
 
-        if(appendVipLevelRectangleIcon(spanUtils,bean.getVipLevel(),context))
-        {
-            spanUtils.append(" ");
-        }
-
-        if(Strings.isDigitOnly(bean.getGuardLevel()) && bean.isGuard())
-        {
-            appendGuardIcon(spanUtils,Integer.valueOf(bean.getGuardLevel()),context);
-            spanUtils.append(" ");
-        }
-
         if(!TextUtils.isEmpty(bean.getNickname()))
         {
             spanUtils.append(bean.getNickname()).setFontSize(13,true)

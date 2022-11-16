@@ -539,6 +539,12 @@
             android:fadingEdgeLength="30dp"
             >
 
+            <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
+                android:id="@+id/rlEnterRoom"
+                android:layout_width="match_parent"
+                android:layout_height="21dip"
+                />
+
             <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"

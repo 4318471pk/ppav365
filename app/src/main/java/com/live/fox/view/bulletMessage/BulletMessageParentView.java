@@ -52,6 +52,11 @@ public class BulletMessageParentView extends LinearLayout {
 
     public void postBulletMessage(PersonalLivingMessageBean messageBean, Activity activity)
     {
+        if(activity==null || activity.isDestroyed() || activity.isFinishing())
+        {
+            return;
+        }
+
         messageBean.setMoving(false);
         list.add(messageBean);
         send(messageBean,activity);
@@ -123,19 +128,23 @@ public class BulletMessageParentView extends LinearLayout {
         bulletMessageView.setVisibility(View.GONE);
         bulletMessageView.setTag(messageBean);
         relativeLayout.addView(bulletMessageView);
-        BulletViewUtils.goRightToLeftDisappear(bulletMessageView, activity, new BulletViewUtils.OnFinishAniListener() {
+        BulletViewUtils.goRightToLeftDisappear(bulletMessageView, new BulletViewUtils.OnFinishAniListener() {
             @Override
             public void onFinish(Object obj) {
-                if(obj instanceof PersonalLivingMessageBean)
+                if(activity!=null && !activity.isFinishing() && !activity.isDestroyed())
                 {
-                    list.remove(obj);
-                    for (int i = 0; i <list.size() ; i++) {
-                        if(!list.get(i).isMoving())
-                        {
-                            send(list.get(i),activity);
+                    if(obj instanceof PersonalLivingMessageBean)
+                    {
+                        list.remove(obj);
+                        for (int i = 0; i <list.size() ; i++) {
+                            if(!list.get(i).isMoving())
+                            {
+                                send(list.get(i),activity);
+                                break;
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         });

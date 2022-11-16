@@ -131,12 +131,14 @@ public class LivingControlPanel extends RelativeLayout {
 
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),45);
-        rlMessages.width=(int)(screenWidth*0.7f);
+        rlMessages.width=ViewGroup.LayoutParams.MATCH_PARENT;
         rlMessages.bottomMargin=ScreenUtils.getDip2px(fragment.getActivity(),45);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
-        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),26);
+        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),47);
+        mBind.msgBox.getLayoutParams().width=(int)(screenWidth*0.7f);
+
         mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -146,9 +148,12 @@ public class LivingControlPanel extends RelativeLayout {
         mBind.msgBox.setOnTouchViewUpListener(new LivingRecycleView.OnTouchViewUpListener() {
             @Override
             public void onTouch() {
-                messageViewWatch.hideInputLayout();
-                messageViewWatch.hideKeyboard();
-                messageViewWatch.setScrollEnable(true);
+                if(messageViewWatch.isMessagesPanelOpen() || messageViewWatch.isKeyboardShow())
+                {
+                    messageViewWatch.hideInputLayout();
+                    messageViewWatch.hideKeyboard();
+                    messageViewWatch.setScrollEnable(true);
+                }
             }
         });
 
@@ -343,9 +348,12 @@ public class LivingControlPanel extends RelativeLayout {
                         postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mBind.etDiaMessage.setText("@"+nickName+" ");
-                                mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
-                                messageViewWatch.showInputLayout();
+                                if(fragment.isActivityOK())
+                                {
+                                    mBind.etDiaMessage.setText("@"+nickName+" ");
+                                    mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
+                                    messageViewWatch.showInputLayout();
+                                }
                             }
                         },200);
                     }
@@ -447,7 +455,10 @@ public class LivingControlPanel extends RelativeLayout {
         mBind.gtvSend.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mBind.gtvSend.setEnabled(true);
+                if(fragment.isActivityOK())
+                {
+                    mBind.gtvSend.setEnabled(true);
+                }
             }
         },2000);
 
@@ -551,9 +562,12 @@ public class LivingControlPanel extends RelativeLayout {
                                                         postDelayed(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                mBind.etDiaMessage.setText("@"+nickName+" ");
-                                                                mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
-                                                                messageViewWatch.showInputLayout();
+                                                                if(fragment.isActivityOK())
+                                                                {
+                                                                    mBind.etDiaMessage.setText("@"+nickName+" ");
+                                                                    mBind.etDiaMessage.setSelection(mBind.etDiaMessage.getText().length());
+                                                                    messageViewWatch.showInputLayout();
+                                                                }
                                                             }
                                                         },200);
                                                     }

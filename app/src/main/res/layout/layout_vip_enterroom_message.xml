@@ -9,24 +9,15 @@
         android:layout_height="21dp"
         />
 
-    <TextView
-        android:id="@+id/tvEnterRoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dip"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@id/ivBg"
-        android:text="@string/enterRoomTag"
-        android:textSize="13sp"
-        android:textColor="#ffffff"/>
 
     <LinearLayout
         android:id="@+id/llContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingRight="8dip"
         android:orientation="horizontal"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/tvEnterRoom">
+        >
 
 
 

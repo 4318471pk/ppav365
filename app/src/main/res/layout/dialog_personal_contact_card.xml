@@ -120,8 +120,6 @@
                             android:id="@+id/tvContactVal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/gtvGet"
-                            android:layout_toRightOf="@id/ivContactType"
                             android:gravity="center"
                             android:layout_marginLeft="5dip"
                             android:layout_centerVertical="true"
