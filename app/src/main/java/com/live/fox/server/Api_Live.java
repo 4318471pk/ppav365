@@ -310,17 +310,18 @@ public class Api_Live extends BaseApi {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.getAnchorCard);
-        stringBuilder.append("?anchorId=").append(anchorId);
 
-        OkGoHttpUtil.getInstance().doGet(stringBuilder.toString(),
-                stringBuilder.toString(),
-                getCommonHeaders(System.currentTimeMillis())).execute(callback);
-//        OkGoHttpUtil.getInstance().doJsonPost(
-//                "",
-//                url,
-//                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-//                new Gson().toJson(params))
-//                .execute(callback);
+        String url=stringBuilder.toString();
+        HashMap<String, Object> params = getCommonParams();
+        params.put("anchorId", anchorId);
+
+        callback.setArg(liveId);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
     }
 
     /**

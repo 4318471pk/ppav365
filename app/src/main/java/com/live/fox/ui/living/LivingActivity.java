@@ -374,7 +374,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
     private void showContactCardDialog()
     {
-        PersonalContactCardDialog personalContactCardDialog=PersonalContactCardDialog.getInstance();
+        PersonalContactCardDialog personalContactCardDialog=PersonalContactCardDialog.getInstance(null);
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),personalContactCardDialog);
     }
 

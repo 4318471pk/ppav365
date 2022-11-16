@@ -3,6 +3,7 @@ package com.live.fox.dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +19,26 @@ import androidx.fragment.app.DialogFragment;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogPersonalContactCardBinding;
+import com.live.fox.entity.LivingContactCardBean;
 import com.live.fox.utils.FixImageSize;
+import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 public class PersonalContactCardDialog extends BaseBindingDialogFragment {
 
     DialogPersonalContactCardBinding mBind;
+    LivingContactCardBean bean;
 
-    public static PersonalContactCardDialog getInstance()
+    public static PersonalContactCardDialog getInstance(LivingContactCardBean bean)
     {
-        return new PersonalContactCardDialog();
+        PersonalContactCardDialog dialog=new PersonalContactCardDialog();
+        dialog.bean=bean;
+        return dialog;
     }
 
     @Override
@@ -58,6 +67,9 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
             case R.id.ivClose:
                 dismissAllowingStateLoss();
                 break;
+            case R.id.gtvGet:
+                ToastUtils.showShort(R.string.grabContactCardBySendingGift);
+                break;
         }
     }
 
@@ -70,6 +82,64 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
     public void initView(View view) {
         mBind=getViewDataBinding();
         mBind.setClick(this);
+
+        if(bean!=null)
+        {
+            if(!TextUtils.isEmpty(bean.getAvatar()))
+            {
+                GlideUtils.loadCircleImage(getActivity(),bean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.rivImage);
+            }
+
+            if(!TextUtils.isEmpty(bean.getNickname()))
+            {
+                mBind.tvName.setText(bean.getNickname());
+            }
+
+            if(!TextUtils.isEmpty(bean.getSignature()))
+            {
+                mBind.tvSignature.setText(bean.getSignature());
+            }
+
+            if(!TextUtils.isEmpty(bean.getContactType()))
+            {
+                switch (bean.getContactType())
+                {
+                    case "0":
+                        mBind.ivContactType.setImageResource(R.mipmap.icon_contact_card_wechat);
+                        break;
+                    case "1":
+                        mBind.ivContactType.setImageResource(R.mipmap.icon_contact_card_qq);
+                        break;
+                    case "2":
+                        mBind.ivContactType.setImageResource(R.mipmap.icon_contact_card_phone);
+                        break;
+                }
+            }
+
+            boolean isDone=bean.isDoneFlag()==null?false:bean.isDoneFlag();
+            if(!TextUtils.isEmpty(bean.getContactDetails()) && isDone)
+            {
+                mBind.tvContactVal.setText(bean.getContactDetails());
+            }
+            else
+            {
+                mBind.tvContactVal.setText("*****");
+            }
+
+            if(bean.getSendGifPrice()!=null && bean.getShowContactPrice()!=null)
+            {
+                StringBuilder sb=new StringBuilder();
+                sb.append(bean.getSendGifPrice().toPlainString()).append("/").append(bean.getShowContactPrice());
+                mBind.tvProgress.setText(sb.toString());
+
+                if(bean.getShowContactPrice().compareTo(new BigDecimal(0d))==1)
+                {
+                    float progress=bean.getSendGifPrice().divide(bean.getShowContactPrice(), 2, BigDecimal.ROUND_HALF_UP).floatValue();
+                    mBind.contactProgress.setProgress(progress);
+                }
+            }
+
+        }
 
         view.setVisibility(View.GONE);
         int screenWidth= ScreenUtils.getScreenWidth(getActivity());
@@ -120,5 +190,19 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
             }
         });
 
+    }
+
+
+    public static double div(double value1, double value2, int scale) throws IllegalAccessException {
+        if (scale < 0) {
+            //如果精确范围小于0，抛出异常信息。
+            throw new IllegalArgumentException("精确度不能小于0");
+        } else if (value2 == 0) {
+            //如果除数为0，抛出异常信息。
+            throw new IllegalArgumentException("除数不能为0");
+        }
+        BigDecimal b1 = new BigDecimal(Double.valueOf(value1));
+        BigDecimal b2 = new BigDecimal(Double.valueOf(value2));
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 }

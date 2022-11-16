@@ -19,6 +19,8 @@ import com.live.fox.R;
 import com.live.fox.db.LocalUserGuardDao;
 import com.live.fox.db.LocalUserLevelDao;
 import com.live.fox.db.LocalUserTagResourceDao;
+import com.live.fox.entity.EnterRoomBean;
+import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.UserGuardResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
@@ -32,7 +34,7 @@ public class VipEnterRoomMessageView extends RelativeLayout {
     TextView tvEnterRoom;
     LinearLayout llContent;
 
-    public VipEnterRoomMessageView(Context context, PersonalLivingMessageBean bean) {
+    public VipEnterRoomMessageView(Context context, LivingEnterLivingRoomBean bean) {
         super(context);
         initView(bean);
     }
@@ -45,9 +47,8 @@ public class VipEnterRoomMessageView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private void initView(PersonalLivingMessageBean bean)
+    private void initView(LivingEnterLivingRoomBean bean)
     {
-
         bgDrawable=getResources().getDrawable(R.mipmap.bg_vip_floating_enterroom);
         int viewWidth=bgDrawable.getIntrinsicWidth();
         int viewHeight=bgDrawable.getIntrinsicHeight();
@@ -76,11 +77,10 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                     Bitmap bitmap=BitmapFactory.decodeFile(imgPath);
                     if(bitmap!=null)
                     {
-                        addIcon(bitmap);
+                        addIcon(bitmap,12f,30f);
                     }
                 }
             }
-
 
             long count=LocalUserTagResourceDao.getInstance().getCount();
             if(bean.getVipLevel()>0 && bean.getVipLevel()<count)
@@ -91,7 +91,7 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                     Bitmap bitmap=BitmapFactory.decodeFile(userTagResourceBean.getLocalVipImgPath());
                     if(bitmap!=null)
                     {
-                        addIcon(bitmap);
+                        addIcon(bitmap,12f,38.5f);
                     }
                 }
             }
@@ -105,17 +105,17 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                     Bitmap bitmap= BitmapFactory.decodeFile(userGuardResourceBean.getLocalImgSmallPath());
                     if(bitmap!=null)
                     {
-                        addIcon(bitmap);
+                        addIcon(bitmap,14f,11.5f);
                     }
                 }
             }
 
-            if(bean.isIsRoomManage())
+            if(bean.isRoomManage())
             {
-                addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag));
+                addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag),16f,16f);
             }
 
-            if(!TextUtils.isEmpty( bean.getMsg()))
+            if(!TextUtils.isEmpty( bean.getNickname()))
             {
                 TextView textView=new TextView(getContext());
                 LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -125,7 +125,7 @@ public class VipEnterRoomMessageView extends RelativeLayout {
                 textView.setTextColor(0xff85EFFF);
                 textView.setSingleLine();
                 textView.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-                textView.setText(bean.getMsg());
+                textView.setText(bean.getNickname());
                 llContent.addView(textView);
             }
 
@@ -133,20 +133,25 @@ public class VipEnterRoomMessageView extends RelativeLayout {
 
     }
 
-    private void addIcon(Bitmap bitmap)
+    //12 30 12 38.5
+    private void addIcon(Bitmap bitmap,float width,float height)
     {
+        int dipWidth=ScreenUtils.dp2px(getContext(),width);
+        int dipHeight=ScreenUtils.dp2px(getContext(),height);
         ImageView imageView=new ImageView(getContext());
-        LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(dipWidth,dipHeight);
         ll.gravity= Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(ll);
         imageView.setImageBitmap(bitmap);
         llContent.addView(imageView);
     }
 
-    private void addIcon(Drawable drawable)
+    private void addIcon(Drawable drawable,float width,float height)
     {
+        int dipWidth=ScreenUtils.dp2px(getContext(),width);
+        int dipHeight=ScreenUtils.dp2px(getContext(),height);
         ImageView imageView=new ImageView(getContext());
-        LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(dipWidth, dipHeight);
         ll.gravity= Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(ll);
         imageView.setImageDrawable(drawable);

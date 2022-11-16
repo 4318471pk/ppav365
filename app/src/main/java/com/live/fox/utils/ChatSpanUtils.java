@@ -8,17 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.text.Layout;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
-
-import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
@@ -33,7 +28,7 @@ import com.live.fox.entity.FunctionItem;
 import com.live.fox.entity.Gift;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingFollowMessage;
-import com.live.fox.entity.LivingMessageBean;
+import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.PersonalLivingMessageBean;
@@ -59,8 +54,6 @@ import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import kotlin.OptIn;
 
 public class ChatSpanUtils {
 
@@ -785,6 +778,19 @@ public class ChatSpanUtils {
 
 
     /**
+     * 加入房管图标
+     *
+     */
+    public static void appendRoomManageIcon(SpanUtils spanUtils,Context context)
+    {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_admin);
+        if (bitmap == null) return;
+        int height=ScreenUtils.getDip2px(context,16);
+        int width=ScreenUtils.getDip2px(context,16);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+    }
+
+    /**
      * 守护图标 7以下
      *
      */
@@ -811,19 +817,34 @@ public class ChatSpanUtils {
      * 发送进入房间欢迎语
      *
      */
-    public static synchronized SpanUtils enterRoom(LivingMessageBean livingMessageBean,Context context)
+    public static synchronized SpanUtils enterRoom(LivingEnterLivingRoomBean bean, Context context)
     {
         SpanUtils spanUtils=new SpanUtils();
-        appendLevelIcon(spanUtils,livingMessageBean.getUserLevel(),context);
-        if(!TextUtils.isEmpty(livingMessageBean.getNickname()))
+        if(appendLevelIcon(spanUtils,bean.getUserLevel(),context))
         {
-            spanUtils.append(livingMessageBean.getNickname()).setFontSize(13,true)
+            spanUtils.append(" ");
+        }
+
+        if(appendVipLevelRectangleIcon(spanUtils,bean.getVipLevel(),context))
+        {
+            spanUtils.append(" ");
+        }
+
+        if(Strings.isDigitOnly(bean.getGuardLevel()) && bean.isGuard())
+        {
+            appendGuardIcon(spanUtils,Integer.valueOf(bean.getGuardLevel()),context);
+            spanUtils.append(" ");
+        }
+
+        if(!TextUtils.isEmpty(bean.getNickname()))
+        {
+            spanUtils.append(bean.getNickname()).setFontSize(13,true)
                     .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
         }
 
-        if(!TextUtils.isEmpty(livingMessageBean.getMessage()))
+        if(!TextUtils.isEmpty(bean.getMessage()))
         {
-            spanUtils.append(livingMessageBean.getMessage()).setForegroundColor(0xffffffff);
+            spanUtils.append(bean.getMessage()).setForegroundColor(0xffffffff);
         }
         return spanUtils;
     }
@@ -852,11 +873,18 @@ public class ChatSpanUtils {
                     spanUtils.append(" ");
                 }
 
-                if(Strings.isDigitOnly(pBean.getGuardLevel()))
+                if(Strings.isDigitOnly(pBean.getGuardLevel()) && pBean.isIsGuard())
                 {
                     appendGuardIcon(spanUtils,Integer.valueOf(pBean.getGuardLevel()),context);
+                    spanUtils.append(" ");
                 }
-                spanUtils.append(" ");
+
+                if(pBean.isIsRoomManage())
+                {
+                    appendRoomManageIcon(spanUtils,context);
+                    spanUtils.append(" ");
+                }
+
 
                 LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(pBean,0xff85EFFF);
                 livingClickTextSpan.setOnClickTextItemListener(listener);
@@ -904,11 +932,17 @@ public class ChatSpanUtils {
                         spanUtils.append(" ");
                     }
 
-                    if(Strings.isDigitOnly(gBean.getGuardLevel()))
+                    if(Strings.isDigitOnly(gBean.getGuardLevel()) && gBean.isIsGuard())
                     {
                         appendGuardIcon(spanUtils,Integer.valueOf(gBean.getGuardLevel()),context);
+                        spanUtils.append(" ");
                     }
-                    spanUtils.append(" ");
+
+                    if(gBean.isIsRoomManage())
+                    {
+                        appendGuardIcon(spanUtils,Integer.valueOf(gBean.getGuardLevel()),context);
+                        spanUtils.append(" ");
+                    }
 
                     spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
                             .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);

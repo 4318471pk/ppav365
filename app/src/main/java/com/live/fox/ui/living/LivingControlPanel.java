@@ -36,6 +36,7 @@ import com.live.fox.dialog.bottomDialog.livingPromoDialog.LivingPromoDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.Audience;
+import com.live.fox.entity.LivingContactCardBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.User;
@@ -258,7 +259,6 @@ public class LivingControlPanel extends RelativeLayout {
                 break;
             case R.id.ivGetAnchorContactCard:
                 getContactCard();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), PersonalContactCardDialog.getInstance());
                 break;
             case R.id.gtvContribution:
                 ContributionRankDialog contributionRankDialog=ContributionRankDialog.getInstance(liveId,aid);
@@ -489,12 +489,26 @@ public class LivingControlPanel extends RelativeLayout {
         {
             return;
         }
+        if(DialogFramentManager.getInstance().isShowLoading(PersonalContactCardDialog.class.getName()))
+        {
+            return;
+        }
 
+        mBind.ivGetAnchorContactCard.setEnabled(false);
         RoomListBean roomListBean=fragment.getRoomBean();
-        Api_Live.ins().getAnchorContactCard(roomListBean.getId(), roomListBean.getAid(), new JsonCallback<String>() {
+        Api_Live.ins().getAnchorContactCard(roomListBean.getId(), roomListBean.getAid(), new JsonCallback<LivingContactCardBean>() {
             @Override
-            public void onSuccess(int code, String msg, String data) {
-                Log.e("getContactCard",data+"");
+            public void onSuccess(int code, String msg, LivingContactCardBean data) {
+                mBind.ivGetAnchorContactCard.setEnabled(true);
+                if (code == 0 ) {
+                    if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
+                    {
+                        PersonalContactCardDialog dialog=PersonalContactCardDialog.getInstance(data);
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), dialog);
+                    }
+                } else {
+
+                }
             }
         });
     }

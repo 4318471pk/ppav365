@@ -97,6 +97,10 @@ public class BulletMessageParentView extends LinearLayout {
         BulletMessageView bulletMessageView=(BulletMessageView)relativeLayout.getChildAt(relativeLayout.getChildCount()-1);
 
         Transformation transformation = new Transformation();
+        if(transformation==null)
+        {
+            return false;
+        }
         bulletMessageView.getAnimation().getTransformation(AnimationUtils.currentAnimationTimeMillis(),transformation);
         Matrix matrix = transformation.getMatrix();
         float[] matrixVals = new float[9];

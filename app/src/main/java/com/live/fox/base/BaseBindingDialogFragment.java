@@ -159,26 +159,31 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
+        DialogFramentManager.getInstance().removeDialog(this);
+        if(onDismissListener!=null)
+        {
+            onDismissListener.onDismiss();
+        }
     }
 
     @Override
     public void dismiss() {
         super.dismiss();
-        DialogFramentManager.getInstance().removeDialog(this);
-        if(onDismissListener!=null)
-        {
-            onDismissListener.onDismiss();
-        }
+//        DialogFramentManager.getInstance().removeDialog(this);
+//        if(onDismissListener!=null)
+//        {
+//            onDismissListener.onDismiss();
+//        }
     }
 
     @Override
     public void dismissAllowingStateLoss() {
         super.dismissAllowingStateLoss();
-        DialogFramentManager.getInstance().removeDialog(this);
-        if(onDismissListener!=null)
-        {
-            onDismissListener.onDismiss();
-        }
+//        DialogFramentManager.getInstance().removeDialog(this);
+//        if(onDismissListener!=null)
+//        {
+//            onDismissListener.onDismiss();
+//        }
     }
 
     @Override

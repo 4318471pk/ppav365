@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -31,7 +30,7 @@ import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingFollowMessage;
-import com.live.fox.entity.LivingMessageBean;
+import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
@@ -48,8 +47,8 @@ import com.live.fox.utils.PlayerUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.bulletMessage.BulletMessageView;
 import com.live.fox.view.LivingClickTextSpan;
+import com.live.fox.view.bulletMessage.VipEnterRoomMessageView;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
@@ -75,7 +74,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import static android.view.View.OVER_SCROLL_NEVER;
 
@@ -741,10 +739,32 @@ public class LivingFragment extends BaseBindingFragment {
                         case MessageProtocol.GAME_CP_WIN:
                             break;
                         case MessageProtocol.LIVE_ENTER_ROOM:
-                            LivingMessageBean livingMessageBean = new Gson().fromJson(msg, LivingMessageBean.class);
-                            livingMessageBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+                            LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
+                            livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
                             livingControlPanel.mBind.vtEnterRoom.
-                                    addCharSequence(ChatSpanUtils.enterRoom(livingMessageBean, getActivity()).create());
+                                    addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
+                            //判断是不是守护或者贵族
+                            if(livingEnterLivingRoomBean.isGuard())
+                            {
+
+                            }
+                            else
+                            {
+                                if(livingEnterLivingRoomBean.getVipLevel()>0)
+                                {
+                                    VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),livingEnterLivingRoomBean);
+                                    BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView, getActivity(), new BulletViewUtils.OnFinishAniListener() {
+                                        @Override
+                                        public void onFinish(Object obj) {
+                                            if(obj instanceof PersonalLivingMessageBean)
+                                            {
+
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
@@ -898,18 +918,7 @@ public class LivingFragment extends BaseBindingFragment {
     {
         if(getActivity()!=null && livingControlPanel!=null)
         {
-            int bulletMessageHeight=ScreenUtils.getDip2px(getActivity(),40);
-            int height=livingControlPanel.mBind.rlMidView.getHeight();
-            int topMargin=0;
-            if(height>bulletMessageHeight)
-            {
-                topMargin=new Random().nextInt(height-bulletMessageHeight);
-            }
-
             livingControlPanel.mBind.rlMidView.postBulletMessage(bean,getActivity());
-//            VipEnterRoomMessageView vipEnterRoomMessageView=new VipEnterRoomMessageView(getActivity(),bean);
-//            livingControlPanel.mBind.rlMidView.addView(vipEnterRoomMessageView);
-//            BulletViewUtils.goRightToLeftDisappear(vipEnterRoomMessageView,getActivity());
         }
     }
 

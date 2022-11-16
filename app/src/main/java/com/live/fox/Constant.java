@@ -247,7 +247,7 @@ public class Constant {
         public static final String Live_rocketlist_URL = LiveClient + "/live/rocketlist"; //火箭位列表
         public static final String LIVE_VIPLIST_URL = LiveClient + "/live/room/user/viplist"; //房间人员列表(显示全部)
         public static final String LIVE_ROOM_PERMISSIONS_URL = LiveClient + "/live/charge/room/chLoginP"; //房间人员列表(显示全部)
-        public static final String LIVE_AnchorCenter ="/live-client/live/getAnchorCenterInfo"; //更改玩具状态
+        public static final String LIVE_AnchorCenter ="/live-client/live/getAnchorCenterInfo"; //获取主播联系方式
 
         /**
          * promotion-client  分享相关接口

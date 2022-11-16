@@ -54,6 +54,7 @@
 
 
                         <TextView
+                            android:id="@+id/tvName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dip"
@@ -61,7 +62,6 @@
                             android:gravity="center"
                             android:textSize="16sp"
                             android:textColor="@color/white"
-                            android:text="名字名字名字名字"
                             />
                     </LinearLayout>
 
@@ -73,6 +73,7 @@
 
 
                         <TextView
+                            android:id="@+id/tvSignature"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -94,7 +95,7 @@
                         >
 
                         <ImageView
-                            android:id="@+id/ivTempWechat"
+                            android:id="@+id/ivContactType"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@mipmap/icon_contact_card_wechat"/>
@@ -103,6 +104,7 @@
                             android:id="@+id/gtvGet"
                             android:layout_width="65dip"
                             android:layout_height="30dip"
+                            android:onClick="@{click.onClickView}"
                             android:gravity="center"
                             android:layout_marginRight="1dip"
                             android:layout_centerVertical="true"
@@ -115,10 +117,11 @@
 
 
                         <TextView
+                            android:id="@+id/tvContactVal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@id/gtvGet"
-                            android:layout_toRightOf="@id/ivTempWechat"
+                            android:layout_toRightOf="@id/ivContactType"
                             android:gravity="center"
                             android:layout_marginLeft="5dip"
                             android:layout_centerVertical="true"
@@ -165,7 +168,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:textColor="@color/white"
-                            android:text="122/1800"
+                            android:text="0/0"
                             android:textSize="12sp"/>
 
                         <com.live.fox.view.ContactCardProgressView
@@ -202,12 +205,13 @@
                     android:src="@drawable/circle_f774ff_913bf6"/>
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/rivImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="5dip"
                     android:layout_centerInParent="true"
                     app:riv_oval="true"
-                    android:src="@drawable/img_default"/>
+                    android:src="@mipmap/user_head_error"/>
 
             </RelativeLayout>
 

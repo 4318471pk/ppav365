@@ -292,7 +292,6 @@ public class AppIMManager {
             mListeners = new HashMap<>();
         }
         if (mListener != null && !mListeners.containsKey(cls.getSimpleName())) {
-            LogUtils.e("3333424");
             mListeners.put(cls.getSimpleName(), mListener);
         }
     }
