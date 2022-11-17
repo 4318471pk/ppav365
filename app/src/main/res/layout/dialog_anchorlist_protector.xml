@@ -72,13 +72,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="10dip" />
+                                android:layout_marginTop="5dip" />
 
                             <com.live.fox.view.MagicTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="6dip"
                                 android:text="@string/protectTag"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
@@ -91,8 +90,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="10dip"
-                                android:text="name"
+                                android:layout_marginTop="5dip"
+                                android:text=""
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
 
@@ -107,10 +106,11 @@
                                 android:textSize="13sp" />
 
                             <TextView
+                                android:id="@+id/tvTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="16dip"
+                                android:layout_marginTop="10dip"
                                 android:text="@string/protectTag2"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
@@ -128,6 +128,7 @@
                                 android:layout_height="match_parent"
                                 />
                             <RelativeLayout
+                                android:id="@+id/rlFloating"
                                 android:layout_width="match_parent"
                                 android:layout_height="35dip"
                                 android:layout_marginLeft="15dip"

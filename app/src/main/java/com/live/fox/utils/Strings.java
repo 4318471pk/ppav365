@@ -16,20 +16,18 @@ import java.util.Date;
  */
 public final class Strings {
 
-    private Strings(){}
+    private Strings() {
+    }
 
-    public static String toString(Collection collection)
-    {
-        if(collection == null)
-        {
+    public static String toString(Collection collection) {
+        if (collection == null) {
             return "null";
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("----print collections-----" + collection.getClass().getName()+"-----------");
+        stringBuilder.append("----print collections-----" + collection.getClass().getName() + "-----------");
         stringBuilder.append("\n");
         int count = 0;
-        for(Object obj : collection)
-        {
+        for (Object obj : collection) {
             count++;
             stringBuilder.append(count + obj.toString());
             stringBuilder.append("\n");
@@ -38,53 +36,45 @@ public final class Strings {
         return stringBuilder.toString();
     }
 
-    public static String toDateString(long timestamp)
-    {
-        if(0==timestamp)
-        {
+    public static String toDateString(long timestamp) {
+        if (0 == timestamp) {
             return "unknown";
         }
         Date date = new Date(timestamp);
         return date.toString();
     }
 
-    public static String toString(String[][] array)
-    {
-        if(null == array || array.length == 0)
-        {
+    public static String toString(String[][] array) {
+        if (null == array || array.length == 0) {
             return "";
         }
 
         StringBuilder builder = new StringBuilder();
-        for(int i = 0;i < array.length;i++)
-        {
+        for (int i = 0; i < array.length; i++) {
             builder.append(Arrays.toString(array[i]));
             builder.append("\n");
         }
         return builder.toString();
     }
 
-    public static String[] toArray(String value,String divider) {
-        if(null == value || value.length() == 0 )
-        {
+    public static String[] toArray(String value, String divider) {
+        if (null == value || value.length() == 0) {
             return new String[0];
         }
         String[] property = value.split(divider);
         return property;
     }
 
-    public static String toString(String[] array,String divider) {
-        if(null == array || array.length == 0)
-        {
+    public static String toString(String[] array, String divider) {
+        if (null == array || array.length == 0) {
             return "";
         }
         StringBuilder builder = new StringBuilder();
-        for(String property : array)
-        {
+        for (String property : array) {
             builder.append(property);
             builder.append(divider);
         }
-        builder.deleteCharAt(builder.length()-1);
+        builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
 
@@ -163,32 +153,26 @@ public final class Strings {
         return true;
     }
 
-    public static boolean equalAmongof(String target,String...str)
-    {
-        if(str==null || target==null)
-        {
+    public static boolean equalAmongof(String target, String... str) {
+        if (str == null || target == null) {
             return false;
         }
 
-        for (int i = 0; i <str.length ; i++) {
-            if(target.equals(str[i]))
-            {
+        for (int i = 0; i < str.length; i++) {
+            if (target.equals(str[i])) {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean containsAmongof(String target,String...str)
-    {
-        if(str==null || target==null)
-        {
+    public static boolean containsAmongof(String target, String... str) {
+        if (str == null || target == null) {
             return false;
         }
 
-        for (int i = 0; i <str.length ; i++) {
-            if(target.contains(str[i]))
-            {
+        for (int i = 0; i < str.length; i++) {
+            if (target.contains(str[i])) {
                 return true;
             }
         }
@@ -196,13 +180,11 @@ public final class Strings {
     }
 
     //length 代表保留几位
-    public static String cutOff(BigDecimal val,int length)
-    {
-        if(val==null)
-        {
+    public static String cutOff(BigDecimal val, int length) {
+        if (val == null) {
             return "";
         }
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("##0.");
         for (int i = 0; i < length; i++) {
             stringBuilder.append("0");
@@ -214,23 +196,19 @@ public final class Strings {
     }
 
     //length 代表保留几位
-    public static String cutOff(String val,int length)
-    {
-        StringBuilder stringBuilder=new StringBuilder();
+    public static String cutOff(String val, int length) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("##0.");
         for (int i = 0; i < length; i++) {
             stringBuilder.append("0");
         }
         DecimalFormat decimalFormat = new DecimalFormat(stringBuilder.toString());
         decimalFormat.setRoundingMode(RoundingMode.FLOOR);
-        if(!TextUtils.isEmpty(val))
-        {
+        if (!TextUtils.isEmpty(val)) {
             try {
                 String format = decimalFormat.format(new BigDecimal(val));
                 return format;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -239,28 +217,32 @@ public final class Strings {
     }
 
     //url connection
-    public static String urlConnect(String downloadUrl)
-    {
+    public static String urlConnect(String downloadUrl) {
         String domain = SPManager.getServerDomain();
 
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
         if(!TextUtils.isEmpty(downloadUrl))
         {
-            if(!downloadUrl.toLowerCase().startsWith("http") && !downloadUrl.toLowerCase().startsWith("https"))
-            {
+            if (!downloadUrl.toLowerCase().startsWith("http") && !downloadUrl.toLowerCase().startsWith("https")) {
                 sb.append(domain);
+                if ( downloadUrl.startsWith("/")) {
+                    sb.append(downloadUrl);
+                } else {
+                    sb.append("/").append(downloadUrl);
+                }
             }
-        }
+            else
+            {
+                return downloadUrl;
+            }
 
-        if(!TextUtils.isEmpty(downloadUrl) && downloadUrl.startsWith("/"))
-        {
-            sb.append(downloadUrl);
         }
         else
         {
-            sb.append("/").append(downloadUrl);
+            return domain;
         }
+
         return sb.toString();
     }
 //

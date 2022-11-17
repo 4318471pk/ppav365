@@ -131,6 +131,7 @@ public abstract class BaseBindingFragment extends BaseFragment {
     }
 
     public void notifyFragment(){}
+    public void onKeyBack(){}
     public abstract void onClickView(View view);
     public abstract int onCreateLayoutId();
     public abstract void initView(View view);

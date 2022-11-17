@@ -8,10 +8,12 @@
             type="com.live.fox.dialog.bottomDialog.SetRoomTypeDialog" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="horizontal"
         android:onClick="@{click.onClickView}"
         >
 
@@ -20,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{click.onClickView}"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="@drawable/bg_round_121212"
             android:orientation="vertical">
 
@@ -96,9 +98,10 @@
                             android:paddingRight="5dip"
                             android:gravity="center"
                             android:singleLine="true"
+                            android:digits="0987654321"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:text="11"
+                            android:text="0"
                             android:background="@drawable/round_5dp_4cf4f1f8"
                             />
 
@@ -153,11 +156,12 @@
                             android:layout_height="30dip"
                             android:paddingLeft="5dip"
                             android:paddingRight="5dip"
+                            android:digits="0987654321"
                             android:gravity="center"
                             android:singleLine="true"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:text="11"
+                            android:text="0"
                             android:background="@drawable/round_5dp_4cf4f1f8"
                             />
 
@@ -207,17 +211,16 @@
                             android:textSize="13sp"
                             android:textColor="#ffffff"/>
 
-                        <EditText
+                        <ImageView
                             android:layout_width="80dip"
-                            android:layout_height="30dip"
-                            android:paddingLeft="5dip"
-                            android:paddingRight="5dip"
-                            android:gravity="center"
-                            android:singleLine="true"
+                            android:layout_height="2dip"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="15dip"
+                            android:paddingRight="15dip"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:text="11"
-                            android:background="@drawable/round_5dp_4cf4f1f8"
+                            android:text=""
+                            android:src="@drawable/round_5dp_4cf4f1f8"
                             />
 
                         <TextView
@@ -251,5 +254,5 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

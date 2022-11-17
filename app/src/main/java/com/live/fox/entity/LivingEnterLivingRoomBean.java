@@ -1,26 +1,40 @@
 package com.live.fox.entity;
 
-public class LivingMessageBean {
+public class LivingEnterLivingRoomBean {
+
 
     public String avatar;
+    public String guardLevel;
+    public boolean isGuard;
     public boolean isInter;
+    public boolean isRoomManage;
     public int isRoomPreview;
     public int liveId;
     public String nickname;
     public String protocol;
     public int rq;
     public int showType;
-    public int uid;
-    public double userExp;
+    public long uid;
+    public int userExp;
     public int userLevel;
+    public int vipLevel;
     public String message;
+    String carId;
 
-    public static LivingMessageBean simpleSystemMessage(String message,String protocol)
-    {
-        LivingMessageBean livingMessageBean=new LivingMessageBean();
-        livingMessageBean.setMessage(message);
-        livingMessageBean.setProtocol(protocol);
-        return livingMessageBean;
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getAvatar() {
@@ -31,12 +45,36 @@ public class LivingMessageBean {
         this.avatar = avatar;
     }
 
+    public String getGuardLevel() {
+        return guardLevel;
+    }
+
+    public void setGuardLevel(String guardLevel) {
+        this.guardLevel = guardLevel;
+    }
+
+    public boolean isGuard() {
+        return isGuard;
+    }
+
+    public void setGuard(boolean guard) {
+        isGuard = guard;
+    }
+
     public boolean isInter() {
         return isInter;
     }
 
     public void setInter(boolean inter) {
         isInter = inter;
+    }
+
+    public boolean isRoomManage() {
+        return isRoomManage;
+    }
+
+    public void setRoomManage(boolean roomManage) {
+        isRoomManage = roomManage;
     }
 
     public int getIsRoomPreview() {
@@ -87,19 +125,19 @@ public class LivingMessageBean {
         this.showType = showType;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
-    public double getUserExp() {
+    public int getUserExp() {
         return userExp;
     }
 
-    public void setUserExp(double userExp) {
+    public void setUserExp(int userExp) {
         this.userExp = userExp;
     }
 
@@ -111,11 +149,11 @@ public class LivingMessageBean {
         this.userLevel = userLevel;
     }
 
-    public String getMessage() {
-        return message;
+    public int getVipLevel() {
+        return vipLevel;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setVipLevel(int vipLevel) {
+        this.vipLevel = vipLevel;
     }
 }

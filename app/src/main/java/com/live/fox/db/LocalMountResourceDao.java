@@ -2,11 +2,15 @@ package com.live.fox.db;
 
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.utils.LogUtils;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import app.resource.db.MountResourceBeanDao;
+import app.resource.db.UserTagResourceBeanDao;
 
 public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean> {
 
@@ -25,10 +29,6 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
 
     public void setResourceDataListener(ResourceDataListener resourceDataListener) {
         this.resourceDataListener = resourceDataListener;
-        if(isAvailable)
-        {
-            resourceDataListener.onDataInsertDone(true);
-        }
     }
 
     @Override
@@ -116,5 +116,12 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
     public void updateData(MountResourceBean mountResourceBean) {
        MountResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao();
        dao.update(mountResourceBean);
+    }
+
+    public MountResourceBean getVehicleById(long carId)
+    {
+        QueryBuilder<MountResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao().queryBuilder();
+        MountResourceBean mountResourceBean= queryBuilder.where(MountResourceBeanDao.Properties.Id.eq(carId)).unique();
+        return mountResourceBean;
     }
 }

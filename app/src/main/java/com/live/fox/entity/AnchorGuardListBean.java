@@ -33,23 +33,27 @@ public class AnchorGuardListBean {
     }
 
     public static class LiveGuardBean {
-        private int id;
-        private int uid;
-        private int aid;
-        private int guardId;
-        private long openTime;
-        private long renewalTime;
-        private long expireTime;
-        private long gmtCreate;
-        private int gmtUpdate;
-        private String operator;
-        private int status;
-        private String nickname;
-        private String guardLevel;
-        private String avatar;
-        private int userLevel;
-        private int vipLevel;
-        private String vipName;
+
+        public int id;
+        public String uid;
+        public int aid;
+        public int guardId;
+        public long openTime;
+        public long renewalTime;
+        public long expireTime;
+        public long gmtCreate;
+        public int gmtUpdate;
+        public String operator;
+        public int status;
+        public String nickname;
+        public String guardLevel;
+        public String levelName;
+        public String avatar;
+        public int userLevel;
+        public int vipLevel;
+        public String vipName;
+        public int sendDiamond;
+        public int weekUpAmount;
 
         public int getId() {
             return id;
@@ -59,11 +63,11 @@ public class AnchorGuardListBean {
             this.id = id;
         }
 
-        public int getUid() {
+        public String getUid() {
             return uid;
         }
 
-        public void setUid(int uid) {
+        public void setUid(String uid) {
             this.uid = uid;
         }
 
@@ -155,6 +159,14 @@ public class AnchorGuardListBean {
             this.guardLevel = guardLevel;
         }
 
+        public String getLevelName() {
+            return levelName;
+        }
+
+        public void setLevelName(String levelName) {
+            this.levelName = levelName;
+        }
+
         public String getAvatar() {
             return avatar;
         }
@@ -185,6 +197,22 @@ public class AnchorGuardListBean {
 
         public void setVipName(String vipName) {
             this.vipName = vipName;
+        }
+
+        public int getSendDiamond() {
+            return sendDiamond;
+        }
+
+        public void setSendDiamond(int sendDiamond) {
+            this.sendDiamond = sendDiamond;
+        }
+
+        public int getWeekUpAmount() {
+            return weekUpAmount;
+        }
+
+        public void setWeekUpAmount(int weekUpAmount) {
+            this.weekUpAmount = weekUpAmount;
         }
     }
 }

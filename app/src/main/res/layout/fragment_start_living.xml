@@ -15,6 +15,13 @@
         android:onClick="@{click.onClickView}"
         >
 
+        <com.opensource.svgaplayer.SVGAImageView
+            android:id="@+id/svImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:loopCount="1"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,26 +56,17 @@
                             android:src="@drawable/img_default"
                             app:riv_oval="true" />
 
-                        <ImageView
-                            android:id="@+id/ivFollow"
-                            android:layout_width="29dp"
-                            android:layout_height="29dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dip"
-                            android:onClick="@{click.onClickView}"
-                            android:src="@mipmap/icon_small_follow" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="3dip"
-                            android:layout_toLeftOf="@id/ivFollow"
                             android:layout_toRightOf="@id/rivProfileImage"
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvAnchorName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="名字名字名字名字"
@@ -76,9 +74,9 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvAnchorID"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ID:123456789123456"
                                 android:textColor="@color/white"
                                 android:textSize="9sp" />
                         </LinearLayout>
@@ -216,16 +214,7 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlMidView"
-                android:layout_width="match_parent"
-                android:layout_height="200dip"
-                >
-
-
-            </RelativeLayout>
         </LinearLayout>
-
 
         <RelativeLayout
             android:id="@+id/rlBotView"
@@ -323,7 +312,6 @@
 
         </RelativeLayout>
 
-
         <RelativeLayout
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
@@ -332,6 +320,13 @@
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
             >
+
+            <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
+                android:id="@+id/rlEnterRoom"
+                android:layout_width="match_parent"
+                android:layout_height="21dip"
+                />
+
             <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
@@ -341,7 +336,47 @@
                 android:requiresFadingEdge="vertical"
                 android:fadingEdgeLength="50dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="26dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="40dip"
+                android:paddingLeft="5dip"
+                >
+                <com.live.fox.view.AutoVerticalScrollTextView
+                    android:id="@+id/vtEnterRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dip"
+                    android:paddingRight="25dip"
+                    android:paddingTop="5dip"
+                    android:paddingBottom="5dip"
+                    android:maxLines="1"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
         </RelativeLayout>
+
+        <com.live.fox.view.bulletMessage.BulletMessageParentView
+            android:id="@+id/rlMidView"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:orientation="vertical"
+            android:focusable="false"
+            >
+
+        </com.live.fox.view.bulletMessage.BulletMessageParentView>
+
+        <com.live.fox.view.bulletMessage.VehicleParentVIew
+            android:id="@+id/rlVehicleParentView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
+        </com.live.fox.view.bulletMessage.VehicleParentVIew>
 
     </RelativeLayout>
 </layout>

@@ -49,7 +49,7 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<User, Onli
         int sexResId = sex == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
         if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_BOTTOM);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
         spanUtils.append(" ");
     }
 
@@ -87,7 +87,7 @@ public class OnlineUserOrNobilityListAdapter extends BaseQuickAdapter<User, Onli
 //
         spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
-        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_BOTTOM);
+        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
         return spanUtils.create();
     }
 

@@ -101,6 +101,7 @@
                     android:src="@drawable/circle_white"/>
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/rivImage"
                     android:layout_width="70dip"
                     android:layout_height="70dip"
                     android:layout_centerInParent="true"

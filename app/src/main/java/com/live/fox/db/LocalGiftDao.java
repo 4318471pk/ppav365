@@ -29,10 +29,6 @@ public class LocalGiftDao implements ResourceDaoImpl<GiftResourceBean>{
 
     public void setResourceDataListener(ResourceDataListener resourceDataListener) {
         this.resourceDataListener = resourceDataListener;
-        if(isAvailable)
-        {
-            resourceDataListener.onDataInsertDone(true);
-        }
     }
 
     @Override

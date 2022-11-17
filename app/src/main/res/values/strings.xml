@@ -1478,10 +1478,14 @@
     <string name="paymentType">计费方式</string>
     <string name="paymentAmount">计费金额：</string>
     <string name="mars">火星</string>
+    <string name="enterRoomTag">进入房间!</string>
 
     <string name="netWorkGood">网络良好</string>
     <string name="netWorkCommon">网络一般</string>
     <string name="netWorkWorst">网络较差</string>
+
+    <string name="hint2">已开启弹幕评论，10钻石/条</string>
+    <string name="hint1">输入想跟主播说的话</string>
 
     <string name="payPerHour">按时收费</string>
     <string name="payEachShow">按场收费</string>
@@ -1516,6 +1520,9 @@
     <string name="ren">人</string>
 
     <string name="tip10">落后%1$s火力</string>
+    <string name="tip11">上周贡献&#32;%1$s&#32;火力</string>
+    <string name="tip12">乘坐【%1$s】来了</string>
+    <string name="tip13">需要先创建过直播房间</string>
     <string name="emptyPosition">虚位以待</string>
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>

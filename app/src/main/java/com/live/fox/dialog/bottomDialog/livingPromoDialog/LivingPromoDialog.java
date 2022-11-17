@@ -93,6 +93,12 @@ public class LivingPromoDialog extends BaseBindingDialogFragment {
     }
 
     @Override
+    public boolean onBackPress() {
+        startAnimate(mBind.rllContent,false);
+        return true;
+    }
+
+    @Override
     public void onClickView(View view) {
         switch (view.getId())
         {

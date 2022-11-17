@@ -2,11 +2,15 @@ package com.live.fox.db;
 
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.UserGuardResourceBean;
+import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.utils.LogUtils;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import app.resource.db.UserGuardResourceBeanDao;
+import app.resource.db.UserTagResourceBeanDao;
 
 public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>{
 
@@ -25,10 +29,6 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
 
     public void setResourceDataListener(ResourceDataListener resourceDataListener) {
         this.resourceDataListener = resourceDataListener;
-        if(isAvailable)
-        {
-            resourceDataListener.onDataInsertDone(true);
-        }
     }
 
     @Override
@@ -117,4 +117,18 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
       UserGuardResourceBeanDao dao=  CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao();
       dao.update(userGuardResourceBean);
     }
+
+    public UserGuardResourceBean getLevel(int level)
+    {
+        QueryBuilder<UserGuardResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao().queryBuilder();
+        UserGuardResourceBean userGuardResourceBean= queryBuilder.where(UserGuardResourceBeanDao.Properties.GuardLevel.eq(level)).unique();
+        return userGuardResourceBean;
+    }
+
+    public long getCount()
+    {
+        long count=CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao().count();
+        return count;
+    }
+
 }

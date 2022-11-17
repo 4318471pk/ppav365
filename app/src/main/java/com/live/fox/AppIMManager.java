@@ -151,7 +151,6 @@ public class AppIMManager {
      */
     public void addMessageListener(Class<?> cls, OnMessageReceivedListener mListener) {
         setOnMessageReceivedListener(cls, mListener);
-        LogUtils.e("2222");
         addIMMessageListener();
     }
 
@@ -292,7 +291,6 @@ public class AppIMManager {
             mListeners = new HashMap<>();
         }
         if (mListener != null && !mListeners.containsKey(cls.getSimpleName())) {
-            LogUtils.e("3333424");
             mListeners.put(cls.getSimpleName(), mListener);
         }
     }

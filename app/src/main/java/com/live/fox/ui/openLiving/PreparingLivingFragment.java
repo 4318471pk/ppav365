@@ -1,6 +1,7 @@
 package com.live.fox.ui.openLiving;
 
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -34,6 +35,7 @@ public class PreparingLivingFragment extends BaseBindingFragment {
     FragmentPreparingLivingBinding mBind;
     int iconArray[]={R.mipmap.icon_cameral_change,R.mipmap.icon_beaty_effect,
             R.mipmap.icon_gametype,R.mipmap.icon_advantage,R.mipmap.icon_roomtype};
+    String liveId;
 
     @Override
     public void onClickView(View view) {
@@ -50,8 +52,8 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                 openLivingActivity.showStartLiving();
                 break;
             case R.id.tvLocation:
-                SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
+//                SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
+//                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
                 break;
             case R.id.ivRoomPic:
                 EditProfileImageDialog dialog= EditProfileImageDialog.getInstance();
@@ -65,6 +67,15 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         return R.layout.fragment_preparing_living;
     }
 
+    public OpenLivingActivity getMainActivity()
+    {
+        if(isActivityOK())
+        {
+            return (OpenLivingActivity)getActivity();
+        }
+        return null;
+    }
+
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
@@ -72,7 +83,7 @@ public class PreparingLivingFragment extends BaseBindingFragment {
 
         int screenWidth= ScreenUtils.getScreenWidth(getContext());
         int screenHeight=ScreenUtils.getScreenHeight(getContext());
-
+        liveId=getMainActivity().liveId;
         view.setVisibility(View.GONE);
         RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mBind.rlContent.getLayoutParams();
         rl.width=(int)(screenWidth*0.8f);
@@ -130,11 +141,13 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contactCardObtainDialog);
                             break;
                         case 4:
-                            SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance(false);
+                            String liveId=getMainActivity().liveId;
+                            SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance(false,liveId);
                             setRoomTypeDialog.setOnSelectRoomTypeListener(new SetRoomTypeDialog.OnSelectRoomTypeListener() {
                                 @Override
-                                public void onSelect(int position) {
-
+                                public void onSelect(String liveId, int type, int price) {
+                                            getMainActivity().roomPrice=price;
+                                            getMainActivity().roomType=type;
                                 }
                             });
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setRoomTypeDialog);
@@ -146,5 +159,6 @@ public class PreparingLivingFragment extends BaseBindingFragment {
 
         view.setVisibility(View.VISIBLE);
     }
+
 
 }

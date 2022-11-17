@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -52,6 +53,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
     ActivityCenterAnchorBinding mBind;
     List<ConfigPathsBean> configPathsBeans;
+    String liveId;
 
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, CenterOfAnchorActivity.class));
@@ -165,7 +167,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                     Manifest.permission.RECORD_AUDIO)
                     .subscribe(granted -> {
                         if (granted) {
-                            OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,mBind.gtvTitleOfRoom.getText().toString());
+                            if(!TextUtils.isEmpty(liveId))
+                            {
+                                String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
+                                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId);
+                            }
                         } else { // 有的权限被拒绝或被勾选不再提示
                             LogUtils.e("有的权限被拒绝");
                             new AlertDialog.Builder(CenterOfAnchorActivity.this)
@@ -176,12 +182,13 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         }
                     });
         } else {
-            OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,mBind.gtvTitleOfRoom.getText().toString());
+            if(!TextUtils.isEmpty(liveId))
+            {
+                String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
+                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId);
+            }
         }
     }
-
-
-
 
     private void getLineList()
     {
@@ -225,11 +232,34 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     private void getCenterData()
     {
         showLoadingDialogWithNoBgBlack();
+        //{"roomId":null,"icon":null,"title":null,"type":null}
         Api_Live.ins().getAnchorCenterInfo(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
-                Log.e("getCenterData",data);
+                if(code==0)
+                {
+                    try {
+                        JSONObject jsonObject=new JSONObject(data);
+                        liveId= jsonObject.optString("roomId","");
+                        String icon= jsonObject.optString("icon","");
+                        String title= jsonObject.optString("title","");
+                        String type= jsonObject.optString("type","");
+                        GlideUtils.loadDefaultImage(CenterOfAnchorActivity.this,icon,R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.ivRoomIcon);
+                        mBind.gtvTitleOfRoom.setText(title);
+//                        switch (type)
+//                        {
+//
+//                        }
+//                        mBind.gtvTypeOfRoom.setText();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
             }
         });
     }

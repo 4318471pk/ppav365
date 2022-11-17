@@ -75,6 +75,43 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * 获取礼物数量列表
+     */
+    public void getBulletMessageList(JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.BulletMessageList);
+
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+    /**
+     * 获取喇叭数量
+     */
+    public void getAmountOfSpeaker(String liveId,JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.amountOfSpeaker);
+
+        callback.setArg(liveId);
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
+
 
     /**
      * 根据主播id查询守护列表、守护总人数
@@ -226,7 +263,8 @@ public class Api_Live extends BaseApi {
 
 
     /**
-     * 获取主播认证状态*/
+     *  主播开播
+     * */
     public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,
                               JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
@@ -272,17 +310,18 @@ public class Api_Live extends BaseApi {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.getAnchorCard);
-        stringBuilder.append("?anchorId=").append(anchorId);
 
-        OkGoHttpUtil.getInstance().doGet(stringBuilder.toString(),
-                stringBuilder.toString(),
-                getCommonHeaders(System.currentTimeMillis())).execute(callback);
-//        OkGoHttpUtil.getInstance().doJsonPost(
-//                "",
-//                url,
-//                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-//                new Gson().toJson(params))
-//                .execute(callback);
+        String url=stringBuilder.toString();
+        HashMap<String, Object> params = getCommonParams();
+        params.put("anchorId", anchorId);
+
+        callback.setArg(liveId);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
     }
 
     /**
@@ -310,18 +349,17 @@ public class Api_Live extends BaseApi {
     /**
      * 更改房间类型
      */
-    public void changeRoomType(int liveId, int type, int price, String password,
-                               String checkText, JsonCallback<String> callback) {
+    public void changeRoomType(String liveId, int type, int price,
+                               JsonCallback<String> callback) {
         callback.setUrlTag("room/change");
         String url = SPManager.getServerDomain() + Constant.URL.Live_chargeroomchange_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("type", type);
-        params.put("userLoginPasword", checkText);
+//        params.put("userLoginPasword", checkText);
         params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
-        params.put("currentUserAppVersion", AppUtils.getAppVersionName());
+//        params.put("currentUserAppVersion", AppUtils.getAppVersionName());
         if (price > 0) params.put("price", price);
-        if (!StringUtils.isEmpty(password)) params.put("password", password);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -573,6 +611,23 @@ public class Api_Live extends BaseApi {
      */
     public void sendMessage(String liveId, String msg, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_chat_URL;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+        params.put("msg", msg);
+//        params.put("isRoomPreview", preview);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 直播间发送弹幕
+     */
+    public void sendBulletMessage(String liveId, String msg, JsonCallback callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.sendBulletMessage;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("msg", msg);

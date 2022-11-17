@@ -18,6 +18,12 @@ public class SetLocationDialog extends BaseBindingDialogFragment {
     }
 
     @Override
+    public boolean onBackPress() {
+        startAnimate(mBind.llMain,false);
+        return true;
+    }
+
+    @Override
     public void onClickView(View view) {
         switch (view.getId())
         {

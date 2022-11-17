@@ -30,6 +30,7 @@ public interface MessageProtocol {
     public static final String GAME_CP_BET = "2016";//彩票下注消息
     public static final String GAME_CP_WIN = "2017";//彩票中奖消息
     public static final String LIVE_ROOM_CHAT_VIP = "2018";//直播间贵族聊天(大于一定等级的贵族)
+    public static final String LIVE_ROOM_CHAT_FLOATING_MESSAGE = "2019";//弹幕消息
 
     /**
      * 弹幕消息

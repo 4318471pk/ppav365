@@ -33,7 +33,7 @@ public class AnchorProtectorAdapter extends BaseQuickAdapter<AnchorGuardListBean
     protected void convert(ProtectListHolder helper, AnchorGuardListBean.LiveGuardBean item) {
         SpanUtils spanUtils=new SpanUtils();
         ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context);
-        ChatSpanUtils.appendVipLevelIcon(spanUtils,item.getVipLevel(), context);
+        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,item.getVipLevel(), context);
         helper.tvNickName.setText(item.getNickname());
         helper.tvIcons.setText(spanUtils.create());
 

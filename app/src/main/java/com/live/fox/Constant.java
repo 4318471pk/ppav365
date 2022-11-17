@@ -205,9 +205,10 @@ public class Constant {
         public static final String USER_getMyNoble = "/pk-client/vip/getMyNobility"; // 我的貴族
         public static final String USER_buyNoble = "/pk-client/vip/buyOrRenewalVip"; // 购买续费貴族 /pk-client/vip/buyOrRenewalVip
 
-
-
         //live-client 直播相关接口
+        public static final String amountOfSpeaker="/live-client/live/getSpeakersNumber";//喇叭数量
+        public static final String BulletMessageList="/live-client/live/getBarrageList";//弹幕列表
+        public static final String sendBulletMessage="/live-client/live/room/barrage/send";//发送弹幕消息
         public static final String ContributionDaily="/live-client/live/anchor/contribute/daily";//今日主播贡献榜: 日榜、
         public static final String GiftList="/live-client/live/queryGift";//礼物列表
         public static final String LiveClient = "/live-client";
@@ -244,7 +245,7 @@ public class Constant {
         public static final String Live_rocketlist_URL = LiveClient + "/live/rocketlist"; //火箭位列表
         public static final String LIVE_VIPLIST_URL = LiveClient + "/live/room/user/viplist"; //房间人员列表(显示全部)
         public static final String LIVE_ROOM_PERMISSIONS_URL = LiveClient + "/live/charge/room/chLoginP"; //房间人员列表(显示全部)
-        public static final String LIVE_AnchorCenter ="/live-client/live/getAnchorCenterInfo"; //更改玩具状态
+        public static final String LIVE_AnchorCenter ="/live-client/live/getAnchorCenterInfo"; //获取主播联系方式
 
         /**
          * promotion-client  分享相关接口

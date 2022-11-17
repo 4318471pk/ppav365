@@ -29,10 +29,6 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
 
     public void setResourceDataListener(ResourceDataListener resourceDataListener) {
         this.resourceDataListener = resourceDataListener;
-        if(isAvailable)
-        {
-            resourceDataListener.onDataInsertDone(true);
-        }
     }
 
     @Override
@@ -103,6 +99,11 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
                 resourceDataListener.onDataInsertDone(false);
             }
         }
+    }
+
+    public long getCount()
+    {
+        return CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().count();
     }
 
     @Override
