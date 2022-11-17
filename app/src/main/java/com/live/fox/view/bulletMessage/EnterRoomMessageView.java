@@ -3,10 +3,12 @@ package com.live.fox.view.bulletMessage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -50,28 +52,40 @@ public class EnterRoomMessageView extends RelativeLayout {
 
     private void initView(LivingEnterLivingRoomBean bean)
     {
-        bgDrawable=getResources().getDrawable(R.mipmap.bg_vip_floating_enterroom);
+        LayoutInflater.from(getContext()).inflate(R.layout.layout_vip_enterroom_message,this,true);
+        ivBg=findViewById(R.id.ivBg);
+        llContent=findViewById(R.id.llContent);
+
+        if(bean.isGuard())
+        {
+            ivBg.setImageDrawable(getResources().getDrawable(R.mipmap.bg_guard_floating_enterroom));
+        }
+        else
+        {
+            if(bean.getVipLevel()>0)
+            {
+                ivBg.setImageDrawable(getResources().getDrawable(R.mipmap.bg_vip_floating_enterroom));
+            }
+        }
+
+        bgDrawable=ivBg.getDrawable();
         int viewWidth=bgDrawable.getIntrinsicWidth();
         int viewHeight=bgDrawable.getIntrinsicHeight();
         Paint paint = new Paint();
         paint.setTextSize(ScreenUtils.sp2px(getContext(),13));
         widthEnterRoom = (int)(paint.measureText(getResources().getString(R.string.enterRoomTag)));
 
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_vip_enterroom_message,this,true);
-        ivBg=findViewById(R.id.ivBg);
-        llContent=findViewById(R.id.llContent);
         RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams)ivBg.getLayoutParams();
         rl.height= ScreenUtils.dp2px(getContext(),21);
         rl.width=rl.height*viewWidth/viewHeight;
         ivBg.setLayoutParams(rl);
 
-
         RelativeLayout.LayoutParams rlContent=(RelativeLayout.LayoutParams) llContent.getLayoutParams();
-        rlContent.leftMargin=(int)(rl.width*0.15f);
-        rlContent.width=(int)(rl.width*0.85f);
+        rlContent.leftMargin=(int)(rl.width*0.14f);
+        rlContent.width=(int)(rl.width*0.86f);
         llContent.setLayoutParams(rlContent);
 
-        int totalWidth=(int)(rl.width*0.85f);
+        int totalWidth=rlContent.width;
         int iconWidth=0;
         if(bean!=null)
         {
@@ -128,7 +142,12 @@ public class EnterRoomMessageView extends RelativeLayout {
             if(!TextUtils.isEmpty( bean.getNickname()))
             {
                 int dip2=ScreenUtils.dp2px(getContext(),2);
-                int width=totalWidth-iconWidth-widthEnterRoom-dip2*5;
+                int width=totalWidth-iconWidth-widthEnterRoom-(dip2*10);
+                int nameWidth = (int)(paint.measureText(bean.getNickname()));
+                if(nameWidth<width)
+                {
+                    width=nameWidth;
+                }
                 TextView textView=new TextView(getContext());
                 LinearLayout.LayoutParams ll= new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
                 ll.gravity= Gravity.CENTER_VERTICAL;
@@ -139,6 +158,7 @@ public class EnterRoomMessageView extends RelativeLayout {
                 textView.setSingleLine();
                 textView.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 textView.setText(bean.getNickname());
+                textView.setBackgroundColor(Color.GRAY);
                 llContent.addView(textView);
 
                 TextView enterRoom=new TextView(getContext());
@@ -149,19 +169,9 @@ public class EnterRoomMessageView extends RelativeLayout {
                 enterRoom.setTextColor(0xffFFFFFF);
                 enterRoom.setSingleLine();
                 enterRoom.setText(getResources().getString(R.string.enterRoomTag));
+                enterRoom.setBackgroundColor(Color.GREEN);
                 llContent.addView(enterRoom);
-            }
 
-            if(bean.isGuard())
-            {
-                ivBg.setImageDrawable(getResources().getDrawable(R.mipmap.bg_guard_floating_enterroom));
-            }
-            else
-            {
-                if(bean.getVipLevel()>0)
-                {
-                    ivBg.setImageDrawable(getResources().getDrawable(R.mipmap.bg_vip_floating_enterroom));
-                }
             }
 
         }

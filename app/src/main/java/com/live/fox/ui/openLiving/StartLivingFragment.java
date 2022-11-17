@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.live.fox.AnchorLiveActivity;
 import com.live.fox.AppIMManager;
@@ -29,6 +30,7 @@ import com.live.fox.LiveFinishActivity;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
+import com.live.fox.adapter.LivingTop20OnlineUserAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
@@ -44,6 +46,7 @@ import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.entity.Audience;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingFollowMessage;
@@ -107,6 +110,7 @@ public class StartLivingFragment extends BaseBindingFragment {
     List<SvgAnimateLivingBean> livingMessageGiftBeans = new LinkedList<>();//播放SVGA的数组
     Handler mHandler=new Handler(Looper.myLooper());
     String liveId;
+    LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
@@ -231,6 +235,11 @@ public class StartLivingFragment extends BaseBindingFragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mBind.msgBox.setLayoutManager(linearLayoutManager);
+
+        LinearLayoutManager horLayoutManager=new LinearLayoutManager(getContext());
+        horLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        mBind.rvTop20Online.setLayoutManager(horLayoutManager);
+        mBind.rvTop20Online.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
 
         CountTimerUtil.getInstance().start(mBind.rlMain, new CountTimerUtil.OnAnimationFinishListener() {
             @Override
@@ -668,5 +677,56 @@ public class StartLivingFragment extends BaseBindingFragment {
         livingMsgBoxAdapter.getBeans().add(bean);
         livingMsgBoxAdapter.notifyDataSetChanged();
         mBind.msgBox.smoothScrollToPosition(livingMsgBoxAdapter.getBeans().size());
+    }
+
+
+    /**
+     * 刷新观众列表
+     * 普通用戶根據用戶經驗排序
+     */
+    private void refreshAudienceList() {
+        if(!isActivityOK() )
+        {
+            return;
+        }
+
+        Api_Live.ins().getAudienceList(liveId, new JsonCallback<List<Audience>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<Audience> result) {
+                if (code == 0 ) {
+                    if(result != null )
+                    {
+                        if(isActivityOK() )
+                        {
+                            if(livingTop20OnlineUserAdapter==null)
+                            {
+                                livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
+                                livingTop20OnlineUserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        Audience audience= (Audience)adapter.getData().get(position);
+                                        if(audience!=null)
+                                        {
+                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceInAnchorRoom);
+                                            dialog.setAudience(audience);
+                                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), dialog);
+                                        }
+                                    }
+                                });
+                                mBind.rvTop20Online.setAdapter(livingTop20OnlineUserAdapter);
+                            }
+                            else
+                            {
+                                livingTop20OnlineUserAdapter.setNewData(result);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
     }
 }

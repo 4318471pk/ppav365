@@ -201,14 +201,14 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 }
                 break;
             case R.id.tv2:
-                startAnimate2(mBind.rlContent, false);
+                if(mode==AudienceAnchor || mode==Audience)
+                {
+                    startAnimate2(mBind.rlContent, false);
+                }
                 break;
             case R.id.tv3:
                 switch (mode)
                 {
-                    case Audience:
-                        //没有这个功能
-                        break;
                     case AudienceAnchor://用户端直播间主播
                         if(livingCurrentAnchorBean!=null && !TextUtils.isEmpty(livingCurrentAnchorBean.getAnchorId()))
                         {
@@ -218,9 +218,6 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                     case AudienceInAnchorRoom:
                         LivingAudiencesManageDialog livingAudiencesManageDialog=LivingAudiencesManageDialog.getInstance();
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),livingAudiencesManageDialog);
-                        break;
-                    case AnchorSelf:
-
                         break;
                 }
                 break;
@@ -322,7 +319,6 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 mBind.tv2.setText("");
                 mBind.tv2.setEnabled(false);
                 mBind.tv3.setText(getResources().getString(R.string.manager));
-                mBind.tvReport.setVisibility(View.INVISIBLE);
                 break;
             case AnchorSelf:
                 mBind.llBotView.setVisibility(View.INVISIBLE);
