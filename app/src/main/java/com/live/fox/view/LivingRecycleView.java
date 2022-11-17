@@ -64,6 +64,8 @@ public class LivingRecycleView extends RecyclerView {
             return super.onTouchEvent(e);
         }
         viewPager.setUserInputEnabled(false);
+
+        Log.e("onTouchEvent",e.getAction()+" ");
         switch (e.getAction())
         {
 //            case MotionEvent.ACTION_DOWN:
@@ -71,14 +73,15 @@ public class LivingRecycleView extends RecyclerView {
 //                viewPager.setUserInputEnabled(false);
 //                break;
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                viewPager.setUserInputEnabled(true);
+//                viewPager.setUserInputEnabled(true);
                 if(onTouchViewUpListener!=null)
                 {
                     onTouchViewUpListener.onTouch();
                 }
+            case MotionEvent.ACTION_CANCEL:
                 break;
         }
+
 
         return super.onTouchEvent(e);
     }

@@ -109,7 +109,11 @@ public class MessageViewWatch {
                         mbind.etDiaMessage.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mbind.etDiaMessage.requestFocus();
+                                if(activity!=null && !activity.isFinishing() && !activity.isDestroyed())
+                                {
+                                    mbind.etDiaMessage.requestFocus();
+                                }
+
                             }
                         },500);
 
@@ -160,7 +164,10 @@ public class MessageViewWatch {
         mBind.etDiaMessage.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mBind.etDiaMessage.requestFocus();
+                if(activity!=null && !activity.isFinishing() && !activity.isDestroyed())
+                {
+                    mBind.etDiaMessage.requestFocus();
+                }
             }
         },500);
     }
@@ -192,15 +199,13 @@ public class MessageViewWatch {
         mBind.llTopView.setVisibility(VISIBLE);
         RelativeLayout.LayoutParams rlMessages = (RelativeLayout.LayoutParams) mBind.llMessages.getLayoutParams();
         rlMessages.height = (int) (screenHeight * 0.5f) - com.live.fox.utils.device.ScreenUtils.getDip2px(activity, 45);
-        rlMessages.width = (int) (screenWidth * 0.7f);
+        rlMessages.width=(int)(screenWidth*0.7f)+ScreenUtils.getDip2px(activity,10);
         rlMessages.bottomMargin = ScreenUtils.getDip2px(activity, 45);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
-        mBind.llMessages.setLayoutParams(rlMessages);
         mBind.llInputLayout.setVisibility(GONE);
         mBind.rlButtons.setVisibility(VISIBLE);
-        setScrollEnable(true);
 
     }
 
@@ -214,8 +219,8 @@ public class MessageViewWatch {
         mBind.llMessageTabs.setVisibility(View.INVISIBLE);
         setMessageListAndTabs();//加载快捷消息列表
         RelativeLayout.LayoutParams rlMessages = (RelativeLayout.LayoutParams) mBind.llMessages.getLayoutParams();
-        rlMessages.height = (int) (screenHeight * 0.5f) - com.live.fox.utils.device.ScreenUtils.getDip2px(activity, 45);
-        rlMessages.width = (int) (screenWidth * 0.7f);
+        rlMessages.height = (int) (screenHeight * 0.5f) - ScreenUtils.getDip2px(activity, 45);
+        rlMessages.width=(int)(screenWidth*0.7f)+ScreenUtils.getDip2px(activity,10);
         rlMessages.bottomMargin = height + ScreenUtils.getDip2px(activity, 90);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
@@ -233,7 +238,10 @@ public class MessageViewWatch {
         mBind.getRoot().postDelayed(new Runnable() {
             @Override
             public void run() {
-                showMessageListAndTab();
+                if(activity!=null && !activity.isFinishing() && !activity.isDestroyed())
+                {
+                    showMessageListAndTab();
+                }
             }
         },400);
 

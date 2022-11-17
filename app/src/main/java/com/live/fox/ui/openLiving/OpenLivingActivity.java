@@ -111,14 +111,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-        AppIMManager.ins().addMessageListener(OpenLivingActivity.class, new AppIMManager.OnMessageReceivedListener(){
-            @Override
-            public void onIMReceived(int protocol, String msg) {
-                StartLivingFragment startLivingFragment=(StartLivingFragment) fragments.get(1);
-                startLivingFragment.onReceivedMessage(protocol,msg);
-            }
-        });
-
         roomTitle=getIntent().getStringExtra(Title);
         liveId=getIntent().getStringExtra(LiveID);
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
@@ -161,6 +153,17 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+    public void startAcceptMessage()
+    {
+        AppIMManager.ins().addMessageListener(OpenLivingActivity.class, new AppIMManager.OnMessageReceivedListener(){
+            @Override
+            public void onIMReceived(int protocol, String msg) {
+                Log.e("startAcceptMessage",msg);
+                StartLivingFragment startLivingFragment=(StartLivingFragment) fragments.get(1);
+                startLivingFragment.onReceivedMessage(protocol,msg);
+            }
+        });
+    }
     /**
      * 开启摄像头预览
      */
@@ -488,7 +491,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 //
 //        heartHandler.removeMessages(1);
 
-        AppIMManager.ins().removeMessageReceivedListener(AnchorLiveActivity.class);
+        AppIMManager.ins().removeMessageReceivedListener(OpenLivingActivity.class);
 
         stopRTMPPush(); // 停止推流
         if (mBind.txVideoView != null) {

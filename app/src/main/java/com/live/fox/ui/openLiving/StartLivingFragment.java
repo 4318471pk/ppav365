@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.live.fox.AnchorLiveActivity;
 import com.live.fox.AppIMManager;
@@ -59,10 +60,12 @@ import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.CountTimerUtil;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.KeyboardUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
@@ -93,7 +96,7 @@ import java.util.List;
 
 import static com.tencent.rtmp.TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
 
-public class StartLivingFragment extends BaseBindingFragment implements AppIMManager.OnMessageReceivedListener{
+public class StartLivingFragment extends BaseBindingFragment {
 
     final int playSVGA = 123;
     final int userHeartBeat=987;
@@ -195,6 +198,9 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
         liveId=getMainActivity().liveId;
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
         int screenWidth=ScreenUtils.getScreenWidth(getActivity());
+
+        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f), StatusBarUtil.getStatusBarHeight(getActivity()));
+        setViewLPRL(mBind.rlMidView,(int)(screenHeight*0.2f),(int)(screenHeight*0.32f));
 
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(getActivity(),45);
@@ -409,12 +415,6 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
         //游戏退出
     }
 
-    @Override
-    public void onIMReceived(int protocol, String msg) {
-        sendSystemMsgToChat(msg);
-    }
-
-
     /**
      * 改变房间类型
      */
@@ -458,10 +458,17 @@ public class StartLivingFragment extends BaseBindingFragment implements AppIMMan
                             ToastUtils.showShort(getString(R.string.startLivingFail));
                             return;
                         }
+
+                        User user= DataCenter.getInstance().getUserInfo().getUser();
+                        mBind.tvAnchorName.setText(user.getNickname());
+                        mBind.tvAnchorID.setText("ID:"+user.getUid());
+                        GlideUtils.loadCircleImage(getActivity(), user.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
+                                mBind.rivProfileImage);
+
                         getMainActivity().setPushUrl(pushStreamUrl);
-                        AppIMManager.ins().addMessageListener(StartLivingFragment.class, StartLivingFragment.this);
                         OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
                         openLivingActivity.startRTMPPush();
+                        openLivingActivity.startAcceptMessage();
                         checkAndJoinIM();
 
                     } catch (JSONException e) {

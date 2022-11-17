@@ -108,6 +108,7 @@ public class LivingControlPanel extends RelativeLayout {
         addView(mBind.getRoot());
 
         setVisibility(GONE);
+        LivingActivity livingActivity=(LivingActivity) fragment.getActivity();
         int topPadding= NotchInScreen.hasNotchInScreen(fragment.getActivity())?0:
                 StatusBarUtil.getStatusBarHeight(fragment.getActivity());
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(parent.getContext());
@@ -117,6 +118,8 @@ public class LivingControlPanel extends RelativeLayout {
         messageViewWatch.watchView(this,mBind);
         setViewLP(mBind.llTopView,(int)(screenHeight*0.32f),StatusBarUtil.getStatusBarHeight(fragment.getActivity()));
         setViewLPRL(mBind.rlMidView,(int)(screenHeight*0.2f),(int)(screenHeight*0.32f));
+        mBind.rlMain.setViewPager(livingActivity.getViewPager());
+        mBind.rlMain.setMessageViewWatch(messageViewWatch);
 
         //加入弹幕弹道
         int height=(int)(screenHeight*0.2f);
@@ -135,19 +138,22 @@ public class LivingControlPanel extends RelativeLayout {
 
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),45);
-        rlMessages.width=ViewGroup.LayoutParams.MATCH_PARENT;
+        rlMessages.width=(int)(screenWidth*0.7f)+ScreenUtils.getDip2px(fragment.getActivity(),10);
         rlMessages.bottomMargin=ScreenUtils.getDip2px(fragment.getActivity(),45);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
-        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),47);
-        mBind.msgBox.getLayoutParams().width=(int)(screenWidth*0.7f);
+        LinearLayout.LayoutParams llMsgBox=(LinearLayout.LayoutParams) mBind.msgBox.getLayoutParams();
+        llMsgBox.leftMargin=ScreenUtils.getDip2px(getActivity(),10);
+        llMsgBox.height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),47);
+        llMsgBox.width=(int)(screenWidth*0.7f);
+        mBind.msgBox.setLayoutParams(llMsgBox);
 
         mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mBind.msgBox.setLayoutManager(linearLayoutManager);
-        LivingActivity livingActivity=(LivingActivity) fragment.getActivity();
+
         mBind.msgBox.setViewPager(livingActivity.getViewPager());
         mBind.msgBox.setOnTouchViewUpListener(new LivingRecycleView.OnTouchViewUpListener() {
             @Override
@@ -156,7 +162,6 @@ public class LivingControlPanel extends RelativeLayout {
                 {
                     messageViewWatch.hideInputLayout();
                     messageViewWatch.hideKeyboard();
-                    messageViewWatch.setScrollEnable(true);
                 }
             }
         });
