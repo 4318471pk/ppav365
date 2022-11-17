@@ -27,12 +27,17 @@
                 android:id="@+id/tvWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="25dip"
                 />
 
             <TextView
                 android:id="@+id/tvVehicleTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#ffffffff"
+                android:paddingLeft="25dip"
+                />
         </LinearLayout>
 
 

@@ -59,6 +59,11 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
         }
     }
 
+    @Override
+    public boolean onBackPress() {
+        startAnimate(mBind.llContent,false);
+        return true;
+    }
 
     private void showAnotherDialog(int id) {
         startAnimate(mBind.llContent, false, new Animation.AnimationListener() {

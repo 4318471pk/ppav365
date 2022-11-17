@@ -151,7 +151,6 @@ public class AppIMManager {
      */
     public void addMessageListener(Class<?> cls, OnMessageReceivedListener mListener) {
         setOnMessageReceivedListener(cls, mListener);
-        LogUtils.e("2222");
         addIMMessageListener();
     }
 

@@ -349,18 +349,17 @@ public class Api_Live extends BaseApi {
     /**
      * 更改房间类型
      */
-    public void changeRoomType(int liveId, int type, int price, String password,
-                               String checkText, JsonCallback<String> callback) {
+    public void changeRoomType(String liveId, int type, int price,
+                               JsonCallback<String> callback) {
         callback.setUrlTag("room/change");
         String url = SPManager.getServerDomain() + Constant.URL.Live_chargeroomchange_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("type", type);
-        params.put("userLoginPasword", checkText);
+//        params.put("userLoginPasword", checkText);
         params.put("uid", DataCenter.getInstance().getUserInfo().getUser().getUid());
-        params.put("currentUserAppVersion", AppUtils.getAppVersionName());
+//        params.put("currentUserAppVersion", AppUtils.getAppVersionName());
         if (price > 0) params.put("price", price);
-        if (!StringUtils.isEmpty(password)) params.put("password", password);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",

@@ -115,13 +115,20 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
 //                    getDialog().setCanceledOnTouchOutside(mIsKeyCanback);//键盘点击时是否可以取消--不需要设置了
-                    return !mIsKeyCanback;//return true 不往上传递则关闭不了，默认是可以取消，即return false
+
+                    return !mIsKeyCanback || onBackPress();//return true 不往上传递则关闭不了，默认是可以取消，即return false
                 } else {
                     return false;
                 }
             }
         });
         getDialog().setCanceledOnTouchOutside(mIsOutCanback);
+    }
+
+    //重写这个来拦截返回
+    public boolean onBackPress()
+    {
+        return false;
     }
 
     @Override

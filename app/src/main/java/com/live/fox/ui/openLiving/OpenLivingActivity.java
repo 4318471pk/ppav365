@@ -60,6 +60,7 @@ import static com.tencent.rtmp.TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
 public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLivePushListener {
 
     private static final String Title="Title";
+    private static final String LiveID="LiveID";
     ActivityOpenLivingBinding mBind;
     private TXLivePusher mLivePusher;                    // SDK 推流类
     private TXLivePushConfig mLivePushConfig;                // SDK 推流 config
@@ -68,26 +69,25 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     TXPhoneStateListener mPhoneListener;
     boolean isCameraInitFinish=false;
     boolean isFrontCarame = true; //是否前置摄像头
-    String mPushUrl="",roomTitle;
+    String pushUrl="",roomTitle,liveId;
+    int roomType=0;//房间类型
+    int roomPrice=0;//房间单价
     //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
-    public String getRoomTitle()
-    {
-        return roomTitle;
-    }
 
     public String getPushUrl() {
-        return mPushUrl;
+        return pushUrl;
     }
 
     public void setPushUrl(String mPushUrl) {
-        this.mPushUrl = mPushUrl;
+        this.pushUrl = mPushUrl;
     }
 
-    public static void startActivity(Context context, String roomTitle)
+    public static void startActivity(Context context, String roomTitle, String liveID)
     {
         Intent intent=new Intent(context,OpenLivingActivity.class);
         intent.putExtra(Title,roomTitle);
+        intent.putExtra(LiveID,liveID);
         context.startActivity(intent);
     }
 
@@ -111,7 +111,16 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        AppIMManager.ins().addMessageListener(OpenLivingActivity.class, new AppIMManager.OnMessageReceivedListener(){
+            @Override
+            public void onIMReceived(int protocol, String msg) {
+                StartLivingFragment startLivingFragment=(StartLivingFragment) fragments.get(1);
+                startLivingFragment.onReceivedMessage(protocol,msg);
+            }
+        });
+
         roomTitle=getIntent().getStringExtra(Title);
+        liveId=getIntent().getStringExtra(LiveID);
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
@@ -130,9 +139,9 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         }
         fragmentTransaction.commitAllowingStateLoss();
 
-        initPusher();
-        initListener();
-        startCameraPreview();
+        initPusher();//初始化推流器
+        initListener();//设定监听
+        startCameraPreview();//打开摄像头
 
     }
 
@@ -191,8 +200,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
      * 开始推流
      */
     public void startRTMPPush() {
-        LogUtils.e("startPublishImpl mPushUrl : " + mPushUrl);
-        if (TextUtils.isEmpty(mPushUrl) || (!mPushUrl.trim().toLowerCase().startsWith("rtmp://"))) {
+        LogUtils.e("startPublishImpl mPushUrl : " + pushUrl);
+        if (TextUtils.isEmpty(pushUrl) || (!pushUrl.trim().toLowerCase().startsWith("rtmp://"))) {
             ToastUtils.showShort(getString(R.string.rtmp));
             return;
         }
@@ -261,7 +270,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         }
 
         //開始推流
-        int result = mLivePusher.startPusher(mPushUrl);
+        int result = mLivePusher.startPusher(pushUrl);
         LogUtils.e("startPublishImpl result : " + result);
         if (result == -5) {
             DialogFactory.showOneBtnDialog(this, getString(R.string.verificationFailed), new TipDialog.DialogButtonOnClickListener() {

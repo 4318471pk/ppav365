@@ -403,39 +403,39 @@ public class AnchorLiveActivity extends BaseActivity implements
      * @param password 密码
      */
     public void doChangeRoomTypeApi(int type, int price, String password) {
-        Api_Live.ins().changeRoomType(anchor.getLiveId(), type, price, password, checkInfo, new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                if (code == 0) {
-                    switch (type) {
-                        case 0:
-                            roomType = 0;
-                            showToastTip(true, getString(R.string.modifyAsFree));
-                            break;
-                        case 1:
-                            roomType = 1;
-                            roomPrice = price;
-                            showToastTip(true, getString(R.string.modifyAsTime) + roomPrice + getString(R.string.goldMinute));
-                            break;
-                        case 2:
-                            roomType = 2;
-                            roomDcPrice = price;
-                            showToastTip(true, getString(R.string.modifyAsTimes) + roomDcPrice + getString(R.string.goldOnce));
-                            break;
-                        case 3:
-                            roomType = 3;
-                            roomPwd = password;
-                            showToastTip(true, getString(R.string.modifyAsPw));
-                            break;
-                    }
-                } else {
-                    showToastTip(false, msg);
-                }
-                if (liveRoomSettingFragment != null) {
-                    liveRoomSettingFragment.dismiss();
-                }
-            }
-        });
+//        Api_Live.ins().changeRoomType(anchor.getLiveId(), type, price, password, checkInfo, new JsonCallback<String>() {
+//            @Override
+//            public void onSuccess(int code, String msg, String data) {
+//                if (code == 0) {
+//                    switch (type) {
+//                        case 0:
+//                            roomType = 0;
+//                            showToastTip(true, getString(R.string.modifyAsFree));
+//                            break;
+//                        case 1:
+//                            roomType = 1;
+//                            roomPrice = price;
+//                            showToastTip(true, getString(R.string.modifyAsTime) + roomPrice + getString(R.string.goldMinute));
+//                            break;
+//                        case 2:
+//                            roomType = 2;
+//                            roomDcPrice = price;
+//                            showToastTip(true, getString(R.string.modifyAsTimes) + roomDcPrice + getString(R.string.goldOnce));
+//                            break;
+//                        case 3:
+//                            roomType = 3;
+//                            roomPwd = password;
+//                            showToastTip(true, getString(R.string.modifyAsPw));
+//                            break;
+//                    }
+//                } else {
+//                    showToastTip(false, msg);
+//                }
+//                if (liveRoomSettingFragment != null) {
+//                    liveRoomSettingFragment.dismiss();
+//                }
+//            }
+//        });
     }
 
     LiveRoomSettingFragment liveRoomSettingFragment;

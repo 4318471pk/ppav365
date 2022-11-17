@@ -205,8 +205,6 @@ public class Constant {
         public static final String USER_getMyNoble = "/pk-client/vip/getMyNobility"; // 我的貴族
         public static final String USER_buyNoble = "/pk-client/vip/buyOrRenewalVip"; // 购买续费貴族 /pk-client/vip/buyOrRenewalVip
 
-
-
         //live-client 直播相关接口
         public static final String amountOfSpeaker="/live-client/live/getSpeakersNumber";//喇叭数量
         public static final String BulletMessageList="/live-client/live/getBarrageList";//弹幕列表

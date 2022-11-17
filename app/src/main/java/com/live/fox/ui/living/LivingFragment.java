@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.gson.Gson;
 import com.live.fox.AppIMManager;
+import com.live.fox.ConstantValue;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
@@ -25,6 +26,7 @@ import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.db.LocalGiftDao;
+import com.live.fox.db.LocalMountResourceDao;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.GiftResourceBean;
@@ -33,8 +35,10 @@ import com.live.fox.entity.LivingFollowMessage;
 import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
+import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SvgAnimateLivingBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
@@ -44,7 +48,9 @@ import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.PlayerUtils;
+import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
@@ -90,7 +96,7 @@ public class LivingFragment extends BaseBindingFragment {
     LivingControlPanel livingControlPanel;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
-    List<LivingMessageGiftBean> livingMessageGiftBeans = new LinkedList<>();//礼物消息
+    List<SvgAnimateLivingBean> livingMessageGiftBeans = new LinkedList<>();//播放SVGA的数组
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
     Handler handler = new Handler(Looper.myLooper()) {
@@ -745,7 +751,36 @@ public class LivingFragment extends BaseBindingFragment {
                             livingControlPanel.mBind.vtEnterRoom.
                                     addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
                             if(livingControlPanel==null)return;
-                            livingControlPanel.mBind.rlEnterRoom.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+
+                            long uid=DataCenter.getInstance().getUserInfo().getUser().getUid();
+                            boolean isPlayAvailable=livingEnterLivingRoomBean.getUid()==uid;
+                            if(!isPlayAvailable)
+                            {
+                                long time=SPUtils.getInstance(ConstantValue.EnterRoomUIDSP).getInt(ConstantValue.EnterRoomUID,0);
+                                isPlayAvailable=System.currentTimeMillis()- time>10*60*1000;
+                            }
+                            //播放进房 是自己不限制 不是自己限制10分钟内只播放一次
+                            if(isPlayAvailable)
+                            {
+                                //播放进房漂房
+                                livingControlPanel.mBind.rlEnterRoom.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+                                //播放进房座驾
+                                livingControlPanel.mBind.rlVehicleParentView.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+                                //播放SVGA进房座驾动画
+                                if(Strings.isDigitOnly(livingEnterLivingRoomBean.getCarId()))
+                                {
+                                    MountResourceBean mountResourceBean= LocalMountResourceDao.getInstance().getVehicleById(Long.valueOf(livingEnterLivingRoomBean.getCarId()));
+                                    if(mountResourceBean!=null)
+                                    {
+                                        SvgAnimateLivingBean svgAnimateLivingBean=new SvgAnimateLivingBean();
+                                        svgAnimateLivingBean.setLocalSvgPath(mountResourceBean.getLocalSvgPath());
+                                        svgAnimateLivingBean.setLoopTimes(1);
+                                        livingMessageGiftBeans.add(svgAnimateLivingBean);
+                                        handler.sendEmptyMessage(playSVGA);
+                                    }
+                                }
+                                SPUtils.getInstance(ConstantValue.EnterRoomUIDSP).put(ConstantValue.EnterRoomUID,System.currentTimeMillis());
+                            }
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
@@ -758,8 +793,10 @@ public class LivingFragment extends BaseBindingFragment {
                                 personalSendGiftMessage(gBean);
                                 GiftResourceBean giftResourceBean = LocalGiftDao.getInstance().getGift(gBean.getGid());
                                 if (giftResourceBean != null && !TextUtils.isEmpty(giftResourceBean.getLocalSvgPath())) {
-                                    gBean.setGiftResourceBean(giftResourceBean);
-                                    livingMessageGiftBeans.add(gBean);
+                                    SvgAnimateLivingBean svgAnimateLivingBean=new SvgAnimateLivingBean();
+                                    svgAnimateLivingBean.setLocalSvgPath(giftResourceBean.getLocalSvgPath());
+                                    svgAnimateLivingBean.setLoopTimes(gBean.getCount());
+                                    livingMessageGiftBeans.add(svgAnimateLivingBean);
                                     handler.sendEmptyMessage(playSVGA);
                                 }
                             }
@@ -833,8 +870,8 @@ public class LivingFragment extends BaseBindingFragment {
         {
             return;
         }
-        LivingMessageGiftBean bean=livingMessageGiftBeans.get(0);
-        File file = new File(bean.getGiftResourceBean().getLocalSvgPath());
+        SvgAnimateLivingBean bean=livingMessageGiftBeans.get(0);
+        File file = new File(bean.getLocalSvgPath());
         if (file == null || !file.exists()) {
             return;
         }
@@ -844,7 +881,7 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
-        mBind.svImage.setLoops(bean.getCount());
+        mBind.svImage.setLoops(bean.getLoopTimes());
         SVGAParser parser = SVGAParser.Companion.shareParser();
         mBind.svImage.setCallback(new SVGACallback() {
             @Override

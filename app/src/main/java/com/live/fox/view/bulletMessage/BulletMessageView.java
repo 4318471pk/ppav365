@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -105,8 +106,14 @@ public class BulletMessageView extends LinearLayout {
         }
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
 
-
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return false;
+    }
 
 }

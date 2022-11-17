@@ -21,11 +21,13 @@ public class RoomListBean extends SectionEntity implements Parcelable {
     private String videoUrl;
     private int hot;
     private int recommend;
+    private int isPayOver;
 
     public RoomListBean() {
         super(false, "header");
 
     }
+
     protected RoomListBean(Parcel in) {
         super(in);
         id = in.readString();
@@ -43,6 +45,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         videoUrl = in.readString();
         hot = in.readInt();
         recommend = in.readInt();
+        isPayOver = in.readInt();
     }
 
     public static final Creator<RoomListBean> CREATOR = new Creator<RoomListBean>() {
@@ -183,21 +186,22 @@ public class RoomListBean extends SectionEntity implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(title);
-        dest.writeString(aid);
-        dest.writeString(roomIcon);
-        dest.writeInt(liveChannel);
-        dest.writeInt(roomCategory);
-        dest.writeInt(categoryId);
-        dest.writeInt(categoryType);
-        dest.writeInt(roomType);
-        dest.writeInt(status);
-        dest.writeInt(liveSum);
-        dest.writeInt(option);
-        dest.writeString(videoUrl);
-        dest.writeInt(hot);
-        dest.writeInt(recommend);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(title);
+        parcel.writeString(aid);
+        parcel.writeString(roomIcon);
+        parcel.writeInt(liveChannel);
+        parcel.writeInt(roomCategory);
+        parcel.writeInt(categoryId);
+        parcel.writeInt(categoryType);
+        parcel.writeInt(roomType);
+        parcel.writeInt(status);
+        parcel.writeInt(liveSum);
+        parcel.writeInt(option);
+        parcel.writeString(videoUrl);
+        parcel.writeInt(hot);
+        parcel.writeInt(recommend);
+        parcel.writeInt(isPayOver);
     }
 }

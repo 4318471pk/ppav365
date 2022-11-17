@@ -14,7 +14,7 @@ public class LivingEnterLivingRoomBean {
     public String protocol;
     public int rq;
     public int showType;
-    public int uid;
+    public long uid;
     public int userExp;
     public int userLevel;
     public int vipLevel;
@@ -125,11 +125,11 @@ public class LivingEnterLivingRoomBean {
         this.showType = showType;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

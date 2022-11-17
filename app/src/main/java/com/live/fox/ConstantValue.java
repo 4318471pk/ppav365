@@ -37,4 +37,6 @@ public interface ConstantValue {
     public static final String NOTIFICATION_IS_SHOWED = "notification is showed";
     public static final String pictureOfUpload="pictureOfUpload";
     String resourceDomain="resourceDomain";//资源域名
+    public static final String EnterRoomUID = "EnterRoomUID";
+    public static final String EnterRoomUIDSP = "EnterRoomUIDSP";
 }

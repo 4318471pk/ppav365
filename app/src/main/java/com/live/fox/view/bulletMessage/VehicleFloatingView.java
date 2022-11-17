@@ -56,7 +56,7 @@ public class VehicleFloatingView extends RelativeLayout {
         if(bean!=null)
         {
             SpanUtils spanUtils=new SpanUtils();
-            spanUtils.append(welcome).setBold().setFontSize(14,true);
+            spanUtils.append(welcome).setBold().setForegroundColor(0xffffffff).setFontSize(14,true);
             spanUtils.append(bean.getNickname()).setBold().setForegroundColor(0xffffea00).setFontSize(14,true);
             tvWelcome.setText(spanUtils.create());
 
@@ -69,7 +69,7 @@ public class VehicleFloatingView extends RelativeLayout {
                 }
             }
 
-            if(bean.getVipLevel()>0)
+            if(bean.getVipLevel()>0 && bean.getVipLevel()<decorationResource.length)
             {
                 ivEdge.setImageResource(decorationResource[bean.getVipLevel()-1]);
                 ivProfile.setScaleX(scaleAndMargins[bean.getVipLevel()-1][0]);

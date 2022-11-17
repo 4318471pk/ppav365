@@ -129,6 +129,10 @@ public class LivingControlPanel extends RelativeLayout {
             mBind.rlMidView.addView(relativeLayout);
         }
 
+        //设置座驾弹道
+        int vehicleView=ScreenUtils.getDip2px(getContext(),61);
+        setViewLPRL(mBind.rlVehicleParentView,vehicleView,(int)(screenHeight*0.32f)-((int)(vehicleView*0.75f)));
+
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),45);
         rlMessages.width=ViewGroup.LayoutParams.MATCH_PARENT;

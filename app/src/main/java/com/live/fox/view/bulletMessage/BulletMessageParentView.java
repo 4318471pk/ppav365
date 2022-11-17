@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.utils.BulletViewUtils;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.TimeCounter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,7 +30,26 @@ public class BulletMessageParentView extends LinearLayout {
 
     private int location[] = new int[2];
     int screenWidth;
+    Activity activity;
     LinkedList<PersonalLivingMessageBean> list=new LinkedList<>();
+    TimeCounter.TimeListener timeListener=new TimeCounter.TimeListener() {
+        @Override
+        public void onSecondTick(TimeCounter.TimeListener listener) {
+            super.onSecondTick(listener);
+            for (int i = 0; i <list.size() ; i++) {
+                if(!list.get(i).isMoving())
+                {
+                    send(list.get(i),activity);
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onConditionTrigger(TimeCounter.TimeListener listener) {
+            super.onConditionTrigger(listener);
+        }
+    };
 
     public BulletMessageParentView(Context context) {
         super(context);
@@ -119,8 +140,21 @@ public class BulletMessageParentView extends LinearLayout {
         return isAvailable;
     }
 
-    private void newMessageView(RelativeLayout relativeLayout,PersonalLivingMessageBean messageBean,Activity activity)
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        TimeCounter.getInstance().remove(timeListener);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        TimeCounter.getInstance().add(timeListener);
+    }
+
+    private void newMessageView(RelativeLayout relativeLayout, PersonalLivingMessageBean messageBean, Activity activity)
     {
+        this.activity=activity;
         messageBean.setMoving(true);
         BulletMessageView bulletMessageView=new BulletMessageView(getContext(),messageBean);
         LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -143,11 +177,20 @@ public class BulletMessageParentView extends LinearLayout {
                                 break;
                             }
                         }
-
                     }
                 }
             }
         });
 
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return false;
     }
 }

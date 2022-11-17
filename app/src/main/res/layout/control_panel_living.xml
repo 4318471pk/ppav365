@@ -530,13 +530,10 @@
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
             android:layout_height="200dip"
-            android:layout_marginLeft="10dip"
             android:orientation="vertical"
             android:onClick="@{click.onClickView}"
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
-            android:requiresFadingEdge="vertical"
-            android:fadingEdgeLength="30dp"
             >
 
             <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
@@ -549,6 +546,7 @@
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dip"
                 android:layout_weight="1"
                 android:scrollbars="none"
                 android:requiresFadingEdge="vertical"
@@ -557,6 +555,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="26dip"
+                android:layout_marginLeft="10dip"
                 android:layout_marginRight="40dip"
                 android:paddingLeft="5dip"
                 >
@@ -582,10 +581,19 @@
             android:layout_width="match_parent"
             android:layout_height="200dip"
             android:orientation="vertical"
+            android:focusable="false"
+            >
+
+        </com.live.fox.view.bulletMessage.BulletMessageParentView>
+
+        <com.live.fox.view.bulletMessage.VehicleParentVIew
+            android:id="@+id/rlVehicleParentView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             >
 
 
-        </com.live.fox.view.bulletMessage.BulletMessageParentView>
+        </com.live.fox.view.bulletMessage.VehicleParentVIew>
 
     </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>

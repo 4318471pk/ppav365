@@ -3,6 +3,7 @@ package com.live.fox.view.bulletMessage;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -68,4 +69,16 @@ public class VehicleParentVIew extends RelativeLayout {
 
 
     }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return false;
+    }
+
 }
