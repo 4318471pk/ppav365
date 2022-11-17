@@ -64,6 +64,10 @@ public class EnterRoomMessageParentView extends RelativeLayout {
         {
             return;
         }
+        if(!bean.isGuard() && bean.getVipLevel()<1)
+        {
+            return;
+        }
 
         list.add(bean);
         if(getChildCount()>0)

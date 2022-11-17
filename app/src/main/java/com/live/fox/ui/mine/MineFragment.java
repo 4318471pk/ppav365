@@ -217,7 +217,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                mBind.refreshLayout.finishRefresh();
+                mBind.refreshLayout.finishRefresh(true);
                 if (ActivityUtils.getTopActivity() instanceof MainActivity) {
                     if (code == 0) {
                         refreshUserinfo(true);

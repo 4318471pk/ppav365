@@ -219,7 +219,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
                 if (code == Constant.Code.SUCCESS) {
-                    GlideUtils.loadImage(CenterOfAnchorActivity.this, data, mBind.ivHead);
+                    GlideUtils.loadImage(CenterOfAnchorActivity.this, data, mBind.ivRoomIcon);
                     showToastTip(true, getString(R.string.modifySuccess));
                     //Log.e("uploadBGOfLivingRoom",data);
                 } else {
