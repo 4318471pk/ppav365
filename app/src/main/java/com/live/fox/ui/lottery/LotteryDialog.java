@@ -10,15 +10,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.live.fox.R;
+import com.live.fox.common.JsonCallback;
+import com.live.fox.entity.ActBean;
+import com.live.fox.entity.LivingLotteryListBean;
+import com.live.fox.entity.UserAssetsBean;
+import com.live.fox.server.Api_Living_Lottery;
+import com.live.fox.server.Api_Order;
+import com.live.fox.server.BaseApi;
 import com.live.fox.ui.lottery.adapter.LotteryNameAdapter;
 import com.live.fox.ui.lottery.adapter.LotteryNameAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.databinding.DialogLotteryBinding;
 import com.live.fox.ui.mine.RechargeActivity;
+import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LotteryDialog extends BaseBindingDialogFragment {
@@ -26,17 +37,21 @@ public class LotteryDialog extends BaseBindingDialogFragment {
     DialogLotteryBinding mBind;
 
     LotteryNameAdapter lotteryNameAdapter;
-    List<Boolean> lotteryNameList = new ArrayList<>();
+    List<LivingLotteryListBean.ItemsBean> lotteryNameList = new ArrayList<>();
 
     List<BaseFragment> fragmentList = new ArrayList<>();
 
 
     @Override
     public void onClickView(View view) {
-        if (view == mBind.rlMain){
+        if (view == mBind.rlMain ){
             dismissAllowingStateLoss();
         } else if (view == mBind.tvCharge){
             RechargeActivity.startActivity(this.getContext());
+        } else if (view == mBind.ivGame) {
+
+        } else if (view == mBind.ivRefersh){
+            getAsset();
         }
     }
 
@@ -56,10 +71,6 @@ public class LotteryDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-        test();
-        for(int i=0 ; i< lotteryNameList.size(); i++) {
-            fragmentList.add(LotteryItemListFragment.newInstance());
-        }
 
         lotteryNameAdapter = new LotteryNameAdapter(lotteryNameList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
@@ -74,6 +85,11 @@ public class LotteryDialog extends BaseBindingDialogFragment {
             }
         });
 
+        getData();
+        getAsset();
+    }
+
+    private void setVp(){
         mBind.vp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -108,31 +124,65 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
     private void changeLotteryHead(int position, boolean changeItem){
         for (int i = 0; i < lotteryNameList.size(); i ++) {
-            if (lotteryNameList.get(i)) {
+            if (lotteryNameList.get(i).isSelect()) {
                 if (i == position) {
                     return;
                 } else {
-                    lotteryNameList.set(i, false);
+                    lotteryNameList.get(i).setSelect(false);
                     break;
                 }
             }
         }
-        lotteryNameList.set(position, true);
+        lotteryNameList.get(position).setSelect(true);
         lotteryNameAdapter.notifyDataSetChanged();
         if (changeItem){
             mBind.vp.setCurrentItem(position);
         }
     }
 
-    private void test(){
-        lotteryNameList.add(true);
-        lotteryNameList.add(false);
-        lotteryNameList.add(false);
-        lotteryNameList.add(false);
-        lotteryNameList.add(false);
 
+    /**
+     *  获取游戏列表
+     */
+    public void getData() {
+        showLoadingDialog();
+        Api_Living_Lottery.ins().getLivingGameList(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                dismissLoadingDialog();
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    LivingLotteryListBean bean = new Gson().fromJson(data, LivingLotteryListBean.class);
+                    LogUtils.i(bean.getItems().size() + "");
+                    if (bean.getItems() != null && bean.getItems().size() > 0) {
+                        lotteryNameList.addAll(bean.getItems());
+                        lotteryNameList.get(0).setSelect(true);
+                        for(int i=0 ; i< lotteryNameList.size(); i++) {
+                            String json = new Gson().toJson(lotteryNameList.get(i)).toString();
+                            fragmentList.add(LotteryItemListFragment.newInstance(json));
+                        }
+                    }
+                    lotteryNameAdapter.notifyDataSetChanged();
+                    setVp();
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
     }
 
+    private void getAsset(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+            @Override
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
+                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                     mBind.tvBalance.setText(data.getGold() + "");
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+    }
 
 
 }

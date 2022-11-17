@@ -48,6 +48,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             
             <ImageView
                 android:id="@+id/ivGame"
+                android:onClick="@{click.onClickView}"
                 android:layout_width="31dp"
                 android:layout_height="26dp"
                 android:padding="3dp"
@@ -85,16 +86,17 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/tvBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:text="8888888"
+                android:text=""
                 android:textColor="@color/colorFFEA00"
                 android:textSize="12sp"/>
 
             <ImageView
                 android:id="@+id/ivRefersh"
+                android:onClick="@{click.onClickView}"
                 android:padding="7dp"
                 android:layout_width="33dp"
                 android:layout_height="33dp"

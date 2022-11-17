@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,6 +36,12 @@ public class ChouMaDialog extends BaseBindingDialogFragment {
         ChouMaDialog fragment = new ChouMaDialog();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.Dialog_FullScreen_2);
     }
 
     @Override
@@ -93,15 +100,18 @@ public class ChouMaDialog extends BaseBindingDialogFragment {
                 chouMaAdapter.notifyDataSetChanged();
                 if (position == 7) { //自定义筹码
                     if (inputChouMaDialog == null) {
-                        inputChouMaDialog = new InputChouMaDialog();
+                        inputChouMaDialog = InputChouMaDialog.newInstance(
+                                getResources().getString(R.string.please_input_score), true, "");
                     }
                     inputChouMaDialog.show(getActivity().getSupportFragmentManager(), "input chouma dialog");
                     inputChouMaDialog.setChouMaInputListener(new InputChouMaDialog.ChouMaInputListener() {
                         @Override
-                        public void confirm(String money) {
-                            if (chouMaList.size() > 7) {
-                                chouMaList.get(7).setName(money);
-                                chouMaAdapter.notifyItemChanged(7);
+                        public void confirm(String money, boolean isChouma) {
+                            if (isChouma) {
+                                if (chouMaList.size() > 7) {
+                                    chouMaList.get(7).setName(money);
+                                    chouMaAdapter.notifyItemChanged(7);
+                                }
                             }
                         }
                     });

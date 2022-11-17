@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/tvMoney"
-            android:visibility="gone"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -32,6 +32,20 @@
             android:layout_centerHorizontal="true"
             android:text="1000"
             android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#7200AD"/>
+
+        <TextView
+            android:id="@+id/tvZdy"
+            android:visibility="gone"
+            android:layout_below="@+id/tvMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/custom"
+            android:textSize="11sp"
             android:textStyle="bold"
             android:textColor="#7200AD"/>
 

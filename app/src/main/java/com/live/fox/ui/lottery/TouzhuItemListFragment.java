@@ -16,6 +16,11 @@ import java.util.List;
 
 public class TouzhuItemListFragment extends BaseBindingFragment {
 
+    public static final int VIEW_NORMAIL = 0; //正常布局
+    public static final int VIEW_YXX_1 = 1; //鱼虾蟹1
+    public static final int VIEW_YXX_2 = 2; //鱼虾蟹2
+    public static final int VIEW_NN = 3; //牛牛
+
     LayoutRcBinding mBind;
 
     TouzhuDetailAdapter mAdapgter;
@@ -23,11 +28,22 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
 
     int itemNum = 0;//一行显示几个投注按钮
 
+    int viewType = VIEW_NORMAIL;
+
 
     public static TouzhuItemListFragment newInstance(int num) {
         TouzhuItemListFragment fragment = new TouzhuItemListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("itemNum", num);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static TouzhuItemListFragment newInstance(int num, int viewType ) {
+        TouzhuItemListFragment fragment = new TouzhuItemListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("itemNum", num);
+        bundle.putInt("viewType", viewType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -46,6 +62,7 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind = getViewDataBinding();
         itemNum = this.getArguments().getInt("itemNum");
+        viewType = this.getArguments().getInt("viewType");
 
         lotteryList.clear();
         lotteryList.add(false);lotteryList.add(false);
@@ -58,6 +75,7 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
 
         mAdapgter = new TouzhuDetailAdapter(this.getContext(),lotteryList);
         mAdapgter.setShowItemNum(itemNum);
+        mAdapgter.setViewType(viewType);
         mBind.rc.setAdapter(mAdapgter);
         mBind.rc.setNumColumns(itemNum);
 

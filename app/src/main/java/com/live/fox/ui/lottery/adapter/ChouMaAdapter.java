@@ -31,6 +31,8 @@ public class ChouMaAdapter extends BaseQuickAdapter<SelectLotteryBean, BaseViewH
         }
         ImageView iv = helper.getView(R.id.ivChouma);
         TextView tvMoney = helper.getView(R.id.tvMoney);
+        TextView tvZdy= helper.getView(R.id.tvZdy);
+
         if (data.isZdy()) {
             iv.setBackground(mContext.getResources().getDrawable(R.mipmap.chouma_zdy));
             if (!TextUtils.isEmpty(data.getName())) {
@@ -39,8 +41,10 @@ public class ChouMaAdapter extends BaseQuickAdapter<SelectLotteryBean, BaseViewH
             } else {
                 tvMoney.setVisibility(View.GONE);
             }
+            tvZdy.setVisibility(View.VISIBLE);
         } else {
             tvMoney.setVisibility(View.GONE);
+            tvZdy.setVisibility(View.GONE);
             if (data.getName().equals("2")) {
                 iv.setBackground(mContext.getResources().getDrawable(R.mipmap.chouma2));
             } else if (data.getName().equals("5")) {

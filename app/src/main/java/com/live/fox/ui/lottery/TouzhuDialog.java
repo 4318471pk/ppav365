@@ -3,11 +3,14 @@ package com.live.fox.ui.lottery;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -26,11 +29,15 @@ import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.entity.SelectLotteryBean;
 import com.live.fox.entity.User;
 import com.live.fox.ui.lottery.adapter.ChouMaAdapter;
-import com.live.fox.ui.lottery.adapter.KaiJIangRecordAdapter;
+
+import com.live.fox.ui.lottery.adapter.KaiJiangRecordAdapter;
+import com.live.fox.ui.lottery.adapter.KaiJiangRecordYflhcAdapter;
+import com.live.fox.ui.lottery.adapter.KaiJiangRecordYxxAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangResultIvAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangResultTvAdapter;
 import com.live.fox.ui.lottery.adapter.LotteryNameAdapter;
 import com.live.fox.ui.lottery.adapter.LotteryTypeAdapter;
+import com.live.fox.ui.lottery.adapter.NiuNiuAdapter;
 import com.live.fox.ui.lottery.adapter.TouZhuRecordAdapter;
 import com.live.fox.ui.lottery.adapter.TouZhuRecordMoreAdapter;
 import com.live.fox.ui.mine.RechargeActivity;
@@ -39,6 +46,8 @@ import com.live.fox.utils.device.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuItemListFragment.TouzhuSelectSuc {
 
@@ -47,7 +56,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     public static final int KJ_RECORD = 2; //开奖记录
     public static final int TZ_RECORD_MORE = 3; //更多投注记录
     public static final int KJ_RECORD_MORE = 4; //更多开奖记录
-
+    public static final int CZ_PLAY = 5; //游戏玩法说明
 
     DialogTouzhuBinding mBind;
 
@@ -55,17 +64,20 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     KaiJiangResultTvAdapter kaiJiangResultTvAdapter;
     List<String> kjTitleList = new ArrayList<>();
 
+    NiuNiuAdapter niuniuAdapter;
+    List<String> niuniuList = new ArrayList<>();
+
 
     TouZhuRecordAdapter touZhuRecordAdapter;
     TouZhuRecordMoreAdapter touZhuRecordMoreAdapter;
     List<String> tzList = new ArrayList<>();
 
-    KaiJIangRecordAdapter kaiJIangRecordAdapter;
+    BaseQuickAdapter kaiJiangRecordAdapter;//开奖结果，有一分快三，一分六合彩，鱼虾蟹
+
     List<String> kjList = new ArrayList<>();
 
     LotteryTypeAdapter lotteryTypeAdapter;
     List<Boolean> lotteryTypeList = new ArrayList<>();
-
 
 
     List<BaseFragment> fragmentList = new ArrayList<>();
@@ -75,7 +87,25 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     SelectLotteryDialog selectLotteryDialog; //选择游戏
     SelectLotteryDialog selectLotteryStatusDialog; //选择游戏状态
 
-    ChouMaDialog chouMaDialog;
+    ChouMaDialog chouMaDialog; //选择投注dialog
+
+    boolean isStartKjAni = false; // 是否不停换动开奖色子
+
+    private final Timer mTimer = new Timer();
+    private TimerTask kjTask;
+
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            for (int i = 0; i < kjTitleList.size(); i ++) {
+                int res = (int) (Math.random() *6 + 1);
+                kjTitleList.set(i, res+"");
+            }
+            kaiJiangResultIvAdapter.notifyDataSetChanged();
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     public void onClickView(View view) {
@@ -157,16 +187,18 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
                         } else if (money.length() == 4 || money.length() == 5) {
                             mBind.tvChouma.setTextSize(ScreenUtils.dp2px(TouzhuDialog.this.getContext(), 1));
                         }
-//                        else if (money.length() == 5) {
-//                            mBind.tvChouma.setTextSize(1);
-//                        }
                     } else {
                         mBind.tvChouma.setVisibility(View.GONE);
                     }
                 }
             });
             DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), chouMaDialog);
-
+        } else if (view == mBind.tvTzAll) {
+            ConfirmTouzhuDialog confirmTouzhuDialog = ConfirmTouzhuDialog.newInstance();
+            DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), confirmTouzhuDialog);
+        } else if (view == mBind.tvWen) { //点击玩法说明
+            showView = CZ_PLAY;
+            changeShowView();
         }
     }
 
@@ -197,9 +229,9 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
         touzhuItemListFragment1.setTouzhuSelectSuc(this);
         TouzhuItemListFragment touzhuItemListFragment2 = TouzhuItemListFragment.newInstance(7);
         touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        TouzhuItemListFragment touzhuItemListFragment3 = TouzhuItemListFragment.newInstance(3);
+        TouzhuItemListFragment touzhuItemListFragment3 = TouzhuItemListFragment.newInstance(3, TouzhuItemListFragment.VIEW_YXX_2);
         touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        TouzhuItemListFragment touzhuItemListFragment4 = TouzhuItemListFragment.newInstance(4);
+        TouzhuItemListFragment touzhuItemListFragment4 = TouzhuItemListFragment.newInstance(4,TouzhuItemListFragment.VIEW_YXX_1);
         touzhuItemListFragment1.setTouzhuSelectSuc(this);
         TouzhuItemListFragment touzhuItemListFragment5 = TouzhuItemListFragment.newInstance(4);
         touzhuItemListFragment1.setTouzhuSelectSuc(this);
@@ -221,16 +253,21 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
         mBind.rcKjIv.setLayoutManager(layoutManagerKjIv);
         mBind.rcKjIv.setAdapter(kaiJiangResultIvAdapter);
 
+        niuniuList.add("1"); niuniuList.add("1");
+        niuniuAdapter = new NiuNiuAdapter(niuniuList);
+        mBind.rcKjTv.setAdapter(niuniuAdapter);
+        mBind.rcKjIv.setVisibility(View.GONE);
+
 
         touZhuRecordAdapter = new TouZhuRecordAdapter(tzList);
         touZhuRecordMoreAdapter = new TouZhuRecordMoreAdapter(tzList);
 
-        kaiJIangRecordAdapter = new KaiJIangRecordAdapter(kjList);
+       // kaiJiangRecordAdapter = new KaiJiangRecordAdapter(kjList); //一分快三
+        kaiJiangRecordAdapter = new KaiJiangRecordYflhcAdapter(kjList,true); //一分六合彩和牛牛
+       // kaiJiangRecordAdapter = new KaiJiangRecordYxxAdapter(kjList); //鱼虾蟹
         LinearLayoutManager layoutManagerKj = new LinearLayoutManager(this.getContext());
         layoutManagerKj.setOrientation(LinearLayoutManager.VERTICAL);
         mBind.rcRecord.setLayoutManager(layoutManagerKj);
-
-
 
 
         lotteryTypeAdapter = new LotteryTypeAdapter(lotteryTypeList);
@@ -276,6 +313,8 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
             }
         });
 
+       // startKjAni();
+
     }
 
     private void changeLotteryHead(int position, boolean changeItem){
@@ -297,7 +336,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     }
 
     private void test(){
-        kjTitleList.add("1");kjTitleList.add("1");kjTitleList.add("1");
+        kjTitleList.add("1");kjTitleList.add("2");kjTitleList.add("3");
         tzList.add("1");tzList.add("1");tzList.add("1");tzList.add("1");tzList.add("1");
         tzList.add("1");tzList.add("1");tzList.add("1");tzList.add("1");tzList.add("1");
         kjList.add("1"); kjList.add("1"); kjList.add("1");kjList.add("1"); kjList.add("1"); kjList.add("1");
@@ -310,14 +349,14 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
 
     }
 
-    private void changeShowView(){
+    private void changeShowView(){ //切换布局
         if (showView == KAI_JIANG) {
             mBind.layoutKj.setVisibility(View.VISIBLE);
             mBind.layoutTzRecord.setVisibility(View.GONE);
             mBind.layoutCz.setVisibility(View.VISIBLE);
             mBind.layoutCzStatus.setVisibility(View.GONE);
             mBind.layoutTzZj.setVisibility(View.GONE);
-
+            changeCzPlayView(false);
         } else if (showView == TZ_RECORD || showView == KJ_RECORD){
             mBind.layoutKj.setVisibility(View.GONE);
             mBind.layoutTzRecord.setVisibility(View.VISIBLE);
@@ -330,14 +369,16 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
                 mBind.tvTz2.setBackground(getResources().getDrawable(R.drawable.bg_lottery_type_2));
                 mBind.tvKj2.setBackground(getResources().getDrawable(R.drawable.bg_lottery_record));
             } else {
-                mBind.rcRecord.setAdapter(kaiJIangRecordAdapter);
+                mBind.rcRecord.setAdapter(kaiJiangRecordAdapter);
                 mBind.tvTz2.setBackground(getResources().getDrawable(R.drawable.bg_lottery_record));
                 mBind.tvKj2.setBackground(getResources().getDrawable(R.drawable.bg_lottery_type_2));
             }
             mBind.layoutCzStatus.setVisibility(View.GONE);
             mBind.layoutTzZj.setVisibility(View.GONE);
-
+            changeCzPlayView(false);
+            mBind.layoutRecord.setVisibility(View.VISIBLE);
         } else if (showView == KJ_RECORD_MORE){ //更多开奖页面
+            changeCzPlayView(false);
             mBind.layoutCz.setVisibility(View.GONE);
 
             setRcRecordHeight(140+38+186+46);
@@ -362,6 +403,35 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
             mBind.layoutCz.setVisibility(View.GONE);
             setRcRecordHeight(140+38+186+46-70-47);
             mBind.rcRecord.setAdapter(touZhuRecordMoreAdapter);
+
+            changeCzPlayView(false);
+        } else if (showView == CZ_PLAY){
+            changeCzPlayView(true);
+        }
+    }
+
+    private void changeCzPlayView(boolean isShow){ //切换彩种玩法说明
+        if (isShow) {
+            mBind.layoutCzPlay.setVisibility(View.VISIBLE);
+            mBind.ivWen.setVisibility(View.VISIBLE);
+            mBind.tvWen.setVisibility(View.GONE);
+            mBind.tvMoreKj.setVisibility(View.GONE);
+
+            mBind.layoutKj.setVisibility(View.GONE);
+            mBind.layoutTzRecord.setVisibility(View.VISIBLE);
+            mBind.layoutCz.setVisibility(View.GONE);
+            mBind.layoutCzStatus.setVisibility(View.GONE);
+            mBind.layoutRecord.setVisibility(View.GONE);
+            mBind.layoutTzZj.setVisibility(View.GONE);
+            mBind.layoutCz.setVisibility(View.GONE);
+
+            mBind.tvTz2.setBackground(getResources().getDrawable(R.drawable.bg_lottery_record));
+            mBind.tvKj2.setBackground(getResources().getDrawable(R.drawable.bg_lottery_record));
+        } else {
+            //mBind.layoutTzRecord.setVisibility(View.VISIBLE);
+            mBind.layoutCzPlay.setVisibility(View.GONE);
+            mBind.ivWen.setVisibility(View.GONE);
+            mBind.tvWen.setVisibility(View.VISIBLE);
         }
     }
 
@@ -386,5 +456,18 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     @Override
     public void cancelTz(String text) {
 
+    }
+
+    public void startKjAni() {
+        kjTask = new TimerTask() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                mHandler.sendMessage(message);
+            }
+        };
+        //启动定时器 参数对应为 TimerTask 延迟时间 间隔时间
+        mTimer.schedule(kjTask, 5000, 50);
     }
 }

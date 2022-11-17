@@ -20,6 +20,9 @@ import com.live.fox.R;
 import com.live.fox.utils.ToastUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 
+/*
+* 自定义筹码
+* */
 public class InputChouMaDialog extends DialogFragment {
 
     private Dialog dialog;
@@ -27,6 +30,18 @@ public class InputChouMaDialog extends DialogFragment {
     private EditText etChouma;
     private TextView tvCancel;
     private TextView tvConfirm;
+
+    boolean isChouma = true;
+
+    public static InputChouMaDialog newInstance(String title, boolean isChouma, String money) {
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putBoolean("isChouma", isChouma);
+        args.putString("money", money);
+        InputChouMaDialog fragment = new InputChouMaDialog();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @NonNull
     @Override
@@ -57,9 +72,17 @@ public class InputChouMaDialog extends DialogFragment {
     }
 
     private void initView(View rootView) {
+        String title = getArguments().getString("title");
+        isChouma = getArguments().getBoolean("isChouma", isChouma);
         etChouma = rootView.findViewById(R.id.etChouma);
         tvCancel = rootView.findViewById(R.id.tvCancel);
         tvConfirm = rootView.findViewById(R.id.tvConfirm);
+        TextView tvTitle = rootView.findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
+        if (!isChouma) {
+            String money = getArguments().getString("money");
+            etChouma.setText(money);
+        }
     }
 
     @Override
@@ -85,7 +108,7 @@ public class InputChouMaDialog extends DialogFragment {
                         return;
                     }
                     if (chouMaInputListener != null) {
-                        chouMaInputListener.confirm(etChouma.getText().toString().trim());
+                        chouMaInputListener.confirm(etChouma.getText().toString().trim(), isChouma);
                         dismiss();
                     }
                 }
@@ -94,7 +117,7 @@ public class InputChouMaDialog extends DialogFragment {
     }
 
     public interface ChouMaInputListener{
-        public void confirm(String money);
+        public void confirm(String money, boolean isChouma);
     }
 
     private ChouMaInputListener chouMaInputListener;
