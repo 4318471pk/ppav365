@@ -246,6 +246,17 @@ public class Constant {
         public static final String LIVE_ROOM_PERMISSIONS_URL = LiveClient + "/live/charge/room/chLoginP"; //房间人员列表(显示全部)
         public static final String LIVE_AnchorCenter ="/live-client/live/getAnchorCenterInfo"; //更改玩具状态
 
+
+        /*
+        * 直播间游戏接口
+        * */
+        public static final String GameModuleGames ="/config-client/game/gameModuleGames"; //获取列表游戏
+
+        public static final String LiveRoomGames = "/config-client/game/liveRoomGames"; //直播间游戏列表
+
+
+
+
         /**
          * promotion-client  分享相关接口
          */

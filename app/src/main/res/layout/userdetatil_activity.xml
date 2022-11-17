@@ -618,7 +618,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dip"
                 android:padding="10dip"
-                android:text="@string/editProfileImage"
+                android:text="@string/edit_info"
                 android:textColor="#A800FF"
                 android:textSize="16sp" />
 

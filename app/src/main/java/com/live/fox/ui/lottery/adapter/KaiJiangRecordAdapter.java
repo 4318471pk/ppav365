@@ -9,10 +9,13 @@ import com.live.fox.R;
 
 import java.util.List;
 
-public class KaiJIangRecordAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+/*
+* 一分快三开奖
+* */
+public class KaiJiangRecordAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
 
-    public KaiJIangRecordAdapter(List data) {
+    public KaiJiangRecordAdapter(List data) {
         super(R.layout.item_kaijiang_record, data);
     }
 

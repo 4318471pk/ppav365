@@ -11,7 +11,7 @@
     >
 
     <TextView
-        android:id="@+id/dialog_common_title"
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -36,6 +36,8 @@
             android:id="@+id/etChouma"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:gravity="center"
             android:background="@color/colorF4F1F8"
             android:textSize="16sp"

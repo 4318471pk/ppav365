@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/layoutBg"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        app:rv_cornerRadius="10dp"
+        android:gravity="center"
+        app:rv_strokeColor="@color/colorF42C2C"
+        app:rv_strokeWidth="1dp"
+        >
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            app:rv_cornerRadius="10dp"
+            android:gravity="center"
+            app:rv_backgroundColor="@color/white"
+            >
+
+            <ImageView
+                android:id="@+id/iv1"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@mipmap/yxx_chiken"
+
+                />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:layout_marginStart="2dp"
+            app:rv_cornerRadius="10dp"
+            app:rv_backgroundColor="@color/white"
+            >
+
+            <ImageView
+                android:id="@+id/iv2"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@mipmap/yxx_fish"
+
+                />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            app:rv_cornerRadius="10dp"
+            app:rv_backgroundColor="@color/white"
+            >
+
+            <ImageView
+                android:id="@+id/iv3"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@mipmap/yxx_crab"
+
+                />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/tvShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="0.99"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+
+
+</LinearLayout>

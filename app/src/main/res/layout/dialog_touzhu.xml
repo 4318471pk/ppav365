@@ -135,6 +135,7 @@
 
                     <com.flyco.roundview.RoundTextView
                         android:id="@+id/tvWen"
+                        android:onClick="@{click.onClickView}"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="10dp"
@@ -155,14 +156,13 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_gravity="end|center_vertical"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="-8dp"
                         android:gravity="end"
                         android:orientation="vertical">
 
@@ -170,28 +170,60 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rcKjIv"
                             android:layout_width="wrap_content"
-                            android:layout_height="35dp"/>
+                            android:layout_height="wrap_content"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rcKjTv"
                             android:layout_marginTop="3.5dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"/>
+                            android:layout_height="wrap_content"/>
 
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="40dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="-8dp"
-                        android:text="@string/last_kai"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:rotation="90"
-                        android:alpha="0.4"
-                        />
+                        android:layout_marginEnd="5.5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_1"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_2"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_3"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_4"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+
+
+
+                    </LinearLayout>
+
+
 
 
 
@@ -207,9 +239,11 @@
         </LinearLayout>
 
 
+
+
+
         <LinearLayout
             android:id="@+id/layoutTzRecord"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -334,10 +368,64 @@
                     android:background="@drawable/bg_lottery_type_2"
                     />
 
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/ivWen"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@mipmap/wen"
+                    android:layout_gravity="center_vertical"
+
+                    />
+
 
             </LinearLayout>
 
         </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCzPlay"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="325dp"
+                android:background="@color/color000000"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvCzPlayName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="一分快三·玩法说明"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#80ffffff"/>
+
+                <TextView
+                    android:id="@+id/tvCzPlayDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="“一分快三”为引进欧洲博彩公司开彩设备后，经由菲律宾 博彩执照公司审核监控、联合开发的彩票游戏。该游戏全天24 小时开彩，每分钟一期，全天1440期。"
+                    android:textSize="13sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+
+                    android:textColor="@color/colorB8B2C8"
+                    />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layoutCzStatus"
@@ -482,6 +570,8 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
+
 
             <LinearLayout
                 android:id="@+id/layoutTzZj"

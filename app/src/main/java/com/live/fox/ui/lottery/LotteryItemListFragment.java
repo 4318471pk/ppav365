@@ -1,10 +1,13 @@
 package com.live.fox.ui.lottery;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.entity.LivingLotteryListBean;
 import com.live.fox.ui.lottery.adapter.LotteryAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.LayoutRcBinding;
@@ -16,12 +19,17 @@ public class LotteryItemListFragment extends BaseBindingFragment {
 
     LayoutRcBinding mBind;
 
+    LivingLotteryListBean.ItemsBean itemsBean;
+
     LotteryAdapter lotteryAdapter;
-    List<String> lotteryList = new ArrayList<>();
+    List<LivingLotteryListBean.ItemsBean.ConfigGameBaseListBean> lotteryList = new ArrayList<>();
 
 
-    public static LotteryItemListFragment newInstance() {
+    public static LotteryItemListFragment newInstance(String data) {
+        Bundle args = new Bundle();
+        args.putString("data", data);
         LotteryItemListFragment lotteryItemListFragment = new LotteryItemListFragment();
+        lotteryItemListFragment.setArguments(args);
         return lotteryItemListFragment;
     }
 
@@ -39,8 +47,11 @@ public class LotteryItemListFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind = getViewDataBinding();
 
-        lotteryList.add("1");lotteryList.add("1");lotteryList.add("1");
-        lotteryList.add("1");lotteryList.add("1");lotteryList.add("1");lotteryList.add("1");
+        String data = getArguments().getString("data");
+        itemsBean = new Gson().fromJson(data, LivingLotteryListBean.ItemsBean.class);
+        if (itemsBean.getConfigGameBaseList() != null && itemsBean.getConfigGameBaseList().size() > 0 ) {
+            lotteryList.addAll(itemsBean.getConfigGameBaseList());
+        }
         lotteryAdapter = new LotteryAdapter(this.getContext(),lotteryList);
         mBind.rc.setAdapter(lotteryAdapter);
 

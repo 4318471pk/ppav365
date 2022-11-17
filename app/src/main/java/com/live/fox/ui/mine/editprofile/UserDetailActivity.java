@@ -41,6 +41,7 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
+import com.live.fox.ui.mine.EditUserInfoActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
 import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.BarUtils;
@@ -249,11 +250,11 @@ public class UserDetailActivity extends BaseActivity  {
             mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
         }
 
-        if (mUser.getUserLevel() > 10) {
-            mBind.editProfileImage.setVisibility(View.VISIBLE);
-        } else {
-            mBind.editProfileImage.setVisibility(View.GONE);
-        }
+//        if (mUser.getUserLevel() > 10) {
+//            mBind.editProfileImage.setVisibility(View.VISIBLE);
+//        } else {
+//            mBind.editProfileImage.setVisibility(View.GONE);
+//        }
 
         mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
 
@@ -362,6 +363,7 @@ public class UserDetailActivity extends BaseActivity  {
                 ContributionRankActivity.startActivity(this);
                 break;
             case R.id.editProfileImage:
+                //EditUserInfoActivity.startActivity(this, mUser.getPhone());
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
             case R.id.tvGender:
