@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.lottery.TouzhuDialog" />
+    </data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical"
+    >
+
+    <View
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="@{click.onClickView}"
+        />
+
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/rllMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:rv_cornerRadius_TL="20dip"
+        app:rv_cornerRadius_TR="20dip"
+        app:rv_backgroundColor="@color/color5B5260"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layoutKj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/back"
+                android:onClick="@{click.onClickView}"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:riv_oval="true"
+                    android:src="@mipmap/ic_launcher"/>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/qi_end"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="00:55"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTz"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/white"
+                        android:text="@string/betting_history"
+                        android:textSize="11sp"
+                        android:gravity="center"
+                        android:paddingStart="13dp"
+                        android:paddingEnd="13dp"
+                        android:background="@drawable/bg_lottery_record"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvKj"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="11sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/white"
+                        android:text="@string/prize_opening_history"
+                        android:gravity="center"
+                        android:paddingStart="13dp"
+                        android:paddingEnd="13dp"
+                        android:background="@drawable/bg_lottery_record"
+                        />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tvWen"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_vertical"
+                        android:text="?"
+                        android:gravity="center"
+                        app:rv_strokeColor="@color/white"
+                        app:rv_strokeWidth="1dp"
+                        app:rv_cornerRadius="14dp"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcKjIv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcKjTv"
+                            android:layout_marginTop="3.5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5.5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_1"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_2"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_3"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_kai_4"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            />
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/layoutTzRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/ivBack2"
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:src="@mipmap/back"
+                android:onClick="@{click.onClickView}"
+                />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ivCz2"
+                android:onClick="@{click.onClickView}"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="10dp"
+                app:riv_oval="true"
+                android:src="@mipmap/ic_launcher"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/qi_end_2"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="00:11"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="28dp"
+                android:gravity="end"
+                android:layout_gravity="end|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTz2"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:text="@string/betting_history"
+                    android:textSize="11sp"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/bg_lottery_record"
+                    />
+
+                <TextView
+                    android:id="@+id/tvKj2"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="11sp"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/white"
+                    android:text="@string/prize_opening_history"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/bg_lottery_record"
+                    />
+
+                <TextView
+                    android:id="@+id/tvMoreKj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/more_kj"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvMoreKj2"
+                    android:visibility="gone"
+                    android:onClick="@{click.onClickView}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="11sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:textColor="@color/white"
+                    android:text="@string/more_kj"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/bg_lottery_type_2"
+                    />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/ivWen"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@mipmap/wen"
+                    android:layout_gravity="center_vertical"
+
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCzPlay"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="325dp"
+                android:background="@color/color000000"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvCzPlayName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="一分快三·玩法说明"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#80ffffff"/>
+
+                <TextView
+                    android:id="@+id/tvCzPlayDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="“一分快三”为引进欧洲博彩公司开彩设备后，经由菲律宾 博彩执照公司审核监控、联合开发的彩票游戏。该游戏全天24 小时开彩，每分钟一期，全天1440期。"
+                    android:textSize="13sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+
+                    android:textColor="@color/colorB8B2C8"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCzStatus"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:background="#69646F"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    
+                    <TextView
+                        android:id="@+id/tvCzName"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="一分快三"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorFEFEFF"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ivCzNameBot"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@mipmap/arrow_bot"/>
+                    
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/all_zt"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorFEFEFF"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ivStatus"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:src="@mipmap/arrow_bot"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTimeSelect"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="11月9日"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorFEFEFF"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ivTimeSelect"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@mipmap/arrow_bot"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layoutRecord"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="4dp"
+                >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcRecord"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutTzEmpty"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:riv_oval="true"
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:text="@string/no_record"
+                        android:gravity="center"
+                        android:textSize="13sp"
+                        />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/layoutTzZj"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="vertical"
+                >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:background="#b3ffffff"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/colorFEFEFF"
+                        android:text="@string/betting"
+                        android:textSize="13sp"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/colorFEFEFF"
+                        android:text="@string/zj"
+                        android:textSize="13sp"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/colorFEFEFF"
+                        android:text="@string/yl"
+                        android:textSize="13sp"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/tvZhu"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="100注"
+                        android:textSize="13sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvZj"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/colorF42C2C"
+                        android:text="100"
+                        android:textSize="15sp"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/color1FC478"
+                        android:text="-100"
+                        android:textSize="15sp"
+                        />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layoutCz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcTzType"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:background="@color/color6C6470"
+            android:layout_height="35dp"/>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="186dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:paddingTop="5dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/leftMoney"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:text="8888888"
+                android:textColor="@color/colorFFEA00"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/ivRefersh"
+                android:padding="7dp"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:src="@mipmap/refresh"
+                />
+
+            <TextView
+                android:id="@+id/tvCharge2"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:paddingEnd="14dp"
+                android:paddingStart="14dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="10dp"
+                android:onClick="@{click.onClickView}"
+                android:background="@drawable/bg_a800ff_d689ff_2"
+                android:text="@string/charge_2"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:id="@+id/layoutShowChouma"
+                android:onClick="@{click.onClickView}"
+                android:layout_width="45dp"
+                android:layout_height="29dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:rv_cornerRadius="14dp"
+                app:rv_backgroundColor="#4A454F"
+                >
+
+                <RelativeLayout
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="2dp"
+                    >
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/ivChouma"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dp"
+                        app:riv_oval="true" />
+
+                    <TextView
+                        android:id="@+id/tvChouma"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#7200AD"
+                        />
+
+                </RelativeLayout>
+
+
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="5dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@mipmap/arrow_bot"/>
+
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+            <TextView
+                android:id="@+id/tvTzAll"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:paddingEnd="23dp"
+                android:paddingStart="23dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_d55c2d_ff8b3d"
+                android:onClick="@{click.onClickView}"
+                android:text="@string/bet_2"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:alpha="0.5"
+                />
+
+
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </com.flyco.roundview.RoundLinearLayout>
+</LinearLayout>
+
+</layout>

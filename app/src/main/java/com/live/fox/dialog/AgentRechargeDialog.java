@@ -24,7 +24,6 @@ import com.live.fox.entity.response.AgentInfoVO;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.mvp.MvpDialogFragment;
 import com.live.fox.server.BaseApi;
-import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClipboardUtils;
 
 import java.util.ArrayList;

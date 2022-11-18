@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.lottery.ConfirmTouzhuDialog" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <View
+            android:id="@+id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{click.onClickView}"
+            />
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:id="@+id/layoutChouMa"
+            android:layout_width="match_parent"
+            android:layout_height="378dp"
+            android:orientation="vertical"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius_TL="20dp"
+            app:rv_cornerRadius_TR="20dp"
+            >
+
+            <com.flyco.roundview.RoundTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+
+                android:gravity="center"
+                android:text="@string/confirm_touzhu"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                app:rv_backgroundColor="@color/colorA800FF"
+                app:rv_cornerRadius_TL="20dp"
+                app:rv_cornerRadius_TR="20dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/colorF4F1F8"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color404040"
+                    android:text="一分快三"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/tvQi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:textColor="@color/color404040"
+                    android:text="第 100000000 期"
+                    android:textSize="11sp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:textColor="@color/color404040"
+                    android:text="@string/qi_end"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/color1FC478"
+                    android:text="00:16"
+                    android:textSize="11sp"/>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorD2CDE0"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.8"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color404040"
+                    android:gravity="center"
+                    android:text="@string/paly_way"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorD2CDE0"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.6"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color404040"
+                    android:gravity="center"
+                    android:text="@string/odds"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorD2CDE0"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color404040"
+                    android:gravity="center"
+                    android:text="@string/amountOfMoney"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorD2CDE0"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color404040"
+                    android:gravity="center"
+                    android:text="@string/erase"
+                    android:textSize="12sp"/>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorD2CDE0"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp">
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcTouzhu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+            <LinearLayout
+                android:id="@+id/layoutTzEmpty"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:src="@mipmap/ic_launcher"
+                    app:riv_oval="true"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:layout_gravity="center"
+                    android:text="@string/no_touzhu"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    />
+
+            </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcBeishu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorD2CDE0"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center|start"
+                    android:orientation="vertical">
+
+
+
+                        <TextView
+                            android:id="@+id/tvTouzuAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="合计：1注 金额：5555.0元"
+                            android:textColor="@color/color404040"
+                            android:textSize="12sp"/>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/balance2"
+                            android:textColor="@color/color404040"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tvBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="1000"
+                            android:textColor="@color/color404040"
+                            android:textSize="12sp"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvConfirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/confirm_touzhu"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bg_d55c2d_ff8b3d"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </com.flyco.roundview.RoundLinearLayout>
+    </LinearLayout>
+</layout>

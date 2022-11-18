@@ -23,7 +23,6 @@ import com.live.fox.entity.ConfigPathsBean;
 import com.live.fox.entity.response.ChipsVO;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Config;
-import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ToastUtils;

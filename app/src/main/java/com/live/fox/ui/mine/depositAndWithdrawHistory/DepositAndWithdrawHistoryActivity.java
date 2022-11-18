@@ -10,9 +10,6 @@ import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityDepositWithdrawHistoryBinding;
-import com.live.fox.ui.mine.diamondIncomeAndExpenses.DiamondExpensesFragment;
-import com.live.fox.ui.mine.diamondIncomeAndExpenses.DiamondIncomeAndExpensesActivity;
-import com.live.fox.ui.mine.diamondIncomeAndExpenses.DiamondIncomeFragment;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.device.ScreenUtils;
 

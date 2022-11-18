@@ -19,7 +19,6 @@ import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityContributionRankBinding;
 import com.live.fox.ui.rank.RankActivity;
-import com.live.fox.ui.rank.RankFragment;
 import com.live.fox.utils.device.ScreenUtils;
 
 public class ContributionRankActivity extends BaseBindingViewActivity {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:rv_backgroundColor="@color/colorF42C2C"
+        android:text="@string/da"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        app:rv_cornerRadius="50dp"/>
+
+</LinearLayout>

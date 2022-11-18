@@ -8,13 +8,9 @@ import androidx.fragment.app.Fragment;
 
 import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
-import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityDiamondIncomeExpensesBinding;
-import com.live.fox.ui.rank.RankFragment;
 import com.live.fox.utils.device.ScreenUtils;
-
-import java.util.List;
 
 public class DiamondIncomeAndExpensesActivity extends BaseBindingViewActivity {
 

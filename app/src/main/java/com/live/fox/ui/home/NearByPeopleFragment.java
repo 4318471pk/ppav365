@@ -5,7 +5,6 @@ import android.view.View;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.live.fox.R;
-import com.live.fox.adapter.AnchorGameListAdapter;
 import com.live.fox.adapter.LocationAreaSelectorAdapter;
 import com.live.fox.adapter.NearByPeopleListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;

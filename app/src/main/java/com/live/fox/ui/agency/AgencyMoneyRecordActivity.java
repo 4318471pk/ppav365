@@ -2,7 +2,6 @@ package com.live.fox.ui.agency;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +18,7 @@ import com.live.fox.entity.ColumnBean;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.TimeUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AgencyMoneyRecordActivity extends BaseBindingViewActivity {

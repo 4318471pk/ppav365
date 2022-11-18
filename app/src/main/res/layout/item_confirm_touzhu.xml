@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="31.5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_weight="1.8"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color404040"
+            android:gravity="center"
+            android:text="一分快三|大小|大"
+            android:textSize="12sp"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorD2CDE0"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorB8B2C8"
+            android:gravity="center"
+            android:text="0.98"
+            android:textSize="12sp"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorD2CDE0"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.3"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tvMoney"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginStart="5.5dp"
+                android:layout_marginEnd="5.5dp"
+                android:textColor="@color/color404040"
+                android:gravity="center"
+                android:text="1000000"
+                android:textSize="12sp"
+                app:rv_backgroundColor="@color/colorF4F1F8"
+                app:rv_cornerRadius="12dp"
+                />
+
+
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorD2CDE0"
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_delete"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/icon_delete_history"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorD2CDE0"
+        />
+
+
+</LinearLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="10dp"
+    >
+
+    <com.flyco.roundview.RoundTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tvName"
+        app:rv_cornerRadius="10dp"
+        app:rv_backgroundColor="@color/white"
+        android:text="一分时时彩"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/color404040"/>
+
+
+
+
+
+</LinearLayout>

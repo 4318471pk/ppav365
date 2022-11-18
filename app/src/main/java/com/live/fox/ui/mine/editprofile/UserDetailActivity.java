@@ -41,6 +41,7 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
+import com.live.fox.ui.mine.EditUserInfoActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
 import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.BarUtils;
@@ -215,13 +216,16 @@ public class UserDetailActivity extends BaseActivity  {
         String uid=String.valueOf(mUser.getUid());
         StringBuilder sb=new StringBuilder();
         sb.append(getString(R.string.identity_id_3));
-        sb.append("  ");
         sb.append(uid);
         SpannableString spannableString=new SpannableString(sb.toString());
         spannableString.setSpan(new ForegroundColorSpan(0xffb8b2c8),spannableString.length()-uid.length(), spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mBind.tvIdnum.setText(spannableString);
-        int sexResId = mUser.getSex() == 1 ? R.string.boy : R.string.girl;
-        mBind.tvGender.setText(getString(sexResId));
+        if (mUser.getSex() == 0 ){
+            mBind.tvGender.setText(getString(R.string.privacyStr));
+        } else{
+            int sexResId = mUser.getSex() == 1 ? R.string.boy : R.string.girl;
+            mBind.tvGender.setText(getString(sexResId));
+        }
 
         if (TextUtils.isEmpty(mUser.getBirthday())) {
             mBind.tvAge.setText(getString(R.string.privacyStr));
@@ -246,11 +250,11 @@ public class UserDetailActivity extends BaseActivity  {
             mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
         }
 
-        if (mUser.getUserLevel() > 10) {
-            mBind.editProfileImage.setVisibility(View.VISIBLE);
-        } else {
-            mBind.editProfileImage.setVisibility(View.GONE);
-        }
+//        if (mUser.getUserLevel() > 10) {
+//            mBind.editProfileImage.setVisibility(View.VISIBLE);
+//        } else {
+//            mBind.editProfileImage.setVisibility(View.GONE);
+//        }
 
         mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
 
@@ -359,6 +363,7 @@ public class UserDetailActivity extends BaseActivity  {
                 ContributionRankActivity.startActivity(this);
                 break;
             case R.id.editProfileImage:
+                //EditUserInfoActivity.startActivity(this, mUser.getPhone());
                 DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
             case R.id.tvGender:

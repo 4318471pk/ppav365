@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +21,6 @@ import com.live.fox.R;
 import com.live.fox.adapter.TuiGuangPageAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityPromoMaterialBinding;
-import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ScreenUtils;
 
 import java.util.ArrayList;
