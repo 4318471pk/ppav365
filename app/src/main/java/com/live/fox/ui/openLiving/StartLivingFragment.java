@@ -115,6 +115,7 @@ public class StartLivingFragment extends BaseBindingFragment {
     String liveId,myUID;
     LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
     AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
+    List<User> userList=new ArrayList<>();//当前在线用户
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
@@ -188,6 +189,19 @@ public class StartLivingFragment extends BaseBindingFragment {
         return R.layout.fragment_start_living;
     }
 
+    public int getOnlineAudAmount()
+    {
+        String text=mBind.gtvOnlineAmount.getText().toString();
+        if(!TextUtils.isEmpty(text))
+        {
+            return Integer.valueOf(text);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     private void setViewLP(View view,int height,int topMargin)
     {
         LinearLayout.LayoutParams ll=(LinearLayout.LayoutParams) view.getLayoutParams();
@@ -214,8 +228,7 @@ public class StartLivingFragment extends BaseBindingFragment {
         myUID=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
         int screenWidth=ScreenUtils.getScreenWidth(getActivity());
-
-        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f), StatusBarUtil.getStatusBarHeight(getActivity()));
+//        setViewLP(mBind.llTopView,(int)(screenHeight*0.32f), StatusBarUtil.getStatusBarHeight(getActivity()));
         setViewLPRL(mBind.rlMidView,(int)(screenHeight*0.2f),(int)(screenHeight*0.32f));
 
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
@@ -277,6 +290,8 @@ public class StartLivingFragment extends BaseBindingFragment {
         if (!isActivityOK()) {
             return;
         }
+
+        Log.e("onNewMessageReceived", msg);
 
         if (!TextUtils.isEmpty(msg) ) {
             try {
@@ -466,6 +481,7 @@ public class StartLivingFragment extends BaseBindingFragment {
         String liveConfigId=getMainActivity().liveConfigId;
         String roomType=String.valueOf(getMainActivity().roomType);
         String roomPrice=String.valueOf(getMainActivity().roomPrice);
+        String icon=getMainActivity().imageURL;
 
         StringBuilder location=new StringBuilder();
         User user= DataCenter.getInstance().getUserInfo().getUser();
@@ -492,6 +508,11 @@ public class StartLivingFragment extends BaseBindingFragment {
         params.put("title",title);
         params.put("price",roomPrice);
         params.put("location",location.toString());
+        if(!TextUtils.isEmpty(icon))
+        {
+            params.put("icon",icon);
+        }
+
 
         if(getMainActivity().contactCostDiamond>0 &&  getMainActivity().contactType>-1 &&
                 !TextUtils.isEmpty(getMainActivity().contactAccount))
@@ -500,7 +521,6 @@ public class StartLivingFragment extends BaseBindingFragment {
             params.put("contactDetails",getMainActivity().contactAccount);
             params.put("showContactPrice",getMainActivity().contactCostDiamond);
         }
-
 
         Api_Live.ins().getAnchorAuth(params,new JsonCallback<String>() {
             @Override
@@ -573,6 +593,7 @@ public class StartLivingFragment extends BaseBindingFragment {
         checkAndJoinIM();
         getGuardList();
         refreshAudienceList();
+        doGetAudienceListApi();
     }
 
     private  OpenLivingActivity getMainActivity()
@@ -811,6 +832,34 @@ public class StartLivingFragment extends BaseBindingFragment {
                 }
                 else
                 {
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 观众列表 进入直播间就缓存下数据
+     */
+    public void doGetAudienceListApi() {
+        if(!isActivityOK())
+        {
+            return;
+        }
+
+        //限制两秒内请求一次
+        if(ClickUtil.isRequestWithShortTime("doGetAudienceListApi".hashCode(),2000));
+
+        Api_Live.ins().getRoomUserList(liveId, new JsonCallback<List<User>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<User> data) {
+                if (code == 0 ) {
+                    if(isActivityOK() && getArg().equals(liveId) && data!=null)
+                    {
+                        userList.clear();
+                        userList.addAll(data);
+                    }
+                } else {
 
                 }
             }

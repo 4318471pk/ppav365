@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.live.fox.AnchorLiveActivity;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
@@ -39,18 +40,27 @@ import com.live.fox.dialog.temple.LivingInterruptDialog;
 import com.live.fox.dialog.temple.TempleDialog2;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Pay;
+import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.CenterOfAnchorActivity;
+import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.KeyboardUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
 import com.lovense.sdklibrary.Lovense;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveBase;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +72,9 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     private static final String Title="Title";
     private static final String LiveID="LiveID";
     private static final String LiveConfigId="LiveConfigId";
+    private static final String BGOfLiving="BGOfLiving";
+    private static final String FixRoomType="FixRoomType";
+
 
     ActivityOpenLivingBinding mBind;
     private TXLivePusher mLivePusher;                    // SDK 推流类
@@ -71,7 +84,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     TXPhoneStateListener mPhoneListener;
     boolean isCameraInitFinish=false;
     boolean isFrontCarame = true; //是否前置摄像头
-    String pushUrl="",roomTitle,liveId,liveConfigId;//推流地址 房间名称 直播ID 直播线路ID
+    String pushUrl="",roomTitle,liveId,liveConfigId,imageURL;//推流地址 房间名称 直播ID 直播线路ID 封面图片地址
+    String fixRoomType;//固定房间类型 只展示没其他作用
     int roomType=0;//房间类型 0免费 1 按时收费 2 按场收费
     int roomPrice=0;//房间单价
 
@@ -89,13 +103,58 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         this.pushUrl = mPushUrl;
     }
 
-    public static void startActivity(Context context, String roomTitle, String liveID,String liveConfigId)
+    public static void startActivity(Context context,String imageURL, String roomTitle, String liveID,String liveConfigId,String fixRoomType)
     {
         Intent intent=new Intent(context,OpenLivingActivity.class);
         intent.putExtra(Title,roomTitle);
         intent.putExtra(LiveID,liveID);
         intent.putExtra(LiveConfigId,liveConfigId);
+        intent.putExtra(BGOfLiving,imageURL);
+        intent.putExtra(FixRoomType,fixRoomType);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.REQUEST_CAMERA:
+                    try {
+                        String url=  PictureFileUtils.getPicturePath(this);
+                        File file=new File(url);
+                        if(file!=null && file.exists())
+                        {
+                            EditProfileImageActivity.startActivity(this,EditProfileImageActivity.Square,url);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    break;
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 圖片選擇結果回調
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    if(selectList!=null && selectList.size()>0)
+                    {
+                        LocalMedia localMedia = selectList.get(0);
+                        LogUtils.e("图片-----》" + localMedia.getPath());
+                        EditProfileImageActivity.startActivity(this,EditProfileImageActivity.Square,localMedia.getPath());
+                    }
+                    break;
+                case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
+                    if(data!=null && data.getStringExtra(ConstantValue.pictureOfUpload)!=null)
+                    {
+                        File file=new File(data.getStringExtra(ConstantValue.pictureOfUpload));
+                        if(file!=null && file.exists())
+                        {
+                            uploadBGOfLivingRoom(file);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     @Override
@@ -121,6 +180,9 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         roomTitle=getIntent().getStringExtra(Title);
         liveId=getIntent().getStringExtra(LiveID);
         liveConfigId=getIntent().getStringExtra(LiveConfigId);
+        imageURL=getIntent().getStringExtra(BGOfLiving);
+        fixRoomType=getIntent().getStringExtra(FixRoomType);
+
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
@@ -197,6 +259,25 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                 });
     }
 
+    private void uploadBGOfLivingRoom(File file)
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_User.ins().uploadLivingRoomPicture(file, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == Constant.Code.SUCCESS) {
+                    imageURL=data;
+                    PreparingLivingFragment preparingLivingFragment=(PreparingLivingFragment) fragments.get(0);
+                    preparingLivingFragment.setImage(data);
+                    showToastTip(true, getString(R.string.modifySuccess));
+                    //Log.e("uploadBGOfLivingRoom",data);
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
 
     /**
      * 初始化电话监听

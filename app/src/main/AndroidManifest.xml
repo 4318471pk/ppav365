@@ -238,7 +238,7 @@
             android:name=".ui.mine.ShopActivity"
             android:screenOrientation="portrait" /> <!-- 修改个人信息 -->
         <activity
-            android:name=".ui.mine.EditUserInfoActivity"
+            android:name=".ui.mine.editprofile.EditUserInfoActivity"
             android:screenOrientation="portrait" /> <!-- 修改名称 -->
         <activity
             android:name=".ui.mine.editprofile.EditProfileImageActivity"

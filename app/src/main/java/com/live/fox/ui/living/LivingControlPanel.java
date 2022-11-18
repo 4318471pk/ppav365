@@ -144,7 +144,7 @@ public class LivingControlPanel extends RelativeLayout {
         mBind.llMessages.setLayoutParams(rlMessages);
 
         RelativeLayout.LayoutParams rlER=(RelativeLayout.LayoutParams)mBind.rlEnterRoom.getLayoutParams();
-        rlER.topMargin=(int)(screenHeight*0.5f)+ScreenUtils.getDip2px(fragment.getActivity(),45);
+        rlER.topMargin=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),21);
         rlER.height=ScreenUtils.getDip2px(fragment.getActivity(),21);
         rlER.width=ViewGroup.LayoutParams.MATCH_PARENT;
         mBind.rlEnterRoom.setLayoutParams(rlER);
@@ -618,6 +618,9 @@ public class LivingControlPanel extends RelativeLayout {
         {
             return;
         }
+
+        //限制两秒内请求一次
+        if(ClickUtil.isRequestWithShortTime("doGetAudienceListApi".hashCode(),2000));
 
         Api_Live.ins().getRoomUserList(fragment.getRoomBean().getId(), new JsonCallback<List<User>>() {
             @Override

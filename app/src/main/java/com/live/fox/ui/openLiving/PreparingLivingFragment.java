@@ -25,6 +25,7 @@ import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.mine.CenterOfAnchorActivity;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -78,6 +79,11 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         return null;
     }
 
+    public void setImage(String imageUrl)
+    {
+        GlideUtils.loadImage(getActivity(), imageUrl, mBind.ivRoomPic);
+    }
+
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
@@ -105,6 +111,11 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         mBind.llButtons.setLayoutParams(rlButtons);
 
         User user= DataCenter.getInstance().getUserInfo().getUser();
+        if(!TextUtils.isEmpty(getMainActivity().fixRoomType))
+        {
+            mBind.gtvRoomType.setText(getMainActivity().fixRoomType);
+        }
+
         if(TextUtils.isEmpty(user.getProvince()) && TextUtils.isEmpty(user.getCity()))
         {
             mBind.tvLocation.setText(getStringWithoutContext(R.string.mars));

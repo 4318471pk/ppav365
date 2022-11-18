@@ -246,9 +246,10 @@ public class SplashPresenter {
         configInfo.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                LogUtils.e("doBaseApi onResponse: " + call.request().url());
+
                 JsonObject body = response.body();
                 if (body != null) {
+                    LogUtils.e("doBaseApi: " + response.body().toString());
 //                    doGetTraceInstall();//取消提交安装
                     JsonObject data = body.getAsJsonObject("data");
                     JsonArray jsonArray = data.getAsJsonArray("configSystemBaseList");

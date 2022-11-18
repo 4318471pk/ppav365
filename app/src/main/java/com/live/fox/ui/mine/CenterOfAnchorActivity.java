@@ -33,6 +33,7 @@ import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -175,10 +176,13 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                     Manifest.permission.RECORD_AUDIO)
                     .subscribe(granted -> {
                         if (granted) {
-                            if(!TextUtils.isEmpty(liveId))
+
+                            String roomType=mBind.gtvTypeOfRoom.getText().toString();
+                            if(!TextUtils.isEmpty(liveId) && !TextUtils.isEmpty(roomType))
                             {
                                 String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
-                                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId,liveConfigId);
+                                String icon=mBind.ivRoomIcon.getTag()==null?"":(String)mBind.ivRoomIcon.getTag();
+                                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,icon,roomTitle,liveId,liveConfigId,roomType);
                             }
                         } else { // 有的权限被拒绝或被勾选不再提示
                             LogUtils.e("有的权限被拒绝");
@@ -190,10 +194,12 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         }
                     });
         } else {
-            if(!TextUtils.isEmpty(liveId))
+            String roomType=mBind.gtvTypeOfRoom.getText().toString();
+            if(!TextUtils.isEmpty(liveId) && !TextUtils.isEmpty(roomType))
             {
                 String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
-                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId,liveConfigId);
+                String icon=mBind.ivRoomIcon.getTag()==null?"":(String)mBind.ivRoomIcon.getTag();
+                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,icon,roomTitle,liveId,liveConfigId,roomType);
             }
         }
     }
@@ -226,6 +232,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 hideLoadingDialog();
                 if (code == Constant.Code.SUCCESS) {
                     GlideUtils.loadImage(CenterOfAnchorActivity.this, data, mBind.ivRoomIcon);
+                    mBind.ivRoomIcon.setTag(data);
                     showToastTip(true, getString(R.string.modifySuccess));
                     //Log.e("uploadBGOfLivingRoom",data);
                 } else {
@@ -252,6 +259,21 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         String title= jsonObject.optString("title","");
                         String type= jsonObject.optString("type","");
                         GlideUtils.loadDefaultImage(CenterOfAnchorActivity.this,icon,R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.ivRoomIcon);
+                        if(!TextUtils.isEmpty(icon))
+                        {
+                            mBind.ivRoomIcon.setTag(icon);
+                        }
+
+                        if(Strings.isDigitOnly(type))
+                        {
+                            int index=Integer.valueOf(type);
+                            if(index>-1 && index<3)
+                            {
+                                String str[]=getResources().getStringArray(R.array.typeOfRoom);
+                                mBind.gtvTypeOfRoom.setText(str[index]);
+                            }
+                        }
+
                         mBind.gtvTitleOfRoom.setText(title);
 //                        switch (type)
 //                        {

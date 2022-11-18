@@ -547,10 +547,10 @@ public class Api_Live extends BaseApi {
 
 
     /**
-     * 直播间踢用户
+     * 直播间拉黑用户
      */
     public void banuser(long liveId, long uid, JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.Live_banuser_URL;
+        String url = SPManager.getServerDomain() + Constant.URL.Live_BlockUser_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("uid", uid);

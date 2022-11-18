@@ -124,7 +124,6 @@ public class LivingFragment extends BaseBindingFragment {
     LivingCurrentAnchorBean livingCurrentAnchorBean;//当前主播的数据
 
     public static LivingFragment getInstance(int position, int viewPagePosition) {
-        Log.e("LivingFragment", position + " ");
         LivingFragment livingFragment = new LivingFragment();
         livingFragment.currentPagePosition = position;
         livingFragment.viewPagePosition = viewPagePosition;
@@ -132,7 +131,6 @@ public class LivingFragment extends BaseBindingFragment {
     }
 
     public void notifyShow(int position, int viewPagePosition) {
-        Log.e("LivingFragment22", position + " ");
         currentPagePosition = position;
         this.viewPagePosition = viewPagePosition;
         if (getView() != null && isAdded()) {
@@ -455,9 +453,9 @@ public class LivingFragment extends BaseBindingFragment {
                 handler.removeMessages(playSVGA);
                 handler.removeMessages(userHeartBeat);
                 handler.removeMessages(alertWhenExit);
+                livingMessageGiftBeans.clear();
             }
 
-            livingMessageGiftBeans.clear();
             LivingActivity activity = (LivingActivity) getActivity();
             if (!activity.isFinishing() && !activity.isDestroyed() && activity.getRoomListBeans() != null) {
                 if (activity.getRoomListBeans().size() > currentPagePosition) {
@@ -899,14 +897,16 @@ public class LivingFragment extends BaseBindingFragment {
         {
             return;
         }
-        SvgAnimateLivingBean bean=livingMessageGiftBeans.get(0);
-        File file = new File(bean.getLocalSvgPath());
-        if (file == null || !file.exists()) {
+        if(mBind.svImage.isAnimating())
+        {
             return;
         }
 
-        if(mBind.svImage.isAnimating())
-        {
+        Log.e("anisize",livingMessageGiftBeans.size()+" ");
+        SvgAnimateLivingBean bean=livingMessageGiftBeans.get(0);
+
+        File file = new File(bean.getLocalSvgPath());
+        if (file == null || !file.exists()) {
             return;
         }
 

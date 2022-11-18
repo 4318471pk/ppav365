@@ -167,4 +167,10 @@
         <item>背包</item>
     </string-array>
 
+    <string-array name="typeOfRoom">
+        <item>游戏房</item>
+        <item>成人房</item>
+        <item>娱乐房</item>
+    </string-array>
+
 </resources>

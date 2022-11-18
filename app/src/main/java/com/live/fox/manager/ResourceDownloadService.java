@@ -332,6 +332,10 @@ public class ResourceDownloadService extends IntentService {
                                     LocalUserLevelDao.getInstance().updateData(uBean);
                                 }
                             }
+                            else
+                            {
+                                Log.e("UserLevelResource","下载失败"+uBean.getLevelImg());
+                            }
                         }
                     }
                 });

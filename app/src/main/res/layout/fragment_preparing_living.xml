@@ -36,6 +36,7 @@
                 android:orientation="vertical">
 
                 <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvRoomType"
                     android:layout_width="100dip"
                     android:layout_height="20dip"
                     android:layout_gravity="right"

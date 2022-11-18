@@ -220,7 +220,7 @@ public class Constant {
         public static final String liveRoomRecommendList="/live-client/live/recommendLiveList";//直播间内右侧列表
         public static final String anchorfind_URL = LiveClient + "/live/StartRecordList";        // 搜索主播
         public static final String anchorfind_URL2 = LiveClient + "/live/StartRecordTotalList";        // 搜索主播2
-        public static final String Live_banuser_URL = LiveClient + "/live/ban/user";           //直播间踢用户
+        public static final String Live_BlockUser_URL = LiveClient + "/live/ban/user";           //直播间拉黑用户
         public static final String Live_blackchat_URL = LiveClient + "/live/black/chat";       //直播间禁言
         public static final String Live_chargeroom_URL = LiveClient + "/live/charge/room";     //计时房间付费
         public static final String Live_chargeroomchange_URL = LiveClient + "/live/charge/room/change"; //更改房间类型
@@ -254,9 +254,6 @@ public class Constant {
         public static final String GameModuleGames ="/config-client/game/gameModuleGames"; //获取列表游戏
 
         public static final String LiveRoomGames = "/config-client/game/liveRoomGames"; //直播间游戏列表
-
-
-
 
         /**
          * promotion-client  分享相关接口

@@ -54,7 +54,7 @@ public class AnchorExitLivingDialog extends TempleDialog2{
         if(getParentFragment()!=null && (getParentFragment() instanceof StartLivingFragment))
         {
             StartLivingFragment startLivingFragment=(StartLivingFragment)getParentFragment();
-            if(Integer.valueOf(startLivingFragment.mBind.gtvOnlineAmount.getText().toString())>0)
+            if(Integer.valueOf(startLivingFragment.getOnlineAudAmount())>0)
             {
                 SpanUtils spanUtils=new SpanUtils();
                 spanUtils.append(startLivingFragment.mBind.gtvOnlineAmount.getText().toString()).setForegroundColor(0xffF42C2C);

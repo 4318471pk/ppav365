@@ -40,6 +40,11 @@ public class AnchorLivingFinishActivity extends BaseBindingViewActivity {
     }
 
     @Override
+    public boolean isHasHeader() {
+        return false;
+    }
+
+    @Override
     public void onClickView(View view) {
         switch (view.getId())
         {

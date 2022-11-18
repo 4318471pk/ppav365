@@ -365,9 +365,9 @@ public class ChatSpanUtils {
         LogUtils.e(new Gson().toJson(user));
         SpanUtils spanUtils = new SpanUtils();
         appendLevel(spanUtils, user.getUserLevel(), context);
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
         appendLevelTag(spanUtils, user.getUserLevel(), context);
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
         if (user.getVipUid() != null) {
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
             spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
@@ -379,23 +379,22 @@ public class ChatSpanUtils {
         SpanUtils spanUtils = new SpanUtils();
         appendLevel(spanUtils, level, context);
 
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
         appendLevelTag(spanUtils, level, context);
 
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context,2));
+        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
         spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
         return spanUtils.create();
     }
 
 
-    private void appendLevelTag(SpanUtils spanUtils,Integer mlevel, Context context)
-    {
-            if(mlevel==null)return;
-            int index=mlevel%7;
-            int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
-            spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
+    private void appendLevelTag(SpanUtils spanUtils, Integer mlevel, Context context) {
+        if (mlevel == null) return;
+        int index = mlevel % 7;
+        int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
+        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
     }
 
     public void appendText(SpanUtils spanUtils, String text, ContentType contentType, boolean space, FunctionItem shit) {
@@ -429,21 +428,19 @@ public class ChatSpanUtils {
 
 
     public void appendLevel(SpanUtils spanUtils, Integer userLevel, Context context) {
-        if(userLevel==null)return;
-        if(userLevel==0)
-        {
-            userLevel=1;
+        if (userLevel == null) return;
+        if (userLevel == 0) {
+            userLevel = 1;
         }
-        if(userLevel>200)
-        {
-            userLevel=199;
+        if (userLevel > 200) {
+            userLevel = 199;
         }
 
-        int index=userLevel%10==0?userLevel/10-1:userLevel/10;
+        int index = userLevel % 10 == 0 ? userLevel / 10 - 1 : userLevel / 10;
         int[] level = new ResourceUtils().getResourcesID(R.array.level);
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
         if (bitmap == null) return;
-        Bitmap newBitmap=ImageUtils.addTextForLevel(context,bitmap, userLevel);
+        Bitmap newBitmap = ImageUtils.addTextForLevel(context, bitmap, userLevel);
         spanUtils.appendImage(newBitmap, SpanUtils.ALIGN_CENTER);
     }
 
@@ -471,8 +468,8 @@ public class ChatSpanUtils {
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
         if (bitmap == null) return;
-        int height=ScreenUtils.getDip2px(context,16);
-        int width=ScreenUtils.getDip2px(context,40);
+        int height = ScreenUtils.getDip2px(context, 16);
+        int width = ScreenUtils.getDip2px(context, 40);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
     }
@@ -480,9 +477,8 @@ public class ChatSpanUtils {
 
     /**
      * 发送系统信息
-     *
      */
-    public static SpanUtils appendSystemMessageType(String protocol,CharSequence message, Context context) {
+    public static SpanUtils appendSystemMessageType(String protocol, CharSequence message, Context context) {
         SpanUtils spanUtils = new SpanUtils();
 
         int resourceId = 1;
@@ -500,8 +496,8 @@ public class ChatSpanUtils {
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
         if (bitmap == null) return spanUtils;
-        int height=ScreenUtils.getDip2px(context,16);
-        int width=ScreenUtils.getDip2px(context,40);
+        int height = ScreenUtils.getDip2px(context, 16);
+        int width = ScreenUtils.getDip2px(context, 40);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
 
@@ -568,8 +564,8 @@ public class ChatSpanUtils {
                     Bitmap bitmap = getBadgeByGid(mS);
                     if (bitmap == null) continue;
                     spanUtils.appendImage(ImageUtils.scale(bitmap,
-                                    DeviceUtils.dp2px(context, 24),
-                                    DeviceUtils.dp2px(context, 20)),
+                            DeviceUtils.dp2px(context, 24),
+                            DeviceUtils.dp2px(context, 20)),
                             SpanUtils.ALIGN_CENTER);
                     spanUtils.append(" ");
                 } catch (JSONException e) {
@@ -716,40 +712,33 @@ public class ChatSpanUtils {
 
     /**
      * 等级图标
-     *
      */
-    public static boolean appendLevelIcon(SpanUtils spanUtils,int level,Context context)
-    {
-        if(level<1)
-        {
+    public static boolean appendLevelIcon(SpanUtils spanUtils, int level, Context context) {
+        if (level < 1) {
             return false;
         }
-      String levelIcon=LocalUserLevelDao.getInstance().getLevelIcon(level);
+        String levelIcon = LocalUserLevelDao.getInstance().getLevelIcon(level);
         Bitmap bitmap = BitmapFactory.decodeFile(levelIcon);
         if (bitmap == null) return false;
-        int height=ScreenUtils.getDip2px(context,12);
-        int width=ScreenUtils.getDip2px(context,30);
+        int height = ScreenUtils.getDip2px(context, 12);
+        int width = ScreenUtils.getDip2px(context, 30);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         return true;
     }
 
     /**
      * 爵位图标 长的 7以下
-     *
      */
-    public static boolean appendVipLevelRectangleIcon(SpanUtils spanUtils,int level,Context context)
-    {
-        if(level<1 || level>7)
-        {
+    public static boolean appendVipLevelRectangleIcon(SpanUtils spanUtils, int level, Context context) {
+        if (level < 1 || level > 7) {
             return false;
         }
-        UserTagResourceBean levelTagBean= LocalUserTagResourceDao.getInstance().getLevelTag(level);
-        if(levelTagBean!=null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath()))
-        {
+        UserTagResourceBean levelTagBean = LocalUserTagResourceDao.getInstance().getLevelTag(level);
+        if (levelTagBean != null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath())) {
             Bitmap bitmap = BitmapFactory.decodeFile(levelTagBean.getLocalVipImgPath());
             if (bitmap == null) return false;
-            int height=ScreenUtils.getDip2px(context,12);
-            int width=ScreenUtils.getDip2px(context,38.5f);
+            int height = ScreenUtils.getDip2px(context, 12);
+            int width = ScreenUtils.getDip2px(context, 38.5f);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         }
         return true;
@@ -757,21 +746,17 @@ public class ChatSpanUtils {
 
     /**
      * 爵位图标 圆的 7以下
-     *
      */
-    public static void appendVipLevelCircleIcon(SpanUtils spanUtils,int level,Context context)
-    {
-        if(level<1 || level>7)
-        {
+    public static void appendVipLevelCircleIcon(SpanUtils spanUtils, int level, Context context) {
+        if (level < 1 || level > 7) {
             return;
         }
-        UserTagResourceBean levelTagBean= LocalUserTagResourceDao.getInstance().getLevelTag(level);
-        if(levelTagBean!=null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath()))
-        {
+        UserTagResourceBean levelTagBean = LocalUserTagResourceDao.getInstance().getLevelTag(level);
+        if (levelTagBean != null && !TextUtils.isEmpty(levelTagBean.getLocalVipImgPath())) {
             Bitmap bitmap = BitmapFactory.decodeFile(levelTagBean.getLocalVipImgPath());
             if (bitmap == null) return;
-            int height=ScreenUtils.getDip2px(context,12);
-            int width=ScreenUtils.getDip2px(context,30);
+            int height = ScreenUtils.getDip2px(context, 12);
+            int width = ScreenUtils.getDip2px(context, 30);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         }
     }
@@ -779,60 +764,49 @@ public class ChatSpanUtils {
 
     /**
      * 加入房管图标
-     *
      */
-    public static void appendRoomManageIcon(SpanUtils spanUtils,Context context)
-    {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_admin);
+    public static void appendRoomManageIcon(SpanUtils spanUtils, Context context) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_admin);
         if (bitmap == null) return;
-        int height=ScreenUtils.getDip2px(context,16);
-        int width=ScreenUtils.getDip2px(context,16);
+        int height = ScreenUtils.getDip2px(context, 16);
+        int width = ScreenUtils.getDip2px(context, 16);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
     }
 
     /**
      * 守护图标 7以下
-     *
      */
-    public static void appendGuardIcon(SpanUtils spanUtils,int level,Context context)
-    {
-        long count=LocalUserGuardDao.getInstance().getCount();
-        if(level<1 || level>count)
-        {
+    public static void appendGuardIcon(SpanUtils spanUtils, int level, Context context) {
+        long count = LocalUserGuardDao.getInstance().getCount();
+        if (level < 1 || level > count) {
             return;
         }
 
-        UserGuardResourceBean guardResourceBean= LocalUserGuardDao.getInstance().getLevel(level);
-        if(guardResourceBean!=null && !TextUtils.isEmpty(guardResourceBean.getLocalImgMediumPath()))
-        {
+        UserGuardResourceBean guardResourceBean = LocalUserGuardDao.getInstance().getLevel(level);
+        if (guardResourceBean != null && !TextUtils.isEmpty(guardResourceBean.getLocalImgMediumPath())) {
             Bitmap bitmap = BitmapFactory.decodeFile(guardResourceBean.getLocalImgSmallPath());
             if (bitmap == null) return;
-            int height=ScreenUtils.getDip2px(context,11.5f);
-            int width=ScreenUtils.getDip2px(context,14);
+            int height = ScreenUtils.getDip2px(context, 11.5f);
+            int width = ScreenUtils.getDip2px(context, 14);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         }
     }
 
     /**
      * 发送进入房间欢迎语
-     *
      */
-    public static synchronized SpanUtils enterRoom(LivingEnterLivingRoomBean bean, Context context)
-    {
-        SpanUtils spanUtils=new SpanUtils();
-        if(appendLevelIcon(spanUtils,bean.getUserLevel(),context))
-        {
+    public static synchronized SpanUtils enterRoom(LivingEnterLivingRoomBean bean, Context context) {
+        SpanUtils spanUtils = new SpanUtils();
+        if (appendLevelIcon(spanUtils, bean.getUserLevel(), context)) {
             spanUtils.append(" ");
         }
 
-        if(!TextUtils.isEmpty(bean.getNickname()))
-        {
-            spanUtils.append(bean.getNickname()).setFontSize(13,true)
+        if (!TextUtils.isEmpty(bean.getNickname())) {
+            spanUtils.append(bean.getNickname()).setFontSize(13, true)
                     .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
         }
 
-        if(!TextUtils.isEmpty(bean.getMessage()))
-        {
+        if (!TextUtils.isEmpty(bean.getMessage())) {
             spanUtils.append(bean.getMessage()).setForegroundColor(0xffffffff);
         }
         return spanUtils;
@@ -841,52 +815,46 @@ public class ChatSpanUtils {
 
     /**
      * 发送个人信息
-     *
      */
-    public static void appendPersonalMessage(SpanUtils spanUtils, PersonalLivingMessageBean pBean, Context context, LivingClickTextSpan.OnClickTextItemListener listener ) {
-        if(pBean==null || TextUtils.isEmpty(pBean.getProtocol()) )
-        {
+    public static void appendPersonalMessage(SpanUtils spanUtils, PersonalLivingMessageBean pBean, Context context, LivingClickTextSpan.OnClickTextItemListener listener) {
+        if (pBean == null || TextUtils.isEmpty(pBean.getProtocol())) {
             return;
         }
 
         switch (pBean.getProtocol()) {
             case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
             case MessageProtocol.LIVE_ROOM_CHAT:
-                if(appendLevelIcon(spanUtils,pBean.getUserLevel(),context))
-                {
+                if (appendLevelIcon(spanUtils, pBean.getUserLevel(), context)) {
                     spanUtils.append(" ");
                 }
 
-                if(appendVipLevelRectangleIcon(spanUtils,pBean.getVipLevel(),context))
-                {
+                if (appendVipLevelRectangleIcon(spanUtils, pBean.getVipLevel(), context)) {
                     spanUtils.append(" ");
                 }
 
-                if(Strings.isDigitOnly(pBean.getGuardLevel()) && pBean.isIsGuard())
-                {
-                    appendGuardIcon(spanUtils,Integer.valueOf(pBean.getGuardLevel()),context);
+                if (Strings.isDigitOnly(pBean.getGuardLevel()) && pBean.isIsGuard()) {
+                    appendGuardIcon(spanUtils, Integer.valueOf(pBean.getGuardLevel()), context);
                     spanUtils.append(" ");
                 }
 
-                if(pBean.isIsRoomManage())
-                {
-                    appendRoomManageIcon(spanUtils,context);
+                if (pBean.isIsRoomManage()) {
+                    appendRoomManageIcon(spanUtils, context);
                     spanUtils.append(" ");
                 }
 
 
-                LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(pBean,0xff85EFFF);
+                LivingClickTextSpan livingClickTextSpan = new LivingClickTextSpan(pBean, 0xff85EFFF);
                 livingClickTextSpan.setOnClickTextItemListener(listener);
 //                SpannableString spannableString=new SpannableString(pBean.getNickname()+": ");
 //                spannableString.setSpan(livingClickTextSpan,0,spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                String nickName=pBean.getNickname()+": ";
+                String nickName = pBean.getNickname() + ": ";
                 spanUtils.append(nickName);
                 int length1 = spanUtils.getLength();
 
-                spanUtils.append(pBean.getMsg()).setFontSize(13,true)
+                spanUtils.append(pBean.getMsg()).setFontSize(13, true)
                         .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
                 int length2 = spanUtils.getLength();
-                spanUtils.getBuilder().setSpan(livingClickTextSpan,length1,length2,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 break;
 
         }
@@ -894,65 +862,59 @@ public class ChatSpanUtils {
 
     /**
      * 发送礼物信息
-     *{"anchorId":1028924365,"avatar":"","combo":1,"count":1,"gid":5,"liveId":100029,"nickname":"lbMOLjbzsb","protocol":"2008","rq":39102,"timestamp":1668156260903,"tipType":0,"uid":1028924366,"userLevel":1,"zb":39102}
+     * {"anchorId":1028924365,"avatar":"","combo":1,"count":1,"gid":5,"liveId":100029,"nickname":"lbMOLjbzsb","protocol":"2008","rq":39102,"timestamp":1668156260903,"tipType":0,"uid":1028924366,"userLevel":1,"zb":39102}
      */
-    public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context,LivingClickTextSpan.OnClickTextItemListener listener) {
-        if(gBean==null || TextUtils.isEmpty(gBean.getProtocol()) )
-        {
+    public static void appendPersonalSendGiftMessage(SpanUtils spanUtils, LivingMessageGiftBean gBean, Context context, LivingClickTextSpan.OnClickTextItemListener listener) {
+        if (gBean == null || TextUtils.isEmpty(gBean.getProtocol())) {
             return;
         }
 
         switch (gBean.getProtocol()) {
             case MessageProtocol.LIVE_SEND_GIFT:
 
-                GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(gBean.getGid());
-                if(giftResourceBean!=null)
-                {
-                    LivingClickTextSpan livingClickTextSpan=new LivingClickTextSpan(gBean,0xff85EFFF);
+                GiftResourceBean giftResourceBean = LocalGiftDao.getInstance().getGift(gBean.getGid());
+                if (giftResourceBean != null) {
+                    LivingClickTextSpan livingClickTextSpan = new LivingClickTextSpan(gBean, 0xff85EFFF);
                     livingClickTextSpan.setOnClickTextItemListener(listener);
 
-                    if(appendLevelIcon(spanUtils,gBean.getUserLevel(),context))
-                    {
+                    if (appendLevelIcon(spanUtils, gBean.getUserLevel(), context)) {
                         spanUtils.append(" ");
                     }
 
-                    if(appendVipLevelRectangleIcon(spanUtils,gBean.getVipLevel(),context))
-                    {
+                    if (appendVipLevelRectangleIcon(spanUtils, gBean.getVipLevel(), context)) {
                         spanUtils.append(" ");
                     }
 
-                    if(Strings.isDigitOnly(gBean.getGuardLevel()) && gBean.isIsGuard())
-                    {
-                        appendGuardIcon(spanUtils,Integer.valueOf(gBean.getGuardLevel()),context);
+                    if (Strings.isDigitOnly(gBean.getGuardLevel()) && gBean.isIsGuard()) {
+                        appendGuardIcon(spanUtils, Integer.valueOf(gBean.getGuardLevel()), context);
                         spanUtils.append(" ");
                     }
 
-                    if(gBean.isIsRoomManage())
-                    {
-                        appendGuardIcon(spanUtils,Integer.valueOf(gBean.getGuardLevel()),context);
+                    if (gBean.isIsRoomManage()) {
+                        appendGuardIcon(spanUtils, Integer.valueOf(gBean.getGuardLevel()), context);
                         spanUtils.append(" ");
                     }
 
-                    spanUtils.append(gBean.getNickname()+": ").setFontSize(13,true)
+                    spanUtils.append(gBean.getNickname() + ": ").setFontSize(13, true)
                             .setForegroundColor(0xff85EFFF).setAlign(Layout.Alignment.ALIGN_CENTER);
                     int length1 = spanUtils.getLength();
 
-                    StringBuilder sb=new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
                     sb.append(context.getResources().getString(R.string.hasSent));
                     sb.append("[");
 
-                    spanUtils.append(sb.toString()).setFontSize(13,true)
+                    spanUtils.append(sb.toString()).setFontSize(13, true)
                             .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
 
                     int length2 = spanUtils.getLength();
-                    spanUtils.getBuilder().setSpan(livingClickTextSpan,length1,length2,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    spanUtils.append(giftResourceBean.getName()).setFontSize(13,true)
+                    spanUtils.append(giftResourceBean.getName()).setFontSize(13, true)
                             .setForegroundColor(0xffFFF796).setAlign(Layout.Alignment.ALIGN_CENTER);
 
-                    sb.delete(0,sb.length());
+                    sb.delete(0, sb.length());
                     sb.append("]x").append(gBean.getCount());
-                    spanUtils.append(sb.toString()).setFontSize(13,true)
+                    spanUtils.append(sb.toString()).setFontSize(13, true)
                             .setForegroundColor(0xffffffff).setAlign(Layout.Alignment.ALIGN_CENTER);
                 }
 
@@ -962,11 +924,9 @@ public class ChatSpanUtils {
 
     /**
      * 发送关注信息
-     *
      */
     public static SpanUtils appendFollowMessage(SpanUtils spanUtils, LivingFollowMessage fBean, Context context) {
-        if(fBean==null || TextUtils.isEmpty(fBean.getProtocol()) )
-        {
+        if (fBean == null || TextUtils.isEmpty(fBean.getProtocol())) {
             return spanUtils;
         }
 

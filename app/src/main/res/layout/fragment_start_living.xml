@@ -8,7 +8,7 @@
             type="com.live.fox.ui.openLiving.StartLivingFragment" />
     </data>
 
-    <RelativeLayout
+    <com.live.fox.view.MyRelativeLayoutNoFitSystem
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,7 +53,6 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="2dip"
                             android:onClick="@{click.onClickView}"
-                            android:src="@drawable/img_default"
                             app:riv_oval="true" />
 
 
@@ -61,6 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:minWidth="100dip"
+                            android:paddingRight="10dip"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="3dip"
                             android:layout_toRightOf="@id/rivProfileImage"
@@ -178,41 +178,6 @@
                         android:layout_marginRight="5dip"
                         />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <com.live.fox.view.GradientTextView
-                            android:id="@+id/gtvUnitPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dip"
-                            android:layout_marginLeft="5dip"
-                            android:layout_marginTop="6dip"
-                            android:paddingLeft="10dip"
-                            android:paddingRight="10dip"
-                            android:text="99999999"
-                            android:textColor="@color/white"
-                            android:textSize="14sp"
-                            app:gt_radius_dp="9.5dp"
-                            app:gt_solidNoGradient="#F2AD39" />
-
-                        <com.live.fox.view.GradientTextView
-                            android:id="@+id/gtv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="21dip"
-                            android:layout_marginLeft="5dip"
-                            android:layout_marginTop="6dip"
-                            android:paddingLeft="10dip"
-                            android:paddingRight="10dip"
-                            android:text="已观看3分钟"
-                            android:textColor="@color/white"
-                            android:textSize="14sp"
-                            app:gt_radius_dp="9dp"
-                            app:gt_solidNoGradient="#3f000000"
-                            app:gt_stroke_color="#FF008A"
-                            app:gt_stroke_width="1.5dip" />
-                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -382,5 +347,5 @@
 
         </com.live.fox.view.bulletMessage.VehicleParentVIew>
 
-    </RelativeLayout>
+    </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>
