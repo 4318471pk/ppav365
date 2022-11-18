@@ -526,6 +526,13 @@
         </RelativeLayout>
 
 
+
+        <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
+            android:id="@+id/rlEnterRoom"
+            android:layout_width="match_parent"
+            android:layout_height="21dip"
+            />
+
         <LinearLayout
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
@@ -535,12 +542,6 @@
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
             >
-
-            <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
-                android:id="@+id/rlEnterRoom"
-                android:layout_width="match_parent"
-                android:layout_height="21dip"
-                />
 
             <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"

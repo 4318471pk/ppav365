@@ -46,6 +46,7 @@ import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.Audience;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingEnterLivingRoomBean;
@@ -60,6 +61,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.living.LivingControlPanel;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.CountTimerUtil;
@@ -94,6 +96,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -104,13 +107,14 @@ public class StartLivingFragment extends BaseBindingFragment {
     final int playSVGA = 123;
     final int userHeartBeat=987;
 
-    FragmentStartLivingBinding mBind;
+    public FragmentStartLivingBinding mBind;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     List<SvgAnimateLivingBean> livingMessageGiftBeans = new LinkedList<>();//播放SVGA的数组
     Handler mHandler=new Handler(Looper.myLooper());
-    String liveId;
+    String liveId,myUID;
     LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
+    AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
@@ -132,7 +136,6 @@ public class StartLivingFragment extends BaseBindingFragment {
     public void onClickView(View view) {
 
         OpenLivingActivity activity=(OpenLivingActivity)getActivity();
-
         switch (view.getId())
         {
             case R.id.ivCameraChangeSide:
@@ -160,11 +163,19 @@ public class StartLivingFragment extends BaseBindingFragment {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),onlineNobilityAndUserDialog);
                 break;
             case R.id.gtvProtection:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), AnchorProtectorListDialog.getInstance("","",null));
+                AnchorProtectorListDialog anchorProtectorListDialog=AnchorProtectorListDialog.getInstance(myUID,liveId,anchorGuardListBean);
+                anchorProtectorListDialog.setOnRefreshDataListener(new AnchorProtectorListDialog.OnRefreshDataListener() {
+                    @Override
+                    public void onRefresh(AnchorGuardListBean anchorGuardListBean) {
+                        StartLivingFragment.this.anchorGuardListBean=anchorGuardListBean;
+                    }
+                });
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),
+                        anchorProtectorListDialog);
                 break;
             case R.id.gtvContribution:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), ContributionRankDialog.getInstance("",""));
-                break;
+                ContributionRankDialog contributionRankDialog=ContributionRankDialog.getInstance(liveId,myUID);
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contributionRankDialog);                break;
             case R.id.ivSetting:
                 AnchorLivingRoomSettingDialog anchorLivingRoomSettingDialog=AnchorLivingRoomSettingDialog.getInstance();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),anchorLivingRoomSettingDialog);
@@ -200,6 +211,7 @@ public class StartLivingFragment extends BaseBindingFragment {
 
         mBind.llTopView.setVisibility(View.GONE);
         liveId=getMainActivity().liveId;
+        myUID=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
         int screenHeight= ScreenUtils.getScreenHeightWithoutBtnsBar(getActivity());
         int screenWidth=ScreenUtils.getScreenWidth(getActivity());
 
@@ -451,6 +463,7 @@ public class StartLivingFragment extends BaseBindingFragment {
 
         String nickName= DataCenter.getInstance().getUserInfo().getUser().getNickname();
         String title=getMainActivity().roomTitle;
+        String liveConfigId=getMainActivity().liveConfigId;
         String roomType=String.valueOf(getMainActivity().roomType);
         String roomPrice=String.valueOf(getMainActivity().roomPrice);
 
@@ -472,7 +485,24 @@ public class StartLivingFragment extends BaseBindingFragment {
             }
         }
 
-        Api_Live.ins().getAnchorAuth("84",roomType,nickName,title,roomPrice,location.toString(),new JsonCallback<String>() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("liveConfigId",liveConfigId);
+        params.put("type",roomType);
+        params.put("nickName",nickName);
+        params.put("title",title);
+        params.put("price",roomPrice);
+        params.put("location",location.toString());
+
+        if(getMainActivity().contactCostDiamond>0 &&  getMainActivity().contactType>-1 &&
+                !TextUtils.isEmpty(getMainActivity().contactAccount))
+        {
+            params.put("contactType",getMainActivity().contactType);
+            params.put("contactDetails",getMainActivity().contactAccount);
+            params.put("showContactPrice",getMainActivity().contactCostDiamond);
+        }
+
+
+        Api_Live.ins().getAnchorAuth(params,new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0 && data != null) {
@@ -493,10 +523,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                                 mBind.rivProfileImage);
 
                         getMainActivity().setPushUrl(pushStreamUrl);
-                        OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
-                        openLivingActivity.startRTMPPush();
-                        openLivingActivity.startAcceptMessage();
-                        checkAndJoinIM();
+                        initFragment();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -535,6 +562,17 @@ public class StartLivingFragment extends BaseBindingFragment {
                 }
             }
         });
+    }
+
+    //初始化相关直播数据和开始推流
+    private void initFragment()
+    {
+        OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
+        openLivingActivity.startRTMPPush();
+        openLivingActivity.startAcceptMessage();
+        checkAndJoinIM();
+        getGuardList();
+        refreshAudienceList();
     }
 
     private  OpenLivingActivity getMainActivity()
@@ -743,6 +781,37 @@ public class StartLivingFragment extends BaseBindingFragment {
                 else
                 {
                     ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+
+    private void getGuardList()
+    {
+        if(!isActivityOK())
+        {
+            return;
+        }
+
+        mBind.gtvProtection.setEnabled(false);
+        Api_Live.ins().queryGuardListByAnchor(liveId, myUID, new JsonCallback<AnchorGuardListBean>() {
+            @Override
+            public void onSuccess(int code, String msg, AnchorGuardListBean data) {
+                mBind.gtvProtection.setEnabled(true);
+                if(code==0)
+                {
+                    if(isActivityOK() && getArg().equals(liveId) && data!=null)
+                    {
+                        StringBuilder sb=new StringBuilder();
+                        sb.append(data.getGuardCount()).append(getStringWithoutContext(R.string.ren));
+                        mBind.gtvProtection.setText(sb.toString());
+                        StartLivingFragment.this.anchorGuardListBean=data;
+                    }
+                }
+                else
+                {
+
                 }
             }
         });

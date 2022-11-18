@@ -77,9 +77,10 @@
     <string name="reChoose">重新选择</string>
     <string name="cancelPKinvite">" 对方取消了PK邀请"</string>
     <string name="anchorLive"> 主播等级</string>
-    <string name="liveTime">直播时长</string>
-    <string name="liveProfit">直播收益</string>
+    <string name="liveTime">本次直播时长</string>
+    <string name="liveProfit">本次理论收益</string>
     <string name="returnFirstPage">回到首页</string>
+    <string name="goAnchorCenter">回到主播中心</string>
     <string name="noMoreThanTwo">选最多2个彩种</string>
     <string name="openLive">开启直播</string>
     <string name="roomSet">房间设置</string>
@@ -1539,6 +1540,7 @@
     <string name="startLivingFail">开启直播失败</string>
     <string name="offLiving">关闭直播</string>
     <string name="offLivingContent">观众正在赶来的路上 确定结束直播吗？</string>
+    <string name="offLivingContent2">人在观看你的直播 确定结束直播吗？</string>
     <string name="hasSent">送出</string>
     <string name="tips9" translatable="false">TA好像忘记说些什么了~</string>
     <string name="reportSuccess">举报成功</string>

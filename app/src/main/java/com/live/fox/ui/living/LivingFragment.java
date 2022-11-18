@@ -505,7 +505,7 @@ public class LivingFragment extends BaseBindingFragment {
         mLivePlayer.setPlayListener(new ITXLivePlayListener() {
             @Override
             public void onPlayEvent(int event, Bundle bundle) {
-//                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
+                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
 
                 if (event == TXLiveConstants.PLAY_EVT_CONNECT_SUCC) {
                     // 2001 連接服務器成功
@@ -538,6 +538,7 @@ public class LivingFragment extends BaseBindingFragment {
                     //2009 分辨率改变
 
                 } else if (event == TXLiveConstants.PUSH_WARNING_NET_BUSY) {
+
                 }
 
                 /**
@@ -548,6 +549,8 @@ public class LivingFragment extends BaseBindingFragment {
 
                 } else if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {
                     //  -2301 网络多次重连失败失败后 会返回此值
+                    mBind.txVideoView.setVisibility(View.GONE);
+                    mBind.ivBG.setVisibility(View.VISIBLE);
 //                    clearStop();
 //                    if (isAdded()) {
 //                        networkDisconnect();
@@ -788,11 +791,13 @@ public class LivingFragment extends BaseBindingFragment {
                             {
                                 //播放进房漂房
                                 livingControlPanel.mBind.rlEnterRoom.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
-                                //播放进房座驾
-                                livingControlPanel.mBind.rlVehicleParentView.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+
                                 //播放SVGA进房座驾动画
                                 if(Strings.isDigitOnly(livingEnterLivingRoomBean.getCarId()))
                                 {
+                                    //播放进房座驾
+                                    livingControlPanel.mBind.rlVehicleParentView.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+
                                     MountResourceBean mountResourceBean= LocalMountResourceDao.getInstance().getVehicleById(Long.valueOf(livingEnterLivingRoomBean.getCarId()));
                                     if(mountResourceBean!=null)
                                     {

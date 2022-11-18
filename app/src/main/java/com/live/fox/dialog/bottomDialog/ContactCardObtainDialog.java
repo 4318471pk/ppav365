@@ -80,7 +80,7 @@ public class ContactCardObtainDialog extends BaseBindingDialogFragment {
                         isAvailable=true;
                     }
 
-                    onContactCardListener.onContactCard(isAvailable,account,diamondAmount);
+                    onContactCardListener.onContactCard(isAvailable,account,diamondAmount,type);
                 }
                 startAnimate(mBind.rllContent,false);
                 break;
@@ -107,7 +107,7 @@ public class ContactCardObtainDialog extends BaseBindingDialogFragment {
 
     public interface OnContactCardListener
     {
-        void onContactCard(boolean isAvailable,String account,int diamondAmount);
+        void onContactCard(boolean isAvailable,String account,int diamondAmount,int type);
     }
 
 }

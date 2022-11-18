@@ -143,6 +143,12 @@ public class LivingControlPanel extends RelativeLayout {
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
+        RelativeLayout.LayoutParams rlER=(RelativeLayout.LayoutParams)mBind.rlEnterRoom.getLayoutParams();
+        rlER.topMargin=(int)(screenHeight*0.5f)+ScreenUtils.getDip2px(fragment.getActivity(),45);
+        rlER.height=ScreenUtils.getDip2px(fragment.getActivity(),21);
+        rlER.width=ViewGroup.LayoutParams.MATCH_PARENT;
+        mBind.rlEnterRoom.setLayoutParams(rlER);
+
         LinearLayout.LayoutParams llMsgBox=(LinearLayout.LayoutParams) mBind.msgBox.getLayoutParams();
         llMsgBox.leftMargin=ScreenUtils.getDip2px(getActivity(),10);
         llMsgBox.height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),47);

@@ -41,7 +41,7 @@
 
                     <com.flyco.roundview.RoundRelativeLayout
                         android:id="@+id/roundRL"
-                        android:layout_width="170dip"
+                        android:layout_width="wrap_content"
                         android:layout_height="34dp"
                         app:rv_backgroundColor="#3f000000"
                         app:rv_cornerRadius="17dp">
@@ -60,6 +60,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="100dip"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="3dip"
                             android:layout_toRightOf="@id/rivProfileImage"
@@ -69,7 +70,6 @@
                                 android:id="@+id/tvAnchorName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="名字名字名字名字"
                                 android:textColor="@color/white"
                                 android:textSize="12sp" />
 
@@ -86,6 +86,7 @@
                         android:id="@+id/gtvOnlineAmount"
                         android:layout_width="60dip"
                         android:layout_height="34dp"
+                        android:digits="0987654321"
                         android:visibility="invisible"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="5dp"

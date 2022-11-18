@@ -266,6 +266,10 @@
             android:name=".ui.mine.MyBagAndStoreActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.openLiving.AnchorLivingFinishActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.mine.CenterOfAnchorActivity"
             android:screenOrientation="portrait" />
         <activity

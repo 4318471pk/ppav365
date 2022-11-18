@@ -138,7 +138,15 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                     ToastUtils.showShort(getString(R.string.plsFillTitleOfRoom));
                     return;
                 }
-                openLive();
+
+                if(configPathsBeans!=null && configPathsBeans.size()>0)
+                {
+                    TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
+                            configPathsBeans.get(0).getLicenceUrl(),configPathsBeans.get(0).getLicenceKey()
+                    );
+                    //目前写死 看以后怎么拿
+                    openLive("84");
+                }
             }
         });
 
@@ -147,7 +155,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         getCenterData();
     }
 
-    private void openLive() {
+    private void openLive(String liveConfigId) {
         boolean careraPermission = false;
         boolean mircPermission = false;
         if (ContextCompat.checkSelfPermission(CenterOfAnchorActivity.this,
@@ -170,7 +178,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                             if(!TextUtils.isEmpty(liveId))
                             {
                                 String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
-                                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId);
+                                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId,liveConfigId);
                             }
                         } else { // 有的权限被拒绝或被勾选不再提示
                             LogUtils.e("有的权限被拒绝");
@@ -185,7 +193,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             if(!TextUtils.isEmpty(liveId))
             {
                 String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
-                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId);
+                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,roomTitle,liveId,liveConfigId);
             }
         }
     }
@@ -200,9 +208,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 if (code == Constant.Code.SUCCESS) {
                     if(data!=null && data.size()>0)
                     {
-                        TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
-                                data.get(0).getLicenceUrl(),data.get(0).getLicenceKey()
-                                );
+                        configPathsBeans=data;
                     }
                 } else {
                     ToastUtils.showShort(msg);

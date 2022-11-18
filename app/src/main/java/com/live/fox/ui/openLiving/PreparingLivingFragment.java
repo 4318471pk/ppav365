@@ -161,10 +161,12 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             ContactCardObtainDialog contactCardObtainDialog=ContactCardObtainDialog.getInstance();
                             contactCardObtainDialog.setOnContactCardListener(new ContactCardObtainDialog.OnContactCardListener() {
                                 @Override
-                                public void onContactCard(boolean isAvailable, String account, int diamondAmount) {
+                                public void onContactCard(boolean isAvailable, String account, int diamondAmount,int type) {
                                         if(isAvailable)
                                         {
                                             getMainActivity().contactAccount=account;
+                                            getMainActivity().contactCostDiamond=diamondAmount;
+                                            getMainActivity().contactType=type;
                                         }
                                 }
                             });

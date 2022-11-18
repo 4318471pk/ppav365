@@ -265,22 +265,17 @@ public class Api_Live extends BaseApi {
     /**
      *  主播开播
      * */
-    public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,String location,
+    public void getAnchorAuth(HashMap<String, Object> params,
                               JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
-        HashMap<String, Object> params = getCommonParams();
-        params.put("liveConfigId",liveConfigId);
-        params.put("type",type);
-        params.put("nickName",nickName);
-        params.put("title",title);
-        params.put("price",price);
-        params.put("location",location);
+        HashMap<String, Object> args = getCommonParams();
+        args.putAll(params);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 Constant.URL.Live_start_URL,
                 url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
+                getCommonHeaders(Long.parseLong(args.get("timestamp").toString())),
+                new Gson().toJson(args))
                 .execute(callback);
     }
 
@@ -449,7 +444,7 @@ public class Api_Live extends BaseApi {
     /**
      * 主播关播
      */
-    public void liveStop(long anchorId, int liveId, boolean isKick, JsonCallback callback) {
+    public void liveStop(String anchorId, String liveId, boolean isKick, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_stop_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("anchorId", anchorId);

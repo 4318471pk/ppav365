@@ -61,6 +61,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
     private static final String Title="Title";
     private static final String LiveID="LiveID";
+    private static final String LiveConfigId="LiveConfigId";
+
     ActivityOpenLivingBinding mBind;
     private TXLivePusher mLivePusher;                    // SDK 推流类
     private TXLivePushConfig mLivePushConfig;                // SDK 推流 config
@@ -69,13 +71,13 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     TXPhoneStateListener mPhoneListener;
     boolean isCameraInitFinish=false;
     boolean isFrontCarame = true; //是否前置摄像头
-    String pushUrl="",roomTitle,liveId;
-    int roomType=0;//房间类型
+    String pushUrl="",roomTitle,liveId,liveConfigId;//推流地址 房间名称 直播ID 直播线路ID
+    int roomType=0;//房间类型 0免费 1 按时收费 2 按场收费
     int roomPrice=0;//房间单价
 
-    String contactAccount;//主播联系方式的号码
-    int contactCostDiamond;//主播联系方式的号码需要的钻石
-    int type;//
+    String contactAccount=null;//主播联系方式的号码
+    int contactCostDiamond=0;//主播联系方式的号码需要的钻石
+    int contactType=-1;//主播联系方式  微信 qq 电话
     //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
 
@@ -87,11 +89,12 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         this.pushUrl = mPushUrl;
     }
 
-    public static void startActivity(Context context, String roomTitle, String liveID)
+    public static void startActivity(Context context, String roomTitle, String liveID,String liveConfigId)
     {
         Intent intent=new Intent(context,OpenLivingActivity.class);
         intent.putExtra(Title,roomTitle);
         intent.putExtra(LiveID,liveID);
+        intent.putExtra(LiveConfigId,liveConfigId);
         context.startActivity(intent);
     }
 
@@ -117,6 +120,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
         roomTitle=getIntent().getStringExtra(Title);
         liveId=getIntent().getStringExtra(LiveID);
+        liveConfigId=getIntent().getStringExtra(LiveConfigId);
         int paddingTop=StatusBarUtil.getStatusBarHeight(this);
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |

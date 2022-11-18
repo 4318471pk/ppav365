@@ -51,7 +51,7 @@ public class BaseApi {
         return params;
     }
 
-    public static String getCommonParamsString(long time) {
+    public static JSONObject getCommonParamsString(long time) {
         JSONObject params=new JSONObject();
         try {
             params.put("os", Constant.OS + ""); //系统
@@ -73,7 +73,7 @@ public class BaseApi {
             e.printStackTrace();
         }
 
-        return params.toString();
+        return params;
     }
 
     public static HttpHeaders getCommonHeaders(long timestamp) {

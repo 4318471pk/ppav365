@@ -160,7 +160,6 @@ public class EnterRoomMessageView extends RelativeLayout {
                 textView.setSingleLine();
                 textView.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 textView.setText(bean.getNickname());
-                textView.setBackgroundColor(Color.GRAY);
                 llContent.addView(textView);
 
                 TextView enterRoom=new TextView(getContext());
@@ -171,7 +170,6 @@ public class EnterRoomMessageView extends RelativeLayout {
                 enterRoom.setTextColor(0xffFFFFFF);
                 enterRoom.setSingleLine();
                 enterRoom.setText(getResources().getString(R.string.enterRoomTag));
-                enterRoom.setBackgroundColor(Color.GREEN);
                 llContent.addView(enterRoom);
 
             }
