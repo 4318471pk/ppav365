@@ -40,7 +40,7 @@
                     android:layout_height="20dip"
                     android:layout_gravity="right"
                     android:gravity="center"
-                    android:text="xxx"
+                    android:text="娱乐房"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:gt_radius_dp="10dip"

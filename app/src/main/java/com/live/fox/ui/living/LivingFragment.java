@@ -163,8 +163,31 @@ public class LivingFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if(mLivePlayer!=null)
+        {
+            mLivePlayer.pause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mLivePlayer!=null)
+        {
+            mLivePlayer.pause();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        if(mLivePlayer!=null)
+        {
+            mLivePlayer.stopPlay(true);
+        }
+
     }
 
     private void initView() {

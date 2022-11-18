@@ -445,7 +445,25 @@ public class StartLivingFragment extends BaseBindingFragment {
         String roomType=String.valueOf(getMainActivity().roomType);
         String roomPrice=String.valueOf(getMainActivity().roomPrice);
 
-        Api_Live.ins().getAnchorAuth("84",roomType,nickName,title,roomPrice,new JsonCallback<String>() {
+        StringBuilder location=new StringBuilder();
+        User user= DataCenter.getInstance().getUserInfo().getUser();
+        if(TextUtils.isEmpty(user.getProvince()) && TextUtils.isEmpty(user.getCity()))
+        {
+            location.append(getStringWithoutContext(R.string.mars));
+        }
+        else
+        {
+            if(!TextUtils.isEmpty(user.getProvince()))
+            {
+                location.append(user.getProvince());
+            }
+            if(!TextUtils.isEmpty(user.getCity()))
+            {
+                location.append("-").append(user.getCity());
+            }
+        }
+
+        Api_Live.ins().getAnchorAuth("84",roomType,nickName,title,roomPrice,location.toString(),new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0 && data != null) {

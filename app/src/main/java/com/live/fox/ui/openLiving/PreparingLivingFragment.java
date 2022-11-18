@@ -21,6 +21,7 @@ import com.live.fox.dialog.bottomDialog.EditLivingGameTypeDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SetLocationDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.mine.CenterOfAnchorActivity;
@@ -52,6 +53,7 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                 openLivingActivity.showStartLiving();
                 break;
             case R.id.tvLocation:
+                //使用自己的位置不让点击了
 //                SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
 //                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
                 break;
@@ -102,6 +104,25 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         rlButtons.bottomMargin=botMargin+ScreenUtils.getDip2px(getContext(),70);
         mBind.llButtons.setLayoutParams(rlButtons);
 
+        User user= DataCenter.getInstance().getUserInfo().getUser();
+        if(TextUtils.isEmpty(user.getProvince()) && TextUtils.isEmpty(user.getCity()))
+        {
+            mBind.tvLocation.setText(getStringWithoutContext(R.string.mars));
+        }
+        else
+        {
+            StringBuilder sb=new StringBuilder();
+            if(!TextUtils.isEmpty(user.getProvince()))
+            {
+                sb.append(user.getProvince());
+            }
+            if(!TextUtils.isEmpty(user.getCity()))
+            {
+                sb.append("-").append(user.getCity());
+            }
+            mBind.tvLocation.setText(sb.toString());
+        }
+
         String buttonTitles[]=getResources().getStringArray(R.array.startLivingTitles);
 
         int padding=ScreenUtils.getDip2px(getContext(),5);
@@ -138,6 +159,15 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             break;
                         case 3:
                             ContactCardObtainDialog contactCardObtainDialog=ContactCardObtainDialog.getInstance();
+                            contactCardObtainDialog.setOnContactCardListener(new ContactCardObtainDialog.OnContactCardListener() {
+                                @Override
+                                public void onContactCard(boolean isAvailable, String account, int diamondAmount) {
+                                        if(isAvailable)
+                                        {
+                                            getMainActivity().contactAccount=account;
+                                        }
+                                }
+                            });
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contactCardObtainDialog);
                             break;
                         case 4:

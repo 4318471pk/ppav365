@@ -265,7 +265,7 @@ public class Api_Live extends BaseApi {
     /**
      *  主播开播
      * */
-    public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,
+    public void getAnchorAuth(String liveConfigId,String type,String nickName,String title,String price,String location,
                               JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
         HashMap<String, Object> params = getCommonParams();
@@ -274,6 +274,7 @@ public class Api_Live extends BaseApi {
         params.put("nickName",nickName);
         params.put("title",title);
         params.put("price",price);
+        params.put("location",location);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 Constant.URL.Live_start_URL,

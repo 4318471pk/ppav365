@@ -118,11 +118,13 @@ public class EnterRoomMessageView extends RelativeLayout {
                     }
                 }
             }
-
-            if(bean.isRoomManage())
+            else
             {
-                addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag),16f,16f);
-                iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),18f);
+                if(bean.isRoomManage())
+                {
+                    addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag),16f,16f);
+                    iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),18f);
+                }
             }
 
             if(!TextUtils.isEmpty( bean.getNickname()))

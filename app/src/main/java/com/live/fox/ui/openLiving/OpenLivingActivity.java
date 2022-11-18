@@ -72,6 +72,10 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     String pushUrl="",roomTitle,liveId;
     int roomType=0;//房间类型
     int roomPrice=0;//房间单价
+
+    String contactAccount;//主播联系方式的号码
+    int contactCostDiamond;//主播联系方式的号码需要的钻石
+    int type;//
     //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
 
