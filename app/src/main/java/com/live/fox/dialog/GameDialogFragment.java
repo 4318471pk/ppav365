@@ -32,7 +32,6 @@ import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_TYGame;
 import com.live.fox.ui.game.AllGameActivity;
 import com.live.fox.ui.game.GameFullWebViewActivity;
-import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;

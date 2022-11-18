@@ -99,6 +99,13 @@
     <color name="colorBrownMaster">#371A23</color>
     <color name="colorBrownKing">#302219</color>
 
+
+    <color name="colorCFCFCF">#CFCFCF</color>
+    <color name="colorFEFEFF">#FEFEFF</color>
+    <color name="color7A757F">#7A757F</color>
+    <color name="color6C6470">#6C6470</color>
+    <color name="color5B5260">#5B5260</color>
+    <color name="colorFFEA00">#FFEA00</color>
     <color name="color00FCFF">#00FCFF</color>
     <color name="colorB8B2C8">#B8B2C8</color>
     <color name="color000000">#000000</color>

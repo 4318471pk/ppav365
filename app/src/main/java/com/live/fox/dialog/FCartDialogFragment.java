@@ -40,7 +40,6 @@ import com.live.fox.mvp.PresenterInject;
 import com.live.fox.server.BaseApi;
 import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.manager.AppUserManger;
 import com.live.fox.view.MaxHeightRecyclerView;
 
 import java.io.Serializable;

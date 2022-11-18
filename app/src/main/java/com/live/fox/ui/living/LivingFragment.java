@@ -782,6 +782,7 @@ public class LivingFragment extends BaseBindingFragment {
                                 long time=SPUtils.getInstance(ConstantValue.EnterRoomUIDSP).getInt(ConstantValue.EnterRoomUID,0);
                                 isPlayAvailable=System.currentTimeMillis()- time>10*60*1000;
                             }
+
                             //播放进房 是自己不限制 不是自己限制10分钟内只播放一次
                             if(isPlayAvailable)
                             {
@@ -916,10 +917,13 @@ public class LivingFragment extends BaseBindingFragment {
                 if (mBind.svImage != null) {
                     mBind.svImage.clear();
                 }
-                livingMessageGiftBeans.remove(0);
                 if(livingMessageGiftBeans.size()>0)
                 {
-                    handler.sendEmptyMessage(playSVGA);
+                    livingMessageGiftBeans.remove(0);
+                    if(livingMessageGiftBeans.size()>0)
+                    {
+                        handler.sendEmptyMessage(playSVGA);
+                    }
                 }
             }
 

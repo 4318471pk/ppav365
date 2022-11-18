@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.flyco.roundview.RoundRelativeLayout
+        android:id="@+id/mLayout"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:rv_cornerRadius="10dp"
+        app:rv_strokeWidth="1.5dp"
+        app:rv_strokeColor="@color/colorA800FF"
+        >
+
+        <ImageView
+            android:id="@+id/ivChouma"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+          />
+
+        <TextView
+            android:id="@+id/tvMoney"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:text="1000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#7200AD"/>
+
+        <TextView
+            android:id="@+id/tvZdy"
+            android:visibility="gone"
+            android:layout_below="@+id/tvMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/custom"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="#7200AD"/>
+
+    </com.flyco.roundview.RoundRelativeLayout>
+
+</LinearLayout>

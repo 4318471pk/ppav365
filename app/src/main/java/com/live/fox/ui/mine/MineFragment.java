@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,13 +22,11 @@ import com.live.fox.ConstantValue;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.adapter.ServiceAdapter;
-import com.live.fox.adapter.TeamManageAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.MineFragmentBinding;
 import com.live.fox.db.DataBase;
-import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.temple.DialogGoBindPhoneOnWithdrawal;
 import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
@@ -40,6 +37,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.ui.lottery.LotteryDialog;
 import com.live.fox.ui.mine.depositAndWithdrawHistory.DepositAndWithdrawHistoryActivity;
 import com.live.fox.ui.mine.diamondIncomeAndExpenses.DiamondIncomeAndExpensesActivity;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
@@ -49,7 +47,6 @@ import com.live.fox.ui.mine.withdraw.WithdrawalActivity;
 import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.BarUtils;
-import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
@@ -220,7 +217,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                mBind.refreshLayout.finishRefresh();
+                mBind.refreshLayout.finishRefresh(true);
                 if (ActivityUtils.getTopActivity() instanceof MainActivity) {
                     if (code == 0) {
                         refreshUserinfo(true);
@@ -436,7 +433,10 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             case R.id.llService:
                 setServicePop();
                 break;
-
+            case R.id.llGame:
+                LotteryDialog lotteryDialog = new LotteryDialog();
+                DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), lotteryDialog);
+                break;
         }
     }
 

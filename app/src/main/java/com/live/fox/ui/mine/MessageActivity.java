@@ -34,7 +34,6 @@ import com.live.fox.ui.chat.ChatActivity;
 import com.live.fox.ui.chat.GfNoticeActivity;
 import com.live.fox.ui.chat.SysNoticeActivity;
 import com.live.fox.utils.BarUtils;
-import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StatusBarUtil;

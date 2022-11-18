@@ -42,25 +42,29 @@ public class EnterRoomMessageParentView extends RelativeLayout {
         enterRoomMessageView.setTag(bean);
         enterRoomMessageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
         addView(enterRoomMessageView);
-        BulletViewUtils.goRightToLeftStopThenDisappear(enterRoomMessageView, activity, new BulletViewUtils.OnFinishAniListener() {
-            @Override
-            public void onFinish(Object obj) {
-                if(obj instanceof LivingEnterLivingRoomBean)
-                {
-                    list.remove(obj);
-                    if(list.size()>0)
-                    {
-                        send(list.get(0),activity);
-                    }
-
-                }
-            }
-        });
+//        BulletViewUtils.goRightToLeftStopThenDisappear(enterRoomMessageView, activity, new BulletViewUtils.OnFinishAniListener() {
+//            @Override
+//            public void onFinish(Object obj) {
+//                if(obj instanceof LivingEnterLivingRoomBean)
+//                {
+//                    list.remove(obj);
+//                    if(list.size()>0)
+//                    {
+//                        send(list.get(0),activity);
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
     public void postEnterRoomMessage(LivingEnterLivingRoomBean bean, Activity activity)
     {
         if(activity==null || activity.isDestroyed() || activity.isFinishing())
+        {
+            return;
+        }
+        if(!bean.isGuard() && bean.getVipLevel()<1)
         {
             return;
         }

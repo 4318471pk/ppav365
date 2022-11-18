@@ -8,17 +8,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.SplashActivity;
 import com.live.fox.adapter.devider.DividerItemDecoration;
-import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseHeadActivity;
 import com.live.fox.language.LocalManager;
 import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.utils.ActivityManager;
 import com.live.fox.utils.BarUtils;
-import com.live.fox.utils.device.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;

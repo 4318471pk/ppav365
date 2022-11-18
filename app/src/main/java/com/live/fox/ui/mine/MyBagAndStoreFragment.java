@@ -1,7 +1,5 @@
 package com.live.fox.ui.mine;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,17 +12,13 @@ import com.live.fox.adapter.MyBagAndStoreAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.BaseBindingFragment;
-import com.live.fox.base.BaseBindingViewActivity;
-import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
-import com.live.fox.databinding.ActivityMybagStoreBinding;
 import com.live.fox.databinding.FragmentMybagStoreBinding;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
-import com.live.fox.ui.act.ActivityDetailFragment;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;

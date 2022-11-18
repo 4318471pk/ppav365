@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,8 +17,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +62,6 @@ import com.live.fox.dialog.CommonDialog;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.BankInfo;
-import com.live.fox.entity.ChargeCoinBean;
 import com.live.fox.entity.DiamondListBean;
 import com.live.fox.entity.LanguageUtilsEntity;
 import com.live.fox.entity.RechargeChannel;
@@ -112,7 +108,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 
 /**

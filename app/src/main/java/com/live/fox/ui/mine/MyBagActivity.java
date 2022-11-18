@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.MyBagAdapter;
-import com.live.fox.adapter.MyBagAndStoreAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.databinding.ActivityMybagBinding;
 import com.live.fox.entity.MyBagListItemBean;
-import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 

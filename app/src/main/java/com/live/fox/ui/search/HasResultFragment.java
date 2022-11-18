@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.AnchorSearchListAdapter;
-import com.live.fox.adapter.MyFollowListAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.FragmentSearchResultBinding;
 

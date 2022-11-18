@@ -1,29 +1,21 @@
 package com.live.fox.ui.home;
 
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.adapter.FollowAnchorListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
-import com.live.fox.base.BaseFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentFollowAnchorBinding;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.server.Api_Live;
-import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.EmptyDataView;

@@ -20,7 +20,6 @@ import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Config;
 import com.live.fox.ui.SearchActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
-import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 

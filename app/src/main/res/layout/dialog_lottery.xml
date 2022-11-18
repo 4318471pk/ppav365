@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+    <variable
+        name="click"
+        type="com.live.fox.ui.lottery.LotteryDialog" />
+</data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="@{click.onClickView}"
+        />
+
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/rllMain"
+        android:layout_width="match_parent"
+        android:layout_height="375dp"
+        android:layout_alignParentBottom="true"
+        app:rv_cornerRadius_TL="20dip"
+        app:rv_cornerRadius_TR="20dip"
+        app:rv_backgroundColor="@color/color5B5260"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcLotteryName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            
+            <ImageView
+                android:id="@+id/ivGame"
+                android:onClick="@{click.onClickView}"
+                android:layout_width="31dp"
+                android:layout_height="26dp"
+                android:padding="3dp"
+                android:layout_marginEnd="12dp"
+                android:src="@mipmap/gamecenter"/>
+
+
+
+
+        </LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/leftMoney"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:text=""
+                android:textColor="@color/colorFFEA00"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/ivRefersh"
+                android:onClick="@{click.onClickView}"
+                android:padding="7dp"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:src="@mipmap/refresh"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tvCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:paddingEnd="23dp"
+                android:paddingStart="23dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/bg_a800ff_d689ff_2"
+                android:text="@string/charge_2"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                />
+
+
+
+        </LinearLayout>
+
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+</LinearLayout>
+</layout>

@@ -3,7 +3,6 @@ package com.live.fox.ui.mine;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,9 +16,7 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMyFollowListBinding;
 import com.live.fox.entity.Follow;
 import com.live.fox.server.Api_User;
-import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.LogUtils;
-import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
