@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,9 +21,11 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.DialogSetroomTypeBinding;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.Strings;
+import com.live.fox.utils.ToastUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -70,10 +73,23 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
             if(index==0 || index==1)
             {
                 price=Integer.valueOf(getPriceEditText(index).getText().toString());
+                if(price<1)
+                {
+                    ToastUtils.showShort(getStringWithoutContext(R.string.plsInputAmountToDiamond));
+                    return;
+                }
             }
 
-            SPUtils.getInstance().put(PricePerShow,getPriceEditText(1).getText().toString());
-            SPUtils.getInstance().put(PricePerHour,getPriceEditText(0).getText().toString());
+            switch (index)
+            {
+                case 0:
+                    SPUtils.getInstance().put(PricePerHour,getPriceEditText(index).getText().toString());
+                    break;
+                case 1:
+                    SPUtils.getInstance().put(PricePerShow,getPriceEditText(index).getText().toString());
+                    break;
+            }
+
             SPUtils.getInstance().put(RoomType,String.valueOf(type[index]));
             onSelectRoomTypeListener.onSelect(liveId,type[index],price);
         }
@@ -115,7 +131,12 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
                 startAnimate(mBind.rllContent, false);
                 break;
             case R.id.gtvConfirmSwitch:
+                if(ClickUtil.isClickWithShortTime(R.id.gtvConfirmSwitch,1000))
+                {
+                    return;
+                }
 
+                startAnimate(mBind.rllContent, false);
                 break;
         }
     }
@@ -148,13 +169,16 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
             child.setLayoutParams(llChild);
 
             radioButtons.add(radioButton);
-            linearLayout.setTag(i);
-            linearLayout.setOnClickListener(new View.OnClickListener() {
+            radioButton.setTag(i);
+            radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    int index = (int) view.getTag();
-                    for (int j = 0; j < radioButtons.size(); j++) {
-                        radioButtons.get(j).setChecked(index == j);
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                    {
+                        int index = (int) buttonView.getTag();
+                        for (int j = 0; j < radioButtons.size(); j++) {
+                            radioButtons.get(j).setChecked(index == j);
+                        }
                     }
                 }
             });

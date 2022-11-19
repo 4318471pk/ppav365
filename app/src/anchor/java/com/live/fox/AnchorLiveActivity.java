@@ -1117,24 +1117,24 @@ public class AnchorLiveActivity extends BaseActivity implements
                     pushStateFailTime = 0;
                 }
 
-                Api_Live.ins().liveHeart(anchor.getLiveId(), new JsonCallback<String>() {
-                    @Override
-                    public void onSuccess(int code, String msg, String result) {
-                        LogUtils.e("liveHeart result : " + result + "," + code + "," + msg);
-                        if (code == 0) {
-                            heartApiFailCount = 0;
-                        } else if (code == 3001) { //关闭房间
-                            closeLiveRoom(getString(R.string.roomClose), false);
-                        } else {
-                            heartApiFailCount++;
-                            if (heartApiFailCount > 3) {
-                                LogUtils.e("您的網絡已斷開,請檢查網絡");
-                                stopRTMPPush();
-                                showErrorDialog(getString(R.string.netDisconnect));
-                            }
-                        }
-                    }
-                });
+//                Api_Live.ins().liveHeart(anchor.getLiveId()+"", new JsonCallback<String>() {
+//                    @Override
+//                    public void onSuccess(int code, String msg, String result) {
+//                        LogUtils.e("liveHeart result : " + result + "," + code + "," + msg);
+//                        if (code == 0) {
+//                            heartApiFailCount = 0;
+//                        } else if (code == 3001) { //关闭房间
+//                            closeLiveRoom(getString(R.string.roomClose), false);
+//                        } else {
+//                            heartApiFailCount++;
+//                            if (heartApiFailCount > 3) {
+//                                LogUtils.e("您的網絡已斷開,請檢查網絡");
+//                                stopRTMPPush();
+//                                showErrorDialog(getString(R.string.netDisconnect));
+//                            }
+//                        }
+//                    }
+//                });
 
                 heartHandler.removeMessages(1);
                 heartHandler.sendEmptyMessageDelayed(1, heartSpace);

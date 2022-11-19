@@ -31,8 +31,8 @@ public class RankActivity extends BaseBindingViewActivity {
 
     RankActivityBinding mBind;
     private int titles[]=new int[]{R.string.anchorBana,R.string.conBan};
-    List<List<RankItemBean>> rankAnchorBeans=new ArrayList<>();
-    List<List<RankItemBean>> rankRichManBeans=new ArrayList<>();
+    List<List<RankItemBean>> rankAnchorBeans=new ArrayList<>();//主播
+    List<List<RankItemBean>> rankRichManBeans=new ArrayList<>();//土豪
     List<RankFragment> rankFragments=new ArrayList<>();
 
     public static void startActivity(Context context)

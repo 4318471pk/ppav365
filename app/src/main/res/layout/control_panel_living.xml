@@ -213,11 +213,11 @@
                             android:id="@+id/gtvUnitPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="20dip"
+                            android:visibility="invisible"
                             android:layout_marginLeft="5dip"
                             android:layout_marginTop="6dip"
                             android:paddingLeft="10dip"
                             android:paddingRight="10dip"
-                            android:text="99999999"
                             android:textColor="@color/white"
                             android:textSize="14sp"
                             app:gt_radius_dp="9.5dp"
@@ -227,6 +227,7 @@
                             android:id="@+id/gtv"
                             android:layout_width="wrap_content"
                             android:layout_height="21dip"
+                            android:visibility="invisible"
                             android:layout_marginLeft="5dip"
                             android:layout_marginTop="6dip"
                             android:paddingLeft="10dip"
@@ -526,14 +527,6 @@
 
         </RelativeLayout>
 
-
-
-        <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
-            android:id="@+id/rlEnterRoom"
-            android:layout_width="match_parent"
-            android:layout_height="21dip"
-            />
-
         <LinearLayout
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
@@ -586,6 +579,13 @@
             >
 
         </com.live.fox.view.bulletMessage.BulletMessageParentView>
+
+
+        <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
+            android:id="@+id/rlEnterRoom"
+            android:layout_width="match_parent"
+            android:layout_height="21dip"
+            />
 
         <com.live.fox.view.bulletMessage.VehicleParentVIew
             android:id="@+id/rlVehicleParentView"

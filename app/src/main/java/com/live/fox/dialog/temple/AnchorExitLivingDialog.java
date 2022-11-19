@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.openLiving.AnchorLivingFinishActivity;
 import com.live.fox.ui.openLiving.OpenLivingActivity;
 import com.live.fox.ui.openLiving.StartLivingFragment;
@@ -31,11 +32,11 @@ public class AnchorExitLivingDialog extends TempleDialog2{
                 dismissAllowingStateLoss();
                 if(getActivity() instanceof OpenLivingActivity)
                 {
-                    Intent intent=new Intent(getActivity(),AnchorLivingFinishActivity.class);
-                    getActivity().startActivityForResult(intent, ConstantValue.REQUEST_CODE1);
 
                     OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
                     openLivingActivity.onAnchorExitLiving();
+
+                    AnchorLivingFinishActivity.startActivity(openLivingActivity,openLivingActivity.liveId,false);
                 }
                 break;
         }

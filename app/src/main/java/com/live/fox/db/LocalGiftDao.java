@@ -114,6 +114,10 @@ public class LocalGiftDao implements ResourceDaoImpl<GiftResourceBean>{
 
     @Override
     public void updateData(GiftResourceBean giftResourceBean) {
+        if(giftResourceBean==null || giftResourceBean.getId()==null)
+        {
+            return;
+        }
        GiftResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getGiftResourceBeanDao();
        dao.update(giftResourceBean);
     }

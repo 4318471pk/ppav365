@@ -114,6 +114,10 @@ public class LocalUserGuardDao implements ResourceDaoImpl<UserGuardResourceBean>
 
     @Override
     public void updateData(UserGuardResourceBean userGuardResourceBean) {
+        if(userGuardResourceBean==null || userGuardResourceBean.getId()==null)
+        {
+            return;
+        }
       UserGuardResourceBeanDao dao=  CommonApp.getInstance().getDaoSession().getUserGuardResourceBeanDao();
       dao.update(userGuardResourceBean);
     }

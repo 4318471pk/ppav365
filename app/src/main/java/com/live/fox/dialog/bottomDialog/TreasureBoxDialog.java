@@ -157,6 +157,12 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                 addBubbleView();
                 break;
             case R.id.tvGive:
+                String selfUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
+                if(selfUid.equals(anchorId))
+                {
+                    ToastUtils.showShort(getStringWithoutContext(R.string.canNotSendGiftToSelf));
+                    return;
+                }
                 if(onSelectedGiftListener!=null)
                 {
                     if(lists.get(currentType).size()>0)
@@ -405,27 +411,6 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         });
     }
 
-
-    /**
-     * 调用赠送礼物接口
-     */
-    public void doSendGiftApi(String gid, int count) {
-        if(isConditionOk())
-        {
-            mBind.tvGive.setEnabled(false);
-            Api_Live.ins().sendGift(gid, anchorId,
-                    liveId, 1, count, new JsonCallback<String>() {
-                        @Override
-                        public void onSuccess(int code, String msg, String result) {
-                            LogUtils.e("json : " + result);
-                            mBind.tvGive.setEnabled(true);
-                            if (code != 0) {
-                                ToastUtils.showShort(msg);
-                            }
-                        }
-                    });
-        }
-    }
 
     public interface OnSelectedGiftListener
     {

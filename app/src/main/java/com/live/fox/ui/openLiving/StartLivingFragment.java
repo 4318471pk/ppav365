@@ -38,6 +38,7 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentStartLivingBinding;
 import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalMountResourceDao;
+import com.live.fox.db.LocalUserVehiclePlayLimitDao;
 import com.live.fox.dialog.DialogFactory;
 import com.live.fox.dialog.TipDialog;
 import com.live.fox.dialog.bottomDialog.AnchorLivingRoomSettingDialog;
@@ -51,12 +52,14 @@ import com.live.fox.entity.Audience;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingFollowMessage;
+import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.SvgAnimateLivingBean;
 import com.live.fox.entity.User;
+import com.live.fox.entity.UserVehiclePlayLimitBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Pay;
@@ -116,6 +119,7 @@ public class StartLivingFragment extends BaseBindingFragment {
     LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
     AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
     List<User> userList=new ArrayList<>();//当前在线用户
+    List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
@@ -126,7 +130,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                     playSVGAAnimal();
                     break;
                 case userHeartBeat:
-                    Api_Live.ins().watchHeart();
+                    Api_Live.ins().liveHeart(liveId);
                     sendEmptyMessageDelayed(userHeartBeat,40000);
                     break;
             }
@@ -178,7 +182,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                 ContributionRankDialog contributionRankDialog=ContributionRankDialog.getInstance(liveId,myUID);
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contributionRankDialog);                break;
             case R.id.ivSetting:
-                AnchorLivingRoomSettingDialog anchorLivingRoomSettingDialog=AnchorLivingRoomSettingDialog.getInstance();
+                AnchorLivingRoomSettingDialog anchorLivingRoomSettingDialog=AnchorLivingRoomSettingDialog.getInstance(liveId,myUID);
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),anchorLivingRoomSettingDialog);
                 break;
         }
@@ -219,6 +223,15 @@ public class StartLivingFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mHandler!=null)
+        {
+            mHandler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
         mBind.setClick(this);
@@ -233,10 +246,17 @@ public class StartLivingFragment extends BaseBindingFragment {
 
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(getActivity(),45);
-        rlMessages.width= ViewGroup.LayoutParams.MATCH_PARENT;
+        rlMessages.width= (int)(screenWidth*0.7f)+ScreenUtils.getDip2px(getActivity(),10);
         rlMessages.bottomMargin=ScreenUtils.getDip2px(getActivity(),45);
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
+
+        RelativeLayout.LayoutParams rlER=(RelativeLayout.LayoutParams)mBind.rlEnterRoom.getLayoutParams();
+        rlER.bottomMargin=(int)(screenHeight*0.5f);
+        rlER.height=ScreenUtils.getDip2px(getActivity(),21);
+        rlER.width=ViewGroup.LayoutParams.MATCH_PARENT;
+        rlER.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
+        mBind.rlEnterRoom.setLayoutParams(rlER);
 
         //加入弹幕弹道
         int height=(int)(screenHeight*0.2f);
@@ -253,8 +273,11 @@ public class StartLivingFragment extends BaseBindingFragment {
         int vehicleView=ScreenUtils.getDip2px(getContext(),61);
         setViewLPRL(mBind.rlVehicleParentView,vehicleView,(int)(screenHeight*0.32f)-((int)(vehicleView*0.75f)));
 
-        mBind.msgBox.getLayoutParams().height=rlMessages.height-ScreenUtils.getDip2px(getActivity(),47);
-        mBind.msgBox.getLayoutParams().width=(int)(screenWidth*0.7f);
+        LinearLayout.LayoutParams llMsgBox=(LinearLayout.LayoutParams) mBind.msgBox.getLayoutParams();
+        llMsgBox.leftMargin=ScreenUtils.getDip2px(getActivity(),10);
+        llMsgBox.height=rlMessages.height-ScreenUtils.getDip2px(getActivity(),47);
+        llMsgBox.width=(int)(screenWidth*0.7f);
+        mBind.msgBox.setLayoutParams(llMsgBox);
 
         mBind.msgBox.addItemDecoration(new RecyclerSpace(ScreenUtils.getDip2px(getContext(),2)));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
@@ -270,6 +293,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             @Override
             public void onFinish() {
                 mBind.llTopView.setVisibility(View.VISIBLE);
+                mBind.rlBotView.setVisibility(View.VISIBLE);
                 checkAuth();
             }
         });
@@ -307,40 +331,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                         case MessageProtocol.GAME_CP_WIN:
                             break;
                         case MessageProtocol.LIVE_ENTER_ROOM:
-                            LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
-                            livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
-                            mBind.vtEnterRoom.
-                                    addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
-
-                            long uid=DataCenter.getInstance().getUserInfo().getUser().getUid();
-                            boolean isPlayAvailable=livingEnterLivingRoomBean.getUid()==uid;
-                            if(!isPlayAvailable)
-                            {
-                                long time= SPUtils.getInstance(ConstantValue.EnterRoomUIDSP).getInt(ConstantValue.EnterRoomUID,0);
-                                isPlayAvailable=System.currentTimeMillis()- time>10*60*1000;
-                            }
-                            //播放进房 是自己不限制 不是自己限制10分钟内只播放一次
-                            if(isPlayAvailable)
-                            {
-                                //播放进房漂房
-                                mBind.rlEnterRoom.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
-                                //播放进房座驾
-                                mBind.rlVehicleParentView.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
-                                //播放SVGA进房座驾动画
-                                if(Strings.isDigitOnly(livingEnterLivingRoomBean.getCarId()))
-                                {
-                                    MountResourceBean mountResourceBean= LocalMountResourceDao.getInstance().getVehicleById(Long.valueOf(livingEnterLivingRoomBean.getCarId()));
-                                    if(mountResourceBean!=null)
-                                    {
-                                        SvgAnimateLivingBean svgAnimateLivingBean=new SvgAnimateLivingBean();
-                                        svgAnimateLivingBean.setLocalSvgPath(mountResourceBean.getLocalSvgPath());
-                                        svgAnimateLivingBean.setLoopTimes(1);
-                                        livingMessageGiftBeans.add(svgAnimateLivingBean);
-                                        handler.sendEmptyMessage(playSVGA);
-                                    }
-                                }
-                                SPUtils.getInstance(ConstantValue.EnterRoomUIDSP).put(ConstantValue.EnterRoomUID,System.currentTimeMillis());
-                            }
+                            livingMessageEnterRoom(msg);
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
@@ -397,6 +388,105 @@ public class StartLivingFragment extends BaseBindingFragment {
 
     }
 
+    /**
+     * 进入房间消息
+     */
+    private void livingMessageEnterRoom(String msg) {
+        LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
+        livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+        mBind.vtEnterRoom.
+                addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
+
+        long uid=DataCenter.getInstance().getUserInfo().getUser().getUid();
+        boolean isPlayAvailable=false;
+        UserVehiclePlayLimitBean userVehiclePlayLimitBean = null;
+        if(livingEnterLivingRoomBean.getUid()!=uid)
+        {
+            userVehiclePlayLimitBean= LocalUserVehiclePlayLimitDao.getInstance()
+                    .selectByLiveIDAndUID(liveId,String.valueOf(uid),LocalUserVehiclePlayLimitDao.Anchor);
+            if(userVehiclePlayLimitBean!=null)
+            {
+                isPlayAvailable=System.currentTimeMillis()- userVehiclePlayLimitBean.getShowTime()>10*60*1000;
+            }
+            else
+            {
+                isPlayAvailable=true;
+            }
+        }
+        else
+        {
+            isPlayAvailable=true;
+        }
+
+        //播放进房 是自己不限制 不是自己限制10分钟内只播放一次
+        if(isPlayAvailable)
+        {
+            //播放进房漂房
+            mBind.rlEnterRoom.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+            //播放进房座驾
+            mBind.rlVehicleParentView.postEnterRoomMessage(livingEnterLivingRoomBean,getActivity());
+            //播放SVGA进房座驾动画
+            if(Strings.isDigitOnly(livingEnterLivingRoomBean.getCarId()))
+            {
+                MountResourceBean mountResourceBean= LocalMountResourceDao.getInstance().getVehicleById(Long.valueOf(livingEnterLivingRoomBean.getCarId()));
+                if(mountResourceBean!=null)
+                {
+                    SvgAnimateLivingBean svgAnimateLivingBean=new SvgAnimateLivingBean();
+                    svgAnimateLivingBean.setLocalSvgPath(mountResourceBean.getLocalSvgPath());
+                    svgAnimateLivingBean.setLoopTimes(1);
+                    livingMessageGiftBeans.add(svgAnimateLivingBean);
+                    handler.sendEmptyMessage(playSVGA);
+                }
+            }
+
+            if(userVehiclePlayLimitBean==null)
+            {
+                userVehiclePlayLimitBean=new UserVehiclePlayLimitBean();
+                userVehiclePlayLimitBean.setShowTime(System.currentTimeMillis());
+                userVehiclePlayLimitBean.setType(LocalUserVehiclePlayLimitDao.Anchor);
+                userVehiclePlayLimitBean.setUid(String.valueOf(uid));
+                userVehiclePlayLimitBean.setLiveId(liveId);
+                LocalUserVehiclePlayLimitDao.getInstance().insert(userVehiclePlayLimitBean);
+            }
+            else
+            {
+                userVehiclePlayLimitBean.setShowTime(System.currentTimeMillis());
+                LocalUserVehiclePlayLimitDao.getInstance().updateData(userVehiclePlayLimitBean);
+            }
+
+        }
+    }
+
+
+    /**
+     * 加入如聊天群组
+     */
+    private void joinIMGroup(String liveId) {
+        AppIMManager.ins().loginGroup(String.valueOf(liveId),
+                getString(R.string.openJoinChat), new V2TIMCallback() {
+                    @Override
+                    public void onSuccess() {
+                        if(isActivityOK())
+                        {
+                            sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                                    getStringWithoutContext(R.string.connectedJoin),getActivity()).create());
+                            mHandler.postDelayed(() ->
+                                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                                            getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1000);
+                            handler.sendEmptyMessageDelayed(userHeartBeat,40000);
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(int code, String desc) {
+                        LogUtils.e("IMGroup-> 加入聊天失敗: code->" + code + "  , desc->" + desc);
+                        joinGroupFailed(liveId, 2, code, desc);
+                    }
+                });
+    }
+
     public void checkAndJoinIM() {
         String imLoginUser = V2TIMManager.getInstance().getLoginUser();
         //加入群聊前 先判断用户是否连接IM 如果未连接 则先连接IM后再加入IM群聊
@@ -406,9 +496,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                 @Override
                 public void onSuccess() {
                     //连接IM成功后 加入群聊
-                    sendSystemMsgToChat(getString(R.string.connectedJoin));
-                    mHandler.postDelayed(() ->
-                            sendSystemMsgToChat(getString(R.string.liveSuccess)), 1000);
+                    joinIMGroup(liveId);
 
                 }
 
@@ -422,7 +510,8 @@ public class StartLivingFragment extends BaseBindingFragment {
                     } else if (code == 9520) {
                         closeLiveRoom(desc, false);
                     } else if (code == 6012) {
-                        sendSystemMsgToChat(getString(R.string.chatRetrying) + code);
+                        sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                                getStringWithoutContext(R.string.chatRetrying)+ code,getActivity()).create());
                         checkAndJoinIM();
                     } else {
                         closeLiveRoom(desc, false);
@@ -430,11 +519,67 @@ public class StartLivingFragment extends BaseBindingFragment {
                 }
             });
         } else {
+
             mHandler.postDelayed(() ->
-                    sendSystemMsgToChat(getString(R.string.liveSuccess)), 1600);
+                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                            getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1600);
         }
     }
 
+    /**
+     * 加入聊天群失败
+     *
+     * @param type 失败代码
+     * @param code 失败代码 类型
+     * @param desc 失败的原因
+     */
+    private void joinGroupFailed(String liveId, int type, int code, String desc) {
+        switch (code) {
+            case 6017:
+                if ("sdk not initialized".equals(desc)) {
+                    LogUtils.e("sdk not initialized");
+                }
+                break;
+            case 10010: //群组不存在，或者曾经存在过，但是目前已经被解散
+//                if (0 != currentAnchor.getLiveStatus()) {
+//                    closeRoomAndStopPlay(false, false, false);
+//                    sendSystemMsgToChat(getString(R.string.chatNoExist));
+//                    showLiveFinishFragment(currentAnchor, getString(R.string.chatNoExist));
+//                }
+                break;
+
+            case 6014://SDK 未登∂录，请先登录，成功回调之后重试，或者被踢下线，可使用 TIMManager getLoginUser 检查当前是否在线
+                AppIMManager.ins().connectIM(null);
+                joinIMGroup(liveId);
+                break;
+
+            case 6012: //请求超时，请等网络恢复后重试。（Android SDK 1.8.0 以上需要参考 Android 服务进程配置 方式进行配置，否则会出现此错误）
+                SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,getStringWithoutContext(R.string.discRetry),getActivity());
+                sendSystemMsgToChat(spanUtils.create());
+                if (type == 1) {
+                    checkAndJoinIM();
+                } else {
+                    joinIMGroup(liveId);
+                }
+                break;
+
+            case 10013://被邀请加入的用户已经是群成员
+                LogUtils.e("IMIMGroup->10013 被邀请加入的用户已经是群成员");
+                break;
+
+            case 9506:
+            case 9520:
+                //直播结束
+//                showLiveFinishFragment(currentAnchor, desc);
+            default:
+                //直播结束
+//                if (0 != currentAnchor.getLiveStatus()) {
+//                    sendSystemMsgToChat(getString(R.string.app_network_error_unknown) + code);
+//                    showLiveFinishFragment(currentAnchor, desc);
+//                }
+                break;
+        }
+    }
 
     /**
      * 关闭直播间
@@ -461,7 +606,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             public void onSuccess(int code, String msg, String data) {
                 if(code==0)
                 {
-                    ToastUtils.showShort(msg);
+
                 }
                 else
                 {
@@ -808,6 +953,7 @@ public class StartLivingFragment extends BaseBindingFragment {
     }
 
 
+    //守护列表
     private void getGuardList()
     {
         if(!isActivityOK())

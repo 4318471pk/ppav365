@@ -221,15 +221,31 @@ public class RankFragment extends BaseBindingFragment {
             return;
         }
 
+        List<RankItemBean> tabList=null;
+        switch (type)
+        {
+            case 0:
+                tabList=getRankActivity().rankAnchorBeans.get(currentTimePosition);
+                break;
+            case 1:
+                tabList=getRankActivity().rankRichManBeans.get(currentTimePosition);
+                break;
+        }
+        if(currentTimePosition>=tabList.size())
+        {
+            return;
+        }
+
+
         for (int i = 1; i <4 ; i++) {
             LinearLayout linearLayout=(LinearLayout) header.getChildAt(i);
             RankProfileView profileView=(RankProfileView)linearLayout.getChildAt(0);
             TextView nickName=(TextView)linearLayout.getChildAt(1);
             TextView icons=(TextView)linearLayout.getChildAt(2);
 
-            if(getRankActivity().rankAnchorBeans.get(currentTimePosition).size()>i-1)
+            if(tabList.size()>i-1)
             {
-                RankItemBean rankItemBean=getRankActivity().rankAnchorBeans.get(currentTimePosition).get(i-1);
+                RankItemBean rankItemBean=tabList.get(i-1);
                 nickName.setText(rankItemBean.getNickname());
                 GlideUtils.loadCircleImage(getActivity(),rankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
 //                icons.setText("");
@@ -251,9 +267,9 @@ public class RankFragment extends BaseBindingFragment {
             TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
             TextView follow=(TextView)relativeLayout.getChildAt(1);
 
-            if(getRankActivity().rankAnchorBeans.get(currentTimePosition).size()>i-4)
+            if(tabList.size()>i-4)
             {
-                RankItemBean rankItemBean=getRankActivity().rankAnchorBeans.get(currentTimePosition).get(i-4);
+                RankItemBean rankItemBean=tabList.get(i-4);
                 tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
                 follow.setVisibility(View.VISIBLE);
                 follow.setSelected(rankItemBean.isFollow());

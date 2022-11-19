@@ -16,6 +16,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/llContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
@@ -44,7 +45,7 @@
                 android:textSize="14sp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dip"
-                android:text="@string/plzBindPhoneWhenGuest"/>
+                />
 
             <View
                 android:layout_width="match_parent"
@@ -94,5 +95,14 @@
             </LinearLayout>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{click.onClickView}"
+            android:layout_alignRight="@id/llContent"
+            android:layout_alignTop="@id/llContent"
+            android:padding="15dip"
+            android:src="@mipmap/x2"/>
     </RelativeLayout>
 </layout>

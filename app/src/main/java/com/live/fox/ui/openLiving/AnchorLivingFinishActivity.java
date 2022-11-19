@@ -26,7 +26,7 @@ public class AnchorLivingFinishActivity extends BaseBindingViewActivity {
 
     public static void startActivity(Context context, String liveId, boolean isKick) {
         Constant.isAppInsideClick = true;
-        Intent intent = new Intent(context, LiveFinishActivity.class);
+        Intent intent = new Intent(context, AnchorLivingFinishActivity.class);
         intent.putExtra("liveId", liveId);
         intent.putExtra("isKick", isKick);
         context.startActivity(intent);
@@ -34,7 +34,7 @@ public class AnchorLivingFinishActivity extends BaseBindingViewActivity {
 
     public static void startActivity(Context context, String liveId) {
         Constant.isAppInsideClick = true;
-        Intent intent = new Intent(context, LiveFinishActivity.class);
+        Intent intent = new Intent(context, AnchorLivingFinishActivity.class);
         intent.putExtra("liveId", liveId);
         context.startActivity(intent);
     }

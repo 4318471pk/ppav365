@@ -165,12 +165,13 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        DialogFramentManager.getInstance().removeDialog(this);
         if(onDismissListener!=null)
         {
-            onDismissListener.onDismiss();
+            onDismissListener.onDismiss(this);
         }
+        super.onDismiss(dialog);
+        DialogFramentManager.getInstance().removeDialog(this);
+
     }
 
     @Override
@@ -363,6 +364,6 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     public interface OnDismissListener
     {
-        void onDismiss();
+        void onDismiss(BaseBindingDialogFragment baseBindingDialogFragment);
     }
 }

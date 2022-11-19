@@ -73,7 +73,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     boolean isLoop=false;//开启无限循环上下拉
     List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
     List<LivingGiftBean> vipGiftListData=new ArrayList<>();//特权礼物列表;
-
     List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
@@ -185,6 +184,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
                 if(state==0 && pagerPosition!=mBind.vp2.getCurrentItem())
                 {
+                    livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
                     pagerPosition=mBind.vp2.getCurrentItem();
                     mBind.vp2.setUserInputEnabled(false);
 
@@ -329,6 +329,29 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         return mBind.vp2.getCurrentItem();
     }
 
+    public void goNextRoom()
+    {
+        if(isLoop)
+        {
+            getViewPager().setCurrentItem(getCurrentPosition()+1);
+        }
+        else
+        {
+            if(roomListBeans.size()>getViewPager().getCurrentItem()+1)
+            {
+                getViewPager().setCurrentItem(getCurrentPosition()+1);
+            }
+            else
+            {
+                int position=getViewPager().getCurrentItem();
+                if(position>0)
+                {
+                    getViewPager().setCurrentItem(getCurrentPosition()-1);
+                }
+            }
+        }
+    }
+
     @Override
     public void onIMReceived(int protocol, String msg) {
         LogUtils.e(protocol + ", onIMReceived msg : " + msg);
@@ -441,6 +464,10 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(livingFragmentStateAdapter!=null && livingFragmentStateAdapter.getFragment(pagerPosition)!=null)
+        {
+            livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
+        }
         AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);
     }
 

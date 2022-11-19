@@ -119,6 +119,10 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
 
     @Override
     public void updateData(UserTagResourceBean userTagResourceBean) {
+        if(userTagResourceBean==null || userTagResourceBean.getId()==null)
+        {
+            return;
+        }
       UserTagResourceBeanDao dao=  CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao();
       dao.update(userTagResourceBean);
     }

@@ -1477,9 +1477,10 @@
     <string name="tips5">1.添加时请备注昵称，避免主播无法区分；\n2.联系方式如有虚假，可通过客服投诉；</string>
     <string name="emptyData">空空如也</string>
     <string name="paidLiving">付费直播</string>
-    <string name="nextRoom">下一场</string>
+    <string name="nextRoom">下一个</string>
     <string name="dialogText1">主播开启了付费直播，</string>
-    <string name="dialogText2">/场， 是否付费进入？</string>
+    <string name="dialogText2">/场,\n是否付费进入？</string>
+    <string name="dialogText4">/分钟,\n是否付费观看？</string>
     <string name="InsufficientBalance2">余额不足，是否前往充值？</string>
     <string name="InsufficientDiamond">钻石不足，是否前往充值？</string>
     <string name="goToAnotherRoom">是否前往该直播间沾沾喜气？</string>
@@ -1546,12 +1547,17 @@
     <string name="reportSuccess">举报成功</string>
     <string name="operateSuccess">操作成功</string>
     <string name="ren">人</string>
+    <string name="plsInputAmountToDiamond">请填写所需钻石</string>
+    <string name="diamondPerMin">按时直播%1$s钻/分钟</string>
+    <string name="diamondPerShow">按场直播%1$s钻/场</string>
 
     <string name="tip10">落后%1$s火力</string>
     <string name="tip11">上周贡献&#32;%1$s&#32;火力</string>
     <string name="tip12">乘坐【%1$s】来了</string>
     <string name="tip13">需要先创建过直播房间</string>
     <string name="emptyPosition">虚位以待</string>
+    <string name="canNotSendGiftToSelf">不能赠送给自己。</string>
+
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>
 

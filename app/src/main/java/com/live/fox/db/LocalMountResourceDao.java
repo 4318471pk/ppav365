@@ -114,6 +114,10 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
 
     @Override
     public void updateData(MountResourceBean mountResourceBean) {
+        if(mountResourceBean==null || mountResourceBean.getId()==null)
+        {
+            return;
+        }
        MountResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao();
        dao.update(mountResourceBean);
     }

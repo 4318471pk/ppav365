@@ -325,7 +325,7 @@ public class LivingControlPanel extends RelativeLayout {
                     fragment.getRoomBean().getId(),userList,vipUserList);
             onlineNobilityAndUserDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
                 @Override
-                public void onDismiss() {
+                public void onDismiss(BaseBindingDialogFragment fragment) {
                     mBind.rlBotView.setVisibility(VISIBLE);
                     mBind.llMessages.setVisibility(VISIBLE);
                 }
@@ -400,7 +400,7 @@ public class LivingControlPanel extends RelativeLayout {
                 treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
                 treasureBoxDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
                     @Override
-                    public void onDismiss() {
+                    public void onDismiss(BaseBindingDialogFragment fragment) {
                         //去掉选中状态
                         if(getActivity().giftListData!=null)
                         {
@@ -433,7 +433,7 @@ public class LivingControlPanel extends RelativeLayout {
     public void setData(RoomListBean roomListBean,LivingActivity activity)
     {
         mBind.tvAnchorName.setText(roomListBean.getTitle());
-        mBind.tvAnchorID.setText("ID:"+roomListBean.getId());
+        mBind.tvAnchorID.setText("ID:"+roomListBean.getAid());
         refreshAudienceList();
         doGetAudienceListApi();
         doGetVipAudienceListApi();

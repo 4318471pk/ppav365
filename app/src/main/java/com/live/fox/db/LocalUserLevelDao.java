@@ -105,6 +105,10 @@ public class LocalUserLevelDao implements ResourceDaoImpl<UserLevelResourceBean>
     @Override
     public void updateData(UserLevelResourceBean bean)
     {
+        if(bean==null || bean.getId()==null)
+        {
+            return;
+        }
         UserLevelResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getUserLevelResourceBeanDao();
         dao.update(bean);
     }

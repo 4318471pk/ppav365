@@ -87,7 +87,6 @@
                         android:layout_width="60dip"
                         android:layout_height="34dp"
                         android:digits="0987654321"
-                        android:visibility="invisible"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="5dp"
                         android:drawableLeft="@mipmap/amount_ofpeople"
@@ -98,6 +97,7 @@
                         android:paddingLeft="5dip"
                         android:paddingRight="5dip"
                         android:textColor="@color/white"
+                        android:text="0"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         app:gt_radius_dp="20dp"
@@ -189,6 +189,7 @@
             android:id="@+id/rlBotView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             >
 
@@ -281,29 +282,25 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+
+        <LinearLayout
             android:id="@+id/llMessages"
             android:layout_width="match_parent"
             android:layout_height="200dip"
+            android:orientation="vertical"
             android:onClick="@{click.onClickView}"
             android:layout_marginBottom="45dip"
             android:layout_alignParentBottom="true"
             >
 
-            <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
-                android:id="@+id/rlEnterRoom"
-                android:layout_width="match_parent"
-                android:layout_height="21dip"
-                />
-
             <com.live.fox.view.LivingRecycleView
                 android:id="@+id/msgBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
                 android:scrollbars="none"
                 android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="50dp" />
+                android:fadingEdgeLength="30dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -326,7 +323,8 @@
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>
-        </RelativeLayout>
+
+        </LinearLayout>
 
         <com.live.fox.view.bulletMessage.BulletMessageParentView
             android:id="@+id/rlMidView"
@@ -337,6 +335,12 @@
             >
 
         </com.live.fox.view.bulletMessage.BulletMessageParentView>
+
+        <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
+            android:id="@+id/rlEnterRoom"
+            android:layout_width="match_parent"
+            android:layout_height="21dip"
+            />
 
         <com.live.fox.view.bulletMessage.VehicleParentVIew
             android:id="@+id/rlVehicleParentView"

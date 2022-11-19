@@ -173,7 +173,7 @@ public class Api_Live extends BaseApi {
     /**
      * 用户退房
      */
-    public void outRoom(int liveId, JsonCallback callback) {
+    public void outRoom(String liveId, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_outerroom_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
@@ -388,12 +388,13 @@ public class Api_Live extends BaseApi {
     /**
      * 计时房间付费
      */
-    public void changeRoom(int liveId, long anchorId, JsonCallback callback) {
+    public void changeRoom(String liveId, String anchorId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_chargeroom_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("anchorId", anchorId);
 
+        callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,
@@ -463,17 +464,12 @@ public class Api_Live extends BaseApi {
     /**
      * 主播端心跳
      */
-    public void liveHeart(int liveId, JsonCallback callback) {
+    public void liveHeart(String liveId) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_heart_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
 
-        OkGoHttpUtil.getInstance().doJsonPost(
-                "",
-                url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
+
     }
 
 

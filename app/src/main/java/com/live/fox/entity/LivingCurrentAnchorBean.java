@@ -9,10 +9,19 @@ public class LivingCurrentAnchorBean {
     public String nickname;
     public String avatar;
     public Integer type;
-    public Object price;
+    public String price;
     public Object liveStartLottery;
     public Integer guardCount;
     public Integer liveSum;
+    private String isPayOver;
+
+    public String getIsPayOver() {
+        return isPayOver;
+    }
+
+    public void setIsPayOver(String isPayOver) {
+        this.isPayOver = isPayOver;
+    }
 
     public Integer getZb() {
         return zb;
@@ -62,11 +71,11 @@ public class LivingCurrentAnchorBean {
         this.type = type;
     }
 
-    public Object getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Object price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

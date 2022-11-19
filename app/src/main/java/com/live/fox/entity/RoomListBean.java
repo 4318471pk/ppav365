@@ -21,7 +21,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
     private String videoUrl;
     private int hot;
     private int recommend;
-    private int isPayOver;
+    private String isPayOver;
 
     public RoomListBean() {
         super(false, "header");
@@ -45,7 +45,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         videoUrl = in.readString();
         hot = in.readInt();
         recommend = in.readInt();
-        isPayOver = in.readInt();
+        isPayOver = in.readString();
     }
 
     public static final Creator<RoomListBean> CREATOR = new Creator<RoomListBean>() {
@@ -202,6 +202,6 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         parcel.writeString(videoUrl);
         parcel.writeInt(hot);
         parcel.writeInt(recommend);
-        parcel.writeInt(isPayOver);
+        parcel.writeString(isPayOver);
     }
 }

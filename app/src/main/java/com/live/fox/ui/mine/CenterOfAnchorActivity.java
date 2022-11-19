@@ -180,9 +180,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                             String roomType=mBind.gtvTypeOfRoom.getText().toString();
                             if(!TextUtils.isEmpty(liveId) && !TextUtils.isEmpty(roomType))
                             {
+                                getTvTitleRight().setEnabled(false);
                                 String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
                                 String icon=mBind.ivRoomIcon.getTag()==null?"":(String)mBind.ivRoomIcon.getTag();
                                 OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,icon,roomTitle,liveId,liveConfigId,roomType);
+                                getTvTitleRight().setEnabled(true);
                             }
                         } else { // 有的权限被拒绝或被勾选不再提示
                             LogUtils.e("有的权限被拒绝");
@@ -197,9 +199,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             String roomType=mBind.gtvTypeOfRoom.getText().toString();
             if(!TextUtils.isEmpty(liveId) && !TextUtils.isEmpty(roomType))
             {
+                getTvTitleRight().setEnabled(false);
                 String roomTitle=mBind.gtvTitleOfRoom.getText().toString();
                 String icon=mBind.ivRoomIcon.getTag()==null?"":(String)mBind.ivRoomIcon.getTag();
                 OpenLivingActivity.startActivity(CenterOfAnchorActivity.this,icon,roomTitle,liveId,liveConfigId,roomType);
+                getTvTitleRight().setEnabled(true);
             }
         }
     }
