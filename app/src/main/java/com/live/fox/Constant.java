@@ -206,6 +206,11 @@ public class Constant {
         public static final String USER_buyNoble = "/pk-client/vip/buyOrRenewalVip"; // 购买续费貴族 /pk-client/vip/buyOrRenewalVip
 
         //live-client 直播相关接口
+        public static final String LivingRoomManagerList="/live-client/live/getRoomManagerList";//房管列表
+        public static final String LivingMuteList="/live-client/live/getBlackChatList";//直播间禁言用户列表
+        public static final String LivingBlackList="/live-client/live/getRoomPullBlackList";//直播间拉黑用户列表
+        public static final String LivingBlackOrMuteUser="/live-client/live/removeBlackChatByUid";//移除直播间禁言or黑名单用户
+
         public static final String amountOfSpeaker="/live-client/live/getSpeakersNumber";//喇叭数量
         public static final String BulletMessageList="/live-client/live/getBarrageList";//弹幕列表
         public static final String sendBulletMessage="/live-client/live/room/barrage/send";//发送弹幕消息
@@ -219,7 +224,7 @@ public class Constant {
         public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表
         public static final String liveRoomRecommendList="/live-client/live/recommendLiveList";//直播间内右侧列表
         public static final String anchorfind_URL = LiveClient + "/live/StartRecordList";        // 搜索主播
-        public static final String anchorfind_URL2 = LiveClient + "/live/StartRecordTotalList";        // 搜索主播2
+        public static final String LivingRecord = LiveClient + "/live/StartRecordTotalList";        // 开播记录
         public static final String Live_BlockUser_URL = LiveClient + "/live/ban/user";           //直播间拉黑用户
         public static final String Live_blackchat_URL = LiveClient + "/live/black/chat";       //直播间禁言
         public static final String Live_chargeroom_URL = LiveClient + "/live/charge/room";     //计时房间付费

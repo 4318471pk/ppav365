@@ -1543,6 +1543,12 @@
     <string name="offLivingContent">观众正在赶来的路上 确定结束直播吗？</string>
     <string name="offLivingContent2">人在观看你的直播 确定结束直播吗？</string>
     <string name="hasSent">送出</string>
+    <string name="onlineAnchorRecommendForYou">为您推荐在线主播</string>
+    <string name="switchRoomBySwipe">(上下滑切换房间！)</string>
+    <string name="unitPriceMin">/分钟</string>
+    <string name="unitPriceShow">/场</string>
+
+
     <string name="tips9" translatable="false">TA好像忘记说些什么了~</string>
     <string name="reportSuccess">举报成功</string>
     <string name="operateSuccess">操作成功</string>
@@ -1550,6 +1556,7 @@
     <string name="plsInputAmountToDiamond">请填写所需钻石</string>
     <string name="diamondPerMin">按时直播%1$s钻/分钟</string>
     <string name="diamondPerShow">按场直播%1$s钻/场</string>
+    <string name="hasWatched">人看过</string>
 
     <string name="tip10">落后%1$s火力</string>
     <string name="tip11">上周贡献&#32;%1$s&#32;火力</string>

@@ -109,17 +109,16 @@ public class StartLivingFragment extends BaseBindingFragment {
 
     final int playSVGA = 123;
     final int userHeartBeat=987;
+    final int enterRoomRefresh=124;
 
     public FragmentStartLivingBinding mBind;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     List<SvgAnimateLivingBean> livingMessageGiftBeans = new LinkedList<>();//播放SVGA的数组
-    Handler mHandler=new Handler(Looper.myLooper());
     String liveId,myUID;
     LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
     AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
     List<User> userList=new ArrayList<>();//当前在线用户
-    List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
@@ -131,7 +130,11 @@ public class StartLivingFragment extends BaseBindingFragment {
                     break;
                 case userHeartBeat:
                     Api_Live.ins().liveHeart(liveId);
-                    sendEmptyMessageDelayed(userHeartBeat,40000);
+                    sendEmptyMessageDelayed(userHeartBeat,30000);
+                    break;
+                case enterRoomRefresh:
+                    removeMessages(enterRoomRefresh);
+                    refresh20AudienceList();//刷新头部20个人
                     break;
             }
         }
@@ -225,9 +228,9 @@ public class StartLivingFragment extends BaseBindingFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mHandler!=null)
+        if(handler!=null)
         {
-            mHandler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
         }
     }
 
@@ -392,6 +395,8 @@ public class StartLivingFragment extends BaseBindingFragment {
      * 进入房间消息
      */
     private void livingMessageEnterRoom(String msg) {
+
+        handler.sendEmptyMessageDelayed(enterRoomRefresh,1000);
         LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
         livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
         mBind.vtEnterRoom.
@@ -470,10 +475,10 @@ public class StartLivingFragment extends BaseBindingFragment {
                         {
                             sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
                                     getStringWithoutContext(R.string.connectedJoin),getActivity()).create());
-                            mHandler.postDelayed(() ->
+                            handler.postDelayed(() ->
                                     sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
                                             getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1000);
-                            handler.sendEmptyMessageDelayed(userHeartBeat,40000);
+                            handler.sendEmptyMessageDelayed(userHeartBeat,30000);
                         }
 
 
@@ -520,7 +525,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             });
         } else {
 
-            mHandler.postDelayed(() ->
+            handler.postDelayed(() ->
                     sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
                             getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1600);
         }
@@ -737,7 +742,7 @@ public class StartLivingFragment extends BaseBindingFragment {
         openLivingActivity.startAcceptMessage();
         checkAndJoinIM();
         getGuardList();
-        refreshAudienceList();
+        refresh20AudienceList();
         doGetAudienceListApi();
     }
 
@@ -906,7 +911,7 @@ public class StartLivingFragment extends BaseBindingFragment {
      * 刷新观众列表
      * 普通用戶根據用戶經驗排序
      */
-    private void refreshAudienceList() {
+    private void refresh20AudienceList() {
         if(!isActivityOK() )
         {
             return;
@@ -935,6 +940,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                                         }
                                     }
                                 });
+
                                 mBind.rvTop20Online.setAdapter(livingTop20OnlineUserAdapter);
                             }
                             else
@@ -1011,4 +1017,6 @@ public class StartLivingFragment extends BaseBindingFragment {
             }
         });
     }
+
+
 }

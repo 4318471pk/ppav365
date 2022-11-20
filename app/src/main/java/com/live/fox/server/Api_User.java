@@ -707,22 +707,6 @@ public class Api_User extends BaseApi {
                 .execute(callback);
     }
 
-    public void searchAnchor2(Long uid, Long startTime, Long endTime, int page, JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.anchorfind_URL2;
-        HashMap<String, Object> params = getCommonParams();
-        params.put("uid", uid);
-        params.put("startTime", startTime);
-        params.put("endTime", endTime);
-        params.put("page", page);
-
-        OkGoHttpUtil.getInstance().doJsonPost(
-                "",
-                url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
-    }
-
 
     public void getRule(int type, JsonCallback<RuleBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.USER_getrule_URL + "?type=" + type;

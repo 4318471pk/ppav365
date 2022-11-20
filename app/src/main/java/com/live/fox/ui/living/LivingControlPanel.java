@@ -434,7 +434,7 @@ public class LivingControlPanel extends RelativeLayout {
     {
         mBind.tvAnchorName.setText(roomListBean.getTitle());
         mBind.tvAnchorID.setText("ID:"+roomListBean.getAid());
-        refreshAudienceList();
+        refresh20AudienceList();
         doGetAudienceListApi();
         doGetVipAudienceListApi();
         getGuardList();
@@ -544,7 +544,7 @@ public class LivingControlPanel extends RelativeLayout {
      * 刷新观众列表
      * 普通用戶根據用戶經驗排序
      */
-    private void refreshAudienceList() {
+    public void refresh20AudienceList() {
         if(!fragment.isActivityOK() )
         {
             return;

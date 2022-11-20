@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.databinding.ControlPanelLivingBinding;
@@ -207,10 +209,19 @@ public class MessageViewWatch {
         mBind.llInputLayout.setVisibility(GONE);
         mBind.rlButtons.setVisibility(VISIBLE);
 
+        activity.getDrawLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED);
     }
 
     public void setScrollEnable(boolean status) {
+        if(activity.isDestroyed() || activity.isFinishing())
+        {
+            return;
+        }
+
         activity.getViewPager().setUserInputEnabled(status);
+        if (!status) {
+            activity.getDrawLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 
     private void setLayout(boolean reloadLayout, int height) {

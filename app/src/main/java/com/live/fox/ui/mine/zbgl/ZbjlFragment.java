@@ -171,56 +171,56 @@ public class ZbjlFragment extends BaseFragment implements View.OnClickListener {
 
     public void doSearchApi(boolean isRefresh, Long uid, Long startTime, Long endTime) {
         showLoadingView();
-        Api_User.ins().searchAnchor2(uid, startTime, endTime, page, new JsonCallback<ZbjlBean>() {
-            @Override
-            public void onSuccess(int code, String msg, ZbjlBean data) {
-                hideLoadingView();
-                if (code == 0) {
-                    if (data == null) {
-                        showEmptyView(getString(R.string.noData));
-                        tvTotalTime.setText("Tổng thời gian live:0");
-                        tvMoney.setText("0");
-                        tvGift.setText("0");
-                        tvCp.setText("0");
-                    } else {
-                        tvTotalTime.setText("Tổng thời gian live:" + data.getHeartTime());
-                        tvMoney.setText(RegexUtils.westMoney(data.getToTalffml()));
-                        tvGift.setText(RegexUtils.westMoney(data.getToTalMl()));
-                        tvCp.setText(RegexUtils.westMoney(data.getToTalcpStatement()));
-                        if (data.getJsons() == null) {
-
-                            showEmptyView(getString(R.string.noData));
-                        } else {
-                            if (isRefresh) {
-                                if (data.getJsons().size() == 0) {
-
-                                    showEmptyView(getString(R.string.noData));
-                                } else {
-                                    refreshLayout.finishRefresh();
-
-                                    refreshLayout.setEnableLoadMore(true);
-                                    hideEmptyView();
-                                    adapter.setNewData(data.getJsons());
-                                }
-                            } else {
-                                refreshLayout.finishLoadMore();
-                                List<ZbjlBean> list = adapter.getData();
-                                adapter.addData(data.getJsons());
-                                adapter.notifyItemRangeInserted(list.size(), data.getJsons().size());
-                            }
-                            if (data.getJsons().size() < Constant.pageSizeLater) {
-                                //如果没有更多的数据 则隐藏加载更多功能
-                                refreshLayout.finishLoadMoreWithNoMoreData();
-                            }
-                        }
-                    }
-                } else {
-
-                    showEmptyView(msg);
-                }
-
-            }
-        });
+//        Api_User.ins().searchAnchor2(uid, startTime, endTime, page, new JsonCallback<ZbjlBean>() {
+//            @Override
+//            public void onSuccess(int code, String msg, ZbjlBean data) {
+//                hideLoadingView();
+//                if (code == 0) {
+//                    if (data == null) {
+//                        showEmptyView(getString(R.string.noData));
+//                        tvTotalTime.setText("Tổng thời gian live:0");
+//                        tvMoney.setText("0");
+//                        tvGift.setText("0");
+//                        tvCp.setText("0");
+//                    } else {
+//                        tvTotalTime.setText("Tổng thời gian live:" + data.getHeartTime());
+//                        tvMoney.setText(RegexUtils.westMoney(data.getToTalffml()));
+//                        tvGift.setText(RegexUtils.westMoney(data.getToTalMl()));
+//                        tvCp.setText(RegexUtils.westMoney(data.getToTalcpStatement()));
+//                        if (data.getJsons() == null) {
+//
+//                            showEmptyView(getString(R.string.noData));
+//                        } else {
+//                            if (isRefresh) {
+//                                if (data.getJsons().size() == 0) {
+//
+//                                    showEmptyView(getString(R.string.noData));
+//                                } else {
+//                                    refreshLayout.finishRefresh();
+//
+//                                    refreshLayout.setEnableLoadMore(true);
+//                                    hideEmptyView();
+//                                    adapter.setNewData(data.getJsons());
+//                                }
+//                            } else {
+//                                refreshLayout.finishLoadMore();
+//                                List<ZbjlBean> list = adapter.getData();
+//                                adapter.addData(data.getJsons());
+//                                adapter.notifyItemRangeInserted(list.size(), data.getJsons().size());
+//                            }
+//                            if (data.getJsons().size() < Constant.pageSizeLater) {
+//                                //如果没有更多的数据 则隐藏加载更多功能
+//                                refreshLayout.finishLoadMoreWithNoMoreData();
+//                            }
+//                        }
+//                    }
+//                } else {
+//
+//                    showEmptyView(msg);
+//                }
+//
+//            }
+//        });
     }
 
     @Override

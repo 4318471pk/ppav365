@@ -244,9 +244,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
             @Override
             public void onClick(int position, List<RoomListBean> data) {
                 mBind.drawerLayout.closeDrawers();
-                roomListBeans.clear();
-                roomListBeans.addAll(data);
-                setViewPagerAdapter(position);
+                resetRoomList(data,position);
             }
         });
 
@@ -258,6 +256,13 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getVipGiftList();//请求特权礼物
         getAmountListOfGift();//请求获取发送礼物数量列表
         cacheBulletMessageList();//缓存弹幕列表
+    }
+
+    public void resetRoomList(List<RoomListBean> data,int position)
+    {
+        roomListBeans.clear();
+        roomListBeans.addAll(data);
+        setViewPagerAdapter(position);
     }
 
     private void setViewPagerAdapter(int currentPosition)

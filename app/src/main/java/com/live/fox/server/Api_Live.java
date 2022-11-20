@@ -110,7 +110,89 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
+    /**
+     * 房管列表
+     */
+    public void getLivingRoomManagerList(String liveId,JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.LivingRoomManagerList);
 
+        callback.setArg(liveId);
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doGet(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
+
+    /**
+     * 获取直播间禁言用户列表
+     */
+    public void getLivingMuteList(String liveId,JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.LivingMuteList);
+
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+
+        callback.setArg(liveId);
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()),new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 获取直播间拉黑用户列表
+     */
+    public void getLivingBlackList(String liveId,JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.LivingBlackList);
+
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+
+        callback.setArg(liveId);
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()),new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 获取移除直播间禁言or黑名单用户 类型 (0禁言用户 1黑名单用户)
+     */
+    public void removeLivingBlackOrMuteUser(String liveId,int type,JsonCallback<String> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(SPManager.getServerDomain());
+        stringBuilder.append(Constant.URL.LivingBlackOrMuteUser);
+
+        HashMap<String, Object> params = getCommonParams();
+        params.put("liveId", liveId);
+        params.put("type",type);
+
+        callback.setArg(liveId);
+        String url = stringBuilder.toString();
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                url,
+                url,
+                getCommonHeaders(System.currentTimeMillis()),new Gson().toJson(params))
+                .execute(callback);
+    }
 
 
     /**
@@ -147,6 +229,24 @@ public class Api_Live extends BaseApi {
                 "interRoom",
                 url,
                 getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 开播记录
+     */
+    public void livingRecord(Long startTime, Long endTime, int page,int pageSize, JsonCallback callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.LivingRecord;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("startTime", startTime);
+        params.put("endTime", endTime);
+        params.put("page", page);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
                 new Gson().toJson(params))
                 .execute(callback);
     }

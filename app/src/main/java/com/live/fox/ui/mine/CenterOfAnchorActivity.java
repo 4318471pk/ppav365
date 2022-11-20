@@ -152,8 +152,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         });
 
         mBind.gtvTitleOfRoom.setText(DataCenter.getInstance().getUserInfo().getUser().getNickname());
-        getLineList();
-        getCenterData();
+        getLineList();//线路列表
+        getCenterData();//开播信息
+        getLivingRecord();//开播记录
     }
 
     private void openLive(String liveConfigId) {
@@ -294,5 +295,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 }
             }
         });
+    }
+
+    private void getLivingRecord()
+    {
+
+//        Api_Live.ins().livingRecord()
     }
 }
