@@ -137,7 +137,7 @@ public class ResourceDownloadService extends IntentService {
         }
 
         requestResource();
-        DEFAULT_DOWNLOAD_DIR=getExternalCacheDir().getAbsolutePath();
+        DEFAULT_DOWNLOAD_DIR=getExternalFilesDir("resource").getAbsolutePath();
         Log.e("DEFAULT_DOWNLOAD_DIR",DEFAULT_DOWNLOAD_DIR);
         userLevelFolderPath=new StringBuilder().append(DEFAULT_DOWNLOAD_DIR).append(File.separator)
                 .append("LevelIcon").append(File.separator).toString();

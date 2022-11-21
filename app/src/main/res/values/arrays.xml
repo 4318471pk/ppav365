@@ -173,4 +173,18 @@
         <item>娱乐房</item>
     </string-array>
 
+    <string-array name="dayOfLivingRecord">
+        <item>今日</item>
+        <item>昨日</item>
+        <item>前7天</item>
+        <item>前30天</item>
+    </string-array>
+
+    <string-array name="unitOfLivingRecord">
+        <item></item>
+        <item>钻</item>
+        <item>元</item>
+        <item>分</item>
+    </string-array>
+
 </resources>

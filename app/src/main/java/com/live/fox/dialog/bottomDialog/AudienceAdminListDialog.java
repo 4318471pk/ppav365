@@ -114,6 +114,12 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
         startAnimate(mBind.llContent, true);
     }
 
+    private void getAdminList()
+    {
+
+    }
+
+
     private void addItem(List list) {
         if (list == null || list.size() == 0) {
             mBind.llList.setVisibility(View.GONE);

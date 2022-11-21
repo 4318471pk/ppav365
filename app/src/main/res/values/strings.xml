@@ -182,6 +182,7 @@
     <string name="manager">管理</string>
     <string name="concerned">已关注</string>
     <string name="black">拉黑</string>
+    <string name="cancelBlack2">取消拉黑</string>
     <string name="versionUpdateOptimize">已经有新版本！快更新</string>
     <string name="ignore">忽略</string>
     <string name="upLever">更新</string>
@@ -1526,7 +1527,9 @@
     <string name="remove">移除</string>
     <string name="noMoreData">没有更多了</string>
     <string name="setPersonToAdmin">设置管理员</string>
+    <string name="cancelAdmin">取消管理员</string>
     <string name="muteSendingMessage">禁言</string>
+    <string name="cancelMuteSendingMessage">取消禁言</string>
     <string name="baseFunction">基础功能</string>
     <string name="audienceManage">人员管理</string>
     <string name="setAudienceAdmin">设置管理员</string>
@@ -1547,6 +1550,13 @@
     <string name="switchRoomBySwipe">(上下滑切换房间！)</string>
     <string name="unitPriceMin">/分钟</string>
     <string name="unitPriceShow">/场</string>
+    <string name="livingRecord">开播记录</string>
+    <string name="amountOfAudience">观众人数</string>
+    <string name="amountOfGift">礼物额度</string>
+    <string name="amountOfBet">投注额度</string>
+    <string name="timeOfLiving">开播时长</string>
+    <string name="TheoreticalEarnings">理论收益：</string>
+
 
 
     <string name="tips9" translatable="false">TA好像忘记说些什么了~</string>

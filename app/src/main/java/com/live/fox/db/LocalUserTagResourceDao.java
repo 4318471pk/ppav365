@@ -1,5 +1,7 @@
 package com.live.fox.db;
 
+import android.text.TextUtils;
+
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.UserLevelResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
@@ -7,6 +9,7 @@ import com.live.fox.utils.LogUtils;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.io.File;
 import java.util.List;
 
 import app.resource.db.UserLevelResourceBeanDao;
@@ -15,14 +18,12 @@ import app.resource.db.UserTagResourceBeanDao;
 public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceBean> {
 
     private static LocalUserTagResourceDao localUserTagDao;
-    private boolean isAvailable=true;
+    private boolean isAvailable = true;
     ResourceDataListener resourceDataListener;
 
-    public static LocalUserTagResourceDao getInstance()
-    {
-        if(localUserTagDao==null)
-        {
-            localUserTagDao=new LocalUserTagResourceDao();
+    public static LocalUserTagResourceDao getInstance() {
+        if (localUserTagDao == null) {
+            localUserTagDao = new LocalUserTagResourceDao();
         }
         return localUserTagDao;
     }
@@ -33,48 +34,57 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
 
     @Override
     public void insertOrReplaceList(List<UserTagResourceBean> list) {
-        if(null==list || !isAvailable){
+        if (null == list || !isAvailable) {
             return;
         }
 
-        try{
-            isAvailable=false;
+        try {
+            isAvailable = false;
             CommonApp.getInstance().getDaoSession().runInTx(new Runnable() {
                 @Override
                 public void run() {
-                    Long count=CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().count();
-                    if(count>0)
-                    {
+                    Long count = CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().count();
+                    if (count > 0) {
                         for (int i = 0; i < list.size(); i++) {
-                            UserTagResourceBean newBean=list.get(i);
-                            List<UserTagResourceBean> beans= CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao()
+                            UserTagResourceBean newBean = list.get(i);
+                            List<UserTagResourceBean> beans = CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao()
                                     .queryBuilder().where(UserTagResourceBeanDao.Properties.Id.eq(newBean.getId())).list();
 
-                            if(beans!=null && beans.size()>0)
-                            {
-                                UserTagResourceBean oldBean=beans.get(0);
-                                if(newBean.getUpdateTime()!=null && oldBean.getUpdateTime()!=null && oldBean.getUpdateTime()<newBean.getUpdateTime())
-                                {
+                            if (beans != null && beans.size() > 0) {
+                                UserTagResourceBean oldBean = beans.get(0);
+                                if (newBean.getUpdateTime() != null && oldBean.getUpdateTime() != null && oldBean.getUpdateTime() < newBean.getUpdateTime()) {
                                     //需要更新
                                     list.get(i).setLocalShouldUpdate(1);
+                                } else {
+                                    //检查本地文件 有存在 设置为原来的状态 原来需要更新就更新
+                                    boolean isLocalPathAvailable = true;
+                                    if (TextUtils.isEmpty(oldBean.getLocalMedalUrlPath()) || TextUtils.isEmpty(oldBean.getLocalVipImgPath())) {
+                                        isLocalPathAvailable = false;
+                                    } else {
+                                        File file1 = new File(oldBean.getLocalMedalUrlPath());
+                                        File file2 = new File(oldBean.getLocalVipImgPath());
+                                        if (file1 != null && file1.exists() && file2 != null && file2.exists()) {
+                                            isLocalPathAvailable = true;
+                                        } else {
+                                            isLocalPathAvailable = false;
+                                        }
+                                    }
+
+                                    if (isLocalPathAvailable) {
+                                        list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                        list.get(i).setLocalMedalUrlPath(oldBean.getLocalMedalUrlPath());
+                                        list.get(i).setLocalVipImgPath(oldBean.getLocalVipImgPath());
+                                    } else {
+                                        list.get(i).setLocalShouldUpdate(1);
+                                    }
+
                                 }
-                                else
-                                {
-                                    //设置为原来的状态 原来需要更新就更新
-                                    list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
-                                    list.get(i).setLocalMedalUrlPath(oldBean.getLocalMedalUrlPath());
-                                    list.get(i).setLocalVipImgPath(oldBean.getLocalVipImgPath());
-                                }
-                            }
-                            else
-                            {
+                            } else {
                                 //如果原本的数据没有 等于是新增的
                                 list.get(i).setLocalShouldUpdate(1);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         //本地没有数据 必须更新
                         for (int i = 0; i < list.size(); i++) {
                             list.get(i).setLocalShouldUpdate(1);
@@ -83,26 +93,22 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
 
                     deleteAll();
                     CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().insertOrReplaceInTx(list);
-                    isAvailable=true;
-                    if(resourceDataListener!=null)
-                    {
+                    isAvailable = true;
+                    if (resourceDataListener != null) {
                         resourceDataListener.onDataInsertDone(true);
                     }
                 }
             });
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             LogUtils.e(exception.toString());
-            isAvailable=true;
-            if(resourceDataListener!=null)
-            {
+            isAvailable = true;
+            if (resourceDataListener != null) {
                 resourceDataListener.onDataInsertDone(false);
             }
         }
     }
 
-    public long getCount()
-    {
+    public long getCount() {
         return CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().count();
     }
 
@@ -113,24 +119,26 @@ public class LocalUserTagResourceDao implements ResourceDaoImpl<UserTagResourceB
 
     @Override
     public List<UserTagResourceBean> queryList() {
-        List<UserTagResourceBean> userTagResourceBeans= CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().queryBuilder().list();
+        List<UserTagResourceBean> userTagResourceBeans = CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().queryBuilder().list();
         return userTagResourceBeans;
     }
 
     @Override
     public void updateData(UserTagResourceBean userTagResourceBean) {
-        if(userTagResourceBean==null || userTagResourceBean.getId()==null)
-        {
+        if (userTagResourceBean == null || userTagResourceBean.getId() == null) {
             return;
         }
-      UserTagResourceBeanDao dao=  CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao();
-      dao.update(userTagResourceBean);
+        UserTagResourceBeanDao dao = CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao();
+        dao.update(userTagResourceBean);
     }
 
-    public UserTagResourceBean getLevelTag(int level)
-    {
-        QueryBuilder<UserTagResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().queryBuilder();
-        UserTagResourceBean userTagResourceBean= queryBuilder.where(UserTagResourceBeanDao.Properties.VipLevel.eq(level)).unique();
-        return userTagResourceBean;
+    public UserTagResourceBean getLevelTag(int level) {
+        QueryBuilder<UserTagResourceBean> queryBuilder = CommonApp.getInstance().getDaoSession().getUserTagResourceBeanDao().queryBuilder();
+        List<UserTagResourceBean> userTagResourceBeans = queryBuilder.where(UserTagResourceBeanDao.Properties.VipLevel.eq(level)).list();
+        if(userTagResourceBeans!=null && userTagResourceBeans.size()==1)
+        {
+            return userTagResourceBeans.get(0);
+        }
+        return null;
     }
 }

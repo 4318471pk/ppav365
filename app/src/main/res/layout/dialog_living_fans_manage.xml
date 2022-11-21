@@ -32,8 +32,10 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvSetAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="45dip"
+                    android:onClick="@{click.onClickView}"
                     android:textColor="#0F86FF"
                     android:textSize="16sp"
                     android:gravity="center"
@@ -46,8 +48,10 @@
                     android:background="#F4F1F8"
                     />
                 <TextView
+                    android:id="@+id/tvBlock"
                     android:layout_width="match_parent"
                     android:layout_height="45dip"
+                    android:onClick="@{click.onClickView}"
                     android:textColor="#0F86FF"
                     android:textSize="16sp"
                     android:gravity="center"
@@ -61,8 +65,10 @@
                     />
 
                 <TextView
+                    android:id="@+id/tvMute"
                     android:layout_width="match_parent"
                     android:layout_height="45dip"
+                    android:onClick="@{click.onClickView}"
                     android:textColor="#0F86FF"
                     android:textSize="16sp"
                     android:gravity="center"

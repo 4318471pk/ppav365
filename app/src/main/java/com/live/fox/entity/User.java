@@ -28,10 +28,11 @@ public class User implements Serializable {
     private String city;  //地理位置
     private Long fans;  //粉丝数
     private Long follows;  //关注数
-    private Boolean isReject = false;  //是否拉黑
+    private Boolean isReject = false;  //是否被拉黑
     private Boolean isFollow = false;  //是否关注
     private Boolean isRename = false;  //是否改过名
     private Boolean isFans = false; //是否互为关注
+    private Boolean isBlackChat;//是否被禁言
     private String imToken;
     private Boolean isFirstLogin = false;  //直播间活动充值按钮是否展示
     private Boolean isSignIn = false; //今日是否签到
@@ -59,7 +60,7 @@ public class User implements Serializable {
     private ArrayList<Integer> badgeList;
     String address;
     String province;
-    Boolean isBlackChat;
+
     Integer autoUpdownBalance; //是否自动上下分 1 不自动 2自动
     Boolean come = false;
     Integer hasPayPwd;//是否有支付密码 1就是有
@@ -471,7 +472,7 @@ public class User implements Serializable {
         this.follows = follows;
     }
 
-    public boolean isReject() {
+    public Boolean isReject() {
         return isReject == null ? false : isReject.booleanValue();
     }
 
@@ -625,12 +626,8 @@ public class User implements Serializable {
         this.province = province;
     }
 
-    public boolean isBlackChat() {
-        return isBlackChat;
-    }
-
-    public void setBlackChat(boolean blackChat) {
-        isBlackChat = blackChat;
+    public Boolean isBlackChat() {
+        return isBlackChat==null?false:isBlackChat;
     }
 
     public boolean isNotification() {
@@ -659,7 +656,7 @@ public class User implements Serializable {
 
     //登录是用户是否是超管
     public boolean isSuperManager() {
-        return manage == 1;
+        return manage!=null && manage == 1;
     }
 
     //登录是用户是否是家族长

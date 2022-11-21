@@ -35,7 +35,10 @@ public class TempleDialog2 extends BaseBindingDialogFragment {
                 onCreateDialogListener.clickCancel(this);
             }
         } else if (view  == mBind.gtCommit) {
-            onCreateDialogListener.clickOk(this);
+            if(onCreateDialogListener!=null)
+            {
+                onCreateDialogListener.clickOk(this);
+            }
         }
         else if(view==mBind.ivClose)
         {

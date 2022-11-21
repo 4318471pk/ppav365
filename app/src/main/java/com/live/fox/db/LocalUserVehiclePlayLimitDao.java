@@ -56,9 +56,13 @@ public class LocalUserVehiclePlayLimitDao implements ResourceDaoImpl<UserVehicle
     public UserVehiclePlayLimitBean selectByLiveIDAndUID(String liveId,String uid,int type)
     {
         QueryBuilder<UserVehiclePlayLimitBean> queryBuilder= CommonApp.getInstance().getDaoSession().getUserVehiclePlayLimitBeanDao().queryBuilder();
-        UserVehiclePlayLimitBean userTagResourceBean= queryBuilder.where(UserVehiclePlayLimitBeanDao.Properties.LiveId.eq(liveId)
-                ,UserVehiclePlayLimitBeanDao.Properties.Uid.eq(uid)).unique();
-        return userTagResourceBean;
+        List<UserVehiclePlayLimitBean> userTagResourceBeans= queryBuilder.where(UserVehiclePlayLimitBeanDao.Properties.LiveId.eq(liveId)
+                ,UserVehiclePlayLimitBeanDao.Properties.Uid.eq(uid)).list();
+        if(userTagResourceBeans!=null && userTagResourceBeans.size()==1)
+        {
+            return userTagResourceBeans.get(0);
+        }
+        return null;
     }
 
     public void insert(UserVehiclePlayLimitBean userVehiclePlayLimitBean)

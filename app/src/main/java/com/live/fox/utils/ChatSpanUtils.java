@@ -701,11 +701,11 @@ public class ChatSpanUtils {
     }
 
 
-    public static void appendSexIcon(SpanUtils spanUtils, int sex, Context context) {
+    public static void appendSexIcon(SpanUtils spanUtils, int sex, Context context,int align) {
         int sexResId = sex == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
         if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), align);
         spanUtils.append(" ");
 
     }

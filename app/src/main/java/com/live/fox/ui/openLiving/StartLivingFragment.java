@@ -164,7 +164,8 @@ public class StartLivingFragment extends BaseBindingFragment {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setRoomTypeDialog);
                 break;
             case R.id.rivProfileImage:
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AnchorSelf));
+                LivingProfileBottomDialog livingProfileBottomDialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AnchorSelf,liveId,myUID);
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),livingProfileBottomDialog);
                 break;
             case R.id.gtvOnlineAmount:
                 OnlineNobilityAndUserDialog onlineNobilityAndUserDialog=OnlineNobilityAndUserDialog.getInstance(mBind.gtvOnlineAmount.getText().toString(),liveId,null,null);
@@ -860,7 +861,7 @@ public class StartLivingFragment extends BaseBindingFragment {
         {
             if(!DialogFramentManager.getInstance().isShowLoading(LivingProfileBottomDialog.class.getName()))
             {
-                LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience,uid);
+                LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceInAnchorRoom,liveId,uid,myUID);
                 dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
                     @Override
                     public void onClick(String uid, boolean follow, boolean tagSomeone,String nickName) {
@@ -934,7 +935,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                                         Audience audience= (Audience)adapter.getData().get(position);
                                         if(audience!=null)
                                         {
-                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceInAnchorRoom);
+                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceInAnchorRoom,liveId,audience.getUid()+"",myUID);
                                             dialog.setAudience(audience);
                                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), dialog);
                                         }

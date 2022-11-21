@@ -175,7 +175,7 @@ public class Api_Live extends BaseApi {
     /**
      * 获取移除直播间禁言or黑名单用户 类型 (0禁言用户 1黑名单用户)
      */
-    public void removeLivingBlackOrMuteUser(String liveId,int type,JsonCallback<String> callback) {
+    public void removeLivingBlackOrMuteUser(String liveId,String uid,int type,JsonCallback<String> callback) {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingBlackOrMuteUser);
@@ -183,6 +183,7 @@ public class Api_Live extends BaseApi {
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("type",type);
+        params.put("uid",uid);
 
         callback.setArg(liveId);
         String url = stringBuilder.toString();
@@ -223,6 +224,7 @@ public class Api_Live extends BaseApi {
         params.put("anchorId", anchorId);
         params.put("type", type);
         params.put("isRoomPreview", preview);
+
         if (!StringUtils.isEmpty(password)) params.put("password", password);
         Log.e("interRoom", "params:" + params.toString());
         OkGoHttpUtil.getInstance().doJsonPost(
@@ -234,9 +236,25 @@ public class Api_Live extends BaseApi {
     }
 
     /**
-     * 开播记录
+     * 主播盈利报表
      */
-    public void livingRecord(Long startTime, Long endTime, int page,int pageSize, JsonCallback callback) {
+    public void getAnchorProfitStatement(int type, JsonCallback callback) {
+        StringBuilder sb=new StringBuilder();
+        sb.append(SPManager.getServerDomain()).append(Constant.URL.getAnchorProfitStatement);
+        sb.append("?type=").append(type);
+
+        callback.setArg(type+"");
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                sb.toString(),
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+    /**
+     * 开播记录列表
+     */
+    public void livingRecordList(Long startTime, Long endTime, int page,int pageSize, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.LivingRecord;
         HashMap<String, Object> params = getCommonParams();
         params.put("startTime", startTime);
@@ -626,12 +644,12 @@ public class Api_Live extends BaseApi {
      * 直播间禁言
      * 是否禁言 禁言/解禁
      */
-    public void blackChat(long liveId, long uid, boolean isBlack, JsonCallback callback) {
+    public void blackChat(String liveId, String uid, boolean isMute, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_blackchat_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
         params.put("uid", uid);
-        params.put("isBlack", isBlack);
+        params.put("isBlack", isMute);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -645,7 +663,7 @@ public class Api_Live extends BaseApi {
     /**
      * 直播间拉黑用户
      */
-    public void banuser(long liveId, long uid, JsonCallback callback) {
+    public void banuser(String liveId, String uid, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_BlockUser_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
@@ -770,10 +788,10 @@ public class Api_Live extends BaseApi {
      * 房管添加取消
      * type 1：添加 2：取消
      */
-    public void roomManager(long targetUid, long anchorId, boolean isSetManager, JsonCallback callback) {
+    public void roomManager(String uid, String anchorId, boolean isSetManager, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_roommanager_URL;
         HashMap<String, Object> params = getCommonParams();
-        params.put("uid", targetUid);
+        params.put("uid", uid);
         params.put("anchorId", anchorId);
         params.put("type", isSetManager ? 1 : 2);
 

@@ -1,9 +1,12 @@
 package com.live.fox.db;
 
+import android.text.TextUtils;
+
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.SendGiftResourceBean;
 import com.live.fox.utils.LogUtils;
 
+import java.io.File;
 import java.util.List;
 
 import app.resource.db.SendGiftResourceBeanDao;
@@ -56,10 +59,28 @@ public class LocalSendGiftDao implements ResourceDaoImpl<SendGiftResourceBean> {
                                 }
                                 else
                                 {
-                                    //设置为原来的状态 原来需要更新就更新
-                                    list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
-                                    list.get(i).setLocalSvgPath(oldBean.getLocalSvgPath());
-                                    list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
+                                    //检查本地文件 有存在 设置为原来的状态 原来需要更新就更新
+                                    boolean isLocalPathAvailable = true;
+                                    if (TextUtils.isEmpty(oldBean.getLocalSvgPath()) || TextUtils.isEmpty(oldBean.getLocalImgPath())) {
+                                        isLocalPathAvailable = false;
+                                    } else {
+                                        File file1 = new File(oldBean.getLocalSvgPath());
+                                        File file2 = new File(oldBean.getLocalImgPath());
+                                        if (file1 != null && file1.exists() && file2 != null && file2.exists()) {
+                                            isLocalPathAvailable = true;
+                                        } else {
+                                            isLocalPathAvailable = false;
+                                        }
+                                    }
+
+                                    if (isLocalPathAvailable) {
+                                        list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                        list.get(i).setLocalSvgPath(oldBean.getLocalSvgPath());
+                                        list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
+                                    }
+                                    else {
+                                        list.get(i).setLocalShouldUpdate(1);
+                                    }
                                 }
                             }
                             else

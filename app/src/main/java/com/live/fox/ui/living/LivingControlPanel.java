@@ -351,7 +351,14 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void showProfileBotWindows()
     {
-        LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor);
+        if(fragment.getRoomBean()==null)
+        {
+            return;
+        }
+
+        String liveId=fragment.getRoomBean().getId();
+        String uid=fragment.getRoomBean().getAid();
+        LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor,liveId,uid);
         dialog.setLivingCurrentAnchorBean(fragment.livingCurrentAnchorBean);
         dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
             @Override
@@ -556,10 +563,11 @@ public class LivingControlPanel extends RelativeLayout {
                 if (code == 0 ) {
                     if(result != null )
                     {
-                        if(fragment.isActivityOK() && getArg().equals(fragment.getRoomBean().getId()))
+                        if(fragment.isActivityOK() && fragment.getRoomBean()!=null && getArg().equals(fragment.getRoomBean().getId()))
                         {
                             if(livingTop20OnlineUserAdapter==null)
                             {
+
                                 livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
                                 livingTop20OnlineUserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                     @Override
@@ -567,7 +575,10 @@ public class LivingControlPanel extends RelativeLayout {
                                         Audience audience= (Audience)adapter.getData().get(position);
                                         if(audience!=null)
                                         {
-                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience);
+                                            String liveId=fragment.getRoomBean().getId();
+                                            String uid=fragment.getRoomBean().getAid();
+
+                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience,liveId,uid);
                                             dialog.setAudience(audience);
                                             dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
                                                 @Override

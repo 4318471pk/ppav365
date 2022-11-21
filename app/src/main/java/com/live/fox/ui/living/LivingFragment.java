@@ -384,7 +384,10 @@ public class LivingFragment extends BaseBindingFragment {
         ChatSpanUtils.appendPersonalMessage(spanUtils, pBean, getActivity(), new LivingClickTextSpan.OnClickTextItemListener<PersonalLivingMessageBean>() {
             @Override
             public void onClick(PersonalLivingMessageBean bean) {
-                showBotDialog(bean.getUid());
+                if(getRoomBean()!=null)
+                {
+                    showBotDialog(getRoomBean().getId(),bean.getUid());
+                }
             }
         });
         bean.setCharSequence(spanUtils.create());
@@ -400,8 +403,8 @@ public class LivingFragment extends BaseBindingFragment {
         ChatSpanUtils.appendPersonalSendGiftMessage(spanUtils, livingMessageGiftBean, getActivity(), new LivingClickTextSpan.OnClickTextItemListener<LivingMessageGiftBean>() {
             @Override
             public void onClick(LivingMessageGiftBean bean) {
-                if (bean != null) {
-                    showBotDialog(bean.getUid() + "");
+                if (bean != null && getRoomBean()!=null) {
+                    showBotDialog(getRoomBean().getId(),bean.getUid()+"");
                 }
             }
         });
@@ -628,7 +631,7 @@ public class LivingFragment extends BaseBindingFragment {
         if (isActivityOK()) {
             LivingActivity activity = (LivingActivity) getActivity();
             RoomListBean bean = activity.getRoomListBeans().get(currentPagePosition);
-            Api_Live.ins().interRoom(bean.getId(), bean.getAid(), 0,
+            Api_Live.ins().interRoom(bean.getId(), bean.getAid(),bean.getRoomType(),
                     "", 0, new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
@@ -654,7 +657,10 @@ public class LivingFragment extends BaseBindingFragment {
                             }
                             else
                             {
-                                getAnchorInfo(false);
+                                if(code==3001)
+                                {
+                                    getAnchorInfo(false);
+                                }
                             }
                         }
                     });
@@ -1036,14 +1042,20 @@ public class LivingFragment extends BaseBindingFragment {
                                     break;
                             }
 
-                            checkAndJoinIM(getRoomBean().getId());
+                            boolean shouldConnectIM=true;
                             if(Strings.isDigitOnly(data.getIsPayOver()))
                             {
                                 //0 未付费 1 已经付费
                                 if(Integer.valueOf(data.getIsPayOver())==0 && Strings.isDigitOnly(data.getPrice()))
                                 {
+                                    shouldConnectIM=false;
                                     showChangeRoomTypeDialog(data.getType(),Integer.valueOf(data.getPrice()));
                                 }
+                            }
+
+                            if(shouldConnectIM)
+                            {
+                                checkAndJoinIM(getRoomBean().getId());
                             }
                         }
                         else
@@ -1139,7 +1151,7 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
-    private void showBotDialog(String uid) {
+    private void showBotDialog(String liveId, String uid) {
         if (livingControlPanel != null && !ClickUtil.isClickWithShortTime(uid.hashCode(), 500)) {
             if (livingControlPanel.messageViewWatch.isKeyboardShow() || livingControlPanel.messageViewWatch.isMessagesPanelOpen()) {
                 livingControlPanel.messageViewWatch.hideInputLayout();
@@ -1147,7 +1159,8 @@ public class LivingFragment extends BaseBindingFragment {
                 livingControlPanel.messageViewWatch.setScrollEnable(true);
             } else {
                 if (!DialogFramentManager.getInstance().isShowLoading(LivingProfileBottomDialog.class.getName())) {
-                    LivingProfileBottomDialog dialog = LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience, uid);
+
+                    LivingProfileBottomDialog dialog = LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience,liveId, uid);
                     dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
                         @Override
                         public void onClick(String uid, boolean follow, boolean tagSomeone, String nickName) {

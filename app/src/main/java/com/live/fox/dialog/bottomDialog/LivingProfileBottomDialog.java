@@ -56,22 +56,28 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
     Audience audience;//用户端直播间用户数据
     ButtonClickListener buttonClickListener;
     BotDialogLivingProfileBinding mBind;
-    String uid;
+    String uid,liveId,anchorId;
     String nickName;
+    User currentUser;
     int mode;
 
-    public static LivingProfileBottomDialog getInstance(int mode)
-    {
-        LivingProfileBottomDialog dialog=new LivingProfileBottomDialog();
-        dialog.mode=mode;
-        return dialog;
-    }
-
-    public static LivingProfileBottomDialog getInstance(int mode,String uid)
+    public static LivingProfileBottomDialog getInstance(int mode,String liveId,String uid)
     {
         LivingProfileBottomDialog dialog=new LivingProfileBottomDialog();
         dialog.mode=mode;
         dialog.uid=uid;
+        dialog.liveId=liveId;
+        return dialog;
+    }
+
+    //主播端才会用到 anchorId
+    public static LivingProfileBottomDialog getInstance(int mode,String liveId,String uid,String anchorId)
+    {
+        LivingProfileBottomDialog dialog=new LivingProfileBottomDialog();
+        dialog.mode=mode;
+        dialog.uid=uid;
+        dialog.liveId=liveId;
+        dialog.anchorId=anchorId;
         return dialog;
     }
 
@@ -216,8 +222,19 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                         }
                         break;
                     case AudienceInAnchorRoom:
-                        LivingAudiencesManageDialog livingAudiencesManageDialog=LivingAudiencesManageDialog.getInstance();
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),livingAudiencesManageDialog);
+                        if(!TextUtils.isEmpty(anchorId))
+                        {
+                            LivingAudiencesManageDialog livingAudiencesManageDialog=LivingAudiencesManageDialog.getInstance(liveId,uid,anchorId,currentUser);
+                            livingAudiencesManageDialog.setOperateListener(new LivingAudiencesManageDialog.OnOperateListener() {
+                                @Override
+                                public void operate(int manager, boolean isBlack, boolean isMute) {
+                                    currentUser.setBlackChat(isBlack);
+                                    currentUser.setManage(manager);
+                                    currentUser.setReject(isMute);
+                                }
+                            });
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),livingAudiencesManageDialog);
+                        }
                         break;
                 }
                 break;
@@ -319,10 +336,51 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 mBind.tv2.setText("");
                 mBind.tv2.setEnabled(false);
                 mBind.tv3.setText(getResources().getString(R.string.manager));
+                if(audience!=null)
+                {
+                    GlideUtils.loadCircleImage(getActivity(), audience.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
+                            mBind.rpv.getProfileImage());
+                    mBind.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
+                    StringBuilder sb=new StringBuilder();
+                    sb.append(getStringWithoutContext(R.string.identity_id_3));
+                    sb.append(audience.getUid());
+                    mBind.tvID.setText(sb.toString());
+                    mBind.tvName.setText(audience.getNickname());
+                }
                 break;
             case AnchorSelf:
                 mBind.llBotView.setVisibility(View.INVISIBLE);
                 mBind.tvReport.setVisibility(View.INVISIBLE);
+                User user= DataCenter.getInstance().getUserInfo().getUser();
+                GlideUtils.loadCircleImage(getActivity(), user.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
+                        mBind.rpv.getProfileImage());
+                StringBuilder sb=new StringBuilder();
+                sb.append(getStringWithoutContext(R.string.identity_id_3));
+                sb.append(user.getUid());
+                mBind.tvID.setText(sb.toString());
+                SpanUtils spanUtils=new SpanUtils();
+                spanUtils.append(user.getNickname()).setFontSize(16,true)
+                        .setForegroundColor(0xff404040);
+                ChatSpanUtils.appendSexIcon(spanUtils,user.getSex(),getContext(),SpanUtils.ALIGN_BASELINE);
+                mBind.tvName.setText(spanUtils.create());
+                if(TextUtils.isEmpty(user.getSignature()))
+                {
+                    mBind.tvSignature.setText(getStringWithoutContext(R.string.tips9));
+                }
+                else
+                {
+                    mBind.tvSignature.setText(user.getSignature());
+                }
+                if(user.getFans()!=null)
+                {
+                    mBind.tvFollowNum.setText(user.getFollows()+"");
+                }
+
+                if(user.getFollows()!=null)
+                {
+                    mBind.tvFansnum.setText(user.getFans()+"");
+                }
+
                 break;
         }
 
@@ -358,8 +416,8 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 @Override
                 public void onSuccess(int code, String msg, String userJson) {
                     if (code == 0) {
-                        User user=new Gson().fromJson(userJson,User.class);
-                        if(user!=null)
+                        currentUser=new Gson().fromJson(userJson,User.class);
+                        if(currentUser!=null)
                         {
                             StringBuilder sb=new StringBuilder();
                             sb.append(getStringWithoutContext(R.string.identity_id_3));
@@ -367,58 +425,59 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                             mBind.tvID.setText(sb.toString());
 
                             SpanUtils spanUtils=new SpanUtils();
-                            spanUtils.append(user.getNickname()).setFontSize(16,true)
-                                    .setForegroundColor(0xff404040).setAlign(Layout.Alignment.ALIGN_CENTER);
-                            ChatSpanUtils.appendSexIcon(spanUtils,user.getSex(),getContext());
+                            spanUtils.append(currentUser.getNickname()).setFontSize(16,true)
+                                    .setForegroundColor(0xff404040);
+                            spanUtils.append(" ");
+                            ChatSpanUtils.appendSexIcon(spanUtils,currentUser.getSex(),getContext(),SpanUtils.ALIGN_CENTER);
                             mBind.tvName.setText(spanUtils.create());
-                            nickName=user.getNickname();
+                            nickName=currentUser.getNickname();
 
                             sb.delete(0,sb.length());
-                            if(TextUtils.isEmpty(user.getCity()) && TextUtils.isEmpty(user.getProvince()))
+                            if(TextUtils.isEmpty(currentUser.getCity()) && TextUtils.isEmpty(currentUser.getProvince()))
                             {
                                 mBind.tvLocation.setText(getStringWithoutContext(R.string.mars));
                             }
                             else
                             {
-                                if(!TextUtils.isEmpty(user.getProvince()))
+                                if(!TextUtils.isEmpty(currentUser.getProvince()))
                                 {
-                                   sb.append(user.getProvince());
+                                   sb.append(currentUser.getProvince());
                                 }
-                                if(!TextUtils.isEmpty(user.getCity()))
+                                if(!TextUtils.isEmpty(currentUser.getCity()))
                                 {
-                                    sb.append("-").append(user.getCity());
+                                    sb.append("-").append(currentUser.getCity());
                                 }
                                 mBind.tvLocation.setText(sb.toString());
                             }
 
-                            if(TextUtils.isEmpty(user.getSignature()))
+                            if(TextUtils.isEmpty(currentUser.getSignature()))
                             {
                                 mBind.tvSignature.setText(getStringWithoutContext(R.string.tips9));
                             }
                             else
                             {
-                                mBind.tvSignature.setText(user.getSignature());
+                                mBind.tvSignature.setText(currentUser.getSignature());
                             }
 
-                            if(user.getFans()!=null)
+                            if(currentUser.getFans()!=null)
                             {
-                                mBind.tvFollowNum.setText(user.getFollows()+"");
+                                mBind.tvFollowNum.setText(currentUser.getFollows()+"");
                             }
 
-                            if(user.getFollows()!=null)
+                            if(currentUser.getFollows()!=null)
                             {
-                                mBind.tvFansnum.setText(user.getFans()+"");
+                                mBind.tvFansnum.setText(currentUser.getFans()+"");
                             }
 
                             SpanUtils icons=new SpanUtils();
-                            if(user.getUserLevel()!=null)
+                            if(currentUser.getUserLevel()!=null)
                             {
-                                ChatSpanUtils.appendLevelIcon(icons,user.getUserLevel(),getContext());
+                                ChatSpanUtils.appendLevelIcon(icons,currentUser.getUserLevel(),getContext());
                             }
 
                             mBind.tvSmallLogo.setText(icons.create());
 
-                            GlideUtils.loadCircleImage(getActivity(), user.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
+                            GlideUtils.loadCircleImage(getActivity(), currentUser.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
                                     mBind.rpv.getProfileImage());
 
                         }
