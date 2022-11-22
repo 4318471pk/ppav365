@@ -134,15 +134,15 @@ public class LiveRecordActivity extends BaseHeadActivity {
     }
 
     public void doLiveRecordApi() {
-        Api_Live.ins().liveRecordList(new JsonCallback<LiveRecord>() {
-            @Override
-            public void onSuccess(int code, String msg, LiveRecord data) {
-                if (code == 0) {
-                    refreshPage(data);
-                } else {
-                    ToastUtils.showShort(msg);
-                }
-            }
-        });
+//        Api_Live.ins().liveRecordList(new JsonCallback<LiveRecord>() {
+//            @Override
+//            public void onSuccess(int code, String msg, LiveRecord data) {
+//                if (code == 0) {
+//                    refreshPage(data);
+//                } else {
+//                    ToastUtils.showShort(msg);
+//                }
+//            }
+//        });
     }
 }

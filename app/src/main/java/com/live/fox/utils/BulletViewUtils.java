@@ -70,7 +70,7 @@ public class BulletViewUtils {
                 ,Animation.ABSOLUTE,0
                 ,Animation.ABSOLUTE,0);
 
-        int index=new Random().nextInt(2000);
+        int index=new Random().nextInt(500)+1500;
         animation.setDuration(index);
         animation.setFillAfter(true);
         animation.setInterpolator(new LinearInterpolator());

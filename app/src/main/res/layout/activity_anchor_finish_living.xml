@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.ui.openLiving.AnchorLivingFinishActivity" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#494949"
+        android:orientation="vertical"
+        android:scrollbars="none">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_finish_name"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="120dp"
+                android:text="@string/endLive"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_card_sign"
+                android:layout_marginTop="125dip"
+                android:paddingBottom="15.0dip">
+
+                <LinearLayout
+                    android:id="@+id/layou_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/ivLivingTimeCost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="--:--:--"
+                            android:textColor="@color/white"
+                            android:textSize="21sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8.0dip"
+                            android:text="@string/liveTime"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/ivLivingProfit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="--"
+                            android:textColor="@color/white"
+                            android:textSize="21sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8.0dip"
+                            android:text="@string/liveProfit"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <com.live.fox.view.GradientTextView
+                android:id="@+id/gtvBack"
+                android:layout_width="270dp"
+                android:layout_height="50dp"
+                android:onClick="@{click.onClickView}"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="150dp"
+                android:gravity="center"
+                android:text="@string/goAnchorCenter"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:gt_color_list="@array/contactCardBtn"
+                app:gt_radius_dp="25dip" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

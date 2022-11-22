@@ -35,6 +35,7 @@ import androidx.fragment.app.DialogFragment;
 import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.dialog.LoadingBindingDialogFragment;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -165,12 +166,13 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        DialogFramentManager.getInstance().removeDialog(this);
         if(onDismissListener!=null)
         {
-            onDismissListener.onDismiss();
+            onDismissListener.onDismiss(this);
         }
+        super.onDismiss(dialog);
+        DialogFramentManager.getInstance().removeDialog(this);
+
     }
 
     @Override
@@ -269,6 +271,11 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     public abstract void initView(View view);
 
     public void startAnimate(View view,boolean isOpen){
+        int code=view.hashCode()+Boolean.valueOf(isOpen).hashCode();
+        if(view!=null && ClickUtil.isRequestWithShortTime(code,1000))
+        {
+            return;
+        }
 
         Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
                 Animation.ABSOLUTE,0
@@ -299,6 +306,11 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
     }
 
     public void startAnimate(View view,boolean isOpen,Animation.AnimationListener listener){
+        int code=view.hashCode()+Boolean.valueOf(isOpen).hashCode();
+        if(view!=null && ClickUtil.isRequestWithShortTime(code,1000))
+        {
+            return;
+        }
 
         Animation animation= new TranslateAnimation(Animation.ABSOLUTE,0,
                 Animation.ABSOLUTE,0
@@ -363,6 +375,6 @@ public abstract class BaseBindingDialogFragment extends DialogFragment  {
 
     public interface OnDismissListener
     {
-        void onDismiss();
+        void onDismiss(BaseBindingDialogFragment baseBindingDialogFragment);
     }
 }

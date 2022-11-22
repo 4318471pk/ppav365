@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="click"
+            type="com.live.fox.ui.living.LivingFinishView" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/llFinishLiving"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#bf201228">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:onClick="@{click.onClickView}"
+                android:padding="15dip"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/arrow_left" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/rivImage"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:layout_gravity="center_horizontal"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="-----"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvWatched"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dip"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvFollow"
+                    android:layout_width="110dip"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="11dip"
+                    android:gravity="center"
+                    android:onClick="@{click.onClickView}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="invisible"
+                    app:gt_color_list="@array/contactCardBtn"
+                    app:gt_radius_dp="17.5dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dip"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/onlineAnchorRecommendForYou"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/switchRoomBySwipe"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvChangeList"
+                    android:layout_width="61dip"
+                    android:layout_height="21dp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="15dip"
+                    android:layout_marginRight="10dip"
+                    android:onClick="@{click.onClickView}"
+                    android:text="@string/changeAnother"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:gt_radius_dp="10dp"
+                    app:gt_stroke_width="1dip"
+                    app:gt_stroke_color="@color/white" />
+
+            </RelativeLayout>
+            <GridLayout
+                android:id="@+id/glBotView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dip"
+
+                android:columnCount="2"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

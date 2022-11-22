@@ -564,7 +564,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     public void closeLive(String anchorId, String liveId) {
         LogUtils.e("有未关闭的直播间， 關閉直播間");
-        Api_Live.ins().liveStop(Long.parseLong(anchorId), Integer.parseInt(liveId),
+        Api_Live.ins().liveStop(anchorId, liveId,
                 false, new JsonCallback<String>() {
                     @Override
                     public void onSuccess(int code, String msg, String result) {

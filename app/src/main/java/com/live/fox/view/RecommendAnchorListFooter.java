@@ -1,6 +1,8 @@
 package com.live.fox.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -23,6 +25,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ImageUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -130,11 +133,16 @@ public class RecommendAnchorListFooter extends LinearLayout {
         listBeans.addAll(mListBeans);
 
         int dip2_5=ScreenUtils.getDip2px(getContext(),2.5f);
+        int dip13=ScreenUtils.getDip2px(getContext(),13);
         int defaultDrawable=R.mipmap.icon_anchor_loading;
         gridLayout.removeAllViews();
-        Drawable clock,diamond;
-        clock=getContext().getResources().getDrawable(R.mipmap.icon_clock);
-        diamond=getContext().getResources().getDrawable(R.mipmap.icon_diamond);
+        Bitmap clock,diamond,ticket;
+        ticket= BitmapFactory.decodeResource(getResources(),R.mipmap.icon_ticket);
+        clock= BitmapFactory.decodeResource(getResources(),R.mipmap.icon_clock);
+        diamond=BitmapFactory.decodeResource(getResources(),R.mipmap.icon_diamond);
+        int diamondWidth=ScreenUtils.getDip2px(getContext(),12.5f);
+        int diamondHeight=ScreenUtils.getDip2px(getContext(),9.5f);
+
         int itemWidth= (ScreenUtils.getScreenWidth(getContext())-ScreenUtils.getDip2px(getContext(),15))/2;
         for (int i = 0; i < listBeans.size(); i++) {
             View view=View.inflate(getContext(),R.layout.item_anchor_list,null);
@@ -171,18 +179,42 @@ public class RecommendAnchorListFooter extends LinearLayout {
                 case 1:
                 case 2:
                 case 4:
-                    tvAnchorPaymentType.setVisibility(View.GONE);
-                    gtvUnitPrice.setVisibility(View.GONE);
+                    tvAnchorPaymentType.setVisibility(View.INVISIBLE);
+                    gtvUnitPrice.setVisibility(View.INVISIBLE);
                     break;
                 case 3:
+                    gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getContext(),10));
+                    spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_BASELINE);
+                    spUtils.append(" ").append(data.getRoomPrice()).append(" ");
+
+                    spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
+                    spUtils.append(getContext().getString(R.string.unitPriceMin));
+                    gtvUnitPrice.setText(spUtils.create());
+                    gtvUnitPrice.setVisibility(View.VISIBLE);
+                    gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getContext(),7.5f));
+
                     tvAnchorPaymentType.setVisibility(View.VISIBLE);
                     tvAnchorPaymentType.setText(getContext().getString(R.string.charge_on_time));
-                    gtvUnitPrice.setVisibility(View.VISIBLE);
+                    tvAnchorPaymentType.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getContext(),7.5f));
+
                     break;
                 case 5:
+                    gtvUnitPrice.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getContext(),10));
+
+                    gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getContext(),10));
+                    spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_BASELINE);
+                    spUtils.append(" ").append(data.getRoomPrice()).append(" ");
+
+                    spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
+                    spUtils.append(getContext().getResources().getString(R.string.unitPriceMin));
+                    gtvUnitPrice.setText(spUtils.create());
+                    gtvUnitPrice.setVisibility(View.VISIBLE);
+                    gtvUnitPrice.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getContext(),7.5f));
+
                     tvAnchorPaymentType.setVisibility(View.VISIBLE);
                     tvAnchorPaymentType.setText(getContext().getString(R.string.charge_per_site));
-                    gtvUnitPrice.setVisibility(View.VISIBLE);
+                    tvAnchorPaymentType.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getContext(),7.5f));
+
                     break;
                 default:
                     tvAnchorPaymentType.setVisibility(View.GONE);

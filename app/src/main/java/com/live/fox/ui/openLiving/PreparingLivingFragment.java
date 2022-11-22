@@ -21,9 +21,11 @@ import com.live.fox.dialog.bottomDialog.EditLivingGameTypeDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SetLocationDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.mine.CenterOfAnchorActivity;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -48,10 +50,14 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                 getActivity().finish();
                 break;
             case R.id.gtvStartLiving:
-                OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
-                openLivingActivity.showStartLiving();
+                if(!TextUtils.isEmpty(mBind.tvName.getText().toString()))
+                {
+                    getMainActivity().roomTitle=mBind.tvName.getText().toString();
+                }
+                getMainActivity().showStartLiving();
                 break;
             case R.id.tvLocation:
+                //使用自己的位置不让点击了
 //                SetLocationDialog setLocationDialog= SetLocationDialog.getInstance();
 //                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
                 break;
@@ -76,6 +82,12 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         return null;
     }
 
+    public void setImage(String imageUrl)
+    {
+        GlideUtils.loadDefaultImage(getActivity(), imageUrl,R.mipmap.user_head_error,
+                R.mipmap.user_head_error, mBind.ivRoomPic);
+    }
+
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
@@ -84,6 +96,14 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         int screenWidth= ScreenUtils.getScreenWidth(getContext());
         int screenHeight=ScreenUtils.getScreenHeight(getContext());
         liveId=getMainActivity().liveId;
+        String roomBG=getMainActivity().imageURL;
+        if(!TextUtils.isEmpty(roomBG))
+        {
+            GlideUtils.loadDefaultImage(getActivity(), roomBG,R.mipmap.user_head_error,
+                    R.mipmap.user_head_error, mBind.ivRoomPic);
+        }
+        mBind.tvName.setText(getMainActivity().roomTitle);
+
         view.setVisibility(View.GONE);
         RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mBind.rlContent.getLayoutParams();
         rl.width=(int)(screenWidth*0.8f);
@@ -101,6 +121,30 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         int botMargin=(int)(screenHeight*0.141f);
         rlButtons.bottomMargin=botMargin+ScreenUtils.getDip2px(getContext(),70);
         mBind.llButtons.setLayoutParams(rlButtons);
+
+        User user= DataCenter.getInstance().getUserInfo().getUser();
+        if(!TextUtils.isEmpty(getMainActivity().fixRoomType))
+        {
+            mBind.gtvRoomType.setText(getMainActivity().fixRoomType);
+        }
+
+        if(TextUtils.isEmpty(user.getProvince()) && TextUtils.isEmpty(user.getCity()))
+        {
+            mBind.tvLocation.setText(getStringWithoutContext(R.string.mars));
+        }
+        else
+        {
+            StringBuilder sb=new StringBuilder();
+            if(!TextUtils.isEmpty(user.getProvince()))
+            {
+                sb.append(user.getProvince());
+            }
+            if(!TextUtils.isEmpty(user.getCity()))
+            {
+                sb.append("-").append(user.getCity());
+            }
+            mBind.tvLocation.setText(sb.toString());
+        }
 
         String buttonTitles[]=getResources().getStringArray(R.array.startLivingTitles);
 
@@ -138,6 +182,17 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             break;
                         case 3:
                             ContactCardObtainDialog contactCardObtainDialog=ContactCardObtainDialog.getInstance();
+                            contactCardObtainDialog.setOnContactCardListener(new ContactCardObtainDialog.OnContactCardListener() {
+                                @Override
+                                public void onContactCard(boolean isAvailable, String account, int diamondAmount,int type) {
+                                        if(isAvailable)
+                                        {
+                                            getMainActivity().contactAccount=account;
+                                            getMainActivity().contactCostDiamond=diamondAmount;
+                                            getMainActivity().contactType=type;
+                                        }
+                                }
+                            });
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contactCardObtainDialog);
                             break;
                         case 4:

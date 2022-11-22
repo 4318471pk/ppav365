@@ -1,9 +1,15 @@
 package com.live.fox.dialog.temple;
 
+import android.content.Intent;
 import android.view.View;
 
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.ui.openLiving.AnchorLivingFinishActivity;
 import com.live.fox.ui.openLiving.OpenLivingActivity;
+import com.live.fox.ui.openLiving.StartLivingFragment;
+import com.live.fox.utils.SpanUtils;
 
 public class AnchorExitLivingDialog extends TempleDialog2{
 
@@ -26,8 +32,11 @@ public class AnchorExitLivingDialog extends TempleDialog2{
                 dismissAllowingStateLoss();
                 if(getActivity() instanceof OpenLivingActivity)
                 {
+
                     OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
                     openLivingActivity.onAnchorExitLiving();
+
+                    AnchorLivingFinishActivity.startActivity(openLivingActivity,openLivingActivity.liveId,false);
                 }
                 break;
         }
@@ -41,7 +50,23 @@ public class AnchorExitLivingDialog extends TempleDialog2{
         mBind.tvTitle.setText(getStringWithoutContext(R.string.dialog_words));
         mBind.gtCancel.setText(getStringWithoutContext(R.string.cancel));
         mBind.gtCommit.setText(getStringWithoutContext(R.string.confirm));
-        mBind.tvContent.setText(getStringWithoutContext(R.string.offLivingContent));
+
+
+        if(getParentFragment()!=null && (getParentFragment() instanceof StartLivingFragment))
+        {
+            StartLivingFragment startLivingFragment=(StartLivingFragment)getParentFragment();
+            if(Integer.valueOf(startLivingFragment.getOnlineAudAmount())>0)
+            {
+                SpanUtils spanUtils=new SpanUtils();
+                spanUtils.append(startLivingFragment.mBind.gtvOnlineAmount.getText().toString()).setForegroundColor(0xffF42C2C);
+                spanUtils.append(getStringWithoutContext(R.string.offLivingContent2)).setForegroundColor(0xffffffff);
+                mBind.tvContent.setText(spanUtils.create());
+            }
+            else
+            {
+                mBind.tvContent.setText(getStringWithoutContext(R.string.offLivingContent));
+            }
+        }
     }
 
 }

@@ -84,7 +84,7 @@ public abstract class BaseBindingFragment extends BaseFragment {
 
     public boolean isActivityOK()
     {
-        return getActivity()!=null && !getActivity().isDestroyed() && !getActivity().isFinishing() && getView()!=null;
+        return getActivity()!=null && !getActivity().isDestroyed() && !getActivity().isFinishing() && getView()!=null && isAdded();
     }
     public String getStringWithoutContext(int idRes)
     {

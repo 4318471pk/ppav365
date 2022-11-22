@@ -4,16 +4,17 @@
     android:id="@+id/containerall"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@color/colorF5F1F8"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+
             android:orientation="vertical">
 
             <RelativeLayout
@@ -36,7 +37,7 @@
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="35dp"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/user_head_error"
                     app:drawableEndCompat="@drawable/right_arrow"
@@ -44,23 +45,23 @@
                     app:riv_oval="true" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="15dp"
-                    android:src="@drawable/right_arrow"
-                    android:tint="@color/black" />
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
+
 
             </RelativeLayout>
 
-            <View style="@style/AppTheme.Line" />
 
             <RelativeLayout
                 android:id="@+id/rl_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
                 android:background="@color/white">
 
                 <TextView
@@ -70,7 +71,7 @@
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
                     android:text="@string/nicheng"
-                    android:textColor="@color/gray_text_light"
+                    android:textColor="@color/color404040"
                     android:textSize="16sp" />
 
                 <TextView
@@ -79,64 +80,74 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:drawablePadding="10dp"
-                    android:textColor="@color/black"
+                    android:layout_marginRight="36dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:hint="@string/name_max"
                     android:textSize="14sp"
-                    app:drawableEndCompat="@drawable/right_arrow"
-                    app:drawableTint="@color/black" />
+                    />
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
 
             </RelativeLayout>
 
-            <View style="@style/AppTheme.Line" />
 
             <RelativeLayout
-                android:id="@+id/rl_sex"
+                android:id="@+id/rl_account"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
                 android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:text="@string/sex"
-                    android:textColor="@color/gray_text_light"
+                    android:text="@string/zhanghao"
+                    android:textColor="@color/color404040"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_sex"
+                    android:id="@+id/tv_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="20dp"
                     android:drawablePadding="10dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorB8B2C8"
                     android:textSize="14sp"
-                    app:drawableEndCompat="@drawable/right_arrow"
-                    app:drawableTint="@color/black" />
+                    />
+
 
 
             </RelativeLayout>
 
-            <View style="@style/AppTheme.Line" />
+
+
 
             <RelativeLayout
                 android:id="@+id/rl_qianming"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
                 android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:text="@string/autograph"
-                    android:textColor="@color/gray_text_light"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/qianming"
+                    android:textColor="@color/color404040"
                     android:textSize="16sp" />
 
                 <TextView
@@ -146,19 +157,238 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="36dp"
                     android:drawablePadding="10dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorB8B2C8"
                     android:textSize="14sp"
-                    app:drawableEndCompat="@drawable/right_arrow"
-                    app:drawableTint="@color/black" />
+                    />
+
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
 
             </RelativeLayout>
 
-            <View style="@style/AppTheme.Line" />
+
+            <RelativeLayout
+                android:id="@+id/rl_sex"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/xingbie"
+                    android:textColor="@color/color404040"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="36dp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/shengri"
+                    android:textColor="@color/color404040"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="36dp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_emo"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/ganqing"
+                    android:textColor="@color/color404040"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_emo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="36dp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_home"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/jiaxiang"
+                    android:textColor="@color/color404040"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="36dp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_job"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/zhiye"
+                    android:textColor="@color/color404040"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="36dp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/colorB8B2C8"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_right" />
+
+
+            </RelativeLayout>
+
+
+
+
 
             <LinearLayout
                 android:id="@+id/layout_password"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginTop="10dp"

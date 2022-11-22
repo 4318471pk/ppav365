@@ -177,23 +177,23 @@ public class AudienceListDialog extends DialogFragment {
      * 观众列表
      */
     public void doGetAudienceListApi() {
-        Api_Live.ins().getRoomUserList(liveId+"", new JsonCallback<List<User>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<User> data) {
-                hideLoadingView();
-                refreshLayout.finishRefresh();
-                if (code == 0) {
-                    adapter.setNewData(data);
-                    if (data.size() == 0) {
-                        showEmptyView(getString(R.string.liveNoAudience));
-                    } else {
-                        if (emptyView != null) emptyView.setVisibility(View.GONE);
-                    }
-                } else {
-                    showEmptyView(msg);
-                }
-            }
-        });
+//        Api_Live.ins().getRoomUserList(liveId+"", new JsonCallback<List<User>>() {
+//            @Override
+//            public void onSuccess(int code, String msg, List<User> data) {
+//                hideLoadingView();
+//                refreshLayout.finishRefresh();
+//                if (code == 0) {
+//                    adapter.setNewData(data);
+//                    if (data.size() == 0) {
+//                        showEmptyView(getString(R.string.liveNoAudience));
+//                    } else {
+//                        if (emptyView != null) emptyView.setVisibility(View.GONE);
+//                    }
+//                } else {
+//                    showEmptyView(msg);
+//                }
+//            }
+//        });
     }
 
     View emptyView;

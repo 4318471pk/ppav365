@@ -36,11 +36,12 @@
                 android:orientation="vertical">
 
                 <com.live.fox.view.GradientTextView
+                    android:id="@+id/gtvRoomType"
                     android:layout_width="100dip"
                     android:layout_height="20dip"
                     android:layout_gravity="right"
                     android:gravity="center"
-                    android:text="xxx"
+                    android:text="娱乐房"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:gt_radius_dp="10dip"
@@ -92,6 +93,8 @@
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxLength="8"
+                            android:singleLine="true"
                             android:drawableRight="@mipmap/icon_edit_pencil"
                             android:drawablePadding="5dip"
                             android:text="名字"

@@ -56,6 +56,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
     int topMargin=0;
     OnSelectedGiftListener onSelectedGiftListener;
     String liveId,anchorId;
+    int currentType=0;
 
 
     public static TreasureBoxDialog getInstance(String liveId,String anchorId)
@@ -156,12 +157,18 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                 addBubbleView();
                 break;
             case R.id.tvGive:
+                String selfUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
+                if(selfUid.equals(anchorId))
+                {
+                    ToastUtils.showShort(getStringWithoutContext(R.string.canNotSendGiftToSelf));
+                    return;
+                }
                 if(onSelectedGiftListener!=null)
                 {
-                    if(lists.size()>mBind.viewPager.getCurrentItem() && lists.get(mBind.viewPager.getCurrentItem()).size()>0)
+                    if(lists.get(currentType).size()>0)
                     {
-                        for (int i = 0; i < lists.get(mBind.viewPager.getCurrentItem()).size(); i++) {
-                            TreasureItemBean treasureItemBean=lists.get(mBind.viewPager.getCurrentItem()).get(i);
+                        for (int i = 0; i < lists.get(currentType).size(); i++) {
+                            TreasureItemBean treasureItemBean=lists.get(currentType).get(i);
                             if(treasureItemBean.isSelected())
                             {
                                 onSelectedGiftListener.onSelect(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
@@ -287,6 +294,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                 RelativeLayout relativeLayout = (RelativeLayout) tab.getCustomView();
                 ImageView line = (ImageView) relativeLayout.getChildAt(1);
                 line.setVisibility(View.VISIBLE);
+                currentType=tab.getPosition();
                 setAdapterIndex(tab.getPosition());
             }
 
@@ -302,6 +310,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                 RelativeLayout relativeLayout = (RelativeLayout) tab.getCustomView();
                 ImageView line = (ImageView) relativeLayout.getChildAt(1);
                 line.setVisibility(View.VISIBLE);
+                currentType=tab.getPosition();
             }
         });
 
@@ -402,27 +411,6 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         });
     }
 
-
-    /**
-     * 调用赠送礼物接口
-     */
-    public void doSendGiftApi(String gid, int count) {
-        if(isConditionOk())
-        {
-            mBind.tvGive.setEnabled(false);
-            Api_Live.ins().sendGift(gid, anchorId,
-                    liveId, 1, count, new JsonCallback<String>() {
-                        @Override
-                        public void onSuccess(int code, String msg, String result) {
-                            LogUtils.e("json : " + result);
-                            mBind.tvGive.setEnabled(true);
-                            if (code != 0) {
-                                ToastUtils.showShort(msg);
-                            }
-                        }
-                    });
-        }
-    }
 
     public interface OnSelectedGiftListener
     {

@@ -1,5 +1,7 @@
 package com.live.fox.db;
 
+import android.text.TextUtils;
+
 import com.live.fox.common.CommonApp;
 import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.UserTagResourceBean;
@@ -7,6 +9,7 @@ import com.live.fox.utils.LogUtils;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.io.File;
 import java.util.List;
 
 import app.resource.db.MountResourceBeanDao;
@@ -60,10 +63,28 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
                                 }
                                 else
                                 {
-                                    //设置为原来的状态 原来需要更新就更新
-                                    list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
-                                    list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
-                                    list.get(i).setLocalSvgPath(oldBean.getLocalSvgPath());
+                                    //检查本地文件 有存在 设置为原来的状态 原来需要更新就更新
+                                    boolean isLocalPathAvailable = true;
+                                    if (TextUtils.isEmpty(oldBean.getLocalImgPath()) || TextUtils.isEmpty(oldBean.getLocalSvgPath())) {
+                                        isLocalPathAvailable = false;
+                                    } else {
+                                        File file1 = new File(oldBean.getLocalSvgPath());
+                                        File file2 = new File(oldBean.getLocalImgPath());
+                                        if (file1 != null && file1.exists() && file2 != null && file2.exists()) {
+                                            isLocalPathAvailable = true;
+                                        } else {
+                                            isLocalPathAvailable = false;
+                                        }
+                                    }
+
+                                    if (isLocalPathAvailable) {
+                                        list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                        list.get(i).setLocalSvgPath(oldBean.getLocalSvgPath());
+                                        list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
+                                    }
+                                    else {
+                                        list.get(i).setLocalShouldUpdate(1);
+                                    }
                                 }
                             }
                             else
@@ -114,6 +135,10 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
 
     @Override
     public void updateData(MountResourceBean mountResourceBean) {
+        if(mountResourceBean==null || mountResourceBean.getId()==null)
+        {
+            return;
+        }
        MountResourceBeanDao dao= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao();
        dao.update(mountResourceBean);
     }
@@ -121,7 +146,11 @@ public class LocalMountResourceDao implements ResourceDaoImpl<MountResourceBean>
     public MountResourceBean getVehicleById(long carId)
     {
         QueryBuilder<MountResourceBean> queryBuilder= CommonApp.getInstance().getDaoSession().getMountResourceBeanDao().queryBuilder();
-        MountResourceBean mountResourceBean= queryBuilder.where(MountResourceBeanDao.Properties.Id.eq(carId)).unique();
-        return mountResourceBean;
+        List<MountResourceBean> mountResourceBeans= queryBuilder.where(MountResourceBeanDao.Properties.Id.eq(carId)).list();
+        if(mountResourceBeans!=null && mountResourceBeans.size()==1)
+        {
+            return mountResourceBeans.get(0);
+        }
+        return null;
     }
 }

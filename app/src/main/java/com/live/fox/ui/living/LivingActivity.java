@@ -73,7 +73,6 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     boolean isLoop=false;//开启无限循环上下拉
     List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
     List<LivingGiftBean> vipGiftListData=new ArrayList<>();//特权礼物列表;
-
     List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
@@ -185,6 +184,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
                 if(state==0 && pagerPosition!=mBind.vp2.getCurrentItem())
                 {
+                    livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
                     pagerPosition=mBind.vp2.getCurrentItem();
                     mBind.vp2.setUserInputEnabled(false);
 
@@ -244,9 +244,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
             @Override
             public void onClick(int position, List<RoomListBean> data) {
                 mBind.drawerLayout.closeDrawers();
-                roomListBeans.clear();
-                roomListBeans.addAll(data);
-                setViewPagerAdapter(position);
+                resetRoomList(data,position);
             }
         });
 
@@ -258,6 +256,13 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getVipGiftList();//请求特权礼物
         getAmountListOfGift();//请求获取发送礼物数量列表
         cacheBulletMessageList();//缓存弹幕列表
+    }
+
+    public void resetRoomList(List<RoomListBean> data,int position)
+    {
+        roomListBeans.clear();
+        roomListBeans.addAll(data);
+        setViewPagerAdapter(position);
     }
 
     private void setViewPagerAdapter(int currentPosition)
@@ -327,6 +332,29 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     public int getPagerPosition()
     {
         return mBind.vp2.getCurrentItem();
+    }
+
+    public void goNextRoom()
+    {
+        if(isLoop)
+        {
+            getViewPager().setCurrentItem(getCurrentPosition()+1);
+        }
+        else
+        {
+            if(roomListBeans.size()>getViewPager().getCurrentItem()+1)
+            {
+                getViewPager().setCurrentItem(getCurrentPosition()+1);
+            }
+            else
+            {
+                int position=getViewPager().getCurrentItem();
+                if(position>0)
+                {
+                    getViewPager().setCurrentItem(getCurrentPosition()-1);
+                }
+            }
+        }
     }
 
     @Override
@@ -441,6 +469,11 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(livingFragmentStateAdapter!=null && livingFragmentStateAdapter.getFragment(pagerPosition)!=null)
+        {
+            livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
+            livingFragmentStateAdapter.removeCache(pagerPosition);
+        }
         AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);
     }
 

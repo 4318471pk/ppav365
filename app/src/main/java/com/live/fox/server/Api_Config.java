@@ -96,7 +96,7 @@ public class Api_Config extends BaseApi {
         String url = getBaseServerDomain() + "/live-client/home/channel/list";
         long time=System.currentTimeMillis();
         OkGoHttpUtil.getInstance().doJsonPost(url, url,
-                getCommonHeaders(time),getCommonParamsString(time)).execute(callback);
+                getCommonHeaders(time),getCommonParamsString(time).toString()).execute(callback);
     }
 
     /**

@@ -18,6 +18,7 @@ public class ClickUtil {
 
     private static long lastClickTime2;
     private static HashMap<Integer,Long> clickRecord=new HashMap<>();
+    private static HashMap<Integer,Long> requestRecord=new HashMap<>();
 
 
     public static boolean isClickWithShortTime(int id,long millSecond)
@@ -41,6 +42,29 @@ public class ClickUtil {
         }
         return false;
     }
+
+    public static boolean isRequestWithShortTime(int id,long millSecond)
+    {
+        if(requestRecord.get(id)==null)
+        {
+            requestRecord.put(id,System.currentTimeMillis());
+        }
+        else
+        {
+            long currentTime=System.currentTimeMillis();
+            Log.e("onClickView",id+" "+requestRecord.get(id)+" "+currentTime);
+            if(currentTime-requestRecord.get(id)>millSecond)
+            {
+                requestRecord.put(id,currentTime);
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 快速连续点击 (500毫秒内)
      *

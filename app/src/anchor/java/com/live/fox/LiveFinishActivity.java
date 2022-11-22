@@ -103,7 +103,7 @@ public class LiveFinishActivity extends BaseActivity {
     }
 
     public void doCloseRoomApi() {
-        Api_Live.ins().liveStop(anchor.getAnchorId(), anchor.getLiveId(), isKick, new JsonCallback<LiveClose>() {
+        Api_Live.ins().liveStop(anchor.getAnchorId()+"", anchor.getLiveId()+"", isKick, new JsonCallback<LiveClose>() {
             @Override
             public void onSuccess(int code, String msg, LiveClose data) {
                 if (data != null) LogUtils.e("liveStop result : " + new Gson().toJson(data));

@@ -39,6 +39,11 @@ public class LivingFragmentStateAdapter extends FragmentStateAdapter {
         return sparseArray.get(position).get();
     }
 
+    public void removeCache(int Cache)
+    {
+        sparseArray.remove(Cache);
+    }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {

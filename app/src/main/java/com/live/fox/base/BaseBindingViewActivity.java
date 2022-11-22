@@ -44,6 +44,7 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
         if(isFullScreen())
         {
             BarUtils.setStatusBarVisibility(this, false);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         viewDataBinding=setBindLayoutID(onCreateLayoutId());

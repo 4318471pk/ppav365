@@ -11,7 +11,17 @@ import com.live.fox.utils.SpanUtils;
 
 public class TempleDialog2 extends BaseBindingDialogFragment {
 
-    DialogTempleRoundBtnsBinding mBind;
+    public DialogTempleRoundBtnsBinding mBind;
+    OnCreateDialogListener onCreateDialogListener;
+
+    public static TempleDialog2 getInstance()
+    {
+        return new TempleDialog2();
+    }
+
+    public void setOnCreateDialogListener(OnCreateDialogListener onCreateDialogListener) {
+        this.onCreateDialogListener = onCreateDialogListener;
+    }
 
     @Override
     public void onClickView(View view) {
@@ -19,11 +29,30 @@ public class TempleDialog2 extends BaseBindingDialogFragment {
     }
 
     public void onClick(View view){
-
+        if (view == mBind.gtCancel) {
+            if(onCreateDialogListener!=null)
+            {
+                onCreateDialogListener.clickCancel(this);
+            }
+        } else if (view  == mBind.gtCommit) {
+            if(onCreateDialogListener!=null)
+            {
+                onCreateDialogListener.clickOk(this);
+            }
+        }
+        else if(view==mBind.ivClose)
+        {
+            if(onCreateDialogListener!=null)
+            {
+                onCreateDialogListener.clickClose(this);
+            }
+        }
     }
 
     @Override
     public int onCreateLayoutId() {
+        mIsKeyCanback=false;
+        mIsOutCanback=false;
         return R.layout.dialog_temple_round_btns;
     }
 
@@ -32,7 +61,18 @@ public class TempleDialog2 extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
+        if(onCreateDialogListener!=null)
+        {
+            onCreateDialogListener.onCreate(this);
+        }
+
     }
 
-
+    public interface OnCreateDialogListener
+    {
+        void onCreate(TempleDialog2 dialog);
+        void clickCancel(TempleDialog2 dialog);
+        void clickOk(TempleDialog2 dialog);
+        void clickClose(TempleDialog2 dialog);
+    }
 }

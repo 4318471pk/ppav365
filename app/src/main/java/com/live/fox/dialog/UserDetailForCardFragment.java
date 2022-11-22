@@ -499,7 +499,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
 
     //禁言
     public void dpBlackChatApi() {
-        Api_Live.ins().blackChat(liveId, cardUserInfo.getUid(), !cardUserInfo.isBlackChat(), new JsonCallback<String>() {
+        Api_Live.ins().blackChat(liveId+"", cardUserInfo.getUid()+"", !cardUserInfo.isBlackChat(), new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 LogUtils.e("blackChat result : " + data);
@@ -515,7 +515,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
 
     //踢人
     public void dpBanUserApi() {
-        Api_Live.ins().banuser(liveId, cardUserInfo.getUid(), new JsonCallback<String>() {
+        Api_Live.ins().banuser(liveId+"", cardUserInfo.getUid()+"", new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 LogUtils.e("blackUser result : " + data);
@@ -528,20 +528,6 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
         });
     }
 
-    //踢人
-    public void setBanUserApi() {
-        Api_Live.ins().banuser(liveId, cardUserInfo.getUid(), new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                LogUtils.e("blackUser result : " + data);
-                if (code == 0) {
-                    ToastUtils.showShort(getString(R.string.kickingSuccess));
-                } else {
-                    ToastUtils.showShort(getString(R.string.kickingFail) + msg);
-                }
-            }
-        });
-    }
 
 
     //1封号、2封机
@@ -562,7 +548,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
 
     //设置/取消 房管
     public void doRoomManagerApi(boolean isSetManager) {
-        Api_Live.ins().roomManager(cardUserInfo.getUid(), anchorId, isSetManager, new JsonCallback<String>() {
+        Api_Live.ins().roomManager(cardUserInfo.getUid()+"", anchorId+"", isSetManager, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 LogUtils.e("roomManager result : " + data);

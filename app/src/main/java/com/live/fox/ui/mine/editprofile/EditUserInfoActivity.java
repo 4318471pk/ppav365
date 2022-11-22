@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine;
+package com.live.fox.ui.mine.editprofile;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -38,11 +38,11 @@ import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
-import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginActivity;
 import com.live.fox.ui.login.LoginPageType;
-import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
+import com.live.fox.ui.mine.EditorMarkActivity;
+import com.live.fox.ui.mine.EditorNameActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
@@ -97,7 +97,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
     private void initView() {
         StatusBarUtil.setStatusBarFulAlpha(this);
         BarUtils.setStatusBarLightMode(this, false);
-        setHead(getString(R.string.modifyPersonalMessage), true, true);
+        setHead(getString(R.string.edit_info), true, true);
 
 
 

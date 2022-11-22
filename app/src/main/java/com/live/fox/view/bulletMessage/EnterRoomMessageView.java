@@ -132,11 +132,13 @@ public class EnterRoomMessageView extends RelativeLayout {
                     }
                 }
             }
-
-            if(bean.isRoomManage())
+            else
             {
-                addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag),16f,16f);
-                iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),18f);
+                if(bean.isRoomManage())
+                {
+                    addIcon(getResources().getDrawable(R.mipmap.icon_admin_medium_tag),16f,16f);
+                    iconWidth=iconWidth+ScreenUtils.dp2px(getContext(),18f);
+                }
             }
 
             if(!TextUtils.isEmpty( bean.getNickname()))
@@ -158,7 +160,6 @@ public class EnterRoomMessageView extends RelativeLayout {
                 textView.setSingleLine();
                 textView.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 textView.setText(bean.getNickname());
-                textView.setBackgroundColor(Color.GRAY);
                 llContent.addView(textView);
 
                 TextView enterRoom=new TextView(getContext());
@@ -169,7 +170,6 @@ public class EnterRoomMessageView extends RelativeLayout {
                 enterRoom.setTextColor(0xffFFFFFF);
                 enterRoom.setSingleLine();
                 enterRoom.setText(getResources().getString(R.string.enterRoomTag));
-                enterRoom.setBackgroundColor(Color.GREEN);
                 llContent.addView(enterRoom);
 
             }

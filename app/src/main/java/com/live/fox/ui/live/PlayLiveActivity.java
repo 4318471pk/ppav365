@@ -731,7 +731,7 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
             return;
         }
 
-        Api_Live.ins().changeRoom(currentAnchor.getLiveId(), currentAnchor.getAnchorId(), new JsonCallback<String>() {
+        Api_Live.ins().changeRoom(currentAnchor.getLiveId()+"", currentAnchor.getAnchorId()+"", new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0 || msg.equals("success") || msg.equals("ok")) {
@@ -866,7 +866,7 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         LogUtils.e("调用退房接口");
         if (!StringUtils.isEmpty(currentAnchor.getPullStreamUrl()) && 0 != currentAnchor.getLiveStatus()) {
             //如果PullStreamUrl为空 说明没进房成功 则不调用退房接口
-            Api_Live.ins().outRoom(currentAnchor.getLiveId(), new JsonCallback<String>() {
+            Api_Live.ins().outRoom(currentAnchor.getLiveId()+"", new JsonCallback<String>() {
                 @Override
                 public void onSuccess(int code, String msg, String result) {
 

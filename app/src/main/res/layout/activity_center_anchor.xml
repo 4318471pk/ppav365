@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="click"
             type="com.live.fox.ui.mine.CenterOfAnchorActivity" />
@@ -16,27 +17,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="#CCDEFF"
-            android:orientation="horizontal"
             android:layout_marginBottom="5dip"
-            >
+            android:background="#CCDEFF"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dip"
-                android:src="@mipmap/broadcast"/>
+                android:src="@mipmap/broadcast" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dip"
-                android:singleLine="true"
                 android:ellipsize="marquee"
                 android:gravity="center"
+                android:singleLine="true"
                 android:text="主播相关运营通知，主播相关运营通知主播相关运营通知主播相"
-                android:textSize="13sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -44,20 +44,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
+            android:padding="10dip"
+            app:cardBackgroundColor="#ffffffff"
+            app:cardCornerRadius="10dip"
             app:cardElevation="5dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="false"
-            app:contentPaddingTop="0dip"
-            app:cardBackgroundColor="#ffffffff"
-            app:cardCornerRadius="10dip"
-            android:padding="10dip"
-            >
+            app:contentPaddingTop="0dip">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dip"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dip">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -68,19 +67,18 @@
                         android:layout_width="6dip"
                         android:layout_height="16dip"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_tag_ff1679_ff00f6"
-                        />
+                        android:src="@drawable/icon_tag_ff1679_ff00f6" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:layout_marginLeft="8dip"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dip"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/myLivingRoom"
                         android:textColor="#404040"
-                        android:textSize="15sp"
-                        android:singleLine="true" />
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,33 +91,32 @@
                         android:id="@+id/rlChangeRoomPic"
                         android:layout_width="85dp"
                         android:layout_height="85dp"
-                        android:onClick="@{click.onClickView}"
-                        >
+                        android:onClick="@{click.onClickView}">
 
                         <ImageView
                             android:id="@+id/ivRoomIcon"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@mipmap/icon_anchor_loading"/>
+                            android:src="@mipmap/icon_anchor_loading" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="20dip"
                             android:layout_alignParentBottom="true"
-                            android:gravity="center"
-                            android:textSize="12sp"
-                            android:textColor="@color/white"
                             android:layout_centerInParent="true"
                             android:background="#88000000"
-                            android:text="@string/changeBackground"/>
+                            android:gravity="center"
+                            android:text="@string/changeBackground"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="22.5dip"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="22.5dip"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -133,19 +130,18 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/titleOfRoomTitle"
                                 android:textColor="#665275"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:id="@+id/gtvTitleOfRoom"
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
-                                android:singleLine="true"
-                                android:gravity="center"
                                 android:layout_marginLeft="8.5dip"
-                                android:textColor="#665275"
-                                android:textSize="13sp"
                                 android:background="@drawable/round_5dp_f4f1f8"
-                                />
+                                android:gravity="center"
+                                android:singleLine="true"
+                                android:textColor="#665275"
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -161,22 +157,21 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/typeOfRoomTitle"
                                 android:textColor="#665275"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                             <com.live.fox.view.GradientTextView
                                 android:id="@+id/gtvTypeOfRoom"
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
-                                android:maxLines="1"
-                                android:gravity="center"
                                 android:layout_marginLeft="8.5dip"
+                                android:gravity="center"
+                                android:maxLines="1"
                                 android:textColor="#665275"
                                 android:textSize="13sp"
                                 app:gt_radius_dp="5dip"
                                 app:gt_solidNoGradient="#ffffff"
                                 app:gt_stroke_color="#D2CDE0"
-                                app:gt_stroke_width="1dip"
-                                />
+                                app:gt_stroke_width="1dip" />
 
                         </LinearLayout>
 
@@ -187,8 +182,80 @@
             </LinearLayout>
 
 
-
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:padding="10dip"
+            app:cardBackgroundColor="#ffffffff"
+            app:cardCornerRadius="10dip"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false"
+            app:contentPaddingTop="0dip">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingLeft="10dip">
+
+                    <com.live.fox.view.tab.SimpleTabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="27dip"
+                        app:tl_indicator_color="#EA00FF"
+                        app:tl_indicator_corner_radius="2dp"
+                        app:tl_indicator_height="3dp"
+                        app:tl_indicator_width="30dp"
+                        app:tl_selected_textsize="14sp"
+                        app:tl_tab_padding="5dp"
+                        app:tl_textBold="BOTH"
+                        app:tl_textSelectColor="#404040"
+                        app:tl_textUnselectColor="#404040"
+                        app:tl_textsize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvLivingRecordList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_living_record"
+                        android:drawablePadding="5dip"
+                        android:gravity="center_vertical"
+                        android:text="@string/livingRecord"
+                        android:textColor="#0F86FF"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:layout_marginTop="2.5dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:background="#D2CDE0"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/vpRecord"
+                    android:layout_width="match_parent"
+                    android:layout_height="82dip"
+                    android:layout_margin="10dip"
+                    />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </layout>

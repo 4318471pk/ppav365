@@ -238,7 +238,7 @@
             android:name=".ui.mine.ShopActivity"
             android:screenOrientation="portrait" /> <!-- 修改个人信息 -->
         <activity
-            android:name=".ui.mine.EditUserInfoActivity"
+            android:name=".ui.mine.editprofile.EditUserInfoActivity"
             android:screenOrientation="portrait" /> <!-- 修改名称 -->
         <activity
             android:name=".ui.mine.editprofile.EditProfileImageActivity"
@@ -259,12 +259,20 @@
         <activity
             android:name=".ui.mine.MyFollowActivity"
             android:screenOrientation="portrait" /> <!-- 我的粉丝 -->
+
+        <activity
+            android:name=".ui.mine.LivingRecordListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mine.contribution.ContributionRankActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mine.MyBagAndStoreActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.openLiving.AnchorLivingFinishActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.mine.CenterOfAnchorActivity"
             android:screenOrientation="portrait" />

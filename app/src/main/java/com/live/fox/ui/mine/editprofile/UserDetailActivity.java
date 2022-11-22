@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -15,10 +14,8 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
-import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
-import com.bumptech.glide.Glide;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
@@ -41,11 +38,8 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
-import com.live.fox.ui.mine.EditUserInfoActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
-import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.BarUtils;
-import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
@@ -59,10 +53,6 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
-import com.opensource.svgaplayer.SVGAParser;
-import com.opensource.svgaplayer.SVGAVideoEntity;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -363,8 +353,8 @@ public class UserDetailActivity extends BaseActivity  {
                 ContributionRankActivity.startActivity(this);
                 break;
             case R.id.editProfileImage:
-                //EditUserInfoActivity.startActivity(this, mUser.getPhone());
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
+                EditUserInfoActivity.startActivity(this, mUser.getPhone());
+//                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
                 break;
             case R.id.tvGender:
                // SimpleSelectorDialog ;

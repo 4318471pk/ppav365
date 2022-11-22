@@ -29,15 +29,19 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
     DialogTimePickerBinding mBind;
     String title;
     OnSelectedListener onSelectedListener;
-
-    public static TimePickerDialog getInstance() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog();
-        return timePickerDialog;
-    }
+    Long beginTime,endTime;
 
     public static TimePickerDialog getInstance(String title) {
         TimePickerDialog timePickerDialog = new TimePickerDialog();
         timePickerDialog.title=title;
+        return timePickerDialog;
+    }
+
+    public static TimePickerDialog getInstance(String title,Long beginTime,Long endTime) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog();
+        timePickerDialog.title=title;
+        timePickerDialog.beginTime=beginTime;
+        timePickerDialog.endTime=endTime;
         return timePickerDialog;
     }
 
@@ -73,8 +77,9 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
                 calendar.set(Calendar.YEAR, mTimeWheel.getCurrentYear());
                 calendar.set(Calendar.MONTH, mTimeWheel.getCurrentMonth() - 1);
                 calendar.set(Calendar.DAY_OF_MONTH, mTimeWheel.getCurrentDay());
-                calendar.set(Calendar.HOUR_OF_DAY, mTimeWheel.getCurrentHour());
-                calendar.set(Calendar.MINUTE, mTimeWheel.getCurrentMinute());
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
 
                 mCurrentMillSeconds = calendar.getTimeInMillis();
 
@@ -103,6 +108,8 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
         }
 
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        long time1=beginTime==null?System.currentTimeMillis()-tenYears*4:beginTime;
+        long time2=endTime==null?System.currentTimeMillis():endTime;
         mPickerConfig=  new Builder()
                 .setYearText("")
                 .setMonthText("")
@@ -110,9 +117,9 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
                 .setHourText("")
                 .setMinuteText("")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis()-tenYears*4)
-                .setMaxMillseconds(System.currentTimeMillis())
-                .setCurrentMillseconds(System.currentTimeMillis())
+                .setMinMillseconds(time1)
+                .setMaxMillseconds(time2)
+                .setCurrentMillseconds(time2)
                 .setThemeColor(0xff404040)
                 .setType(Type.YEAR_MONTH_DAY)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))

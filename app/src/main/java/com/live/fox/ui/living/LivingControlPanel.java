@@ -143,6 +143,12 @@ public class LivingControlPanel extends RelativeLayout {
         rlMessages.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         mBind.llMessages.setLayoutParams(rlMessages);
 
+        RelativeLayout.LayoutParams rlER=(RelativeLayout.LayoutParams)mBind.rlEnterRoom.getLayoutParams();
+        rlER.topMargin=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),21);
+        rlER.height=ScreenUtils.getDip2px(fragment.getActivity(),21);
+        rlER.width=ViewGroup.LayoutParams.MATCH_PARENT;
+        mBind.rlEnterRoom.setLayoutParams(rlER);
+
         LinearLayout.LayoutParams llMsgBox=(LinearLayout.LayoutParams) mBind.msgBox.getLayoutParams();
         llMsgBox.leftMargin=ScreenUtils.getDip2px(getActivity(),10);
         llMsgBox.height=rlMessages.height-ScreenUtils.getDip2px(fragment.getActivity(),47);
@@ -319,7 +325,7 @@ public class LivingControlPanel extends RelativeLayout {
                     fragment.getRoomBean().getId(),userList,vipUserList);
             onlineNobilityAndUserDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
                 @Override
-                public void onDismiss() {
+                public void onDismiss(BaseBindingDialogFragment fragment) {
                     mBind.rlBotView.setVisibility(VISIBLE);
                     mBind.llMessages.setVisibility(VISIBLE);
                 }
@@ -345,7 +351,14 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void showProfileBotWindows()
     {
-        LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor);
+        if(fragment.getRoomBean()==null)
+        {
+            return;
+        }
+
+        String liveId=fragment.getRoomBean().getId();
+        String uid=fragment.getRoomBean().getAid();
+        LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.AudienceAnchor,liveId,uid);
         dialog.setLivingCurrentAnchorBean(fragment.livingCurrentAnchorBean);
         dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
             @Override
@@ -394,7 +407,7 @@ public class LivingControlPanel extends RelativeLayout {
                 treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
                 treasureBoxDialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
                     @Override
-                    public void onDismiss() {
+                    public void onDismiss(BaseBindingDialogFragment fragment) {
                         //去掉选中状态
                         if(getActivity().giftListData!=null)
                         {
@@ -427,8 +440,8 @@ public class LivingControlPanel extends RelativeLayout {
     public void setData(RoomListBean roomListBean,LivingActivity activity)
     {
         mBind.tvAnchorName.setText(roomListBean.getTitle());
-        mBind.tvAnchorID.setText("ID:"+roomListBean.getId());
-        refreshAudienceList();
+        mBind.tvAnchorID.setText("ID:"+roomListBean.getAid());
+        refresh20AudienceList();
         doGetAudienceListApi();
         doGetVipAudienceListApi();
         getGuardList();
@@ -538,7 +551,7 @@ public class LivingControlPanel extends RelativeLayout {
      * 刷新观众列表
      * 普通用戶根據用戶經驗排序
      */
-    private void refreshAudienceList() {
+    public void refresh20AudienceList() {
         if(!fragment.isActivityOK() )
         {
             return;
@@ -550,10 +563,11 @@ public class LivingControlPanel extends RelativeLayout {
                 if (code == 0 ) {
                     if(result != null )
                     {
-                        if(fragment.isActivityOK() && getArg().equals(fragment.getRoomBean().getId()))
+                        if(fragment.isActivityOK() && fragment.getRoomBean()!=null && getArg().equals(fragment.getRoomBean().getId()))
                         {
                             if(livingTop20OnlineUserAdapter==null)
                             {
+
                                 livingTop20OnlineUserAdapter=new LivingTop20OnlineUserAdapter(getActivity(),result);
                                 livingTop20OnlineUserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                     @Override
@@ -561,7 +575,10 @@ public class LivingControlPanel extends RelativeLayout {
                                         Audience audience= (Audience)adapter.getData().get(position);
                                         if(audience!=null)
                                         {
-                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience);
+                                            String liveId=fragment.getRoomBean().getId();
+                                            String uid=fragment.getRoomBean().getAid();
+
+                                            LivingProfileBottomDialog dialog=LivingProfileBottomDialog.getInstance(LivingProfileBottomDialog.Audience,liveId,uid);
                                             dialog.setAudience(audience);
                                             dialog.setButtonClickListener(new LivingProfileBottomDialog.ButtonClickListener() {
                                                 @Override
@@ -612,6 +629,9 @@ public class LivingControlPanel extends RelativeLayout {
         {
             return;
         }
+
+        //限制两秒内请求一次
+        if(ClickUtil.isRequestWithShortTime("doGetAudienceListApi".hashCode(),2000));
 
         Api_Live.ins().getRoomUserList(fragment.getRoomBean().getId(), new JsonCallback<List<User>>() {
             @Override

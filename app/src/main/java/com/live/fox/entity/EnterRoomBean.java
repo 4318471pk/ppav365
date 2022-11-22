@@ -12,6 +12,7 @@ public class EnterRoomBean {
     private int isRoomPreview;
     private int isReal;
     private boolean roomManager;
+    private long previewTime;
 
     public int getIsReal() {
         return isReal;
@@ -91,5 +92,13 @@ public class EnterRoomBean {
 
     public void setRoomManager(boolean roomManager) {
         this.roomManager = roomManager;
+    }
+
+    public long getPreviewTime() {
+        return previewTime;
+    }
+
+    public void setPreviewTime(long previewTime) {
+        this.previewTime = previewTime;
     }
 }

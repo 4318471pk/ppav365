@@ -49,6 +49,10 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
         defaultDrawable=R.mipmap.icon_anchor_loading;
     }
 
+    public List<RoomListBean> getData() {
+        return data;
+    }
+
     public void setNewData(List<RoomListBean> data)
     {
         this.data=data;
