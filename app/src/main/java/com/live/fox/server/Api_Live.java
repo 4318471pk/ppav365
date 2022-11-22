@@ -260,6 +260,7 @@ public class Api_Live extends BaseApi {
         params.put("startTime", startTime);
         params.put("endTime", endTime);
         params.put("page", page);
+        params.put("pageNum",pageSize);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -520,23 +521,6 @@ public class Api_Live extends BaseApi {
                 new Gson().toJson(params))
                 .execute(callback);
     }
-
-
-    /**
-     * 开播记录列表
-     */
-    public void liveRecordList(JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.Live_recordlist_URL;
-        HashMap<String, Object> params = getCommonParams();
-
-        OkGoHttpUtil.getInstance().doJsonPost(
-                "",
-                url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
-    }
-
 
     /**
      * 主播开播

@@ -224,8 +224,10 @@
                         app:tl_textsize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvLivingRecordList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{click.onClickView}"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:drawableLeft="@mipmap/icon_living_record"

@@ -115,6 +115,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 EditProfileImageDialog dialog = EditProfileImageDialog.getInstance();
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(), dialog);
                 break;
+            case R.id.tvLivingRecordList:
+                startActivity(new Intent(this,LivingRecordListActivity.class));
+                break;
         }
     }
 

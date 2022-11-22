@@ -249,7 +249,6 @@ public class LivingFinishView extends RelativeLayout {
         int diamondWidth=ScreenUtils.getDip2px(getMainActivity(),12.5f);
         int diamondHeight=ScreenUtils.getDip2px(getMainActivity(),9.5f);
 
-
         if(listBeans!=null && listBeans.size()>0)
         {
             for (int i = 0; i < 4; i++) {
@@ -279,7 +278,6 @@ public class LivingFinishView extends RelativeLayout {
 
                 SpanUtils spUtils=new SpanUtils();
 
-
                 tvNum.setText(data.getLiveSum()+"");
 
                 //1普通房间2密码房间3计时房间4贵族房间5计场房间
@@ -299,26 +297,31 @@ public class LivingFinishView extends RelativeLayout {
                         spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
                         spUtils.append(livingFragment.getStringWithoutContext(R.string.unitPriceMin));
                         gtvUnitPrice.setText(spUtils.create());
+                        gtvUnitPrice.setVisibility(View.VISIBLE);
+                        gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),7.5f));
 
                         tvAnchorPaymentType.setVisibility(View.VISIBLE);
                         tvAnchorPaymentType.setText(getContext().getString(R.string.charge_on_time));
-                        gtvUnitPrice.setVisibility(View.VISIBLE);
+                        tvAnchorPaymentType.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),7.5f));
+
                         break;
                     case 5:
                         gtvUnitPrice.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getMainActivity(),10));
 
                         gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),10));
-                        spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_BASELINE);
+                        spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_BASELINE);
                         spUtils.append(" ").append(data.getRoomPrice()).append(" ");
-
 
                         spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
                         spUtils.append(livingFragment.getStringWithoutContext(R.string.unitPriceMin));
                         gtvUnitPrice.setText(spUtils.create());
+                        gtvUnitPrice.setVisibility(View.VISIBLE);
+                        gtvUnitPrice.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getMainActivity(),7.5f));
 
                         tvAnchorPaymentType.setVisibility(View.VISIBLE);
                         tvAnchorPaymentType.setText(getContext().getString(R.string.charge_per_site));
-                        gtvUnitPrice.setVisibility(View.VISIBLE);
+                        tvAnchorPaymentType.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getMainActivity(),7.5f));
+
                         break;
                     default:
                         tvAnchorPaymentType.setVisibility(View.GONE);

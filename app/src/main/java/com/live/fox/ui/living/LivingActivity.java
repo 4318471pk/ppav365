@@ -472,6 +472,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         if(livingFragmentStateAdapter!=null && livingFragmentStateAdapter.getFragment(pagerPosition)!=null)
         {
             livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
+            livingFragmentStateAdapter.removeCache(pagerPosition);
         }
         AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);
     }

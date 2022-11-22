@@ -192,6 +192,25 @@ public final class TimeUtils {
         return todayStartTime;
     }
 
+    //获取今天23:59:59的时间
+    public static Date getTodaEndTime() {
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,23);
+        calendar.set(Calendar.MINUTE,59);
+        calendar.set(Calendar.SECOND,59);
+        return calendar.getTime();
+    }
+
+    //获取天00:00:00的时间
+    public static Date getYesterdayBeginTime() {
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.DATE,calendar.get(Calendar.DATE)-1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        return calendar.getTime();
+    }
+
 
     //获取明天00:00:00的时间
     public static long getTomorrowStartTime() {

@@ -1556,7 +1556,15 @@
     <string name="amountOfBet">投注额度</string>
     <string name="timeOfLiving">开播时长</string>
     <string name="TheoreticalEarnings">理论收益：</string>
+    <string name="TheoreticalEarnings2">理论收益</string>
+    <string name="perShow">场次</string>
+    <string name="nameOfAnchor">主播名</string>
+    <string name="salaryStatus">状态</string>
 
+    <string name="finishPayment">已结</string>
+    <string name="notYetFinishPayment">未结</string>
+    <string name="untilStr">至</string>
+    <string name="plzSelectedDate">请选择日期</string>
 
 
     <string name="tips9" translatable="false">TA好像忘记说些什么了~</string>
@@ -1567,6 +1575,8 @@
     <string name="diamondPerMin">按时直播%1$s钻/分钟</string>
     <string name="diamondPerShow">按场直播%1$s钻/场</string>
     <string name="hasWatched">人看过</string>
+    <string name="statusWithSpace">状&#12288;态</string>
+    <string name="timeWithSpace">时&#12288;间</string>
 
     <string name="tip10">落后%1$s火力</string>
     <string name="tip11">上周贡献&#32;%1$s&#32;火力</string>
