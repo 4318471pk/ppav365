@@ -86,6 +86,7 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
             default:
                 tvAnchorPaymentType.setVisibility(View.GONE);
                 gtvUnitPrice.setVisibility(View.GONE);
+                break;
         }
 
         SpanUtils spUtils=new SpanUtils();

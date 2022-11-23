@@ -323,6 +323,7 @@ public class RecommendListFragment extends BaseBindingFragment {
     public void initGongGao() {
         mBind.rlBroadcast.setVisibility(View.VISIBLE);
         String content = SPUtils.getInstance("ad_gonggao").getString("content", "");
+
         if (StringUtils.isEmpty(content)) {
             mBind.rlBroadcast.setVisibility(View.GONE);
         } else {

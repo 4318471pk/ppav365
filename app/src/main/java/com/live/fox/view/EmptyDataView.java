@@ -44,7 +44,11 @@ public class EmptyDataView extends RelativeLayout {
     public EmptyDataView setTvEmpty(String s)
     {
         TextView textView=view.findViewById(R.id.tv_empty);
-        textView.setText(s);
+
+        if(textView!=null){
+            textView.setText(s);
+        }
+
         return this;
     }
 

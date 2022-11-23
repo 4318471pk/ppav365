@@ -1,5 +1,6 @@
 package com.live.fox.ui.home;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -38,14 +39,23 @@ public class NearByPeopleFragment extends BaseBindingFragment {
                 if(mBind.llDropDownDialog.getVisibility()==View.VISIBLE)
                 {
                     mBind.llDropDownDialog.setVisibility(View.GONE);
+                    Drawable drawable=getResources().getDrawable(R.drawable.arrow_down);
+                    drawable.setBounds(0,0,55,55);
+                    mBind.gtvSelector.setCompoundDrawables(null,null,drawable,null);
                 }
                 else if(mBind.llDropDownDialog.getVisibility()==View.GONE)
                 {
                     mBind.llDropDownDialog.setVisibility(View.VISIBLE);
+                    Drawable drawable=getResources().getDrawable(R.drawable.arrow_up);
+                    drawable.setBounds(0,0,55,55);
+                    mBind.gtvSelector.setCompoundDrawables(null,null,drawable,null);
                 }
                 break;
             case R.id.llDropDownDialog:
                 mBind.llDropDownDialog.setVisibility(View.GONE);
+                Drawable drawable=getResources().getDrawable(R.drawable.arrow_down);
+                drawable.setBounds(0,0,55,55);
+                mBind.gtvSelector.setCompoundDrawables(null,null,drawable,null);
                 break;
         }
     }
