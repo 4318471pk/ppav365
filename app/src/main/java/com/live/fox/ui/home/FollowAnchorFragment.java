@@ -103,6 +103,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         adapter.setFooterView(recommendAnchorListFooter);
         mBind.rvMain.setAdapter(adapter);
         emptyDataView=new EmptyDataView(getActivity());
+        emptyDataView.setTvEmpty("您还没有关注的主播哟～");
         adapter.addHeaderView(emptyDataView);
 
         setEmptyData(true);

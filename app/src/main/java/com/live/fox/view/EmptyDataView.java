@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -38,6 +39,15 @@ public class EmptyDataView extends RelativeLayout {
         addView(view, ScreenUtils.getScreenWidth(getContext()),ViewGroup.LayoutParams.WRAP_CONTENT);
 
     }
+
+
+    public EmptyDataView setTvEmpty(String s)
+    {
+        TextView textView=view.findViewById(R.id.tv_empty);
+        textView.setText(s);
+        return this;
+    }
+
 
     public EmptyDataView setHeight(int height)
     {
