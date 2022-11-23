@@ -254,13 +254,17 @@ public class Api_Live extends BaseApi {
     /**
      * 开播记录列表
      */
-    public void livingRecordList(Long startTime, Long endTime, int page,int pageSize, JsonCallback callback) {
+    public void livingRecordList(Long startTime, Long endTime, int page,int pageSize, int status,JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.LivingRecord;
         HashMap<String, Object> params = getCommonParams();
         params.put("startTime", startTime);
         params.put("endTime", endTime);
-        params.put("page", page);
-        params.put("pageNum",pageSize);
+        params.put("pageNum", page);
+        params.put("pageSize",pageSize);
+        if(status==0 || status==1)
+        {
+            params.put("status",status);
+        }
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -384,7 +388,7 @@ public class Api_Live extends BaseApi {
     /**
      *  主播开播
      * */
-    public void getAnchorAuth(HashMap<String, Object> params,
+    public void starLiving(HashMap<String, Object> params,
                               JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
         HashMap<String, Object> args = getCommonParams();

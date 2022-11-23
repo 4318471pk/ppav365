@@ -110,11 +110,11 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
 
                         break;
                     case R.id.tvAudienceManage:
-                        AudienceManagerDialog audienceManagerDialog=AudienceManagerDialog.getInstance();
+                        AudienceManagerDialog audienceManagerDialog=AudienceManagerDialog.getInstance(liveId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),audienceManagerDialog);
                         break;
                     case R.id.tvLivingSetting:
-                        AnchorLivingSettingDialog anchorLivingSettingDialog=AnchorLivingSettingDialog.getInstance();
+                        AnchorLivingSettingDialog anchorLivingSettingDialog=AnchorLivingSettingDialog.getInstance(liveId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),anchorLivingSettingDialog);
                         break;
                 }

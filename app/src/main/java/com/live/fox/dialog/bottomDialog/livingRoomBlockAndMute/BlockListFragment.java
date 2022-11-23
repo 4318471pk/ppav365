@@ -1,5 +1,6 @@
 package com.live.fox.dialog.bottomDialog.livingRoomBlockAndMute;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,7 +10,9 @@ import com.live.fox.R;
 import com.live.fox.adapter.BlockOrMuteListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentBlockListBinding;
+import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 
@@ -19,6 +22,14 @@ import java.util.List;
 public class BlockListFragment extends BaseBindingFragment {
 
     FragmentBlockListBinding mBind;
+    String liveId;
+
+    public static BlockListFragment getInstance(String liveId)
+    {
+        BlockListFragment blockListFragment=new BlockListFragment();
+        blockListFragment.liveId=liveId;
+        return blockListFragment;
+    }
 
     @Override
     public void onClickView(View view) {
@@ -45,5 +56,16 @@ public class BlockListFragment extends BaseBindingFragment {
         mBind.rvMain.setLayoutManager(linearLayoutManager);
         mBind.rvMain.addItemDecoration(new RecyclerSpace(ScreenUtils.dp2px(getActivity(),5)));
         mBind.rvMain.setAdapter(new BlockOrMuteListAdapter(getActivity(),strings));
+        getBlockList();
+    }
+
+    private void getBlockList()
+    {
+        Api_Live.ins().getLivingBlackList(liveId, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("getBlockList",data);
+            }
+        });
     }
 }

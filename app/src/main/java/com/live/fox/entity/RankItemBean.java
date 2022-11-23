@@ -18,7 +18,7 @@ public class RankItemBean {
     private int uid;
     private int rankValue;
     private String rankHidden;
-    private int userLevel;
+    private Integer userLevel;
     private String vipName;
     private boolean isFollow;
 
@@ -150,11 +150,11 @@ public class RankItemBean {
         this.rankHidden = rankHidden;
     }
 
-    public int getUserLevel() {
+    public Integer getUserLevel() {
         return userLevel;
     }
 
-    public void setUserLevel(int userLevel) {
+    public void setUserLevel(Integer userLevel) {
         this.userLevel = userLevel;
     }
 

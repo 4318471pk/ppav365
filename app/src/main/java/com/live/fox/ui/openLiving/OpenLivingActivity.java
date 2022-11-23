@@ -39,6 +39,7 @@ import com.live.fox.dialog.TipDialog;
 import com.live.fox.dialog.temple.LivingInterruptDialog;
 import com.live.fox.dialog.temple.TempleDialog2;
 import com.live.fox.entity.LivingGiftBean;
+import com.live.fox.entity.LotteryCategoryOfBeforeLiving;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
@@ -100,6 +101,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     String contactAccount=null;//主播联系方式的号码
     int contactCostDiamond=0;//主播联系方式的号码需要的钻石
     int contactType=-1;//主播联系方式  微信 qq 电话
+    LotteryCategoryOfBeforeLiving lotteryCategoryOfBeforeLiving;
     //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
 

@@ -417,10 +417,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 CenterOfAnchorActivity.startActivity(requireActivity());
                 break;
             case R.id.llLinkedPhone:
-                if(TextUtils.isEmpty(DataCenter.getInstance().getUserInfo().getUser().getPhone()))
-                {
-                    this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
-                }
+                this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
                // this.startActivityForResult(new Intent(getContext(),PhoneBindingActivity.class), ConstantValue.REQUEST_CODE1);
                 break;
 //            case R.id.layoutAchorPic:
@@ -434,8 +431,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 setServicePop();
                 break;
             case R.id.llGame:
-                LotteryDialog lotteryDialog = new LotteryDialog();
-                DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), lotteryDialog);
                 break;
         }
     }

@@ -138,7 +138,7 @@ public class Constant {
         public static final String UPLOAD_BG_LIVING_ROOM = "/config-client/file/uploadFileCover";//oss上传直播间封面；
 
         public static final String NOTICE_URL = "/config-client/notice/systemNoticesByType";
-        public static final String ACT_URL = "/pk-client/activity/activityListByCategory";
+        public static final String ACT_URL = "/activity-client/activity/activityListByCategory";
         public static final String GurardOpen="/pk-client/guard/buyOrRenewalGuard";//购买、续费守护
         public static final String GurardAvailableList="/pk-client/guard/list";//查询可购买守护列表
         public static final String queryGuardListByAnchor="/pk-client/guard/liveGuardListByAid";//根据主播id查询守护列表、守护总人数
@@ -261,7 +261,7 @@ public class Constant {
         * 直播间游戏接口
         * */
         public static final String GameModuleGames ="/config-client/game/gameModuleGames"; //获取列表游戏
-
+        public static final String liveBeforeGames ="/config-client/game/liveBeforeGames"; //查询开播前游戏列表
         public static final String LiveRoomGames = "/config-client/game/liveRoomGames"; //直播间游戏列表
 
         /**

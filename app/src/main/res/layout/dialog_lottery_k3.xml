@@ -3,194 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="click"
-            type="com.live.fox.ui.lottery.TouzhuDialog" />
+            type="com.live.fox.ui.lottery.catetory.LotteryK3Dialog" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <View
-            android:id="@+id/rlMain"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="@{click.onClickView}" />
-
+        android:onClick="@{click.onClickView}"
+        >
 
         <com.flyco.roundview.RoundLinearLayout
-            android:id="@+id/rllMain"
+            android:id="@+id/llContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
             app:rv_backgroundColor="@color/color5B5260"
             app:rv_cornerRadius_TL="20dip"
-            app:rv_cornerRadius_TR="20dip">
+            app:rv_cornerRadius_TR="20dip"
+            android:onClick="@{click.onClickView}"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/layoutKj"
+                android:id="@+id/llRecordMore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <ImageView
-                    android:id="@+id/ivBack"
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:onClick="@{click.onClickView}"
-                    android:src="@mipmap/back" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@mipmap/ic_launcher"
-                        app:riv_oval="true" />
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/qi_end"
-                            android:textColor="@color/white"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/tvTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="00:55"
-                            android:textColor="@color/white"
-                            android:textSize="13sp" />
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="28dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tvTz"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/bg_lottery_record"
-                            android:gravity="center"
-                            android:onClick="@{click.onClickView}"
-                            android:paddingStart="13dp"
-                            android:paddingEnd="13dp"
-                            android:text="@string/betting_history"
-                            android:textColor="@color/white"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:id="@+id/tvKj"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/bg_lottery_record"
-                            android:gravity="center"
-                            android:onClick="@{click.onClickView}"
-                            android:paddingStart="13dp"
-                            android:paddingEnd="13dp"
-                            android:text="@string/prize_opening_history"
-                            android:textColor="@color/white"
-                            android:textSize="11sp" />
-
-                        <com.flyco.roundview.RoundTextView
-                            android:id="@+id/tvWen"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:gravity="center"
-                            android:onClick="@{click.onClickView}"
-                            android:text="@string/symbolQuestionMark"
-                            android:textColor="@color/white"
-                            app:rv_cornerRadius="14dp"
-                            app:rv_strokeColor="@color/white"
-                            app:rv_strokeWidth="1dp" />
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center_vertical"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="end"
-                            android:orientation="vertical">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rcKjIv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rcKjTv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3.5dp" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="10dip"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5.5dp"
-                            android:text="@string/lastLotteryResultTitle"
-                            android:textSize="10sp"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/layoutTzRecord"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -253,7 +93,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvTz2"
+                            android:id="@+id/tvBetHistory"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_lottery_record"
@@ -266,7 +106,7 @@
                             android:textSize="11sp" />
 
                         <TextView
-                            android:id="@+id/tvKj2"
+                            android:id="@+id/tvLotteryResultHistory"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="10dp"
@@ -280,7 +120,7 @@
                             android:textSize="11sp" />
 
                         <TextView
-                            android:id="@+id/tvMoreKj"
+                            android:id="@+id/tvMoreHistory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -306,7 +146,7 @@
                             android:text="@string/more_kj"
                             android:textColor="@color/white"
                             android:textSize="11sp"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
 
                         <ImageView
                             android:id="@+id/ivWen"
@@ -599,16 +439,173 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llRecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:onClick="@{click.onClickView}"
+                    android:src="@mipmap/back" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:riv_oval="true" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/qi_end"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="00:55"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvTz"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_lottery_record"
+                            android:gravity="center"
+                            android:onClick="@{click.onClickView}"
+                            android:paddingStart="13dp"
+                            android:paddingEnd="13dp"
+                            android:text="@string/betting_history"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvKj"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/bg_lottery_record"
+                            android:gravity="center"
+                            android:onClick="@{click.onClickView}"
+                            android:paddingStart="13dp"
+                            android:paddingEnd="13dp"
+                            android:text="@string/prize_opening_history"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <com.flyco.roundview.RoundTextView
+                            android:id="@+id/tvWen"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:onClick="@{click.onClickView}"
+                            android:text="@string/symbolQuestionMark"
+                            android:textColor="@color/white"
+                            app:rv_cornerRadius="14dp"
+                            app:rv_strokeColor="@color/white"
+                            app:rv_strokeWidth="1dp" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="end"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/rcKjIv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/rcKjTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="3.5dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="10dip"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5.5dp"
+                            android:text="@string/lastLotteryResultTitle"
+                            android:textSize="10sp"
+                            android:textColor="#66ffffff"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
 
             <LinearLayout
-                android:id="@+id/layoutCz"
+                android:id="@+id/layoutBotView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcTzType"
+                    android:id="@+id/rvTabs"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="3dp"
@@ -616,7 +613,7 @@
 
 
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/vp"
+                    android:id="@+id/vpContent"
                     android:layout_width="match_parent"
                     android:layout_height="186dp" />
 
@@ -732,8 +729,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
         </com.flyco.roundview.RoundLinearLayout>
-    </LinearLayout>
-
+    </RelativeLayout>
 </layout>

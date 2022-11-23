@@ -1,6 +1,7 @@
 package com.live.fox.adapter;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
+import com.live.fox.entity.LivingRecordListBean;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.TimeUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,16 +28,28 @@ public class LivingRecordListAdapter  extends RecyclerView.Adapter<LivingRecordL
 
     Context context;
     LayoutInflater layoutInflater;
-    List data;
+    List<LivingRecordListBean> data;
     int screenWidth;
     int dip20;
 
-    public LivingRecordListAdapter(Context context,List data) {
+    public LivingRecordListAdapter(Context context,List<LivingRecordListBean> data) {
         this.context=context;
         this.data=data;
         screenWidth= ScreenUtils.getScreenWidth(context);
         dip20=ScreenUtils.dp2px(context,20);
         layoutInflater=LayoutInflater.from(context);
+    }
+
+    public void setNewData(List<LivingRecordListBean> data)
+    {
+        this.data=data;
+        notifyDataSetChanged();
+    }
+
+    public void clear()
+    {
+        this.data.clear();
+        notifyDataSetChanged();
     }
 
 
@@ -58,12 +73,36 @@ public class LivingRecordListAdapter  extends RecyclerView.Adapter<LivingRecordL
             holder.tvAdvantage.setText(spanUtils.create());
             holder.tvStatus.setText(context.getString(R.string.salaryStatus));
             holder.itemView.setBackgroundColor(0xffffffff);
+            holder.tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            holder.tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            holder.tvAdvantage.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            holder.tvStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
         }
         else
         {
             if(position-1>-1 && position-1<data.size())
             {
+                LivingRecordListBean bean=data.get(position-1);
                 holder.itemView.setBackgroundColor(position%2==0?0xffffffff:0xffFAFAFA);
+                holder.tvName.setText(bean.getNickname());
+                holder.tvTime.setText(TimeUtils.long2StringLivingRecord(bean.getStartTime(),bean.getEndTime()));
+                holder.tvAdvantage.setText(bean.getProfit());
+                holder.tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+                holder.tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+                holder.tvAdvantage.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+                holder.tvStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
+                switch (bean.getStatus())
+                {
+                    case 0:
+                        holder.tvStatus.setText(R.string.finishPayment);
+                        holder.tvStatus.setTextColor(0xff1FC478);
+                        break;
+                    case 1:
+                        holder.tvStatus.setText(R.string.notYetFinishPayment);
+                        holder.tvStatus.setTextColor(0xffFF008A);
+                        break;
+                }
+
             }
         }
     }

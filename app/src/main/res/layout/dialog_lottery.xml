@@ -34,31 +34,42 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:orientation="vertical">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="50dip"
+            android:layout_marginLeft="10dip"
+            >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcLotteryName"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
-            
             <ImageView
                 android:id="@+id/ivGame"
                 android:onClick="@{click.onClickView}"
-                android:layout_width="31dp"
-                android:layout_height="26dp"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
                 android:padding="3dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginRight="15dp"
                 android:src="@mipmap/gamecenter"/>
 
+            <com.live.fox.view.tab.SimpleTabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="33dip"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/ivGame"
+                app:tl_indicator_color="@color/white"
+                app:tl_indicator_corner_radius="2.5dp"
+                app:tl_indicator_height="5dp"
+                app:tl_indicator_width="20dp"
+                app:tl_selected_textsize="16sp"
+                app:tl_tab_padding="15dip"
+                app:tl_textBold="BOTH"
+                app:tl_textSelectColor="#FFFFFF"
+                app:tl_textUnselectColor="#FFFFFF"
+                app:tl_textsize="16sp" />
+            
 
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp"

@@ -40,6 +40,21 @@ public class Api_Living_Lottery extends BaseApi {
     }
 
     /**
+     *  查询开播前游戏列表
+     */
+    public void getLiveBeforeGames(JsonCallback<String> callback) {
+        String url =  SPManager.getServerDomain() + Constant.URL.liveBeforeGames;
+        // + "?language=" + MultiLanguageUtils.getRequestHeader() ;
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                url,
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
+
+    /**
      *  首页游戏列表
      */
     public void getGameList(JsonCallback<String> callback) {

@@ -6,10 +6,13 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Lifecycle;
@@ -42,6 +45,7 @@ import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.lottery.LotteryDialog;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
@@ -120,6 +124,15 @@ public class LivingControlPanel extends RelativeLayout {
         setViewLPRL(mBind.rlMidView,(int)(screenHeight*0.2f),(int)(screenHeight*0.32f));
         mBind.rlMain.setViewPager(livingActivity.getViewPager());
         mBind.rlMain.setMessageViewWatch(messageViewWatch);
+        mBind.etDiaMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH && mBind.gtvSend.isEnabled()){
+                    mBind.gtvSend.performClick();
+                }
+                return true;
+            }
+        });
 
         //加入弹幕弹道
         int height=(int)(screenHeight*0.2f);
@@ -238,6 +251,10 @@ public class LivingControlPanel extends RelativeLayout {
                 {
                     follow(fragment.getRoomBean().getAid());
                 }
+                break;
+            case R.id.ivGame:
+                LotteryDialog lotteryDialog = LotteryDialog.getInstance();
+                DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), lotteryDialog);
                 break;
             case R.id.ivGift:
                 showTreasureDialog();
@@ -704,20 +721,24 @@ public class LivingControlPanel extends RelativeLayout {
         Api_Live.ins().queryGuardListByAnchor(fragment.getRoomBean().getId(), fragment.getRoomBean().getAid(), new JsonCallback<AnchorGuardListBean>() {
             @Override
             public void onSuccess(int code, String msg, AnchorGuardListBean data) {
-                mBind.gtvProtection.setEnabled(true);
-                if(code==0)
-                {
-                    if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
-                    {
-                        StringBuilder sb=new StringBuilder();
-                        sb.append(data.getGuardCount()).append(fragment.getStringWithoutContext(R.string.ren));
-                        mBind.gtvProtection.setText(sb.toString());
-                        LivingControlPanel.this.anchorGuardListBean=data;
-                    }
-                }
-                else
-                {
 
+                if(isActivityOK())
+                {
+                    mBind.gtvProtection.setEnabled(true);
+                    if(code==0)
+                    {
+                        if(getArg().equals(fragment.getRoomBean().getId()) && data!=null)
+                        {
+                            StringBuilder sb=new StringBuilder();
+                            sb.append(data.getGuardCount()).append(fragment.getStringWithoutContext(R.string.ren));
+                            mBind.gtvProtection.setText(sb.toString());
+                            LivingControlPanel.this.anchorGuardListBean=data;
+                        }
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
         });

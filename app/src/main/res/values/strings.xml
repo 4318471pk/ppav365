@@ -1279,10 +1279,7 @@
     <string name="yushe_beishu_hint_2">必须填满5个才可以保存</string>
     <string name="niuniu">牛牛</string>
     <string name="wuniu">无牛</string>
-    <string name="last_kai_1">上</string>
-    <string name="last_kai_2">期</string>
-    <string name="last_kai_3">开</string>
-    <string name="last_kai_4">彩</string>
+    <string name="lastLotteryResultTitle">上期开彩</string>
     <string name="edit_info">编辑资料</string>
     <string name="touxiang">头&#12288;像</string>
     <string name="nicheng">昵&#12288;称</string>
@@ -1587,6 +1584,7 @@
 
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>
+    <string name="symbolQuestionMark">?</string>
 
 
 </resources>

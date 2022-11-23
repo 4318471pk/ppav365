@@ -16,10 +16,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,6 +35,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.glide2transformation.BorderTransformation;
@@ -187,6 +190,22 @@ public class GlideUtils {
         loadImage(context, path, placeholderImg, errorImg, true, imageView, transformations);
     }
 
+    private static RequestBuilder<Drawable> loadTransformRound(Context context, @DrawableRes int placeholderId, int radius) {
+
+        return Glide.with(context)
+                .load(placeholderId)
+                .apply(new RequestOptions().centerCrop()
+                        .transform(new RoundedCorners(radius)));
+    }
+
+    private static RequestBuilder<Drawable> loadTransformCircle(Context context, @DrawableRes int placeholderId) {
+
+        return Glide.with(context)
+                .load(placeholderId)
+                .apply(new RequestOptions().centerCrop()
+                        .transform(new CircleCrop()));
+    }
+
     /**
      * 加载图片->最终显示都调用此方法
      * 圆形图片：      new CircleCrop() 注：圆形需要配合circleimageview使用
@@ -214,88 +233,81 @@ public class GlideUtils {
 
         if (isFade) {
             Glide.with(context)
-                    .load(path)
+                    .load(replaceDomain(path))
                     .apply(options)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
-//                    .into(new CustomTarget<Drawable>() {
-//                        @Override
-//                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
-//                            boolean isSuccess=transition.transition(resource,new BitmapImageViewTarget(imageView));
-//                            if(!isSuccess)
-//                            {
-//                                imageView.setImageDrawable(resource);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
-//                            if(placeholder!=null)
-//                            {
-//                                imageView.setImageDrawable(placeholder);
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onLoadStarted(@Nullable Drawable placeholder) {
-//                            super.onLoadStarted(placeholder);
-//                            if(placeholder!=null)
-//                            {
-//                                imageView.setImageDrawable(placeholder);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-//                            super.onLoadFailed(errorDrawable);
-//                            if(errorDrawable!=null)
-//                            {
-//                                imageView.setImageDrawable(errorDrawable);
-//                            }
-//                        }
-//                    });
         } else {
             Glide.with(context)
-                    .load(path)
+                    .load(replaceDomain(path))
                     .apply(options)
                     .into(imageView);
-//                    .into(new CustomTarget<Drawable>() {
-//                        @Override
-//                        public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
-//                            boolean isSuccess=transition.transition(resource,new BitmapImageViewTarget(imageView));
-//                            if(!isSuccess)
-//                            {
-//                                imageView.setImageDrawable(resource);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onLoadCleared(@Nullable @org.jetbrains.annotations.Nullable Drawable placeholder) {
-//                            if(placeholder!=null)
-//                            {
-//                                imageView.setImageDrawable(placeholder);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onLoadStarted(@Nullable Drawable placeholder) {
-//                            super.onLoadStarted(placeholder);
-//                            if(placeholder!=null)
-//                            {
-//                                imageView.setImageDrawable(placeholder);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-//                            super.onLoadFailed(errorDrawable);
-//                            if(errorDrawable!=null)
-//                            {
-//                                imageView.setImageDrawable(errorDrawable);
-//                            }
-//                        }
-//                    });
+        }
+    }
+
+    @SafeVarargs
+    private static void loadRoundImage(Context context, Object path, int placeholderImg, int errorImg, boolean isFade, ImageView imageView, int radius,Transformation<Bitmap>... transformations) {
+        if ((isValidContextForGlide(context))) return;
+        RequestOptions options=new RequestOptions();
+//        if (placeholderImg != 0) {
+//            options.placeholder(placeholderImg);
+//        }
+        if (errorImg != 0) {
+            options.error(errorImg);
+        }
+
+        if (transformations != null && transformations.length > 0) {
+            options.transform(transformations);
+        }
+
+        if (isFade) {
+            Glide.with(context)
+                    .load(replaceDomain(path))
+                    .apply(options)
+                    .thumbnail(loadTransformRound(imageView.getContext(),placeholderImg,radius))
+                    .thumbnail(loadTransformRound(imageView.getContext(),errorImg,radius))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(imageView);
+        } else {
+            Glide.with(context)
+                    .load(replaceDomain(path))
+                    .thumbnail(loadTransformRound(imageView.getContext(),placeholderImg,radius))
+                    .thumbnail(loadTransformRound(imageView.getContext(),errorImg,radius))
+                    .apply(options)
+                    .into(imageView);
+        }
+    }
+
+    @SafeVarargs
+    private static void loadCircleImage(Context context, Object path, int placeholderImg, int errorImg, boolean isFade, ImageView imageView,Transformation<Bitmap>... transformations) {
+        if ((isValidContextForGlide(context))) return;
+        RequestOptions options=new RequestOptions();
+//        if (placeholderImg != 0) {
+//            options.placeholder(placeholderImg);
+//        }
+        if (errorImg != 0) {
+            options.error(errorImg);
+        }
+
+        if (transformations != null && transformations.length > 0) {
+            options.transform(transformations);
+        }
+
+        if (isFade) {
+            Glide.with(context)
+                    .load(replaceDomain(path))
+                    .apply(options)
+                    .thumbnail(loadTransformCircle(imageView.getContext(),placeholderImg))
+                    .thumbnail(loadTransformCircle(imageView.getContext(),errorImg))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(imageView);
+        } else {
+            Glide.with(context)
+                    .load(replaceDomain(path))
+                    .thumbnail(loadTransformCircle(imageView.getContext(),placeholderImg))
+                    .thumbnail(loadTransformCircle(imageView.getContext(),errorImg))
+                    .apply(options)
+                    .into(imageView);
         }
     }
 
@@ -317,19 +329,8 @@ public class GlideUtils {
         if (StringUtils.isEmpty(url))
             return "";
 
-        String domain = SPUtils.getInstance("domain").getString("domain", "");
-        if (StringUtils.isEmpty(domain)) {
-            domain = "www.baudu.com";
-        }
 
-        Uri mUri = Uri.parse(url);
-
-        String startStr = url.startsWith("http://") ? "http://" : "https://";
-        url = url.replace(mUri.getScheme() + "://" + mUri.getAuthority(), startStr + domain);
-        if (url.startsWith("http:") || url.startsWith("https:")) {
-            return url;
-        }
-        return "";
+        return Strings.urlConnect(url);
     }
 
 
@@ -339,7 +340,7 @@ public class GlideUtils {
      */
     public static void loadCircleImage(Context context, Object path, int placeholderImg, int errorImg, ImageView imageView) {
         if ((isValidContextForGlide(context))) return;
-        loadImage(context, path, placeholderImg, errorImg, true, imageView, new CircleCrop());
+        loadCircleImage(context, path, placeholderImg, errorImg, true, imageView, new CircleCrop());
     }
 
 
@@ -384,7 +385,7 @@ public class GlideUtils {
 //                .apply(options)
 //                .into(imageView);
 
-        loadImage(context, path, placeholderImg, errorImg, true, imageView, new CenterCrop(), new RoundedCorners(radius));
+        loadRoundImage(context, path, placeholderImg, errorImg, true, imageView, radius,new CenterCrop(), new RoundedCorners(radius));
     }
 
 
@@ -779,4 +780,5 @@ public class GlideUtils {
 //        view.setText(null);
         spanned = null;
     }
+
 }

@@ -292,6 +292,7 @@ public class ResourceDownloadService extends IntentService {
     private Response getResponse(String downloadUrl) {
 
         String url=Strings.urlConnect(downloadUrl);
+        Log.e("getResponse",url);
         Request request = new Request.Builder().get().url(url).build();
         Call call = mOkHttpClient.newCall(request);
         try {

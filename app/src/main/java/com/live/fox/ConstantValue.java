@@ -29,6 +29,8 @@ public interface ConstantValue {
     String BaseDomain ="BaseDomain";//基础网关
     String SPDefaultName ="aibo";//sharePreference默认名字
     String BulletMessageList ="BulletMessageList";//弹幕列表
+    String gameCategoryTitles="gameTitles";//游戏种类
+    String liveBeforeGames="liveBeforeGames";//查询开播前游戏列表
 
     public static final String IM_SDK_APP_ID = "im sdk app id key";
     public static final String ACCESS_ID = "ACCESS_ID";

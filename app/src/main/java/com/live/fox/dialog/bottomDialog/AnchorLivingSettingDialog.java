@@ -14,10 +14,13 @@ import com.live.fox.dialog.temple.TempleDialog2;
 public class AnchorLivingSettingDialog extends BaseBindingDialogFragment {
 
     DialogAnchorLivingSettingBinding mBind;
+    String liveId;
 
-    public static AnchorLivingSettingDialog getInstance()
+    public static AnchorLivingSettingDialog getInstance(String liveId)
     {
-        return new AnchorLivingSettingDialog();
+        AnchorLivingSettingDialog anchorLivingSettingDialog= new AnchorLivingSettingDialog();
+        anchorLivingSettingDialog.liveId=liveId;
+        return anchorLivingSettingDialog;
     }
 
     @Override

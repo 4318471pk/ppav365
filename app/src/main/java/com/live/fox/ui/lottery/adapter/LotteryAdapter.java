@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
 import com.live.fox.R;
 import com.live.fox.entity.LivingLotteryListBean;
+import com.live.fox.utils.GlideUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 
@@ -55,8 +57,8 @@ public class LotteryAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.name);
         name.setText(data.get(position).getGameName());
 
-        RoundedImageView iv = view.findViewById(R.id.iv);
-        Glide.with(context).load(data.get(position).getSmallImg()).error(R.mipmap.ic_launcher).into(iv);
+        ImageView iv = view.findViewById(R.id.iv);
+        GlideUtils.loadCircleImage(context,data.get(position).getSmallImg(),R.mipmap.user_head_error,R.mipmap.user_head_error,iv);
 
         return view;
     }

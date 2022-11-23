@@ -161,18 +161,12 @@ public class RecommendAnchorListFooter extends LinearLayout {
             else
             {
                 ivRoundBG.setRadius(dip2_5*4);
-                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
+                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),defaultDrawable,defaultDrawable, ivRoundBG);
             }            name.setText(listBeans.get(i).getTitle());
-
-            SpanUtils spUtils=new SpanUtils();
-            spUtils.appendImage(clock,SpanUtils.ALIGN_CENTER);
-            spUtils.append(" 21 ").setAlign(Layout.Alignment.ALIGN_CENTER);
-            spUtils.appendImage(diamond,SpanUtils.ALIGN_CENTER);
-            spUtils.append("/分钟").setAlign(Layout.Alignment.ALIGN_CENTER);
-            gtvUnitPrice.setText(spUtils.create());
 
             tvNum.setText(data.getLiveSum()+"");
 
+            SpanUtils spUtils=new SpanUtils();
             //1普通房间2密码房间3计时房间4贵族房间5计场房间
             switch (listBeans.get(i).getRoomType())
             {

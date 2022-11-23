@@ -190,7 +190,7 @@ public class RankProfileView extends RelativeLayout {
             if (drawable == null) {
                 ivCrown.setVisibility(GONE);
 
-                if(decorationIndex>-1)
+                if(decorationIndex>-1 && decorationIndex<decorationResource.length)
                 {
                     RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
                     rlDe.width=viewWidth;

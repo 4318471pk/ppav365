@@ -9,12 +9,10 @@
     android:paddingTop="13dp"
     android:orientation="vertical">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:id="@+id/iv"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src="@mipmap/ic_launcher"
-        app:riv_oval="true"
         />
 
         <TextView

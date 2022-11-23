@@ -17,8 +17,6 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.LiveClose;
 import com.live.fox.server.Api_Live;
-import com.live.fox.ui.rank.AnchorRankActivity;
-import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
@@ -75,8 +73,6 @@ public class LiveFinishActivity extends BaseActivity {
         BarUtils.setStatusBarLightMode(LiveFinishActivity.this, true);
 
         getIntentVlaue();
-
-        ActivityUtils.finishActivity(AnchorRankActivity.class);
 
         tvFinishtip.setText(finishTip);
         ivLivelevel.setText(getString(R.string.anchorLive));

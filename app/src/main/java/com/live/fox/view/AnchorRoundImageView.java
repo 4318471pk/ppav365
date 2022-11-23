@@ -14,7 +14,7 @@ import com.live.fox.R;
 import com.live.fox.utils.device.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-public class AnchorRoundImageView extends RoundedImageView {
+public class AnchorRoundImageView extends ImageView {
 
     GradientDrawable gradientDrawable=new GradientDrawable();
     int mColors[]=new int[]{0x00000000,0x77000000};
@@ -55,11 +55,9 @@ public class AnchorRoundImageView extends RoundedImageView {
             }
         }
 
-        setCornerRadius(radius);
     }
     public void setRadius(float radius) {
         this.radius = radius;
-        setCornerRadius(radius);
         postInvalidate();
     }
 

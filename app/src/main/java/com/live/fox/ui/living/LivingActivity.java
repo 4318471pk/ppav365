@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.gson.Gson;
 import com.live.fox.AppIMManager;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
@@ -38,10 +39,13 @@ import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingGiftBean;
+import com.live.fox.entity.LivingLotteryListBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_Living_Lottery;
 import com.live.fox.ui.live.PlayLiveActivity;
+import com.live.fox.ui.lottery.LotteryItemListFragment;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
@@ -256,6 +260,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getVipGiftList();//请求特权礼物
         getAmountListOfGift();//请求获取发送礼物数量列表
         cacheBulletMessageList();//缓存弹幕列表
+        cacheGameListCategoryTitlesData();//缓存游戏列表数据
     }
 
     public void resetRoomList(List<RoomListBean> data,int position)
@@ -567,6 +572,22 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
                 else
                 {
 
+                }
+            }
+        });
+    }
+
+
+    /**
+     *  获取游戏列表并且缓存
+     */
+    public void cacheGameListCategoryTitlesData() {
+        Api_Living_Lottery.ins().getLivingGameList(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(code==0)
+                {
+                    SPUtils.getInstance().put(ConstantValue.gameCategoryTitles,data);
                 }
             }
         });

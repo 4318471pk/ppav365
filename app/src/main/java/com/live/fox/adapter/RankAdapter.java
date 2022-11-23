@@ -64,6 +64,7 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
             helper.tvHuo.setText(String.format(templeText,item.getRankValue()+""));
             helper.tvHuo.setVisibility(View.VISIBLE);
             helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
+
             GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
             helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
         }

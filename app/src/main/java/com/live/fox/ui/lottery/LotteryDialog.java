@@ -1,6 +1,7 @@
 package com.live.fox.ui.lottery;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -11,21 +12,21 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
+import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.common.JsonCallback;
-import com.live.fox.entity.ActBean;
 import com.live.fox.entity.LivingLotteryListBean;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.server.Api_Living_Lottery;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
-import com.live.fox.ui.lottery.adapter.LotteryNameAdapter;
-import com.live.fox.ui.lottery.adapter.LotteryNameAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.databinding.DialogLotteryBinding;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -36,16 +37,26 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
     DialogLotteryBinding mBind;
 
-    LotteryNameAdapter lotteryNameAdapter;
-    List<LivingLotteryListBean.ItemsBean> lotteryNameList = new ArrayList<>();
+//    List<LivingLotteryListBean.ItemsBean> lotteryNameList = new ArrayList<>();
 
     List<BaseFragment> fragmentList = new ArrayList<>();
 
+    public static LotteryDialog getInstance()
+    {
+        LotteryDialog lotteryDialog=new LotteryDialog();
+        return lotteryDialog;
+    }
+
+    @Override
+    public boolean onBackPress() {
+        startAnimate(mBind.rllMain,false);
+        return true;
+    }
 
     @Override
     public void onClickView(View view) {
         if (view == mBind.rlMain ){
-            dismissAllowingStateLoss();
+            startAnimate(mBind.rllMain,false);
         } else if (view == mBind.tvCharge){
             RechargeActivity.startActivity(this.getContext());
         } else if (view == mBind.ivGame) {
@@ -71,37 +82,45 @@ public class LotteryDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-
-        lotteryNameAdapter = new LotteryNameAdapter(lotteryNameList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mBind.rcLotteryName.setLayoutManager(layoutManager);
-        mBind.rcLotteryName.setAdapter(lotteryNameAdapter);
-
-        lotteryNameAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                changeLotteryHead(position,true);
+        String jsonStr= SPUtils.getInstance().getString(ConstantValue.gameCategoryTitles,"");
+        if(!TextUtils.isEmpty(jsonStr))
+        {
+            LivingLotteryListBean bean = new Gson().fromJson(jsonStr, LivingLotteryListBean.class);
+            if(bean.getItems()!=null)
+            {
+                setVp(bean.getItems());
             }
-        });
-
-        getData();
+        }
+        CacheData();
         getAsset();
+        startAnimate(mBind.rllMain,true);
     }
 
-    private void setVp(){
-        mBind.vp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+    private void setVp(List<LivingLotteryListBean.ItemsBean> lotteryNameList){
+
+        for(int i=0 ; i< lotteryNameList.size(); i++) {
+            fragmentList.add(LotteryItemListFragment.newInstance(lotteryNameList.get(i)));
+        }
+
+        mBind.vp.setOffscreenPageLimit(fragmentList.size()-1);
+        mBind.vp.setAdapter(new BaseFragmentPagerAdapter(getChildFragmentManager()) {
+
             @Override
-            public Fragment getItem(int position) {
+            public Fragment getFragment(int position) {
                 return fragmentList.get(position);
             }
 
             @Override
-            public int getCount() {
+            public String getTitle(int position) {
+                return lotteryNameList.get(position).getName();
+            }
+
+            @Override
+            public int getItemCount() {
                 return fragmentList.size();
             }
         });
-        mBind.vp.setCurrentItem(0);
+
         mBind.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
 
             @Override
@@ -111,7 +130,6 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
             @Override
             public void onPageSelected(int position) {
-                changeLotteryHead(position, false);
             }
 
             @Override
@@ -119,52 +137,35 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
             }
         });
-
-    }
-
-    private void changeLotteryHead(int position, boolean changeItem){
-        for (int i = 0; i < lotteryNameList.size(); i ++) {
-            if (lotteryNameList.get(i).isSelect()) {
-                if (i == position) {
-                    return;
-                } else {
-                    lotteryNameList.get(i).setSelect(false);
-                    break;
-                }
-            }
+        if(lotteryNameList.size()>0)
+        {
+            mBind.vp.setCurrentItem(0);
         }
-        lotteryNameList.get(position).setSelect(true);
-        lotteryNameAdapter.notifyDataSetChanged();
-        if (changeItem){
-            mBind.vp.setCurrentItem(position);
-        }
+        mBind.tabLayout.setViewPager(mBind.vp);
+        mBind.tabLayout.setGradient(0xffA800FF,0xffEA00FF);
     }
-
 
     /**
      *  获取游戏列表
      */
-    public void getData() {
-        showLoadingDialog();
+    public void CacheData() {
         Api_Living_Lottery.ins().getLivingGameList(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                dismissLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    LivingLotteryListBean bean = new Gson().fromJson(data, LivingLotteryListBean.class);
-                    LogUtils.i(bean.getItems().size() + "");
-                    if (bean.getItems() != null && bean.getItems().size() > 0) {
-                        lotteryNameList.addAll(bean.getItems());
-                        lotteryNameList.get(0).setSelect(true);
-                        for(int i=0 ; i< lotteryNameList.size(); i++) {
-                            String json = new Gson().toJson(lotteryNameList.get(i)).toString();
-                            fragmentList.add(LotteryItemListFragment.newInstance(json));
+                if(isConditionOk())
+                {
+                    if (code == 0 ) {
+                        SPUtils.getInstance().put(ConstantValue.gameCategoryTitles,data);
+                        LivingLotteryListBean bean = new Gson().fromJson(data, LivingLotteryListBean.class);
+                        if (bean.getItems() != null && bean.getItems().size() > 0) {
+                            if(mBind.vp.getAdapter()==null || mBind.vp.getAdapter().getCount()==0)
+                            {
+                                setVp(bean.getItems());
+                            }
                         }
+                    } else {
+                        ToastUtils.showShort(msg);
                     }
-                    lotteryNameAdapter.notifyDataSetChanged();
-                    setVp();
-                } else {
-                    ToastUtils.showShort(msg);
                 }
             }
         });
@@ -175,11 +176,15 @@ public class LotteryDialog extends BaseBindingDialogFragment {
         Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
             @Override
             public void onSuccess(int code, String msg, UserAssetsBean data) {
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                     mBind.tvBalance.setText(data.getGold() + "");
-                } else {
-                    ToastUtils.showShort(msg);
+                if(isConditionOk())
+                {
+                    if (code == 0) {
+                        mBind.tvBalance.setText(data.getGold() + "");
+                    } else {
+                        ToastUtils.showShort(msg);
+                    }
                 }
+
             }
         }, commonParams);
     }

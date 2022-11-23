@@ -4,17 +4,15 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,19 +21,12 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.base.DialogFramentManager;
-import com.live.fox.databinding.DialogLotteryBinding;
 import com.live.fox.databinding.DialogTouzhuBinding;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
-import com.live.fox.entity.SelectLotteryBean;
-import com.live.fox.entity.User;
-import com.live.fox.ui.lottery.adapter.ChouMaAdapter;
 
-import com.live.fox.ui.lottery.adapter.KaiJiangRecordAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangRecordYflhcAdapter;
-import com.live.fox.ui.lottery.adapter.KaiJiangRecordYxxAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangResultIvAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangResultTvAdapter;
-import com.live.fox.ui.lottery.adapter.LotteryNameAdapter;
 import com.live.fox.ui.lottery.adapter.LotteryTypeAdapter;
 import com.live.fox.ui.lottery.adapter.NiuNiuAdapter;
 import com.live.fox.ui.lottery.adapter.TouZhuRecordAdapter;
@@ -94,7 +85,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     private final Timer mTimer = new Timer();
     private TimerTask kjTask;
 
-    Handler mHandler = new Handler() {
+    Handler mHandler = new Handler(Looper.myLooper()) {
 
         @Override
         public void handleMessage(@NonNull Message msg) {

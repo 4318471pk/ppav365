@@ -2,6 +2,7 @@ package com.live.fox.utils;
 
 import android.text.TextUtils;
 
+import com.live.fox.ConstantValue;
 import com.live.fox.manager.SPManager;
 
 import java.math.BigDecimal;
@@ -218,7 +219,7 @@ public final class Strings {
 
     //url connection
     public static String urlConnect(String downloadUrl) {
-        String domain = SPManager.getServerDomain();
+        String domain = SPUtils.getInstance().getString(ConstantValue.resourceDomain,"");
 
         StringBuilder sb = new StringBuilder();
 

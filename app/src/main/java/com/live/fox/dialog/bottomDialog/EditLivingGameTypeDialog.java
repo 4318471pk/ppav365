@@ -3,11 +3,13 @@ package com.live.fox.dialog.bottomDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,20 +18,38 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.tabs.TabLayout;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogLivingEditGametypeBinding;
+import com.live.fox.entity.LotteryCategoryOfBeforeLiving;
+import com.live.fox.server.Api_Living_Lottery;
+import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.GsonUtil;
+import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
 
     DialogLivingEditGametypeBinding mBind;
+    List<LotteryCategoryOfBeforeLiving> lists=new ArrayList<>();
+    OnSelectGameListener onSelectGameListener;
 
     public static EditLivingGameTypeDialog getInstance() {
         return new EditLivingGameTypeDialog();
+    }
+
+    public void setOnSelectGameListener(OnSelectGameListener onSelectGameListener) {
+        this.onSelectGameListener = onSelectGameListener;
     }
 
     @Override
@@ -73,7 +93,26 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
         mBind.setClick(this);
         setWindowsFlag();
 
-        addTabs();
+        CacheOpenLivingGameList();
+        String dataStr=SPUtils.getInstance().getString(ConstantValue.liveBeforeGames,"");
+        if(!TextUtils.isEmpty(dataStr))
+        {
+            try {
+
+                JSONArray jsonArray=new JSONArray(dataStr);
+                for (int i = 0; i <jsonArray.length() ; i++) {
+                    LotteryCategoryOfBeforeLiving bean=GsonUtil.getObject(jsonArray.optString(i),LotteryCategoryOfBeforeLiving.class);
+                    lists.add(bean);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(lists.size()>0)
+        {
+            addTabs();
+        }
+
         startAnimate(mBind.rllContent,true);
     }
 
@@ -81,7 +120,8 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
         int screenWidth = ScreenUtils.getScreenWidth(getActivity());
         int itemWidth = (int) (screenWidth * 0.2f);
         int dip2 = ScreenUtils.getDip2px(getActivity(), 2);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < lists.size(); i++) {
+            LotteryCategoryOfBeforeLiving bean=lists.get(i);
             LinearLayout linearLayout = new LinearLayout(getActivity());
             linearLayout.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -90,7 +130,7 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
             TextView title = new TextView(getActivity());
             title.setTextColor(0xffffffff);
             title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-            title.setText("极速快三");
+            title.setText(bean.getGameName());
             title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.addView(title);
 
@@ -101,11 +141,11 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
             relativeLayout.setPadding(dip2, dip2, dip2, dip2);
             relativeLayout.setId(R.id.gameTypeImg);
 
-            RoundedImageView roundedImageView = new RoundedImageView(getActivity());
-            roundedImageView.setCornerRadius(dip2 * 5);
-            roundedImageView.setLayoutParams(new RelativeLayout.LayoutParams(itemWidth - dip2, itemWidth - dip2));
-            roundedImageView.setImageDrawable(getResources().getDrawable(R.drawable.img_default));
+            ImageView roundedImageView = new ImageView(getActivity());
+            roundedImageView.setLayoutParams(new RelativeLayout.LayoutParams(itemWidth, itemWidth));
+            roundedImageView.setPadding(dip2, dip2, dip2, dip2);
             relativeLayout.addView(roundedImageView);
+            GlideUtils.loadRoundedImage(getActivity(),dip2*5,bean.getSmallImg(),R.mipmap.img_error,R.mipmap.img_error,roundedImageView);
 
             linearLayout.addView(relativeLayout);
 
@@ -117,6 +157,11 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 RelativeLayout relativeLayout = tab.getCustomView().findViewById(R.id.gameTypeImg);
                 relativeLayout.setBackground(getResources().getDrawable(R.drawable.bg_storke_ff008a_2dip));
+                if(onSelectGameListener!=null)
+                {
+                    onSelectGameListener.onSelected(lists.get(tab.getPosition()));
+                }
+                onBackPress();
             }
 
             @Override
@@ -133,5 +178,21 @@ public class EditLivingGameTypeDialog extends BaseBindingDialogFragment {
         });
     }
 
+    private void CacheOpenLivingGameList()
+    {
+        Api_Living_Lottery.ins().getLiveBeforeGames(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(code==0)
+                {
+                    SPUtils.getInstance().put(ConstantValue.liveBeforeGames,data);
+                }
+            }
+        });
+    }
 
+    public interface OnSelectGameListener
+    {
+        void onSelected(LotteryCategoryOfBeforeLiving bean);
+    }
 }

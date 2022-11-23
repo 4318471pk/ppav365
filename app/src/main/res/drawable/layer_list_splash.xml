@@ -2,6 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
 
-    <item android:drawable="@drawable/splash_background" />
+    <item android:drawable="@mipmap/splash_background" />
 
 </layer-list>

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
@@ -21,11 +22,15 @@ import com.live.fox.dialog.bottomDialog.EditLivingGameTypeDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SetLocationDialog;
 import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
+import com.live.fox.entity.LotteryCategoryOfBeforeLiving;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_Living_Lottery;
 import com.live.fox.ui.mine.CenterOfAnchorActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -178,6 +183,12 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             break;
                         case 2:
                             EditLivingGameTypeDialog editLivingGameTypeDialog= EditLivingGameTypeDialog.getInstance();
+                            editLivingGameTypeDialog.setOnSelectGameListener(new EditLivingGameTypeDialog.OnSelectGameListener() {
+                                @Override
+                                public void onSelected(LotteryCategoryOfBeforeLiving bean) {
+                                    getMainActivity().lotteryCategoryOfBeforeLiving=bean;
+                                }
+                            });
                             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),editLivingGameTypeDialog);
                             break;
                         case 3:
@@ -213,7 +224,19 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         }
 
         view.setVisibility(View.VISIBLE);
+        CacheOpenLivingGameList();
     }
 
-
+    private void CacheOpenLivingGameList()
+    {
+        Api_Living_Lottery.ins().getLiveBeforeGames(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(code==0)
+                {
+                    SPUtils.getInstance().put(ConstantValue.liveBeforeGames,data);
+                }
+            }
+        });
+    }
 }

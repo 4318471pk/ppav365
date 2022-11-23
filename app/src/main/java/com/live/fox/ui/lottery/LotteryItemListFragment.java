@@ -25,11 +25,9 @@ public class LotteryItemListFragment extends BaseBindingFragment {
     List<LivingLotteryListBean.ItemsBean.ConfigGameBaseListBean> lotteryList = new ArrayList<>();
 
 
-    public static LotteryItemListFragment newInstance(String data) {
-        Bundle args = new Bundle();
-        args.putString("data", data);
+    public static LotteryItemListFragment newInstance(LivingLotteryListBean.ItemsBean itemsBean) {
         LotteryItemListFragment lotteryItemListFragment = new LotteryItemListFragment();
-        lotteryItemListFragment.setArguments(args);
+        lotteryItemListFragment.itemsBean=itemsBean;
         return lotteryItemListFragment;
     }
 
@@ -47,8 +45,6 @@ public class LotteryItemListFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind = getViewDataBinding();
 
-        String data = getArguments().getString("data");
-        itemsBean = new Gson().fromJson(data, LivingLotteryListBean.ItemsBean.class);
         if (itemsBean.getConfigGameBaseList() != null && itemsBean.getConfigGameBaseList().size() > 0 ) {
             lotteryList.addAll(itemsBean.getConfigGameBaseList());
         }
@@ -60,8 +56,15 @@ public class LotteryItemListFragment extends BaseBindingFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TouzhuDialog touzhuDialog = new TouzhuDialog();
                 DialogFramentManager.getInstance().showDialog(LotteryItemListFragment.this.getActivity().getSupportFragmentManager(), touzhuDialog);
+                if(getParentFragment()!=null && (getParentFragment() instanceof LotteryDialog))
+                {
+                    LotteryDialog lotteryDialog=(LotteryDialog)getParentFragment();
+                    lotteryDialog.onBackPress();
+                }
             }
         });
+
+
 
     }
 

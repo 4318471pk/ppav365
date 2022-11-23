@@ -43,6 +43,7 @@ public class SplashActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         if (CommonApp.isNotificationClicked) {
             finish();
@@ -81,21 +82,21 @@ public class SplashActivity extends BaseActivity {
 
         splashPresenter.loadData();
 
-        String splashTips;
-        // TODO: 12/14/2021 我不知为什么这里多语言偶尔不能切换
-        if (AppConfig.isThLive()) {
-            if (!BuildConfig.DEBUG && !AppConfig.isMultiLanguage()) {
-                splashTips = "หากคุณไม่สามารถเข้าสู่แอปได้, โปรด" + "<font color='#05a4ff'>" +
-                        "【คลิกที่นี่】" + "</font>" + "เพื่อดาวน์โหลดเวอร์ชันล่าสุด";
-            } else {
-                splashTips = getSplashTips();
-            }
-        } else {
-            splashTips = getSplashTips();
-        }
-
-        tvEnter.setText(Html.fromHtml(splashTips));
-        tvEnter.setOnClickListener(v -> IntentUtils.toBrowser(SplashActivity.this, ""));
+//        String splashTips;
+//        // TODO: 12/14/2021 我不知为什么这里多语言偶尔不能切换
+//        if (AppConfig.isThLive()) {
+//            if (!BuildConfig.DEBUG && !AppConfig.isMultiLanguage()) {
+//                splashTips = "หากคุณไม่สามารถเข้าสู่แอปได้, โปรด" + "<font color='#05a4ff'>" +
+//                        "【คลิกที่นี่】" + "</font>" + "เพื่อดาวน์โหลดเวอร์ชันล่าสุด";
+//            } else {
+//                splashTips = getSplashTips();
+//            }
+//        } else {
+//            splashTips = getSplashTips();
+//        }
+//
+//        tvEnter.setText(Html.fromHtml(splashTips));
+//        tvEnter.setOnClickListener(v -> IntentUtils.toBrowser(SplashActivity.this, ""));
     }
 
     /**

@@ -24,9 +24,12 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
 
     DialogAudienceAdminlistBinding mBind;
     int viewHeight;
+    String liveId;
 
-    public static AudienceAdminListDialog getInstance() {
-        return new AudienceAdminListDialog();
+    public static AudienceAdminListDialog getInstance(String liveId) {
+        AudienceAdminListDialog audienceAdminListDialog=new AudienceAdminListDialog();
+        audienceAdminListDialog.liveId=liveId;
+        return audienceAdminListDialog;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
             public void onAnimationEnd(Animation animation) {
                 switch (id) {
                     case R.id.ivClose:
-                        AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance();
+                        AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(), audienceManagerDialog);
                         break;
                 }

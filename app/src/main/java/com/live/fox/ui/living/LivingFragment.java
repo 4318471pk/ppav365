@@ -273,7 +273,7 @@ public class LivingFragment extends BaseBindingFragment {
 
         TXCloudVideoView txCloudVideoView = new TXCloudVideoView(getActivity());
         txCloudVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mBind.rlContent.addView(txCloudVideoView);
+        mBind.rlContent.addView(txCloudVideoView,1);
         mLivePlayer.setPlayerView(txCloudVideoView);
 
         MyViewPager viewPager = new MyViewPager(getActivity());

@@ -50,11 +50,13 @@ import com.live.fox.dialog.bottomDialog.SetRoomTypeDialog;
 import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.Audience;
 import com.live.fox.entity.GiftResourceBean;
+import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingFollowMessage;
 import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
+import com.live.fox.entity.LotteryCategoryOfBeforeLiving;
 import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.SvgAnimateLivingBean;
@@ -135,6 +137,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                 case enterRoomRefresh:
                     removeMessages(enterRoomRefresh);
                     refresh20AudienceList();//刷新头部20个人
+                    getSelfInfo();//刷新个人开播信息
                     break;
             }
         }
@@ -503,7 +506,6 @@ public class StartLivingFragment extends BaseBindingFragment {
                 public void onSuccess() {
                     //连接IM成功后 加入群聊
                     joinIMGroup(liveId);
-
                 }
 
                 @Override
@@ -525,7 +527,6 @@ public class StartLivingFragment extends BaseBindingFragment {
                 }
             });
         } else {
-
             handler.postDelayed(() ->
                     sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
                             getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1600);
@@ -663,7 +664,12 @@ public class StartLivingFragment extends BaseBindingFragment {
         {
             params.put("icon",icon);
         }
-
+        if(getMainActivity().lotteryCategoryOfBeforeLiving!=null)
+        {
+           LotteryCategoryOfBeforeLiving bean= getMainActivity().lotteryCategoryOfBeforeLiving;
+            params.put("lotteryName",bean.getGameName());
+            params.put("nickName",bean.getGameCode());
+        }
 
         if(getMainActivity().contactCostDiamond>0 &&  getMainActivity().contactType>-1 &&
                 !TextUtils.isEmpty(getMainActivity().contactAccount))
@@ -673,7 +679,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             params.put("showContactPrice",getMainActivity().contactCostDiamond);
         }
 
-        Api_Live.ins().getAnchorAuth(params,new JsonCallback<String>() {
+        Api_Live.ins().starLiving(params,new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0 && data != null) {
@@ -921,10 +927,10 @@ public class StartLivingFragment extends BaseBindingFragment {
         Api_Live.ins().getAudienceList(liveId, new JsonCallback<List<Audience>>() {
             @Override
             public void onSuccess(int code, String msg, List<Audience> result) {
-                if (code == 0 ) {
-                    if(result != null )
-                    {
-                        if(isActivityOK() )
+                if(isActivityOK() )
+                {
+                    if (code == 0 ) {
+                        if(result != null )
                         {
                             if(livingTop20OnlineUserAdapter==null)
                             {
@@ -948,13 +954,15 @@ public class StartLivingFragment extends BaseBindingFragment {
                             {
                                 livingTop20OnlineUserAdapter.setNewData(result);
                             }
+
                         }
                     }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
                 }
-                else
-                {
-                    ToastUtils.showShort(msg);
-                }
+
             }
         });
     }
@@ -1019,5 +1027,26 @@ public class StartLivingFragment extends BaseBindingFragment {
         });
     }
 
+    private void getSelfInfo()
+    {
+        Api_Live.ins().getAnchorInfo(liveId, myUID, new JsonCallback<LivingCurrentAnchorBean>() {
+            @Override
+            public void onSuccess(int code, String msg, LivingCurrentAnchorBean data) {
+                if(isActivityOK())
+                {
+                    if(code==0)
+                    {
+                        if(data!=null)
+                        {
+                            mBind.gtvOnlineAmount.setText(data.getLiveSum()+"");
+                        }
+                    }
+                    else
+                    {
 
+                    }
+                }
+            }
+        });
+    }
 }

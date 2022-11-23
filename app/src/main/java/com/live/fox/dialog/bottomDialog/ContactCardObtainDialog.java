@@ -66,6 +66,14 @@ public class ContactCardObtainDialog extends BaseBindingDialogFragment {
                     int type=-1;
                     boolean isAvailable=false;
                     String account=mBind.etAccount.getText().toString();
+                    if(TextUtils.isEmpty(mBind.etAmountDiamond.getText().toString()))
+                    {
+                        return;
+                    }
+                    if(TextUtils.isEmpty(account))
+                    {
+                        return;
+                    }
                     int diamondAmount=Integer.valueOf(mBind.etAmountDiamond.getText().toString());
                     for (int i = 0; i < mBind.rgType.getChildCount(); i++) {
                        RadioButton radioButton=(RadioButton) mBind.rgType.getChildAt(i);

@@ -12,6 +12,9 @@
 
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--如果有底部虚拟导航栏，则将底部虚拟导航栏设置为透明，并将界面内容布局下边界下沉至虚拟导航栏底部-->
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/layer_list_splash</item>
     </style>

@@ -359,9 +359,6 @@
             android:name=".ui.h5.WxPayActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.rank.AnchorRankActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.game.GameFullWebViewActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" /> <!-- 我的余额 -->

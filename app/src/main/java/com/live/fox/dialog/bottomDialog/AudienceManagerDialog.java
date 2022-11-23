@@ -12,10 +12,13 @@ import com.live.fox.dialog.bottomDialog.livingRoomBlockAndMute.LivingRoomBlockAn
 public class AudienceManagerDialog extends BaseBindingDialogFragment {
 
     DialogAudienceManagerBinding mBind;
+    String liveId;
 
-    public static AudienceManagerDialog getInstance()
+    public static AudienceManagerDialog getInstance(String liveId)
     {
-        return new AudienceManagerDialog();
+        AudienceManagerDialog audienceManagerDialog=new AudienceManagerDialog();
+        audienceManagerDialog.liveId=liveId;
+        return audienceManagerDialog;
     }
 
     @Override
@@ -52,11 +55,11 @@ public class AudienceManagerDialog extends BaseBindingDialogFragment {
                 switch (id)
                 {
                     case R.id.rlBlockAndMute:
-                        LivingRoomBlockAndMuteListDialog livingRoomBlockAndMuteListDialog=LivingRoomBlockAndMuteListDialog.getInstance();
+                        LivingRoomBlockAndMuteListDialog livingRoomBlockAndMuteListDialog=LivingRoomBlockAndMuteListDialog.getInstance(liveId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),livingRoomBlockAndMuteListDialog);
                         break;
                     case R.id.rlSetAdmin:
-                        AudienceAdminListDialog audienceAdminListDialog=AudienceAdminListDialog.getInstance();
+                        AudienceAdminListDialog audienceAdminListDialog=AudienceAdminListDialog.getInstance(liveId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),audienceAdminListDialog);
                         break;
                 }

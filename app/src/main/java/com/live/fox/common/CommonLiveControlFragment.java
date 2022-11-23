@@ -116,7 +116,6 @@ import com.live.fox.svga.ShowBigGiftFragment;
 
 import com.live.fox.ui.live.PiaopingFragment;
 import com.live.fox.ui.live.PlayLiveActivity;
-import com.live.fox.ui.rank.AnchorRankActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FragmentContentActivity;
@@ -1744,7 +1743,6 @@ public class CommonLiveControlFragment extends BaseFragment implements
         }
 
         if (id == R.id.live_control_title_gift) {
-            AnchorRankActivity.startActivity(getActivity(), anchor.getAnchorId());
         }
 
         if (id == R.id.live_control_title_charm) {
