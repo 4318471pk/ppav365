@@ -72,7 +72,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
             public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
                 if(adapter.getData().size()>0)
                 {
-                    refreshLayout.finishRefresh(false);
+                    refreshLayout.finishRefresh(true);
                     setEmptyData(true);
                 }
                 else
