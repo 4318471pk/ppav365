@@ -3,13 +3,17 @@ package com.live.fox.entity;
 public class TreasureItemBean {
 
     String itemId;
-    String name;
+    String itemName;
     int costDiamond;
     String imgUrl;
     boolean isSelected;
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getItemId() {
@@ -20,9 +24,6 @@ public class TreasureItemBean {
         this.itemId = itemId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getCostDiamond() {
         return costDiamond;

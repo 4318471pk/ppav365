@@ -29,8 +29,9 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
     LayoutInflater layoutInflater;
     int dip2;
     int itemWidth = 0;
-    int selectIndex = -1;
+    int selectIndex = 0;
     int gradientColors[];
+    OnLocationSelectedListener onLocationSelectedListener;
 
     public LocationAreaSelectorAdapter(Activity context, List<LocationAreaSelectorBean> beans) {
         this.beans = beans;
@@ -40,6 +41,16 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
         itemWidth = (ScreenUtils.getScreenWidth(context) - dip2 * 50) / 3;
         gradientColors = context.getResources().getIntArray(R.array.identificationColor);
         setHasStableIds(true);
+    }
+
+    public void setOnLocationSelectedListener(OnLocationSelectedListener onLocationSelectedListener) {
+        this.onLocationSelectedListener = onLocationSelectedListener;
+    }
+
+    public void setNewData(List<LocationAreaSelectorBean> beans)
+    {
+        this.beans = beans;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -91,18 +102,20 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
                 @Override
                 public void onClickView(View view) {
                     int index=(int)view.getTag();
-                    if (selectIndex > -1) {
-                        beans.get(selectIndex-1).setSelected(false);
-                    }
-                    beans.get(index-1).setSelected(true);
+                    beans.get(selectIndex).setSelected(false);
+                    beans.get(index).setSelected(true);
                     selectIndex = index;
                     notifyDataSetChanged();
+                    if(onLocationSelectedListener!=null && getItemViewType(selectIndex)>0)
+                    {
+                        onLocationSelectedListener.onSelected(beans.get(selectIndex));
+                    }
                 }
             });
 
-            holder.textView.setText(beans.get(position-1).getAreaName());
+            holder.textView.setText(beans.get(position).getAreaName());
 
-            if (beans.get(position-1).isSelected()) {
+            if (beans.get(position).isSelected()) {
                 holder.textView.setTextColor(0xffffffff);
                 holder.textView.setGradientBackground(gradientColors, (int) (dip2 * 7.5));
             } else {
@@ -118,7 +131,7 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
 
     @Override
     public int getItemCount() {
-        return beans.size()+1;
+        return beans.size();
     }
 
     @Override
@@ -139,5 +152,10 @@ public class LocationAreaSelectorAdapter extends RecyclerView.Adapter<LocationAr
             }
 
         }
+    }
+
+    public interface OnLocationSelectedListener
+    {
+        void onSelected(LocationAreaSelectorBean bean);
     }
 }

@@ -676,7 +676,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                     {
                         for (int i = 0; i < data.size(); i++) {
                             LivingGiftBean livingGiftBean=data.get(i);
-                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setItemName(livingGiftBean.getName());
                             livingGiftBean.setSelected(false);
                             livingGiftBean.setItemId(livingGiftBean.getId()+"");
                             livingGiftBean.setImgUrl(livingGiftBean.getGitficon());
@@ -705,7 +705,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                     {
                         for (int i = 0; i < data.size(); i++) {
                             LivingGiftBean livingGiftBean=data.get(i);
-                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setItemName(livingGiftBean.getName());
                             livingGiftBean.setSelected(false);
                             livingGiftBean.setItemId(livingGiftBean.getId()+"");
                             livingGiftBean.setImgUrl(livingGiftBean.getGitficon());

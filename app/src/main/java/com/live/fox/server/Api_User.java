@@ -46,6 +46,50 @@ public class Api_User extends BaseApi {
 
 
     /**
+     * 用户信息 获取包括直播间的信息，包括管理员 拉黑 禁言
+     */
+    public void getUserInfo(long uid,String liveId, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_userInfo_URL;
+        HashMap<String, Object> params = getCommonParams();
+        if (uid >= 0) params.put("uid", uid);
+        if(!TextUtils.isEmpty(liveId))
+        {
+            params.put("liveId", liveId);
+        }
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                url,
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(new JsonCallback<String>() {
+                    @Override
+                    public void onSuccess(int code, String msg, String data) {
+                        User user=DataCenter.getInstance().getUserInfo().getUser();
+                        if(user!=null && user.getUid()!=null)
+                        {
+                            boolean isMe=user.getUid()==uid || uid<=0;
+                            if (code == 0 && !TextUtils.isEmpty(data) ) {
+                                if(isMe)
+                                {
+                                    DataCenter.getInstance().getUserInfo().setUser(data);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DataCenter.getInstance().getUserInfo().setUser(data);
+                        }
+
+                        if(callback!=null)
+                        {
+                            callback.onSuccess(code,msg,data);
+                        }
+                    }
+                });
+    }
+
+    /**
      * 用户信息
      */
     public void getUserInfo(long uid, JsonCallback<String> callback) {

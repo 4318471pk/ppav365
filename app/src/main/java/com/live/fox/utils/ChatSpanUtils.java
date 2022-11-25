@@ -249,7 +249,7 @@ public class ChatSpanUtils {
             case Constant.MessageProtocol.PROTOCOL_LIVE_KICK: //24 踢人消息
                 isShow = true;
                 appendText(spanUtils, jsonObject.optString("nickname") +
-                        context.getString(R.string.ybtcbzbj), ContentType.Hint, false, null);
+                        context.getString(R.string.btcbzbj), ContentType.Hint, false, null);
                 break;
 
             case Constant.MessageProtocol.PROTOCOL_MyCoust:  //99 自己的消息 直播间公告消息
@@ -486,7 +486,11 @@ public class ChatSpanUtils {
             case MessageProtocol.SYSTEM_NOTICE:// 系统
             case MessageProtocol.SYSTEM_ADVERTISE:// 系统
             case MessageProtocol.LIVE_ENTER_ROOM:
+            case MessageProtocol.LIVE_BLACK_CHAT:
+            case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
+            case MessageProtocol.LIVE_BAN_USER:
             case MessageProtocol.LIVE_FOLLOW:
+            case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
                 resourceId = R.mipmap.icon_tag_sys;
                 break;
             case MessageProtocol.GAME_CP_WIN:// 中奖
@@ -501,7 +505,10 @@ public class ChatSpanUtils {
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         spanUtils.append(" ");
 
-        spanUtils.append(message).setForegroundColor(0xffffffff);
+        if(!TextUtils.isEmpty(message))
+        {
+            spanUtils.append(message).setForegroundColor(0xffffffff);
+        }
         return spanUtils;
     }
 
@@ -845,8 +852,6 @@ public class ChatSpanUtils {
 
                 LivingClickTextSpan livingClickTextSpan = new LivingClickTextSpan(pBean, 0xff85EFFF);
                 livingClickTextSpan.setOnClickTextItemListener(listener);
-//                SpannableString spannableString=new SpannableString(pBean.getNickname()+": ");
-//                spannableString.setSpan(livingClickTextSpan,0,spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 String nickName = pBean.getNickname() + ": ";
                 spanUtils.append(nickName);
                 int length1 = spanUtils.getLength();

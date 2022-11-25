@@ -71,7 +71,7 @@ public class LocalUserLevelDao implements ResourceDaoImpl<UserLevelResourceBean>
 
                                     if (isLocalPathAvailable) {
                                         list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
-                                        list.get(i).setLocalShouldUpdate(oldBean.getLocalShouldUpdate());
+                                        list.get(i).setLocalImgPath(oldBean.getLocalImgPath());
                                     } else {
                                         list.get(i).setLocalShouldUpdate(1);
                                     }

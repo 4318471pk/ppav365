@@ -20,6 +20,7 @@
             android:id="@+id/rrlPlay"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:layout_gravity="center_vertical"
             app:rv_cornerRadius_TR="10dip"
             app:rv_cornerRadius_TL="10dip"
             app:rv_cornerRadius_BL="10dip"
@@ -30,8 +31,7 @@
                 android:id="@+id/ivCar1"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/img_default"/>
+                android:layout_centerInParent="true" />
 
             <ImageView
                 android:id="@+id/ivBo"
@@ -40,22 +40,20 @@
                 android:layout_centerInParent="true"
                 android:src="@mipmap/icon_play_mybag"/>
 
-            <ImageView
-                android:id="@+id/ivCar2"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/img_default"/>
-
         </com.flyco.roundview.RoundRelativeLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dip"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
@@ -63,23 +61,24 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textSize="13sp"
-
                 android:text="-------"/>
 
             <TextView
                 android:id="@+id/tvDes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginRight="5dip"
+                android:maxLines="2"
                 android:textSize="11sp"
                 android:textColor="#B6B6B6"
                 android:text="-------"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:layout_marginTop="15dp"
                 android:layout_marginRight="5dip"
                 android:orientation="horizontal">
 
@@ -91,13 +90,13 @@
                     android:layout_marginEnd="5dp"
                     android:gravity="left"
                     android:textColor="#F42C2C"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:text="@string/forbiddenUse"/>
 
                 <com.live.fox.view.GradientTextView
                     android:id="@+id/gtvCommit"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="24dp"
                     android:visibility="gone"
                     android:textSize="14sp"
                     android:textColor="#ffffff"
@@ -122,6 +121,6 @@
             </LinearLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </com.flyco.roundview.RoundLinearLayout>

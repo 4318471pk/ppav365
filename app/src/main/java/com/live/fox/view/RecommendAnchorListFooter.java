@@ -24,6 +24,7 @@ import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ImageUtils;
 import com.live.fox.utils.SpanUtils;
@@ -100,7 +101,10 @@ public class RecommendAnchorListFooter extends LinearLayout {
         changeList.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeList.setEnabled(false);
+                if(ClickUtil.isClickWithShortTime(changeList.hashCode(),2000))
+                {
+                    return;
+                }
                 if(onClickChangeListListener!=null)
                 {
                     onClickChangeListListener.onChange();
@@ -124,7 +128,6 @@ public class RecommendAnchorListFooter extends LinearLayout {
 
     public void setData(List<RoomListBean> mListBeans)
     {
-        changeList.setEnabled(true);
         if(this.listBeans==null)
         {
             this.listBeans=new ArrayList<>();

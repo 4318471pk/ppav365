@@ -81,7 +81,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
-        if(ClickUtil.isClickWithShortTime(LivingActivity.class.hashCode(),1000))
+        if(ClickUtil.isClickWithShortTime(LivingActivity.class.hashCode(),1500))
         {
             return;
         }
@@ -493,7 +493,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
                     {
                         for (int i = 0; i < data.size(); i++) {
                             LivingGiftBean livingGiftBean=data.get(i);
-                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setItemName(livingGiftBean.getName());
                             livingGiftBean.setSelected(false);
                             livingGiftBean.setItemId(livingGiftBean.getId()+"");
                             livingGiftBean.setImgUrl(livingGiftBean.getGitficon());
@@ -522,7 +522,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
                     {
                         for (int i = 0; i < data.size(); i++) {
                             LivingGiftBean livingGiftBean=data.get(i);
-                            livingGiftBean.setName(livingGiftBean.getName());
+                            livingGiftBean.setItemName(livingGiftBean.getName());
                             livingGiftBean.setSelected(false);
                             livingGiftBean.setItemId(livingGiftBean.getId()+"");
                             livingGiftBean.setImgUrl(livingGiftBean.getGitficon());

@@ -39,4 +39,6 @@ public interface ConstantValue {
     public static final String NOTIFICATION_IS_SHOWED = "notification is showed";
     public static final String pictureOfUpload="pictureOfUpload";
     String resourceDomain="resourceDomain";//资源域名
+    String searchHistory="searchHistory";//搜索历史
+    String watchedHistory="watchedHistory";//观看历史
 }

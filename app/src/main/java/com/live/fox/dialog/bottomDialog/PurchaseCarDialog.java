@@ -38,6 +38,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
     DialogPurchaseCarBinding mBind;
     int status;
     MyBagStoreListItemBean myBagStoreListItemBean;
+    OnBuyVehicleSuccessListener onBuyVehicleSuccessListener;
 
     public static PurchaseCarDialog getInstance(int status, MyBagStoreListItemBean bean)
     {
@@ -45,6 +46,10 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         purchaseCarDialog.status=status;
         purchaseCarDialog.myBagStoreListItemBean = bean;
         return purchaseCarDialog;
+    }
+
+    public void setOnBuyVehicleSuccessListener(OnBuyVehicleSuccessListener onBuyVehicleSuccessListener) {
+        this.onBuyVehicleSuccessListener = onBuyVehicleSuccessListener;
     }
 
     @Override
@@ -75,9 +80,9 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         mBind.setClick(this);
 
         mBind.tvName.setText(myBagStoreListItemBean.getName());
-        GlideUtils.loadDefaultImage(this.getContext(), myBagStoreListItemBean.getLogUrl(), mBind.ivCar);
+        GlideUtils.loadDefaultImage(this.getContext(), myBagStoreListItemBean.getLogUrl(),0,R.mipmap.img_error ,mBind.ivCar);
 
-        mBind.tvMoneyBuy.setText(String.format(getString(R.string.buy_car_money), myBagStoreListItemBean.getPrice() + ""));
+        mBind.tvMoneyBuy.setText(String.format(getString(R.string.buy_car_money), myBagStoreListItemBean.getPrice()+""));
         mBind.tvMoneyXu.setText(String.format(getString(R.string.xu_car_money), myBagStoreListItemBean.getPrice() + ""));
 
         SpanUtils spanUtils=new SpanUtils();
@@ -95,7 +100,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         }
         else if(myBagStoreListItemBean.isEnable())
         {
-            mBind.gtvCommit.setColors(getResources().getIntArray(R.array.confirmRenew));
+            mBind.gtvCommit.setColors(getResources().getIntArray(R.array.startingUseColor));
             mBind.gtvCommit.setText(getResources().getString(R.string.confirmRenew));
         }
     }
@@ -201,12 +206,19 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         Api_Order.ins().buyCar(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                if(!isConditionOk())
+                {
+                    return;
+                }
+                if (code == 0 ) {
                     dialog.dismissAllowingStateLoss();
                     dismissAllowingStateLoss();
                     if (!myBagStoreListItemBean.isHave()) {
-                        EventBus.getDefault().post(new MessageEvent(MyBagAndStoreFragment.EventCodeStore));
-                        ToastUtils.showShort(App.getInstance().getString(R.string.successfulOpening));
+                        if(onBuyVehicleSuccessListener!=null)
+                        {
+                            onBuyVehicleSuccessListener.onBuySuccess();
+                        }
+                        ToastUtils.showShort(getStringWithoutContext(R.string.successfulOpening));
                     } else {
                         ToastUtils.showShort(App.getInstance().getString(R.string.xufei_suc));
                     }
@@ -215,5 +227,10 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
                 }
             }
         }, commonParams);
+    }
+
+    public interface OnBuyVehicleSuccessListener
+    {
+        void onBuySuccess();
     }
 }

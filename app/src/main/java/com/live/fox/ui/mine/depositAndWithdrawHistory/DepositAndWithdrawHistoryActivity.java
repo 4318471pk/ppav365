@@ -36,6 +36,7 @@ public class DepositAndWithdrawHistoryActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
+        setWindowsFlag();
         mBind=getViewDataBinding();
         setActivityTitle(R.string.recharge_record);
         setServiceImage(new OnClickFrequentlyListener() {

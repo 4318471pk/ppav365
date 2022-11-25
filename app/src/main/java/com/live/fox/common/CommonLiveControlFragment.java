@@ -1076,7 +1076,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
         }
 
         if (isSilent) {
-            ToastUtils.showShort(getString(R.string.canNotSpeak));
+            ToastUtils.showShort(getString(R.string.muted));
             return;
         }
 

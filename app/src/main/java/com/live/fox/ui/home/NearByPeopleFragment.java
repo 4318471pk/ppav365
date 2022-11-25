@@ -3,6 +3,7 @@ package com.live.fox.ui.home;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.live.fox.R;
@@ -10,12 +11,29 @@ import com.live.fox.adapter.LocationAreaSelectorAdapter;
 import com.live.fox.adapter.NearByPeopleListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentNearbyPeopleBinding;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.LocationAreaSelectorBean;
+import com.live.fox.entity.RoomListBean;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Live;
+import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.utils.AssetsUtils;
+import com.live.fox.utils.IOUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.luck.picture.lib.tools.DoubleUtils;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +43,8 @@ public class NearByPeopleFragment extends BaseBindingFragment {
     NearByPeopleListAdapter nearByPeopleListAdapter;
     FragmentNearbyPeopleBinding mBind;
     LocationAreaSelectorAdapter adapter;
-    List<LocationAreaSelectorBean> list;
+    List<LocationAreaSelectorBean> list=new ArrayList<>();
+    LocationAreaSelectorBean currentBean;
     public static NearByPeopleFragment newInstance()
     {
         return new NearByPeopleFragment();
@@ -71,37 +90,105 @@ public class NearByPeopleFragment extends BaseBindingFragment {
         mBind.setClick(this);
 
         mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                getNearByList(currentBean);
+            }
+        });
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 2, GridLayoutManager.VERTICAL, false);
         mBind.rvMain.setLayoutManager(layoutManager);
         mBind.rvMain.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 2.5f)));
 
-        mBind.gtvSelector.setText("海外");
         int dip10= ScreenUtils.getDip2px(getActivity(),10);
 
-        list=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            LocationAreaSelectorBean bean=new LocationAreaSelectorBean();
-            bean.setAreaName("江西");
-            bean.setSelected(false);
-            list.add(bean);
+        nearByPeopleListAdapter=new NearByPeopleListAdapter(getActivity(),new ArrayList<>());
+        mBind.rvMain.setAdapter(nearByPeopleListAdapter);
+        nearByPeopleListAdapter.setOnItemClickListener((adapter, v, position) -> {
+            if (DoubleUtils.isFastDoubleClick()) return;
+            if (nearByPeopleListAdapter.getItem(position) == null) return;
+            if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+                LoginModeSelActivity.startActivity(requireContext());
+                return;
+            }
+
+            LivingActivity.startActivity(getActivity(),(ArrayList<RoomListBean>)adapter.getData(),position);
+        });
+        setLocationList();
+
+    }
+
+    private void setLocationList()
+    {
+        String jsonstr= AssetsUtils.getStringFromAssert(getActivity(),"NearbyAchorLocation.json");
+        try {
+            JSONArray jsonArray=new JSONArray(jsonstr);
+            list.add(new LocationAreaSelectorBean("",-1));//头部
+            list.add(new LocationAreaSelectorBean(getStringWithoutContext(R.string.noLimit),0));
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject=jsonArray.optJSONObject(i);
+                LocationAreaSelectorBean bean=new LocationAreaSelectorBean();
+                bean.setAreaName(jsonObject.optString("name",""));
+                bean.setType(jsonObject.optInt("type",0));
+                bean.setSelected(false);
+                list.add(bean);
+            }
+            adapter=new LocationAreaSelectorAdapter(getActivity(),list);
+            GridLayoutManager gridLayoutManager=new GridLayoutManager(getActivity(),3);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return position==0?3:1;
+                }
+            });
+            mBind.rvSelector.setLayoutManager(gridLayoutManager);
+            mBind.rvSelector.setAdapter(adapter);
+
+            adapter.setOnLocationSelectedListener(new LocationAreaSelectorAdapter.OnLocationSelectedListener() {
+                @Override
+                public void onSelected(LocationAreaSelectorBean bean) {
+                    mBind.llDropDownDialog.performClick();
+                    mBind.gtvSelector.setText(bean.getAreaName());
+                    getNearByList(bean);
+                }
+            });
+            mBind.gtvSelector.setText(getStringWithoutContext(R.string.noLimit));
+            getNearByList(list.get(1));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        adapter=new LocationAreaSelectorAdapter(getActivity(),list);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getActivity(),3);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+    }
+
+    private void getNearByList(LocationAreaSelectorBean bean)
+    {
+        if(bean==null)
+        {
+            return;
+        }
+        currentBean=bean;
+        String title=bean.getAreaName();
+        if(bean.getType()==0)
+        {
+            title=null;
+        }
+
+        Api_Live.ins().nearbyAnchorList(title, bean.getType(), new JsonCallback<List<RoomListBean>>() {
             @Override
-            public int getSpanSize(int position) {
-                return position==0?3:1;
+            public void onSuccess(int code, String msg, List<RoomListBean> data) {
+                if(isActivityOK())
+                {
+                    mBind.srlRefresh.finishRefresh(code==0);
+                    if(code==0)
+                    {
+                        nearByPeopleListAdapter.setNewData(data);
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
             }
         });
-        mBind.rvSelector.setLayoutManager(gridLayoutManager);
-        mBind.rvSelector.setAdapter(adapter);
-
-        List<Anchor> list=new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            list.add(new Anchor());
-        }
-        nearByPeopleListAdapter=new NearByPeopleListAdapter(getActivity(),list);
-        mBind.rvMain.setAdapter(nearByPeopleListAdapter);
     }
 }

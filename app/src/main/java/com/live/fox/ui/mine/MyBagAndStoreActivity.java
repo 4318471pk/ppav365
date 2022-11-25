@@ -12,6 +12,7 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.databinding.ActivityMybagStoreBinding;
+import com.opensource.svgaplayer.SVGAParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,9 @@ public class MyBagAndStoreActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
+        setWindowsFlag();
         mBind=getViewDataBinding();
+        SVGAParser.Companion.shareParser().init(this);//SVGA解析器初始化
         setHeadGone();
         mBind.ivBack.setOnClickListener(view-> finish());
        // setActivityTitle(R.string.store_package);
@@ -104,5 +107,11 @@ public class MyBagAndStoreActivity extends BaseBindingViewActivity {
 
     }
 
-
+    public void reFreshBoth()
+    {
+        for (int i = 0; i < fragmentList.size(); i++) {
+            MyBagAndStoreFragment myBagAndStoreFragment=(MyBagAndStoreFragment)fragmentList.get(i);
+            myBagAndStoreFragment.getData(true);
+        }
+    }
 }

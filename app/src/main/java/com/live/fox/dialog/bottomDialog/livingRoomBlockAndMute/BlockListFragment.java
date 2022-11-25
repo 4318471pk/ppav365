@@ -12,6 +12,7 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentBlockListBinding;
+import com.live.fox.entity.BlackOrMuteListItemBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -61,11 +62,13 @@ public class BlockListFragment extends BaseBindingFragment {
 
     private void getBlockList()
     {
-        Api_Live.ins().getLivingBlackList(liveId, new JsonCallback<String>() {
+        Api_Live.ins().getLivingBlackList(liveId, new JsonCallback<List<BlackOrMuteListItemBean>>() {
             @Override
-            public void onSuccess(int code, String msg, String data) {
-                Log.e("getBlockList",data);
+            public void onSuccess(int code, String msg, List<BlackOrMuteListItemBean> data) {
+                Log.e("getBlockList",data+" ");
             }
         });
     }
+
+
 }

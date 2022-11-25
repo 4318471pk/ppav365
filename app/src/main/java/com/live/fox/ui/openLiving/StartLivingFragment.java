@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -335,7 +336,12 @@ public class StartLivingFragment extends BaseBindingFragment {
                 if (isHasProtocolCode && isCurrentLiveId) {
                     switch (protocolCode) {
                         case MessageProtocol.SYSTEM_NOTICE:
-                        case MessageProtocol.GAME_CP_WIN:
+                            break;
+                        case MessageProtocol.LIVE_BLACK_CHAT:
+                        case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
+                        case MessageProtocol.LIVE_BAN_USER:
+                        case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
+                            roomOperate(msgJson);
                             break;
                         case MessageProtocol.LIVE_ENTER_ROOM:
                             livingMessageEnterRoom(msg);
@@ -604,6 +610,81 @@ public class StartLivingFragment extends BaseBindingFragment {
     }
 
     /**
+     * MessageProtocol.LIVE_BLACK_CHAT: 禁言
+     * MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:设置房管
+     * MessageProtocol.LIVE_BAN_USER:踢人（拉黑）
+     * MessageProtocol.LIVE_BLACK_CHAT_CANCEL 取消禁言
+     */
+    private void roomOperate(JSONObject jsonObject)
+    {
+        if(jsonObject!=null)
+        {
+            String nickname=jsonObject.optString("nickname","");
+            String protocol=jsonObject.optString("protocol","");
+            String uid=jsonObject.optString("uid","");
+            String type=jsonObject.optString("type","");
+
+            SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(protocol, "",getActivity());
+
+            LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
+                @Override
+                public void onClick(Object bean) {
+                    if(bean!=null && bean instanceof String)
+                    {
+                        showBotDialog((String)bean);
+                    }
+                }
+            };
+            LivingClickTextSpan livingClickTextSpan = new LivingClickTextSpan(uid, 0xff85EFFF);
+            livingClickTextSpan.setOnClickTextItemListener(listener);
+            int length1 = 0;
+            int length2 = 0;
+
+            if(!TextUtils.isEmpty(protocol))
+            {
+                switch (protocol)
+                {
+                    case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
+                        spanUtils.append(nickname + ": ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(getStringWithoutContext(R.string.unMuted)).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sendSystemMsgToChat(spanUtils.create());
+                        break;
+                    case MessageProtocol.LIVE_BLACK_CHAT:
+                        spanUtils.append(nickname + ": ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(getStringWithoutContext(R.string.muted)).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanUtils.append(" "+getStringWithoutContext(R.string.forever)).setForegroundColor(0xffFF565A);
+                        sendSystemMsgToChat(spanUtils.create());
+                        break;
+                    case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
+                        String whiteText=Strings.isDigitOnly(type) && Integer.valueOf(type)==1?
+                                getStringWithoutContext(R.string.obtainAdmin):getStringWithoutContext(R.string.cancelAdminRights);
+                        spanUtils.append(nickname + " ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(whiteText).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sendSystemMsgToChat(spanUtils.create());
+                        break;
+                    case MessageProtocol.LIVE_BAN_USER:
+                        spanUtils.append(nickname + " ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(getStringWithoutContext(R.string.kickedOut)).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sendSystemMsgToChat(spanUtils.create());
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
      * 改变房间类型
      */
     private void changeRoomType(String liveId, int type, int price)
@@ -659,7 +740,14 @@ public class StartLivingFragment extends BaseBindingFragment {
         params.put("nickName",nickName);
         params.put("title",title);
         params.put("price",roomPrice);
-        params.put("location",location.toString());
+        if(!TextUtils.isEmpty(user.getProvince()))
+        {
+            params.put("province",user.getProvince());
+        }
+        if(!TextUtils.isEmpty(user.getCity()))
+        {
+            params.put("city",user.getCity());
+        }
         if(!TextUtils.isEmpty(icon))
         {
             params.put("icon",icon);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.live.fox.databinding.FragmentLivingBinding;
 import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalMountResourceDao;
 import com.live.fox.db.LocalUserVehiclePlayLimitDao;
+import com.live.fox.db.LocalWatchHistoryDao;
 import com.live.fox.dialog.bottomDialog.LivingProfileBottomDialog;
 import com.live.fox.dialog.temple.TempleDialog;
 import com.live.fox.dialog.temple.TempleDialog2;
@@ -44,6 +46,7 @@ import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.RoomWatchedHistoryBean;
 import com.live.fox.entity.SvgAnimateLivingBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserVehiclePlayLimitBean;
@@ -630,11 +633,17 @@ public class LivingFragment extends BaseBindingFragment {
     private void enterRoom() {
         if (isActivityOK()) {
             LivingActivity activity = (LivingActivity) getActivity();
-            RoomListBean bean = activity.getRoomListBeans().get(currentPagePosition);
+            final RoomListBean bean = activity.getRoomListBeans().get(currentPagePosition);
+
             Api_Live.ins().interRoom(bean.getId(), bean.getAid(),bean.getRoomType(),
                     "", 0, new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
+                            if(!isActivityOK() || !getArg().equals(bean.getId()))
+                            {
+                                return;
+                            }
+
                             if ( enterRoomBean != null) {
                                 //进入房间成功刷新主播信息
                                 getAnchorInfo(true);
@@ -654,6 +663,7 @@ public class LivingFragment extends BaseBindingFragment {
                                     }
 
                                 }
+                                LocalWatchHistoryDao.getInstance().insert(RoomWatchedHistoryBean.convertBean(bean));
                             }
                             else
                             {
@@ -810,6 +820,12 @@ public class LivingFragment extends BaseBindingFragment {
                     switch (protocolCode) {
                         case MessageProtocol.SYSTEM_NOTICE:
                         case MessageProtocol.GAME_CP_WIN:
+                            break;
+                        case MessageProtocol.LIVE_BLACK_CHAT:
+                        case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
+                        case MessageProtocol.LIVE_BAN_USER:
+                        case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
+                            roomOperate(msgJson);
                             break;
                         case MessageProtocol.LIVE_ENTER_ROOM:
                             livingMessageEnterRoom(liveId,msg);
@@ -1313,4 +1329,91 @@ public class LivingFragment extends BaseBindingFragment {
         });
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);
     }
+
+    /**
+     * MessageProtocol.LIVE_BLACK_CHAT: 禁言
+     * MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:设置房管
+     * MessageProtocol.LIVE_BAN_USER:踢人（拉黑）
+     * MessageProtocol.LIVE_BLACK_CHAT_CANCEL 取消禁言
+     */
+    private void roomOperate(JSONObject jsonObject)
+    {
+        if(jsonObject!=null)
+        {
+            String nickname=jsonObject.optString("nickname","");
+            String protocol=jsonObject.optString("protocol","");
+            String uid=jsonObject.optString("uid","");
+            String type=jsonObject.optString("type","");
+
+            SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(protocol, "",getActivity());
+
+            LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
+                @Override
+                public void onClick(Object bean) {
+                    if(bean!=null && bean instanceof JSONObject)
+                    {
+                        JSONObject data=(JSONObject)bean;
+                        String uid=data.optString("uid","");
+                        String liveId=data.optString("liveId","");
+                        showBotDialog(liveId,uid);
+                    }
+                }
+            };
+            LivingClickTextSpan livingClickTextSpan = new LivingClickTextSpan(jsonObject, 0xff85EFFF);
+            livingClickTextSpan.setOnClickTextItemListener(listener);
+            int length1 = 0;
+            int length2 = 0;
+
+            if(!TextUtils.isEmpty(protocol))
+            {
+                switch (protocol)
+                {
+                    case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
+                        spanUtils.append(nickname + ": ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(getStringWithoutContext(R.string.unMuted)).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sendSystemMsgToChat(spanUtils.create());
+                        ToastUtils.showShort(getStringWithoutContext(R.string.livingTips4));
+                        break;
+                    case MessageProtocol.LIVE_BLACK_CHAT:
+                        spanUtils.append(nickname + ": ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(getStringWithoutContext(R.string.muted)).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanUtils.append(" "+getStringWithoutContext(R.string.forever)).setForegroundColor(0xffFF565A);
+                        sendSystemMsgToChat(spanUtils.create());
+                        ToastUtils.showShort(getStringWithoutContext(R.string.livingTips3));
+                        break;
+                    case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
+                        boolean isSetAdmin=Strings.isDigitOnly(type) && Integer.valueOf(type)==1;
+                        String whiteText=isSetAdmin?
+                                getStringWithoutContext(R.string.obtainAdmin):getStringWithoutContext(R.string.cancelAdminRights);
+                        spanUtils.append(nickname + " ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(whiteText).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sendSystemMsgToChat(spanUtils.create());
+                        if(isSetAdmin)
+                        {
+                            ToastUtils.showShort(getStringWithoutContext(R.string.livingTips1));
+                        }
+                        break;
+                    case MessageProtocol.LIVE_BAN_USER:
+                        spanUtils.append(nickname + " ");
+                        length1 = spanUtils.getLength();
+                        spanUtils.append(getStringWithoutContext(R.string.kickedOut)).setForegroundColor(0xffffffff);
+                        length2 = spanUtils.getLength();
+                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sendSystemMsgToChat(spanUtils.create());
+                        ToastUtils.showShort(getStringWithoutContext(R.string.livingTips2));
+                        break;
+                }
+            }
+        }
+    }
+
 }

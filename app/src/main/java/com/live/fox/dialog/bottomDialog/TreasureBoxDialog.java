@@ -24,18 +24,26 @@ import com.live.fox.adapter.TreasureBoxPagerAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogTreasureBoxBinding;
+import com.live.fox.db.LocalGiftDao;
+import com.live.fox.db.LocalMountResourceDao;
+import com.live.fox.entity.BagAndStoreBean;
+import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingGiftBean;
+import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.TreasureItemBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.BotTriangleBubbleView;
 
@@ -163,6 +171,11 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                     ToastUtils.showShort(getStringWithoutContext(R.string.canNotSendGiftToSelf));
                     return;
                 }
+                if(currentType>1)
+                {
+                    return;
+                }
+
                 if(onSelectedGiftListener!=null)
                 {
                     if(lists.get(currentType).size()>0)
@@ -340,6 +353,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
         //背包列表
         lists.add(new ArrayList<>());
+        getMyBagListData();
 
         mBind.viewPager.setOffscreenPageLimit(1);
         setAdapterIndex(0);
@@ -411,6 +425,54 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         });
     }
 
+    private void getMyBagListData()
+    {
+        Api_Order.ins().getBagList(new JsonCallback<BagAndStoreBean>() {
+            @Override
+            public void onSuccess(int code, String msg, BagAndStoreBean data) {
+                if(isConditionOk())
+                {
+                    if(code==0)
+                    {
+                        if(data!=null && data.getRecords()!=null && data.getRecords().size()>0)
+                        {
+                            for (int i = 0; i < data.getRecords().size(); i++) {
+                                MyBagStoreListItemBean bean=data.getRecords().get(i);
+
+                                switch (bean.getPropType())
+                                {
+                                    case 1:
+                                        GiftResourceBean giftResourceBean= LocalGiftDao.getInstance().getGift(data.getRecords().get(i).getPropId());
+                                        if(giftResourceBean!=null)
+                                        {
+                                            data.getRecords().get(i).setItemName(giftResourceBean.getName());
+                                            data.getRecords().get(i).setCostDiamond((int)giftResourceBean.getNeeddiamond());
+                                            data.getRecords().get(i).setImgUrl(Strings.urlConnect(giftResourceBean.getGitficon()));
+                                        }
+                                        break;
+                                    case 2:
+                                        MountResourceBean mountResourceBean= LocalMountResourceDao.getInstance().getVehicleById(data.getRecords().get(i).getPropId());
+                                        if(mountResourceBean!=null)
+                                        {
+                                            data.getRecords().get(i).setItemName(mountResourceBean.getName());
+                                            data.getRecords().get(i).setCostDiamond((int)mountResourceBean.getPrice());
+                                            data.getRecords().get(i).setImgUrl(Strings.urlConnect(mountResourceBean.getLogUrl()));
+                                        }
+                                        break;
+                                }
+                            }
+                            lists.set(2,data.getRecords());
+                        }
+
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }
+        },1,1000);
+    }
 
     public interface OnSelectedGiftListener
     {

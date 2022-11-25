@@ -130,7 +130,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
 
         if(isMute)
         {
-            Api_Live.ins().blackChat(uid, anchorId, true, new JsonCallback<String>() {
+            Api_Live.ins().blackChat(liveId, uid, true, new JsonCallback<String>() {
                 @Override
                 public void onSuccess(int code, String msg, String data) {
                     if(isConditionOk())
@@ -142,6 +142,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                             {
                                 operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
                             }
+                            onBackPress();
                         }
                         else
                         {
@@ -165,6 +166,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                             {
                                 operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
                             }
+                            onBackPress();
                         }
                         else
                         {
@@ -196,6 +198,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                         {
                             operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
                         }
+                        onBackPress();
                     }
                     else
                     {
@@ -227,6 +230,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                             {
                                 operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
                             }
+                            onBackPress();
                         }
                         else
                         {
@@ -251,6 +255,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                             {
                                 operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
                             }
+                            onBackPress();
                         }
                         else
                         {

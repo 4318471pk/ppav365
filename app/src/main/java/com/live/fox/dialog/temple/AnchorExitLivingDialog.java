@@ -59,7 +59,7 @@ public class AnchorExitLivingDialog extends TempleDialog2{
             {
                 SpanUtils spanUtils=new SpanUtils();
                 spanUtils.append(startLivingFragment.mBind.gtvOnlineAmount.getText().toString()).setForegroundColor(0xffF42C2C);
-                spanUtils.append(getStringWithoutContext(R.string.offLivingContent2)).setForegroundColor(0xffffffff);
+                spanUtils.append(getStringWithoutContext(R.string.offLivingContent2)).setForegroundColor(0xff646464);
                 mBind.tvContent.setText(spanUtils.create());
             }
             else

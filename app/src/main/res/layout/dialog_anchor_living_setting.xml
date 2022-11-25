@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textColor="@color/white"
-                android:text="@string/setAudienceAdmin"
+                android:text="@string/setting"
                 />
 
             <ImageView

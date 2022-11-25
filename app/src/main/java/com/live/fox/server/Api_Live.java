@@ -1,5 +1,6 @@
 package com.live.fox.server;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -7,11 +8,13 @@ import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.AnchorGuardListBean;
+import com.live.fox.entity.BlackOrMuteListItemBean;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.entity.SearchAnchorBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
@@ -133,7 +136,7 @@ public class Api_Live extends BaseApi {
     /**
      * 获取直播间禁言用户列表
      */
-    public void getLivingMuteList(String liveId,JsonCallback<String> callback) {
+    public void getLivingMuteList(String liveId,JsonCallback<List<BlackOrMuteListItemBean>> callback) {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingMuteList);
@@ -154,7 +157,7 @@ public class Api_Live extends BaseApi {
     /**
      * 获取直播间拉黑用户列表
      */
-    public void getLivingBlackList(String liveId,JsonCallback<String> callback) {
+    public void getLivingBlackList(String liveId,JsonCallback<List<BlackOrMuteListItemBean>> callback) {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingBlackList);
@@ -227,6 +230,7 @@ public class Api_Live extends BaseApi {
 
         if (!StringUtils.isEmpty(password)) params.put("password", password);
         Log.e("interRoom", "params:" + params.toString());
+        callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(
                 "interRoom",
                 url,
@@ -248,6 +252,53 @@ public class Api_Live extends BaseApi {
                 "",
                 sb.toString(),
                 getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
+    /**
+     * 附近的主播
+     */
+    public void nearbyAnchorList(String title,int type, JsonCallback<List<RoomListBean>> callback) {
+
+        String url = SPManager.getServerDomain() + Constant.URL.NearbyLivingList;
+        callback.setUrlTag(Constant.URL.NearbyLivingList);
+        HashMap<String, Object> params = getCommonParams();
+        if(!TextUtils.isEmpty(title))
+        {
+            if(type==1)
+            {
+                params.put("city", title);
+            }
+            else if(type==2)
+            {
+                params.put("province", title);
+            }
+        }
+
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                Constant.URL.NearbyLivingList,
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
+    /**
+     * 首页-主播搜索
+     */
+    public void searchAnchor(String content, JsonCallback<List<SearchAnchorBean>> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.searchAnchor;
+        callback.setUrlTag(Constant.URL.searchAnchor);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("content", content);
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                Constant.URL.searchAnchor,
+                url,
+                getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                new Gson().toJson(params))
                 .execute(callback);
     }
 

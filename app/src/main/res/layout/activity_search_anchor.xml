@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:orientation="vertical"
         >
 
@@ -74,6 +75,8 @@
                     android:id="@+id/etSearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:maxLength="20"
+                    android:singleLine="true"
                     android:layout_toRightOf="@id/ivTag"
                     android:layout_toLeftOf="@id/ivDelete"
                     android:background="#00000000"

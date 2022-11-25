@@ -1,13 +1,16 @@
 package com.live.fox.ui.lottery;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.LivingLotteryListBean;
+import com.live.fox.server.Api_Living_Lottery;
 import com.live.fox.ui.lottery.adapter.LotteryAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.databinding.LayoutRcBinding;
@@ -54,6 +57,7 @@ public class LotteryItemListFragment extends BaseBindingFragment {
         mBind.rc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getLiveRoomGameDetail(lotteryList.get(position).getGameCode());
                 TouzhuDialog touzhuDialog = new TouzhuDialog();
                 DialogFramentManager.getInstance().showDialog(LotteryItemListFragment.this.getActivity().getSupportFragmentManager(), touzhuDialog);
                 if(getParentFragment()!=null && (getParentFragment() instanceof LotteryDialog))
@@ -63,9 +67,16 @@ public class LotteryItemListFragment extends BaseBindingFragment {
                 }
             }
         });
+    }
 
-
-
+    private void getLiveRoomGameDetail(String gameCode)
+    {
+        Api_Living_Lottery.ins().getLiveRoomGameDetail(gameCode, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("getLiveRoomGameDetail",data);
+            }
+        });
     }
 
 }

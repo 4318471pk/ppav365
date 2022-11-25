@@ -62,6 +62,11 @@ public abstract class BaseBindingViewActivity extends BaseActivity {
         return false;
     }
 
+    public boolean isActivityOK()
+    {
+        return !isFinishing() && !isDestroyed();
+    }
+
     public <T extends ViewDataBinding> T getViewDataBinding() {
         return (T)viewDataBinding;
     }

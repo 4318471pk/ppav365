@@ -220,6 +220,7 @@ public final class Strings {
     //url connection
     public static String urlConnect(String downloadUrl) {
         String domain = SPUtils.getInstance().getString(ConstantValue.resourceDomain,"");
+        boolean isDomainEndWithBackSlash=domain.endsWith("/");
 
         StringBuilder sb = new StringBuilder();
 

@@ -89,9 +89,9 @@ public class LivingRoomBlockAndMuteListDialog extends BaseBindingDialogFragment 
                 switch (position)
                 {
                     case 0:
-                        return new BlockListFragment();
+                        return BlockListFragment.getInstance(liveId);
                     case 1:
-                        return new MuteListFragment();
+                        return MuteListFragment.getInstance(liveId);
                 }
 
                 return null;

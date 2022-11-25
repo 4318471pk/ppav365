@@ -4,6 +4,7 @@ public class LivingGiftBean extends TreasureItemBean{
 
 
     private int id;
+    private String name;
     private String ename;
     private String gshort;
     private int type;
@@ -21,6 +22,14 @@ public class LivingGiftBean extends TreasureItemBean{
     private long createTime;
     private long updateTime;
     private String operator;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

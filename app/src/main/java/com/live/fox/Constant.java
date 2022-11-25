@@ -79,6 +79,7 @@ public class Constant {
 
         //给App下发基础配置接口
         public static final String Config = "config-client/config";
+
         public static final String Config_badge_URL = Config + "/badge";            // 获取徽章列表
         public static final String Config_cserver_URL = Config + "/cserver";        // 客服列表
         public static final String Config_notice_URL = Config + "/notice";          // 消息公告
@@ -216,7 +217,7 @@ public class Constant {
         public static final String LivingBlackList="/live-client/live/getRoomPullBlackList";//直播间拉黑用户列表
         public static final String LivingBlackOrMuteUser="/live-client/live/removeBlackChatByUid";//移除直播间禁言or黑名单用户
 
-
+        public static final String getFollowAnchorList="/live-client/home/getFollowAnchorList";//首页-关注列表
         public static final String getAnchorProfitStatement="/live-client/live/getAnchorProfitStatement";//主播盈利报表
         public static final String amountOfSpeaker="/live-client/live/getSpeakersNumber";//喇叭数量
         public static final String BulletMessageList="/live-client/live/getBarrageList";//弹幕列表
@@ -229,8 +230,10 @@ public class Constant {
         public static final String getAnchorCard="/live-client/live/getAnchorBusinessCard";//获取主播名片
         public static final String liveRecommendURL="/live-client/home/anchor/recommend/list";//推荐主播列表
         public static final String liveRoomRecommendList="/live-client/live/recommendLiveList";//直播间内右侧列表
-        public static final String anchorfind_URL = LiveClient + "/live/StartRecordList";        // 搜索主播
-        public static final String LivingRecord = LiveClient + "/live/StartRecordTotalList";        // 开播记录
+        public static final String anchorfind_URL = LiveClient + "/live/StartRecordList"; // 搜索主播
+        public static final String LivingRecord = LiveClient + "/live/StartRecordTotalList"; // 开播记录
+        public static final String NearbyLivingList = "/live-client/home/channel/nearby/list"; // 附近的主播
+        public static final String searchAnchor = "/live-client/home/find"; // 首页-主播搜索
 
         public static final String Live_chargeroom_URL = LiveClient + "/live/charge/room";     //计时房间付费
         public static final String Live_chargeroomchange_URL = LiveClient + "/live/charge/room/change"; //更改房间类型
@@ -263,6 +266,7 @@ public class Constant {
         public static final String GameModuleGames ="/config-client/game/gameModuleGames"; //获取列表游戏
         public static final String liveBeforeGames ="/config-client/game/liveBeforeGames"; //查询开播前游戏列表
         public static final String LiveRoomGames = "/config-client/game/liveRoomGames"; //直播间游戏列表
+        public static final String LiveRoomGameDetail = "/config-client/game/liveRoomGameDetail"; //直播间游戏详情
 
         /**
          * promotion-client  分享相关接口

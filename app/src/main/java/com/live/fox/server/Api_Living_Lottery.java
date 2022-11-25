@@ -40,6 +40,24 @@ public class Api_Living_Lottery extends BaseApi {
     }
 
     /**
+     *  获取直播间游戏列表
+     */
+    public void getLiveRoomGameDetail(String gameCode,JsonCallback<String> callback) {
+        StringBuilder sb=new StringBuilder();
+        sb.append(SPManager.getServerDomain());
+        sb.append(Constant.URL.LiveRoomGameDetail).append("?");
+        sb.append("gameCode=").append(gameCode);
+        // + "?language=" + MultiLanguageUtils.getRequestHeader() ;
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                sb.toString(),
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
+
+
+    /**
      *  查询开播前游戏列表
      */
     public void getLiveBeforeGames(JsonCallback<String> callback) {

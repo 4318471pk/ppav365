@@ -10,6 +10,7 @@ import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.RoomWatchedHistoryBean;
 import com.live.fox.entity.SendGiftResourceBean;
 import com.live.fox.entity.UserGuardResourceBean;
 import com.live.fox.entity.UserLevelResourceBean;
@@ -18,6 +19,7 @@ import com.live.fox.entity.UserVehiclePlayLimitBean;
 
 import app.resource.db.GiftResourceBeanDao;
 import app.resource.db.MountResourceBeanDao;
+import app.resource.db.RoomWatchedHistoryBeanDao;
 import app.resource.db.SendGiftResourceBeanDao;
 import app.resource.db.UserGuardResourceBeanDao;
 import app.resource.db.UserLevelResourceBeanDao;
@@ -35,6 +37,7 @@ public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig giftResourceBeanDaoConfig;
     private final DaoConfig mountResourceBeanDaoConfig;
+    private final DaoConfig roomWatchedHistoryBeanDaoConfig;
     private final DaoConfig sendGiftResourceBeanDaoConfig;
     private final DaoConfig userGuardResourceBeanDaoConfig;
     private final DaoConfig userLevelResourceBeanDaoConfig;
@@ -43,6 +46,7 @@ public class DaoSession extends AbstractDaoSession {
 
     private final GiftResourceBeanDao giftResourceBeanDao;
     private final MountResourceBeanDao mountResourceBeanDao;
+    private final RoomWatchedHistoryBeanDao roomWatchedHistoryBeanDao;
     private final SendGiftResourceBeanDao sendGiftResourceBeanDao;
     private final UserGuardResourceBeanDao userGuardResourceBeanDao;
     private final UserLevelResourceBeanDao userLevelResourceBeanDao;
@@ -58,6 +62,9 @@ public class DaoSession extends AbstractDaoSession {
 
         mountResourceBeanDaoConfig = daoConfigMap.get(MountResourceBeanDao.class).clone();
         mountResourceBeanDaoConfig.initIdentityScope(type);
+
+        roomWatchedHistoryBeanDaoConfig = daoConfigMap.get(RoomWatchedHistoryBeanDao.class).clone();
+        roomWatchedHistoryBeanDaoConfig.initIdentityScope(type);
 
         sendGiftResourceBeanDaoConfig = daoConfigMap.get(SendGiftResourceBeanDao.class).clone();
         sendGiftResourceBeanDaoConfig.initIdentityScope(type);
@@ -76,6 +83,7 @@ public class DaoSession extends AbstractDaoSession {
 
         giftResourceBeanDao = new GiftResourceBeanDao(giftResourceBeanDaoConfig, this);
         mountResourceBeanDao = new MountResourceBeanDao(mountResourceBeanDaoConfig, this);
+        roomWatchedHistoryBeanDao = new RoomWatchedHistoryBeanDao(roomWatchedHistoryBeanDaoConfig, this);
         sendGiftResourceBeanDao = new SendGiftResourceBeanDao(sendGiftResourceBeanDaoConfig, this);
         userGuardResourceBeanDao = new UserGuardResourceBeanDao(userGuardResourceBeanDaoConfig, this);
         userLevelResourceBeanDao = new UserLevelResourceBeanDao(userLevelResourceBeanDaoConfig, this);
@@ -84,6 +92,7 @@ public class DaoSession extends AbstractDaoSession {
 
         registerDao(GiftResourceBean.class, giftResourceBeanDao);
         registerDao(MountResourceBean.class, mountResourceBeanDao);
+        registerDao(RoomWatchedHistoryBean.class, roomWatchedHistoryBeanDao);
         registerDao(SendGiftResourceBean.class, sendGiftResourceBeanDao);
         registerDao(UserGuardResourceBean.class, userGuardResourceBeanDao);
         registerDao(UserLevelResourceBean.class, userLevelResourceBeanDao);
@@ -94,6 +103,7 @@ public class DaoSession extends AbstractDaoSession {
     public void clear() {
         giftResourceBeanDaoConfig.clearIdentityScope();
         mountResourceBeanDaoConfig.clearIdentityScope();
+        roomWatchedHistoryBeanDaoConfig.clearIdentityScope();
         sendGiftResourceBeanDaoConfig.clearIdentityScope();
         userGuardResourceBeanDaoConfig.clearIdentityScope();
         userLevelResourceBeanDaoConfig.clearIdentityScope();
@@ -107,6 +117,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public MountResourceBeanDao getMountResourceBeanDao() {
         return mountResourceBeanDao;
+    }
+
+    public RoomWatchedHistoryBeanDao getRoomWatchedHistoryBeanDao() {
+        return roomWatchedHistoryBeanDao;
     }
 
     public SendGiftResourceBeanDao getSendGiftResourceBeanDao() {

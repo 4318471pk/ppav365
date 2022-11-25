@@ -280,7 +280,17 @@ public class SplashPresenter {
                                     break;
                                 case "resourceDomain":
                                     //资源域名
-                                    SPUtils.getInstance().put(ConstantValue.resourceDomain, value);
+                                    if(!TextUtils.isEmpty(value) && value.length()>3)
+                                    {
+                                        if(value.endsWith("/"))
+                                        {
+                                            SPUtils.getInstance().put(ConstantValue.resourceDomain, value.substring(0,value.length()-1));
+                                        }
+                                        else
+                                        {
+                                            SPUtils.getInstance().put(ConstantValue.resourceDomain, value);
+                                        }
+                                    }
                                     break;
                             }
                         }

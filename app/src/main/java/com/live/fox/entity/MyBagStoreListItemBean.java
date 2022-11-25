@@ -1,6 +1,6 @@
 package com.live.fox.entity;
 
-public class MyBagStoreListItemBean {
+public class MyBagStoreListItemBean extends TreasureItemBean{
 
     int id;
     private String name;

@@ -412,7 +412,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
     private void getUserInfo(String uid)
     {
         try {
-            Api_User.ins().getUserInfo(Long.valueOf(uid), new JsonCallback<String>() {
+            Api_User.ins().getUserInfo(Long.valueOf(uid),liveId, new JsonCallback<String>() {
                 @Override
                 public void onSuccess(int code, String msg, String userJson) {
                     if (code == 0) {

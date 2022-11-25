@@ -1,130 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flyco.roundview.RoundLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="horizontal"
-    android:layout_marginTop="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
     android:paddingStart="8dp"
     android:paddingEnd="10dp"
-    app:rv_cornerRadius="10dp"
     app:rv_backgroundColor="@color/white"
-    >
+    app:rv_cornerRadius="10dp">
 
-    <RelativeLayout
+    <com.live.fox.view.RankProfileView
+        android:id="@+id/rpvView"
         android:layout_width="60dp"
-        android:layout_height="60dp">
-
-        <ImageView
-            android:id="@+id/iv_noble"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            />
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_head"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_default"
-            app:riv_oval="true" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginStart="12dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/placeholder_nickname"
             android:textColor="#404040"
             android:textSize="16sp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@mipmap/women"/>
-
-            <RelativeLayout
-                android:layout_width="35dp"
-                android:layout_height="14dp"
-                android:layout_marginStart="5dp"
-                android:background="@mipmap/bg_1_10">
-
-                <TextView
-                    android:id="@+id/tv_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="5dp"
-                    android:text="41"
-                    android:textSize="11dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    />
-
-            </RelativeLayout>
-
-
-            <ImageView
-                android:id="@+id/iv_noble_level"
-                android:layout_width="45dp"
-                android:layout_height="14dp"
-                android:layout_marginStart="5dp"
-                android:src="@mipmap/nanjue_icon"
-                />
-
-
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:id="@+id/tv_remove"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:minWidth="60dp"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/follow"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                android:background="@drawable/bg_a220f5_e794ff"
-                />
-        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_sign"
+            android:id="@+id/tvIcons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="#404040"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tvSignature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="這是签名"
             android:textColor="#8B8B8B"
             android:textSize="12sp" />
 
     </LinearLayout>
 
-
+    <TextView
+        android:id="@+id/tvFollow"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:minWidth="60dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/follow"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_follow"
+        android:textSize="13sp" />
 
 </com.flyco.roundview.RoundLinearLayout>

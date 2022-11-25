@@ -84,7 +84,7 @@ public class TreasureBoxPagerAdapter extends RecyclerView.Adapter<TreasureBoxPag
                         TextView tvCostDiamond= llContent.findViewById(R.id.tvCostDiamond);
 
                         TreasureItemBean treasureItemBean=lists.get(pageIndex).get(position*8+i);
-                        tvGiftName.setText(treasureItemBean.getName());
+                        tvGiftName.setText(treasureItemBean.getItemName());
                         if(TextUtils.isEmpty(treasureItemBean.getImgUrl()))
                         {
 

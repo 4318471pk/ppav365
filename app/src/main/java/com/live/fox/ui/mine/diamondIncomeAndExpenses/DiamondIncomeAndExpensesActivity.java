@@ -34,6 +34,7 @@ public class DiamondIncomeAndExpensesActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
+        setWindowsFlag();
         mBind=getViewDataBinding();
         setActivityTitle(R.string.diamond_income_expense);
 

@@ -12,6 +12,7 @@ import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentMuteListBinding;
+import com.live.fox.entity.BlackOrMuteListItemBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -61,10 +62,10 @@ public class MuteListFragment extends BaseBindingFragment {
 
     private void getMuteList()
     {
-        Api_Live.ins().getLivingMuteList(liveId, new JsonCallback<String>() {
+        Api_Live.ins().getLivingMuteList(liveId, new JsonCallback<List<BlackOrMuteListItemBean>>() {
             @Override
-            public void onSuccess(int code, String msg, String data) {
-                Log.e("getMuteList",data);
+            public void onSuccess(int code, String msg, List<BlackOrMuteListItemBean> data) {
+                Log.e("getMuteList",data+" ");
             }
         });
     }

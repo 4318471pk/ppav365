@@ -40,6 +40,7 @@ public class MyLevelActivity extends BaseBindingViewActivity {
 
     @Override
     public void initView() {
+        setWindowsFlag();
         mBind=getViewDataBinding();
         setActivityTitle(getResources().getString(R.string.my_level));
         int screenWidth= ScreenUtils.getScreenWidth(this);
@@ -89,12 +90,17 @@ public class MyLevelActivity extends BaseBindingViewActivity {
     }
 
     private void getData(){
+        showLoadingDialogWithNoBgBlack();
         HashMap<String, Object> commonParams = BaseApi.getCommonParams();
         Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
             @Override
             public void onSuccess(int code, String msg, UserAssetsBean data) {
+                if(isFinishing() || isDestroyed())
+                {
+                    return;
+                }
                 hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                if (code == 0 ) {
                     mBind.tvLv.setText("LV." + data.getUserLevel());
                     mBind.floatingPoint.setText(data.getUserExp()+ "");
                 } else {
