@@ -492,7 +492,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
-                            android:src="@drawable/recharge_ic" />
+                            android:src="@mipmap/recharge_ic" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -521,7 +521,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
-                            android:src="@drawable/moneyout_ic" />
+                            android:src="@mipmap/moneyout_ic" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -695,6 +695,7 @@
                     android:visibility="gone" />
 
                 <com.live.fox.view.convenientbanner.ConvenientBanner
+                    android:background="@drawable/bg_1cf0e9_affbfc"
                     android:visibility="gone"
                     android:id="@+id/banner"
                     android:layout_width="match_parent"

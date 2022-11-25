@@ -34,6 +34,7 @@ import com.live.fox.entity.NobleListBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.manager.DataCenter2;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
@@ -197,7 +198,7 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
     public void refreshPage() {
-        mUser = DataCenter.getInstance().getUserInfo().getUser();
+        mUser = DataCenter2.getInstance().getUserInfo().getUser();
        // mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(mUser, context));
         mBind.tvCirclenum.setText(mUser.getFans() + "");
         mBind.tvFollownum.setText(String.valueOf(mUser.getFollows()));

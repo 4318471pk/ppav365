@@ -118,6 +118,8 @@ public class RecommendListFragment extends BaseBindingFragment {
         mBind.homeRefreshLayout.setOnRefreshListener(refreshLayout -> {
             doGetLiveListApi();
             doGetBanner();
+
+
         });
     }
 
@@ -141,6 +143,15 @@ public class RecommendListFragment extends BaseBindingFragment {
     public void doGetLiveListApi() {
 
         Api_Live.ins().getLiveList(0, new JsonCallback<HomeFragmentRoomListBean>() {
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                if (mBind.homeRefreshLayout != null){
+                    mBind.homeRefreshLayout.finishRefresh();
+                }
+            }
+
             @Override
             public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
                 if (data == null || !isActivityOK()) {
@@ -150,8 +161,10 @@ public class RecommendListFragment extends BaseBindingFragment {
                     return;
                 }
                 hideEmptyView();
-                if (mBind.homeRefreshLayout != null)
+                if (mBind.homeRefreshLayout != null){
                     mBind.homeRefreshLayout.finishRefresh();
+                }
+
 
                 if (code == 0) {
                     if(data!=null && data.getList()!=null)

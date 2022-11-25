@@ -17,6 +17,7 @@ import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetRecord;
 import com.live.fox.entity.Withdraw;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.manager.DataCenter2;
 import com.live.fox.manager.SPManager;
 import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.LogUtils;
@@ -113,6 +114,9 @@ public class Api_User extends BaseApi {
                                 if(isMe)
                                 {
                                     DataCenter.getInstance().getUserInfo().setUser(data);
+                                    DataCenter2.getInstance().getUserInfo().setUser(data);
+                                }else {
+                                    DataCenter2.getInstance().getUserInfo().setUser(data);
                                 }
                             }
                         }
