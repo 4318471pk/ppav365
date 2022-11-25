@@ -30,17 +30,21 @@ import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseHeadActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.ActionDialog;
 import com.live.fox.dialog.MMLoading;
+import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.entity.OssToken;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
+import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.login.LoginActivity;
 import com.live.fox.ui.login.LoginPageType;
+import com.live.fox.ui.mine.CenterOfAnchorActivity;
 import com.live.fox.ui.mine.EditorMarkActivity;
 import com.live.fox.ui.mine.EditorNameActivity;
 import com.live.fox.utils.BarUtils;
@@ -49,12 +53,14 @@ import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.Utils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
+import com.luck.picture.lib.tools.PictureFileUtils;
 
 import java.io.File;
 import java.util.List;
@@ -171,7 +177,11 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe(granted -> {
                             if (granted) {
-                                openPhoto();
+//                                openPhoto();
+
+                                EditProfileImageDialog dialog = EditProfileImageDialog.getInstance();
+                                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(), dialog);
+
                             } else { // 有的权限被拒绝或被勾选不再提示
                                 LogUtils.e("222");
                                 new AlertDialog.Builder(EditUserInfoActivity.this)
@@ -292,65 +302,138 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                case PictureConfig.REQUEST_CAMERA:
+                    try {
+                        String url = PictureFileUtils.getPicturePath(this);
+                        File file = new File(url);
+                        if (file != null && file.exists()) {
+                            EditProfileImageActivity.startActivity(this, EditProfileImageActivity.Square, url);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    break;
                 case PictureConfig.CHOOSE_REQUEST:
                     // 圖片選擇結果回調
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    if(selectList!=null && selectList.size()>0)
-                    {
+                    if (selectList != null && selectList.size() > 0) {
                         LocalMedia localMedia = selectList.get(0);
                         LogUtils.e("图片-----》" + localMedia.getPath());
-//                        EditProfileImageActivity.startActivity(this,localMedia.getPath());
+                        EditProfileImageActivity.startActivity(this, EditProfileImageActivity.Square, localMedia.getPath());
                     }
-                    // 例如 LocalMedia 裏面返回三種path
-                    // 1.media.getPath(); 為原圖path
-                    // 2.media.getCutPath();為裁剪後path，需判斷media.isCut();是否為true
-                    // 3.media.getCompressPath();為壓縮後path，需判斷media.isCompressed();是否為true
-                    // 如果裁剪並壓縮了，已取壓縮路徑為準，因為是先裁剪後壓縮的
-//                    for (LocalMedia media : selectList) {
-//                        LogUtils.e("圖片-----》" + media.getPath());
-//                    }
-//                    localMedia = selectList.get(0);
-//                    LogUtils.e("图片-----》" + localMedia.getPath());
-////                    GlideTools.loadImage(EditUserInfoActivity.this, localMedia.getPath(),ivHead);
-////                    RequestOptions options = new RequestOptions()
-////                            .centerCrop()
-////                            .placeholder(R.color.white)
-////                            .diskCacheStrategy(DiskCacheStrategy.ALL);
-//                    loadingDialog = showLoadingDialog(getString(R.string.pictureUploading), false, true);
-//                    Api_Config.ins().getOssToken(new JsonCallback<OssToken>() {
-//                        @Override
-//                        public void onSuccess(int code, String msg, OssToken ossToken) {
-//                            if (ossToken != null) LogUtils.e(ossToken.toString());
-//                            if (code == 0) {
-//                                if (ossToken != null) {
-//                                    //开启线程
-//                                    new Thread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            uploadImage(ossToken);
-//                                        }
-//                                    }).start();
-//                                } else {
-//                                    hideLoadingDialog();
-//                                    showToastTip(false, getString(R.string.configurationInformation));
-//                                }
-//                            } else {
-//                                showToastTip(false, getString(R.string.fuwuInformation));
-//                                hideLoadingDialog();
-//                            }
-//                        }
-//                    });
                     break;
                 case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
-                    String pic = data.getStringExtra("data");
-                    user.setAvatar(pic);
-                    GlideUtils.loadImage(this, pic, ivHead);
-                    showToastTip(true, getString(R.string.modifySuccess));
+                    if (data != null && data.getStringExtra(ConstantValue.pictureOfUpload) != null) {
+                        File file = new File(data.getStringExtra(ConstantValue.pictureOfUpload));
+                        if (file != null && file.exists()) {
+                            updateFile(file);
+                        }
+                    }
                     break;
             }
         }
+
+//        if (resultCode == RESULT_OK) {
+//            switch (requestCode) {
+//                case PictureConfig.CHOOSE_REQUEST:
+//                    // 圖片選擇結果回調
+//                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+//                    if(selectList!=null && selectList.size()>0)
+//                    {
+//                        LocalMedia localMedia = selectList.get(0);
+//                        LogUtils.e("图片-----》" + localMedia.getPath());
+////                        EditProfileImageActivity.startActivity(this,localMedia.getPath());
+//                    }
+//                    // 例如 LocalMedia 裏面返回三種path
+//                    // 1.media.getPath(); 為原圖path
+//                    // 2.media.getCutPath();為裁剪後path，需判斷media.isCut();是否為true
+//                    // 3.media.getCompressPath();為壓縮後path，需判斷media.isCompressed();是否為true
+//                    // 如果裁剪並壓縮了，已取壓縮路徑為準，因為是先裁剪後壓縮的
+////                    for (LocalMedia media : selectList) {
+////                        LogUtils.e("圖片-----》" + media.getPath());
+////                    }
+////                    localMedia = selectList.get(0);
+////                    LogUtils.e("图片-----》" + localMedia.getPath());
+//////                    GlideTools.loadImage(EditUserInfoActivity.this, localMedia.getPath(),ivHead);
+//////                    RequestOptions options = new RequestOptions()
+//////                            .centerCrop()
+//////                            .placeholder(R.color.white)
+//////                            .diskCacheStrategy(DiskCacheStrategy.ALL);
+////                    loadingDialog = showLoadingDialog(getString(R.string.pictureUploading), false, true);
+////                    Api_Config.ins().getOssToken(new JsonCallback<OssToken>() {
+////                        @Override
+////                        public void onSuccess(int code, String msg, OssToken ossToken) {
+////                            if (ossToken != null) LogUtils.e(ossToken.toString());
+////                            if (code == 0) {
+////                                if (ossToken != null) {
+////                                    //开启线程
+////                                    new Thread(new Runnable() {
+////                                        @Override
+////                                        public void run() {
+////                                            uploadImage(ossToken);
+////                                        }
+////                                    }).start();
+////                                } else {
+////                                    hideLoadingDialog();
+////                                    showToastTip(false, getString(R.string.configurationInformation));
+////                                }
+////                            } else {
+////                                showToastTip(false, getString(R.string.fuwuInformation));
+////                                hideLoadingDialog();
+////                            }
+////                        }
+////                    });
+//                    break;
+//                case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
+//                    if (data != null && data.getStringExtra(ConstantValue.pictureOfUpload) != null) {
+//                        File file = new File(data.getStringExtra(ConstantValue.pictureOfUpload));
+//                        if (file != null && file.exists()) {
+//                            updateFile(file);
+//                        }
+//                    }
+//                    break;
+//
+//
+//            }
+//        }
+    }
+    private void updateFile(File file) {
+        showLoadingDialog();
+        Api_User.ins().uploadUserPhoto(file, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if (code == 0 && data != null) {
+                    modifyUser(data, 1);
+                } else {
+                    showToastTip(true, msg);
+                }
+
+            }
+        });
+
+    }
+
+    private void modifyUser(String picUrl, int type){
+        User user = new User();
+        user.setAvatar(picUrl);
+        Api_User.ins().modifyUserInfo(user, type, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if(code==0) {
+//                    mUser.setAvatar(picUrl);
+//                    GlideUtils.loadImage(EditUserInfoActivity.this, ivHead);
+                    GlideUtils.loadImage(EditUserInfoActivity.this, picUrl,ivHead);
+                    showToastTip(true, getString(R.string.modifySuccess));
+                } else {
+                    showToastTip(true, msg);
+                }
+            }
+        });
     }
 
     OSS oss;

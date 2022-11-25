@@ -54,6 +54,13 @@ public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIt
         {
             helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
             helper.tvFollow.setVisibility(View.INVISIBLE);
+
+
+            helper.tvFollow.setSelected(false);
+            helper.tvFollow.setText(follow);
+            helper.tvFollow.setEnabled(false);
+
+
             helper.tvHuo.setVisibility(View.GONE);
             helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
             helper.tvNickName.setText(emptyPosition);
