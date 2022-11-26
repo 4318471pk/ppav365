@@ -26,6 +26,7 @@ import com.live.fox.adapter.OnlineUserOrNobilityListAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogOnlineUserNobilityBinding;
+import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.rank.RankFragment;
@@ -43,11 +44,11 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
     List<String> strings=new ArrayList<>();
     List<View> views=new ArrayList<>();
     String amount,liveId;
-    List<User> userList=new ArrayList<>();
-    List<User> vipUserList=new ArrayList<>();
+    List<OnlineUserBean> userList=new ArrayList<>();
+    List<OnlineUserBean> vipUserList=new ArrayList<>();
     DataChangeListener dataChangeListener;
 
-    public static OnlineNobilityAndUserDialog getInstance(String amount,String liveId,List<User> userList,List<User> vipUserList)
+    public static OnlineNobilityAndUserDialog getInstance(String amount, String liveId, List<OnlineUserBean> userList, List<OnlineUserBean> vipUserList)
     {
         OnlineNobilityAndUserDialog dialog=new OnlineNobilityAndUserDialog();
         dialog.amount=amount;
@@ -282,7 +283,7 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         View view=views.get(mBind.vpMain.getCurrentItem());
         LinearLayout linearLayout=view.findViewById(R.id.llEmptyData);
         RecyclerView rvMain=view.findViewById(R.id.rvMain);
-        List<User> tempList=mBind.vpMain.getCurrentItem()==0?vipUserList:userList;
+        List<OnlineUserBean> tempList=mBind.vpMain.getCurrentItem()==0?vipUserList:userList;
 
         if(tempList.size()==0)
         {
@@ -315,9 +316,9 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
             return;
         }
 
-        Api_Live.ins().getRoomUserList(liveId, new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomUserList(liveId, new JsonCallback<List<OnlineUserBean>>() {
             @Override
-            public void onSuccess(int code, String msg, List<User> data) {
+            public void onSuccess(int code, String msg, List<OnlineUserBean> data) {
                 if (code == 0 ) {
                     if(isConditionOk() && getArg().equals(liveId) && data!=null && data.size()>0)
                     {
@@ -345,9 +346,9 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
             return;
         }
 
-        Api_Live.ins().getRoomVipList(liveId, new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomVipList(liveId, new JsonCallback<List<OnlineUserBean>>() {
             @Override
-            public void onSuccess(int code, String msg, List<User> data) {
+            public void onSuccess(int code, String msg, List<OnlineUserBean> data) {
                 if (code == 0 ) {
                     if(isConditionOk() && getArg().equals(liveId) && data!=null)
                     {
@@ -368,6 +369,6 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
 
     public interface DataChangeListener
     {
-        void onChange(List<User> userList,List<User> vipUserList);
+        void onChange(List<OnlineUserBean> userList,List<OnlineUserBean> vipUserList);
     }
 }

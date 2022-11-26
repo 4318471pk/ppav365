@@ -11,6 +11,8 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentSearchResultBinding;
 import com.live.fox.entity.SearchAnchorBean;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -45,6 +47,14 @@ public class HasResultFragment extends BaseBindingFragment {
             @Override
             public void onClickFollow(SearchAnchorBean bean) {
                 follow(bean.getUid());
+            }
+
+            @Override
+            public void onClickProfileImage(SearchAnchorBean bean) {
+                if(Strings.isDigitOnly(bean.getUid()))
+                {
+                    UserDetailActivity.startActivity(getActivity(),Integer.valueOf(bean.getUid()));
+                }
             }
         });
 

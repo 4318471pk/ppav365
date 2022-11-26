@@ -874,6 +874,15 @@ public class LivingFragment extends BaseBindingFragment {
                         case MessageProtocol.CHARGE_ROOM_CHANGE:
                             livingMessageChangeRoomType(liveId,msgJson);
                             break;
+                        case MessageProtocol.LIVE_STOP_LIVE:
+                            //显示下播页面
+                            MyViewPager viewPager=mBind.getRoot().findViewById(R.id.livingViewPager);
+                            viewPager.setCurrentItem(0);
+                            viewPager.setScrollEnable(false);
+
+                            LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
+                            livingFinishView.showView();
+                            break;
                     }
                 }
             } catch (Exception e) {

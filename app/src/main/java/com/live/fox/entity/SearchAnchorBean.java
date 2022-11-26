@@ -10,8 +10,17 @@ public class SearchAnchorBean {
     private Boolean isFollow;
     private String fans;
     private boolean isVipUid;
-    private int userLevel;
-    private int vipLevel;
+    private Integer userLevel;
+    private Integer vipLevel;
+    private Integer sex;
+
+    public Integer getSex() {
+        return sex==null?0:sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
 
     public String getUid() {
         return uid;
@@ -70,7 +79,7 @@ public class SearchAnchorBean {
     }
 
     public int getUserLevel() {
-        return userLevel;
+        return userLevel==null?0:userLevel;
     }
 
     public void setUserLevel(int userLevel) {
@@ -78,7 +87,7 @@ public class SearchAnchorBean {
     }
 
     public int getVipLevel() {
-        return vipLevel;
+        return vipLevel==null?0:vipLevel;
     }
 
     public void setVipLevel(int vipLevel) {

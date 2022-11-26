@@ -3,23 +3,33 @@ package com.live.fox.entity;
 public class BlackOrMuteListItemBean {
 
 
-    private int uid;
+    private String uid;
     private String nickname;
     private int roomId;
     private int sex;
     private String avatar;
     private String signature;
-    private String levelImg;
-    private String vipName;
+    private Integer vipLevel;
+    private boolean isGuard;
+    private Integer guardLevel;
+    private Integer userLevel;
     private String gid;
-    private String guardImg;
-    private long createTime;
+    private Long createTime;
+    private String operator;
 
-    public int getUid() {
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -63,28 +73,36 @@ public class BlackOrMuteListItemBean {
         this.signature = signature;
     }
 
-    public String getLevelImg() {
-        return levelImg;
+    public int getVipLevel() {
+        return vipLevel==null?0:vipLevel;
     }
 
-    public void setLevelImg(String levelImg) {
-        this.levelImg = levelImg;
+    public void setVipLevel(int vipLevel) {
+        this.vipLevel = vipLevel;
     }
 
-    public long getCreateTime() {
-        return createTime;
+    public boolean isIsGuard() {
+        return isGuard;
     }
 
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
+    public void setIsGuard(boolean isGuard) {
+        this.isGuard = isGuard;
     }
 
-    public String getVipName() {
-        return vipName;
+    public Integer getGuardLevel() {
+        return guardLevel==null?0:guardLevel;
     }
 
-    public void setVipName(String vipName) {
-        this.vipName = vipName;
+    public void setGuardLevel(Integer guardLevel) {
+        this.guardLevel = guardLevel;
+    }
+
+    public int getUserLevel() {
+        return userLevel==null?0:userLevel;
+    }
+
+    public void setUserLevel(int userLevel) {
+        this.userLevel = userLevel;
     }
 
     public String getGid() {
@@ -95,11 +113,11 @@ public class BlackOrMuteListItemBean {
         this.gid = gid;
     }
 
-    public String getGuardImg() {
-        return guardImg;
+    public long getCreateTime() {
+        return createTime==null?0:createTime;
     }
 
-    public void setGuardImg(String guardImg) {
-        this.guardImg = guardImg;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 }

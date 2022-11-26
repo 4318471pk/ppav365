@@ -65,10 +65,22 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     ActivityCenterAnchorBinding mBind;
     List<ConfigPathsBean> configPathsBeans;
     List<View> views = new ArrayList<>();
-    String liveId;
+    String liveId = "";
 
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, CenterOfAnchorActivity.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(views.size()>0)
+        {
+            for (int i = 0; i < views.size(); i++) {
+                getLivingRecord(i);//开播记录
+            }
+        }
+
     }
 
     @Override
@@ -116,7 +128,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(), dialog);
                 break;
             case R.id.tvLivingRecordList:
-                startActivity(new Intent(this,LivingRecordListActivity.class));
+                startActivity(new Intent(this, LivingRecordListActivity.class));
                 break;
         }
     }
@@ -226,13 +238,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         if (granted) {
 
                             String roomType = mBind.gtvTypeOfRoom.getText().toString();
-                            if (!TextUtils.isEmpty(liveId) && !TextUtils.isEmpty(roomType)) {
-                                getTvTitleRight().setEnabled(false);
-                                String roomTitle = mBind.gtvTitleOfRoom.getText().toString();
-                                String icon = mBind.ivRoomIcon.getTag() == null ? "" : (String) mBind.ivRoomIcon.getTag();
-                                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this, icon, roomTitle, liveId, liveConfigId, roomType);
-                                getTvTitleRight().setEnabled(true);
-                            }
+                            getTvTitleRight().setEnabled(false);
+                            String roomTitle = mBind.gtvTitleOfRoom.getText().toString();
+                            String icon = mBind.ivRoomIcon.getTag() == null ? "" : (String) mBind.ivRoomIcon.getTag();
+                            OpenLivingActivity.startActivity(CenterOfAnchorActivity.this, icon, roomTitle, liveId, liveConfigId, roomType);
+                            getTvTitleRight().setEnabled(true);
                         } else { // 有的权限被拒绝或被勾选不再提示
                             LogUtils.e("有的权限被拒绝");
                             new AlertDialog.Builder(CenterOfAnchorActivity.this)
@@ -244,13 +254,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                     });
         } else {
             String roomType = mBind.gtvTypeOfRoom.getText().toString();
-            if (!TextUtils.isEmpty(liveId) && !TextUtils.isEmpty(roomType)) {
-                getTvTitleRight().setEnabled(false);
-                String roomTitle = mBind.gtvTitleOfRoom.getText().toString();
-                String icon = mBind.ivRoomIcon.getTag() == null ? "" : (String) mBind.ivRoomIcon.getTag();
-                OpenLivingActivity.startActivity(CenterOfAnchorActivity.this, icon, roomTitle, liveId, liveConfigId, roomType);
-                getTvTitleRight().setEnabled(true);
-            }
+            getTvTitleRight().setEnabled(false);
+            String roomTitle = mBind.gtvTitleOfRoom.getText().toString();
+            String icon = mBind.ivRoomIcon.getTag() == null ? "" : (String) mBind.ivRoomIcon.getTag();
+            OpenLivingActivity.startActivity(CenterOfAnchorActivity.this, icon, roomTitle, liveId, liveConfigId, roomType);
+            getTvTitleRight().setEnabled(true);
         }
     }
 
@@ -358,15 +366,15 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                                 LinearLayout linearLayout = (LinearLayout) llList.getChildAt(i);
                                 TextView textView = (TextView) linearLayout.getChildAt(1);
                                 SpanUtils spanUtils = new SpanUtils();
-                                spanUtils.append(values[i]).setFontSize(16,true);
-                                spanUtils.append(unitOfLivingRecord[i]).setFontSize(11,true);
+                                spanUtils.append(values[i]).setFontSize(16, true);
+                                spanUtils.append(unitOfLivingRecord[i]).setFontSize(11, true);
                                 textView.setText(spanUtils.create());
                             }
 
                             TextView tvTotalAdvantage = view.findViewById(R.id.tvTotalAdvantage);
                             SpanUtils spanUtils = new SpanUtils();
-                            spanUtils.append(profiitTotalAmount).setFontSize(16,true);
-                            spanUtils.append(unitOfLivingRecord[2]).setFontSize(11,true);
+                            spanUtils.append(profiitTotalAmount).setFontSize(16, true);
+                            spanUtils.append(unitOfLivingRecord[2]).setFontSize(11, true);
                             tvTotalAdvantage.setText(spanUtils.create());
                         } catch (JSONException e) {
                             e.printStackTrace();

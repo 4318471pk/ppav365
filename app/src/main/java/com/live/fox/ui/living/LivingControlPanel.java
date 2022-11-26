@@ -40,6 +40,7 @@ import com.live.fox.dialog.bottomDialog.OnlineNobilityAndUserDialog;
 import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.Audience;
 import com.live.fox.entity.LivingContactCardBean;
+import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.User;
@@ -66,8 +67,8 @@ public class LivingControlPanel extends RelativeLayout {
     public LivingFragment fragment;
     MessageViewWatch messageViewWatch;
     LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
-    List<User> userList=new ArrayList<>();//当前在线用户
-    List<User> vipUserList=new ArrayList<>();//当前贵族在线用户
+    List<OnlineUserBean> userList=new ArrayList<>();//当前在线用户
+    List<OnlineUserBean> vipUserList=new ArrayList<>();//当前贵族在线用户
     AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
     boolean shouldAlertOnExit=false;
 
@@ -349,7 +350,7 @@ public class LivingControlPanel extends RelativeLayout {
             });
             onlineNobilityAndUserDialog.setDataChangeListener(new OnlineNobilityAndUserDialog.DataChangeListener() {
                 @Override
-                public void onChange(List<User> userList, List<User> vipUserList) {
+                public void onChange(List<OnlineUserBean> userList, List<OnlineUserBean> vipUserList) {
                     if(userList!=null)
                     {
                         LivingControlPanel.this.userList.clear();
@@ -650,9 +651,9 @@ public class LivingControlPanel extends RelativeLayout {
         //限制两秒内请求一次
         if(ClickUtil.isRequestWithShortTime("doGetAudienceListApi".hashCode(),2000));
 
-        Api_Live.ins().getRoomUserList(fragment.getRoomBean().getId(), new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomUserList(fragment.getRoomBean().getId(), new JsonCallback<List<OnlineUserBean>>() {
             @Override
-            public void onSuccess(int code, String msg, List<User> data) {
+            public void onSuccess(int code, String msg, List<OnlineUserBean> data) {
                 if (code == 0 ) {
                     if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
                     {
@@ -694,9 +695,9 @@ public class LivingControlPanel extends RelativeLayout {
             return;
         }
 
-        Api_Live.ins().getRoomVipList(fragment.getRoomBean().getId(), new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomVipList(fragment.getRoomBean().getId(), new JsonCallback<List<OnlineUserBean>>() {
             @Override
-            public void onSuccess(int code, String msg, List<User> data) {
+            public void onSuccess(int code, String msg, List<OnlineUserBean> data) {
                 if (code == 0 ) {
                     if(isActivityOK() && getArg().equals(fragment.getRoomBean().getId()) && data!=null)
                     {

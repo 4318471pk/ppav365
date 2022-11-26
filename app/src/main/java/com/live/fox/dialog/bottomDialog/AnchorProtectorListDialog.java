@@ -197,14 +197,19 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             setTopView();
 
             String myUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
+            boolean isContain=false;
             for (int i = 0; i <anchorGuardListBean.getLiveGuardList().size() ; i++) {
                 if(i>0)
                 {
                     list.add(anchorGuardListBean.getLiveGuardList().get(i));
                 }
                 if (anchorGuardListBean.getLiveGuardList().get(i).getUid().equals(myUid)) {
-                    mBind.rlFloating.setVisibility(View.INVISIBLE);
+                   isContain=true;
                 }
+            }
+            if(isContain)
+            {
+                mBind.rlFloating.setVisibility(View.INVISIBLE);
             }
         }
         adapter=new AnchorProtectorAdapter(getActivity(),list);
@@ -231,12 +236,21 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             mBind.tvTitle.setText(String.format(tips,liveGuardBean.getWeekUpAmount()+""));
 
             SpanUtils spanUtils=new SpanUtils();
-            ChatSpanUtils.appendLevelIcon(spanUtils,liveGuardBean.getUserLevel(),getActivity());
-            ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity());
-            ChatSpanUtils.appendGuardIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity());
+            if(ChatSpanUtils.appendLevelIcon(spanUtils,liveGuardBean.getUserLevel(),getActivity()))
+            {
+                spanUtils.append(" ");
+            }
+            if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity()))
+            {
+                spanUtils.append(" ");
+            }
+            if(ChatSpanUtils.appendGuardIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity()))
+            {
+                spanUtils.append(" ");
+            }
             mBind.tvIcons.setText(spanUtils.create());
             mBind.tvNickName.setText(liveGuardBean.getNickname());
-            mBind.anchorProtect.setDecorationIndex(liveGuardBean.getVipLevel()-1);
+            mBind.anchorProtect.setDecorationIndex(liveGuardBean.getVipLevel());
             GlideUtils.loadCircleImage(getActivity(),liveGuardBean.getAvatar(),
                     R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.anchorProtect.getIvProfile());
 
@@ -269,15 +283,21 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                         setTopView();
                         List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
 
+                        boolean isContain=false;
                         for (int i = 0; i < data.getLiveGuardList().size(); i++) {
                             if (data.getLiveGuardList().get(i).getUid().equals(uid)) {
-                                mBind.rlFloating.setVisibility(View.INVISIBLE);
+                                isContain=true;
                             }
                             if(i>0)
                             {
                                 list.add(anchorGuardListBean.getLiveGuardList().get(i));
                             }
                         }
+                        if(isContain)
+                        {
+                            mBind.rlFloating.setVisibility(View.INVISIBLE);
+                        }
+
                         adapter.setNewData(list);
                     }
                 }

@@ -59,6 +59,7 @@ import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.LotteryCategoryOfBeforeLiving;
 import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.SvgAnimateLivingBean;
 import com.live.fox.entity.User;
@@ -121,7 +122,7 @@ public class StartLivingFragment extends BaseBindingFragment {
     String liveId,myUID;
     LivingTop20OnlineUserAdapter livingTop20OnlineUserAdapter;
     AnchorGuardListBean anchorGuardListBean;//当前守护列表数据和人数
-    List<User> userList=new ArrayList<>();//当前在线用户
+    List<OnlineUserBean> userList=new ArrayList<>();//当前在线用户
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
@@ -302,7 +303,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             public void onFinish() {
                 mBind.llTopView.setVisibility(View.VISIBLE);
                 mBind.rlBotView.setVisibility(View.VISIBLE);
-                checkAuth();
+                startLiving();
             }
         });
     }
@@ -707,7 +708,7 @@ public class StartLivingFragment extends BaseBindingFragment {
     /**
      * 开始直播
      */
-    public void checkAuth() {
+    public void startLiving() {
 
         String nickName= DataCenter.getInstance().getUserInfo().getUser().getNickname();
         String title=getMainActivity().roomTitle;
@@ -775,6 +776,8 @@ public class StartLivingFragment extends BaseBindingFragment {
                     try {
                         JSONObject jsonObject=new JSONObject(data);
                         String pushStreamUrl=jsonObject.optString("pushStreamUrl","");
+                        liveId=jsonObject.optString("liveId","");
+                        getMainActivity().liveId=liveId;
                         if(TextUtils.isEmpty(pushStreamUrl) || TextUtils.isEmpty(liveId))
                         {
                             ToastUtils.showShort(getString(R.string.startLivingFail));
@@ -1099,9 +1102,9 @@ public class StartLivingFragment extends BaseBindingFragment {
         //限制两秒内请求一次
         if(ClickUtil.isRequestWithShortTime("doGetAudienceListApi".hashCode(),2000));
 
-        Api_Live.ins().getRoomUserList(liveId, new JsonCallback<List<User>>() {
+        Api_Live.ins().getRoomUserList(liveId, new JsonCallback<List<OnlineUserBean>>() {
             @Override
-            public void onSuccess(int code, String msg, List<User> data) {
+            public void onSuccess(int code, String msg, List<OnlineUserBean> data) {
                 if (code == 0 ) {
                     if(isActivityOK() && getArg().equals(liveId) && data!=null)
                     {

@@ -13,6 +13,7 @@ import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingGiftBean;
+import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SearchAnchorBean;
 import com.live.fox.entity.SendGiftAmountBean;
@@ -178,14 +179,13 @@ public class Api_Live extends BaseApi {
     /**
      * 获取移除直播间禁言or黑名单用户 类型 (0禁言用户 1黑名单用户)
      */
-    public void removeLivingBlackOrMuteUser(String liveId,String uid,int type,JsonCallback<String> callback) {
+    public void removeLivingBlackOrMuteUser(String liveId,String uid,JsonCallback<String> callback) {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingBlackOrMuteUser);
 
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
-        params.put("type",type);
         params.put("uid",uid);
 
         callback.setArg(liveId);
@@ -238,6 +238,21 @@ public class Api_Live extends BaseApi {
                 new Gson().toJson(params))
                 .execute(callback);
     }
+
+    /**
+     * 首页关注列表
+     */
+    public void queryGuardListByAnchor( JsonCallback<List<RoomListBean>> callback) {
+        StringBuilder sb=new StringBuilder();
+        sb.append(SPManager.getServerDomain()).append(Constant.URL.getFollowAnchorList);
+
+        OkGoHttpUtil.getInstance().doGet(
+                "",
+                sb.toString(),
+                getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
+
 
     /**
      * 主播盈利报表
@@ -792,7 +807,7 @@ public class Api_Live extends BaseApi {
     /**
      * 直播间观众列表
      */
-    public void getRoomUserList(String liveId, JsonCallback callback) {
+    public void getRoomUserList(String liveId, JsonCallback<List<OnlineUserBean>> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_roomuserlist_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
@@ -809,7 +824,7 @@ public class Api_Live extends BaseApi {
     /**
      * 直播间贵族列表
      */
-    public void getRoomVipList(String liveId, JsonCallback callback) {
+    public void getRoomVipList(String liveId, JsonCallback<List<OnlineUserBean>> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.vipOnlineList;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);

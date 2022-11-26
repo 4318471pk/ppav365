@@ -114,10 +114,8 @@ public class Api_User extends BaseApi {
                                 if(isMe)
                                 {
                                     DataCenter.getInstance().getUserInfo().setUser(data);
-                                    DataCenter2.getInstance().getUserInfo().setUser(data);
-                                }else {
-                                    DataCenter2.getInstance().getUserInfo().setUser(data);
                                 }
+                                DataCenter2.getInstance().getUserInfo().setUser(data);
                             }
                         }
                         else

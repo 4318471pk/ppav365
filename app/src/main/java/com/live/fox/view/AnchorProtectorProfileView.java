@@ -42,7 +42,11 @@ public class AnchorProtectorProfileView extends RelativeLayout {
     }
 
     public void setDecorationIndex(int decorationIndex) {
-        this.decorationIndex = decorationIndex;
+        if(decorationIndex<1 && decorationIndex>7)
+        {
+            return;
+        }
+        this.decorationIndex = decorationIndex-1;
         adjustLayout();
     }
 

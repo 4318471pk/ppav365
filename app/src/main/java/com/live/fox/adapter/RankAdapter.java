@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.RankItemBean;
+import com.live.fox.entity.SearchAnchorBean;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
@@ -25,6 +26,7 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
     Activity context;
     String templeText;
     String emptyPosition,followed,follow;
+    OnClickFollowListener onClickFollowListener;
 
     public RankAdapter(Activity context, @Nullable List data) {
         super(R.layout.item_rank_profile, data);
@@ -35,6 +37,10 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
         followed=context.getResources().getString(R.string.followed);
         setHasStableIds(true);
 
+    }
+
+    public void setOnClickFollowListener(OnClickFollowListener onClickFollowListener) {
+        this.onClickFollowListener = onClickFollowListener;
     }
 
     @Override
@@ -56,10 +62,29 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
             helper.tvFollow.setSelected(item.isFollow());
             helper.tvFollow.setText(item.isFollow()?followed:follow);
             helper.tvFollow.setEnabled(!item.isFollow());
+            helper.tvFollow.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
+            helper.tvFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag=(int)v.getTag();
+                    if(onClickFollowListener!=null)
+                    {
+                        onClickFollowListener.onClickFollow(getData().get(tag),tag);
+                    }
+                }
+            });
 
             SpanUtils spanUtils=new SpanUtils();
             spanUtils.append(item.getNickname());
-            ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context);
+            if(ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context))
+            {
+                spanUtils.append(" ");
+            }
+            if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,item.getVipLevel(), context))
+            {
+                spanUtils.append(" ");
+            }
+
             helper.tvNickName.setText(spanUtils.create());
             helper.tvHuo.setText(String.format(templeText,item.getRankValue()+""));
             helper.tvHuo.setVisibility(View.VISIBLE);
@@ -67,6 +92,18 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
 
             GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
             helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
+
+            helper.rpv.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
+            helper.rpv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag=(int)v.getTag();
+                    if(onClickFollowListener!=null)
+                    {
+                        onClickFollowListener.onClickProfileImage(getData().get(tag),tag);
+                    }
+                }
+            });
         }
         else
         {
@@ -117,5 +154,9 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
         }
     }
 
-
+    public interface OnClickFollowListener
+    {
+        void onClickFollow(RankItemBean bean,int position);
+        void onClickProfileImage(RankItemBean bean,int position);
+    }
 }

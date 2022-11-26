@@ -56,7 +56,6 @@
             android:id="@+id/tvAdminName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="处理人名字"
             android:textColor="#99ffffff"
             android:textSize="11sp" />
 

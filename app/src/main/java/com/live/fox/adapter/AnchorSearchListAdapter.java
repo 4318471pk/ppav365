@@ -28,10 +28,16 @@ public class AnchorSearchListAdapter extends BaseQuickAdapter<SearchAnchorBean, 
         this.context=context;
         follow=context.getResources().getString(R.string.follow);
         followed=context.getResources().getString(R.string.followed);
+        setHasStableIds(true);
     }
 
     public void setOnClickFollowListener(OnClickFollowListener onClickFollowListener) {
         this.onClickFollowListener = onClickFollowListener;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -58,9 +64,21 @@ public class AnchorSearchListAdapter extends BaseQuickAdapter<SearchAnchorBean, 
         });
 
         SpanUtils spanUtils=new SpanUtils();
-        ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context);
-        spanUtils.append(" ");
-        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,item.getVipLevel(), context);
+
+        if(ChatSpanUtils.appendSexIcon(spanUtils,item.getUserLevel(), context, SpanUtils.ALIGN_CENTER))
+        {
+            spanUtils.append(" ");
+        }
+
+        if(ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context))
+        {
+            spanUtils.append(" ");
+        }
+
+        if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,item.getVipLevel(), context))
+        {
+            spanUtils.append(" ");
+        }
         tvIcons.setText(spanUtils.create());
 
         rpvView.setIndex(RankProfileView.NONE,item.getVipLevel(),false);
@@ -71,5 +89,6 @@ public class AnchorSearchListAdapter extends BaseQuickAdapter<SearchAnchorBean, 
     public interface OnClickFollowListener
     {
         void onClickFollow(SearchAnchorBean bean);
+        void onClickProfileImage(SearchAnchorBean bean);
     }
 }

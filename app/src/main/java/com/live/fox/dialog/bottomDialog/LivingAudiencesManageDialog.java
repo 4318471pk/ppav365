@@ -128,54 +128,28 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
             return;
         }
 
-        if(isMute)
-        {
-            Api_Live.ins().blackChat(liveId, uid, true, new JsonCallback<String>() {
-                @Override
-                public void onSuccess(int code, String msg, String data) {
-                    if(isConditionOk())
+        Api_Live.ins().blackChat(liveId, uid, isMute, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(isConditionOk())
+                {
+                    if(code==0)
                     {
-                        if(code==0)
+                        user.setBlackChat(true);
+                        if(operateListener!=null)
                         {
-                            user.setBlackChat(true);
-                            if(operateListener!=null)
-                            {
-                                operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
-                            }
-                            onBackPress();
+                            operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
                         }
-                        else
-                        {
-                            ToastUtils.showShort(msg);
-                        }
+                        onBackPress();
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
                     }
                 }
-            });
-        }
-        else
-        {
-            Api_Live.ins().removeLivingBlackOrMuteUser(liveId,uid,0,new JsonCallback<String>(){
-                @Override
-                public void onSuccess(int code, String msg, String data) {
-                    if(isConditionOk())
-                    {
-                        if(code==0)
-                        {
-                            user.setBlackChat(false);
-                            if(operateListener!=null)
-                            {
-                                operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
-                            }
-                            onBackPress();
-                        }
-                        else
-                        {
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                }
-            });
-        }
+            }
+        });
+
 
     }
 
@@ -243,7 +217,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
         }
         else
         {
-            Api_Live.ins().removeLivingBlackOrMuteUser(liveId,uid,1,new JsonCallback<String>(){
+            Api_Live.ins().removeLivingBlackOrMuteUser(liveId,uid,new JsonCallback<String>(){
                 @Override
                 public void onSuccess(int code, String msg, String data) {
                     if(isConditionOk())

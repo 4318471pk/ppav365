@@ -1158,6 +1158,7 @@
     <string name="confirm_save">确认代存</string>
     <string name="living_2">直播</string>
     <string name="operate">操作</string>
+    <string name="handle">处理</string>
     <string name="change_money_scale">调整佣金比例</string>
     <string name="living_money_scale">直播佣金分成比例</string>
     <string name="game_money_scale">游戏佣金分成比例</string>
@@ -1569,6 +1570,8 @@
     <string name="perShow">场次</string>
     <string name="nameOfAnchor">主播名</string>
     <string name="salaryStatus">状态</string>
+    <string name="noFollowedAnchor">您还没有关注的主播哟～</string>
+
 
     <string name="finishPayment">已结</string>
     <string name="notYetFinishPayment">未结</string>

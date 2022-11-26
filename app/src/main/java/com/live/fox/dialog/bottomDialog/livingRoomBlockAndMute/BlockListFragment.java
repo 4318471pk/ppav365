@@ -15,6 +15,7 @@ import com.live.fox.databinding.FragmentBlockListBinding;
 import com.live.fox.entity.BlackOrMuteListItemBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class BlockListFragment extends BaseBindingFragment {
 
     FragmentBlockListBinding mBind;
     String liveId;
+    BlockOrMuteListAdapter blockOrMuteListAdapter;
 
     public static BlockListFragment getInstance(String liveId)
     {
@@ -56,7 +58,14 @@ public class BlockListFragment extends BaseBindingFragment {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mBind.rvMain.setLayoutManager(linearLayoutManager);
         mBind.rvMain.addItemDecoration(new RecyclerSpace(ScreenUtils.dp2px(getActivity(),5)));
-        mBind.rvMain.setAdapter(new BlockOrMuteListAdapter(getActivity(),strings));
+        blockOrMuteListAdapter=new BlockOrMuteListAdapter(getActivity(),new ArrayList<>());
+        blockOrMuteListAdapter.setOnClickRemoveListener(new BlockOrMuteListAdapter.OnClickRemoveListener() {
+            @Override
+            public void onClickFollow(BlackOrMuteListItemBean bean) {
+                remove(bean);
+            }
+        });
+        mBind.rvMain.setAdapter(blockOrMuteListAdapter);
         getBlockList();
     }
 
@@ -66,9 +75,40 @@ public class BlockListFragment extends BaseBindingFragment {
             @Override
             public void onSuccess(int code, String msg, List<BlackOrMuteListItemBean> data) {
                 Log.e("getBlockList",data+" ");
+                if(isActivityOK())
+                {
+                    if(code==0)
+                    {
+                        blockOrMuteListAdapter.setNewData(data);
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
             }
         });
     }
 
-
+    private void remove(BlackOrMuteListItemBean bean)
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_Live.ins().removeLivingBlackOrMuteUser(liveId,bean.getUid(),new JsonCallback<String>(){
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(isActivityOK())
+                {
+                    hideLoadingDialog();
+                    if(code==0)
+                    {
+                        getBlockList();
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }
+        });
+    }
 }

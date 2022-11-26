@@ -109,7 +109,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-        refreshUserinfo(false);
+        refreshUserinfo();
         AppIMManager.ins().addMessageListener(MineFragment.class, this);
     }
 
@@ -117,13 +117,14 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) return;
-
-        StatusBarUtil.setStatusBarFulAlpha(requireActivity());
-        BarUtils.setStatusBarVisibility(requireActivity(), true);
-        BarUtils.setStatusBarLightMode(requireActivity(), false);
+        if(isActivityOK())
+        {
+            doGetUserInfoApi();
+            getMyNoble();
+        }
     }
 
-    public void refreshUserinfo(boolean flag) {
+    public void refreshUserinfo() {
         userinfo = DataCenter.getInstance().getUserInfo().getUser();
 
         if (!userinfo.getAvatar().equals(headUrl)) {
@@ -158,10 +159,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             mBind.tvLinkedPhone.setTextColor(0xff404040);
         }
 
-        if (flag) {
-            mBind.ivRightdes.setVisibility(View.GONE);
-            doGetLetterListApi();
-        }
+        doGetLetterListApi();
 
         mBind.ivLiang.setVisibility(userinfo.getVipUid() == null ? View.GONE : View.VISIBLE );
 
@@ -187,8 +185,12 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     @Override
     public void onResume() {
         super.onResume();
-        doGetUserInfoApi();
-        getMyNoble();
+        if(isActivityOK())
+        {
+            doGetUserInfoApi();
+            getMyNoble();
+        }
+
     }
 
     @Override
@@ -217,10 +219,14 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                mBind.refreshLayout.finishRefresh(true);
+                if(!isActivityOK())
+                {
+                    return;
+                }
+                mBind.refreshLayout.finishRefresh(code == 0);
                 if (ActivityUtils.getTopActivity() instanceof MainActivity) {
                     if (code == 0) {
-                        refreshUserinfo(true);
+                        refreshUserinfo();
                     } else if (code == 2008) { //用户不存在
                         LoginModeSelActivity.startActivity(requireActivity());
                     }
@@ -292,55 +298,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             mBind.ivRightdes.setVisibility(View.VISIBLE);
         }
     }
-
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        if (view.getTag() == null) return;
-//        if (ClickUtil.isFastDoubleClick()) return;
-//        if (columnListBean != null) {
-//            switch (columnListBean.getType()) {
-//                case 1: //我的余额
-//                    MyBalanceActivity.startActivity(requireActivity());
-//                    break;
-//
-//                case 2: //交易记录 资产记录 http://8.210.80.72:8103/swagger-ui.html#/user-controller
-//                    TransactionActivity.launch(requireActivity());
-//                    break;
-//
-//                case 3://游戏记录
-//                    MyGameRecordActivity.startActivity(getActivity(), userinfo.getUid());
-//                    break;
-//
-//                case 4: //贵族
-//                    MyNobleActivity.startActivity(getActivity());
-//                    break;
-//
-//                case 5: //直播收入
-//                    LiveProfitActivity.startActivity(getActivity());
-//                    break;
-//
-//                case 6: //偶像管理
-//                    if (userinfo.isFamilyManager()) {
-//                        MyAncListActivity.startActivity(getActivity(), userinfo.getUid());
-//                    } else {
-//                        ZblbActivity.startActivity(getActivity(), userinfo.getUid());
-//                    }
-//                    break;
-//
-//                case 7: //我的道具
-//                    MyPronActivity.startActivity(requireActivity());
-//                    break;
-//
-//                case 8: //关于
-//                    IntentUtils.toBrowser(requireActivity(), AppConfig.getLandingPage());
-//                    break;
-//
-//                case 9: //系统设置
-//                    SettingActivity.startActivity(getActivity());
-//                    break;
-//            }
-//        }
-//    }
 
     @Override
     public void onClickView(View view) {

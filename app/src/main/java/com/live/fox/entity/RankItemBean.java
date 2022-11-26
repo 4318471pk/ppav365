@@ -15,10 +15,11 @@ public class RankItemBean {
     private String rq;
     private int toy;
     private String liveStartLottery;
-    private int uid;
+    private String uid;
     private int rankValue;
     private String rankHidden;
     private Integer userLevel;
+    private Integer vipLevel;
     private String vipName;
     private boolean isFollow;
 
@@ -126,11 +127,19 @@ public class RankItemBean {
         this.liveStartLottery = liveStartLottery;
     }
 
-    public int getUid() {
+    public Integer getVipLevel() {
+        return vipLevel==null?0:vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
+    }
+
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -151,7 +160,7 @@ public class RankItemBean {
     }
 
     public Integer getUserLevel() {
-        return userLevel;
+        return userLevel==null?0:userLevel;
     }
 
     public void setUserLevel(Integer userLevel) {

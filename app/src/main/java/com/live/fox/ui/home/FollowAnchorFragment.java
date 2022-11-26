@@ -16,6 +16,7 @@ import com.live.fox.databinding.FragmentFollowAnchorBinding;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.server.Api_Live;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.EmptyDataView;
@@ -54,6 +55,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         if(!hidden)
         {
             getRecommendList();
+            getFollowList();
         }
     }
 
@@ -70,20 +72,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
-                if(adapter.getData().size()>0)
-                {
-                    refreshLayout.finishRefresh(true);
-                    setEmptyData(true);
-                }
-                else
-                {
-                    refreshLayout.finishRefresh(true);
-                    for (int i = 0; i < 7; i++) {
-                        adapter.getData().add(new Anchor());
-                    }
-                    setEmptyData(false);
-                }
-
+                getFollowList();
             }
         });
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
@@ -103,7 +92,7 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         adapter.setFooterView(recommendAnchorListFooter);
         mBind.rvMain.setAdapter(adapter);
         emptyDataView=new EmptyDataView(getActivity());
-        emptyDataView.setTvEmpty("您还没有关注的主播哟～");
+        emptyDataView.setTvEmpty(getStringWithoutContext(R.string.noFollowedAnchor));
         adapter.addHeaderView(emptyDataView);
 
         setEmptyData(true);
@@ -148,6 +137,33 @@ public class FollowAnchorFragment extends BaseBindingFragment {
 
 
                 }
+            }
+        });
+    }
+
+    private void getFollowList()
+    {
+        Api_Live.ins().queryGuardListByAnchor(new JsonCallback<List<RoomListBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<RoomListBean> data) {
+                    if(isActivityOK())
+                    {
+                        mBind.srlRefresh.finishRefresh(code==0);
+                        boolean hasData=false;
+                        if(code==0)
+                        {
+                            if(data!=null && data.size()>0)
+                            {
+                                hasData=true;
+                                adapter.setNewData(data);
+                            }
+                        }
+                        else
+                        {
+                            ToastUtils.showShort(msg);
+                        }
+                        setEmptyData(!hasData);
+                    }
             }
         });
     }

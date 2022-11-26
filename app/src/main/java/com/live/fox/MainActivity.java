@@ -165,6 +165,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public void doLoginGuest() {
         showLoadingDialogWithNoBgBlack();
+        if(!TextUtils.isEmpty(DataCenter.getInstance().getUserInfo().getToken()))
+        {
+            onLoginSuccess();
+            return;
+        }
         Api_Auth.ins().guestLogin( new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
@@ -176,7 +181,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             ToastUtils.showShort(getString(R.string.tokenFail));
                             return;
                         }
-                        onLoginSuccess(token);
+                        DataCenter.getInstance().getUserInfo().setToken(token);
+                        onLoginSuccess();
                     } else {
                         ToastUtils.showShort(msg);
                     }
@@ -188,8 +194,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     //登录成功、完善用户信息成功后的统一处理
-    public void onLoginSuccess(String token) {
-        DataCenter.getInstance().getUserInfo().setToken(token);
+    public void onLoginSuccess() {
         Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String userJson) {

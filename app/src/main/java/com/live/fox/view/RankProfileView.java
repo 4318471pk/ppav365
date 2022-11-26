@@ -155,7 +155,15 @@ public class RankProfileView extends RelativeLayout {
     public void setIndex(int crownIndex,int decorationIndex,boolean isLiving)
     {
         this.crownIndex = crownIndex;
-        this.decorationIndex = decorationIndex;
+        if(decorationIndex>0 && decorationIndex<8)
+        {
+            this.decorationIndex = decorationIndex-1;
+        }
+        else
+        {
+            this.decorationIndex=-1;
+        }
+
         this.isLiving=isLiving;
         if(isLiving)
         {
@@ -221,7 +229,7 @@ public class RankProfileView extends RelativeLayout {
                     rlProfile.width=viewWidth;
                     rlProfile.height=viewWidth;
                     ivProfile.setLayoutParams(rlProfile);
-                    ivProfile.setPadding(dip15/2,dip15/2,dip15/2,dip15/2);
+//                    ivProfile.setPadding(dip15/2,dip15/2,dip15/2,dip15/2);
 
                     viewHeight=rlProfile.height;
                     if(onConfirmWidthAndHeightListener!=null)
@@ -311,7 +319,11 @@ public class RankProfileView extends RelativeLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        adjustLayout();
+        if(!isInit)
+        {
+            adjustLayout();
+        }
+
 //        if(resumeAfterAttached && isLiving && ivLiving!=null)
 //        {
 //            if(svgaVideoEntity!=null)

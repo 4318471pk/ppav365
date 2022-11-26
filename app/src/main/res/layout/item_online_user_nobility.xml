@@ -19,7 +19,7 @@
 
         <com.live.fox.view.RankProfileView
             android:id="@+id/rpv"
-            android:layout_width="45dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="14dip"

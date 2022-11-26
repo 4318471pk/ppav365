@@ -215,7 +215,7 @@ public class Constant {
         public static final String Live_roommanager_URL = LiveClient + "/live/roommanager"; //房管添加取消
         public static final String LivingMuteList="/live-client/live/getBlackChatList";//直播间禁言用户列表
         public static final String LivingBlackList="/live-client/live/getRoomPullBlackList";//直播间拉黑用户列表
-        public static final String LivingBlackOrMuteUser="/live-client/live/removeBlackChatByUid";//移除直播间禁言or黑名单用户
+        public static final String LivingBlackOrMuteUser="/live-client/live/removeBlackChatByUid";//移除直播间黑名单用户
 
         public static final String getFollowAnchorList="/live-client/home/getFollowAnchorList";//首页-关注列表
         public static final String getAnchorProfitStatement="/live-client/live/getAnchorProfitStatement";//主播盈利报表

@@ -708,13 +708,13 @@ public class ChatSpanUtils {
     }
 
 
-    public static void appendSexIcon(SpanUtils spanUtils, int sex, Context context,int align) {
+    public static boolean appendSexIcon(SpanUtils spanUtils, int sex, Context context,int align) {
         int sexResId = sex == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
-        if (bitmap == null) return;
+        if (bitmap == null) return false;
         spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), align);
         spanUtils.append(" ");
-
+        return true;
     }
 
     /**
@@ -783,20 +783,21 @@ public class ChatSpanUtils {
     /**
      * 守护图标 7以下
      */
-    public static void appendGuardIcon(SpanUtils spanUtils, int level, Context context) {
+    public static boolean appendGuardIcon(SpanUtils spanUtils, int level, Context context) {
         long count = LocalUserGuardDao.getInstance().getCount();
         if (level < 1 || level > count) {
-            return;
+            return false;
         }
 
         UserGuardResourceBean guardResourceBean = LocalUserGuardDao.getInstance().getLevel(level);
         if (guardResourceBean != null && !TextUtils.isEmpty(guardResourceBean.getLocalImgMediumPath())) {
             Bitmap bitmap = BitmapFactory.decodeFile(guardResourceBean.getLocalImgSmallPath());
-            if (bitmap == null) return;
+            if (bitmap == null) return false;
             int height = ScreenUtils.getDip2px(context, 11.5f);
             int width = ScreenUtils.getDip2px(context, 14);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         }
+        return true;
     }
 
     /**

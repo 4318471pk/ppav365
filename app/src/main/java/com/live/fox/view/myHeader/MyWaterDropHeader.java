@@ -105,19 +105,18 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         final View imageView = mImageView;
-        final View dropView = mWaterDropView;
         LayoutParams lpImage = (LayoutParams) imageView.getLayoutParams();
         imageView.measure(
                 makeMeasureSpec(lpImage.width, EXACTLY),
                 makeMeasureSpec(lpImage.height, EXACTLY)
         );
-        dropView.measure(
+        mWaterDropView.measure(
                 makeMeasureSpec(getSize(widthMeasureSpec), AT_MOST),
                 heightMeasureSpec
         );
         textView.measure(     makeMeasureSpec(getSize(widthMeasureSpec), AT_MOST),
                 makeMeasureSpec(lpImage.height, EXACTLY));
-        int maxWidth = Math.max(imageView.getMeasuredWidth(), dropView.getMeasuredWidth());
+        int maxWidth = Math.max(imageView.getMeasuredWidth(), mWaterDropView.getMeasuredWidth());
         int maxHeight = ScreenUtils.getDip2px(getContext(),50);
         super.setMeasuredDimension(View.resolveSize(maxWidth, widthMeasureSpec), View.resolveSize(maxHeight, heightMeasureSpec));
     }
@@ -126,21 +125,20 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final View thisView = this;
         final View imageView = mImageView;
-        final View dropView = mWaterDropView;
         final int measuredWidth = thisView.getMeasuredWidth();
 
-        final int widthWaterDrop = dropView.getMeasuredWidth();
-        final int heightWaterDrop = dropView.getMeasuredHeight();
+        final int widthWaterDrop = mWaterDropView.getMeasuredWidth();
+        final int heightWaterDrop = mWaterDropView.getMeasuredHeight();
         final int leftWaterDrop = measuredWidth / 2 - widthWaterDrop / 2;
         final int topWaterDrop = 0;
-        dropView.layout(leftWaterDrop, topWaterDrop, leftWaterDrop + widthWaterDrop, topWaterDrop + heightWaterDrop);
+        mWaterDropView.layout(leftWaterDrop, topWaterDrop, leftWaterDrop + widthWaterDrop, topWaterDrop + heightWaterDrop);
 
         final int widthImage = imageView.getMeasuredWidth();
         final int heightImage = imageView.getMeasuredHeight();
         final int leftImage = measuredWidth / 2 - widthImage / 2;
         int topImage = widthWaterDrop / 2 - widthImage / 2;
-        if (topImage + heightImage > dropView.getBottom() - (widthWaterDrop - widthImage) / 2) {
-            topImage = dropView.getBottom() - (widthWaterDrop - widthImage) / 2 - heightImage;
+        if (topImage + heightImage > mWaterDropView.getBottom() - (widthWaterDrop - widthImage) / 2) {
+            topImage = mWaterDropView.getBottom() - (widthWaterDrop - widthImage) / 2 - heightImage;
         }
         imageView.layout(leftImage, topImage, leftImage + widthImage, topImage + heightImage);
 
@@ -215,28 +213,27 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
 
     @Override
     public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
-        final View dropView = mWaterDropView;
         final View imageView = mImageView;
         mState = newState;
         switch (newState) {
             case None:
-                dropView.setVisibility(View.VISIBLE);
+                mWaterDropView.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.VISIBLE);
                 break;
             case PullDownToRefresh:
-                dropView.setVisibility(View.VISIBLE);
+                mWaterDropView.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.VISIBLE);
                 break;
             case PullDownCanceled:
                 break;
             case ReleaseToRefresh:
-                dropView.setVisibility(View.VISIBLE);
+                mWaterDropView.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.VISIBLE);
                 break;
             case Refreshing:
                 break;
             case RefreshFinish:
-                dropView.setVisibility(View.GONE);
+                mWaterDropView.setVisibility(View.GONE);
                 imageView.setVisibility(View.GONE);
                 break;
         }
@@ -258,6 +255,7 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
     @Override
     public int onFinish(@NonNull RefreshLayout layout, boolean success) {
         mProgressDrawable.stop();
+        mWaterDropView.setVisibility(GONE);
         textView.setVisibility(VISIBLE);
         textView.setText(success?getResources().getString(R.string.refreshSuccess):getResources().getString(R.string.refreshFail));
         textView.postDelayed(new Runnable() {

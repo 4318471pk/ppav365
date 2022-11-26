@@ -1,6 +1,7 @@
 package com.live.fox.ui.rank;
 
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -19,13 +20,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.live.fox.R;
 import com.live.fox.adapter.RankAdapter;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.RankFragmentBinding;
 import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.User;
+import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.RankProfileView;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -94,6 +100,20 @@ public class RankFragment extends BaseBindingFragment {
             list.add(null);
         }
         rankAdapter=new RankAdapter(getActivity(),list);
+        rankAdapter.setOnClickFollowListener(new RankAdapter.OnClickFollowListener() {
+            @Override
+            public void onClickFollow(RankItemBean bean,int position) {
+                follow(bean.getUid(),position+3);
+            }
+
+            @Override
+            public void onClickProfileImage(RankItemBean bean, int position) {
+                if(Strings.isDigitOnly(bean.getUid()))
+                {
+                    UserDetailActivity.startActivity(getActivity(),Integer.valueOf(bean.getUid()));
+                }
+            }
+        });
 
         mBind.smartRefresh.setEnableAutoLoadMore(false);
         mBind.smartRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
@@ -164,6 +184,7 @@ public class RankFragment extends BaseBindingFragment {
     private void setPageData()
     {
         List<RankItemBean> list;
+        List<RankItemBean> templeList=new ArrayList<>();
         switch (type)
         {
             case 0:
@@ -172,13 +193,17 @@ public class RankFragment extends BaseBindingFragment {
                     list=getRankActivity().rankAnchorBeans.get(currentTimePosition);
                     if(list!=null)
                     {
+                        setHeadData();
                         if(list.size()>3)
                         {
-                            rankAdapter.setNewData(list);
+                            templeList.clear();
+                            for (int i = 3; i < list.size(); i++) {
+                                templeList.add(list.get(i));
+                            }
+                            rankAdapter.setNewData(templeList);
                         }
                         else
                         {
-                            setHeadData();
                             setEmptyData();
                         }
                     }
@@ -190,13 +215,17 @@ public class RankFragment extends BaseBindingFragment {
                     list=getRankActivity().rankRichManBeans.get(currentTimePosition);
                     if(list!=null)
                     {
+                        setHeadData();
                         if(list.size()>3)
                         {
-                            rankAdapter.setNewData(list);
+                            templeList.clear();
+                            for (int i = 3; i < list.size(); i++) {
+                                templeList.add(list.get(i));
+                            }
+                            rankAdapter.setNewData(templeList);
                         }
                         else
                         {
-                            setHeadData();
                             setEmptyData();
                         }
                     }
@@ -252,7 +281,7 @@ public class RankFragment extends BaseBindingFragment {
             }
             else
             {
-                profileView.setIndex(i-1,0,false);
+                profileView.setIndex(i-1,1,false);
                 profileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
                 nickName.setText(getStringWithoutContext(R.string.emptyPosition));
                 icons.setText("");
@@ -438,5 +467,27 @@ public class RankFragment extends BaseBindingFragment {
         return linearLayout;
     }
 
+    private void follow(String targetId,int position)
+    {
+        showLoadingDialogWithNoBgBlack();
+        Api_User.ins().followUser(targetId, true, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if(isActivityOK())
+                {
+                    if(code==0)
+                    {
+                        getRankActivity().rankAnchorBeans.get(currentTimePosition).get(position).setFollow(true);
+                        rankAdapter.notifyDataSetChanged();
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }
+        });
+    }
 }
 

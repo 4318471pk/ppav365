@@ -1,5 +1,6 @@
 package com.live.fox.dialog.bottomDialog;
 
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -11,10 +12,13 @@ import android.widget.TextView;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogAudienceAdminlistBinding;
+import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.RankProfileView;
 
 import java.util.ArrayList;
@@ -113,15 +117,9 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
         }
         addItem(list);
         view.setVisibility(View.VISIBLE);
-
+        getAdminList();
         startAnimate(mBind.llContent, true);
     }
-
-    private void getAdminList()
-    {
-
-    }
-
 
     private void addItem(List list) {
         if (list == null || list.size() == 0) {
@@ -165,5 +163,26 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
 
         }
 
+    }
+
+    private void getAdminList()
+    {
+        Api_Live.ins().getLivingRoomManagerList(liveId, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(!isConditionOk())
+                {
+                    return;
+                }
+                if(code==0)
+                {
+                    Log.e("getLivingRoList",data);
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
     }
 }

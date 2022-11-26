@@ -15,6 +15,7 @@ import com.live.fox.entity.Anchor;
 import com.live.fox.entity.LiveClose;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
+import com.live.fox.utils.ActivityManager;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.SPUtils;
@@ -80,7 +81,6 @@ public class AnchorLivingFinishActivity extends BaseBindingViewActivity {
             public void onSuccess(int code, String msg, LiveClose data) {
                 hideLoadingDialog();
                 if (data != null) LogUtils.e("liveStop result : " + new Gson().toJson(data));
-                hideLoadingDialog();
                 if (code == 0 && data != null) {
                     mBind.ivLivingTimeCost.setText(minutesToString(data.getLiveMinutes()));
                     mBind.ivLivingProfit.setText(RegexUtils.formatNumber((long) data.getProfit()));
