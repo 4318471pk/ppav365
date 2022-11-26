@@ -1,5 +1,6 @@
 package com.live.fox.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +14,9 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Follow;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
+import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -22,10 +25,18 @@ import java.util.List;
 public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder> {
 
     boolean isFans = false;
+    String followed,follow;
+    Context context;
 
-    public MyFollowListAdapter(List data, boolean isFans) {
+
+    public MyFollowListAdapter(List data, boolean isFans, Context context) {
         super(R.layout.item_follow_list, data);
         this.isFans = isFans;
+        this.context=context;
+        follow=context.getResources().getString(R.string.follow);
+        followed=context.getResources().getString(R.string.followed);
+
+        setHasStableIds(true);
     }
 
     @Override
@@ -35,19 +46,29 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 //        }
         TextView tvName = helper.getView(R.id.tv_name);
         tvName.setText(data.getNickname());
-        ImageView ivSex = helper.getView(R.id.ivSex);
-        if (data.getSex() == 1) {
-            ivSex.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.men));
-        } else if (data.getSex() == 2) {
-            ivSex.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.women));
-        }
+
+
+        TextView tvIcons=helper.itemView.findViewById(R.id.tvIcons);
+        SpanUtils spanUtils=new SpanUtils();
+
+        ChatSpanUtils.appendSexIcon(spanUtils,data.getSex(),context,SpanUtils.ALIGN_BASELINE);
+        spanUtils.append(" ");
+
+
+        ChatSpanUtils.appendLevelIcon(spanUtils,data.getUserLevel(), context);
+        spanUtils.append(" ");
+        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getUserLevel(), context);
+        tvIcons.setText(spanUtils.create());
+
 
         RoundedImageView ivHead = helper.getView(R.id.iv_head);
         GlideUtils.loadImage(mContext, data.getAvatar(), ivHead);
 
-        ImageView ivNoble = helper.getView(R.id.iv_noble_level);
 
         TextView tvGz = helper.getView(R.id.tvGz);
+
+        tvGz.setText(data.isFollow()?followed:follow);
+
         if (!isFans) { //我的关注
 
             if (!data.isFans()) {

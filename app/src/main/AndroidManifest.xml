@@ -56,6 +56,11 @@
             android:name="android.max_aspect"
             android:value="ratio_float" />
 
+
+        <meta-data
+            android:name="com.openinstall.APP_KEY"
+            android:value="OPENINSTALL_APPKEY"/>
+
         <service
             android:name="com.xtremeprog.sdk.ble.BleService"
             android:enabled="true" />
@@ -160,6 +165,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
+            <!-- OpenInstall 拉起 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="iujbco" />
+            </intent-filter>
+
         </activity> <!-- 主界面 -->
         <activity
             android:name=".MainActivity"

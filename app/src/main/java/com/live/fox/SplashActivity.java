@@ -1,9 +1,11 @@
 package com.live.fox;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,6 +15,9 @@ import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.flyco.roundview.RoundRelativeLayout;
+import com.fm.openinstall.OpenInstall;
+import com.fm.openinstall.listener.AppWakeUpAdapter;
+import com.fm.openinstall.model.AppData;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.CommonApp;
@@ -72,7 +77,12 @@ public class SplashActivity extends BaseActivity {
                 goToMain();
             }
         };
+
+
+        //获取唤醒参数
+        OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
     }
+
 
     private void initView() {
         tvTime = findViewById(R.id.tv_time);
@@ -174,5 +184,30 @@ public class SplashActivity extends BaseActivity {
         } catch (NoSuchFieldError error) {
             LogUtils.e("fitNotch", "手机不是凉棚屏幕");
         }
+    }
+
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // 此处要调用，否则App在后台运行时，会无法截获
+        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+    }
+
+    AppWakeUpAdapter wakeUpAdapter = new AppWakeUpAdapter() {
+        @Override
+        public void onWakeUp(AppData appData) {
+            //获取渠道数据
+            String channelCode = appData.getChannel();
+            //获取绑定数据
+            String bindData = appData.getData();
+            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
+        }
+    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wakeUpAdapter = null;
     }
 }

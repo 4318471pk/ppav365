@@ -63,7 +63,7 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
 
         List<String> list = new ArrayList<>();
 
-        myFollowListAdapter = new MyFollowListAdapter(list, isFans);
+        myFollowListAdapter = new MyFollowListAdapter(list, isFans,this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
