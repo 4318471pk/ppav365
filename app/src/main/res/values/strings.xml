@@ -1601,6 +1601,8 @@
 
     <string name="plsFillTitleOfRoom">请填写房间名称</string>
     <string name="symbolQuestionMark">?</string>
-
+    <string name="prom">"提   示"</string>
+    <string name="login_register">手机登陆/注册</string>
+    <string name="login_guest">游客登陆</string>
 
 </resources>
