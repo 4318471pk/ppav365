@@ -3,21 +3,22 @@ package com.live.fox.entity;
 
 public class Follow {
 
-    private long uid;
+    private String uid;
     private String avatar;
     private boolean isFollow;
     private boolean isFans;
     private String nickname;
     private int sex;
     private String signature;
-    private int userLevel;
+    private Integer userLevel;
+    private Integer vipLevel;
     private String vipName;
 
-    public long getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -62,11 +63,19 @@ public class Follow {
     }
 
     public int getUserLevel() {
-        return userLevel;
+        return userLevel==null?0:userLevel;
     }
 
     public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
+    }
+
+    public Integer getVipLevel() {
+        return vipLevel==null?0:vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
     }
 
     public boolean isFollow() {

@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -17,7 +19,9 @@ import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
+import com.live.fox.view.RankProfileView;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -27,6 +31,7 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
     boolean isFans = false;
     String followed,follow;
     Context context;
+    OnCancelFollowListener onCancelFollowListener;
 
 
     public MyFollowListAdapter(List data, boolean isFans, Context context) {
@@ -37,6 +42,10 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         followed=context.getResources().getString(R.string.followed);
 
         setHasStableIds(true);
+    }
+
+    public void setOnCancelFollowListener(OnCancelFollowListener onCancelFollowListener) {
+        this.onCancelFollowListener = onCancelFollowListener;
     }
 
     @Override
@@ -60,47 +69,55 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getUserLevel(), context);
         tvIcons.setText(spanUtils.create());
 
-
-        RoundedImageView ivHead = helper.getView(R.id.iv_head);
-        GlideUtils.loadImage(mContext, data.getAvatar(), ivHead);
-
+        RankProfileView rpvView=helper.itemView.findViewById(R.id.rpvView);
+        rpvView.setIndex(RankProfileView.NONE,data.getVipLevel(),false);
+        GlideUtils.loadCircleImage(context,data.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,rpvView.getProfileImage());
 
         TextView tvGz = helper.getView(R.id.tvGz);
 
         tvGz.setText(data.isFollow()?followed:follow);
 
         if (!isFans) { //我的关注
-
-            if (!data.isFans()) {
-                tvGz.setText(mContext.getResources().getString(R.string.follow));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_a220f5_e794ff));
-            } else {
-                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-
-            }
+//            if (!data.isFans()) {
+//                tvGz.setText(mContext.getResources().getString(R.string.follow));
+//                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_a220f5_e794ff));
+//            } else {
+//
+//
+//            }
+            tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
+            tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
+            tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
 
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    followFans(data.getUid(), !data.isFans(), helper.getLayoutPosition());
+                    if(onCancelFollowListener!=null)
+                    {
+                        onCancelFollowListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
+                    }
                 }
             });
 
         } else {
-            if (!data.isFollow()) {
-                tvGz.setText(mContext.getResources().getString(R.string.follow));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_a220f5_e794ff));
-            } else {
-                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-
-            }
+//            if (!data.isFollow()) {
+//                tvGz.setText(mContext.getResources().getString(R.string.follow));
+//                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_a220f5_e794ff));
+//            } else {
+//                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
+//                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
+//            }
+            tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
+            tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
+            tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
 
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    followFans(data.getUid(), !data.isFollow(), helper.getLayoutPosition());
+                    if(onCancelFollowListener!=null)
+                    {
+                        onCancelFollowListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
+                    }
                 }
             });
         }
@@ -108,50 +125,19 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserDetailActivity.startActivity(mContext, data.getUid());
-            }
-        });
-
-    }
-
-    private void followFans(Long id, boolean isFollow, int pos){
-        Api_User.ins().followUser(id + "", isFollow, new  JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                if (code == 0) {
-                    if (isFollow) {
-                        ToastUtils.showShort(mContext.getString(R.string.successFocus));
-                    } else {
-                        ToastUtils.showShort(mContext.getString(R.string.cancelFocus));
-                    }
-                    int temp = pos;
-                    for (int i = 0 ; i < mData.size(); i++) {
-                        if (id == mData.get(i).getUid()) {
-                            temp = i;
-                            break;
-                        }
-                    }
-                    if (!isFans) {
-                        mData.get(temp).setFans(isFollow);
-                    } else {
-                        mData.get(temp).setFollow(isFollow);
-                    }
-
-                    notifyItemChanged(temp);
-
+                if(Strings.isDigitOnly(data.getUid()))
+                {
+                    UserDetailActivity.startActivity(mContext, Long.valueOf(data.getUid()));
                 }
+
             }
         });
+
     }
 
 
-//    public interface MyFollowInterFace{
-//        public void clickFollow(int pos, boolean cancelFollow, Follow data);
-//    }
-//
-//    private MyFollowInterFace myFollowInterFace;
-//
-//    public void setMyFollowInterFace(MyFollowInterFace myFollowInterFace) {
-//        this.myFollowInterFace = myFollowInterFace;
-//    }
+    public interface OnCancelFollowListener
+    {
+        void onCancelFollow(String uid,int pos);
+    }
 }

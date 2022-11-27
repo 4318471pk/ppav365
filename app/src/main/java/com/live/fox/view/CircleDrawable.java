@@ -1,4 +1,4 @@
-package com.lc.base.danmu;
+package com.live.fox.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,6 +26,8 @@ public class CircleDrawable extends Drawable {
     private Bitmap mBitmap;
     private Bitmap mBitmapHeart;
     private boolean mHasHeart;
+    int width=0;
+    int height=0;
 
     private static final int BLACK_COLOR          = 0xb2000000;//黑色 背景
     private static final int BLACKGROUDE_ADD_SIZE = 4;//背景比图片多出来的部分
@@ -54,6 +56,16 @@ public class CircleDrawable extends Drawable {
         if (hasHeart) {
             setBitmapHeart(context);
         }
+    }
+
+    public CircleDrawable(Bitmap bitmap,int width,int height) {
+        this.mBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        BitmapShader shader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        mPaint.setShader(shader);
+        this.width=width;
+        this.height=height;
     }
 
     private void setBitmapHeart(Context context) {
@@ -100,12 +112,12 @@ public class CircleDrawable extends Drawable {
 
     @Override
     public int getIntrinsicWidth() {
-        return mBitmap.getWidth();
+        return width>0?width:mBitmap.getWidth();
     }
 
     @Override
     public int getIntrinsicHeight() {
-        return mBitmap.getHeight();
+        return height>0?height:mBitmap.getHeight();
     }
 
     @Override

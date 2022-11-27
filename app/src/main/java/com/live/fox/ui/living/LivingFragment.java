@@ -225,7 +225,7 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
-        GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(), R.mipmap.icon_anchor_loading,
+        GlideUtils.loadDefaultImage(activity, activity.getRoomListBeans().get(currentPagePosition).getRoomIcon(), 0,R.mipmap.icon_anchor_loading,
                 mBind.ivBG);
 
         Log.e("currentPagePosition", currentPagePosition + " " + activity.getCurrentPosition());

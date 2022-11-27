@@ -24,6 +24,7 @@ import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
+import com.live.fox.utils.Strings;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -106,7 +107,10 @@ public class MyFansActivity extends BaseHeadActivity {
                 if (view.getId() == R.id.tv_follow) {
                     doSetFollowApi(position, follow);
                 } else if (view.getId() == R.id.iv_head) {
-                    UserDetailActivity.startActivity(MyFansActivity.this, follow.getUid());
+                    if(Strings.isDigitOnly(follow.getUid()))
+                    {
+                        UserDetailActivity.startActivity(MyFansActivity.this,Long.valueOf(follow.getUid()));
+                    }
                 }
             }
         });
@@ -170,7 +174,7 @@ public class MyFansActivity extends BaseHeadActivity {
      * 设置/取消 关注
      */
     public void doSetFollowApi(int position, Follow follow) {
-        Api_User.ins().follow(follow.getUid(), !follow.isFollow(), new JsonCallback<String>() {
+        Api_User.ins().follow(Long.valueOf(follow.getUid()), !follow.isFollow(), new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (data != null) LogUtils.e(code + "," + msg + "," + new Gson().toJson(data));

@@ -17,6 +17,7 @@ import com.live.fox.databinding.ActivityMyFollowListBinding;
 import com.live.fox.entity.Follow;
 import com.live.fox.server.Api_User;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -64,6 +65,12 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
         List<String> list = new ArrayList<>();
 
         myFollowListAdapter = new MyFollowListAdapter(list, isFans,this);
+        myFollowListAdapter.setOnCancelFollowListener(new MyFollowListAdapter.OnCancelFollowListener() {
+            @Override
+            public void onCancelFollow(String uid,int pos) {
+                followFans(uid,pos);
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -104,8 +111,17 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
      * 我的关注列表
      */
     public void doGetFollowListApi(boolean isRefresh) {
-        showLoadingDialog();
-        JsonCallback<List<Follow>> jsonCallback = new JsonCallback<List<Follow>>() {
+        if (isFans) {
+            Api_User.ins().getFansList(0, page, getCallback(isRefresh));
+        } else {
+            Api_User.ins().getFollowList(0, page, getCallback(isRefresh));
+        }
+    }
+
+    private JsonCallback getCallback(boolean isRefresh)
+    {
+        showLoadingDialogWithNoBgBlack();
+        return new JsonCallback<List<Follow>>() {
             @Override
             public void onSuccess(int code, String msg, List<Follow> data) {
                 hideLoadingDialog();
@@ -137,22 +153,21 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
 
             }
         };
-
-        if (isFans) {
-            Api_User.ins().getFansList(0, page, jsonCallback);
-        } else {
-            Api_User.ins().getFollowList(0, page, jsonCallback);
-        }
-
-
     }
 
-    private void followFans(Long id){
-        Api_User.ins().followUser(1028924366 +"", true, new  JsonCallback<String>() {
+    private void followFans(String uid,int position){
+        showLoadingDialogWithNoBgBlack();
+        Api_User.ins().followUser(uid + "", false, new  JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
                 if (code == 0) {
-
+                    ToastUtils.showShort(getString(R.string.cancelFocus));
+                    myFollowListAdapter.remove(position);
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
                 }
             }
         });

@@ -42,12 +42,11 @@
         android:layout_width="40dip"
         android:layout_height="40dip">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/ivUserImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/user_head_error"
-            app:riv_oval="true"
             />
 
         <ImageView

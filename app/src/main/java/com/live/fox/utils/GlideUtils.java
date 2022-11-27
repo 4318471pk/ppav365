@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,13 +13,12 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Spanned;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -31,18 +31,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.glide2transformation.BorderTransformation;
 import com.live.fox.utils.glide2transformation.CircleWithBorderTransformation;
 import com.live.fox.utils.glide2transformation.RoundedWithBoardTransformation;
-
-import org.jetbrains.annotations.NotNull;
+import com.live.fox.view.CircleDrawable;
+import com.live.fox.view.RoundedDrawable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,6 +74,8 @@ public class GlideUtils {
      */
     public static int defaultPlaceImg;
     public static int defaultErrorImg;
+    public static SparseArray<RoundedDrawable> roundedDrawableSparseArray=new SparseArray<>();
+    public static SparseArray<CircleDrawable> circleDrawableSparseArray=new SparseArray<>();
 
 
     /************************** Glide常用方法********************************************************************************/
@@ -248,10 +246,11 @@ public class GlideUtils {
     @SafeVarargs
     private static void loadRoundImage(Context context, Object path, int placeholderImg, int errorImg, boolean isFade, ImageView imageView, int radius,Transformation<Bitmap>... transformations) {
         if ((isValidContextForGlide(context))) return;
+
         RequestOptions options=new RequestOptions();
-//        if (placeholderImg != 0) {
-//            options.placeholder(placeholderImg);
-//        }
+        if (placeholderImg != 0) {
+            options.placeholder(placeholderImg);
+        }
         if (errorImg != 0) {
             options.error(errorImg);
         }
@@ -264,15 +263,15 @@ public class GlideUtils {
             Glide.with(context)
                     .load(replaceDomain(path))
                     .apply(options)
-                    .thumbnail(loadTransformRound(imageView.getContext(),placeholderImg,radius))
-                    .thumbnail(loadTransformRound(imageView.getContext(),errorImg,radius))
+//                    .thumbnail(loadTransformRound(imageView.getContext(),placeholderImg,radius))
+//                    .thumbnail(loadTransformRound(imageView.getContext(),errorImg,radius))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
         } else {
             Glide.with(context)
                     .load(replaceDomain(path))
-                    .thumbnail(loadTransformRound(imageView.getContext(),placeholderImg,radius))
-                    .thumbnail(loadTransformRound(imageView.getContext(),errorImg,radius))
+//                    .thumbnail(loadTransformRound(imageView.getContext(),placeholderImg,radius))
+//                    .thumbnail(loadTransformRound(imageView.getContext(),errorImg,radius))
                     .apply(options)
                     .into(imageView);
         }
@@ -282,9 +281,9 @@ public class GlideUtils {
     private static void loadCircleImage(Context context, Object path, int placeholderImg, int errorImg, boolean isFade, ImageView imageView,Transformation<Bitmap>... transformations) {
         if ((isValidContextForGlide(context))) return;
         RequestOptions options=new RequestOptions();
-//        if (placeholderImg != 0) {
-//            options.placeholder(placeholderImg);
-//        }
+        if (placeholderImg != 0) {
+            options.error(errorImg);
+        }
         if (errorImg != 0) {
             options.error(errorImg);
         }
@@ -297,15 +296,15 @@ public class GlideUtils {
             Glide.with(context)
                     .load(replaceDomain(path))
                     .apply(options)
-                    .thumbnail(loadTransformCircle(imageView.getContext(),placeholderImg))
-                    .thumbnail(loadTransformCircle(imageView.getContext(),errorImg))
+//                    .thumbnail(loadTransformCircle(imageView.getContext(),placeholderImg))
+//                    .thumbnail(loadTransformCircle(imageView.getContext(),errorImg))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
         } else {
             Glide.with(context)
                     .load(replaceDomain(path))
-                    .thumbnail(loadTransformCircle(imageView.getContext(),placeholderImg))
-                    .thumbnail(loadTransformCircle(imageView.getContext(),errorImg))
+//                    .thumbnail(loadTransformCircle(imageView.getContext(),placeholderImg))
+//                    .thumbnail(loadTransformCircle(imageView.getContext(),errorImg))
                     .apply(options)
                     .into(imageView);
         }

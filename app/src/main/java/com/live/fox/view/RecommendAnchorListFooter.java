@@ -164,7 +164,7 @@ public class RecommendAnchorListFooter extends LinearLayout {
             else
             {
                 ivRoundBG.setRadius(dip2_5*4);
-                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),defaultDrawable,defaultDrawable, ivRoundBG);
+                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
             }            name.setText(listBeans.get(i).getTitle());
 
             tvNum.setText(data.getLiveSum()+"");

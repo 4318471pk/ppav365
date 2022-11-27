@@ -9,7 +9,9 @@ public class Audience implements Serializable {
     long liveId;
     long uid;
     String nickname;
-    int userLevel;
+    Integer userLevel;
+    Integer vipLevel;
+    Integer guardLevel;
     int carId;
     long rq;
     List<Integer> badgeList;
@@ -72,11 +74,27 @@ public class Audience implements Serializable {
     }
 
     public int getUserLevel() {
-        return userLevel;
+        return userLevel==null?0:userLevel;
     }
 
     public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
+    }
+
+    public Integer getVipLevel() {
+        return vipLevel==null?0:vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
+    }
+
+    public Integer getGuardLevel() {
+        return guardLevel==null?-1:guardLevel;
+    }
+
+    public void setGuardLevel(Integer guardLevel) {
+        this.guardLevel = guardLevel;
     }
 
     public int getCarId() {

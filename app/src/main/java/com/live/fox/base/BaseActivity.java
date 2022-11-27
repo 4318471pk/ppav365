@@ -56,7 +56,6 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     View emptyView;
     View loadingView;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         String language = LanguageSp.getString(newBase, MultiLanguageUtils.LANGUAGE);
@@ -106,6 +105,18 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
         loadingFragment.setMsg(msg);
         loadingFragment.setCancelable(isCancelable);
         loadingFragment.setBgBlack(isBgBlack);
+        //10秒限制 强制取消
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!isFinishing() && !isDestroyed())
+                {
+                    if (loadingFragment != null && loadingFragment.getDialog()!=null && loadingFragment.getDialog().isShowing()) {
+                        loadingFragment.dismissAllowingStateLoss(); return;
+                    }
+                }
+            }
+        },10000);
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),loadingFragment);
     }
 

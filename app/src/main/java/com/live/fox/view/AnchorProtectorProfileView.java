@@ -2,10 +2,8 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,10 +11,12 @@ import android.widget.RelativeLayout;
 import com.live.fox.R;
 import com.live.fox.utils.ResourceUtils;
 
+//带有装饰边框和小图标是不是守护 房管
 public class AnchorProtectorProfileView extends RelativeLayout {
 
     int decorationIndex=-1;
     int[] decorationResource = null;
+    boolean isInit=false;
     ImageView ivDecoration, ivWings, ivProfile;
     float scaleAndMargins[][]={{0.87f,0.14f},{0.84f,0.05f},{0.87f,0.12f},{0.85f,0.07f},{0.87f,0.1f},{0.85f,0.1f},{0.85f,0.08f}};
     public AnchorProtectorProfileView(Context context) {
@@ -42,9 +42,9 @@ public class AnchorProtectorProfileView extends RelativeLayout {
     }
 
     public void setDecorationIndex(int decorationIndex) {
-        if(decorationIndex<1 && decorationIndex>7)
+        if(decorationIndex<1 || decorationIndex>7)
         {
-            return;
+            decorationIndex=1;
         }
         this.decorationIndex = decorationIndex-1;
         adjustLayout();
@@ -70,10 +70,20 @@ public class AnchorProtectorProfileView extends RelativeLayout {
         return ivProfile;
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if(!isInit)
+        {
+            adjustLayout();
+        }
+    }
+
     private void adjustLayout()
     {
         if(getWidth()>0 )
         {
+            isInit=true;
             if(decorationIndex>-1)
             {
                 Drawable decorationDrawable=getResources().getDrawable(decorationResource[decorationIndex]);
@@ -140,7 +150,5 @@ public class AnchorProtectorProfileView extends RelativeLayout {
         }
 
     }
-
-
 
 }

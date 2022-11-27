@@ -13,6 +13,8 @@ import com.live.fox.R;
 import com.live.fox.entity.Audience;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.view.ProfileWithIconsView;
+
 import java.util.List;
 
 public class LivingTop20OnlineUserAdapter extends BaseQuickAdapter<Audience, BaseViewHolder> {
@@ -34,7 +36,8 @@ public class LivingTop20OnlineUserAdapter extends BaseQuickAdapter<Audience, Bas
         vl.height=itemWH;
         vl.width=itemWH;
         helper.itemView.setLayoutParams(vl);
-        ImageView ivAvatar= helper.getView(R.id.ivAvatar);
-        GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,ivAvatar);
+        ProfileWithIconsView ivAvatar= helper.getView(R.id.ivAvatar);
+        ivAvatar.setData(item.getVipLevel(),item.getGuardLevel(),item.getAvatar());
+//        GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,ivAvatar);
     }
 }

@@ -4,12 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <com.live.fox.view.ProfileWithIconsView
         android:id="@+id/ivAvatar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:riv_oval="true"
-        android:src="@mipmap/user_head_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
 
 </RelativeLayout>

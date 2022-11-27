@@ -119,7 +119,7 @@ public class AnchorGameListAdapter extends BaseQuickAdapter<RoomListBean, BaseVi
         else
         {
             ivRoundBG.setRadius(dip10);
-            GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),defaultDrawable,defaultDrawable, ivRoundBG);
+            GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
         }
 
     }

@@ -3,6 +3,7 @@ package com.live.fox.ui.mine.contribution;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -17,17 +18,35 @@ import androidx.viewpager.widget.ViewPager;
 import com.live.fox.R;
 import com.live.fox.adapter.BaseFragmentPagerAdapter;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityContributionRankBinding;
+import com.live.fox.entity.ContributionRankItemBean;
+import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Rank;
 import com.live.fox.ui.rank.RankActivity;
+import com.live.fox.utils.GsonUtil;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContributionRankActivity extends BaseBindingViewActivity {
 
     ActivityContributionRankBinding mBind;
+    List<List<ContributionRankItemBean>> dataLists=new ArrayList<>();
+    List<ContributionRankFragment> fragmentList=new ArrayList<>();
+    int currentPosition=0;
 
     public static void startActivity(Context context)
     {
         context.startActivity(new Intent(context,ContributionRankActivity.class));
+    }
+
+    public List<List<ContributionRankItemBean>> getDataLists() {
+        return dataLists;
     }
 
     @Override
@@ -51,10 +70,14 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
 
         String titles[]=getResources().getStringArray(R.array.rank_tab_contribution);
         int widthScreen= ScreenUtils.getScreenWidth(this);
+        fragmentList.add(ContributionRankFragment.newInstance(0));
+        fragmentList.add(ContributionRankFragment.newInstance(1));
+        fragmentList.add(ContributionRankFragment.newInstance(2));
+        fragmentList.add(ContributionRankFragment.newInstance(3));
         mBind.vpMain.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager()){
             @Override
             public Fragment getFragment(int position) {
-                return ContributionRankFragment.newInstance(position);
+                return fragmentList.get(position);
             }
 
             @Override
@@ -78,6 +101,8 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
             public void onPageSelected(int position) {
                 RadioButton radioButton=(RadioButton)mBind.rgTabs.getChildAt(position);
                 radioButton.setChecked(true);
+                currentPosition=position;
+                fragmentList.get(currentPosition).notifyFragment();
             }
 
             @Override
@@ -125,8 +150,51 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
             mBind.rgTabs.addView(radioButton);
         }
 
+        getContributionList();
         ((RadioButton)mBind.rgTabs.getChildAt(0)).setChecked(true);
     }
 
+    public void getContributionList()
+    {
+        String uid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
 
+        Api_Rank.ins().getContributionRankList("",uid,new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("getContributionList",data);
+                if(code==0 )
+                {
+                    try {
+                        JSONObject jsonObject=new JSONObject(data);
+                        dataLists.clear();
+                        analysisData(jsonObject,"dayList");
+                        analysisData(jsonObject,"weekList");
+                        analysisData(jsonObject,"monthList");
+                        analysisData(jsonObject,"allList");
+
+                        fragmentList.get(currentPosition).notifyFragment();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    private void analysisData(JSONObject jsonObject, String arrayTitle)
+    {
+        String rankDayList=jsonObject.optString(arrayTitle);
+        if(rankDayList!=null && rankDayList.length()>0)
+        {
+            dataLists.add(GsonUtil.getObjects(rankDayList, ContributionRankItemBean[].class));
+        }
+        else
+        {
+            dataLists.add(new ArrayList<>());
+        }
+    }
 }

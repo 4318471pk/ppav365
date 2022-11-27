@@ -111,17 +111,23 @@
                         app:gt_radius_dp="20dp"
                         app:gt_solidNoGradient="#3f000000" />
 
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvTop20Online"
+                    <com.live.fox.view.SelfTouchControlView
                         android:layout_width="match_parent"
                         android:layout_height="34dp"
                         android:layout_marginLeft="10dip"
                         android:layout_marginRight="10dip"
                         android:layout_toRightOf="@id/roundRL"
-                        android:layout_toLeftOf="@id/gtvOnlineAmount"
-                        android:requiresFadingEdge="horizontal"
-                        android:fadingEdgeLength="20dip" />
+                        android:layout_toLeftOf="@id/gtvOnlineAmount">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvTop20Online"
+                            android:layout_width="match_parent"
+                            android:layout_height="34dp"
+                            android:requiresFadingEdge="horizontal"
+                            android:fadingEdgeLength="20dip" />
+
+                    </com.live.fox.view.SelfTouchControlView>
+
                 </RelativeLayout>
 
                 <RelativeLayout

@@ -334,10 +334,17 @@ public class NobleNewFragment extends BaseBindingFragment {
 
         new CountDownTimer(5000, 1000) {
             public void onTick(long millisUntilFinished) {
-                tvTime.setText(millisUntilFinished / 1000 + "s");
+                if(isActivityOK())
+                {
+                    tvTime.setText(millisUntilFinished / 1000 + "s");
+                }
+
             }
             public void onFinish() {
-                popupWindow.dismiss();
+                if(isActivityOK())
+                {
+                    popupWindow.dismiss();
+                }
             }
         }.start();
 
@@ -345,10 +352,13 @@ public class NobleNewFragment extends BaseBindingFragment {
     }
 
     private void setRootAlpha(float al){
-        WindowManager.LayoutParams lp=this.getActivity().getWindow().getAttributes();
-        lp.alpha= al;
-        this.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        this.getActivity().getWindow().setAttributes(lp);
+        if(isActivityOK())
+        {
+            WindowManager.LayoutParams lp=this.getActivity().getWindow().getAttributes();
+            lp.alpha= al;
+            this.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            this.getActivity().getWindow().setAttributes(lp);
+        }
     }
 
 

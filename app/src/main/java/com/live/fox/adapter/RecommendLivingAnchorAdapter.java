@@ -86,7 +86,7 @@ public class RecommendLivingAnchorAdapter extends RecyclerView.Adapter<Recommend
 
         AnchorRoundImageView ivRoundBG=holder.itemView.findViewById(R.id.ivRoundBG);
         ivRoundBG.setRadius(dip5*2);
-        GlideUtils.loadRoundedImage(context, dip5*2,data.get(position).getRoomIcon(),0,defaultDrawable, ivRoundBG);
+        GlideUtils.loadRoundedImage(context, dip5*2,data.get(position).getRoomIcon(),0,0, ivRoundBG);
 
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new OnClickFrequentlyListener() {

@@ -23,6 +23,7 @@ import com.live.fox.adapter.RankAdapter;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.RankFragmentBinding;
+import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_User;
@@ -317,7 +318,8 @@ public class RankFragment extends BaseBindingFragment {
 
             if(tabList.size()>i-4)
             {
-                RankItemBean rankItemBean=tabList.get(i-4);
+                final int index=i-4;
+                RankItemBean rankItemBean=tabList.get(index);
                 tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
                 follow.setTag(rankItemBean);
                 follow.setVisibility(View.VISIBLE);
@@ -328,7 +330,7 @@ public class RankFragment extends BaseBindingFragment {
                     @Override
                     public void onClick(View v) {
                         RankItemBean rankItemBean =(RankItemBean)v.getTag();
-                        follow(rankItemBean.getUid(),-1);
+                        follow(rankItemBean.getUid(),index);
                     }
                 });
 //                icons.setText("");
@@ -510,9 +512,35 @@ public class RankFragment extends BaseBindingFragment {
                 {
                     if(code==0)
                     {
-                        if(position>-1)
-                        {
-                            getRankActivity().rankAnchorBeans.get(currentTimePosition).get(position).setFollow(true);
+                        switch (type) {
+                            case 0:
+                                for (int i = 0; i < getRankActivity().rankAnchorBeans.size(); i++) {
+                                    List<RankItemBean> list=getRankActivity().rankAnchorBeans.get(i);
+                                    for (int j = 0; j <list.size() ; j++) {
+                                        if(!TextUtils.isEmpty(list.get(j).getUid()))
+                                        {
+                                            if(list.get(j).getUid().equals(targetId))
+                                            {
+                                                getRankActivity().rankAnchorBeans.get(i).get(j).setFollow(true);
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 1:
+                                for (int i = 0; i < getRankActivity().rankRichManBeans.size(); i++) {
+                                    List<RankItemBean> list=getRankActivity().rankRichManBeans.get(i);
+                                    for (int j = 0; j <list.size() ; j++) {
+                                        if(!TextUtils.isEmpty(list.get(j).getUid()))
+                                        {
+                                            if(list.get(j).getUid().equals(targetId))
+                                            {
+                                                getRankActivity().rankRichManBeans.get(i).get(j).setFollow(true);
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
                         }
                         setPageData();
                     }

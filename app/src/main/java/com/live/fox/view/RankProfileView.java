@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.List;
 
+//带有皇冠 等级边框 是不是在线（svga动画）的合成view
 public class RankProfileView extends RelativeLayout {
 
     public static final int NONE=-1;
@@ -163,7 +164,7 @@ public class RankProfileView extends RelativeLayout {
         else
         {
             //不符合范围给个默认值
-            this.decorationIndex=1;
+            this.decorationIndex=-1;
         }
 
         this.isLiving=isLiving;
@@ -334,21 +335,12 @@ public class RankProfileView extends RelativeLayout {
             adjustLayout();
         }
 
-//        if(resumeAfterAttached && isLiving && ivLiving!=null)
-//        {
-//            if(svgaVideoEntity!=null)
-//            {
-//                ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));
-//                ivLiving.startAnimation();
-//            }
-//        }
     }
 
     public void setResumeAniAfterAttached(boolean resumeAfterAttached)
     {
         this.resumeAfterAttached=resumeAfterAttached;
     }
-
 
     // recycleView出bug用的方法
     public void stopLivingAnimation()
@@ -365,31 +357,6 @@ public class RankProfileView extends RelativeLayout {
     {
         if(isLiving)
         {
-//            SVGAParser parser = SVGAParser.Companion.shareParser();
-//            parser.decodeFromAssets("living_profile.svga", new SVGAParser.ParseCompletion() {
-//                @Override
-//                public void onComplete(SVGAVideoEntity svgaVideoEntity) {
-//                    SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
-////                    int width=(int)(svgaVideoEntity.getVideoSize().viewWidth);
-////                    int height=(int)(svgaVideoEntity.getVideoSize().getHeight());
-////
-////                    int bot=(int)(-1*(height*1.6f/12));
-//
-////                    Log.e("SVGADrawable",svgaVideoEntity.getVideoSize().viewWidth+" "+svgaVideoEntity.getVideoSize().getHeight());
-////                        drawable.setBounds(width/4,height/2,width/2,height/2-(height/12));
-//                    ivLiving.setImageDrawable(drawable);
-//                    ivLiving.startAnimation();
-//                }
-//
-//                @Override
-//                public void onError() {
-//                }
-//            }, new SVGAParser.PlayCallback() {
-//                @Override
-//                public void onPlay(@NotNull List<? extends File> list) {
-//
-//                }
-//            });
             if(svgaVideoEntity!=null)
             {
                 ivLiving.setImageDrawable(new SVGADrawable(svgaVideoEntity));

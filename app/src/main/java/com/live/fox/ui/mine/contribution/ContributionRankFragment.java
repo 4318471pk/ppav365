@@ -109,7 +109,7 @@ public class ContributionRankFragment extends BaseBindingFragment {
         mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
-                getContributionRankDialog().getContributionList();
+                refreshData();
             }
         });
 
@@ -129,10 +129,36 @@ public class ContributionRankFragment extends BaseBindingFragment {
         adapter.setNewData(list);
     }
 
-    private ContributionRankDialog getContributionRankDialog()
+    private void refreshData()
     {
-        ContributionRankDialog contributionRankDialog=(ContributionRankDialog)getParentFragment();
-        return contributionRankDialog;
+        if(getParentFragment()!=null && getParentFragment() instanceof ContributionRankDialog)
+        {
+            ContributionRankDialog contributionRankDialog=(ContributionRankDialog)getParentFragment();
+            contributionRankDialog.getContributionList();
+        }
+
+        if(getActivity()!=null && getActivity() instanceof ContributionRankActivity)
+        {
+            ContributionRankActivity contributionRankActivity=(ContributionRankActivity)getActivity();
+            contributionRankActivity.getContributionList();
+        }
+    }
+
+    private  List<List<ContributionRankItemBean>> getDataList()
+    {
+        if(getParentFragment()!=null && getParentFragment() instanceof ContributionRankDialog)
+        {
+            ContributionRankDialog contributionRankDialog=(ContributionRankDialog)getParentFragment();
+            return contributionRankDialog.getDataLists();
+        }
+
+        if(getActivity()!=null && getActivity() instanceof ContributionRankActivity)
+        {
+            ContributionRankActivity contributionRankActivity=(ContributionRankActivity)getActivity();
+            return contributionRankActivity.getDataLists();
+        }
+
+        return null;
     }
 
     private void setPageData()
@@ -144,9 +170,9 @@ public class ContributionRankFragment extends BaseBindingFragment {
 
         List<ContributionRankItemBean> list;
         List<ContributionRankItemBean> temple=new ArrayList<>();
-        if(getContributionRankDialog().getDataLists().size()>pagePosition)
+        if(getDataList().size()>pagePosition)
         {
-            list=getContributionRankDialog().getDataLists().get(pagePosition);
+            list=getDataList().get(pagePosition);
             if(list!=null)
             {
                 setHeadData();
@@ -173,9 +199,9 @@ public class ContributionRankFragment extends BaseBindingFragment {
             TextView nickName=(TextView)linearLayout.getChildAt(1);
             TextView icons=(TextView)linearLayout.getChildAt(2);
 
-            if(getContributionRankDialog().getDataLists().get(pagePosition).size()>i-1)
+            if(getDataList().get(pagePosition).size()>i-1)
             {
-                ContributionRankItemBean contributionRankItemBean=getContributionRankDialog().getDataLists().get(pagePosition).get(i-1);
+                ContributionRankItemBean contributionRankItemBean=getDataList().get(pagePosition).get(i-1);
                 nickName.setText(contributionRankItemBean.getNickname());
                 profileView.setIndex(profileView.getCrownIndex(),contributionRankItemBean.getVipLevel(),false);
                 GlideUtils.loadCircleImage(getActivity(),contributionRankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
@@ -216,14 +242,22 @@ public class ContributionRankFragment extends BaseBindingFragment {
             TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
             TextView follow=(TextView)relativeLayout.getChildAt(1);
 
-            if(getContributionRankDialog().getDataLists().get(pagePosition).size()>i-4)
+            if(getDataList().get(pagePosition).size()>i-4)
             {
-                ContributionRankItemBean rankItemBean=getContributionRankDialog().getDataLists().get(pagePosition).get(i-4);
+                ContributionRankItemBean rankItemBean=getDataList().get(pagePosition).get(i-4);
                 tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
                 follow.setVisibility(View.VISIBLE);
                 follow.setSelected(rankItemBean.isFollow());
                 follow.setText(rankItemBean.isFollow()?followedString:followString);
                 follow.setEnabled(!rankItemBean.isFollow());
+                follow.setTag(i-4);
+                follow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int index=(int)v.getTag();
+                        follow(rankItemBean.getUid(),index);
+                    }
+                });
 //                icons.setText("");
             }
             else
@@ -390,9 +424,17 @@ public class ContributionRankFragment extends BaseBindingFragment {
                 {
                     if(code==0)
                     {
-                        if(position>-1)
-                        {
-                            getContributionRankDialog().getDataLists().get(pagePosition).get(position).setFollow(true);
+                        for (int i = 0; i < getDataList().size(); i++) {
+                            List<ContributionRankItemBean> list=getDataList().get(i);
+                            for (int j = 0; j <list.size() ; j++) {
+                                if(!TextUtils.isEmpty(list.get(j).getUid()))
+                                {
+                                    if(list.get(j).getUid().equals(targetId))
+                                    {
+                                        getDataList().get(i).get(j).setFollow(true);
+                                    }
+                                }
+                            }
                         }
                         setPageData();
                     }

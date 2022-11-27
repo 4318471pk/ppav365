@@ -92,9 +92,9 @@ public class MyFollowActivity extends BaseHeadActivity {
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             Follow follow = (Follow) adapter.getItem(position);
             if (view.getId() == R.id.tv_remove) {
-                doRemoveFollowApi(position, follow.getUid());
+                doRemoveFollowApi(position,Long.valueOf(follow.getUid()));
             } else if (view.getId() == R.id.iv_head) {
-                UserDetailActivity.startActivity(MyFollowActivity.this, follow.getUid());
+                UserDetailActivity.startActivity(MyFollowActivity.this, Long.valueOf(follow.getUid()));
             }
         });
 

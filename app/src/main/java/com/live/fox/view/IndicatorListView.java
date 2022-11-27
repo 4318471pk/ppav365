@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.lc.base.danmu.CircleDrawable;
 import com.live.fox.R;
 import com.live.fox.utils.ScreenUtils;
 
