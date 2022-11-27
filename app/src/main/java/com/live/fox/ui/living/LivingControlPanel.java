@@ -728,17 +728,22 @@ public class LivingControlPanel extends RelativeLayout {
                     mBind.gtvProtection.setEnabled(true);
                     if(code==0)
                     {
+                        StringBuilder sb=new StringBuilder();
                         if(getArg().equals(fragment.getRoomBean().getId()) && data!=null)
                         {
-                            StringBuilder sb=new StringBuilder();
                             sb.append(data.getGuardCount()).append(fragment.getStringWithoutContext(R.string.ren));
                             mBind.gtvProtection.setText(sb.toString());
                             LivingControlPanel.this.anchorGuardListBean=data;
                         }
+                        else
+                        {
+                            sb.append(0).append(fragment.getStringWithoutContext(R.string.ren));
+                            mBind.gtvProtection.setText(sb.toString());
+                        }
                     }
                     else
                     {
-
+                        ToastUtils.showShort(msg);
                     }
                 }
             }

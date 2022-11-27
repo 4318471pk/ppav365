@@ -1571,6 +1571,7 @@
     <string name="nameOfAnchor">主播名</string>
     <string name="salaryStatus">状态</string>
     <string name="noFollowedAnchor">您还没有关注的主播哟～</string>
+    <string name="hadSetSomeAdmin">已设置管理员（%1$s/5）</string>
 
 
     <string name="finishPayment">已结</string>

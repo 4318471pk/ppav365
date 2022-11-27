@@ -160,7 +160,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
             return;
         }
 
-        Api_Live.ins().roomManager(uid, anchorId, isSet, new JsonCallback<String>() {
+        Api_Live.ins().roomManagerOperate(uid, anchorId, isSet, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if(isConditionOk())

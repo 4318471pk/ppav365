@@ -1,6 +1,7 @@
 package com.live.fox.ui.rank;
 
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -265,7 +266,6 @@ public class RankFragment extends BaseBindingFragment {
             return;
         }
 
-
         for (int i = 1; i <4 ; i++) {
             LinearLayout linearLayout=(LinearLayout) header.getChildAt(i);
             RankProfileView profileView=(RankProfileView)linearLayout.getChildAt(0);
@@ -276,12 +276,31 @@ public class RankFragment extends BaseBindingFragment {
             {
                 RankItemBean rankItemBean=tabList.get(i-1);
                 nickName.setText(rankItemBean.getNickname());
+                profileView.setIndex(profileView.getCrownIndex(),rankItemBean.getVipLevel(),false);
                 GlideUtils.loadCircleImage(getActivity(),rankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
-//                icons.setText("");
+                SpanUtils spanUtils=new SpanUtils();
+                if(ChatSpanUtils.appendLevelIcon(spanUtils,rankItemBean.getUserLevel(), getActivity()))
+                {
+                    spanUtils.append(" ");
+                }
+                if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,rankItemBean.getVipLevel(), getActivity()))
+                {
+                    spanUtils.append(" ");
+                }
+                icons.setText(spanUtils.create());
+                profileView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(Strings.isDigitOnly(rankItemBean.getUid()))
+                        {
+                            UserDetailActivity.startActivity(getActivity(),Integer.valueOf(rankItemBean.getUid()));
+                        }
+                    }
+                });
             }
             else
             {
-                profileView.setIndex(i-1,1,false);
+                profileView.setIndex(profileView.getCrownIndex(),1,false);
                 profileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
                 nickName.setText(getStringWithoutContext(R.string.emptyPosition));
                 icons.setText("");
@@ -300,10 +319,18 @@ public class RankFragment extends BaseBindingFragment {
             {
                 RankItemBean rankItemBean=tabList.get(i-4);
                 tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
+                follow.setTag(rankItemBean);
                 follow.setVisibility(View.VISIBLE);
                 follow.setSelected(rankItemBean.isFollow());
                 follow.setText(rankItemBean.isFollow()?followedString:followString);
                 follow.setEnabled(!rankItemBean.isFollow());
+                follow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RankItemBean rankItemBean =(RankItemBean)v.getTag();
+                        follow(rankItemBean.getUid(),-1);
+                    }
+                });
 //                icons.setText("");
             }
             else
@@ -337,9 +364,9 @@ public class RankFragment extends BaseBindingFragment {
         FixImageSize.setImageSizeOnWidthWithSRC(ivBackground, screenWidth, new FixImageSize.OnFixListener() {
             @Override
             public void onfix(int width, int height, float ratio) {
-                relativeLayout.addView(makeTop3View(width,height,0,0));
-                relativeLayout.addView(makeTop3View(width,height,1,0));
-                relativeLayout.addView(makeTop3View(width,height,2,0));
+                relativeLayout.addView(makeTop3View(width,height,0,1));
+                relativeLayout.addView(makeTop3View(width,height,1,2));
+                relativeLayout.addView(makeTop3View(width,height,2,3));
 
                 relativeLayout.addView(makeBotView(width,height,0));
                 relativeLayout.addView(makeBotView(width,height,1));
@@ -469,6 +496,11 @@ public class RankFragment extends BaseBindingFragment {
 
     private void follow(String targetId,int position)
     {
+        if(TextUtils.isEmpty(targetId))
+        {
+            return;
+        }
+
         showLoadingDialogWithNoBgBlack();
         Api_User.ins().followUser(targetId, true, new JsonCallback<String>() {
             @Override
@@ -478,8 +510,11 @@ public class RankFragment extends BaseBindingFragment {
                 {
                     if(code==0)
                     {
-                        getRankActivity().rankAnchorBeans.get(currentTimePosition).get(position).setFollow(true);
-                        rankAdapter.notifyDataSetChanged();
+                        if(position>-1)
+                        {
+                            getRankActivity().rankAnchorBeans.get(currentTimePosition).get(position).setFollow(true);
+                        }
+                        setPageData();
                     }
                     else
                     {

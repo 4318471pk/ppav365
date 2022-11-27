@@ -65,8 +65,6 @@ public class BotTriangleBubbleView extends LinearLayout {
         triangle.setBackground(getResources().getDrawable(R.drawable.triangle_white));
         addView(triangle);
 
-        String leftStrs[]=getResources().getStringArray(R.array.giftListTag);
-        String rightStrs[]=getResources().getStringArray(R.array.giftListName);
 
 
 

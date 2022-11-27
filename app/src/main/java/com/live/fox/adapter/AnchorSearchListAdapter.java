@@ -65,7 +65,7 @@ public class AnchorSearchListAdapter extends BaseQuickAdapter<SearchAnchorBean, 
 
         SpanUtils spanUtils=new SpanUtils();
 
-        if(ChatSpanUtils.appendSexIcon(spanUtils,item.getUserLevel(), context, SpanUtils.ALIGN_CENTER))
+        if(ChatSpanUtils.appendSexIcon(spanUtils,item.getSex(), context, SpanUtils.ALIGN_CENTER))
         {
             spanUtils.append(" ");
         }

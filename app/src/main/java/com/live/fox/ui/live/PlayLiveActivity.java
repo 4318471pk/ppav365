@@ -731,7 +731,7 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
             return;
         }
 
-        Api_Live.ins().changeRoom(currentAnchor.getLiveId()+"", currentAnchor.getAnchorId()+"", new JsonCallback<String>() {
+        Api_Live.ins().payForRoom(currentAnchor.getLiveId()+"", currentAnchor.getAnchorId()+"", new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0 || msg.equals("success") || msg.equals("ok")) {

@@ -1,5 +1,6 @@
 package com.live.fox.ui.mine.contribution;
 
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -15,15 +16,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.live.fox.R;
 import com.live.fox.adapter.ContributionRankAdapter;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentContributionRankBinding;
 import com.live.fox.dialog.bottomDialog.ContributionRankDialog;
 import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.User;
+import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.RankProfileView;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -78,6 +84,20 @@ public class ContributionRankFragment extends BaseBindingFragment {
             list.add(null);
         }
         adapter=new ContributionRankAdapter(getActivity(),list);
+        adapter.setOnClickItemListener(new ContributionRankAdapter.OnClickItemListener() {
+            @Override
+            public void onClickFollow(ContributionRankItemBean bean, int position) {
+                follow(bean.getUid(),position+3);
+            }
+
+            @Override
+            public void onClickProfileImage(ContributionRankItemBean bean, int position) {
+                if(Strings.isDigitOnly(bean.getUid()))
+                {
+                    UserDetailActivity.startActivity(getActivity(),Integer.valueOf(bean.getUid()));
+                }
+            }
+        });
 
         int widthScreen= ScreenUtils.getScreenWidth(getActivity());
         int dip5=ScreenUtils.getDip2px(getActivity(),5);
@@ -123,18 +143,22 @@ public class ContributionRankFragment extends BaseBindingFragment {
         }
 
         List<ContributionRankItemBean> list;
+        List<ContributionRankItemBean> temple=new ArrayList<>();
         if(getContributionRankDialog().getDataLists().size()>pagePosition)
         {
             list=getContributionRankDialog().getDataLists().get(pagePosition);
             if(list!=null)
             {
+                setHeadData();
                 if(list.size()>3)
                 {
-                    adapter.setNewData(list);
+                    for (int i =3; i < list.size(); i++) {
+                        temple.add(list.get(i));
+                    }
+                    adapter.setNewData(temple);
                 }
                 else
                 {
-                    setHeadData();
                     setEmptyData();
                 }
             }
@@ -153,12 +177,31 @@ public class ContributionRankFragment extends BaseBindingFragment {
             {
                 ContributionRankItemBean contributionRankItemBean=getContributionRankDialog().getDataLists().get(pagePosition).get(i-1);
                 nickName.setText(contributionRankItemBean.getNickname());
+                profileView.setIndex(profileView.getCrownIndex(),contributionRankItemBean.getVipLevel(),false);
                 GlideUtils.loadCircleImage(getActivity(),contributionRankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
-//                icons.setText("");
+                SpanUtils spanUtils=new SpanUtils();
+                if(ChatSpanUtils.appendLevelIcon(spanUtils,contributionRankItemBean.getUserLevel(), getActivity()))
+                {
+                    spanUtils.append(" ");
+                }
+                if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,contributionRankItemBean.getVipLevel(), getActivity()))
+                {
+                    spanUtils.append(" ");
+                }
+                icons.setText(spanUtils.create());
+                profileView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(Strings.isDigitOnly(contributionRankItemBean.getUid()))
+                        {
+                            UserDetailActivity.startActivity(getActivity(),Integer.valueOf(contributionRankItemBean.getUid()));
+                        }
+                    }
+                });
             }
             else
             {
-                profileView.setIndex(i-1,0,false);
+                profileView.setIndex(profileView.getCrownIndex(),1,false);
                 profileView.getProfileImage().setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
                 nickName.setText(getStringWithoutContext(R.string.emptyPosition));
                 icons.setText("");
@@ -207,9 +250,9 @@ public class ContributionRankFragment extends BaseBindingFragment {
         FixImageSize.setImageSizeOnWidthWithSRC(ivBackground, screenWidth, new FixImageSize.OnFixListener() {
             @Override
             public void onfix(int width, int height, float ratio) {
-                relativeLayout.addView(makeTop3View(width,height,0,0));
-                relativeLayout.addView(makeTop3View(width,height,1,0));
-                relativeLayout.addView(makeTop3View(width,height,2,0));
+                relativeLayout.addView(makeTop3View(width,height,0,1));
+                relativeLayout.addView(makeTop3View(width,height,1,1));
+                relativeLayout.addView(makeTop3View(width,height,2,1));
 
                 relativeLayout.addView(makeBotView(width,height,0));
                 relativeLayout.addView(makeBotView(width,height,1));
@@ -277,14 +320,6 @@ public class ContributionRankFragment extends BaseBindingFragment {
         icons.setLayoutParams(llIcons);
         icons.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
 
-        User user=new User();
-        user.setUserLevel(new Random().nextInt(200)+2);
-        SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(user, getActivity()));
-        icons.setText(spanUtils.create());
-
-
-
         linearLayout.addView(icons);
 
         return linearLayout;
@@ -338,5 +373,35 @@ public class ContributionRankFragment extends BaseBindingFragment {
         linearLayout.addView(follow);
 
         return linearLayout;
+    }
+
+    private void follow(String targetId,int position)
+    {
+        if(TextUtils.isEmpty(targetId))
+        {
+            return;
+        }
+        showLoadingDialogWithNoBgBlack();
+        Api_User.ins().followUser(targetId, true, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
+                if(isActivityOK())
+                {
+                    if(code==0)
+                    {
+                        if(position>-1)
+                        {
+                            getContributionRankDialog().getDataLists().get(pagePosition).get(position).setFollow(true);
+                        }
+                        setPageData();
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }
+        });
     }
 }

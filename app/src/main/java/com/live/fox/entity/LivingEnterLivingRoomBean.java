@@ -20,6 +20,15 @@ public class LivingEnterLivingRoomBean {
     public int vipLevel;
     public String message;
     String carId;
+    int liveSum;
+
+    public int getLiveSum() {
+        return liveSum;
+    }
+
+    public void setLiveSum(int liveSum) {
+        this.liveSum = liveSum;
+    }
 
     public String getCarId() {
         return carId;

@@ -360,118 +360,21 @@ public class ChatSpanUtils {
         return spanUtils.create();
     }
 
-
-    public Spanned getAllIconSpan(User user, Context context) {
-        LogUtils.e(new Gson().toJson(user));
-        SpanUtils spanUtils = new SpanUtils();
-        appendLevel(spanUtils, user.getUserLevel(), context);
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
-        appendLevelTag(spanUtils, user.getUserLevel(), context);
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
-        if (user.getVipUid() != null) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
-            spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
-        }
-        return spanUtils.create();
-    }
-
-    public Spanned getAllIconSpan(int level, Context context) {
-        SpanUtils spanUtils = new SpanUtils();
-        appendLevel(spanUtils, level, context);
-
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
-        appendLevelTag(spanUtils, level, context);
-
-        spanUtils.appendSpace(ScreenUtils.getDip2px(context, 2));
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_beatiful);
-        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
-        return spanUtils.create();
-    }
-
-
-    private void appendLevelTag(SpanUtils spanUtils, Integer mlevel, Context context) {
-        if (mlevel == null) return;
-        int index = mlevel % 7;
-        int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
-        spanUtils.appendImage(bitmap, SpanUtils.ALIGN_CENTER);
-    }
-
     public void appendText(SpanUtils spanUtils, String text, ContentType contentType, boolean space, FunctionItem shit) {
-        spanUtils.append(text);
-        switch (contentType) {
-            case System:
-                spanUtils.setForegroundColor(Color.parseColor(SYSTEM_COLOR));
-                break;
-            case Hint:
-                spanUtils.setForegroundColor(Color.parseColor(HINT_COLOR));
-                break;
-            case Normal:
-                spanUtils.setForegroundColor(Color.parseColor(CONTENT_COLOR));
-                break;
-            case NOBLE:
-                if (shit != null)
-                    spanUtils.setForegroundColor(Color.parseColor(shit.colorRes));
-                else spanUtils.setForegroundColor(Color.parseColor(HINT_COLOR));
-
-                break;
-        }
-
-        if (space) spanUtils.append(" ");
     }
-
 
     public void appendText(SpanUtils spanUtils, String text, String color, boolean space) {
-        spanUtils.append(text).setForegroundColor(Color.parseColor(color));
-        if (space) spanUtils.append(" ");
     }
 
 
     public void appendLevel(SpanUtils spanUtils, Integer userLevel, Context context) {
-        if (userLevel == null) return;
-        if (userLevel == 0) {
-            userLevel = 1;
-        }
-        if (userLevel > 200) {
-            userLevel = 199;
-        }
-
-        int index = userLevel % 10 == 0 ? userLevel / 10 - 1 : userLevel / 10;
-        int[] level = new ResourceUtils().getResourcesID(R.array.level);
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
-        if (bitmap == null) return;
-        Bitmap newBitmap = ImageUtils.addTextForLevel(context, bitmap, userLevel);
-        spanUtils.appendImage(newBitmap, SpanUtils.ALIGN_CENTER);
     }
 
     public void appendSex(SpanUtils spanUtils, User user, Context context) {
-        int sexResId = user.getSex() == 1 ? R.mipmap.men : R.mipmap.women;
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
-        if (bitmap == null) return;
-        spanUtils.appendImage(ImageUtils.scale(bitmap, 41, 39), SpanUtils.ALIGN_CENTER);
-        spanUtils.append(" ");
 
     }
 
     public void appendMessageType(SpanUtils spanUtils, String protocol, Context context) {
-        int resourceId = 1;
-        switch (protocol) {
-            case MessageProtocol.SYSTEM_NOTICE:// 系统
-            case MessageProtocol.SYSTEM_ADVERTISE:// 系统
-            case MessageProtocol.LIVE_ENTER_ROOM:
-                resourceId = R.mipmap.icon_tag_sys;
-                break;
-            case MessageProtocol.GAME_CP_WIN:// 中奖
-                resourceId = R.mipmap.icon_tag_win;
-                break;
-        }
-
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
-        if (bitmap == null) return;
-        int height = ScreenUtils.getDip2px(context, 16);
-        int width = ScreenUtils.getDip2px(context, 40);
-        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
-        spanUtils.append(" ");
     }
 
 
@@ -485,7 +388,7 @@ public class ChatSpanUtils {
         switch (protocol) {
             case MessageProtocol.SYSTEM_NOTICE:// 系统
             case MessageProtocol.SYSTEM_ADVERTISE:// 系统
-            case MessageProtocol.LIVE_ENTER_ROOM:
+            case MessageProtocol.LIVE_ENTER_OUT_ROOM:
             case MessageProtocol.LIVE_BLACK_CHAT:
             case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
             case MessageProtocol.LIVE_BAN_USER:
@@ -708,7 +611,11 @@ public class ChatSpanUtils {
     }
 
 
-    public static boolean appendSexIcon(SpanUtils spanUtils, int sex, Context context,int align) {
+    public static boolean appendSexIcon(SpanUtils spanUtils, Integer sex, Context context,int align) {
+        if(sex==null)
+        {
+            return false;
+        }
         int sexResId = sex == 1 ? R.mipmap.men : R.mipmap.women;
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sexResId);
         if (bitmap == null) return false;
@@ -720,8 +627,8 @@ public class ChatSpanUtils {
     /**
      * 等级图标
      */
-    public static boolean appendLevelIcon(SpanUtils spanUtils, int level, Context context) {
-        if (level < 1) {
+    public static boolean appendLevelIcon(SpanUtils spanUtils, Integer level, Context context) {
+        if (level==null || level < 1) {
             return false;
         }
         String levelIcon = LocalUserLevelDao.getInstance().getLevelIcon(level);
@@ -736,8 +643,8 @@ public class ChatSpanUtils {
     /**
      * 爵位图标 长的 7以下
      */
-    public static boolean appendVipLevelRectangleIcon(SpanUtils spanUtils, int level, Context context) {
-        if (level < 1 || level > 7) {
+    public static boolean appendVipLevelRectangleIcon(SpanUtils spanUtils, Integer level, Context context) {
+        if (level==null || level < 1 || level > 7) {
             return false;
         }
         UserTagResourceBean levelTagBean = LocalUserTagResourceDao.getInstance().getLevelTag(level);
@@ -772,18 +679,29 @@ public class ChatSpanUtils {
     /**
      * 加入房管图标
      */
-    public static void appendRoomManageIcon(SpanUtils spanUtils, Context context) {
+    public static boolean appendRoomManageIcon(SpanUtils spanUtils,Boolean isManage, Context context) {
+        if(isManage==null || !isManage)
+        {
+            return false;
+        }
+
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_admin);
-        if (bitmap == null) return;
+        if (bitmap == null) return false;
         int height = ScreenUtils.getDip2px(context, 16);
         int width = ScreenUtils.getDip2px(context, 16);
         spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        return true;
     }
 
     /**
      * 守护图标 7以下
      */
-    public static boolean appendGuardIcon(SpanUtils spanUtils, int level, Context context) {
+    public static boolean appendGuardIcon(SpanUtils spanUtils, Integer level, Context context) {
+        if(level==null)
+        {
+            return false;
+        }
+
         long count = LocalUserGuardDao.getInstance().getCount();
         if (level < 1 || level > count) {
             return false;
@@ -845,8 +763,7 @@ public class ChatSpanUtils {
                     spanUtils.append(" ");
                 }
 
-                if (pBean.isIsRoomManage()) {
-                    appendRoomManageIcon(spanUtils, context);
+                if (appendRoomManageIcon(spanUtils,pBean.isIsRoomManage(), context)) {
                     spanUtils.append(" ");
                 }
 

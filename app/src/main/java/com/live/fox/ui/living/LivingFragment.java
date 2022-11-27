@@ -616,13 +616,10 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
-    public void getOutOfRoom()
+    public void getOutOfRoom(String liveId)
     {
-        if (!isActivityOK()) {
-            return;
-        }
-
-        Api_Live.ins().outRoom(getRoomBean().getId(), new JsonCallback<String>() {
+        //即使activity挂壁 也请求
+        Api_Live.ins().outRoom(liveId, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
 
@@ -738,7 +735,7 @@ public class LivingFragment extends BaseBindingFragment {
                 break;
 
             case 6012: //请求超时，请等网络恢复后重试。（Android SDK 1.8.0 以上需要参考 Android 服务进程配置 方式进行配置，否则会出现此错误）
-                SpanUtils spanUtils = ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM, getStringWithoutContext(R.string.discRetry), getActivity());
+                SpanUtils spanUtils = ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM, getStringWithoutContext(R.string.discRetry), getActivity());
                 sendSystemMsgToChat(spanUtils.create());
                 if (type == 1) {
                     checkAndJoinIM(liveId);
@@ -776,7 +773,7 @@ public class LivingFragment extends BaseBindingFragment {
                         if (isActivityOK() && livingCurrentAnchorBean != null) {
                             if (!TextUtils.isEmpty(livingCurrentAnchorBean.nickname)) {
                                 String welcome = String.format(getString(R.string.chatWelcome), livingCurrentAnchorBean.nickname);
-                                SpanUtils spanUtils = ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM, welcome, getActivity());
+                                SpanUtils spanUtils = ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM, welcome, getActivity());
                                 sendSystemMsgToChat(spanUtils.create());
 
                                 handler.sendEmptyMessageDelayed(userHeartBeat, 40000);
@@ -827,8 +824,8 @@ public class LivingFragment extends BaseBindingFragment {
                         case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
                             roomOperate(msgJson);
                             break;
-                        case MessageProtocol.LIVE_ENTER_ROOM:
-                            livingMessageEnterRoom(liveId,msg);
+                        case MessageProtocol.LIVE_ENTER_OUT_ROOM:
+                            livingMessageEnterOrOutOfRoom(liveId,msg);
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
@@ -925,7 +922,7 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
-        Api_Live.ins().changeRoom(liveId, uid, new JsonCallback<String>() {
+        Api_Live.ins().payForRoom(liveId, uid, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if(isActivityOK())
@@ -957,11 +954,17 @@ public class LivingFragment extends BaseBindingFragment {
     }
 
     /**
-     * 进入房间消息
+     * 进入 退出 房间消息
      */
-    private void livingMessageEnterRoom(String liveId, String msg) {
+    private void livingMessageEnterOrOutOfRoom(String liveId, String msg) {
         LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
         livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+        if(!livingEnterLivingRoomBean.isInter())
+        {
+            //刷新总人数
+            livingControlPanel.mBind.gtvOnlineAmount.setText(livingEnterLivingRoomBean.getLiveSum()+"");
+            return;
+        }
         livingControlPanel.mBind.vtEnterRoom.
                 addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
         if (livingControlPanel == null) return;
@@ -1210,7 +1213,7 @@ public class LivingFragment extends BaseBindingFragment {
 
     private void showChangeRoomTypeDialog(int type,int price)
     {
-        getOutOfRoom();
+        getOutOfRoom(getRoomBean().getId());
         mBind.ivBG.setVisibility(View.VISIBLE);
         mBind.txVideoView.setVisibility(View.GONE);
         mLivePlayer.pause();

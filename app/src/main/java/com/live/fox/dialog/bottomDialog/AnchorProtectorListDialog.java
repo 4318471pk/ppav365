@@ -213,6 +213,16 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             }
         }
         adapter=new AnchorProtectorAdapter(getActivity(),list);
+        if(list.size()>0)
+        {
+            StringBuilder sb=new StringBuilder();
+            sb.append(getStringWithoutContext(R.string.protect)).append("(").append(list.size()).append(")");
+            mBind.tvDialogTitle.setText(sb.toString());
+        }
+        else
+        {
+            mBind.tvDialogTitle.setText(getStringWithoutContext(R.string.protect));
+        }
         LinearLayout linearLayout=new LinearLayout(getContext());
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width,ScreenUtils.dp2px(getActivity(),20)));
         adapter.addHeaderView(linearLayout);
@@ -299,6 +309,16 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                         }
 
                         adapter.setNewData(list);
+                        if(list.size()>0)
+                        {
+                            StringBuilder sb=new StringBuilder();
+                            sb.append(getStringWithoutContext(R.string.protect)).append("(").append(list.size()).append(")");
+                            mBind.tvDialogTitle.setText(sb.toString());
+                        }
+                        else
+                        {
+                            mBind.tvDialogTitle.setText(getStringWithoutContext(R.string.protect));
+                        }
                     }
                 }
                 else

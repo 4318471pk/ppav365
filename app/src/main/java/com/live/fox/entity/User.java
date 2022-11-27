@@ -25,6 +25,7 @@ public class User implements Serializable {
     private Long uid;  //用户唯一标识
     private Long userCoin;  //用户币
     private int userLevel;  //用户等级
+    private Integer vipLevel;//用户Vip等级
     private String city;  //地理位置
     private Long fans;  //粉丝数
     private Long follows;  //关注数
@@ -87,6 +88,13 @@ public class User implements Serializable {
     private String birthday;
 
 
+    public Integer getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
+    }
 
     public int getJob() {
         return job;

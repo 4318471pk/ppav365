@@ -13,6 +13,7 @@ import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingGiftBean;
+import com.live.fox.entity.LivingRoomAdminListBean;
 import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SearchAnchorBean;
@@ -117,7 +118,7 @@ public class Api_Live extends BaseApi {
     /**
      * 房管列表
      */
-    public void getLivingRoomManagerList(String liveId,JsonCallback<String> callback) {
+    public void getLivingRoomManagerList(String liveId,JsonCallback<List<LivingRoomAdminListBean>> callback) {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingRoomManagerList);
@@ -577,7 +578,7 @@ public class Api_Live extends BaseApi {
     /**
      * 计时房间付费
      */
-    public void changeRoom(String liveId, String anchorId, JsonCallback callback) {
+    public void payForRoom(String liveId, String anchorId, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_chargeroom_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
@@ -842,7 +843,7 @@ public class Api_Live extends BaseApi {
      * 房管添加取消
      * type 1：添加 2：取消
      */
-    public void roomManager(String uid, String anchorId, boolean isSetManager, JsonCallback callback) {
+    public void roomManagerOperate(String uid, String anchorId, boolean isSetManager, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_roommanager_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("uid", uid);

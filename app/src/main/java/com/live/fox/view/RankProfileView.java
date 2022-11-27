@@ -152,6 +152,7 @@ public class RankProfileView extends RelativeLayout {
         }
     }
 
+    //crownIndex(0到2) decorationIndex（1到7）
     public void setIndex(int crownIndex,int decorationIndex,boolean isLiving)
     {
         this.crownIndex = crownIndex;
@@ -161,7 +162,8 @@ public class RankProfileView extends RelativeLayout {
         }
         else
         {
-            this.decorationIndex=-1;
+            //不符合范围给个默认值
+            this.decorationIndex=1;
         }
 
         this.isLiving=isLiving;
@@ -170,6 +172,14 @@ public class RankProfileView extends RelativeLayout {
             startLivingAnimation();
         }
         adjustLayout();
+    }
+
+    public int getCrownIndex() {
+        return crownIndex;
+    }
+
+    public int getDecorationIndex() {
+        return decorationIndex;
     }
 
     public ImageView getProfileImage() {

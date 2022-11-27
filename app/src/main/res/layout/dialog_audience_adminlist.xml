@@ -75,7 +75,6 @@
                 android:layout_marginTop="14.5dip"
                 android:textSize="11sp"
                 android:textColor="#a3a3a3"
-                android:text="已设置管理员（0/5）"
                 />
 
             <LinearLayout

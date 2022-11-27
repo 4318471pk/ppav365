@@ -47,12 +47,14 @@ import com.live.fox.ui.mine.withdraw.WithdrawalActivity;
 import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.BarUtils;
+import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.ResourceUtils;
+import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -120,12 +122,26 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         if(isActivityOK())
         {
             doGetUserInfoApi();
-            getMyNoble();
         }
     }
 
     public void refreshUserinfo() {
         userinfo = DataCenter.getInstance().getUserInfo().getUser();
+
+        SpanUtils spanUtils=new SpanUtils();
+        if(ChatSpanUtils.appendSexIcon(spanUtils,userinfo.getSex(), getActivity(), SpanUtils.ALIGN_CENTER))
+        {
+            spanUtils.append(" ");
+        }
+        if(ChatSpanUtils.appendLevelIcon(spanUtils,userinfo.getUserLevel(), getActivity()))
+        {
+            spanUtils.append(" ");
+        }
+        if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,userinfo.getVipLevel(), getActivity()))
+        {
+            spanUtils.append(" ");
+        }
+        mBind.tvIcons.setText(spanUtils.create());
 
         if (!userinfo.getAvatar().equals(headUrl)) {
             headUrl = userinfo.getAvatar();
@@ -139,7 +155,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         mBind.tvNickname.setText(userinfo.getNickname());
         //mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
 
-        mBind.tvSex.setBackground(this.getResources().getDrawable(userinfo.getSex() == 1 ? R.mipmap.men : R.mipmap.women));
         mBind.tvSign.setText(userinfo.getSignature());
         String format = String.format(getString(R.string.colon_number), getString(R.string.identity_id), userinfo.getUid());
         mBind.tvIdnum.setText(format);
@@ -160,8 +175,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         }
 
         doGetLetterListApi();
-
-        mBind.ivLiang.setVisibility(userinfo.getVipUid() == null ? View.GONE : View.VISIBLE );
 
         mBind.refreshLayout.setRefreshHeader(new MyWaterDropHeader(getActivity()));
         mBind.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -188,7 +201,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         if(isActivityOK())
         {
             doGetUserInfoApi();
-            getMyNoble();
         }
 
     }
@@ -392,24 +404,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         }
     }
 
-    private void getMyNoble(){
-        Api_Order.ins().getMyNoble(new JsonCallback<NobleListBean>() {
-            @Override
-            public void onSuccess(int code, String msg, NobleListBean data) {
-                //  hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    if (data !=null && data.getVipLevel() > 0) {
-
-                        int index=data.getVipLevel()%7 - 1;
-                        int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
-                        Bitmap bitmap = BitmapFactory.decodeResource(MineFragment.this.getResources(), level[index]);
-                        mBind.ivNoble.setImageBitmap(bitmap);
-                    }
-                }
-
-            }
-        });
-    }
 
     private void setServicePop(){
         View popupView = this.getActivity().getLayoutInflater().inflate(R.layout.pop_rc,null);

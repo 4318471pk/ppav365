@@ -16,12 +16,13 @@ import com.live.fox.utils.ScreenUtils;
 public class LivingRoomBlockAndMuteListDialog extends BaseBindingDialogFragment {
 
     DialogBlockMuteListBinding mBind;
-    String liveId;
+    String liveId,anchorId;
 
-    public static LivingRoomBlockAndMuteListDialog getInstance(String liveId)
+    public static LivingRoomBlockAndMuteListDialog getInstance(String liveId,String anchorId)
     {
         LivingRoomBlockAndMuteListDialog dialog=new LivingRoomBlockAndMuteListDialog();
         dialog.liveId=liveId;
+        dialog.anchorId=anchorId;
         return dialog;
     }
 
@@ -56,7 +57,7 @@ public class LivingRoomBlockAndMuteListDialog extends BaseBindingDialogFragment 
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId);
+                AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId,anchorId);
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(), audienceManagerDialog);
             }
 

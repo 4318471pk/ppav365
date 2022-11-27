@@ -2,6 +2,7 @@ package com.live.fox.entity;
 
 public class ContributionRankItemBean {
 
+    private String uid;
     private String anchorId;
     private String nickname;
     private String avatar;
@@ -15,12 +16,12 @@ public class ContributionRankItemBean {
     private String rq;
     private int toy;
     private String liveStartLottery;
-    private int uid;
     private int rankValue;
     private String rankHidden;
-    private int userLevel;
+    private Integer userLevel;
     private String vipName;
     private boolean isFollow;
+    private Integer vipLevel;
 
     public String getAnchorId() {
         return anchorId;
@@ -126,11 +127,11 @@ public class ContributionRankItemBean {
         this.liveStartLottery = liveStartLottery;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -151,11 +152,19 @@ public class ContributionRankItemBean {
     }
 
     public int getUserLevel() {
-        return userLevel;
+        return userLevel==null?0:userLevel;
     }
 
     public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
+    }
+
+    public Integer getVipLevel() {
+        return vipLevel==null?0:vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
     }
 
     public String getVipName() {

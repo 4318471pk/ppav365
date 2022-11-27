@@ -47,10 +47,10 @@ public class Api_Rank extends BaseApi{
      * 主播个人榜单（贡献榜）
      *
      */
-    public void getContributionRankList(String liveId, String uid, JsonCallback<String> callback) {
+    public void getContributionRankList(String liveId, String aid, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.RANK_anchorlist_URL;
         HashMap<String, Object> params = getCommonParams();
-        params.put("anchorId",uid);
+        params.put("anchorId",aid);
 
         callback.setArg(liveId);
         OkGoHttpUtil.getInstance().doJsonPost(

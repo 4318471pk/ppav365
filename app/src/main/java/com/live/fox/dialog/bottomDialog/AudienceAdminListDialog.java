@@ -1,5 +1,6 @@
 package com.live.fox.dialog.bottomDialog;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -14,8 +15,10 @@ import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogAudienceAdminlistBinding;
+import com.live.fox.entity.LivingRoomAdminListBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.utils.ChatSpanUtils;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
@@ -28,11 +31,13 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
 
     DialogAudienceAdminlistBinding mBind;
     int viewHeight;
-    String liveId;
+    String liveId,anchorId;
+    List<LivingRoomAdminListBean> livingRoomAdminListBeans=new ArrayList<>();
 
-    public static AudienceAdminListDialog getInstance(String liveId) {
+    public static AudienceAdminListDialog getInstance(String liveId,String anchorId) {
         AudienceAdminListDialog audienceAdminListDialog=new AudienceAdminListDialog();
         audienceAdminListDialog.liveId=liveId;
+        audienceAdminListDialog.anchorId=anchorId;
         return audienceAdminListDialog;
     }
 
@@ -83,7 +88,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
             public void onAnimationEnd(Animation animation) {
                 switch (id) {
                     case R.id.ivClose:
-                        AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId);
+                        AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId,anchorId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(), audienceManagerDialog);
                         break;
                 }
@@ -111,17 +116,12 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
         viewHeight = (int) (screenHeight * 0.56f);
         mBind.llContent.getLayoutParams().height = viewHeight;
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add("");
-        }
-        addItem(list);
         view.setVisibility(View.VISIBLE);
         getAdminList();
         startAnimate(mBind.llContent, true);
     }
 
-    private void addItem(List list) {
+    private void addItem(List<LivingRoomAdminListBean> list) {
         if (list == null || list.size() == 0) {
             mBind.llList.setVisibility(View.GONE);
             mBind.rlEmptyDataView.setVisibility(View.VISIBLE);
@@ -130,58 +130,127 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
             mBind.llList.removeAllViews();
             mBind.llList.setVisibility(View.VISIBLE);
             mBind.rlEmptyDataView.setVisibility(View.GONE);
+            String temple=getStringWithoutContext(R.string.hadSetSomeAdmin);
+            mBind.tvAmountOfAdmin.setText(String.format(temple,list.size()+""));
         }
 
         int itemHeight=(int)(viewHeight*0.64f/4);
         for (int i = 0; i < list.size(); i++) {
             View view = View.inflate(getActivity(), R.layout.item_audience_admin_list, null);
             mBind.llList.addView(view,ViewGroup.LayoutParams.MATCH_PARENT,itemHeight);
-            SpanUtils spanUtils = new SpanUtils();
-            spanUtils.append(ChatSpanUtils.ins().getAllIconSpan(48, getActivity()));
+
+            LivingRoomAdminListBean bean=list.get(i);
+            SpanUtils spanUtils=new SpanUtils();
+            if(ChatSpanUtils.appendSexIcon(spanUtils,bean.getUserLevel(), getActivity(), SpanUtils.ALIGN_CENTER))
+            {
+                spanUtils.append(" ");
+            }
+
+            if(ChatSpanUtils.appendLevelIcon(spanUtils,bean.getUserLevel(), getActivity()))
+            {
+                spanUtils.append(" ");
+            }
+
+            if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,bean.getVipLevel(), getActivity()))
+            {
+                spanUtils.append(" ");
+            }
+
+            if(ChatSpanUtils.appendRoomManageIcon(spanUtils,bean.isRoomManage(), getActivity()))
+            {
+                spanUtils.append(" ");
+            }
+
+            if(ChatSpanUtils.appendGuardIcon(spanUtils,bean.getGuardLevel(), getActivity()))
+            {
+                spanUtils.append(" ");
+            }
 
             TextView tvRemove = view.findViewById(R.id.tvRemove);
             RankProfileView rpv = view.findViewById(R.id.rpv);
             TextView tvNickName = view.findViewById(R.id.tvNickName);
             TextView tvIcons = view.findViewById(R.id.tvIcons);
 
-            tvNickName.setText("名字");
+            tvNickName.setText(list.get(i).getNickname());
             tvIcons.setText(spanUtils.create());
-            rpv.setIndex(RankProfileView.NONE, 48 % 7,false);
+            rpv.setIndex(RankProfileView.NONE, bean.getVipLevel(),false);
+            GlideUtils.loadCircleImage(getActivity(),bean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,rpv.getProfileImage());
+            tvRemove.setTag(list.get(i));
+            tvRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LivingRoomAdminListBean bean=(LivingRoomAdminListBean)v.getTag();
+                    roomManagerOperate(bean);
+                }
+            });
 
-            if (list.size() < 5) {
-                TextView textView = new TextView(getActivity());
-                LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                ll.topMargin = ScreenUtils.dp2px(getActivity(), 10);
-                textView.setLayoutParams(ll);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
-                textView.setTextColor(0xffA3A3A3);
-                textView.setGravity(Gravity.CENTER);
-                textView.setText(getStringWithoutContext(R.string.noMoreData));
+        }
 
-                mBind.llList.addView(textView);
-            }
+        if (list.size() < 5) {
+            TextView textView = new TextView(getActivity());
+            LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ll.topMargin = ScreenUtils.dp2px(getActivity(), 10);
+            textView.setLayoutParams(ll);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+            textView.setTextColor(0xffA3A3A3);
+            textView.setGravity(Gravity.CENTER);
+            textView.setText(getStringWithoutContext(R.string.noMoreData));
 
+            mBind.llList.addView(textView);
         }
 
     }
 
     private void getAdminList()
     {
-        Api_Live.ins().getLivingRoomManagerList(liveId, new JsonCallback<String>() {
+        Api_Live.ins().getLivingRoomManagerList(liveId, new JsonCallback<List<LivingRoomAdminListBean>>() {
             @Override
-            public void onSuccess(int code, String msg, String data) {
+            public void onSuccess(int code, String msg, List<LivingRoomAdminListBean> data) {
                 if(!isConditionOk())
                 {
                     return;
                 }
                 if(code==0)
                 {
-                    Log.e("getLivingRoList",data);
+                    if(data!=null && data.size()>0)
+                    {
+                        livingRoomAdminListBeans.clear();
+                        livingRoomAdminListBeans.addAll(data);
+                        addItem(livingRoomAdminListBeans);
+                    }
                 }
                 else
                 {
                     ToastUtils.showShort(msg);
                 }
+            }
+        });
+    }
+
+    private void roomManagerOperate(LivingRoomAdminListBean bean)
+    {
+        if(bean==null || TextUtils.isEmpty(bean.getUid()))
+        {
+            Log.e("roomManagerOperate","uid can not be null");
+            return;
+        }
+        Api_Live.ins().roomManagerOperate(bean.getUid(),anchorId,false,new JsonCallback<String>(){
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                    if(!isConditionOk())
+                    {
+                        return;
+                    }
+                    if(code==0)
+                    {
+                        livingRoomAdminListBeans.remove(bean);
+                        addItem(livingRoomAdminListBeans);
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+
             }
         });
     }

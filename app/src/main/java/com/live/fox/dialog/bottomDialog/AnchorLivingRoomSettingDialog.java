@@ -15,13 +15,13 @@ import static android.view.View.VISIBLE;
 public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
 
     DialogAnchorLivingRoomSettingBinding mBind;
-    String liveId,uid;
+    String liveId,anchorId;
 
-    public static AnchorLivingRoomSettingDialog getInstance(String liveId,String uid)
+    public static AnchorLivingRoomSettingDialog getInstance(String liveId,String anchorId)
     {
         AnchorLivingRoomSettingDialog anchorLivingRoomSettingDialog= new AnchorLivingRoomSettingDialog();
         anchorLivingRoomSettingDialog.liveId=liveId;
-        anchorLivingRoomSettingDialog.uid=uid;
+        anchorLivingRoomSettingDialog.anchorId=anchorId;
         return anchorLivingRoomSettingDialog;
     }
 
@@ -70,7 +70,7 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
                         if(getActivity()!=null && getActivity() instanceof OpenLivingActivity)
                         {
                             OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
-                            TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance(liveId,uid);
+                            TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance(liveId,anchorId);
                             treasureBoxDialog.setVipGiftListData(openLivingActivity.vipGiftListData);
                             treasureBoxDialog.setGiftListData(openLivingActivity.giftListData);
                             treasureBoxDialog.setSendGiftAmountBeans(openLivingActivity.sendGiftAmountBeans);
@@ -110,7 +110,7 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
 
                         break;
                     case R.id.tvAudienceManage:
-                        AudienceManagerDialog audienceManagerDialog=AudienceManagerDialog.getInstance(liveId);
+                        AudienceManagerDialog audienceManagerDialog=AudienceManagerDialog.getInstance(liveId,anchorId);
                         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),audienceManagerDialog);
                         break;
                     case R.id.tvLivingSetting:

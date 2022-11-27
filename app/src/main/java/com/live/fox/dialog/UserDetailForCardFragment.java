@@ -548,7 +548,7 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
 
     //设置/取消 房管
     public void doRoomManagerApi(boolean isSetManager) {
-        Api_Live.ins().roomManager(cardUserInfo.getUid()+"", anchorId+"", isSetManager, new JsonCallback<String>() {
+        Api_Live.ins().roomManagerOperate(cardUserInfo.getUid()+"", anchorId+"", isSetManager, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 LogUtils.e("roomManager result : " + data);

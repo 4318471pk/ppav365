@@ -41,11 +41,13 @@ import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
 import com.live.fox.utils.BarUtils;
+import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ResourceUtils;
+import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
@@ -204,6 +206,21 @@ public class UserDetailActivity extends BaseActivity  {
         mBind.tvFollownum.setText(String.valueOf(mUser.getFollows()));
       //  mBind.tvFansnum.setText("");
 
+        SpanUtils spanUtils=new SpanUtils();
+        if(ChatSpanUtils.appendSexIcon(spanUtils,mUser.getSex(), context, SpanUtils.ALIGN_CENTER))
+        {
+            spanUtils.append(" ");
+        }
+        if(ChatSpanUtils.appendLevelIcon(spanUtils,mUser.getUserLevel(), context))
+        {
+            spanUtils.append(" ");
+        }
+        if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,mUser.getVipLevel(), context))
+        {
+            spanUtils.append(" ");
+        }
+        mBind.tvIcons.setText(spanUtils.create());
+
         String uid=String.valueOf(mUser.getUid());
         StringBuilder sb=new StringBuilder();
         sb.append(getString(R.string.identity_id_3));
@@ -237,9 +254,6 @@ public class UserDetailActivity extends BaseActivity  {
         mBind.tvNickName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
         mBind.tvSignature.setText((StringUtils.isEmpty(mUser.getSignature()) ? getString(R.string.noWrite) : mUser.getSignature()));
 
-        if (mUser!= null && mUser.getSex() != 0) {
-            mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
-        }
 
 //        if (mUser.getUserLevel() > 10) {
 //            mBind.editProfileImage.setVisibility(View.VISIBLE);
@@ -247,7 +261,6 @@ public class UserDetailActivity extends BaseActivity  {
 //            mBind.editProfileImage.setVisibility(View.GONE);
 //        }
 
-        mBind.ivLiang.setVisibility(mUser.getVipUid() == null ? View.GONE : View.VISIBLE );
 
         GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), R.mipmap.user_head_error, mBind.ivHeader);
         mBind.tvName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
@@ -261,7 +274,6 @@ public class UserDetailActivity extends BaseActivity  {
         }
 
         updateFollow();
-        getMyNoble();
 
 //        new SVGAParser(this).decodeFromAssets("living.svga", new SVGAParser.ParseCompletion() {
 //            @RequiresApi(api = Build.VERSION_CODES.P)
@@ -327,24 +339,6 @@ public class UserDetailActivity extends BaseActivity  {
         }, commonParams);
     }
 
-    private void getMyNoble(){
-        Api_Order.ins().getMyNoble(new JsonCallback<NobleListBean>() {
-            @Override
-            public void onSuccess(int code, String msg, NobleListBean data) {
-                //  hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    if (data !=null && data.getVipLevel() > 0) {
-
-                        int index=data.getVipLevel()%7 - 1;
-                        int[] level = new ResourceUtils().getResourcesID(R.array.rankTagPics);
-                        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), level[index]);
-                        mBind.ivNoble.setImageBitmap(bitmap);
-                    }
-                }
-
-            }
-        });
-    }
 
 
     public void onViewClick(View view) {
@@ -498,7 +492,6 @@ public class UserDetailActivity extends BaseActivity  {
                     if (type == 3) {
                         mUser.setSex(userTemp.getSex());
                         mBind.tvGender.setText(mUser.getSex() == 1? getString(R.string.boy): getString(R.string.girl));
-                        mBind.ivSex.setBackground(mUser.getSex() == 1 ? getResources().getDrawable(R.mipmap.men) : getResources().getDrawable(R.mipmap.women));
                     } else if (type == 5) {
                         mUser.setEmotionalState(userTemp.getEmotionalState());
                         setGq();
@@ -511,6 +504,20 @@ public class UserDetailActivity extends BaseActivity  {
                     }
                     //DataCenter.getInstance().getUserInfo().updateUser(user);
 
+                    SpanUtils spanUtils=new SpanUtils();
+                    if(ChatSpanUtils.appendSexIcon(spanUtils,userTemp.getSex(), context, SpanUtils.ALIGN_CENTER))
+                    {
+                        spanUtils.append(" ");
+                    }
+                    if(ChatSpanUtils.appendLevelIcon(spanUtils,userTemp.getUserLevel(), context))
+                    {
+                        spanUtils.append(" ");
+                    }
+                    if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,userTemp.getVipLevel(), context))
+                    {
+                        spanUtils.append(" ");
+                    }
+                    mBind.tvIcons.setText(spanUtils.create());
 
                 } else {
                     showToastTip(true, msg);

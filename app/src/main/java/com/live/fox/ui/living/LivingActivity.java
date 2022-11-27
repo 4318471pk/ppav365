@@ -123,12 +123,13 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     @Override
     public void initView() {
         setWindowsFlag();
-
+        keepScreenLongLight(true);
         SVGAParser.Companion.shareParser().init(this);
         roomListBeans=getIntent().getParcelableArrayListExtra(RoomList);
         mBind=getViewDataBinding();
         mBind.setClick(this);
         mBind.drawerLayout.setScrimColor(0x00000000);
+
 
         mBind.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -188,34 +189,34 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
                 if(state==0 && pagerPosition!=mBind.vp2.getCurrentItem())
                 {
-                    livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
                     pagerPosition=mBind.vp2.getCurrentItem();
+                    livingFragmentStateAdapter.getFragment(pagerPosition)
+                            .getOutOfRoom(getRoomListBeans().get(livingFragmentStateAdapter.getRealPosition(pagerPosition)).getId());
                     mBind.vp2.setUserInputEnabled(false);
 
-                    int position=mBind.vp2.getCurrentItem();
-                    if(livingFragmentStateAdapter.getFragment(position)!=null)
+                    if(livingFragmentStateAdapter.getFragment(pagerPosition)!=null)
                     {
                         //上中下页面都通知一下 做一些停止的操作
-                        if(position-1>-1)
+                        if(pagerPosition-1>-1)
                         {
-                            LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(position-1);
+                            LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(pagerPosition-1);
                             if(livingFragment!=null)
                             {
-                                livingFragment.notifyShow(livingFragmentStateAdapter.getRealPosition(position-1),position);
+                                livingFragment.notifyShow(livingFragmentStateAdapter.getRealPosition(pagerPosition-1),pagerPosition);
                             }
                         }
 
-                        if(position+1<Integer.MAX_VALUE)
+                        if(pagerPosition+1<Integer.MAX_VALUE)
                         {
-                            LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(position+1);
+                            LivingFragment livingFragment=livingFragmentStateAdapter.getFragment(pagerPosition+1);
                             if(livingFragment!=null)
                             {
-                                livingFragment.notifyShow(livingFragmentStateAdapter.getRealPosition(position+1),position);
+                                livingFragment.notifyShow(livingFragmentStateAdapter.getRealPosition(pagerPosition+1),pagerPosition);
                             }
                         }
 
-                        livingFragmentStateAdapter.getFragment(position)
-                                .notifyShow(livingFragmentStateAdapter.getRealPosition(position),position);
+                        livingFragmentStateAdapter.getFragment(pagerPosition)
+                                .notifyShow(livingFragmentStateAdapter.getRealPosition(pagerPosition),pagerPosition);
 
                     }
                 }
@@ -476,7 +477,8 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         super.onDestroy();
         if(livingFragmentStateAdapter!=null && livingFragmentStateAdapter.getFragment(pagerPosition)!=null)
         {
-            livingFragmentStateAdapter.getFragment(pagerPosition).getOutOfRoom();
+            livingFragmentStateAdapter.getFragment(pagerPosition)
+                    .getOutOfRoom(getRoomListBeans().get(livingFragmentStateAdapter.getRealPosition(pagerPosition)).getId());
             livingFragmentStateAdapter.removeCache(pagerPosition);
         }
         AppIMManager.ins().removeMessageReceivedListener(LivingActivity.class);

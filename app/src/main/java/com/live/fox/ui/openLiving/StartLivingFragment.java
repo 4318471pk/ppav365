@@ -344,8 +344,8 @@ public class StartLivingFragment extends BaseBindingFragment {
                         case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
                             roomOperate(msgJson);
                             break;
-                        case MessageProtocol.LIVE_ENTER_ROOM:
-                            livingMessageEnterRoom(msg);
+                        case MessageProtocol.LIVE_ENTER_OUT_ROOM:
+                            livingMessageEnterOrOutOfRoom(msg);
                             break;
                         case MessageProtocol.LIVE_ROOM_CHAT_FLOATING_MESSAGE:
                         case MessageProtocol.LIVE_ROOM_CHAT:
@@ -403,13 +403,19 @@ public class StartLivingFragment extends BaseBindingFragment {
     }
 
     /**
-     * 进入房间消息
+     * 进入 退出 房间消息
      */
-    private void livingMessageEnterRoom(String msg) {
+    private void livingMessageEnterOrOutOfRoom(String msg) {
 
         handler.sendEmptyMessageDelayed(enterRoomRefresh,1000);
         LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
         livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+        if(!livingEnterLivingRoomBean.isInter())
+        {
+            //刷新总人数
+            mBind.gtvOnlineAmount.setText(livingEnterLivingRoomBean.getLiveSum()+"");
+            return;
+        }
         mBind.vtEnterRoom.
                 addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
 
@@ -484,10 +490,10 @@ public class StartLivingFragment extends BaseBindingFragment {
                     public void onSuccess() {
                         if(isActivityOK())
                         {
-                            sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                            sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM,
                                     getStringWithoutContext(R.string.connectedJoin),getActivity()).create());
                             handler.postDelayed(() ->
-                                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM,
                                             getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1000);
                             handler.sendEmptyMessageDelayed(userHeartBeat,30000);
                         }
@@ -525,7 +531,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                     } else if (code == 9520) {
                         closeLiveRoom(desc, false);
                     } else if (code == 6012) {
-                        sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                        sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM,
                                 getStringWithoutContext(R.string.chatRetrying)+ code,getActivity()).create());
                         checkAndJoinIM();
                     } else {
@@ -535,7 +541,7 @@ public class StartLivingFragment extends BaseBindingFragment {
             });
         } else {
             handler.postDelayed(() ->
-                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,
+                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM,
                             getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1600);
         }
     }
@@ -568,7 +574,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                 break;
 
             case 6012: //请求超时，请等网络恢复后重试。（Android SDK 1.8.0 以上需要参考 Android 服务进程配置 方式进行配置，否则会出现此错误）
-                SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_ROOM,getStringWithoutContext(R.string.discRetry),getActivity());
+                SpanUtils spanUtils=ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM,getStringWithoutContext(R.string.discRetry),getActivity());
                 sendSystemMsgToChat(spanUtils.create());
                 if (type == 1) {
                     checkAndJoinIM();
@@ -1062,29 +1068,34 @@ public class StartLivingFragment extends BaseBindingFragment {
     //守护列表
     private void getGuardList()
     {
-        if(!isActivityOK())
-        {
-            return;
-        }
-
         mBind.gtvProtection.setEnabled(false);
         Api_Live.ins().queryGuardListByAnchor(liveId, myUID, new JsonCallback<AnchorGuardListBean>() {
             @Override
             public void onSuccess(int code, String msg, AnchorGuardListBean data) {
+                if(!isActivityOK())
+                {
+                    return;
+                }
+
                 mBind.gtvProtection.setEnabled(true);
                 if(code==0)
                 {
+                    StringBuilder sb=new StringBuilder();
                     if(isActivityOK() && getArg().equals(liveId) && data!=null)
                     {
-                        StringBuilder sb=new StringBuilder();
                         sb.append(data.getGuardCount()).append(getStringWithoutContext(R.string.ren));
                         mBind.gtvProtection.setText(sb.toString());
                         StartLivingFragment.this.anchorGuardListBean=data;
                     }
+                    else
+                    {
+                        sb.append(0).append(getStringWithoutContext(R.string.ren));
+                        mBind.gtvProtection.setText(sb.toString());
+                    }
                 }
                 else
                 {
-
+                    ToastUtils.showShort(msg);
                 }
             }
         });
