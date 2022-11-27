@@ -115,18 +115,18 @@ public class EditProfileImageDialog2 extends BaseBindingDialogFragment {
                 .isZoomAnim(true)// 圖片列表點擊 縮放效果 默認true
                 //.imageFormat(PictureMimeType.PNG)// 拍照保存圖片格式後綴,默認jpeg
                 //.setOutputCameraPath("/CustomPath")// 自定義拍照保存路徑
-//                .enableCrop(true)// 是否裁剪
-//                .compress(true)// 是否壓縮
+                .enableCrop(false)// 是否裁剪
+                .compress(false)// 是否壓縮
                 .synOrAsy(true)//同步true或異步false 壓縮 默認同步
                 //.compressSavePath(getPath())//壓縮圖片保存地址
                 //.sizeMultiplier(0.5f)// glide 加載圖片大小 0~1之間 如設置 .glideOverride()無效
-                .glideOverride(1600, 1600)// glide 加載寬高，越小圖片列表越流暢，但會影響列表圖片瀏覽的清晰度
+//                .glideOverride(160, 160)// glide 加載寬高，越小圖片列表越流暢，但會影響列表圖片瀏覽的清晰度
 //                .withAspectRatio(aspect_ratio_x, aspect_ratio_y)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定義
 //                .hideBottomControls(cb_hide.isChecked() ? false : true)// 是否顯示uCrop工具欄，默認不顯示
-                .isGif(true)// 是否顯示gif圖片
+                .isGif(false)// 是否顯示gif圖片
                 .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
                 .circleDimmedLayer(true)// 是否圓形裁剪
-                .cropWH(1,1)//设置圆形裁剪边框粗细
+//                .cropWH(1000,1000)//设置圆形裁剪边框粗细
                 .showCropFrame(false)// 是否顯示裁剪矩形邊框 圓形裁剪時建議設為false
                 .showCropGrid(false)// 是否顯示裁剪矩形網格 圓形裁剪時建議設為false
                 .openClickSound(false)// 是否開啟點擊聲音
@@ -136,14 +136,15 @@ public class EditProfileImageDialog2 extends BaseBindingDialogFragment {
 //                        .videoMinSecond(10)
                 //.previewEggs(false)// 預覽圖片時 是否增強左右滑動圖片體驗(圖片滑動壹半即可看到上壹張是否選中)
                 //.cropCompressQuality(90)// 裁剪壓縮質量 默認100
-//                .minimumCompressSize(1000)// 小於100kb的圖片不壓縮
+                .minimumCompressSize(100)// 小於100kb的圖片不壓縮
                 //.cropWH()// 裁剪寬高比，設置如果大於圖片本身寬高則無效
                 //.rotateEnabled(true) // 裁剪是否可旋轉圖片
-                //.scaleEnabled(true)// 裁剪是否可放大縮小圖片
+                .scaleEnabled(true)// 裁剪是否可放大縮小圖片
                 //.videoQuality()// 視頻錄制質量 0 or 1
                 //.videoSecond()//顯示多少秒以內的視頻or音頻也可適用
                 //.recordVideoSecond()//錄制視頻秒數 默認60s
-
+                .isDragFrame(true)
+                .withAspectRatio(1,1)
                 .forResult(PictureConfig.CHOOSE_REQUEST);//結果回調onActivityResult code
     }
 
