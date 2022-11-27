@@ -27,9 +27,11 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogContributionRankBinding;
 import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.server.Api_Rank;
+import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.contribution.ContributionRankFragment;
 import com.live.fox.ui.rank.RankActivity;
 import com.live.fox.utils.GsonUtil;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -284,4 +286,5 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
             dataLists.add(new ArrayList<>());
         }
     }
+
 }

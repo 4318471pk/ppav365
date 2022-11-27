@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.ContributionRankItemBean;
+import com.live.fox.entity.RankItemBean;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
@@ -20,6 +21,7 @@ public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIt
     Context context;
     String templeText;
     String emptyPosition,followed,follow;
+    OnClickItemListener onClickItemListener;
 
     public ContributionRankAdapter(Context context,List<ContributionRankItemBean> data) {
         super(R.layout.item_contribution_rank_profile, data);
@@ -31,6 +33,10 @@ public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIt
 
     }
 
+    public void setOnClickItemListener(OnClickItemListener onClickItemListener) {
+        this.onClickItemListener = onClickItemListener;
+    }
+
     @Override
     protected void convert(RankViewHold helper, ContributionRankItemBean item) {
         if(item!=null)
@@ -39,6 +45,17 @@ public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIt
             helper.tvFollow.setSelected(item.isFollow());
             helper.tvFollow.setText(item.isFollow()?followed:follow);
             helper.tvFollow.setEnabled(!item.isFollow());
+            helper.tvFollow.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
+            helper.tvFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag=(int)v.getTag();
+                    if(onClickItemListener!=null)
+                    {
+                        onClickItemListener.onClickFollow(getData().get(tag),tag);
+                    }
+                }
+            });
 
             SpanUtils spanUtils=new SpanUtils();
             spanUtils.append(item.getNickname());
@@ -49,6 +66,18 @@ public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIt
             helper.rpv.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
             GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
             helper.tvIndex.setText(String.valueOf(helper.getLayoutPosition()+3));
+
+            helper.rpv.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
+            helper.rpv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag=(int)v.getTag();
+                    if(onClickItemListener!=null)
+                    {
+                        onClickItemListener.onClickProfileImage(getData().get(tag),tag);
+                    }
+                }
+            });
         }
         else
         {
@@ -84,5 +113,11 @@ public class ContributionRankAdapter extends BaseQuickAdapter<ContributionRankIt
             tvHuo=view.findViewById(R.id.tvHuo);
             tvIndex=view.findViewById(R.id.tvIndex);
         }
+    }
+
+    public interface OnClickItemListener
+    {
+        void onClickFollow(ContributionRankItemBean bean, int position);
+        void onClickProfileImage(ContributionRankItemBean bean,int position);
     }
 }
