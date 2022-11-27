@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.faceunity.beautycontrolview.FURenderer;
+import com.fm.openinstall.OpenInstall;
 import com.live.fox.common.CommonApp;
 import com.lovense.sdklibrary.Lovense;
 
@@ -21,6 +22,9 @@ public class App extends CommonApp {
 
         //初始化玩具
         Lovense.getInstance(this).setDeveloperToken(Constant.ToyToken);
+
+
+        OpenInstall.init(this);
     }
 
 }

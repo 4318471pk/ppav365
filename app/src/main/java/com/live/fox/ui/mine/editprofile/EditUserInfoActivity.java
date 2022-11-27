@@ -35,6 +35,7 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.ActionDialog;
 import com.live.fox.dialog.MMLoading;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
+import com.live.fox.dialog.bottomDialog.EditProfileImageDialog2;
 import com.live.fox.entity.OssToken;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
@@ -179,7 +180,7 @@ public class EditUserInfoActivity extends BaseHeadActivity implements View.OnCli
                             if (granted) {
 //                                openPhoto();
 
-                                EditProfileImageDialog dialog = EditProfileImageDialog.getInstance();
+                                EditProfileImageDialog2 dialog = EditProfileImageDialog2.getInstance();
                                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(), dialog);
 
                             } else { // 有的权限被拒绝或被勾选不再提示
