@@ -60,7 +60,7 @@ public class NoLoginDialog extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        SPUtils.getInstance().put(ConstantValue.NOTIFICATION_IS_SHOWED, true);
+//        SPUtils.getInstance().put(ConstantValue.NOTIFICATION_IS_SHOWED, true);
     }
 
 
@@ -80,6 +80,7 @@ public class NoLoginDialog extends DialogFragment {
             dismiss();
         });
     }
+
     public void doLoginGuest() {
         Api_Auth.ins().guestLogin(new JsonCallback<String>() {
             @Override
@@ -102,6 +103,8 @@ public class NoLoginDialog extends DialogFragment {
             }
         });
     }
+
+
     //登录成功、完善用户信息成功后的统一处理
     public void onLoginSuccess(String token) {
         DataCenter.getInstance().getUserInfo().setToken(token);
@@ -109,8 +112,8 @@ public class NoLoginDialog extends DialogFragment {
             @Override
             public void onSuccess(int code, String msg, String userJson) {
                 if (code == 0) {
-                    ActivityUtils.finishOtherActivities(LoginModeSelActivity.class);
-                    MainActivity.startActivity(getContext());
+//                    ActivityUtils.finishOtherActivities(LoginModeSelActivity.class);
+//                    MainActivity.startActivity(getContext());
                     dismiss();
                 } else {
                     SPManager.clearUserInfo();

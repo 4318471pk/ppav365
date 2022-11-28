@@ -38,4 +38,5 @@
     <string name="picture_video_error">Video đã bị hỏng</string>
     <string name="picture_audio_error">Tệp âm thanh đã bị hỏng</string>
     <string name="picture_confirm">Xác định</string>
+    <string name="cancel">Hủy bỏ</string>
 </resources>

@@ -56,7 +56,7 @@ public class NoLoginDialog2 extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        SPUtils.getInstance().put(ConstantValue.NOTIFICATION_IS_SHOWED, true);
+//        SPUtils.getInstance().put(ConstantValue.NOTIFICATION_IS_SHOWED, true);
     }
 
 
@@ -67,56 +67,13 @@ public class NoLoginDialog2 extends DialogFragment {
 //        n1.setText(getText(R.string.notification_dialog_title));
 //        n1.setText(String.format(getString(R.string.notification_dialog_content), getString(R.string.app_name)));
 
-        rootView.findViewById(R.id.n3).setOnClickListener(view -> {
-            LoginModeSelActivity.startActivity(requireActivity());
-            dismiss();
-        });
+//        rootView.findViewById(R.id.n3).setOnClickListener(view -> {
+//            LoginModeSelActivity.startActivity(requireActivity());
+//            dismiss();
+//        });
         rootView.findViewById(R.id.n4).setOnClickListener(view -> {
-            doLoginGuest();
             dismiss();
         });
     }
-    public void doLoginGuest() {
-        Api_Auth.ins().guestLogin(new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                try {
-                    if (code == 0) {
-                        JSONObject jsonObject = new JSONObject(data);
-                        String token = jsonObject.optString("token", "");
-                        if (StringUtils.isEmpty(token)) {
-                            ToastUtils.showShort(getString(R.string.tokenFail));
-                            return;
-                        }
-                        onLoginSuccess(token);
-                    } else {
-                        ToastUtils.showShort(msg);
-                    }
-                } catch (Exception e) {
-                    ToastUtils.showShort(e.getMessage());
-                }
-            }
-        });
-    }
-    //登录成功、完善用户信息成功后的统一处理
-    public void onLoginSuccess(String token) {
-        DataCenter.getInstance().getUserInfo().setToken(token);
-        Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String userJson) {
-                if (code == 0) {
-                    ActivityUtils.finishOtherActivities(LoginModeSelActivity.class);
-                    MainActivity.startActivity(getContext());
-                    dismiss();
-                } else {
-                    SPManager.clearUserInfo();
-                    if (code == 993) {
-                        ToastUtils.showShort(getString(R.string.accountStop));
-                    } else {
-                        ToastUtils.showShort(msg);
-                    }
-                }
-            }
-        });
-    }
+
 }
