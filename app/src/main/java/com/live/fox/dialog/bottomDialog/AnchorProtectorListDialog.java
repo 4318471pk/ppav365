@@ -146,7 +146,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         BuyAndBeProtectorDialog dialog=BuyAndBeProtectorDialog.getInstance(uid,liveId);
-                        FragmentManager fragmentManager=getParentFragmentManager();
+                        FragmentManager fragmentManager=getFragmentManager();
                         if(fragmentManager==null)
                         {
                             fragmentManager=getActivity().getSupportFragmentManager();

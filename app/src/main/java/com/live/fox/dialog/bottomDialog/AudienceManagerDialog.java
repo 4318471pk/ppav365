@@ -57,11 +57,11 @@ public class AudienceManagerDialog extends BaseBindingDialogFragment {
                 {
                     case R.id.rlBlockAndMute:
                         LivingRoomBlockAndMuteListDialog livingRoomBlockAndMuteListDialog=LivingRoomBlockAndMuteListDialog.getInstance(liveId,anchorId);
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),livingRoomBlockAndMuteListDialog);
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),livingRoomBlockAndMuteListDialog);
                         break;
                     case R.id.rlSetAdmin:
                         AudienceAdminListDialog audienceAdminListDialog=AudienceAdminListDialog.getInstance(liveId,anchorId);
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),audienceAdminListDialog);
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),audienceAdminListDialog);
                         break;
                 }
             }

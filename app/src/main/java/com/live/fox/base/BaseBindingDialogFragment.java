@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.live.fox.App;
 import com.live.fox.R;

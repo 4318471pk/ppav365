@@ -49,10 +49,10 @@ public class Api_Live extends BaseApi {
      * 获取礼物列表 0普通礼物1守护礼物2贵族礼物
      */
     public void getGiftList(int type, JsonCallback<List<LivingGiftBean>> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.GiftList);
-        stringBuilder.append(String.format("?type=%d",type));
+        stringBuilder.append(String.format("?type=%d", type));
 
         String url = stringBuilder.toString();
 
@@ -67,7 +67,7 @@ public class Api_Live extends BaseApi {
      * 获取礼物数量列表
      */
     public void getGiftAmountList(JsonCallback<List<SendGiftAmountBean>> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.SendGiftAmountList);
 
@@ -84,7 +84,7 @@ public class Api_Live extends BaseApi {
      * 获取礼物数量列表
      */
     public void getBulletMessageList(JsonCallback<String> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.BulletMessageList);
 
@@ -100,8 +100,8 @@ public class Api_Live extends BaseApi {
     /**
      * 获取喇叭数量
      */
-    public void getAmountOfSpeaker(String liveId,JsonCallback<String> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+    public void getAmountOfSpeaker(String liveId, JsonCallback<String> callback) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.amountOfSpeaker);
 
@@ -118,8 +118,8 @@ public class Api_Live extends BaseApi {
     /**
      * 房管列表
      */
-    public void getLivingRoomManagerList(String liveId,JsonCallback<List<LivingRoomAdminListBean>> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+    public void getLivingRoomManagerList(String liveId, JsonCallback<List<LivingRoomAdminListBean>> callback) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingRoomManagerList);
 
@@ -134,12 +134,11 @@ public class Api_Live extends BaseApi {
     }
 
 
-
     /**
      * 获取直播间禁言用户列表
      */
-    public void getLivingMuteList(String liveId,JsonCallback<List<BlackOrMuteListItemBean>> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+    public void getLivingMuteList(String liveId, JsonCallback<List<BlackOrMuteListItemBean>> callback) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingMuteList);
 
@@ -152,15 +151,15 @@ public class Api_Live extends BaseApi {
         OkGoHttpUtil.getInstance().doJsonPost(
                 url,
                 url,
-                getCommonHeaders(System.currentTimeMillis()),new Gson().toJson(params))
+                getCommonHeaders(System.currentTimeMillis()), new Gson().toJson(params))
                 .execute(callback);
     }
 
     /**
      * 获取直播间拉黑用户列表
      */
-    public void getLivingBlackList(String liveId,JsonCallback<List<BlackOrMuteListItemBean>> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+    public void getLivingBlackList(String liveId, JsonCallback<List<BlackOrMuteListItemBean>> callback) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingBlackList);
 
@@ -173,21 +172,21 @@ public class Api_Live extends BaseApi {
         OkGoHttpUtil.getInstance().doJsonPost(
                 url,
                 url,
-                getCommonHeaders(System.currentTimeMillis()),new Gson().toJson(params))
+                getCommonHeaders(System.currentTimeMillis()), new Gson().toJson(params))
                 .execute(callback);
     }
 
     /**
      * 获取移除直播间禁言or黑名单用户 类型 (0禁言用户 1黑名单用户)
      */
-    public void removeLivingBlackOrMuteUser(String liveId,String uid,JsonCallback<String> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+    public void removeLivingBlackOrMuteUser(String liveId, String uid, JsonCallback<String> callback) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LivingBlackOrMuteUser);
 
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
-        params.put("uid",uid);
+        params.put("uid", uid);
 
         callback.setArg(liveId);
         String url = stringBuilder.toString();
@@ -195,7 +194,7 @@ public class Api_Live extends BaseApi {
         OkGoHttpUtil.getInstance().doJsonPost(
                 url,
                 url,
-                getCommonHeaders(System.currentTimeMillis()),new Gson().toJson(params))
+                getCommonHeaders(System.currentTimeMillis()), new Gson().toJson(params))
                 .execute(callback);
     }
 
@@ -243,8 +242,8 @@ public class Api_Live extends BaseApi {
     /**
      * 首页关注列表
      */
-    public void queryGuardListByAnchor( JsonCallback<List<RoomListBean>> callback) {
-        StringBuilder sb=new StringBuilder();
+    public void queryGuardListByAnchor(JsonCallback<List<RoomListBean>> callback) {
+        StringBuilder sb = new StringBuilder();
         sb.append(SPManager.getServerDomain()).append(Constant.URL.getFollowAnchorList);
 
         OkGoHttpUtil.getInstance().doGet(
@@ -259,11 +258,11 @@ public class Api_Live extends BaseApi {
      * 主播盈利报表
      */
     public void getAnchorProfitStatement(int type, JsonCallback callback) {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(SPManager.getServerDomain()).append(Constant.URL.getAnchorProfitStatement);
         sb.append("?type=").append(type);
 
-        callback.setArg(type+"");
+        callback.setArg(type + "");
         OkGoHttpUtil.getInstance().doGet(
                 "",
                 sb.toString(),
@@ -275,19 +274,15 @@ public class Api_Live extends BaseApi {
     /**
      * 附近的主播
      */
-    public void nearbyAnchorList(String title,int type, JsonCallback<List<RoomListBean>> callback) {
+    public void nearbyAnchorList(String title, int type, JsonCallback<List<RoomListBean>> callback) {
 
         String url = SPManager.getServerDomain() + Constant.URL.NearbyLivingList;
         callback.setUrlTag(Constant.URL.NearbyLivingList);
         HashMap<String, Object> params = getCommonParams();
-        if(!TextUtils.isEmpty(title))
-        {
-            if(type==1)
-            {
+        if (!TextUtils.isEmpty(title)) {
+            if (type == 1) {
                 params.put("city", title);
-            }
-            else if(type==2)
-            {
+            } else if (type == 2) {
                 params.put("province", title);
             }
         }
@@ -321,16 +316,15 @@ public class Api_Live extends BaseApi {
     /**
      * 开播记录列表
      */
-    public void livingRecordList(Long startTime, Long endTime, int page,int pageSize, int status,JsonCallback callback) {
+    public void livingRecordList(Long startTime, Long endTime, int page, int pageSize, int status, JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.LivingRecord;
         HashMap<String, Object> params = getCommonParams();
         params.put("startTime", startTime);
         params.put("endTime", endTime);
         params.put("pageNum", page);
-        params.put("pageSize",pageSize);
-        if(status==0 || status==1)
-        {
-            params.put("status",status);
+        params.put("pageSize", pageSize);
+        if (status == 0 || status == 1) {
+            params.put("status", status);
         }
 
         OkGoHttpUtil.getInstance().doJsonPost(
@@ -383,7 +377,7 @@ public class Api_Live extends BaseApi {
         String url = SPManager.getServerDomain() + Constant.URL.Live_list_URL;
         callback.setUrlTag(Constant.URL.Live_list_URL);
         HashMap<String, Object> params = getCommonParams();
-        params.put("type", type+"");
+        params.put("type", type + "");
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -396,6 +390,7 @@ public class Api_Live extends BaseApi {
     /**
      * 获取推荐
      * 列表
+     *
      * @param callback
      */
     public void getRecommendLiveList(JsonCallback<String> callback) {
@@ -413,15 +408,15 @@ public class Api_Live extends BaseApi {
 
 
     /**
-     *
      * 举报主播
+     *
      * @param callback
      */
-    public void reportAnchor(String anchorId,String content,JsonCallback<String> callback) {
+    public void reportAnchor(String anchorId, String content, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.reportAnchor;
         HashMap<String, Object> params = getCommonParams();
-        params.put("anchorId",anchorId);
-        params.put("content",content);
+        params.put("anchorId", anchorId);
+        params.put("content", content);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -432,14 +427,14 @@ public class Api_Live extends BaseApi {
     }
 
     /**
+     * 主播贡献榜
      *
-     *主播贡献榜
      * @param callback
      */
-    public void getContribution(String anchorId,JsonCallback<String> callback) {
+    public void getContribution(String anchorId, JsonCallback<String> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.ContributionDaily;
         HashMap<String, Object> params = getCommonParams();
-        params.put("aid",anchorId);
+        params.put("aid", anchorId);
 
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
@@ -450,13 +445,11 @@ public class Api_Live extends BaseApi {
     }
 
 
-
-
     /**
-     *  主播开播
-     * */
+     * 主播开播
+     */
     public void starLiving(HashMap<String, Object> params,
-                              JsonCallback callback) {
+                           JsonCallback callback) {
         String url = SPManager.getServerDomain() + Constant.URL.Live_start_URL;
         HashMap<String, Object> args = getCommonParams();
         args.putAll(params);
@@ -493,11 +486,11 @@ public class Api_Live extends BaseApi {
      * 获取主播联系名片
      */
     public void getAnchorContactCard(String liveId, String anchorId, JsonCallback callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.getAnchorCard);
 
-        String url=stringBuilder.toString();
+        String url = stringBuilder.toString();
         HashMap<String, Object> params = getCommonParams();
         params.put("anchorId", anchorId);
 
@@ -514,7 +507,7 @@ public class Api_Live extends BaseApi {
      * 获取主播中心
      */
     public void getAnchorCenterInfo(JsonCallback<String> callback) {
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(SPManager.getServerDomain());
         stringBuilder.append(Constant.URL.LIVE_AnchorCenter);
 
@@ -528,8 +521,6 @@ public class Api_Live extends BaseApi {
 //                new Gson().toJson(params))
 //                .execute(callback);
     }
-
-
 
 
     /**
@@ -642,7 +633,16 @@ public class Api_Live extends BaseApi {
         HashMap<String, Object> params = getCommonParams();
         params.put("liveId", liveId);
 
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params)).execute(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
 
+            }
+        });
     }
 
 
@@ -658,7 +658,12 @@ public class Api_Live extends BaseApi {
                 "",
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params));
+                new Gson().toJson(params)).execute(new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+
+            }
+        });
 //                .execute(callback);
     }
 

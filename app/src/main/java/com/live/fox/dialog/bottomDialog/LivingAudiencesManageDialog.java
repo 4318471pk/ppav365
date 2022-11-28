@@ -44,7 +44,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
             case R.id.tvSetAdmin:
                 if(user!=null)
                 {
-                    setAdmin(!user.isSuperManager());
+                    setAdmin(!user.isRoomManage());
                 }
                 break;
             case R.id.tvBlock:
@@ -79,7 +79,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
 
         if(user!=null)
         {
-            if(user.isSuperManager())
+            if(user.isRoomManage())
             {
                 mBind.tvSetAdmin.setText(getStringWithoutContext(R.string.cancelAdmin));
                 mBind.tvSetAdmin.setTextColor(0xffF42C2C);
@@ -135,10 +135,10 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                 {
                     if(code==0)
                     {
-                        user.setBlackChat(true);
+                        user.setBlackChat(isMute);
                         if(operateListener!=null)
                         {
-                            operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
+                            operateListener.operate(user.isRoomManage(),user.isBlackChat(),user.isReject());
                         }
                         onBackPress();
                     }
@@ -167,10 +167,10 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                 {
                     if(code==0)
                     {
-                        user.setManage(isSet?1:0);
+                        user.setRoomManage(isSet);
                         if(operateListener!=null)
                         {
-                            operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
+                            operateListener.operate(user.isRoomManage(),user.isBlackChat(),user.isReject());
                         }
                         onBackPress();
                     }
@@ -202,7 +202,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                             user.setReject(true);
                             if(operateListener!=null)
                             {
-                                operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
+                                operateListener.operate(user.isRoomManage(),user.isBlackChat(),user.isReject());
                             }
                             onBackPress();
                         }
@@ -227,7 +227,7 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
                             user.setReject(false);
                             if(operateListener!=null)
                             {
-                                operateListener.operate(user.getManage(),user.isBlackChat(),user.isReject());
+                                operateListener.operate(user.isRoomManage(),user.isBlackChat(),user.isReject());
                             }
                             onBackPress();
                         }
@@ -243,6 +243,6 @@ public class LivingAudiencesManageDialog extends BaseBindingDialogFragment {
 
     public interface OnOperateListener
     {
-        void operate(int manager,boolean isBlack,boolean isMute);
+        void operate(boolean isManager,boolean isBlack,boolean isMute);
     }
 }

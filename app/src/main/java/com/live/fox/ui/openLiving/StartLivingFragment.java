@@ -23,11 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.live.fox.AnchorLiveActivity;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
-import com.live.fox.LiveFinishActivity;
 import com.live.fox.MessageProtocol;
 import com.live.fox.R;
 import com.live.fox.adapter.LivingMsgBoxAdapter;
@@ -69,6 +67,7 @@ import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Pay;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.living.LivingControlPanel;
+import com.live.fox.ui.living.LivingFinishView;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.CountTimerUtil;
@@ -82,6 +81,7 @@ import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
+import com.live.fox.view.MyViewPager;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
@@ -341,7 +341,6 @@ public class StartLivingFragment extends BaseBindingFragment {
                         case MessageProtocol.LIVE_BLACK_CHAT:
                         case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
                         case MessageProtocol.LIVE_BAN_USER:
-                        case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
                             roomOperate(msgJson);
                             break;
                         case MessageProtocol.LIVE_ENTER_OUT_ROOM:
@@ -391,6 +390,12 @@ public class StartLivingFragment extends BaseBindingFragment {
                                 exception.printStackTrace();
                             }
 
+                            break;
+                        case MessageProtocol.LIVE_STOP_LIVE:
+                            //显示下播页面
+                            OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
+                            openLivingActivity.onAnchorExitLiving();
+                            AnchorLivingFinishActivity.startActivity(openLivingActivity,openLivingActivity.liveId,false);
                             break;
                     }
                 }
@@ -498,7 +503,6 @@ public class StartLivingFragment extends BaseBindingFragment {
                             handler.sendEmptyMessageDelayed(userHeartBeat,30000);
                         }
 
-
                     }
 
                     @Override
@@ -540,9 +544,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                 }
             });
         } else {
-            handler.postDelayed(() ->
-                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM,
-                            getStringWithoutContext(R.string.liveSuccess),getActivity()).create()), 1600);
+            joinIMGroup(liveId);
         }
     }
 
@@ -651,22 +653,27 @@ public class StartLivingFragment extends BaseBindingFragment {
             {
                 switch (protocol)
                 {
-                    case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
-                        spanUtils.append(nickname + ": ");
-                        length1 = spanUtils.getLength();
-                        spanUtils.append(getStringWithoutContext(R.string.unMuted)).setForegroundColor(0xffffffff);
-                        length2 = spanUtils.getLength();
-                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        sendSystemMsgToChat(spanUtils.create());
-                        break;
                     case MessageProtocol.LIVE_BLACK_CHAT:
+                        Boolean isBlack=jsonObject.optBoolean("isBlack");
+                        if(isBlack==null)return;
                         spanUtils.append(nickname + ": ");
                         length1 = spanUtils.getLength();
-                        spanUtils.append(getStringWithoutContext(R.string.muted)).setForegroundColor(0xffffffff);
-                        length2 = spanUtils.getLength();
-                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        spanUtils.append(" "+getStringWithoutContext(R.string.forever)).setForegroundColor(0xffFF565A);
-                        sendSystemMsgToChat(spanUtils.create());
+                        if(isBlack)
+                        {
+                            spanUtils.append(getStringWithoutContext(R.string.muted)).setForegroundColor(0xffffffff);
+                            length2 = spanUtils.getLength();
+                            spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            spanUtils.append(" "+getStringWithoutContext(R.string.forever)).setForegroundColor(0xffFF565A);
+                            sendSystemMsgToChat(spanUtils.create());
+                        }
+                        else
+                        {
+                            spanUtils.append(getStringWithoutContext(R.string.unMuted)).setForegroundColor(0xffffffff);
+                            length2 = spanUtils.getLength();
+                            spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            sendSystemMsgToChat(spanUtils.create());
+                            break;
+                        }
                         break;
                     case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
                         String whiteText=Strings.isDigitOnly(type) && Integer.valueOf(type)==1?

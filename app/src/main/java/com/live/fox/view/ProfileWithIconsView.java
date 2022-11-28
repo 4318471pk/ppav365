@@ -105,5 +105,5 @@ public class ProfileWithIconsView extends RelativeLayout {
         }
     }
 
-   
+
 }

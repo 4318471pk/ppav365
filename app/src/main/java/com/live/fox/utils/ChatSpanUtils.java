@@ -393,7 +393,6 @@ public class ChatSpanUtils {
             case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
             case MessageProtocol.LIVE_BAN_USER:
             case MessageProtocol.LIVE_FOLLOW:
-            case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
                 resourceId = R.mipmap.icon_tag_sys;
                 break;
             case MessageProtocol.GAME_CP_WIN:// 中奖

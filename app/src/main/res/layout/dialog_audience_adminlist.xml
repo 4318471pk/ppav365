@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="click"
             type="com.live.fox.dialog.bottomDialog.AudienceAdminListDialog" />
@@ -11,16 +12,15 @@
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{click.onClickView}"
-        >
+        android:onClick="@{click.onClickView}">
 
         <LinearLayout
             android:id="@+id/llContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{click.onClickView}"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bg_round_121212"
+            android:onClick="@{click.onClickView}"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -31,32 +31,31 @@
                     android:id="@+id/ivClose"
                     android:layout_width="40dip"
                     android:layout_height="40dip"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7.5dip"
                     android:onClick="@{click.onClickView}"
                     android:padding="12.5dip"
-                    android:layout_marginLeft="7.5dip"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/arrow_left"/>
+                    android:src="@mipmap/arrow_left" />
 
                 <TextView
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
                     android:text="@string/setAudienceAdmin"
-                    />
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/ivIntroduction"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dip"
                     android:onClick="@{click.onClickView}"
                     android:padding="7.5dip"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dip"
-                    android:src="@mipmap/icon_introdution"/>
+                    android:src="@mipmap/icon_introdution" />
 
             </RelativeLayout>
 
@@ -64,65 +63,70 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
-                android:background="#404040"/>
-
-
-            <TextView
-                android:id="@+id/tvAmountOfAdmin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20.5dip"
-                android:layout_marginTop="14.5dip"
-                android:textSize="11sp"
-                android:textColor="#a3a3a3"
-                />
-
-            <LinearLayout
-                android:id="@+id/llList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:layout_marginLeft="30dip"
-                android:orientation="vertical">
-
-
-            </LinearLayout>
+                android:background="#404040" />
 
             <RelativeLayout
-                android:id="@+id/rlEmptyDataView"
+                android:id="@+id/rlListContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvAmountOfAdmin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="20.5dip"
+                    android:layout_marginTop="14.5dip"
+                    android:textColor="#a3a3a3"
+                    android:textSize="11sp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/icon_emptydata"/>
+                <LinearLayout
+                    android:id="@+id/llList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/tvAmountOfAdmin"
+                    android:layout_marginLeft="30dip"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#99ffffff"
-                        android:textSize="13sp"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/youDidNotSetAdmin"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dip"
-                        android:textColor="#99ffffff"
-                        android:textSize="13sp"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/tips7"/>
 
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlEmptyDataView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@mipmap/icon_emptydata" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/youDidNotSetAdmin"
+                            android:textColor="#99ffffff"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="30dip"
+                            android:text="@string/tips7"
+                            android:textColor="#99ffffff"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
 
             <TextView
@@ -130,13 +134,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dip"
-                android:visibility="gone"
                 android:layout_marginTop="14.5dip"
-                android:textSize="13sp"
+                android:layout_marginRight="20dip"
+                android:text="@string/tips8"
                 android:textColor="#99ffffff"
-                android:text="@string/tips8"/>
-
+                android:textSize="13sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 

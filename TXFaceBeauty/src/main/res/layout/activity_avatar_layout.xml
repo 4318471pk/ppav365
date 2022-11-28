@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.CameraActivity">
+
+
+    <com.tencent.demo.camera.camerax.GLCameraXView
+        android:id="@+id/camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:ratio="0.75"
+        app:back_camera="false"
+        app:surface_view="false">
+
+    </com.tencent.demo.camera.camerax.GLCameraXView>
+
+
+    <com.tencent.demo.avatar.view.AvatarPanel
+        android:id="@+id/avatar_panel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/camera_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/avatar_close_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/save_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/avatar_save_icon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/back_btn" />
+
+
+    <LinearLayout
+        android:id="@+id/change_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/avatar_panel"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/avatar_change_icon"
+             />
+
+        <TextView
+            android:id="@+id/change_avatar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/api_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/avatar_api_example_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/change_avatar"
+        app:layout_constraintLeft_toRightOf="@+id/change_avatar"
+        app:layout_constraintTop_toTopOf="@+id/change_avatar" />
+
+    <ImageView
+        android:id="@+id/gender_change_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/round_white_bg"
+        android:src="@mipmap/avatar_male_icon"
+        app:layout_constraintBottom_toTopOf="@+id/avatar_panel"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <Spinner
+            android:id="@+id/spinner_select_anim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#99000000"
+            android:layout_marginTop="100dp"
+            />
+
+    <Spinner
+            android:id="@+id/spinner_select_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinner_select_anim"
+            android:layout_marginTop="10dp"
+            android:background="#99000000"
+            />
+
+    <EditText
+        android:id="@+id/edit_loop_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinner_select_action"
+            android:hint="loop count"
+            android:background="#99000000"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"/>
+
+    <EditText
+            android:id="@+id/edit_start_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_loop_count"
+            android:hint="start position(ms)"
+            android:background="#99000000"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"/>
+
+    <Button
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_start_position"
+            android:layout_marginBottom="20dp"
+            android:text="OK"
+            />
+
+    <androidx.constraintlayout.widget.Group
+            android:id="@+id/anim_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="spinner_select_action,spinner_select_anim,edit_loop_count,edit_start_position,btn_play" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

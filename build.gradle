@@ -3,8 +3,9 @@ buildscript {
     ext {
         args = [
                 NDKVersion : "21.3.6528147",
-                minSdkVersion : "19",
-                targetSdkVersion : "29",
+                minSdkVersion : 19,
+                compileSdkVersion : 31,
+                targetSdkVersion : 31,
                 kotlin_version : '1.4.0'
         ]
         releaseSigningConfigs=[
@@ -29,6 +30,7 @@ buildscript {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://repo1.maven.org/maven2" }
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.0'
@@ -48,6 +50,7 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://repo1.maven.org/maven2" }
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public' }
         flatDir { dirs 'libs' } //Toy
     }
 }

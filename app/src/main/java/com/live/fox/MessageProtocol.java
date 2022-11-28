@@ -21,7 +21,7 @@ public interface MessageProtocol {
     public static final String LIVE_ROOM_CHAT = "2007";//直播间聊天
     public static final String LIVE_SEND_GIFT = "2008";//送礼消息
     public static final String LIVE_BLACK_CHAT = "2009";//禁言消息
-    public static final String LIVE_BLACK_CHAT_CANCEL = "2010";//取消禁言消息
+//    public static final String LIVE_BLACK_CHAT_CANCEL = "2010";//取消禁言消息 废弃
     public static final String LIVE_ROOM_NOTICE = "2011";//直播间公告
     public static final String LIVE_BAN_USER = "2012";//直播间踢人消息
     public static final String LIVE_KICK_LIVE = "2013";//强制关播

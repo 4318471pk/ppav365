@@ -48,11 +48,6 @@ public class BlockListFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind=getViewDataBinding();
 
-        List<String> strings=new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            strings.add("");
-        }
-
         mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -79,7 +74,21 @@ public class BlockListFragment extends BaseBindingFragment {
                 {
                     if(code==0)
                     {
-                        blockOrMuteListAdapter.setNewData(data);
+                        String temple=getStringWithoutContext(R.string.amountOfBlock);
+                        if(data!=null && data.size()>0)
+                        {
+                            blockOrMuteListAdapter.setNewData(data);
+                            mBind.rlEmptyDataView.setVisibility(View.GONE);
+                            mBind.srlRefresh.setVisibility(View.VISIBLE);
+                            mBind.tvAmount.setText(String.format(temple,data.size()+""));
+
+                        }
+                        else
+                        {
+                            mBind.rlEmptyDataView.setVisibility(View.VISIBLE);
+                            mBind.srlRefresh.setVisibility(View.GONE);
+                            mBind.tvAmount.setText(String.format(temple,"0"));
+                        }
                     }
                     else
                     {

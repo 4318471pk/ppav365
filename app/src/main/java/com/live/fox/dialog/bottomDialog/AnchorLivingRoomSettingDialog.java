@@ -105,17 +105,17 @@ public class AnchorLivingRoomSettingDialog extends BaseBindingDialogFragment {
 
                                 }
                             });
-                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),treasureBoxDialog);
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),treasureBoxDialog);
                         }
 
                         break;
                     case R.id.tvAudienceManage:
                         AudienceManagerDialog audienceManagerDialog=AudienceManagerDialog.getInstance(liveId,anchorId);
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),audienceManagerDialog);
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),audienceManagerDialog);
                         break;
                     case R.id.tvLivingSetting:
                         AnchorLivingSettingDialog anchorLivingSettingDialog=AnchorLivingSettingDialog.getInstance(liveId);
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),anchorLivingSettingDialog);
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),anchorLivingSettingDialog);
                         break;
                 }
             }

@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
-import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.common.JsonCallback;

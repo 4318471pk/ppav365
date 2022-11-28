@@ -19,7 +19,6 @@ import com.google.gson.reflect.TypeToken;
 import com.live.fox.AppIMManager;
 import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
-import com.live.fox.LiveControlFragment;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
@@ -146,13 +145,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         AppIMManager.ins().addMessageListener(PlayLiveActivity.class, this);
         KeyboardUtils.setSoftInputChangedListener(PlayLiveActivity.this, (isOpen, height) -> {
             //聊天框弹起监听
-            if (isOpen) {
-                if (getLiveInFragment() != null)
-                    getLiveInFragment().onKeyBoardShow(height);
-            } else {
-                if (getLiveInFragment() != null)
-                    getLiveInFragment().onKeyBoardHide(height);
-            }
         });
         slidingFragment = SlidingFragment.newInstance(currentAnchor);
     }
@@ -247,8 +239,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         payWaitHandler.removeMessages(currentAnchor.getType());
         Constant.isShowWindow = false;
         chargeHandler.removeMessages(1);
-        if (getLiveInFragment() != null)
-            getLiveInFragment().hideRecommendList();
         //退出 上一个房间的聊天室
         AppIMManager.ins().loginOutGroup(String.valueOf(currentAnchor.getLiveId()));
 
@@ -263,11 +253,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
             videoFragment.changePKVideo(false);
         }
 
-        if (getLiveInFragment() != null) {
-            getLiveInFragment().switchRoomByState(1, currentAnchor);//切换房间
-            getLiveInFragment().hidePkView();
-            getLiveInFragment().removeRecommendAnchor(anchor);
-        }
 
         if (liveFinishFragment != null && liveFinishFragment.isAdded()) {
             getSupportFragmentManager()
@@ -286,9 +271,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
 
         //调用进房接口
         refreshAnchorInfoAndEnterRoom();
-        if (getLiveInFragment() != null) {
-            getLiveInFragment().removeRecommendAnchor(anchor);
-        }
         cancelSvgAnimation();
     }
 
@@ -297,9 +279,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
      * 取消播放的动画
      */
     private void cancelSvgAnimation() {
-        if (getLiveInFragment() != null) {
-            getLiveInFragment().cancelSvgPlay();
-        }
     }
 
     //前往XXX的直播间
@@ -334,9 +313,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             //取消dialog
-            if (getLiveInFragment() != null && getLiveInFragment().isAdded()) {
-                getLiveInFragment().dismissCpListDialog();
-            }
             closeRoomAndStopPlay(false, true, false);
             showRoomPayFragment();
             if (roomPayFragment.isAdded()) {
@@ -351,9 +327,9 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                 .beginTransaction()
                 .show(roomPayFragment)
                 .commitAllowingStateLoss();
-        if (getLiveInFragment() != null) {
-            getLiveInFragment().hideRecommendList();
-        }
+//        if (getLiveInFragment() != null) {
+//            getLiveInFragment().hideRecommendList();
+//        }
     }
 
     public void hideRoomPayFragment() {
@@ -464,9 +440,9 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                         String welcome = String.format(getString(R.string.chatWelcome), currentAnchor.getNickname());
                         sendSystemMsgToChat(welcome);
                         if (currentAnchor.getShowType() == 0) {
-                            if (getLiveInFragment() != null && currentAnchor.getRoomHide() == 0) {
-                                showAdmission();
-                            }
+//                            if (getLiveInFragment() != null && currentAnchor.getRoomHide() == 0) {
+//                                showAdmission();
+//                            }
                         }
                     }
 
@@ -542,8 +518,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
         audience.setCarId(userAnchor.getCarId());
         audience.setNickname(userAnchor.getNickname());
         audience.setLevel(userAnchor.getLevel());
-        if (getLiveInFragment() != null)
-            getLiveInFragment().playSvg(audience);
     }
 
     private final Handler joinIMGroupHandler = new Handler(msg -> {
@@ -596,11 +570,11 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     public void reallyEnterRoom(Anchor anchor, String pwd, boolean isDoCharge, int preview) {
         showLoadingView();
         LogUtils.e("EnterRoom PP-调用进房接口 ");
-        if (getLiveInFragment() != null)
-        {
-            getLiveInFragment().setPreview(preview);
-            getLiveInFragment().sendRoomBulletin(); //发送直播间公告
-        }
+//        if (getLiveInFragment() != null)
+//        {
+//            getLiveInFragment().setPreview(preview);
+//            getLiveInFragment().sendRoomBulletin(); //发送直播间公告
+//        }
 
 //        Api_Live.ins().interRoom(anchor.getLiveId(), anchor.getAnchorId()+"", anchor.getType(),
 //                pwd, preview, new JsonCallback<String>() {
@@ -660,23 +634,23 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
             public void onSuccess(int code, String msg, PkStatus data) {
                 if (data != null)
                     LogUtils.e("PkStatus result : " + new Gson().toJson(data) + "," + System.currentTimeMillis());
-                if (code == 0) {
-                    if (data == null) return;
-                    videoFragment.changePKVideo(true);
-                    if (data.getResult() < 0) {
-                        //PK阶段
-                        if (getLiveInFragment() != null)
-                            getLiveInFragment().setPkView(0, -1, data);
-                    } else {
-                        //惩罚阶段
-                        if (getLiveInFragment() != null)
-                            getLiveInFragment().setPkView(2, data.getResult(), data);
-                    }
-                } else {
-                    if (getLiveInFragment() != null)
-                        getLiveInFragment().setPkView(1, -1, null);
-                    videoFragment.changePKVideo(false);
-                }
+//                if (code == 0) {
+//                    if (data == null) return;
+//                    videoFragment.changePKVideo(true);
+//                    if (data.getResult() < 0) {
+//                        //PK阶段
+//                        if (getLiveInFragment() != null)
+//                            getLiveInFragment().setPkView(0, -1, data);
+//                    } else {
+//                        //惩罚阶段
+//                        if (getLiveInFragment() != null)
+//                            getLiveInFragment().setPkView(2, data.getResult(), data);
+//                    }
+//                } else {
+//                    if (getLiveInFragment() != null)
+//                        getLiveInFragment().setPkView(1, -1, null);
+//                    videoFragment.changePKVideo(false);
+//                }
             }
         });
     }
@@ -696,15 +670,11 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
 
         hideRoomPayFragment();
 
-        //刷新直播间信息
-        if (getLiveInFragment() != null)
-            getLiveInFragment().refreshLiveRoom(currentAnchor, isPay);
-
         //切换后等一段时间后再加入群聊 防止上下滑动切换过快导致频繁进入聊天室的问题
         joinIMGroupHandler.removeMessages(1);
         joinIMGroupHandler.sendEmptyMessageDelayed(1, 1600);
         if ((currentAnchor.getType() == 1 || currentAnchor.getType() == 2) && DataCenter.getInstance().getUserInfo().getUser() != null &&
-                !DataCenter.getInstance().getUserInfo().getUser().isSuperManager() && !isPay) {
+                !DataCenter.getInstance().getUserInfo().getUser().isRoomManage() && !isPay) {
             //此房间是付费房间
             LogUtils.e("onDestroy PlayActivity 收费房间");
             //调用扣费接口
@@ -838,7 +808,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
     }
 
     private void showLiveFinishFragment(Anchor anchor, String reason) {
-        if (getLiveInFragment() != null) getLiveInFragment().dismissUserDetailDialog();
         if (KeyboardUtils.isSoftInputVisible(this)) {
             KeyboardUtils.hideSoftInput(this);
         }
@@ -850,14 +819,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                 .commitAllowingStateLoss();
     }
 
-    /**
-     * 获取控制房间控制页面
-     *
-     * @return 返回
-     */
-    public LiveControlFragment getLiveInFragment() {
-        return slidingFragment.getLiveControlFragment();
-    }
 
     /**
      * 退出房间和停止播放统一接口
@@ -880,9 +841,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
      */
     @Override
     public void onPlayIsFinish(boolean isFinish) {
-        if (isFinish && getLiveInFragment() != null) {
-            getLiveInFragment().switchRoomByState(2, currentAnchor);
-        }
     }
 
     /**
@@ -927,9 +885,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
             LogUtils.e(protocol + ", onIMReceived msg : " + msg);
             JSONObject message = new JSONObject(msg);
             if (!Constant.isOpenWindow) {
-                if (getLiveInFragment() != null) {
-                    getLiveInFragment().onReceived(protocol, message);
-                }
             }
 
             User user = DataCenter.getInstance().getUserInfo().getUser();
@@ -994,16 +949,12 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                         if (Constant.isOpenWindow) {
                         } else {
                             videoFragment.changePKVideo(true);
-                            if (getLiveInFragment() != null)
-                                getLiveInFragment().setPkView(0, -1, null);
                         }
                     } else {
                         if (Constant.isOpenWindow) {
                         } else {
                             //直播间的主播结束PK
                             videoFragment.changePKVideo(false);
-                            if (getLiveInFragment() != null)
-                                getLiveInFragment().setPkView(1, -1, null);
                         }
                     }
                     break;
@@ -1011,8 +962,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                 case Constant.MessageProtocol.PROTOCOL_PK_RESULT:  //23 PK结果消息
                     if (!Constant.isOpenWindow) {
                         int result = message.optInt("result", 0);
-                        if (getLiveInFragment() != null)
-                            getLiveInFragment().setPkView(2, result, null);
                     }
                     break;
 
@@ -1026,8 +975,6 @@ public class PlayLiveActivity extends BaseActivity implements VideoFragment.OnVi
                         }.getType());
                         List<User> mListB = new Gson().fromJson(String.valueOf(mB), new TypeToken<ArrayList<User>>() {
                         }.getType());
-                        if (getLiveInFragment() != null)
-                            getLiveInFragment().refreshPkScore(scoreA, scoreB, mListA, mListB);
                     }
                     break;
             }

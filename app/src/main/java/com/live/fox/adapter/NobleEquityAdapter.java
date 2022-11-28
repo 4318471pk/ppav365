@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundLinearLayout;
-import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.entity.ChargeCoinBean;
 import com.live.fox.entity.NobleEquityBean;

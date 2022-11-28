@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.CameraActivity"
+    tools:ignore="MissingDefaultResource">
+
+
+    <com.tencent.demo.camera.gltexture.NoCameraGLTextureView
+        android:id="@+id/avatar_texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="300dp"
+         />
+
+
+    <RelativeLayout
+        android:id="@+id/avatar_panel"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#ffffffff"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btn_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="20dp"
+            android:text="@string/avatar_voice_start"/>
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/avatar_close_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/change_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/avatar_panel"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/avatar_change_icon"
+             />
+
+        <TextView
+            android:id="@+id/change_avatar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/gender_change_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/round_white_bg"
+        android:src="@mipmap/avatar_male_icon"
+        app:layout_constraintBottom_toTopOf="@+id/avatar_panel"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

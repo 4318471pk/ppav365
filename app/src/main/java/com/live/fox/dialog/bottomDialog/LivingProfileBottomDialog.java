@@ -183,7 +183,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        FragmentManager fragmentManager=getParentFragmentManager();
+                        FragmentManager fragmentManager=getFragmentManager();
                         if(fragmentManager==null)
                         {
                             fragmentManager=getActivity().getSupportFragmentManager();
@@ -227,9 +227,9 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                             LivingAudiencesManageDialog livingAudiencesManageDialog=LivingAudiencesManageDialog.getInstance(liveId,uid,anchorId,currentUser);
                             livingAudiencesManageDialog.setOperateListener(new LivingAudiencesManageDialog.OnOperateListener() {
                                 @Override
-                                public void operate(int manager, boolean isBlack, boolean isMute) {
+                                public void operate(boolean isManager, boolean isBlack, boolean isMute) {
                                     currentUser.setBlackChat(isBlack);
-                                    currentUser.setManage(manager);
+                                    currentUser.setRoomManage(isManager);
                                     currentUser.setReject(isMute);
                                 }
                             });
