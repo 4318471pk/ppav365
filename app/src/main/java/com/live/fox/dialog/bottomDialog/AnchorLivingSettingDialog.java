@@ -68,7 +68,7 @@ public class AnchorLivingSettingDialog extends BaseBindingDialogFragment {
             @Override
             public void onAnimationEnd(Animation animation) {
                 AnchorExitLivingDialog anchorExitLivingDialog=AnchorExitLivingDialog.getInstance();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),anchorExitLivingDialog);
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),anchorExitLivingDialog);
             }
 
             @Override

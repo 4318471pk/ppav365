@@ -10,7 +10,6 @@ import android.util.Log;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
 import com.live.fox.R;
-import com.live.fox.UserJump;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.login.LoginActivity;
 import com.live.fox.utils.ActivityUtils;
@@ -63,13 +62,13 @@ public abstract class JsonCallback<T> extends StringCallback {
         LogUtils.e(url+" "+response.body());
         try {
 
-            if (response.code() == 451 && !(ActivityUtils.getTopActivity() instanceof LoginActivity)) {
-                Activity activity = ActivityUtils.getTopActivity();
-                if (activity != null) {
-                    UserJump.jumpHelp();
-                    return;
-                }
-            }
+//            if (response.code() == 451 && !(ActivityUtils.getTopActivity() instanceof LoginActivity)) {
+//                Activity activity = ActivityUtils.getTopActivity();
+//                if (activity != null) {
+//                    UserJump.jumpHelp();
+//                    return;
+//                }
+//            }
 
             if (!response.isSuccessful()) {
                 onSuccessInMainThread(response.code(), response.message(), null);

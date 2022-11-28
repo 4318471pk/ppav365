@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.tencent.demo.avatar.ColorPicker
+            android:id="@+id/color_picker"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.tencent.demo.widget.XmagicSeekBarLayout
+            android:id="@+id/seekbar_red"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toRightOf="@id/color_picker"
+            app:layout_constraintTop_toTopOf="@id/color_picker"
+            app:layout_constraintBottom_toTopOf="@id/seekbar_green"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.tencent.demo.widget.XmagicSeekBarLayout
+            android:id="@+id/seekbar_green"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/seekbar_red"
+            app:layout_constraintTop_toBottomOf="@id/seekbar_red"
+            app:layout_constraintBottom_toTopOf="@id/seekbar_blue" />
+
+    <com.tencent.demo.widget.XmagicSeekBarLayout
+            android:id="@+id/seekbar_blue"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/seekbar_green"
+            app:layout_constraintTop_toBottomOf="@id/seekbar_green"
+            app:layout_constraintBottom_toTopOf="@id/color_indicator" />
+
+    <ImageView
+            android:id="@+id/color_indicator"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintTop_toBottomOf="@id/seekbar_blue"
+            app:layout_constraintBottom_toBottomOf="@id/color_picker"
+            app:layout_constraintLeft_toLeftOf="@id/seekbar_blue" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,11 +21,9 @@ import android.view.WindowManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
-import com.live.fox.AnchorLiveActivity;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
-import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseBindingViewActivity;
@@ -53,7 +51,6 @@ import com.live.fox.utils.KeyboardUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
-import com.lovense.sdklibrary.Lovense;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -243,7 +240,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         AppIMManager.ins().addMessageListener(OpenLivingActivity.class, new AppIMManager.OnMessageReceivedListener(){
             @Override
             public void onIMReceived(int protocol, String msg) {
-                Log.e("startAcceptMessage",msg);
                 StartLivingFragment startLivingFragment=(StartLivingFragment) fragments.get(1);
                 startLivingFragment.onReceivedMessage(protocol,msg);
             }

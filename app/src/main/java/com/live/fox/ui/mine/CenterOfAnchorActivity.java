@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.live.fox.AnchorLiveActivity;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;

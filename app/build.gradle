@@ -20,10 +20,10 @@ bugly {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.ext.args.compileSdkVersion
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.args.minSdkVersion
+        targetSdkVersion rootProject.ext.args.targetSdkVersion
         versionCode 6
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
@@ -353,8 +353,8 @@ android {
             manifest.srcFile 'src/anchor/AndroidManifest.xml'
         }
         anchor24 {
-            java.srcDirs = ['src/anchor/java']
-            manifest.srcFile 'src/anchor/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
 
         userQQ {
@@ -439,7 +439,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-common-java8:2.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.google.code.gson:gson:2.8.7'
@@ -447,28 +447,11 @@ dependencies {
     //导入base library
     implementation project(':picture_library')
 
-    //MM主播端才需添加
-    mmliveAnchorImplementation files('libs/lovense.aar')  //玩具
-    mmliveAnchorImplementation project(':faceunity')  //美颜 包大小会增加了21M
-    //测试
-    anchorTestImplementation files('libs/lovense.aar')  //玩具
-    anchorTestImplementation project(':faceunity')  //美颜 包大小会增加了21M
-
-    //泰国
-    anchorThiImplementation files('libs/lovense.aar')  //玩具
-    anchorThiImplementation project(':faceunity')  //美颜 包大小会增加了21M
-
-    //QQ主播端才需添加
-    anchorQQImplementation files('libs/lovense.aar')  //玩具
-    anchorQQImplementation project(':faceunity')  //美颜 包大小会增加了21M
-
-    //Ai平台
-    anchorAiImplementation files('libs/lovense.aar')  //玩具
-    anchorAiImplementation project(':faceunity')  //美颜 包大小会增加了21M
+    //导入美颜库
+//    implementation project(':TXFaceBeauty')
 
     //24Live平台
-    anchor24Implementation files('libs/lovense.aar')  //玩具
-    anchor24Implementation project(':faceunity')  //美颜 包大小会增加了21M
+//    anchor24Implementation project(':TXFaceBeauty')  //超大 主播端才需要
 
     //SmartRefreshLayout 下拉刷新 上拉加载
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
@@ -543,8 +526,9 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
 
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0@aar'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:gifdecoder:4.12.0'
     implementation 'jp.wasabeef:glide-transformations:3.0.1'//Glide-transformations图片变换
 
     implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'

@@ -14,6 +14,7 @@ import android.util.Log;
 import com.bumptech.glide.gifdecoder.GifDecoder;
 import com.bumptech.glide.gifdecoder.GifHeader;
 import com.bumptech.glide.gifdecoder.GifHeaderParser;
+
 import com.live.fox.R;
 import com.live.fox.utils.utilconstants.ImageHeaderParser;
 

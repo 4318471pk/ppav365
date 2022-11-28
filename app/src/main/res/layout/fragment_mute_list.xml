@@ -13,29 +13,73 @@
         android:orientation="vertical"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#A3A3A3"
-            android:text="已被拉黑的用户（1/200）"
-            android:textSize="11sp"
-            android:layout_marginTop="14.5dip"
-            android:layout_marginLeft="20dip"/>
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/srlRefresh"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dip"
-            >
+            android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMain"
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#A3A3A3"
+                android:textSize="11sp"
+                android:layout_marginTop="14.5dip"
+                android:layout_marginLeft="20dip"/>
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/srlRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                android:layout_below="@id/tvAmount"
+                android:layout_marginLeft="30dip"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    />
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlEmptyDataView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/icon_emptydata"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#99ffffff"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/youDidNotMuteAnyone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dip"
+                        android:textColor="#99ffffff"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/tips12"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </layout>

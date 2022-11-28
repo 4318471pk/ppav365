@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="color_f14257">#F14257</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_80333333">#80333333</color>
+    <color name="color_cccccc">#ffcccccc</color>
+    <color name="color_4d000000">#4D000000</color>
+    <color name="color_E6000000">#E6000000</color>
+
+    <!-- avatar color -->
+    <color name="face_color_0">#FFe2b4a4</color>
+    <color name="face_color_1">#FFc69a85</color>
+    <color name="face_color_2">#FF9e6f5e</color>
+
+    <color name="hair_color_0">#FF121418</color>
+    <color name="hair_color_1">#FF7f5e49</color>
+    <color name="hair_color_2">#FF2b1a17</color>
+</resources>

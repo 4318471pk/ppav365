@@ -92,13 +92,11 @@ public class AppIMManager {
                 @Override
                 public void onKickedOffline() {
                     LogUtils.e("IM->KickedOffline : 当前用户被踢下线");
-                    UserJump.jumpHelp();
                 }
 
                 @Override
                 public void onUserSigExpired() {
                     LogUtils.e("IM->User Sig Expired : 登录票据已经过期");
-                    UserJump.jumpHelp();
                 }
             });
 

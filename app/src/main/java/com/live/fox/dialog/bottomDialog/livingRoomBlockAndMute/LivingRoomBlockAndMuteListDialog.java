@@ -58,7 +58,7 @@ public class LivingRoomBlockAndMuteListDialog extends BaseBindingDialogFragment 
             @Override
             public void onAnimationEnd(Animation animation) {
                 AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId,anchorId);
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(), audienceManagerDialog);
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(), audienceManagerDialog);
             }
 
             @Override

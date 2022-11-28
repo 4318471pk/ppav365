@@ -821,7 +821,6 @@ public class LivingFragment extends BaseBindingFragment {
                         case MessageProtocol.LIVE_BLACK_CHAT:
                         case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
                         case MessageProtocol.LIVE_BAN_USER:
-                        case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
                             roomOperate(msgJson);
                             break;
                         case MessageProtocol.LIVE_ENTER_OUT_ROOM:
@@ -1380,25 +1379,27 @@ public class LivingFragment extends BaseBindingFragment {
             {
                 switch (protocol)
                 {
-                    case MessageProtocol.LIVE_BLACK_CHAT_CANCEL:
-                        spanUtils.append(nickname + ": ");
-                        length1 = spanUtils.getLength();
-                        spanUtils.append(getStringWithoutContext(R.string.unMuted)).setForegroundColor(0xffffffff);
-                        length2 = spanUtils.getLength();
-                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        sendSystemMsgToChat(spanUtils.create());
-                        ToastUtils.showShort(getStringWithoutContext(R.string.livingTips4));
-                        break;
                     case MessageProtocol.LIVE_BLACK_CHAT:
+                        Boolean isBlack=jsonObject.optBoolean("isBlack");
+                        if(isBlack==null)return;
                         spanUtils.append(nickname + ": ");
                         length1 = spanUtils.getLength();
-                        spanUtils.append(getStringWithoutContext(R.string.muted)).setForegroundColor(0xffffffff);
-                        length2 = spanUtils.getLength();
-                        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        spanUtils.append(" "+getStringWithoutContext(R.string.forever)).setForegroundColor(0xffFF565A);
-                        sendSystemMsgToChat(spanUtils.create());
-                        ToastUtils.showShort(getStringWithoutContext(R.string.livingTips3));
-                        break;
+                        if(isBlack)
+                        {
+                            spanUtils.append(getStringWithoutContext(R.string.muted)).setForegroundColor(0xffffffff);
+                            length2 = spanUtils.getLength();
+                            spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            spanUtils.append(" "+getStringWithoutContext(R.string.forever)).setForegroundColor(0xffFF565A);
+                            sendSystemMsgToChat(spanUtils.create());
+                        }
+                        else
+                        {
+                            spanUtils.append(getStringWithoutContext(R.string.unMuted)).setForegroundColor(0xffffffff);
+                            length2 = spanUtils.getLength();
+                            spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            sendSystemMsgToChat(spanUtils.create());
+                            break;
+                        }
                     case MessageProtocol.LIVE_ROOM_SET_MANAGER_MSG:
                         boolean isSetAdmin=Strings.isDigitOnly(type) && Integer.valueOf(type)==1;
                         String whiteText=isSetAdmin?

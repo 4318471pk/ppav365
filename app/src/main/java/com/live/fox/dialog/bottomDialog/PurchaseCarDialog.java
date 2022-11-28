@@ -195,7 +195,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
             }
         });
 
-        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(),templeDialog);
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(),templeDialog);
     }
 
 

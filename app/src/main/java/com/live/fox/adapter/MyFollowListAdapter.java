@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.live.fox.LiveFinishActivity;
 import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.Follow;

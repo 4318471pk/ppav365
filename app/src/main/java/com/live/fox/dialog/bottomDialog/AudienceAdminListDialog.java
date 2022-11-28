@@ -46,12 +46,23 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
         switch (view.getId()) {
             case R.id.ivClose:
                 if (mBind.ivIntroduction.getVisibility() == View.GONE) {
-                    mBind.llList.setVisibility(View.GONE);
-                    mBind.rlEmptyDataView.setVisibility(View.VISIBLE);
                     mBind.tvTips.setVisibility(View.GONE);
-                    mBind.tvAmountOfAdmin.setVisibility(View.VISIBLE);
                     mBind.tvTitle.setText(getStringWithoutContext(R.string.setAudienceAdmin));
                     mBind.ivIntroduction.setVisibility(View.VISIBLE);
+                    mBind.rlListContent.setVisibility(View.VISIBLE);
+
+                    if(mBind.llList.getChildCount()>0)
+                    {
+                        mBind.llList.setVisibility(View.VISIBLE);
+                        mBind.tvAmountOfAdmin.setVisibility(View.VISIBLE);
+                        mBind.rlEmptyDataView.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        mBind.llList.setVisibility(View.GONE);
+                        mBind.tvAmountOfAdmin.setVisibility(View.GONE);
+                        mBind.rlEmptyDataView.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     showAnotherDialog(R.id.ivClose);
                 }
@@ -59,10 +70,8 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
             case R.id.ivIntroduction:
                 mBind.tvTitle.setText(getStringWithoutContext(R.string.dialogTitleAudienceList));
                 mBind.ivIntroduction.setVisibility(View.GONE);
-                mBind.llList.setVisibility(View.GONE);
-                mBind.rlEmptyDataView.setVisibility(View.GONE);
+                mBind.rlListContent.setVisibility(View.GONE);
                 mBind.tvTips.setVisibility(View.VISIBLE);
-                mBind.tvAmountOfAdmin.setVisibility(View.GONE);
                 break;
             case R.id.rlMain:
                 mBind.rlMain.setEnabled(false);
@@ -89,7 +98,7 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
                 switch (id) {
                     case R.id.ivClose:
                         AudienceManagerDialog audienceManagerDialog = AudienceManagerDialog.getInstance(liveId,anchorId);
-                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getParentFragmentManager(), audienceManagerDialog);
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getFragmentManager(), audienceManagerDialog);
                         break;
                 }
             }
@@ -122,15 +131,16 @@ public class AudienceAdminListDialog extends BaseBindingDialogFragment {
     }
 
     private void addItem(List<LivingRoomAdminListBean> list) {
+        String temple=getStringWithoutContext(R.string.hadSetSomeAdmin);
         if (list == null || list.size() == 0) {
             mBind.llList.setVisibility(View.GONE);
             mBind.rlEmptyDataView.setVisibility(View.VISIBLE);
+            mBind.tvAmountOfAdmin.setText(String.format(temple,"0"));
             return;
         } else {
             mBind.llList.removeAllViews();
             mBind.llList.setVisibility(View.VISIBLE);
             mBind.rlEmptyDataView.setVisibility(View.GONE);
-            String temple=getStringWithoutContext(R.string.hadSetSomeAdmin);
             mBind.tvAmountOfAdmin.setText(String.format(temple,list.size()+""));
         }
 

@@ -61,9 +61,7 @@
             android:name="com.openinstall.APP_KEY"
             android:value="OPENINSTALL_APPKEY"/>
 
-        <service
-            android:name="com.xtremeprog.sdk.ble.BleService"
-            android:enabled="true" />
+
         <service android:name="com.live.fox.manager.ResourceDownloadService"/>
 
         <uses-library
@@ -85,7 +83,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- 腾讯推送 start -->
-        <receiver android:name=".receiver.MessageReceiver">
+        <receiver android:name=".receiver.MessageReceiver" android:exported="false">
             <intent-filter>
 
                 <!-- 接收消息透传 -->
@@ -97,6 +95,7 @@
 
         <activity
             android:name="com.tencent.android.tpush.TpnsActivity"
+            android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <data
@@ -112,6 +111,7 @@
 
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:exported="false"
             android:process=":xg_vip_service">
             <intent-filter android:priority="0x7fffffff">
 
@@ -158,6 +158,7 @@
             android:name=".SplashActivity"
             android:resizeableActivity="true"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/SplashTheme"
             tools:targetApi="n">
             <intent-filter>
@@ -219,10 +220,6 @@
             android:name=".ui.mine.setting.SettingActivity"
             android:screenOrientation="portrait" /> <!-- 通知设置 -->
         <!-- 帮助与反馈 -->
-        <!-- 直播结束 -->
-        <activity
-            android:name=".LiveFinishActivity"
-            android:screenOrientation="portrait" /> <!-- 包含Fragment的Activity -->
         <activity
             android:name=".utils.FragmentContentActivity"
             android:screenOrientation="portrait" /> <!-- 观众直播端 -->

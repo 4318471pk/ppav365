@@ -73,6 +73,7 @@ public class User implements Serializable {
     private int incomeDiamond; //收入钻石
     private int sendDiamond; //送出钻石
     private int isCertified; //是否已认证：0未认证 1已认证
+    private Boolean isRoomManage;//是不是管理员
     private int userExp;//用户经验
     private String vipName; //	贵族靓号
     private int job = -1;
@@ -122,10 +123,6 @@ public class User implements Serializable {
 
     public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
-    }
-
-    public Boolean getReject() {
-        return isReject;
     }
 
     public Integer getSignInNum() {
@@ -488,6 +485,14 @@ public class User implements Serializable {
         isReject = reject;
     }
 
+    public Boolean isRoomManage() {
+        return isRoomManage==null?false:isRoomManage;
+    }
+
+    public void setRoomManage(Boolean roomManage) {
+        isRoomManage = roomManage;
+    }
+
     public boolean isFollow() {
         return isFollow == null ? false : isFollow.booleanValue();
     }
@@ -660,11 +665,6 @@ public class User implements Serializable {
         anchor.setAvatar(getAvatar());
         anchor.setNickname(getNickname());
         return anchor;
-    }
-
-    //登录是用户是否是超管
-    public boolean isSuperManager() {
-        return manage!=null && manage == 1;
     }
 
     //登录是用户是否是家族长

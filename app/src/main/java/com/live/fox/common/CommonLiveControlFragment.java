@@ -58,11 +58,9 @@ import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
-import com.live.fox.AnchorLiveActivity;
 import com.live.fox.AppConfig;
 import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
-import com.live.fox.LiveControlFragment;
 import com.live.fox.R;
 import com.live.fox.adapter.AudienceAdapter;
 import com.live.fox.adapter.LiveRoomChatAdapter;
@@ -316,13 +314,6 @@ public class CommonLiveControlFragment extends BaseFragment implements
     private GamePeriodInfoVO mCpGameResultInfoVO;
     private GamePeriodInfoVO mCpGameResultInfoVO2;
 
-    public static LiveControlFragment newInstance(Anchor anchor) {
-        LiveControlFragment fragment = new LiveControlFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("anchor", anchor);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -1357,8 +1348,6 @@ public class CommonLiveControlFragment extends BaseFragment implements
                         PlayLiveActivity activity = (PlayLiveActivity) requireActivity();
                         activity.sendLiveRoomNotice(textAd);
                     } else {
-                        AnchorLiveActivity activity = (AnchorLiveActivity) requireActivity();
-                        activity.sendLiveRoomNotice(textAd);
                     }
 
                     textAdHandler.removeMessages(1);
