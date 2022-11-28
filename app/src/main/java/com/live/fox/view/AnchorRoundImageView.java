@@ -59,7 +59,7 @@ public class AnchorRoundImageView extends androidx.appcompat.widget.AppCompatIma
                 radius= ScreenUtils.getDip2px(context,10);
             }
         }
-        placeHoldBitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.user_head_error);
+        placeHoldBitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.icon_anchor_loading);
     }
 
 

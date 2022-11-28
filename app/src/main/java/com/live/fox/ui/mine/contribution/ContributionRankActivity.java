@@ -91,6 +91,7 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
             }
         });
 
+        mBind.vpMain.setOffscreenPageLimit(4);
         mBind.vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

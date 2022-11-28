@@ -10,7 +10,6 @@
         android:id="@+id/rlContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#987682"
         >
 
         <com.tencent.rtmp.ui.TXCloudVideoView

@@ -56,35 +56,41 @@ public class LivingRecycleView extends RecyclerView {
         this.viewPager = viewPager;
     }
 
-
     @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        if(viewPager==null)
-        {
-            return super.onTouchEvent(e);
-        }
-        viewPager.setUserInputEnabled(false);
-
-        Log.e("onTouchEvent",e.getAction()+" ");
-        switch (e.getAction())
-        {
-//            case MotionEvent.ACTION_DOWN:
-//            case MotionEvent.ACTION_MOVE:
-//                viewPager.setUserInputEnabled(false);
-//                break;
-            case MotionEvent.ACTION_UP:
-//                viewPager.setUserInputEnabled(true);
-                if(onTouchViewUpListener!=null)
-                {
-                    onTouchViewUpListener.onTouch();
-                }
-            case MotionEvent.ACTION_CANCEL:
-                break;
-        }
-
-
-        return super.onTouchEvent(e);
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        //重点 不让其他父控件处理
+        getParent().requestDisallowInterceptTouchEvent(true);
+        return super.onInterceptTouchEvent(e);
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent e) {
+//        if(viewPager==null)
+//        {
+//            return super.onTouchEvent(e);
+//        }
+//        viewPager.setUserInputEnabled(false);
+//
+//        Log.e("onTouchEvent",e.getAction()+" ");
+//        switch (e.getAction())
+//        {
+////            case MotionEvent.ACTION_DOWN:
+////            case MotionEvent.ACTION_MOVE:
+////                viewPager.setUserInputEnabled(false);
+////                break;
+//            case MotionEvent.ACTION_UP:
+////                viewPager.setUserInputEnabled(true);
+//                if(onTouchViewUpListener!=null)
+//                {
+//                    onTouchViewUpListener.onTouch();
+//                }
+//            case MotionEvent.ACTION_CANCEL:
+//                break;
+//        }
+//
+//
+//        return super.onTouchEvent(e);
+//    }
 
 
     @Override

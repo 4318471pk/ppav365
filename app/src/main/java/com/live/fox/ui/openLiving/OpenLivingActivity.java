@@ -197,6 +197,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mBind.frameLayout.setPadding(0,paddingTop,0,0);
         setWindowsFlag(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        keepScreenLongLight(true);
 
         fragments.add(new PreparingLivingFragment());
         fragments.add(new StartLivingFragment());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
@@ -27,7 +28,7 @@ public class LivingTop20OnlineUserAdapter extends BaseQuickAdapter<Audience, Bas
         super(R.layout.item_living_top20_audience, data);
         this.context=context;
         this.errorPicResourece=R.mipmap.user_head_error;
-        itemWH=(int)(ScreenUtils.getScreenWidth(context)*0.096f);
+        itemWH=ScreenUtils.dp2px(context,34);
     }
 
     @Override
@@ -37,6 +38,10 @@ public class LivingTop20OnlineUserAdapter extends BaseQuickAdapter<Audience, Bas
         vl.width=itemWH;
         helper.itemView.setLayoutParams(vl);
         ProfileWithIconsView ivAvatar= helper.getView(R.id.ivAvatar);
+        RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) ivAvatar.getLayoutParams();
+        rl.width=itemWH;
+        rl.height=itemWH;
+        ivAvatar.setLayoutParams(rl);
         ivAvatar.setData(item.getVipLevel(),item.getGuardLevel(),item.getAvatar());
 //        GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,ivAvatar);
     }

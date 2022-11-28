@@ -156,7 +156,15 @@ public class RankProfileView extends RelativeLayout {
     //crownIndex(0到2) decorationIndex（1到7）
     public void setIndex(int crownIndex,int decorationIndex,boolean isLiving)
     {
-        this.crownIndex = crownIndex;
+        if(crownIndex>-1 && crownIndex<3)
+        {
+            this.crownIndex = crownIndex;
+        }
+        else
+        {
+            this.crownIndex=-1;
+        }
+
         if(decorationIndex>0 && decorationIndex<8)
         {
             this.decorationIndex = decorationIndex-1;
@@ -211,6 +219,7 @@ public class RankProfileView extends RelativeLayout {
 
                 if(decorationIndex>-1 && decorationIndex<decorationResource.length)
                 {
+                    ivDecoration.setVisibility(VISIBLE);
                     RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
                     rlDe.width=viewWidth;
                     ivDecoration.setLayoutParams(rlDe);
@@ -259,26 +268,50 @@ public class RankProfileView extends RelativeLayout {
                 rl.height=crownHeight;
                 ivCrown.setLayoutParams(rl);
 
-                RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
-                rlDe.width=viewWidth;
-                rlDe.topMargin=crownHeight/2;
-                ivDecoration.setLayoutParams(rlDe);
-
-                int ivDecorationHeight=viewWidth*ivDecoration.getDrawable().getIntrinsicHeight()
-                        /ivDecoration.getDrawable().getIntrinsicWidth();
-
-                RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-                rlProfile.topMargin=crownHeight/2+(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
-                rlProfile.width=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
-                rlProfile.height=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
-                ivProfile.setLayoutParams(rlProfile);
-                ivProfile.setPadding(0,0,0,0);
-
-                viewHeight=rlDe.height+rlDe.topMargin;
-                if(onConfirmWidthAndHeightListener!=null)
+                int ivDecorationHeight=0;
+                if(decorationIndex>-1 && ivDecoration.getDrawable()!=null)
                 {
-                    onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlDe.height+rlDe.topMargin);
+                    ivDecoration.setVisibility(VISIBLE);
+                    RelativeLayout.LayoutParams rlDe = (RelativeLayout.LayoutParams) ivDecoration.getLayoutParams();
+                    rlDe.width=viewWidth;
+                    rlDe.topMargin=crownHeight/2;
+                    ivDecoration.setLayoutParams(rlDe);
+
+                    ivDecorationHeight=viewWidth*ivDecoration.getDrawable().getIntrinsicHeight()
+                            /ivDecoration.getDrawable().getIntrinsicWidth();
+
+                    RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+                    rlProfile.topMargin=crownHeight/2+(int)(ivDecorationHeight*scaleAndMargins[decorationIndex][1]);
+                    rlProfile.width=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
+                    rlProfile.height=(int)(viewWidth*scaleAndMargins[decorationIndex][0]);
+                    ivProfile.setLayoutParams(rlProfile);
+                    ivProfile.setPadding(0,0,0,0);
+
+                    viewHeight=rlDe.height+rlDe.topMargin;
+                    if(onConfirmWidthAndHeightListener!=null)
+                    {
+                        onConfirmWidthAndHeightListener.onValue(rlProfile.width,rlDe.height+rlDe.topMargin);
+                    }
                 }
+                else
+                {
+                    ivDecoration.setVisibility(GONE);
+
+                    int dip15=ScreenUtils.dp2px(getContext(),15);
+                    RelativeLayout.LayoutParams rlProfile = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+                    rlProfile.width=viewWidth;
+                    rlProfile.height=viewWidth;
+                    rlProfile.topMargin=crownHeight/2;
+                    ivProfile.setLayoutParams(rlProfile);
+                   ivProfile.setPadding(0,0,0,0);
+
+                    viewHeight=rlProfile.height+(crownHeight/2);
+                    if(onConfirmWidthAndHeightListener!=null)
+                    {
+                        onConfirmWidthAndHeightListener.onValue(rlProfile.width,viewHeight);
+                    }
+                }
+
 //                ivProfile.setPadding(0,crownHeight/2,0,0);
 
             }

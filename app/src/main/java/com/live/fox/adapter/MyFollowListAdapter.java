@@ -63,10 +63,10 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         ChatSpanUtils.appendSexIcon(spanUtils,data.getSex(),context,SpanUtils.ALIGN_BASELINE);
         spanUtils.append(" ");
 
-
         ChatSpanUtils.appendLevelIcon(spanUtils,data.getUserLevel(), context);
         spanUtils.append(" ");
-        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getUserLevel(), context);
+
+        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getVipLevel(), context);
         tvIcons.setText(spanUtils.create());
 
         RankProfileView rpvView=helper.itemView.findViewById(R.id.rpvView);
