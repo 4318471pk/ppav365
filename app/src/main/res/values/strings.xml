@@ -1610,5 +1610,6 @@
     <string name="prom">"提   示"</string>
     <string name="login_register">手机登陆/注册</string>
     <string name="login_guest">游客登陆</string>
-
+    <string name="login_other">您的账号已在其他手机登陆</string>
+    <string name="login_other2">已注册的会员，请选择手机登陆，为了账户安全，建议使用手机注册。</string>
 </resources>

@@ -38,7 +38,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您的账号已在其他手机登陆"
+            android:text="@string/login_other"
             android:textColor="#ff646464"
             android:textSize="14sp"
             />
@@ -69,7 +69,7 @@
             android:layout_marginEnd="39.5dp"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:text="确认"
+            android:text="@string/sure"
             android:textColor="#ffffffff"
             android:textSize="16sp"
             />
