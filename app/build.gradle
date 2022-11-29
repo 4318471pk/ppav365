@@ -551,4 +551,6 @@ dependencies {
     //数据库
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+
+    implementation files('libs/OpenInstall_v2.6.4.jar')
 }
