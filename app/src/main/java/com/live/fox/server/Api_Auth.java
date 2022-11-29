@@ -208,6 +208,14 @@ public class Api_Auth extends BaseApi {
         params.put("x", "");
         params.put("y", "");
 
+        if(TextUtils.isEmpty(CommonApp.channelCode)){
+
+        }else {
+            params.put("promotionCode", CommonApp.channelCode);//还有 登录接口加了一个promotionCode字段  推广码
+        }
+
+
+
         OkGoHttpUtil.getInstance().doJsonPost(
                 "",
                 url,

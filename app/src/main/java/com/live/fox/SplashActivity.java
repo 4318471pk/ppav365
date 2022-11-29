@@ -203,6 +203,9 @@ public class SplashActivity extends BaseActivity {
             //获取绑定数据
             String bindData = appData.getData();
             Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
+
+
+            CommonApp.channelCode=channelCode;
         }
     };
     @Override
