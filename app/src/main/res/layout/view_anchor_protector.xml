@@ -11,13 +11,13 @@
         android:adjustViewBounds="true"
         android:src="@mipmap/icon_protector_logo"/>
 
-    <ImageView
+    <com.live.fox.view.Top20CircleImage
         android:id="@+id/ivProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
-        android:src="#ff000000" />
+        />
 
     <ImageView
         android:id="@+id/ivDecoration"

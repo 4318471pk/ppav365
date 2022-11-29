@@ -52,6 +52,8 @@ public class DialogPromoAdapter extends BaseQuickAdapter<ActBean, BaseViewHolder
                 iv.setBackgroundColor(0xffffffff);
                 iv.setScaleType(ImageView.ScaleType.FIT_XY);
                 iv.setImageDrawable(resource);
+                iv.setScaleX(1f);
+                iv.setScaleY(1f);
             }
 
             @Override
@@ -64,6 +66,8 @@ public class DialogPromoAdapter extends BaseQuickAdapter<ActBean, BaseViewHolder
                 super.onLoadFailed(errorDrawable);
                 iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 iv.setImageDrawable(context.getResources().getDrawable(R.mipmap.img_error));
+                iv.setScaleX(0.8f);
+                iv.setScaleY(0.8f);
 //                iv.setBackgroundColor(0xffD2CDE0);
             }
         });

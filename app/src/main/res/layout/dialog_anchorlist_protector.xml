@@ -19,6 +19,7 @@
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="400dip"
+            android:onClick="@{click.onClickView}"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             app:rv_backgroundColor="@color/white"

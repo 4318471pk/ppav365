@@ -124,6 +124,7 @@ public class LiveListHeader extends RelativeLayout {
         ivHomePlayGameRolling=findViewById(R.id.ivHomePlayGameRolling);
         ivHomeHotRecommendRolling=findViewById(R.id.ivHomeHotRecommendRolling);
         convenientBanner=findViewById(R.id.home_convenient_banner);
+        convenientBanner.getLayoutParams().height=(int)(ScreenUtils.getScreenWidth(getContext())*0.213f);
 
         convenientBanner.setPages(BannerHolder::new, homeBanners)
                 .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
@@ -215,7 +216,7 @@ public class LiveListHeader extends RelativeLayout {
                 bannerUrl = jsonStr;
             }
 
-            GlideUtils.loadDefaultImage(context, bannerUrl, bannerImg);
+            GlideUtils.loadDefaultImage(context, bannerUrl,0,0, bannerImg);
         }
     }
 }

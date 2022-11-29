@@ -29,6 +29,7 @@ import com.live.fox.databinding.DialogOnlineUserNobilityBinding;
 import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_Live;
+import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.ui.rank.RankFragment;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
@@ -158,6 +159,12 @@ public class OnlineNobilityAndUserDialog extends BaseBindingDialogFragment {
         strings.add(str2);
 
         View first=View.inflate(getActivity(),R.layout.layout_online_nobility_user,null);
+        first.findViewById(R.id.tvGoNoble).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NobleActivity.startActivity(getActivity());
+            }
+        });
         View second=View.inflate(getActivity(),R.layout.layout_online_nobility_user,null);
         views.add(first);
         views.add(second);

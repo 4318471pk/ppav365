@@ -439,6 +439,8 @@
     <string name="chatSecret">聊天隐身</string>
     <string name="invisibleList">榜单隐身</string>
     <string name="becomeNobel">成为贵族</string>
+    <string name="hasOpened">开通了</string>
+    <string name="newBornNobleTips">\"%1$s\"开通 %2$s·贵族，大咖诞生！</string>
     <string name="kaitong">(&#160;开通&#160;</string>
     <string name="goldThirty">&#160;金币/30天&#160;)</string>
     <string name="goldThirtyBack">&#160; 金币 / 30 天, 立返 &#160;</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mView"
@@ -8,331 +7,319 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="28dp"
-            >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp">
+
+        <ImageView
+            android:id="@+id/iv_head_left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="start|center_vertical"
+            android:onClick="onClick"
+            android:padding="12dp"
+            android:src="@mipmap/icon_left" />
+
+        <TextView
+            android:id="@+id/tv_head_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/recharge_center"
+            android:textColor="@color/color404040"
+            android:textSize="19sp" />
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="3.5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3.5dp"
+            app:rv_backgroundColor="#F4F1F8"
+            app:rv_cornerRadius="14dp">
 
             <ImageView
-                android:id="@+id/iv_head_left"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="12dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="start|center_vertical"
-                android:onClick="onClick"
-                android:src="@mipmap/icon_left"
-                />
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@mipmap/customer_service_ava" />
 
             <TextView
-                android:id="@+id/tv_head_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:text="@string/recharge_center"
-                android:textColor="@color/color404040"
-                android:textSize="19sp" />
+                android:text="@string/service"
+                android:textColor="@color/colorA800FF"
+                android:textSize="15sp" />
 
-            <com.flyco.roundview.RoundLinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:layout_marginEnd="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="3.5dp"
-                android:paddingBottom="3.5dp"
-                android:orientation="horizontal"
-                app:rv_cornerRadius="14dp"
-                app:rv_backgroundColor="#F4F1F8"
-                >
+        </com.flyco.roundview.RoundLinearLayout>
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/customer_service_ava"
-                    />
+    </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="5dp"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
-                    android:text="@string/service"
-                    android:textColor="@color/colorA800FF"
-                    android:textSize="15sp" />
+    <RelativeLayout
+        android:id="@+id/layout_gonggao"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="#E3D3EE"
+        android:orientation="horizontal">
 
-            </com.flyco.roundview.RoundLinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_gonggao"
+        <com.marquee.dingrui.marqueeviewlib.MarqueeView
+            android:id="@+id/adRoundTextView"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="#E3D3EE"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:gravity="center_vertical"
+            app:marqueeview_is_resetLocation="false"
+            app:marqueeview_isclickalbe_stop="true"
+            app:marqueeview_repet_type="repet_interval"
+            app:marqueeview_text_color="#999999"
+            app:marqueeview_text_size="14"
+            app:marqueeview_text_speed="1"
+            app:marqueeview_text_startlocationdistance="0.5" />
 
-            <com.marquee.dingrui.marqueeviewlib.MarqueeView
-                android:id="@+id/adRoundTextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:gravity="center_vertical"
-                app:marqueeview_is_resetLocation="false"
-                app:marqueeview_isclickalbe_stop="true"
-                app:marqueeview_repet_type="repet_interval"
-                app:marqueeview_text_color="#999999"
-                app:marqueeview_text_size="14"
-                app:marqueeview_text_speed="1"
-                app:marqueeview_text_startlocationdistance="0.5" />
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/recharge_usdt_address_title_qr"
+            android:src="@drawable/tip" />
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="22dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:contentDescription="@string/recharge_usdt_address_title_qr"
-                android:src="@drawable/tip" />
-
-        </RelativeLayout>
+    </RelativeLayout>
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorF5F1F8">
+            android:background="@color/colorF5F1F8"
+            android:orientation="vertical">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_margin="5dp"
-            android:layout_marginEnd="10dp"
-
-            android:paddingTop="3.5dp"
-            android:paddingBottom="3.5dp"
-            android:orientation="vertical"
-            android:background="@mipmap/daicun_card"
-            >
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|left"
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal">
-
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/my_account"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:text="@string/my_account"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginStart="10dp"
+                android:layout_height="160dp"
+                android:layout_margin="5dp"
                 android:layout_marginEnd="10dp"
-                android:orientation="horizontal">
+
+                android:background="@mipmap/daicun_card"
+                android:orientation="vertical"
+                android:paddingTop="3.5dp"
+                android:paddingBottom="3.5dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="6dp"
                     android:gravity="center|left"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:text="@string/balance"/>
 
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="5dp"
-                        android:src="@mipmap/balance"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="0.8"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:orientation="horizontal">
+                        android:layout_width="28dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/my_account" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
                         android:layout_marginStart="2dp"
-                        android:text="@string/grade_diamond"/>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="5dp"
-                        android:src="@mipmap/diamond"
-                        />
+                        android:text="@string/my_account"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/balance"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
 
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="5dp"
+                            android:src="@mipmap/balance" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:gravity="center|left"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="@string/grade_diamond"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="5dp"
+                            android:src="@mipmap/diamond" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="10dp"
                     android:orientation="horizontal">
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textColor="#FBFFC9"
-                        android:text="¥"/>
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥"
+                            android:textColor="#FBFFC9"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text=""
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/balance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
+                        android:id="@+id/diamond"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.8"
                         android:text=""
                         android:textSize="20sp" />
 
-
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/diamond"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.8"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:text=""/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="13dp">
+
+                    <LinearLayout
+                        android:id="@+id/layout_charge"
+                        android:layout_width="115dp"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/golden_button_left"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/charge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="@string/charge_2"
+                            android:textColor="@color/color533888"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/img_money"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:src="@mipmap/rmb_b" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_exchange_diamond"
+                        android:layout_width="115dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/shape_ffeab1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img_diamond"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="5dp"
+                            android:src="@mipmap/diamonds_y" />
+
+                        <TextView
+                            android:id="@+id/exchange_diamond"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="@string/exchange_diamond"
+                            android:textColor="@color/colorFFEAB1"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
 
             </LinearLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="29dp"
-                android:layout_marginTop="13dp"
-                >
-
-                <LinearLayout
-                    android:id="@+id/layout_charge"
-                    android:layout_width="115dp"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:background="@mipmap/golden_button_left"
-                    >
-
-                    <TextView
-                        android:id="@+id/charge"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="14sp"
-                        android:textColor="@color/color533888"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="@string/charge_2"/>
-
-                    <ImageView
-                        android:id="@+id/img_money"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginEnd="5dp"
-                        android:src="@mipmap/rmb_b"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_exchange_diamond"
-                    android:layout_width="115dp"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center"
-                    android:background="@drawable/shape_ffeab1"
-                    >
-
-                    <ImageView
-                        android:id="@+id/img_diamond"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="5dp"
-                        android:src="@mipmap/diamonds_y"/>
-
-                    <TextView
-                        android:id="@+id/exchange_diamond"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorFFEAB1"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="@string/exchange_diamond"/>
-
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-        </LinearLayout>
 
 
             <LinearLayout
@@ -340,22 +327,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcPayName"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    >
+                    android:layout_marginTop="15dp">
 
                     <View
                         android:layout_width="6dp"
@@ -374,24 +360,23 @@
                         android:textSize="15sp" />
 
 
-
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcPayWay"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="8dp"
                     android:paddingStart="13dp"
                     android:paddingEnd="13dp"
-                    android:layout_marginBottom="8dp"
                     android:text="@string/pay_tips_3"
                     android:textColor="@color/colorF42C2C"
                     android:textSize="12sp" />
@@ -405,247 +390,241 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp">
 
-            <View
-                android:layout_width="6dp"
-                android:layout_height="16dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/bg_aa0af2_79a0ff" />
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="16dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_aa0af2_79a0ff" />
 
-            <TextView
-                android:id="@+id/tvPayWay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
-                android:text="@string/choice_pay_money"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tvPayWay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/choice_pay_money"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-        </RelativeLayout>
+                </RelativeLayout>
 
-        <GridView
-            android:id="@+id/gv_charge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:numColumns="3"
-            android:horizontalSpacing="8dp"
-            android:verticalSpacing="8dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"/>
+                <com.live.fox.view.MeasureMaxHeightGridView
+                    android:id="@+id/gv_charge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="15dp"
+                    android:horizontalSpacing="8dp"
+                    android:numColumns="3"
+                    android:verticalSpacing="8dp" />
 
+                <TextView
+                    android:id="@+id/tv_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:textColorLink="#0F86FF"
+                    android:textSize="11sp" />
 
+                <LinearLayout
+                    android:id="@+id/confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="25dp"
+                    android:background="@drawable/bg_a800ff_d689ff"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="25dp"
-        android:textSize="11sp"
-        android:textColorLink="#0F86FF"
-        />
-
-    <LinearLayout
-        android:id="@+id/confirm"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/bg_a800ff_d689ff"
-        android:orientation="horizontal"
-        android:gravity="center"
-        >
-
-        <TextView
-            android:id="@+id/tvOk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lijichongzhi"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:textSize="16sp"/>
+                    <TextView
+                        android:id="@+id/tvOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/lijichongzhi"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
 
-    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
-            android:id="@+id/rv_channel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:overScrollMode="never" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/llRecharge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <View
-                android:layout_width="4dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:background="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="@id/recharge_input_title"
-                app:layout_constraintStart_toStartOf="@id/recharge_input_title"
-                app:layout_constraintTop_toTopOf="@id/recharge_input_title" />
-
-            <TextView
-                android:id="@+id/recharge_input_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
-                android:text="@string/chargeMoney"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/recharge_input_symbol"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginStart="4dp"
-                android:gravity="center_vertical"
-                android:text="@string/currency_symbol"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/recharge_input_edit"
-                app:layout_constraintStart_toStartOf="@id/recharge_input_edit" />
-
-            <com.live.fox.view.EditTextMoney
-                android:id="@+id/recharge_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_edit_text_line"
-                android:gravity="center_vertical"
-                android:inputType="number"
-                android:paddingStart="20dp"
-                android:paddingEnd="0dp"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/recharge_input_title"
-                tools:ignore="Autofill,LabelFor" />
-
-            <TextView
-                android:id="@+id/recharge_exchange_ratio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/yellow"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recharge_input_edit"
-                tools:text="@string/chongfuPay" />
-
-            <TextView
-                android:id="@+id/tvaRecharge"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/shape_theme_corners_20"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:text="@string/lijichongzhi"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recharge_input_edit" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/reSupportBank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@color/white">
-
-            <View
-                android:layout_width="4dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:background="@color/colorAccent" />
-
-            <TextView
-                android:id="@+id/recharge_protocol"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_channel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
-                android:text="@string/choose_bank"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:overScrollMode="never"
+                android:visibility="gone" />
 
-        </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llRecharge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
-            android:id="@+id/rv_supportBank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:overScrollMode="never" />
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@id/recharge_input_title"
+                    app:layout_constraintStart_toStartOf="@id/recharge_input_title"
+                    app:layout_constraintTop_toTopOf="@id/recharge_input_title" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
-            android:id="@+id/rv_money"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="16dp"
-            android:overScrollMode="never" />
+                <TextView
+                    android:id="@+id/recharge_input_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/chargeMoney"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <ViewStub
-            android:id="@+id/recharge_view_stub_bank_ustd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout="@layout/view_transfer_bank" />
+                <TextView
+                    android:id="@+id/recharge_input_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/currency_symbol"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBaseline_toBaselineOf="@id/recharge_input_edit"
+                    app:layout_constraintStart_toStartOf="@id/recharge_input_edit" />
 
-        <ViewStub
-            android:id="@+id/ggk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout="@layout/view_ggk" />
+                <com.live.fox.view.EditTextMoney
+                    android:id="@+id/recharge_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/selector_edit_text_line"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="0dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/recharge_input_title"
+                    tools:ignore="Autofill,LabelFor" />
+
+                <TextView
+                    android:id="@+id/recharge_exchange_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/yellow"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recharge_input_edit"
+                    tools:text="@string/chongfuPay" />
+
+                <TextView
+                    android:id="@+id/tvaRecharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/shape_theme_corners_20"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/lijichongzhi"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recharge_input_edit" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/reSupportBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/recharge_protocol"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/choose_bank"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_supportBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:overScrollMode="never"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="16dp"
+                android:overScrollMode="never"
+                android:visibility="gone" />
+
+            <ViewStub
+                android:id="@+id/recharge_view_stub_bank_ustd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout="@layout/view_transfer_bank" />
+
+            <ViewStub
+                android:id="@+id/ggk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout="@layout/view_ggk" />
 
         </LinearLayout>
 

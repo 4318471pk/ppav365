@@ -19,8 +19,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogBuyBeprotectorBinding;
+import com.live.fox.dialog.temple.TempleDialog2;
 import com.live.fox.entity.AvailableGuardBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,19 +272,59 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
 
     private void openGuard(AvailableGuardBean bean)
     {
-        Api_Order.ins().buyGuard(uid,liveId, bean, new JsonCallback<String>() {
+        User user=DataCenter.getInstance().getUserInfo().getUser();
+        if(user.getDiamond("0").compareTo(new BigDecimal(bean.getOpenPrice()))>=0)
+        {
+            Api_Order.ins().buyGuard(uid,liveId, bean, new JsonCallback<String>() {
+                @Override
+                public void onSuccess(int code, String msg, String data) {
+                    if(isConditionOk() && code==0)
+                    {
+                        ToastUtils.showShort(R.string.operateSuccess);
+                        dismissAllowingStateLoss();
+                    }
+                    else
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            });
+        }
+        else
+        {
+            showInsufficientDiamondDialog();
+        }
+
+    }
+
+    private void showInsufficientDiamondDialog()
+    {
+        TempleDialog2 templeDialog= TempleDialog2.getInstance();
+        templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
             @Override
-            public void onSuccess(int code, String msg, String data) {
-                if(isConditionOk() && code==0)
-                {
-                    ToastUtils.showShort(R.string.operateSuccess);
-                    dismissAllowingStateLoss();
-                }
-                else
-                {
-                    ToastUtils.showShort(msg);
-                }
+            public void onCreate(TempleDialog2 dialog) {
+                dialog.mBind.tvTitle.setText(getStringWithoutContext(R.string.dialogTitle2));
+                dialog.mBind.gtCommit.setText(getStringWithoutContext(R.string.confirm));
+                dialog.mBind.gtCancel.setText(getStringWithoutContext(R.string.cancel));
+                dialog.mBind.tvContent.setText(getStringWithoutContext(R.string.InsufficientDiamond));
+            }
+
+            @Override
+            public void clickCancel(TempleDialog2 dialog) {
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void clickOk(TempleDialog2 dialog) {
+                RechargeActivity.startActivity(requireActivity(), false);
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void clickClose(TempleDialog2 dialog) {
+                dialog.dismissAllowingStateLoss();
             }
         });
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);
     }
 }

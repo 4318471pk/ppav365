@@ -36,6 +36,7 @@ import com.live.fox.databinding.ActivityLivingBinding;
 import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PersonalContactCardDialog;
 import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
+import com.live.fox.entity.Audience;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingGiftBean;
@@ -62,6 +63,9 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LivingActivity extends BaseBindingViewActivity implements AppIMManager.OnMessageReceivedListener{
@@ -515,7 +519,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
 
     private void getVipGiftList()
     {
-        Api_Live.ins().getGiftList(2, new JsonCallback<List<LivingGiftBean>>() {
+        Api_Live.ins().getGiftList(1, new JsonCallback<List<LivingGiftBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<LivingGiftBean> data) {
                 if(code==0)

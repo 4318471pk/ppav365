@@ -664,7 +664,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
     private void getVipGiftList()
     {
-        Api_Live.ins().getGiftList(2, new JsonCallback<List<LivingGiftBean>>() {
+        Api_Live.ins().getGiftList(1, new JsonCallback<List<LivingGiftBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<LivingGiftBean> data) {
                 if(code==0)

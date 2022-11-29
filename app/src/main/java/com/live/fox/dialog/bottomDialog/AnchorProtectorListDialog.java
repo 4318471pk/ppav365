@@ -262,7 +262,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             mBind.tvNickName.setText(liveGuardBean.getNickname());
             mBind.anchorProtect.setDecorationIndex(liveGuardBean.getVipLevel());
             GlideUtils.loadCircleImage(getActivity(),liveGuardBean.getAvatar(),
-                    R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.anchorProtect.getIvProfile());
+                    0,0,mBind.anchorProtect.getIvProfile());
 
         }else
         {

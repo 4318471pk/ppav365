@@ -3,6 +3,7 @@ package com.live.fox.ui.mine.noble;
 import static com.live.fox.R.layout.activity_noble;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -54,10 +55,10 @@ public class NobleActivity extends BaseActivity {
     int myLevel = -1;
     long outTime = 0;
 
-    public static void startActivity(Activity activity) {
+    public static void startActivity(Context context) {
         Constant.isAppInsideClick = true;
-        Intent intent = new Intent(activity, NobleActivity.class);
-        activity.startActivity(intent);
+        Intent intent = new Intent(context, NobleActivity.class);
+        context.startActivity(intent);
     }
 
     @Override

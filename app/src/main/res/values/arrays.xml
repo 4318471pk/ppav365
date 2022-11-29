@@ -89,6 +89,12 @@
         <item>年守护</item>
     </string-array>
 
+    <string-array name="newBornProtectorTips">
+        <item>， 感谢您的喜爱和支持~</item>
+        <item>， 以后咱就是一家人了~</item>
+        <item>， 因为有您的陪伴我才成为了更好的自己~</item>
+    </string-array>
+
     <string-array name="buyProtectorAccessTitles">
         <item>身份标识</item>
         <item>进场特效</item>
