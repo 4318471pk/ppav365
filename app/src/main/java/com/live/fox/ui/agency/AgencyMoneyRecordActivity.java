@@ -102,7 +102,7 @@ public class AgencyMoneyRecordActivity extends BaseBindingViewActivity {
         timePickerDialog.setOnSelectedListener(
             new TimePickerDialog.OnSelectedListener() {
               @Override
-              public void onSelected(int year, int month, int date, long time) {
+              public void onSelected(int year, int month, int date, long time,TimePickerDialog dialog) {
                     String s = year + "/" + month + "/" + date;
                     if (isTitle) {
                         if (isStartTime) {

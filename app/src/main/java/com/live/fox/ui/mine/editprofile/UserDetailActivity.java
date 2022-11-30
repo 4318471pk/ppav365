@@ -16,6 +16,7 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
@@ -34,7 +35,6 @@ import com.live.fox.entity.NobleListBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.manager.DataCenter;
-import com.live.fox.manager.DataCenter2;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
@@ -179,7 +179,6 @@ public class UserDetailActivity extends BaseActivity  {
         Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
         if (uid!=null && localUID!=null && uid.longValue() == localUID.longValue()) {
             mBind.btnFollow.setVisibility(View.GONE);
-            mBind.btnLetter.setVisibility(View.GONE);
         }
 
         listJob.add(getString(R.string.job_1));listJob.add(getString(R.string.job_2));listJob.add(getString(R.string.job_3));
@@ -194,17 +193,36 @@ public class UserDetailActivity extends BaseActivity  {
         listGq.add(getString(R.string.loving_4));
         listGq.add(getString(R.string.privacyStr));
 
-
         doGetUserInfoByUidApi(uid);
         getAssetsData();
     }
 
-    public void refreshPage() {
-        mUser = DataCenter2.getInstance().getUserInfo().getUser();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Long myUid=DataCenter.getInstance().getUserInfo().getUser().getUid();
+        if(myUid!=null && myUid==uid)
+        {
+            refreshPage(DataCenter.getInstance().getUserInfo().getUser());
+        }
+    }
+
+    public void refreshPage(User currentUser) {
+        mUser = currentUser;
        // mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(mUser, context));
         mBind.tvCirclenum.setText(mUser.getFans() + "");
         mBind.tvFollownum.setText(String.valueOf(mUser.getFollows()));
       //  mBind.tvFansnum.setText("");
+
+        Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
+        if (uid!=null && localUID!=null && uid.longValue() == localUID.longValue()) {
+            mBind.btnFollow.setVisibility(View.GONE);
+        }
+        else
+        {
+            mBind.btnFollow.setVisibility(View.VISIBLE);
+            mBind.btnFollow.setSelected(mUser.isFollow());
+        }
 
         SpanUtils spanUtils=new SpanUtils();
         if(ChatSpanUtils.appendSexIcon(spanUtils,mUser.getSex(), context, SpanUtils.ALIGN_CENTER))
@@ -226,7 +244,7 @@ public class UserDetailActivity extends BaseActivity  {
         sb.append(getString(R.string.identity_id_3));
         sb.append(uid);
         SpannableString spannableString=new SpannableString(sb.toString());
-        spannableString.setSpan(new ForegroundColorSpan(0xffb8b2c8),spannableString.length()-uid.length(), spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(0xff404040),spannableString.length()-uid.length(), spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mBind.tvIdnum.setText(spannableString);
         if (mUser.getSex() == 0 ){
             mBind.tvGender.setText(getString(R.string.privacyStr));
@@ -267,10 +285,9 @@ public class UserDetailActivity extends BaseActivity  {
         if (DataCenter.getInstance().getUserInfo().getUser().getUid().longValue()
                 == mUser.getUid().longValue()) {
             mBind.btnFollow.setVisibility(View.GONE);
-            mBind.btnLetter.setVisibility(View.GONE);
         } else {
             mBind.btnFollow.setVisibility(View.VISIBLE);
-            mBind.btnLetter.setVisibility(View.VISIBLE);
+            mBind.btnFollow.setSelected(mUser.isFollow());
         }
 
         updateFollow();
@@ -292,17 +309,14 @@ public class UserDetailActivity extends BaseActivity  {
 //        });
     }
 
+
+
     public void updateFollow() {
+        mBind.btnFollow.setSelected(mUser.isFollow());
         if (mUser.isFollow()) {
-            mBind.btnFollow.setBackgroundResource(R.drawable.shape_white_round_20);
-            mBind.btnFollow.setTextColor(Color.parseColor("#868686"));
-            mBind.btnFollow.setText(getString(R.string.focused));
-            isFollow = true;
+            mBind.btnFollow.setText(getString(R.string.cancle_gz));
         } else {
-            mBind.btnFollow.setBackgroundResource(R.drawable.btn1_userdetail);
-            mBind.btnFollow.setTextColor(Color.WHITE);
-            mBind.btnFollow.setText(getString(R.string.focus));
-            isFollow = false;
+            mBind.btnFollow.setText(getString(R.string.follow2));
         }
     }
 
@@ -314,7 +328,7 @@ public class UserDetailActivity extends BaseActivity  {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if (code == 0) {
-                    refreshPage();
+                    refreshPage(new Gson().fromJson(data,User.class));
                 } else {
                     ToastUtils.showShort(msg);
                     finish();
@@ -339,8 +353,6 @@ public class UserDetailActivity extends BaseActivity  {
         }, commonParams);
     }
 
-
-
     public void onViewClick(View view) {
         if (ClickUtil.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -348,100 +360,8 @@ public class UserDetailActivity extends BaseActivity  {
                 ContributionRankActivity.startActivity(this);
                 break;
             case R.id.editProfileImage:
-                EditUserInfoActivity.startActivity(this, mUser.getPhone());
+                EditUserInfoActivity.startActivity(this);
 //                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
-                break;
-            case R.id.tvGender:
-               // SimpleSelectorDialog ;
-              SimpleSelectorDialog dialog =  SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(int index) {
-                        User user=new User();
-
-                        if (index == 0) {
-                            user.setSex(1);
-                            modifyUser(user, 3);
-                        } else {
-                            user.setSex(2);
-                            modifyUser(user, 3);
-                        }
-
-                    }
-                });
-                simpleSelectorDialog = dialog;
-                List<String> list = new ArrayList();
-                list.add(getString(R.string.boy));
-                list.add(getString(R.string.girl));
-                dialog.setData(list);
-                dialog.setTitle(getString(R.string.selectGender));
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialog);
-                break;
-            case R.id.tvOccupation:
-                SimpleSelectorDialog dialogOccupation=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(int index) {
-                        User user=new User();
-                        user.setJob(index);
-                        modifyUser(user, 7);
-                    }
-                });
-
-                dialogOccupation.setData(listJob);
-                dialogOccupation.setTitle(getString(R.string.occupation));
-                simpleSelectorDialog = dialogOccupation;
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogOccupation);
-                break;
-            case R.id.tvArea:
-                AreaListSelectorDialog areaListSelectorDialog =new AreaListSelectorDialog();
-                areaListSelectorDialog.setOnCityConfirm(new AreaListSelectorDialog.OnCityConfirm() {
-                    @Override
-                    public void onSelect(String province, String city) {
-                        User user = new User();
-                        user.setCity(city);
-                        user.setProvince(province);
-                        modifyUser(user, 8);
-                    }
-                });
-                simpleSelectorDialog = areaListSelectorDialog;
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), areaListSelectorDialog);
-                break;
-            case R.id.tvAge:
-                TimePickerDialog timePickerDialog = new TimePickerDialog();
-                timePickerDialog.setOnSelectedListener(new TimePickerDialog.OnSelectedListener() {
-                    @Override
-                    public void onSelected(int year, int month, int date, long time) {
-                        String s = year + "-" + month + "-" + date;
-                        User user=new User();
-                        user.setBirthday(s);
-                        simpleSelectorDialog = timePickerDialog;
-                        modifyUser(user, 6);
-
-                    }
-                });
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),timePickerDialog);
-                break;
-            case R.id.tvRelationshipStatus:
-                SimpleSelectorDialog dialogRelationshipStatus=SimpleSelectorDialog.getInstance(new SimpleSelectorDialog.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(int index) {
-                        User user=new User();
-                        index ++;
-                        user.setEmotionalState(index);
-                        modifyUser(user, 5);
-                    }
-                });
-                simpleSelectorDialog = dialogRelationshipStatus;
-
-
-                dialogRelationshipStatus.setData(listGq);
-                dialogRelationshipStatus.setTitle(getString(R.string.relationshipStatus2));
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), dialogRelationshipStatus);
-                break;
-            case R.id.tvName:
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditNickNameConfirmDialog.getInstance());
-                break;
-            case R.id.tvSignature:
-                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditPersonalIntroDialog.getInstance());
                 break;
             case R.id.iv_back:
                 finish();
@@ -457,12 +377,8 @@ public class UserDetailActivity extends BaseActivity  {
                             mBind.tvFansnum.setText(mUser.getFans() + "");
                             updateFollow();
                         }
-
                     }
                 });
-                break;
-            case R.id.btn_letter:
-                ChatActivity.startActivity(UserDetailActivity.this, mUser);
                 break;
             case R.id.tvCopyId:
                 ClipboardUtils.copyText(String.valueOf(mUser.getUid()));
@@ -475,7 +391,6 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
 
-    BaseBindingDialogFragment simpleSelectorDialog;
 
     private void modifyUser(User userTemp, int type){
         showLoadingDialog();
@@ -483,9 +398,6 @@ public class UserDetailActivity extends BaseActivity  {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
-                if (simpleSelectorDialog != null) {
-                    simpleSelectorDialog.dismissAllowingStateLoss();
-                }
 
                 if(code==0) {
                     showToastTip(true, getString(R.string.modifySuccess));

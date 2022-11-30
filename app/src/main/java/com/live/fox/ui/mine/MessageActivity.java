@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.adapter.devider.RecyclerSpace;
@@ -46,9 +47,6 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +92,6 @@ public class MessageActivity extends BaseHeadActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_activity);
-        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -322,7 +319,7 @@ public class MessageActivity extends BaseHeadActivity {
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe()
     public void onEvent(MessageEvent msg) {
         if (msg.getType() == 90) { //私信
             refreshPage();
@@ -337,9 +334,6 @@ public class MessageActivity extends BaseHeadActivity {
 
     @Override
     public void onDestroy() {
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
         super.onDestroy();
     }
 }

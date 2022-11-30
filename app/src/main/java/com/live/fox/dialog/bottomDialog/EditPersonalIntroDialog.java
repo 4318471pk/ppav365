@@ -112,7 +112,7 @@ public class EditPersonalIntroDialog extends BaseBindingDialogFragment {
                     if(getActivity()!=null && (getActivity() instanceof UserDetailActivity))
                     {
                         UserDetailActivity userDetailActivity=(UserDetailActivity)getActivity();
-                        userDetailActivity.refreshPage();
+                        userDetailActivity.refreshPage(user);
                     }
                     dismissAllowingStateLoss();
                     if(onPersonalDataChangeListener!=null)

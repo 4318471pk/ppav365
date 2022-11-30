@@ -31,6 +31,7 @@ import com.live.fox.server.Api_Live;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.live.fox.view.convenientbanner.holder.Holder;
@@ -207,6 +208,10 @@ public class HotAnchorFragment extends BaseBindingFragment {
                     if (!mBind.hotConvenientBanner.isTurning()) {
                         mBind.hotConvenientBanner.startTurning(5000);
                     }
+                    //点击Banner
+                    mBind.hotConvenientBanner.setOnItemClickListener(position -> {
+                        JumpLinkUtils.jumpHomeBannerLinks(getContext(),data.get(position));
+                    });
                 }
             }
         });

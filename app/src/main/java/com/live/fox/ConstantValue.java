@@ -41,4 +41,5 @@ public interface ConstantValue {
     String resourceDomain="resourceDomain";//资源域名
     String searchHistory="searchHistory";//搜索历史
     String watchedHistory="watchedHistory";//观看历史
+    String JumpType="JumpType";
 }

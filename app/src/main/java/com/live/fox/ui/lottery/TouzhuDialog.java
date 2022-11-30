@@ -151,7 +151,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
             TimePickerDialog timePickerDialog = TimePickerDialog.getInstance(getResources().getString(R.string.choice_ymd));
             timePickerDialog.setOnSelectedListener(new TimePickerDialog.OnSelectedListener() {
                 @Override
-                public void onSelected(int year, int month, int date, long time) {
+                public void onSelected(int year, int month, int date, long time,TimePickerDialog dialog) {
                     String s = month + getResources().getString(R.string.yueban) + date + getResources().getString(R.string.effectiveDay);
                     mBind.tvTimeSelect.setText(s);
                 }

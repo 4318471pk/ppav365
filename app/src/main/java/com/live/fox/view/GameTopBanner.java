@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
 import com.live.fox.R;
 import com.live.fox.entity.Advert;
-import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.StringUtils;
@@ -75,7 +74,7 @@ public class GameTopBanner extends ConvenientBanner {
                         }
                     } else {
 //                    H5Activity.start(context, "", bannerList.get(position).getJumpUrl());
-                        FragmentContentActivity.startWebActivity(context, "", bannerList.get(position).getJumpUrl());
+//                        FragmentContentActivity.startWebActivity(context, "", bannerList.get(position).getJumpUrl());
                     }
                 }
 

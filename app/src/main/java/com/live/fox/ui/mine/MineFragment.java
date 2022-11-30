@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
@@ -62,9 +63,6 @@ import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -107,7 +105,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
 
     @Override
     public void initView(View view) {
-        EventBus.getDefault().register(this);
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
@@ -251,9 +248,6 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
 
     @Override
     public void onDestroy() {
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
         AppIMManager.ins().removeMessageReceivedListener(MineFragment.class);
         super.onDestroy();
     }
@@ -304,7 +298,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe()
     public void onEvent(MessageEvent msg) {
         if (msg.getType() == 90) { //私信
             mBind.ivRightdes.setVisibility(View.VISIBLE);

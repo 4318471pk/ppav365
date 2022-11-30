@@ -1,38 +1,33 @@
 package com.live.fox;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
-import com.live.fox.dialog.DialogFactory;
 import com.live.fox.dialog.MMToast;
 import com.live.fox.dialog.NotificationDialog;
 import com.live.fox.dialog.UpdateFragmentBinding;
 import com.live.fox.dialog.WebViewDialog;
 import com.live.fox.entity.AppUpdate;
 import com.live.fox.entity.CountryCode;
-import com.live.fox.entity.User;
 import com.live.fox.entity.WebViewDialogEntity;
 import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.manager.DataCenter;
@@ -43,28 +38,21 @@ import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_LiveRecreation;
 import com.live.fox.server.Api_User;
-import com.live.fox.ui.AuthActivity;
 import com.live.fox.ui.chat.ChatListFragment;
 import com.live.fox.ui.game.GameFragment;
 import com.live.fox.ui.home.ActivityFragment;
 import com.live.fox.ui.home.AgencyCenterFragment;
 import com.live.fox.ui.home.HomeFragment;
-import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.ui.mine.MineFragment;
-import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.AppUtils;
 import com.live.fox.utils.CleanUtils;
-import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.FileUtils;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
-import com.live.fox.utils.ToastViewUtils;
 import com.live.fox.view.RadioButtonWithAnim;
-import com.live.fox.windowmanager.WindowUtils;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.v2.V2TIMCallback;
 
 import org.json.JSONArray;
@@ -74,9 +62,21 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+public class MainActivity extends BaseActivity  {
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+    public enum JumpType {
+        Home(0),
+        Game(1),
+        Agent(2),
+        Promo(3),
+        Mine(4);
+
+        final int type;
+
+        JumpType(int type) {
+            this.type = type;
+        }
+    }
 
     private HomeFragment homeFragment;
     private ChatListFragment playFragment;
@@ -90,6 +90,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String CLOSE_NOTICE_KEY = "close_notice_key";
     private static final String LAUNCH_PAGE_KEY = "page";
     private RadioGroup radioGroup;
+    private RadioButtonWithAnim rbHome;
+    private RadioButtonWithAnim rbGame;
+    private RadioButtonWithAnim rbAgent;
+    private RadioButtonWithAnim rbAct;
+    private RadioButtonWithAnim rbMine;
 
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -110,6 +115,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+    /**
+     * 跳转到其他页面
+     */
+    @Subscribe(tags = {@Tag(ConstantValue.JumpType)})
+    public void skipRegister(MainActivity.JumpType jumpType) {
+        switch (jumpType.type)
+        {
+            case 0:
+                rbHome.performClick();
+                break;
+            case 1:
+                rbGame.performClick();
+                break;
+            case 2:
+                rbAgent.performClick();
+                break;
+            case 3:
+                rbAct.performClick();
+                break;
+            case 4:
+                rbMine.performClick();
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +149,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
         setContentView(R.layout.main_activity);
+
+        rbHome=findViewById(R.id.rbHome);
+        rbGame=findViewById(R.id.rbGame);
+        rbAgent=findViewById(R.id.rbAgent);
+        rbAct=findViewById(R.id.rbAct);
+        rbHome=findViewById(R.id.rbHome);
 
         setWindowsFlag();
         initView();
@@ -257,8 +293,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 try {
-                    Type type = new TypeToken<List<CountryCode>>() {
-                    }.getType();
+                    Type type = new TypeToken<List<CountryCode>>() {}.getType();
                     List countryCodes = new Gson().fromJson(data, type);
                     if (countryCodes != null && countryCodes.size() > 0) {
                         SPManager.setCountryCode(data);
@@ -285,24 +320,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void initView() {
-        //findViewById(R.id.layout_openlive).setOnClickListener(this);
 
         if (!isShowNotification) {
             doCheckUpdate();
             doCheckAppNotice();
         }
-        //檢查並做一些未完成的工作
-        doCheckUnfinishedWork();
     }
 
     private void initTable() {
         radioGroup = findViewById(R.id.main_tab_radio_group);
         radioGroup.setOnCheckedChangeListener((radioGroup1, i) -> {
             switch (i) {
-                case R.id.main_rb_home:  //首页
+                case R.id.rbHome:  //首页
                     showHomeFragment();
                     break;
-                case R.id.main_rb_live_list: //直播列表
+                case R.id.rbGame: //游戏
                     if (!DataCenter.getInstance().getUserInfo().isLogin()) {
                         radioGroup.clearCheck();
                         LoginModeSelActivity.startActivity(context);
@@ -311,7 +343,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     showLiveFragment();
                     break;
 
-                case R.id.layout_openlive:
+                case R.id.rbAgent:
 //                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
 //                        radioGroup.clearCheck();
 //                        LoginModeSelActivity.startActivity(context);
@@ -319,7 +351,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                    }
                     showAgencyFragment();
                     break;
-                case R.id.main_rb_game: //游戏
+                case R.id.rbAct: //活动
 //                    if (!DataCenter.getInstance().getUserInfo().isLogin()) {
 //                        radioGroup.clearCheck();
 //                        LoginModeSelActivity.startActivity(context);
@@ -328,7 +360,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     showActFragment();
                    // showGameFragment();
                     break;
-                case R.id.main_rb_mine: //个人中心
+                case R.id.rbMine: //个人中心
                     if (!DataCenter.getInstance().getUserInfo().isLogin()) {
                         radioGroup.clearCheck();
                         LoginModeSelActivity.startActivity(context);
@@ -339,32 +371,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        radioGroup.check(R.id.main_rb_home);
+        radioGroup.check(R.id.rbHome);
 
-        // TODO: 12/14/2021 我不知为什么这里多语言偶尔不能切换
-        RadioButtonWithAnim home = findViewById(R.id.main_rb_home);
-        RadioButtonWithAnim live = findViewById(R.id.main_rb_live_list);
-        RadioButtonWithAnim game = findViewById(R.id.main_rb_game);
-        RadioButtonWithAnim mine = findViewById(R.id.main_rb_mine);
-        String lang = MultiLanguageUtils.getRequestHeader();
-        switch (lang) {
-            case "vi":
-                home.setText("Trang chủ");
-                live.setText("Trực tiếp");
-                game.setText("Trò chơi");
-                mine.setText("Của tôi");
-                break;
-            case "th":
-                home.setText("หน้าแรก");
-                live.setText("ถ่ายทอดสด");
-                game.setText("เกม");
-                mine.setText("ของฉัน");
-                break;
-            case "zh":
-                break;
-            case "en":
-                break;
-        }
     }
 
     /**
@@ -394,64 +402,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View view) {
- //       if (view.getId() == R.id.layout_openlive) { //开启直播
-//            if (ClickUtil.isFastDoubleClick(5000)) return;
-//
-//            if (DataCenter.getInstance().getUserInfo().isLogin()) {
-//                boolean careraPermission = false;
-//                boolean mircPermission = false;
-//                if (ContextCompat.checkSelfPermission(MainActivity.this,
-//                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-//                    careraPermission = true;
-//                }
-//
-//                if (ContextCompat.checkSelfPermission(MainActivity.this,
-//                        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-//                    mircPermission = true;
-//                }
-//
-//                if (!careraPermission || !mircPermission) {
-//                    RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
-//                    Disposable subscribe = rxPermissions.request(
-//                            Manifest.permission.CAMERA,
-//                            Manifest.permission.RECORD_AUDIO)
-//                            .subscribe(granted -> {
-//                                if (granted) {
-//                                    checkAuth();
-//                                } else { // 有的权限被拒绝或被勾选不再提示
-//                                    LogUtils.e("有的权限被拒绝");
-//                                    new AlertDialog.Builder(MainActivity.this)
-//                                            .setCancelable(false)
-//                                            .setMessage(getString(R.string.notePermission))
-//                                            .setPositiveButton(getString(R.string.see), (dialog, which) -> LogUtils.e("权限被拒绝"))
-//                                            .show();
-//                                }
-//                            });
-//                } else {
-//                    checkAuth();
-//                }
-//            }
-//            else
-//            {
-//                LoginModeSelActivity.startActivity(context);
-//            }
- //       }
-    }
-
-    MMToast mmToast;  //成功或失败的Toast提示
-
-    public void showToastTip(boolean isSuccess, String msg) {
-        if (mmToast != null) {
-            mmToast.cancel();
-        }
-        MMToast.Builder builder = new MMToast.Builder(this)
-                .setMessage(msg)
-                .setSuccess(isSuccess);
-        mmToast = builder.create(Toast.LENGTH_SHORT);
-        mmToast.show();
-    }
 
     /**
      * 链接链接IM
@@ -538,34 +488,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * 做一些檢查工作 異常退出時完成的工作
-     */
-    public void doCheckUnfinishedWork() {
-
-        //2.檢查是否有未成功關閉直播間的情況
-        doCheckLiveUnFinish();
-
-        //3.檢查是否有觀衆未成功退房的情況
-        doCheckQuitoRomUnFinish();
-    }
-
-
-    //檢查是否有未成功關閉直播間的情況
-    public void doCheckLiveUnFinish() {
-        if (SPUtils.getInstance("liveforanchor").contains("liveId")) {
-            closeLive(SPUtils.getInstance("liveforanchor").getString("anchorId"),
-                    SPUtils.getInstance("liveforanchor").getString("liveId"));
-        }
-    }
-
-    //檢查是否有觀衆未成功退房的情況
-    public void doCheckQuitoRomUnFinish() {
-        if (SPUtils.getInstance("enterRoom").contains("liveId")) {
-            AppIMManager.ins().loginOutGroup(SPUtils.getInstance("enterRoom").getString("liveId"));
-        }
-    }
-
-    /**
      * 關閉直播間
      *
      * @param anchorId 主播id
@@ -586,16 +508,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
     }
 
-    //取消混流
-    public void delPKVideoStream(String userId) {
-        if (StringUtils.isEmpty(userId)) return;
-        final JSONObject requestParam = cancelPKRequestParam(Long.parseLong(userId));
-        if (requestParam == null) {
-            return;
-        }
-
-        internalCancelSendRequest(1, requestParam.toString());
-    }
 
     /**
      * 将混流参数转为json字符串
@@ -624,38 +536,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private JSONObject cancelPKRequestParam(long bigAnchorId) {
-        String mMainStreamId = bigAnchorId + "";
-
-        if (mMainStreamId.length() == 0) {
-            return null;
-        }
-
-        JSONObject requestParam = null;
-
-        try {
-            JSONObject para = new JSONObject();
-            para.put("app_id", Constant.LiveAppId);
-            para.put("interface", "mix_streamv2.cancel_mix_stream");
-            para.put("mix_stream_session_id", mMainStreamId);
-            para.put("output_stream_id", mMainStreamId);
-
-            // interface
-            JSONObject interfaceObj = new JSONObject();
-            interfaceObj.put("interfaceName", "Mix_StreamV2");
-            interfaceObj.put("para", para);
-
-            // requestParam
-            requestParam = new JSONObject();
-            requestParam.put("timestamp", System.currentTimeMillis() / 1000);
-            requestParam.put("eventId", System.currentTimeMillis() / 1000);
-            requestParam.put("interface", interfaceObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return requestParam;
-    }
 
     public void showHomeFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

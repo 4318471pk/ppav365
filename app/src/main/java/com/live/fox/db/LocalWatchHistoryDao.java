@@ -1,17 +1,13 @@
 package com.live.fox.db;
 
 import com.live.fox.common.CommonApp;
-import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.RoomWatchedHistoryBean;
-import com.live.fox.entity.UserTagResourceBean;
-import com.live.fox.entity.UserVehiclePlayLimitBean;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import app.resource.db.RoomWatchedHistoryBeanDao;
-import app.resource.db.UserTagResourceBeanDao;
 
 public class LocalWatchHistoryDao implements ResourceDaoImpl<RoomWatchedHistoryBean> {
 

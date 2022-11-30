@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import androidx.annotation.RequiresPermission;
 import androidx.core.content.FileProvider;
 
+import com.live.fox.R;
+
 import java.io.File;
 
 import static android.Manifest.permission.CALL_PHONE;
@@ -41,17 +43,25 @@ public final class IntentUtils {
      * 注：可能会出异常 记得try catch
      */
     public static void toBrowser(Context context, String url) {
-        if(TextUtils.isEmpty(url))return;
+        if(TextUtils.isEmpty(url))
+        {
+            ToastUtils.showShort(context.getString(R.string.errorLink));
+            return;
+        }
 
         try
         {
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
-            if (url.startsWith("http:") || url.startsWith("https:")) {
+            if (url.toLowerCase().startsWith("http:") || url.toLowerCase().startsWith("https:")) {
                 Uri content_url = Uri.parse(url);
                 intent.setData(content_url);
+                context.startActivity(intent);
             }
-            context.startActivity(intent);
+            else
+            {
+                ToastUtils.showShort(context.getString(R.string.errorLink));
+            }
         }
         catch (Exception ex)
         {

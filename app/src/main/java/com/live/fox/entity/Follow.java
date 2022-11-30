@@ -5,6 +5,7 @@ public class Follow {
 
     private String uid;
     private String avatar;
+    private String liveId;
     private boolean isFollow;
     private boolean isFans;
     private String nickname;
@@ -13,6 +14,7 @@ public class Follow {
     private Integer userLevel;
     private Integer vipLevel;
     private String vipName;
+    private Boolean isBroadcast;
 
     public String getUid() {
         return uid;
@@ -20,6 +22,14 @@ public class Follow {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getLiveId() {
+        return liveId;
+    }
+
+    public void setLiveId(String liveId) {
+        this.liveId = liveId;
     }
 
     public String getAvatar() {
@@ -92,5 +102,22 @@ public class Follow {
 
     public void setVipName(String vipName) {
         this.vipName = vipName;
+    }
+
+    public Boolean getBroadcast() {
+        return isBroadcast==null?false:isBroadcast;
+    }
+
+    public void setBroadcast(Boolean broadcast) {
+        isBroadcast = broadcast;
+    }
+
+    public static RoomListBean convert(Follow follow)
+    {
+        RoomListBean roomListBean=new RoomListBean();
+        roomListBean.setAid(follow.getUid());
+        roomListBean.setId(follow.getLiveId());
+        roomListBean.setTitle(follow.getNickname());
+        return roomListBean;
     }
 }

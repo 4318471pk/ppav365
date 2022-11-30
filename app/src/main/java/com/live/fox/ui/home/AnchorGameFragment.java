@@ -32,6 +32,7 @@ import com.live.fox.server.Api_Live;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.live.fox.view.convenientbanner.holder.Holder;
@@ -221,6 +222,11 @@ public class AnchorGameFragment extends BaseBindingFragment {
                     if (!mBind.gameConvenientBanner.isTurning()) {
                         mBind.gameConvenientBanner.startTurning(5000);
                     }
+                    //点击Banner
+                    mBind.gameConvenientBanner.setOnItemClickListener(position -> {
+                        JumpLinkUtils.jumpHomeBannerLinks(getContext(),data.get(position));
+                    });
+
                 }
             }
         });

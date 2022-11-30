@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.dialog.LoadingBindingDialogFragment;
@@ -69,12 +70,14 @@ public abstract class BaseBindingFragment extends BaseFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        RxBus.get().register(this);
         initView(view);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RxBus.get().unregister(this);
         if(viewDataBinding!=null)
         {
             viewDataBinding.unbind();

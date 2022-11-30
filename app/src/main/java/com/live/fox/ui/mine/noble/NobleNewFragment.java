@@ -13,6 +13,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.RxBus;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.live.fox.R;
 import com.live.fox.adapter.NobleEquityAdapter;
 import com.live.fox.base.BaseBindingFragment;
@@ -29,10 +31,8 @@ import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
+import com.luck.picture.lib.rxbus2.ThreadMode;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,7 +80,6 @@ public class NobleNewFragment extends BaseBindingFragment {
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
-        EventBus.getDefault().register(this);
         commonDialog = new CommonDialog();
         level = getArguments().getInt("level");
         myLevel = getArguments().getInt("myLevel");
@@ -132,7 +131,7 @@ public class NobleNewFragment extends BaseBindingFragment {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe()
     public void onEvent(MessageEvent msg) {
         if (msg.getType() == 10002) { //私信
             String s = msg.getMessage();
@@ -180,7 +179,7 @@ public class NobleNewFragment extends BaseBindingFragment {
                     try{
                         JSONObject obj = new JSONObject(data);
                         myLevel = nobleBean.getVipLevel();
-                        EventBus.getDefault().post(new MessageEvent(10002, myLevel + ""));
+                        RxBus.get().post(new MessageEvent(10002, myLevel + ""));
                         String vipImg = obj.getString("vipImg");
                         setBuyView();
                         outTime = obj.getLong("expireTime");
@@ -364,9 +363,7 @@ public class NobleNewFragment extends BaseBindingFragment {
 
     @Override
     public void onDestroy() {
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
+        RxBus.get().unregister(this);
         super.onDestroy();
     }
 

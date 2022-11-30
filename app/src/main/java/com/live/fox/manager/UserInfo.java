@@ -114,6 +114,31 @@ public class UserInfo {
             user.setHasPayPwd(mUser.getHasPayPwd());
         }
 
+        if(mUser.getCity()!=null)
+        {
+            user.setCity(mUser.getCity());
+        }
+
+        if(mUser.getProvince()!=null)
+        {
+            user.setProvince(mUser.getProvince());
+        }
+
+        if(mUser.getJob()>-1)
+        {
+            user.setJob(mUser.getJob());
+        }
+
+        if(mUser.getBirthday()!=null)
+        {
+            user.setBirthday(mUser.getBirthday());
+        }
+
+        if(mUser.getEmotionalState()>-1)
+        {
+            user.setEmotionalState(mUser.getEmotionalState());
+        }
+
         setUser(user);
     }
 

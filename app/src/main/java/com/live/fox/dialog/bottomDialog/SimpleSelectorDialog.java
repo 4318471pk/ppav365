@@ -44,7 +44,7 @@ public class SimpleSelectorDialog extends BaseBindingDialogFragment {
             case R.id.tvConfirm:
                 if(onItemSelectedListener!=null)
                 {
-                    onItemSelectedListener.onItemSelected(mBind.wheel.getCurrentItem());
+                    onItemSelectedListener.onItemSelected(mBind.wheel.getCurrentItem(),this);
                 }
                 break;
         }
@@ -130,6 +130,6 @@ public class SimpleSelectorDialog extends BaseBindingDialogFragment {
 
     public interface OnItemSelectedListener
     {
-        void onItemSelected(int index);
+        void onItemSelected(int index,SimpleSelectorDialog dialog);
     }
 }

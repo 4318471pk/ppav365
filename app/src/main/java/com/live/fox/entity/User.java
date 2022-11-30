@@ -24,7 +24,7 @@ public class User implements Serializable {
     private String signature;  //个性签名
     private Long uid;  //用户唯一标识
     private Long userCoin;  //用户币
-    private int userLevel;  //用户等级
+    private Integer userLevel;  //用户等级
     private Integer vipLevel;//用户Vip等级
     private String city;  //地理位置
     private Long fans;  //粉丝数
@@ -67,7 +67,7 @@ public class User implements Serializable {
     Integer hasPayPwd;//是否有支付密码 1就是有
 
     private BigDecimal diamond;
-    private int emotionalState = 5;//感情状态（1恋爱 2单身 3未婚 4已婚 5保密）
+    private int emotionalState = -1;//感情状态（1恋爱 2单身 3未婚 4已婚 5保密）
     private int gameQuota; //游戏娱乐后提现额度
     private BigDecimal gold; //金币
     private int incomeDiamond; //收入钻石
@@ -454,7 +454,7 @@ public class User implements Serializable {
     }
 
     public Integer getUserLevel() {
-        return userLevel;
+        return userLevel==null?0:userLevel;
     }
 
     public void setUserLevel(Integer userLevel) {

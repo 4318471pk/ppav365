@@ -58,6 +58,7 @@ import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.live.fox.AppConfig;
 import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
@@ -116,7 +117,6 @@ import com.live.fox.ui.live.PiaopingFragment;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
-import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.IntentUtils;
@@ -150,9 +150,6 @@ import com.opensource.svgaplayer.SVGAParser;
 import com.opensource.svgaplayer.SVGAVideoEntity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -684,7 +681,6 @@ public class CommonLiveControlFragment extends BaseFragment implements
     }
 
     public void initData(Bundle bundle) {
-        EventBus.getDefault().register(this);
         if (bundle != null) {
             anchor = (Anchor) bundle.getSerializable("anchor");
             if (1 == anchor.getLiveStatus() || 3 == anchor.getLiveStatus()) {
@@ -1381,13 +1377,13 @@ public class CommonLiveControlFragment extends BaseFragment implements
                 imageAdLayout.setVisibility(View.VISIBLE);
                 GlideUtils.loadDefaultRoundedImage(requireActivity(), roomAd.getContent(), rootView.findViewById(R.id.iv_ad));
                 rootView.findViewById(R.id.iv_ad).setOnClickListener(view -> {
-                    if (!StringUtils.isEmpty(roomAd.getJumpUrl())) {
-                        if (roomAd.getOpenWay() == 0) { //打开方式 0站内，1站外
-                            FragmentContentActivity.startWebActivity(requireActivity(), "", roomAd.getJumpUrl());
-                        } else {
-                            IntentUtils.toBrowser(requireActivity(), roomAd.getJumpUrl());
-                        }
-                    }
+//                    if (!StringUtils.isEmpty(roomAd.getJumpUrl())) {
+//                        if (roomAd.getOpenWay() == 0) { //打开方式 0站内，1站外
+//                            FragmentContentActivity.startWebActivity(requireActivity(), "", roomAd.getJumpUrl());
+//                        } else {
+//                            IntentUtils.toBrowser(requireActivity(), roomAd.getJumpUrl());
+//                        }
+//                    }
                 });
                 rootView.findViewById(R.id.rl_imagead_close).setOnClickListener(view -> imageAdLayout.setVisibility(View.GONE));
             }
@@ -2106,7 +2102,7 @@ public class CommonLiveControlFragment extends BaseFragment implements
      *
      * @param msg 消息体积
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe()
     public void onEvent(MessageEvent msg) {
         switch (msg.getType()) {
             case 3: //私信
@@ -2617,8 +2613,5 @@ public class CommonLiveControlFragment extends BaseFragment implements
         mWebView.removeCallbacks(mRedBagWebRunnable);
         tv_cptop.removeCallbacks(mRunnable);
         tv_cptop2.removeCallbacks(mRunnable2);
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 }

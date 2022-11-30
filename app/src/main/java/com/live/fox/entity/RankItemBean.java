@@ -22,6 +22,7 @@ public class RankItemBean {
     private Integer vipLevel;
     private String vipName;
     private boolean isFollow;
+    private Boolean isBroadcast;
 
     public String getAnchorId() {
         return anchorId;
@@ -127,6 +128,14 @@ public class RankItemBean {
         this.liveStartLottery = liveStartLottery;
     }
 
+    public Boolean getBroadcast() {
+        return isBroadcast==null?false:isBroadcast;
+    }
+
+    public void setBroadcast(Boolean broadcast) {
+        isBroadcast = broadcast;
+    }
+
     public Integer getVipLevel() {
         return vipLevel==null?0:vipLevel;
     }
@@ -181,5 +190,14 @@ public class RankItemBean {
 
     public void setFollow(boolean follow) {
         isFollow = follow;
+    }
+
+    public static RoomListBean convert(RankItemBean rankItemBean)
+    {
+        RoomListBean roomListBean=new RoomListBean();
+        roomListBean.setId(rankItemBean.getLiveId());
+        roomListBean.setAid(rankItemBean.getAnchorId());
+        roomListBean.setTitle(rankItemBean.getNickname());
+        return roomListBean;
     }
 }

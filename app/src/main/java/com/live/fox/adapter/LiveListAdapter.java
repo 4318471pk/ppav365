@@ -18,7 +18,6 @@ import com.live.fox.R;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.svga.AnchorInfoBean;
-import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.ImageUtils;
@@ -69,16 +68,6 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
         if (index < 0 || index > bannerAdList.size() - 1) return;
 
         GlideUtils.loadDefaultRoundedImage(mContext, bannerAdList.get(index).getContent(), helper.getView(R.id.iv_));
-        helper.getView(R.id.iv_).setOnClickListener(view -> {
-            Anchor banner = bannerAdList.get(index);
-            if (banner != null && !StringUtils.isEmpty(banner.getJumpUrl())) {
-                if (banner.getOpenWay() == 1) {
-                    IntentUtils.toBrowser(mContext, banner.getJumpUrl());
-                } else {
-                    FragmentContentActivity.startWebActivity(mContext, "", banner.getJumpUrl());
-                }
-            }
-        });
     }
 
     @Override

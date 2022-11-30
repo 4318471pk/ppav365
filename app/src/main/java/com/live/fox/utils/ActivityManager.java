@@ -29,6 +29,31 @@ public class ActivityManager {
         baseActivities.clear();
     }
 
+    public boolean finishToActivity(Class cls)
+    {
+        boolean isContains=false;
+        LinkedList<BaseActivity> temp=new LinkedList<>();
+        for (int i = baseActivities.size()-1; i > -1; i--) {
+            if(baseActivities.get(i).getClass().getName().equals(cls.getName()))
+            {
+                isContains=true;
+                break;
+            }
+            else
+            {
+                temp.add(baseActivities.get(i));
+            }
+        }
+
+        if(isContains)
+        {
+            for (int i = 0; i < temp.size(); i++) {
+                temp.get(i).finish();
+            }
+        }
+        return isContains;
+    }
+
     public void onStart(BaseActivity baseActivity)
     {
         baseActivities.add(baseActivity);

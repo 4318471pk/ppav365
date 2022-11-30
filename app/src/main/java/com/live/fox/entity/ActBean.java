@@ -11,9 +11,8 @@ public class ActBean {
     String iconUrl;
     String imgUrl;
 
-    int jump;
-    int jumpCodeType; //1.内链:模块:充值模块?type=1、直播间type=2、游戏type=3      |2.外链:5.网页
-    int jumpType;	//跳转类型:1内链 2外链
+    Integer jumpCodeType; //1.内链:模块:充值模块?type=1、直播间type=2、游戏type=3      |2.外链:5.网页
+    Integer jumpType;	//跳转类型:1内链 2外链
 
     long beginTime;
     long endTime;
@@ -74,16 +73,8 @@ public class ActBean {
         this.imgUrl = imgUrl;
     }
 
-    public int getJump() {
-        return jump;
-    }
-
-    public void setJump(int jump) {
-        this.jump = jump;
-    }
-
     public int getJumpCodeType() {
-        return jumpCodeType;
+        return jumpCodeType==null?0:jumpCodeType;
     }
 
     public void setJumpCodeType(int jumpCodeType) {
@@ -91,7 +82,7 @@ public class ActBean {
     }
 
     public int getJumpType() {
-        return jumpType;
+        return jumpType==null?0:jumpType;
     }
 
     public void setJumpType(int jumpType) {

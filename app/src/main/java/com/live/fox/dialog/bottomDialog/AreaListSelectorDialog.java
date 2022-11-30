@@ -49,7 +49,7 @@ public class AreaListSelectorDialog extends BaseBindingDialogFragment {
             case R.id.tvConfirm:
                 String p = province.get(mBind.wheel1.getCurrentItem());
                 String c = city.get(p).get(mBind.wheel2.getCurrentItem());
-                onCityConfirm.onSelect(p,c);
+                onCityConfirm.onSelect(p,c,this);
 
                 break;
         }
@@ -171,7 +171,7 @@ public class AreaListSelectorDialog extends BaseBindingDialogFragment {
 
 
     public interface OnCityConfirm {
-        void onSelect(String province, String city);
+        void onSelect(String province, String city,AreaListSelectorDialog dialog);
     }
 
     private OnCityConfirm onCityConfirm;

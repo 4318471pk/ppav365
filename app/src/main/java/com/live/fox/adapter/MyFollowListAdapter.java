@@ -17,6 +17,7 @@ import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
@@ -30,7 +31,7 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
     boolean isFans = false;
     String followed,follow;
     Context context;
-    OnCancelFollowListener onCancelFollowListener;
+    OnClickListener onClickListener;
 
 
     public MyFollowListAdapter(List data, boolean isFans, Context context) {
@@ -43,8 +44,8 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         setHasStableIds(true);
     }
 
-    public void setOnCancelFollowListener(OnCancelFollowListener onCancelFollowListener) {
-        this.onCancelFollowListener = onCancelFollowListener;
+    public void setOnCancelFollowListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -69,8 +70,18 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         tvIcons.setText(spanUtils.create());
 
         RankProfileView rpvView=helper.itemView.findViewById(R.id.rpvView);
-        rpvView.setIndex(RankProfileView.NONE,data.getVipLevel(),false);
+        rpvView.setIndex(RankProfileView.NONE,data.getVipLevel(),data.getBroadcast());
         GlideUtils.loadCircleImage(context,data.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,rpvView.getProfileImage());
+        rpvView.setTag(helper.getLayoutPosition()-getHeaderLayoutCount());
+        rpvView.setOnClickListener(new OnClickFrequentlyListener() {
+            @Override
+            public void onClickView(View view) {
+                if(onClickListener!=null)
+                {
+                    onClickListener.onClickProfile((int)view.getTag());
+                }
+            }
+        });
 
         TextView tvGz = helper.getView(R.id.tvGz);
 
@@ -86,14 +97,14 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 //            }
             tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
             tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-            tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
+            tvGz.setTag(helper.getLayoutPosition()-getHeaderLayoutCount());
 
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onCancelFollowListener!=null)
+                    if(onClickListener!=null)
                     {
-                        onCancelFollowListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
+                        onClickListener.onCancelFollow(data.getUid(),(int)v.getTag());
                     }
                 }
             });
@@ -113,12 +124,13 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onCancelFollowListener!=null)
+                    if(onClickListener!=null)
                     {
-                        onCancelFollowListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
+                        onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
                     }
                 }
             });
+
         }
 
         helper.itemView.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +147,9 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
     }
 
 
-    public interface OnCancelFollowListener
+    public interface OnClickListener
     {
         void onCancelFollow(String uid,int pos);
+        void onClickProfile(int pos);
     }
 }

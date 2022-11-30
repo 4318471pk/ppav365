@@ -45,7 +45,6 @@ import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -440,7 +439,6 @@ public class ChatSpanUtils {
                 if (payList == null || payList.size() == 0) return;
                 MinuteTabItem.appendBet(payList, lotteryName);
                 //去cp  car
-                EventBus.getDefault().post(new MessageEvent(APPEND_BET_TYPE, lotteryName, name, times));
             }
         }, length1, length2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);//- 1
         if (!bitmap.isRecycled()) {

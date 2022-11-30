@@ -233,6 +233,9 @@
             android:name=".ui.mine.RechargeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".ui.h5.PublicWebActivity"
+            android:screenOrientation="portrait"/>
         <!-- 提现 -->
         <activity
             android:name=".ui.mine.withdraw.WithdrawalActivity"

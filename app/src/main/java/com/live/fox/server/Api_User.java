@@ -17,17 +17,10 @@ import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetRecord;
 import com.live.fox.entity.Withdraw;
 import com.live.fox.manager.DataCenter;
-import com.live.fox.manager.DataCenter2;
 import com.live.fox.manager.SPManager;
-import com.live.fox.manager.AppUserManger;
-import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -115,7 +108,6 @@ public class Api_User extends BaseApi {
                                 {
                                     DataCenter.getInstance().getUserInfo().setUser(data);
                                 }
-                                DataCenter2.getInstance().getUserInfo().setUser(data);
                             }
                         }
                         else

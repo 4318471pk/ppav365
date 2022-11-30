@@ -12,7 +12,6 @@ import com.live.fox.base.BaseActivity;
 import com.live.fox.common.CommonApp;
 import com.live.fox.Constant;
 import com.live.fox.MainActivity;
-import com.live.fox.ui.circle.WebFragment;
 import com.live.fox.ui.mine.withdraw.WithdrawalsRecordFragment;
 import com.tencent.android.tpush.TpnsActivity;
 
@@ -40,7 +39,6 @@ public class FragmentContentActivity extends BaseActivity {
         switch (fragmentKey) {
             case Constant.FragmentFlag.WEB_FRAGMENT:
                 String url = getIntent().getStringExtra("url");
-                replaceFragment(widget_frame, WebFragment.newInstance(url, true));
                 break;
             case Constant.FragmentFlag.JbRecord_FRAGMENT:
                 replaceFragment(widget_frame, WithdrawalsRecordFragment.newInstance(1));

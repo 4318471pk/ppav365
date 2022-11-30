@@ -25,8 +25,10 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.RankFragmentBinding;
 import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.entity.RankItemBean;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.User;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.FixImageSize;
@@ -110,6 +112,26 @@ public class RankFragment extends BaseBindingFragment {
 
             @Override
             public void onClickProfileImage(RankItemBean bean, int position) {
+
+                if(bean.getBroadcast())
+                {
+                    List<RoomListBean> listBeans=new ArrayList<>();
+                    int pos=0;
+                    for (int i = 0; i <rankAdapter.getData().size() ; i++) {
+                        RankItemBean itemBean= rankAdapter.getData().get(i);
+                        if(itemBean.getBroadcast())
+                        {
+                            if(bean.getLiveId().equals(itemBean.getLiveId()))
+                            {
+                                pos=i;
+                            }
+                            listBeans.add(RankItemBean.convert(itemBean));
+                        }
+
+                    }
+                    LivingActivity.startActivity(getActivity(),listBeans,pos);
+                    return;
+                }
                 if(Strings.isDigitOnly(bean.getUid()))
                 {
                     UserDetailActivity.startActivity(getActivity(),Integer.valueOf(bean.getUid()));
@@ -277,7 +299,7 @@ public class RankFragment extends BaseBindingFragment {
             {
                 RankItemBean rankItemBean=tabList.get(i-1);
                 nickName.setText(rankItemBean.getNickname());
-                profileView.setIndex(profileView.getCrownIndex(),rankItemBean.getVipLevel(),false);
+                profileView.setIndex(profileView.getCrownIndex(),rankItemBean.getVipLevel(),rankItemBean.getBroadcast());
                 GlideUtils.loadCircleImage(getActivity(),rankItemBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,profileView.getProfileImage());
                 SpanUtils spanUtils=new SpanUtils();
                 if(ChatSpanUtils.appendLevelIcon(spanUtils,rankItemBean.getUserLevel(), getActivity()))
@@ -289,9 +311,31 @@ public class RankFragment extends BaseBindingFragment {
                     spanUtils.append(" ");
                 }
                 icons.setText(spanUtils.create());
+                profileView.setTag(rankItemBean);
                 profileView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        RankProfileView rankProfileView=(RankProfileView)v;
+                        RankItemBean bean=(RankItemBean)rankProfileView.getTag();
+                        if(rankItemBean.getBroadcast())
+                        {
+                            List<RoomListBean> listBeans=new ArrayList<>();
+                            int pos=0;
+                            for (int i = 0; i <getRankActivity().rankAnchorBeans.get(currentTimePosition).size() ; i++) {
+                                RankItemBean itemBean= getRankActivity().rankAnchorBeans.get(currentTimePosition).get(i);
+                                if(itemBean.getBroadcast())
+                                {
+                                    if(bean.getLiveId().equals(itemBean.getLiveId()))
+                                    {
+                                        pos=i;
+                                    }
+                                    listBeans.add(RankItemBean.convert(itemBean));
+                                }
+                            }
+                            LivingActivity.startActivity(getActivity(),listBeans,pos);
+                            return;
+                        }
+
                         if(Strings.isDigitOnly(rankItemBean.getUid()))
                         {
                             UserDetailActivity.startActivity(getActivity(),Integer.valueOf(rankItemBean.getUid()));

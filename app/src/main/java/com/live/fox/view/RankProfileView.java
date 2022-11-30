@@ -206,6 +206,8 @@ public class RankProfileView extends RelativeLayout {
         {
             viewWidth=getWidth();
         }
+        boolean hasDecoration=decorationIndex>-1 && decorationIndex<decorationResource.length;
+        boolean hasCrown=crownIndex > -1 && crownIndex < 3;
         if (viewWidth > 0) {
             isInit=true;
             if(decorationIndex>-1 && decorationIndex<decorationResource.length)
@@ -331,8 +333,17 @@ public class RankProfileView extends RelativeLayout {
                 rlLiving.topMargin=rlProfile.topMargin;
                 rlLiving.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
                 ivLiving.setLayoutParams(rlLiving);
-                ivLiving.setScaleX(1.9f);
-                ivLiving.setScaleY(1.9f);
+                if(hasDecoration)
+                {
+                    ivLiving.setScaleX(1.9f);
+                    ivLiving.setScaleY(1.9f);
+                }
+                else
+                {
+                    ivLiving.setScaleX(2.0f);
+                    ivLiving.setScaleY(2.0f);
+                }
+
                 ivLiving.setClearsAfterDetached(false);
 
                 if(isLiving && !ivLiving.isAnimating())

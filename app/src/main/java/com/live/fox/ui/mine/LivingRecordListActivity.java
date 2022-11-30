@@ -133,7 +133,7 @@ public class LivingRecordListActivity extends BaseBindingViewActivity {
         TimePickerDialog timePickerDialog = TimePickerDialog.getInstance(getString(R.string.plzSelectedDate), time1, time2);
         timePickerDialog.setOnSelectedListener(new TimePickerDialog.OnSelectedListener() {
             @Override
-            public void onSelected(int year, int month, int date, long time) {
+            public void onSelected(int year, int month, int date, long time,TimePickerDialog dialog) {
 
                 if (isBeginTime) {
                     mBind.tvStartTime.setText(TimeUtils.long2String(time, "yyyy/MM/dd"));
