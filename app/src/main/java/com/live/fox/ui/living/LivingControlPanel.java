@@ -461,7 +461,7 @@ public class LivingControlPanel extends RelativeLayout {
     }
     public void setData(RoomListBean roomListBean,LivingActivity activity)
     {
-        mBind.tvAnchorName.setText(roomListBean.getTitle());
+//        mBind.tvAnchorName.setText(roomListBean.getTitle());
         mBind.tvAnchorID.setText("ID:"+roomListBean.getAid());
         refresh20AudienceList();
         doGetAudienceListApi();
