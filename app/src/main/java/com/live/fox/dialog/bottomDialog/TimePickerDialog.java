@@ -85,7 +85,7 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
 
                 if(onSelectedListener!=null)
                 {
-                    onSelectedListener.onSelected(year,month,date,mCurrentMillSeconds);
+                    onSelectedListener.onSelected(year,month,date,mCurrentMillSeconds,this);
                 }
                 dismissAllowingStateLoss();
                 break;
@@ -263,6 +263,6 @@ public class TimePickerDialog extends BaseBindingDialogFragment {
 
     public interface OnSelectedListener
     {
-        void onSelected(int year,int month,int date,long time);
+        void onSelected(int year,int month,int date,long time,TimePickerDialog fragment);
     }
 }

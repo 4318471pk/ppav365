@@ -50,7 +50,7 @@ public class DiamondExpensesFragment extends BaseBindingFragment {
                 TimePickerDialog timePickerDialog=TimePickerDialog.getInstance(getStringWithoutContext(R.string.selectDate));
                 timePickerDialog.setOnSelectedListener(new TimePickerDialog.OnSelectedListener() {
                     @Override
-                    public void onSelected(int year, int month, int date, long time) {
+                    public void onSelected(int year, int month, int date, long time,TimePickerDialog dialog) {
                         StringBuilder sb=new StringBuilder();
                         sb.append(year).append("-");
                         sb.append(month).append("-");

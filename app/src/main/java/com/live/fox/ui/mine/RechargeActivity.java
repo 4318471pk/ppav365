@@ -1319,8 +1319,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         Api_Order.ins().getDiamondList(new JsonCallback<List<DiamondListBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<DiamondListBean> data) {
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                if (code == 0 ) {
                     if (data != null && data.size() >0) {
+                        chargeDiamondBeans.clear();
                         chargeDiamondBeans.addAll(data);
                         chargeDiamondAdapter.notifyDataSetChanged();
                     }

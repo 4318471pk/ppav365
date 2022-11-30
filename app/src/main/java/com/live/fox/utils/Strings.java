@@ -247,24 +247,101 @@ public final class Strings {
 
         return sb.toString();
     }
-//
-//    public static String urlConnectH5(String para)
-//    {
-//
-//        StringBuilder sb=new StringBuilder();
-//        if(!para.toLowerCase().startsWith("http"))
-//        {
-//            sb.append(IVIRetrofitHelper.baseUrlE04());
-//        }
-//
-//        if(!TextUtils.isEmpty(para) && para.startsWith("/"))
-//        {
-//            sb.append(para);
-//        }
-//        else
-//        {
-//            sb.append("/").append(para);
-//        }
-//        return sb.toString();
-//    }
+
+
+    /***
+     * 获取url 指定name的value;
+     * @param url
+     * @param name
+     * @return
+     */
+    public static String getValueByName(String url, String name) {
+        String result = "";
+        int index = url.indexOf("?");
+        String temp = url.substring(index + 1);
+        String[] keyValue = temp.split("&");
+        for (String str : keyValue) {
+            if (str.contains(name)) {
+                result = str.replace(name + "=", "");
+                break;
+            }
+        }
+        return result;
+    }
+
+    /***
+     * 设置url 指定name的value;如果本身存在会被替换
+     * @param url
+     * @param name
+     * @return
+     */
+    public static String setValueByName(String url, String name,String value) {
+        if(TextUtils.isEmpty(url))return "";
+        int index = url.indexOf("?");
+        String temp = url.substring(index + 1);
+        StringBuilder sb=new StringBuilder();
+        sb.append(url.substring(0,index+1));
+
+        String[] keyValue = temp.split("&");
+
+        boolean isExits=false;
+        for (String str : keyValue) {
+            sb.append("&");
+            if (str.contains(name+"=")) {
+                isExits=true;
+                sb.append(name).append("=").append(value);
+            }
+            else
+            {
+                sb.append(str);
+            }
+        }
+
+        if(!isExits)
+        {
+            sb.append("&").append(name).append("=").append(value);
+        }
+        return sb.toString();
+    }
+
+
+    /***
+     * 添加url 指定name的value;
+     * @param url
+     * @param name
+     * @return
+     */
+
+    public static String addValueByName(String url, String name,String value) {
+        if(TextUtils.isEmpty(url))return "";
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(url);
+        if(url.charAt(url.length()-1)=='?' || url.charAt(url.length()-1)=='&')
+        {
+            stringBuilder.append(name).append("=").append(value);
+        }
+        else
+        {
+            if(url.contains("&"))
+            {
+                stringBuilder.append("&").append(name).append("=").append(value);
+            }
+            else
+            {
+                if(url.contains("?"))
+                {
+                    stringBuilder.append("&").append(name).append("=").append(value);
+                }
+                else
+                {
+                    stringBuilder.append("?").append(name).append("=").append(value);
+                }
+            }
+        }
+
+        return stringBuilder.toString();
+
+    }
+
 }

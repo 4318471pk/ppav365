@@ -45,7 +45,6 @@ import com.live.fox.server.BaseApi;
 import com.live.fox.utils.ArithUtil;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ClickUtil;
-import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.PasswordPopUtitls;
 import com.live.fox.utils.RegexUtils;

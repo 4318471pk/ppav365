@@ -37,8 +37,8 @@ import com.luck.picture.lib.entity.LocalMediaFolder;
 import com.luck.picture.lib.model.LocalMediaLoader;
 import com.luck.picture.lib.observable.ImagesObservable;
 import com.luck.picture.lib.permissions.RxPermissions;
-import com.luck.picture.lib.rxbus2.RxBus;
-import com.luck.picture.lib.rxbus2.Subscribe;
+import com.luck.picture.lib.rxbus2.PicRxBus;
+import com.luck.picture.lib.rxbus2.BusSubscribe;
 import com.luck.picture.lib.rxbus2.ThreadMode;
 import com.luck.picture.lib.tools.DateUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
@@ -112,7 +112,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
      *
      * @param obj
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @BusSubscribe(threadMode = ThreadMode.MAIN)
     public void eventBus(EventEntity obj) {
         switch (obj.what) {
             case PictureConfig.UPDATE_FLAG:
@@ -144,8 +144,8 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!RxBus.getDefault().isRegistered(this)) {
-            RxBus.getDefault().register(this);
+        if (!PicRxBus.getDefault().isRegistered(this)) {
+            PicRxBus.getDefault().register(this);
         }
         rxPermissions = new RxPermissions(this);
         if (config.camera) {
@@ -1083,8 +1083,8 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (RxBus.getDefault().isRegistered(this)) {
-            RxBus.getDefault().unregister(this);
+        if (PicRxBus.getDefault().isRegistered(this)) {
+            PicRxBus.getDefault().unregister(this);
         }
         ImagesObservable.getInstance().clearLocalMedia();
         if (animation != null) {

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.adapter.AnchorGameListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
@@ -21,13 +22,17 @@ import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentAnchorGameBinding;
 import com.live.fox.entity.Advert;
+import com.live.fox.entity.HomeBanner;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.LanguageUtilsEntity;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Live;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.live.fox.view.convenientbanner.holder.Holder;
@@ -83,7 +88,9 @@ public class AnchorGameFragment extends BaseBindingFragment {
 
         adapter=new AnchorGameListAdapter(getActivity(),new ArrayList());
         mBind.rvMain.setAdapter(adapter);
-        setBanner();
+        mBind.gameConvenientBanner.getLayoutParams().height=(int)(ScreenUtils.getScreenWidth(getContext())*0.213f);
+
+        doGetBanner();
         doGetLiveListApi();
 
         adapter.setOnItemClickListener((adapter, itemView, position) -> {
@@ -198,25 +205,34 @@ public class AnchorGameFragment extends BaseBindingFragment {
         }
     }
 
-    private void setBanner()
+
+    public void doGetBanner()
     {
-        List<Advert> bannerList =new ArrayList<>();
-        for (int i = 0; i <10 ; i++) {
-            Advert advert=new Advert();
-            bannerList.add(advert);
-        }
-        mBind.gameConvenientBanner.setPages(BannerHolder::new, bannerList)
-                .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+        Api_Config.ins().getRecommendListBanner(new JsonCallback<List<HomeBanner>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<HomeBanner> data) {
+                if(data!=null && data.size()>0)
+                {
+                    mBind.gameConvenientBanner.setPages(BannerHolder::new, data)
+                            .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
+                            .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
 
 //        mBind.gameConvenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
 
-        if (!mBind.gameConvenientBanner.isTurning()) {
-            mBind.gameConvenientBanner.startTurning(5000);
-        }
+                    if (!mBind.gameConvenientBanner.isTurning()) {
+                        mBind.gameConvenientBanner.startTurning(5000);
+                    }
+                    //点击Banner
+                    mBind.gameConvenientBanner.setOnItemClickListener(position -> {
+                        JumpLinkUtils.jumpHomeBannerLinks(getContext(),data.get(position));
+                    });
+
+                }
+            }
+        });
     }
 
-    public static class BannerHolder implements Holder<Advert> {
+    public static class BannerHolder implements Holder<HomeBanner> {
 
         private ImageView bannerImg;
 
@@ -228,13 +244,16 @@ public class AnchorGameFragment extends BaseBindingFragment {
         }
 
         @Override
-        public void UpdateUI(Context context, int position, Advert banner) {
-            String jsonStr = banner.getContent();
-            if(jsonStr==null)
-            {
-                jsonStr="";
+        public void UpdateUI(Context context, int position, HomeBanner banner) {
+            String jsonStr = banner.getBannerImg();
+            String bannerUrl;
+            if (jsonStr.endsWith("{") && jsonStr.endsWith("}")) {
+                bannerUrl = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));
+            } else {
+                bannerUrl = jsonStr;
             }
-            GlideUtils.loadDefaultImage(context, jsonStr, bannerImg);
+
+            GlideUtils.loadDefaultImage(context, bannerUrl, 0,0,bannerImg);
         }
     }
 

@@ -19,6 +19,7 @@ import com.live.fox.entity.ActBean;
 import com.live.fox.server.Api_Order;
 import com.live.fox.ui.h5.H5Activity;
 import com.live.fox.ui.mine.RechargeActivity;
+import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -71,18 +72,7 @@ public class ActivityDetailFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (mData.get(position).getJumpType() == 1) { //跳轉到内部
-                    if (mData.get(position).getJumpCodeType() ==1) {
-                        RechargeActivity.startActivity(ActivityDetailFragment.this.getContext());
-                    } else if (mData.get(position).getJumpCodeType() == 2 ) { //直播间
-
-                    } else if (mData.get(position).getJumpCodeType() == 3 ) { //游戏
-
-                    }
-                } else {
-                    H5Activity.start(ActivityDetailFragment.this.getContext(),mData.get(position).getActivityName(),
-                            mData.get(position).getContent());
-                }
+                JumpLinkUtils.jumpActivityLinks(getContext(),mData.get(position));
             }
         });
 

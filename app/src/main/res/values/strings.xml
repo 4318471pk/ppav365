@@ -439,6 +439,8 @@
     <string name="chatSecret">聊天隐身</string>
     <string name="invisibleList">榜单隐身</string>
     <string name="becomeNobel">成为贵族</string>
+    <string name="hasOpened">开通了</string>
+    <string name="newBornNobleTips">\"%1$s\"开通 %2$s·贵族，大咖诞生！</string>
     <string name="kaitong">(&#160;开通&#160;</string>
     <string name="goldThirty">&#160;金币/30天&#160;)</string>
     <string name="goldThirtyBack">&#160; 金币 / 30 天, 立返 &#160;</string>
@@ -1612,4 +1614,8 @@
     <string name="login_guest">游客登陆</string>
     <string name="login_other">您的账号已在其他手机登陆</string>
     <string name="login_other2">已注册的会员，请选择手机登陆，为了账户安全，建议使用手机注册。</string>
+    <string name="errorLiveIdAID" translatable="false">主播ID或者直播ID错误</string>
+    <string name="errorLink">请配置跳转链接</string>
+    <string name="editNameLimit">改名需要等级达到2级</string>
+
 </resources>

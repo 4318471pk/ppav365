@@ -48,18 +48,15 @@
         android:layout_width="61dip"
         android:layout_height="61dip">
 
+        <com.live.fox.view.Top20CircleImage
+            android:id="@+id/ivProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
         <ImageView
             android:id="@+id/ivEdge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:riv_oval="true"
-            android:src="@mipmap/user_head_error"
             />
 
     </RelativeLayout>

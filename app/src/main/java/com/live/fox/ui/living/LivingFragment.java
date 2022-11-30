@@ -44,6 +44,7 @@ import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.NewBornNobleOrGuardMessageBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.RoomWatchedHistoryBean;
@@ -811,8 +812,8 @@ public class LivingFragment extends BaseBindingFragment {
                 String protocolCode = msgJson.optString("protocol", "");
                 String liveId = msgJson.optString("liveId", "");
                 boolean isHasProtocolCode = !TextUtils.isEmpty(msgJson.optString("protocol", ""));
-                boolean isCurrentLiveId = getRoomBean().getId().equals(liveId);
-
+                boolean isCurrentLiveId =TextUtils.isEmpty(liveId) || getRoomBean().getId().equals(liveId);
+                //liveId如果是空就是全局消息 所有房间都推送了
                 if (isHasProtocolCode && isCurrentLiveId) {
                     switch (protocolCode) {
                         case MessageProtocol.SYSTEM_NOTICE:
@@ -878,6 +879,28 @@ public class LivingFragment extends BaseBindingFragment {
 
                             LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
                             livingFinishView.showView();
+                            break;
+                        case MessageProtocol.LIVE_BUY_GUARD:
+                            NewBornNobleOrGuardMessageBean bean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
+                            LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
+                                @Override
+                                public void onClick(Object bean) {
+                                    if(bean!=null && bean instanceof NewBornNobleOrGuardMessageBean)
+                                    {
+                                        NewBornNobleOrGuardMessageBean nBean=(NewBornNobleOrGuardMessageBean)bean;
+                                        showBotDialog(liveId,nBean.getUid()+"");
+                                    }
+                                }
+                            };
+                            SpanUtils spanUtils=ChatSpanUtils.appendNewBornGuard(bean,getActivity(),listener);
+                            if(spanUtils.getLength()>0)
+                            {
+                                sendSystemMsgToChat(spanUtils.create());
+                            }
+                            break;
+                        case MessageProtocol.LIVE_BUY_VIP:
+                            NewBornNobleOrGuardMessageBean nBean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
+                            livingControlPanel.mBind.rlNewBornMessage.postNewMessage(nBean,getActivity());
                             break;
                     }
                 }
@@ -1044,6 +1067,7 @@ public class LivingFragment extends BaseBindingFragment {
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }
+                        livingControlPanel.mBind.tvAnchorName.setText(data.getNickname());
 
                         if(isRoomLiving)
                         {
@@ -1284,22 +1308,22 @@ public class LivingFragment extends BaseBindingFragment {
 
             @Override
             public void clickCancel(TempleDialog2 dialog) {
-                dialog.dismissAllowingStateLoss();
                 LivingActivity activity = (LivingActivity) getActivity();
                 activity.goNextRoom();
+                dialog.dismissAllowingStateLoss();
             }
 
             @Override
             public void clickOk(TempleDialog2 dialog) {
-                dialog.dismissAllowingStateLoss();
                 RechargeActivity.startActivity(requireActivity());
+                dialog.dismissAllowingStateLoss();
             }
 
             @Override
             public void clickClose(TempleDialog2 dialog) {
-                dialog.dismissAllowingStateLoss();
                 LivingActivity activity = (LivingActivity) getActivity();
                 activity.goNextRoom();
+                dialog.dismissAllowingStateLoss();
             }
         });
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);
@@ -1320,22 +1344,22 @@ public class LivingFragment extends BaseBindingFragment {
 
             @Override
             public void clickCancel(TempleDialog2 dialog) {
-                dialog.dismissAllowingStateLoss();
                 LivingActivity activity = (LivingActivity) getActivity();
                 activity.goNextRoom();
+                dialog.dismissAllowingStateLoss();
             }
 
             @Override
             public void clickOk(TempleDialog2 dialog) {
-                dialog.dismissAllowingStateLoss();
                 RechargeActivity.startActivity(requireActivity(), false);
+                dialog.dismissAllowingStateLoss();
             }
 
             @Override
             public void clickClose(TempleDialog2 dialog) {
-                dialog.dismissAllowingStateLoss();
                 LivingActivity activity = (LivingActivity) getActivity();
                 activity.goNextRoom();
+                dialog.dismissAllowingStateLoss();
             }
         });
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);

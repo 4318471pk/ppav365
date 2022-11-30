@@ -150,6 +150,10 @@ public class LivingControlPanel extends RelativeLayout {
         int vehicleView=ScreenUtils.getDip2px(getContext(),61);
         setViewLPRL(mBind.rlVehicleParentView,vehicleView,(int)(screenHeight*0.32f)-((int)(vehicleView*0.75f)));
 
+        //设置新开通贵族消息弹道
+        int messageHeight=ScreenUtils.getDip2px(getContext(),30);
+        setViewLPRL(mBind.rlNewBornMessage,messageHeight,(int)(screenHeight*0.32f)-messageHeight);
+
         RelativeLayout.LayoutParams rlMessages=(RelativeLayout.LayoutParams)mBind.llMessages.getLayoutParams();
         rlMessages.height=(int)(screenHeight*0.5f)-ScreenUtils.getDip2px(fragment.getActivity(),45);
         rlMessages.width=(int)(screenWidth*0.7f)+ScreenUtils.getDip2px(fragment.getActivity(),10);
@@ -457,7 +461,7 @@ public class LivingControlPanel extends RelativeLayout {
     }
     public void setData(RoomListBean roomListBean,LivingActivity activity)
     {
-        mBind.tvAnchorName.setText(roomListBean.getTitle());
+//        mBind.tvAnchorName.setText(roomListBean.getTitle());
         mBind.tvAnchorID.setText("ID:"+roomListBean.getAid());
         refresh20AudienceList();
         doGetAudienceListApi();

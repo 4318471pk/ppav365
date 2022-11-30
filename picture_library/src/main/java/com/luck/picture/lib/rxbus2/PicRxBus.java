@@ -26,9 +26,9 @@ import io.reactivex.subjects.Subject;
  * update 2017/3/1
  */
 @SuppressWarnings("unused")
-public class RxBus {
+public class PicRxBus {
     public static final String LOG_BUS = "RXBUS_LOG";
-    private static volatile RxBus defaultInstance;
+    private static volatile PicRxBus defaultInstance;
 
     private Map<Class, List<Disposable>> subscriptionsByEventType = new HashMap<>();
 
@@ -38,22 +38,22 @@ public class RxBus {
 
     private final Subject<Object> bus;
 
-    private RxBus() {
+    private PicRxBus() {
         this.bus = PublishSubject.create().toSerialized();
     }
 
-    public static RxBus getDefault() {
-        RxBus rxBus = defaultInstance;
+    public static PicRxBus getDefault() {
+        PicRxBus picRxBus = defaultInstance;
         if (defaultInstance == null) {
-            synchronized (RxBus.class) {
-                rxBus = defaultInstance;
+            synchronized (PicRxBus.class) {
+                picRxBus = defaultInstance;
                 if (defaultInstance == null) {
-                    rxBus = new RxBus();
-                    defaultInstance = rxBus;
+                    picRxBus = new PicRxBus();
+                    defaultInstance = picRxBus;
                 }
             }
         }
-        return rxBus;
+        return picRxBus;
     }
 
     /**
@@ -96,7 +96,7 @@ public class RxBus {
         Class<?> subClass = subscriber.getClass();
         Method[] methods = subClass.getDeclaredMethods();
         for (Method method : methods) {
-            if (method.isAnnotationPresent(Subscribe.class)) {
+            if (method.isAnnotationPresent(BusSubscribe.class)) {
                 //获得参数类型
                 Class[] parameterType = method.getParameterTypes();
                 //参数不为空 且参数个数为1
@@ -105,7 +105,7 @@ public class RxBus {
                     Class eventType = parameterType[0];
 
                     addEventTypeToMap(subscriber, eventType);
-                    Subscribe sub = method.getAnnotation(Subscribe.class);
+                    BusSubscribe sub = method.getAnnotation(BusSubscribe.class);
                     int code = sub.code();
                     ThreadMode threadMode = sub.threadMode();
 
@@ -118,7 +118,7 @@ public class RxBus {
                     Class eventType = BusData.class;
 
                     addEventTypeToMap(subscriber, eventType);
-                    Subscribe sub = method.getAnnotation(Subscribe.class);
+                    BusSubscribe sub = method.getAnnotation(BusSubscribe.class);
                     int code = sub.code();
                     ThreadMode threadMode = sub.threadMode();
 
@@ -249,7 +249,7 @@ public class RxBus {
         List<SubscriberMethod> methods = subscriberMethodByEventType.get(eventClass);
         if (methods != null && methods.size() > 0) {
             for (SubscriberMethod subscriberMethod : methods) {
-                Subscribe sub = subscriberMethod.method.getAnnotation(Subscribe.class);
+                BusSubscribe sub = subscriberMethod.method.getAnnotation(BusSubscribe.class);
                 int c = sub.code();
                 if (c == method.code && method.subscriber.equals(subscriberMethod.subscriber) && method.method.equals(subscriberMethod.method)) {
                     subscriberMethod.invoke(object);

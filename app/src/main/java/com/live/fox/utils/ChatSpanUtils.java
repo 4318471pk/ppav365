@@ -31,6 +31,7 @@ import com.live.fox.entity.LivingFollowMessage;
 import com.live.fox.entity.LivingEnterLivingRoomBean;
 import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.MessageEvent;
+import com.live.fox.entity.NewBornNobleOrGuardMessageBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.ReceiveGiftBean;
 import com.live.fox.entity.User;
@@ -44,7 +45,6 @@ import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -439,7 +439,6 @@ public class ChatSpanUtils {
                 if (payList == null || payList.size() == 0) return;
                 MinuteTabItem.appendBet(payList, lotteryName);
                 //去cp  car
-                EventBus.getDefault().post(new MessageEvent(APPEND_BET_TYPE, lotteryName, name, times));
             }
         }, length1, length2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);//- 1
         if (!bitmap.isRecycled()) {
@@ -672,6 +671,48 @@ public class ChatSpanUtils {
             int width = ScreenUtils.getDip2px(context, 30);
             spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
         }
+    }
+
+    /**
+     * 加入开通新开通守护的系统消息
+     */
+    public static SpanUtils appendNewBornGuard( NewBornNobleOrGuardMessageBean bean, Context context,LivingClickTextSpan.OnClickTextItemListener listener) {
+        SpanUtils spanUtils=new SpanUtils();
+        if(bean==null || bean.getGuardLevel()<1 || bean.getGuardLevel()>3 || TextUtils.isEmpty(bean.getNickname()))
+        {
+            return spanUtils;
+        }
+
+        String hasOpened=context.getResources().getString(R.string.hasOpened);
+        String newBornProtectorTips[]=context.getResources().getStringArray(R.array.newBornProtectorTips);
+
+        Bitmap sysBitmap=BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_tag_sys);
+        if (sysBitmap == null) return spanUtils;
+        int height = ScreenUtils.getDip2px(context, 16);
+        int width = ScreenUtils.getDip2px(context, 40);
+        spanUtils.appendImage(ImageUtils.scale(sysBitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.append(" ");
+
+        LivingClickTextSpan livingClickTextSpan = new LivingClickTextSpan(bean, 0xff85EFFF);
+        livingClickTextSpan.setOnClickTextItemListener(listener);
+
+        spanUtils.append(bean.getNickname()).setFontSize(13,true);
+        int length1 = spanUtils.getLength();
+        spanUtils.append(hasOpened).setForegroundColor(0xffffffff).setFontSize(13,true);
+        int length2 = spanUtils.getLength();
+        UserGuardResourceBean userGuardResourceBean= LocalUserGuardDao.getInstance().getLevel(bean.getGuardLevel());
+        if(userGuardResourceBean!=null)
+        {
+            StringBuilder stringBuilder=new StringBuilder();
+            stringBuilder.append("[").append(userGuardResourceBean.getName()).append("]");
+            spanUtils.append(stringBuilder.toString()).setFontSize(13,true).setForegroundColor(0xffFFF796);
+        }
+
+        spanUtils.append(newBornProtectorTips[bean.getGuardLevel()-1]).setForegroundColor(0xffffffff);
+
+        spanUtils.getBuilder().setSpan(livingClickTextSpan, length1, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return spanUtils;
     }
 
 

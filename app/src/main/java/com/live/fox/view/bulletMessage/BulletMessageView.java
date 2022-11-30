@@ -23,6 +23,7 @@ import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.Strings;
 
+//弹幕子view
 public class BulletMessageView extends LinearLayout {
 
     TextView tvName;

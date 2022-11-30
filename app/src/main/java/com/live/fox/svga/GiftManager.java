@@ -22,7 +22,6 @@ import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.Utils;
 import com.live.fox.utils.ZipUtils;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,7 +128,6 @@ public class GiftManager {
                 if (giftList.size() > 0) {
                     db.deleteAlLGift();
                     db.insertGiftList(giftList);
-                    EventBus.getDefault().post(new MessageEvent(16, ""));
                 }
             }
         }.start();

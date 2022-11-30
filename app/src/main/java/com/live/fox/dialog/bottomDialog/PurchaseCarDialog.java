@@ -28,8 +28,6 @@ import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.HashMap;
 
 public class PurchaseCarDialog extends BaseBindingDialogFragment {

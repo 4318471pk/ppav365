@@ -9,9 +9,9 @@ public class HomeBanner {
     public String smallImg;
     public String popupsImg;
     public String bannerImg;
-    public int jump;
-    public int jumpType;
-    public int jumpCode;
+    public Integer jump;
+    public Integer jumpType;
+    public Integer jumpCode;
     public int auth;
     public int sort;
     public int status;
@@ -76,7 +76,7 @@ public class HomeBanner {
     }
 
     public int getJump() {
-        return jump;
+        return jump==null?0:jump;
     }
 
     public void setJump(int jump) {
@@ -84,7 +84,7 @@ public class HomeBanner {
     }
 
     public int getJumpType() {
-        return jumpType;
+        return jumpType==null?0:jumpType;
     }
 
     public void setJumpType(int jumpType) {
@@ -92,7 +92,7 @@ public class HomeBanner {
     }
 
     public int getJumpCode() {
-        return jumpCode;
+        return jumpCode==null?0:jumpCode;
     }
 
     public void setJumpCode(int jumpCode) {

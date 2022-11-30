@@ -600,9 +600,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-
-
         </com.live.fox.view.bulletMessage.VehicleParentVIew>
+
+        <com.live.fox.view.bulletMessage.NewBornMessageParentView
+            android:id="@+id/rlNewBornMessage"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            />
 
     </com.live.fox.view.MyRelativeLayoutNoFitSystem>
 </layout>

@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.common.CommonApp;
 import com.live.fox.db.DataBase;
 import com.live.fox.entity.Letter;
@@ -25,7 +26,6 @@ import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMSimpleMsgListener;
 import com.tencent.imsdk.v2.V2TIMUserInfo;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -259,7 +259,7 @@ public class AppIMManager {
 
                     db.insertLetterList(otherUser, loginUser.getUid(), letter.getLetterId(),
                             letter.getContent(), System.currentTimeMillis(), false);
-                    EventBus.getDefault().post(new MessageEvent(90, new Gson().toJson(letter)));
+                    RxBus.get().post(new MessageEvent(90, new Gson().toJson(letter)));
                 }
             } else if (object.optInt("protocol") == Constant.MessageProtocol.PROTOCOL_BALANCE_CHANGE) { //12金币变动消息
                 User user = DataCenter.getInstance().getUserInfo().getUser();

@@ -12,6 +12,7 @@ import com.live.fox.utils.BulletViewUtils;
 
 import java.util.LinkedList;
 
+//座驾飘房父view
 public class EnterRoomMessageParentView extends RelativeLayout {
 
     LinkedList<LivingEnterLivingRoomBean> list=new LinkedList<>();

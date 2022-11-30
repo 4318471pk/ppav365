@@ -17,6 +17,7 @@ import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.Strings;
 
+//座驾飘房子view
 public class VehicleFloatingView extends RelativeLayout {
 
     ImageView ivProfile,ivEdge,ivBG;
@@ -77,7 +78,7 @@ public class VehicleFloatingView extends RelativeLayout {
             }
 
             GlideUtils.loadCircleImage(getContext(),bean.getAvatar(),
-                    R.mipmap.user_head_error,R.mipmap.user_head_error,ivProfile);
+                    0,0,ivProfile);
         }
     }
 }

@@ -19,6 +19,7 @@
             android:id="@+id/rllContent"
             android:layout_width="match_parent"
             android:layout_height="200dip"
+            android:onClick="@{click.onClickView}"
             android:layout_alignParentBottom="true"
             app:rv_cornerRadius_TR="25dp"
             app:rv_cornerRadius_TL="25dp"

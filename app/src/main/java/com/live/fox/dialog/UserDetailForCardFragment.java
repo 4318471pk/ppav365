@@ -42,7 +42,6 @@ import com.live.fox.utils.RegexUtils;
 import com.live.fox.utils.ToastUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -451,11 +450,9 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
                 break;
             case R.id.tv_letter: //私信
                 dismiss();
-                EventBus.getDefault().post(new MessageEvent(3, new Gson().toJson(cardUserInfo)));
                 break;
             case R.id.tv_at: //@Ta
                 dismiss();
-                EventBus.getDefault().post(new MessageEvent(4, new Gson().toJson(cardUserInfo)));
                 break;
             case R.id.tv_usermain: //主页
                 UserDetailActivity.startActivity(getActivity(), cardUserInfo.getUid());
@@ -472,7 +469,6 @@ public class UserDetailForCardFragment extends DialogFragment implements View.On
                             cardUserInfo.setFans(cardUserInfo.isFollow() ? cardUserInfo.getFans() + 1 : cardUserInfo.getFans() - 1);
                             ToastUtils.showShort(cardUserInfo.isFollow() ? getString(R.string.successFocus) : getString(R.string.cancelFocus));
                             updateFollow();
-                            EventBus.getDefault().post(new MessageEvent(5, new Gson().toJson(cardUserInfo)));
                         }
 
                     }

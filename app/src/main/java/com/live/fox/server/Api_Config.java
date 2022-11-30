@@ -158,6 +158,19 @@ public class Api_Config extends BaseApi {
     }
 
     /**
+     * 获取首页推荐列表公告
+     */
+    public void getRecommendAnnounceList(JsonCallback<List<HomeBanner>> callback) {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(getBaseServerDomain());
+        stringBuilder.append(Constant.URL.Config_systemNotice_URL);
+        stringBuilder.append(String.format("?type=%s","0"));
+
+        callback.setUrlTag(Constant.URL.Config_systemNotice_URL);
+        doGetHeaders(stringBuilder.toString(), callback);
+    }
+
+    /**
      * 获取所需要的动画 图片之类的东西
      * 1.用户等级2.贵族等级3守护等级4礼物资源5坐骑资源6送礼列表,不填就是全部数据 category
      */

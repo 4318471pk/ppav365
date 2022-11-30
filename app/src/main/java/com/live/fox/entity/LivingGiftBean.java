@@ -16,7 +16,7 @@ public class LivingGiftBean extends TreasureItemBean{
     private String compressUrl;
     private int compress;
     private int status;
-    private int sort;
+    private Integer sort;
     private int showFront;
     private String remark;
     private long createTime;
@@ -128,7 +128,7 @@ public class LivingGiftBean extends TreasureItemBean{
     }
 
     public int getSort() {
-        return sort;
+        return sort==null?0:sort;
     }
 
     public void setSort(int sort) {

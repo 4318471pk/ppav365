@@ -30,6 +30,7 @@ import com.live.fox.entity.UserTagResourceBean;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.Strings;
 
+//进房飘房子view
 public class EnterRoomMessageView extends RelativeLayout {
 
     Drawable bgDrawable;

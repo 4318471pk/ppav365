@@ -15,7 +15,10 @@ import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMyFollowListBinding;
 import com.live.fox.entity.Follow;
+import com.live.fox.entity.RankItemBean;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -65,10 +68,33 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
         List<String> list = new ArrayList<>();
 
         myFollowListAdapter = new MyFollowListAdapter(list, isFans,this);
-        myFollowListAdapter.setOnCancelFollowListener(new MyFollowListAdapter.OnCancelFollowListener() {
+        myFollowListAdapter.setOnCancelFollowListener(new MyFollowListAdapter.OnClickListener() {
             @Override
             public void onCancelFollow(String uid,int pos) {
                 followFans(uid,pos);
+            }
+
+            @Override
+            public void onClickProfile(int pos) {
+                Follow follow= myFollowListAdapter.getData().get(pos);
+                if(follow.getBroadcast())
+                {
+                    List<RoomListBean> listBeans=new ArrayList<>();
+                    int position=0;
+                    for (int i = 0; i <myFollowListAdapter.getData().size() ; i++) {
+                        Follow temp= myFollowListAdapter.getData().get(i);
+                        if(temp.getBroadcast())
+                        {
+                            if(temp.getLiveId().equals(follow.getLiveId()))
+                            {
+                                position=i;
+                            }
+                            listBeans.add(Follow.convert(temp));
+                        }
+                    }
+                    LivingActivity.startActivity(MyFollowListActivity.this,listBeans,position);
+                    return;
+                }
             }
         });
 

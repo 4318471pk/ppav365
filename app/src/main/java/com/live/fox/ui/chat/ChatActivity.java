@@ -41,9 +41,6 @@ import com.live.fox.manager.AppUserManger;
 import com.tencent.android.tpush.TpnsActivity;
 import com.tencent.android.tpush.XGPushManager;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +73,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity);
-        EventBus.getDefault().register(this);
 
         initData(getIntent());
 
@@ -342,7 +338,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         return msg;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent msg) {
         LogUtils.e("在当前界面收到一条私信消息");
         switch (msg.getType()) {
@@ -380,9 +375,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 
     @Override

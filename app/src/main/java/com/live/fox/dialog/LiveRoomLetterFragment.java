@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.R;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.db.DataBase;
@@ -32,8 +33,6 @@ import com.live.fox.manager.AppUserManger;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +116,7 @@ public class LiveRoomLetterFragment extends DialogFragment implements View.OnCli
 
         DataBase db = DataBase.getDbInstance();
         int count = db.getUnReadCount(otherUser.getUid(), loginUser.getUid());
-        EventBus.getDefault().post(new MessageEvent(88, (-count) + ""));
+        RxBus.get().post(new MessageEvent(88, (-count) + ""));
         db.userIsRead(otherUser.getUid(), loginUser.getUid());
 
         initRecycleView();

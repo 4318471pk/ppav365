@@ -26,6 +26,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+
+////弹幕父view
 public class BulletMessageParentView extends LinearLayout {
 
     private int location[] = new int[2];

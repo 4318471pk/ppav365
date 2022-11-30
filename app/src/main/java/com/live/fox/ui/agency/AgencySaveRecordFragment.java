@@ -78,7 +78,7 @@ public class AgencySaveRecordFragment extends BaseBindingFragment {
         timePickerDialog = TimePickerDialog.getInstance(getString(R.string.choice_ymd));
         timePickerDialog.setOnSelectedListener(new TimePickerDialog.OnSelectedListener() {
             @Override
-            public void onSelected(int year, int month, int date, long time) {
+            public void onSelected(int year, int month, int date, long time,TimePickerDialog dialog) {
                 String s = year + "/" + month + "/" + date;
                 if (isStartTime) {
                     mBind.tvStartTime.setText(s);

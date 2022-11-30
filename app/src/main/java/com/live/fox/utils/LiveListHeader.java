@@ -124,27 +124,17 @@ public class LiveListHeader extends RelativeLayout {
         ivHomePlayGameRolling=findViewById(R.id.ivHomePlayGameRolling);
         ivHomeHotRecommendRolling=findViewById(R.id.ivHomeHotRecommendRolling);
         convenientBanner=findViewById(R.id.home_convenient_banner);
+        convenientBanner.getLayoutParams().height=(int)(ScreenUtils.getScreenWidth(getContext())*0.213f);
 
         convenientBanner.setPages(BannerHolder::new, homeBanners)
                 .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
 
-        convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
+//        convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
 
         //点击Banner
         convenientBanner.setOnItemClickListener(position -> {
-            if (!StringUtils.isEmpty(homeBanners.get(position).getContent())) {
-                //跳转类型:1内链 2外链
-                switch (homeBanners.get(position).getJump())
-                {
-                    case 1:
-                        FragmentContentActivity.startWebActivity(getContext(), "", homeBanners.get(position).getContent());
-                        break;
-                    case 2:
-                        IntentUtils.toBrowser(getContext(), homeBanners.get(position).getContent());
-                        break;
-                }
-            }
+            JumpLinkUtils.jumpHomeBannerLinks(getContext(),homeBanners.get(position));
         });
 
         llHot=findViewById(R.id.llHot);
@@ -215,7 +205,7 @@ public class LiveListHeader extends RelativeLayout {
                 bannerUrl = jsonStr;
             }
 
-            GlideUtils.loadDefaultImage(context, bannerUrl, bannerImg);
+            GlideUtils.loadDefaultImage(context, bannerUrl,0,0, bannerImg);
         }
     }
 }

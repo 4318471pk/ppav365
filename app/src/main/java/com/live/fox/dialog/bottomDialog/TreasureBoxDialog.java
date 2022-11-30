@@ -22,10 +22,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.live.fox.R;
 import com.live.fox.adapter.TreasureBoxPagerAdapter;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogTreasureBoxBinding;
 import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalMountResourceDao;
+import com.live.fox.dialog.temple.TempleDialog2;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingGiftBean;
@@ -39,6 +41,7 @@ import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.LogUtils;
@@ -49,6 +52,7 @@ import com.live.fox.view.BotTriangleBubbleView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,6 +175,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                     ToastUtils.showShort(getStringWithoutContext(R.string.canNotSendGiftToSelf));
                     return;
                 }
+
                 if(currentType>1)
                 {
                     return;
@@ -184,8 +189,17 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                             TreasureItemBean treasureItemBean=lists.get(currentType).get(i);
                             if(treasureItemBean.isSelected())
                             {
-                                onSelectedGiftListener.onSelect(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
-                                dismissAllowingStateLoss();
+                                User user=DataCenter.getInstance().getUserInfo().getUser();
+                                if(user.getDiamond("0").compareTo(new BigDecimal(treasureItemBean.getCostDiamond()))>=0)
+                                {
+                                    onSelectedGiftListener.onSelect(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
+                                    dismissAllowingStateLoss();
+                                }
+                                else
+                                {
+                                    showInsufficientDiamondDialog();
+                                }
+
 //                                doSendGiftApi(treasureItemBean.getItemId(),Integer.valueOf(mBind.tvAmount.getText().toString()));
                                 break;
                             }
@@ -477,5 +491,36 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
     public interface OnSelectedGiftListener
     {
         void onSelect(String gid,int amount);
+    }
+
+    private void showInsufficientDiamondDialog()
+    {
+        TempleDialog2 templeDialog= TempleDialog2.getInstance();
+        templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
+            @Override
+            public void onCreate(TempleDialog2 dialog) {
+                dialog.mBind.tvTitle.setText(getStringWithoutContext(R.string.dialogTitle2));
+                dialog.mBind.gtCommit.setText(getStringWithoutContext(R.string.confirm));
+                dialog.mBind.gtCancel.setText(getStringWithoutContext(R.string.cancel));
+                dialog.mBind.tvContent.setText(getStringWithoutContext(R.string.InsufficientDiamond));
+            }
+
+            @Override
+            public void clickCancel(TempleDialog2 dialog) {
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void clickOk(TempleDialog2 dialog) {
+                RechargeActivity.startActivity(requireActivity(), false);
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void clickClose(TempleDialog2 dialog) {
+                dialog.dismissAllowingStateLoss();
+            }
+        });
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);
     }
 }

@@ -35,7 +35,6 @@ import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.GradientTextView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;

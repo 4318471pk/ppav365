@@ -34,6 +34,7 @@ import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.FragmentContentActivity;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.IntentUtils;
+import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.LiveListHeader;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
@@ -41,6 +42,7 @@ import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
+import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,18 @@ public class RecommendListFragment extends BaseBindingFragment {
         return R.layout.fragment_recommend_list;
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBind.mvBroadcast.startFlipping();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBind.mvBroadcast.stopFlipping();
+    }
 
     /**
      * 主页直播列表
@@ -132,9 +146,45 @@ public class RecommendListFragment extends BaseBindingFragment {
         Api_Config.ins().getRecommendListBanner(new JsonCallback<List<HomeBanner>>() {
             @Override
             public void onSuccess(int code, String msg, List<HomeBanner> data) {
+                if(!isActivityOK())
+                {
+                    return;
+                }
                 if(data!=null && data.size()>0 && header!=null)
                 {
                     header.setBannerList(data);
+                }
+            }
+        });
+    }
+
+    public void getRecommendAnnounceList()
+    {
+        if(tabIndex!=0)
+        {
+            return;
+        }
+        Api_Config.ins().getRecommendAnnounceList(new JsonCallback<List<HomeBanner>>() {
+            @Override
+            public void onSuccess(int code, String msg, final List<HomeBanner> data) {
+                if(!isActivityOK())
+                {
+                    return;
+                }
+
+                if(data!=null && data.size()>0)
+                {
+                    List<String> strings=new ArrayList<>();
+                    for (int i = 0; i <data.size() ; i++) {
+                        strings.add(data.get(i).getContent());
+                    }
+                    mBind.mvBroadcast.startWithList(strings);
+                    mBind.mvBroadcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position, TextView textView) {
+                            JumpLinkUtils.jumpHomeBannerLinks(getActivity(),data.get(position));
+                        }
+                    });
                 }
             }
         });
@@ -192,7 +242,7 @@ public class RecommendListFragment extends BaseBindingFragment {
         initView();
         currentUser = DataCenter.getInstance().getUserInfo().getUser();
 
-        initGongGao();
+        getRecommendAnnounceList();
         initListRecycleView();
         initRefreshLayout();
         doGetLiveListApi();
@@ -330,34 +380,6 @@ public class RecommendListFragment extends BaseBindingFragment {
         });
 
         mBind.hostTypeTabs.selectTab(mBind.hostTypeTabs.getTabAt(tabIndex));
-    }
-
-
-    public void initGongGao() {
-        mBind.rlBroadcast.setVisibility(View.VISIBLE);
-        String content = SPUtils.getInstance("ad_gonggao").getString("content", "");
-
-        if (StringUtils.isEmpty(content)) {
-            mBind.rlBroadcast.setVisibility(View.GONE);
-        } else {
-            mBind.rlBroadcast.setVisibility(View.VISIBLE);
-            List<Advert> advertList = GsonUtil.getObjects(content, Advert[].class);
-            String jsonStr = advertList.get(0).getContent();
-            if (jsonStr.startsWith("{") && jsonStr.endsWith("}")) {
-                jsonStr = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));
-            }
-
-            mBind.mvBroadcast.setContent(jsonStr);
-            mBind.mvBroadcast.setOnClickListener(view -> {
-                if (!StringUtils.isEmpty(advertList.get(0).getJumpUrl())) {
-                    if (advertList.get(0).getOpenWay() == 0) { //打开方式 0站内，1站外
-                        FragmentContentActivity.startWebActivity(getActivity(), "", advertList.get(0).getJumpUrl());
-                    } else {
-                        IntentUtils.toBrowser(getActivity(), advertList.get(0).getJumpUrl());
-                    }
-                }
-            });
-        }
     }
 
     //每次回来都刷新直播列表

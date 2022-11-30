@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Subscribe {
+public @interface BusSubscribe {
     int code() default -1;
 
     ThreadMode threadMode() default ThreadMode.CURRENT_THREAD;

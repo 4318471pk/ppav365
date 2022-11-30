@@ -28,6 +28,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +79,11 @@ public class MyFollowActivity extends BaseHeadActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter = new BaseQuickAdapter(R.layout.item_follow, new ArrayList<Follow>()) {
+            @Override
+            public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+
+            }
+
             @Override
             protected void convert(BaseViewHolder helper, Object item) {
                 Follow follow = (Follow) item;

@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.live.fox.view.RadioButtonWithAnim
-            android:id="@+id/main_rb_home"
+            android:id="@+id/rbHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="2dp"
@@ -38,7 +38,7 @@
             android:textSize="12sp" />
 
         <com.live.fox.view.RadioButtonWithAnim
-            android:id="@+id/main_rb_live_list"
+            android:id="@+id/rbGame"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
@@ -53,7 +53,7 @@
             android:textSize="12sp" />
 
         <com.live.fox.view.RadioButtonWithAnim
-            android:id="@+id/layout_openlive"
+            android:id="@+id/rbAgent"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:drawableTop="@drawable/selector_tab_play"
@@ -68,7 +68,7 @@
             android:textSize="12sp" />
 
         <com.live.fox.view.RadioButtonWithAnim
-            android:id="@+id/main_rb_game"
+            android:id="@+id/rbAct"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
@@ -83,7 +83,7 @@
             android:textSize="12sp" />
 
         <com.live.fox.view.RadioButtonWithAnim
-            android:id="@+id/main_rb_mine"
+            android:id="@+id/rbMine"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="2dp"

@@ -18,6 +18,7 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.ui.act.ActivityDetailFragment;
 import com.live.fox.ui.h5.H5Activity;
 import com.live.fox.ui.mine.RechargeActivity;
+import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -72,19 +73,7 @@ public class LivingPromoFragment extends BaseBindingFragment {
         dialogPromoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                List<ActBean> mData=adapter.getData();
-                if (mData.get(position).getJumpType() == 1) { //跳轉到内部
-                    if (mData.get(position).getJumpCodeType() ==1) {
-                        RechargeActivity.startActivity(LivingPromoFragment.this.getContext());
-                    } else if (mData.get(position).getJumpCodeType() == 2 ) { //直播间
-
-                    } else if (mData.get(position).getJumpCodeType() == 3 ) { //游戏
-
-                    }
-                } else {
-                    H5Activity.start(LivingPromoFragment.this.getContext(),mData.get(position).getActivityName(),
-                            mData.get(position).getContent());
-                }
+                JumpLinkUtils.jumpActivityLinks(getContext(),dialogPromoAdapter.getData().get(position));
             }
         });
         mBind.rvMain.setAdapter(dialogPromoAdapter);

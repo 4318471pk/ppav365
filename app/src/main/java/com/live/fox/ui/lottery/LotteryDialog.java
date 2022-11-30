@@ -3,6 +3,9 @@ package com.live.fox.ui.lottery;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -40,6 +43,7 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 //    List<LivingLotteryListBean.ItemsBean> lotteryNameList = new ArrayList<>();
 
     List<BaseFragment> fragmentList = new ArrayList<>();
+    private Animation rotate;
 
     public static LotteryDialog getInstance()
     {
@@ -63,6 +67,13 @@ public class LotteryDialog extends BaseBindingDialogFragment {
 
         } else if (view == mBind.ivRefersh){
             getAsset();
+
+            if (rotate != null) {
+                mBind.ivRefersh.startAnimation(rotate);
+            } else {
+                mBind.ivRefersh.setAnimation(rotate);
+                mBind.ivRefersh.startAnimation(rotate);
+            }
         }
     }
 
@@ -94,6 +105,10 @@ public class LotteryDialog extends BaseBindingDialogFragment {
         CacheData();
         getAsset();
         startAnimate(mBind.rllMain,true);
+
+        rotate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anim);
+        LinearInterpolator lin = new LinearInterpolator();
+        rotate.setInterpolator(lin);
     }
 
     private void setVp(List<LivingLotteryListBean.ItemsBean> lotteryNameList){

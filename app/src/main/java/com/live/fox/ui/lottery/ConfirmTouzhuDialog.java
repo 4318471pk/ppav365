@@ -82,6 +82,10 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
                     inputChouMaDialog = InputChouMaDialog.newInstance(
                             getResources().getString(R.string.edit_zhudan_money), false,    touzhuList.get(pos).getName());
                 }
+
+                if(getActivity()==null){
+                    return;
+                }
                 inputChouMaDialog.show(getActivity().getSupportFragmentManager(), "input zhudao dialog");
                 inputChouMaDialog.setChouMaInputListener(new InputChouMaDialog.ChouMaInputListener() {
                     @Override

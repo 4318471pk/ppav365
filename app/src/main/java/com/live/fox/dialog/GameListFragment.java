@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.R;
 import com.live.fox.adapter.devider.RecyclerSpace;
 import com.live.fox.common.JsonCallback;
@@ -27,7 +28,6 @@ import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +109,7 @@ public class GameListFragment extends DialogFragment {
 
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Game game = (Game) adapter.getItem(position);
-            EventBus.getDefault().post(new MessageEvent(66, new Gson().toJson(game)));
+            RxBus.get().post(new MessageEvent(66, new Gson().toJson(game)));
             dismiss();
         });
     }

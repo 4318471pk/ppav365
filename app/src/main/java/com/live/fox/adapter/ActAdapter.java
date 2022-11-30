@@ -37,12 +37,16 @@ public class ActAdapter extends BaseQuickAdapter<ActBean, BaseViewHolder> {
             @Override
             public boolean onLoadFailed(@Nullable @org.jetbrains.annotations.Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                 iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                iv.setScaleX(0.8f);
+                iv.setScaleY(0.8f);
                 return false;
             }
 
             @Override
             public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
                 iv.setScaleType(ImageView.ScaleType.FIT_XY);
+                iv.setScaleX(1f);
+                iv.setScaleY(1f);
                 return false;
             }
         }).into(iv);

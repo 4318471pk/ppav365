@@ -12,6 +12,7 @@ import com.live.fox.utils.BulletViewUtils;
 
 import java.util.LinkedList;
 
+//座驾飘房父View
 public class VehicleParentVIew extends RelativeLayout {
 
     LinkedList<LivingEnterLivingRoomBean> list=new LinkedList<>();

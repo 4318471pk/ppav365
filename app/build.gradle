@@ -465,6 +465,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.9.2'
     implementation 'com.github.385841539:MarqueeView:1.0.0'
+    implementation 'com.sunfusheng:MarqueeView:1.4.0'
     implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     implementation 'com.github.mmin18:realtimeblurview:1.0.6'
 
@@ -533,7 +534,10 @@ dependencies {
 
     implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
     //EventBus
-    implementation 'org.greenrobot:eventbus:3.0.0'
+//    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation ('com.hwangjr.rxbus:rxbus:3.0.0') {
+        exclude group: 'com.jakewharton.timber', module: 'timber'
+    }
 
     //异常拦截
     implementation 'com.wanjian:cockroach:0.0.5'
@@ -551,4 +555,6 @@ dependencies {
     //数据库
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+
+    implementation files('libs/OpenInstall_v2.6.4.jar')
 }

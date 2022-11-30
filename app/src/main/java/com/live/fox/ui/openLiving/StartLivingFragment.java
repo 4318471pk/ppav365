@@ -57,6 +57,7 @@ import com.live.fox.entity.LivingMessageGiftBean;
 import com.live.fox.entity.LivingMsgBoxBean;
 import com.live.fox.entity.LotteryCategoryOfBeforeLiving;
 import com.live.fox.entity.MountResourceBean;
+import com.live.fox.entity.NewBornNobleOrGuardMessageBean;
 import com.live.fox.entity.OnlineUserBean;
 import com.live.fox.entity.PersonalLivingMessageBean;
 import com.live.fox.entity.SvgAnimateLivingBean;
@@ -396,6 +397,21 @@ public class StartLivingFragment extends BaseBindingFragment {
                             OpenLivingActivity openLivingActivity=(OpenLivingActivity)getActivity();
                             openLivingActivity.onAnchorExitLiving();
                             AnchorLivingFinishActivity.startActivity(openLivingActivity,openLivingActivity.liveId,false);
+                            break;
+                        case MessageProtocol.LIVE_BUY_GUARD:
+                            NewBornNobleOrGuardMessageBean bean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
+                            LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
+                                @Override
+                                public void onClick(Object bean) {
+                                    if(bean!=null && bean instanceof NewBornNobleOrGuardMessageBean)
+                                    {
+                                        NewBornNobleOrGuardMessageBean nBean=(NewBornNobleOrGuardMessageBean)bean;
+                                        showBotDialog(nBean.getUid()+"");
+                                    }
+                                }
+                            };
+                            SpanUtils spanUtils=ChatSpanUtils.appendNewBornGuard(bean,getActivity(),listener);
+                            sendSystemMsgToChat(spanUtils.create());
                             break;
                     }
                 }

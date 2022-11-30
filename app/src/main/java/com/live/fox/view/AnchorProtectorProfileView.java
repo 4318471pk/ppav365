@@ -143,7 +143,6 @@ public class AnchorProtectorProfileView extends RelativeLayout {
                 rlProfile.height=(int)(rlDe.width*0.95);
                 rlProfile.topMargin=(int)(rlDe.width*0.05)+rlDe.topMargin;
                 ivProfile.setLayoutParams(rlProfile);
-                ivProfile.setImageDrawable(getResources().getDrawable(R.mipmap.user_head_error));
 
                 getLayoutParams().height=rlDe.topMargin+rlDe.height;
             }

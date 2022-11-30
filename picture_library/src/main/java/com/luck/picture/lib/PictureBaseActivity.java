@@ -24,7 +24,7 @@ import com.luck.picture.lib.entity.EventEntity;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.entity.LocalMediaFolder;
 import com.luck.picture.lib.immersive.ImmersiveManage;
-import com.luck.picture.lib.rxbus2.RxBus;
+import com.luck.picture.lib.rxbus2.PicRxBus;
 import com.luck.picture.lib.tools.AttrsUtils;
 import com.luck.picture.lib.tools.DateUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
@@ -240,13 +240,13 @@ public class PictureBaseActivity extends FragmentActivity {
 
                         @Override
                         public void onSuccess(List<LocalMedia> list) {
-                            RxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
+                            PicRxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
                             onResult(list);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            RxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
+                            PicRxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
                             onResult(result);
                         }
                     }).launch();
@@ -272,7 +272,7 @@ public class PictureBaseActivity extends FragmentActivity {
                 image.setCompressPath(eqTrue ? "" : path);
             }
         }
-        RxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
+        PicRxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
         onResult(images);
     }
 

@@ -64,6 +64,8 @@ public class CommonApp extends MultiDexApplication {
     public static PhoneStateListener mPhoneListener = null;
     DaoSession mDaoSession;
 
+    public static String channelCode = null;
+
     @Override
     public void onCreate() {
         super.onCreate();

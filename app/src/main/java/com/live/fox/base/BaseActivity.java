@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.Constant;
 import com.live.fox.R;
 import com.live.fox.common.CommonApp;
@@ -355,6 +356,7 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        RxBus.get().unregister(this);
         hideLoadingDialog();
         ActivityManager.getInstance().onDestroy(this);
     }
@@ -362,7 +364,7 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        RxBus.get().register(this);
     }
 
     @Override
