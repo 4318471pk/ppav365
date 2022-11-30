@@ -59,7 +59,7 @@
 
         <meta-data
             android:name="com.openinstall.APP_KEY"
-            android:value="OPENINSTALL_APPKEY"/>
+            android:value="o5s2x4"/>
 
 
         <service android:name="com.live.fox.manager.ResourceDownloadService"/>
@@ -175,7 +175,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="iujbco" />
+                <data android:scheme="o5s2x4" />
             </intent-filter>
 
         </activity> <!-- 主界面 -->

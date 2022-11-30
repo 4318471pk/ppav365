@@ -153,10 +153,15 @@ public class YusheBeishuDialog extends DialogFragment {
     }
 
     private void checkBeishu(EditText et) {
-        int beishu = Integer.parseInt(et.getText().toString().trim());
-        if (beishu > 20) {
-            et.setText(20+ "");
+        try {
+            int beishu = Integer.parseInt(et.getText().toString().trim());
+            if (beishu > 20) {
+                et.setText(20+ "");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     public interface YusheBeishuListener{

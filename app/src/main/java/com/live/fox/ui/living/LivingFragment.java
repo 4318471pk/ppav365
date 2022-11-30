@@ -1067,6 +1067,7 @@ public class LivingFragment extends BaseBindingFragment {
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }
+                        livingControlPanel.mBind.tvAnchorName.setText(data.getNickname());
 
                         if(isRoomLiving)
                         {

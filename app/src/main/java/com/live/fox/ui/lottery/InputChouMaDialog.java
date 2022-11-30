@@ -102,15 +102,21 @@ public class InputChouMaDialog extends DialogFragment {
                 if (TextUtils.isEmpty(etChouma.getText().toString().trim())) {
                     ToastUtils.showShort(getResources().getString(R.string.please_input_chouma));
                 }else {
-                    int money = Integer.parseInt(etChouma.getText().toString().trim());
-                    if (money < 2 || money >10000) {
-                        ToastUtils.showShort(getResources().getString(R.string.please_input_score_2));
-                        return;
+
+                    try {
+                        int money = Integer.parseInt(etChouma.getText().toString().trim());
+                        if (money < 2 || money >10000) {
+                            ToastUtils.showShort(getResources().getString(R.string.please_input_score_2));
+                            return;
+                        }
+                        if (chouMaInputListener != null) {
+                            chouMaInputListener.confirm(etChouma.getText().toString().trim(), isChouma);
+                            dismiss();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    if (chouMaInputListener != null) {
-                        chouMaInputListener.confirm(etChouma.getText().toString().trim(), isChouma);
-                        dismiss();
-                    }
+
                 }
             }
         });

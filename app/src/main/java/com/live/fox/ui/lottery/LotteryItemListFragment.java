@@ -48,7 +48,7 @@ public class LotteryItemListFragment extends BaseBindingFragment {
     public void initView(View view) {
         mBind = getViewDataBinding();
 
-        if (itemsBean.getConfigGameBaseList() != null && itemsBean.getConfigGameBaseList().size() > 0 ) {
+        if (itemsBean != null &&itemsBean.getConfigGameBaseList() != null && itemsBean.getConfigGameBaseList().size() > 0 ) {
             lotteryList.addAll(itemsBean.getConfigGameBaseList());
         }
         lotteryAdapter = new LotteryAdapter(this.getContext(),lotteryList);
