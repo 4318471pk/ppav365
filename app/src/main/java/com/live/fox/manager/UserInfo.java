@@ -62,7 +62,7 @@ public class UserInfo {
     public boolean isLogin()
     {
         User user= getUser();
-        return user!=null && user.getUid()!=null;
+        return user!=null && user.getUid()!=null && !TextUtils.isEmpty(token);
     }
 
     public synchronized void updateUser(User mUser)

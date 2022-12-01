@@ -63,6 +63,7 @@
 
             <TextView
                 android:id="@+id/tvConfirm"
+                android:onClick="@{click.onClickView}"
                 app:layout_constraintTop_toBottomOf="@+id/n3"
                 android:gravity="center"
                 android:background="@drawable/bg_nologin_btn1"

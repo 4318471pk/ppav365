@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -15,6 +16,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.gson.Gson;
@@ -34,6 +36,7 @@ import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.dialog.temple.EditNickNameConfirmDialog;
 import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.entity.NobleListBean;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.manager.DataCenter;
@@ -43,6 +46,8 @@ import com.live.fox.server.Api_Rank;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
+import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.mine.MyFollowListActivity;
 import com.live.fox.ui.mine.contribution.ContributionRankActivity;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ChatSpanUtils;
@@ -51,18 +56,23 @@ import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.ProfileScrollView;
+import com.live.fox.view.RankProfileView;
 import com.live.fox.view.Top20CircleImage;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
+import com.opensource.svgaplayer.SVGAParser;
+import com.opensource.svgaplayer.SVGAVideoEntity;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -170,6 +180,7 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
     private void initView() {
+        SVGAParser.Companion.shareParser().init(this);
         mBind.rlTop.setAlpha(0f);
         mBind.rlTop.setPadding(0,StatusBarUtil.getStatusBarHeight(this),0,0);
         mBind.svProfile.setOnScrollListener(new ProfileScrollView.OnScrollListener() {
@@ -208,7 +219,7 @@ public class UserDetailActivity extends BaseActivity  {
     protected void onStart() {
         super.onStart();
         Long myUid=DataCenter.getInstance().getUserInfo().getUser().getUid();
-        if(myUid!=null && myUid==uid)
+        if(myUid!=null && myUid.longValue()==uid.longValue())
         {
             refreshPage(DataCenter.getInstance().getUserInfo().getUser());
         }
@@ -217,8 +228,8 @@ public class UserDetailActivity extends BaseActivity  {
     public void refreshPage(User currentUser) {
         mUser = currentUser;
        // mBind.tvIcon.setText(ChatSpanUtils.ins().getAllIconSpan(mUser, context));
-        mBind.tvCirclenum.setText(mUser.getFans() + "");
-        mBind.tvFollownum.setText(String.valueOf(mUser.getFollows()));
+        mBind.tvFollowAmount.setText(mUser.getFollows() + "");
+        mBind.tvFansAmount.setText(String.valueOf(mUser.getFans()));
       //  mBind.tvFansnum.setText("");
 
         Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
@@ -277,7 +288,7 @@ public class UserDetailActivity extends BaseActivity  {
                 mBind.tvOccupation.setText(listJob.get(mUser.getJob()));}
         }
         mBind.tvNickName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
-        mBind.tvSignature.setText((StringUtils.isEmpty(mUser.getSignature()) ? getString(R.string.noWrite) : mUser.getSignature()));
+        mBind.tvSignature.setText((StringUtils.isEmpty(mUser.getSignature()) ? getString(R.string.noSignature) : mUser.getSignature()));
 
 
 //        if (mUser.getUserLevel() > 10) {
@@ -299,21 +310,45 @@ public class UserDetailActivity extends BaseActivity  {
 
         updateFollow();
 
-//        new SVGAParser(this).decodeFromAssets("living.svga", new SVGAParser.ParseCompletion() {
-//            @RequiresApi(api = Build.VERSION_CODES.P)
-//            @Override
-//            public void onComplete(@NotNull SVGAVideoEntity videoItem) {
-//                if (mBind.ivLiving != null) {
-//                    mBind.ivLiving.setVideoItem(videoItem);
-//                    mBind.ivLiving.stepToFrame(0, true);
-//                }
-//            }
-//
-//            @Override
-//            public void onError() {
-//
-//            }
-//        });
+        if(mUser.getBroadcast() && !TextUtils.isEmpty(mUser.getLiveId()))
+        {
+            RoomListBean roomListBean=new RoomListBean();
+            roomListBean.setId(mUser.getLiveId());
+            roomListBean.setAid(mUser.getUid()+"");
+            mBind.ivLiving.setOnClickListener(new OnClickFrequentlyListener() {
+                @Override
+                public void onClickView(View view) {
+                    List<RoomListBean> roomListBeans=new ArrayList<>();
+                    roomListBeans.add(roomListBean);
+                    LivingActivity.startActivity(UserDetailActivity.this,roomListBeans,0);
+                }
+            });
+            SVGAParser parser = SVGAParser.Companion.shareParser();
+            parser.decodeFromAssets("living.svga", new SVGAParser.ParseCompletion() {
+                @Override
+                public void onComplete(SVGAVideoEntity svgaVideoEntity) {
+                    if (mBind.ivLiving != null) {
+                        mBind.ivLiving.setVisibility(View.VISIBLE);
+                        mBind.ivLiving.setVideoItem(svgaVideoEntity);
+                        mBind.ivLiving.stepToFrame(0, true);
+                    }
+                }
+
+                @Override
+                public void onError() {
+                }
+            }, new SVGAParser.PlayCallback() {
+                @Override
+                public void onPlay(@NotNull List<? extends File> list) {
+
+                }
+            });
+        }
+        else
+        {
+            mBind.ivLiving.clear();
+            mBind.ivLiving.setVisibility(View.GONE);
+        }
     }
 
 
@@ -351,8 +386,11 @@ public class UserDetailActivity extends BaseActivity  {
             @Override
             public void onSuccess(int code, String msg, UserAssetsBean data) {
                 hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    mBind.tvFansnum.setText("" + data.getSendDiamond());
+                if (code == 0 ) {
+                    if(data.getSendDiamond()!=null)
+                    {
+                        mBind.tvGiftAmount.setText("" + data.getSendDiamond().intValue());
+                    }
                 } else {
                     ToastUtils.showShort(msg);
                 }
@@ -361,7 +399,7 @@ public class UserDetailActivity extends BaseActivity  {
     }
 
     public void onViewClick(View view) {
-        if (ClickUtil.isFastDoubleClick()) return;
+        if (ClickUtil.isClickWithShortTime(view.getId(),1000)) return;
         switch (view.getId()) {
             case R.id.rlContribution:
                 ContributionRankActivity.startActivity(this,ContributionDataList);
@@ -369,6 +407,14 @@ public class UserDetailActivity extends BaseActivity  {
             case R.id.editProfileImage:
                 EditUserInfoActivity.startActivity(this);
 //                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), EditProfileImageDialog.getInstance());
+                break;
+            case R.id.tvFollowAmount:
+            case R.id.tvFollow:
+                MyFollowListActivity.startActivity(this,false);
+                break;
+            case R.id.tvFans:
+            case R.id.tvFansAmount:
+                MyFollowListActivity.startActivity(this,true);
                 break;
             case R.id.iv_back:
                 finish();
@@ -381,7 +427,7 @@ public class UserDetailActivity extends BaseActivity  {
                         if (code == 0 && result != null) {
                             mUser.setFollow(!mUser.isFollow());
                             mUser.setFans(mUser.isFollow() ? mUser.getFans() + 1 : mUser.getFans() - 1);
-                            mBind.tvFansnum.setText(mUser.getFans() + "");
+                            mBind.tvGiftAmount.setText(mUser.getFans() + "");
                             updateFollow();
                         }
                     }
@@ -471,13 +517,19 @@ public class UserDetailActivity extends BaseActivity  {
                         if(beans!=null && beans.size()>0)
                         {
                             for (int i = 0; i < images.size(); i++) {
+                                View parent= (View)images.get(i).getParent();
                                 if(beans.size()>i)
                                 {
+                                    parent.setVisibility(View.VISIBLE);
                                     String url=beans.get(i).getAvatar();
                                     if(!TextUtils.isEmpty(url))
                                     {
                                         GlideUtils.loadCircleImage(UserDetailActivity.this,url,0,0,images.get(i));
                                     }
+                                }
+                                else
+                                {
+                                    parent.setVisibility(View.INVISIBLE);
                                 }
                             }
                         }

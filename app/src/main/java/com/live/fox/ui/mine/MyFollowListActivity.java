@@ -19,6 +19,7 @@ import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -94,6 +95,10 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
                     }
                     LivingActivity.startActivity(MyFollowListActivity.this,listBeans,position);
                     return;
+                }
+                else
+                {
+                    UserDetailActivity.startActivity(MyFollowListActivity.this,Long.valueOf(follow.getUid()));
                 }
             }
         });

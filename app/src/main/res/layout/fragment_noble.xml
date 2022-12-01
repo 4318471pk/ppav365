@@ -30,7 +30,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="22dip"
             android:layout_marginTop="63dp"
             android:layout_marginStart="28dp"
             android:orientation="horizontal">
@@ -38,28 +38,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/noble_2"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:shadowColor="#ff000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="@string/noble_3"
                 android:textSize="15sp"
                 android:textColor="@color/colorE2B361"/>
 
-            <com.flyco.roundview.RoundLinearLayout
-                android:layout_width="2dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="2dp"
-                app:rv_cornerRadius="50dp"
-                app:rv_backgroundColor="@color/colorE2B361"/>
-
-
-            <TextView
-                android:id="@+id/tvNoble"
+            <ImageView
+                android:id="@+id/ivNoble"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
-                android:text="@string/nanjue"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/colorE2B361"/>
+                android:adjustViewBounds="true"
+                />
 
         </LinearLayout>
 

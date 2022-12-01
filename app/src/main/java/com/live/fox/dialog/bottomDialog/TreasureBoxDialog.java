@@ -323,6 +323,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                 line.setVisibility(View.VISIBLE);
                 currentType=tab.getPosition();
                 setAdapterIndex(tab.getPosition());
+                mBind.llBtns.setVisibility(currentType==2?View.INVISIBLE:View.VISIBLE);
             }
 
             @Override

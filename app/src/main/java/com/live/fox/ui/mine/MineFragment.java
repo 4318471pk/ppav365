@@ -33,6 +33,7 @@ import com.live.fox.entity.Letter;
 import com.live.fox.entity.LetterList;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.NobleListBean;
+import com.live.fox.entity.ServiceItemBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Order;
@@ -78,11 +79,10 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     private MineFragmentBinding mBind;
     private User userinfo;
     String headUrl = "";
-    private boolean isNoble;
 
 
     private ServiceAdapter serviceAdapter;
-    private List<String> serviceList = new ArrayList<>();
+    private List<ServiceItemBean> serviceList = new ArrayList<>();
 
     public static MineFragment newInstance() {
         return new MineFragment();
@@ -416,11 +416,22 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         popupWindow.setAnimationStyle(R.style.ActionSheetDialogAnimation);
 
         RecyclerView rc = popupView.findViewById(R.id.rc);
+        String arrayTitle[]=getResources().getStringArray(R.array.serviceTitles);
+        String arrayDetails[]=getResources().getStringArray(R.array.serviceDetails);
         if (serviceList.size() == 0) {
-            serviceList.add("1"); serviceList.add("");
+            ServiceItemBean bean1=new ServiceItemBean();
+            bean1.setResourceId(R.mipmap.icon_online_service);
+            bean1.setTitle(arrayTitle[0]);
+            bean1.setDetail(arrayDetails[0]);
+            serviceList.add(bean1);
+            ServiceItemBean bean2=new ServiceItemBean();
+            bean2.setResourceId(R.mipmap.icon_business_service);
+            bean2.setTitle(arrayTitle[1]);
+            bean2.setDetail(arrayDetails[1]);
+            serviceList.add(bean2);
         }
         if (serviceAdapter == null) {
-            serviceAdapter = new ServiceAdapter(serviceList);
+            serviceAdapter = new ServiceAdapter(getActivity(),serviceList);
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

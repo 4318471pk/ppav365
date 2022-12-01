@@ -470,13 +470,24 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                             }
 
                             SpanUtils icons=new SpanUtils();
-                            if(currentUser.getUserLevel()!=null)
+                            if(ChatSpanUtils.appendLevelIcon(icons,currentUser.getUserLevel(), getActivity()))
                             {
-                                ChatSpanUtils.appendLevelIcon(icons,currentUser.getUserLevel(),getContext());
+                                icons.append(" ");
+                            }
+
+                            if(ChatSpanUtils.appendVipLevelRectangleIcon(icons,currentUser.getVipLevel(), getActivity()))
+                            {
+                                icons.append(" ");
+                            }
+
+                            if(ChatSpanUtils.appendRoomManageIcon(icons,currentUser.isRoomManage(), getActivity()))
+                            {
+                                icons.append(" ");
                             }
 
                             mBind.tvSmallLogo.setText(icons.create());
 
+                            mBind.rpv.setIndex(RankProfileView.NONE,currentUser.getVipLevel(),false);
                             GlideUtils.loadCircleImage(getActivity(), currentUser.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
                                     mBind.rpv.getProfileImage());
 

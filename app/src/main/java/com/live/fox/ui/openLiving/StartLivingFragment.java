@@ -428,13 +428,13 @@ public class StartLivingFragment extends BaseBindingFragment {
      */
     private void livingMessageEnterOrOutOfRoom(String msg) {
 
-        handler.sendEmptyMessageDelayed(enterRoomRefresh,1000);
         LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
         livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+        //刷新总人数
+        mBind.gtvOnlineAmount.setText(livingEnterLivingRoomBean.getLiveSum()+"");
         if(!livingEnterLivingRoomBean.isInter())
         {
-            //刷新总人数
-            mBind.gtvOnlineAmount.setText(livingEnterLivingRoomBean.getLiveSum()+"");
+            //出去房间的不处理
             return;
         }
         mBind.vtEnterRoom.

@@ -80,6 +80,15 @@ public class NearByPeopleFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden && list.size()<1)
+        {
+            setLocationList();
+        }
+    }
+
+    @Override
     public int onCreateLayoutId() {
         return R.layout.fragment_nearby_people;
     }
@@ -115,7 +124,10 @@ public class NearByPeopleFragment extends BaseBindingFragment {
 
             LivingActivity.startActivity(getActivity(),(ArrayList<RoomListBean>)adapter.getData(),position);
         });
-        setLocationList();
+        if(DataCenter.getInstance().getUserInfo().isLogin() && list.size()<1)
+        {
+            setLocationList();
+        }
 
     }
 

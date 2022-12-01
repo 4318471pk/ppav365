@@ -60,13 +60,20 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         TextView tvIcons=helper.itemView.findViewById(R.id.tvIcons);
         SpanUtils spanUtils=new SpanUtils();
 
-        ChatSpanUtils.appendSexIcon(spanUtils,data.getSex(),context,SpanUtils.ALIGN_BASELINE);
-        spanUtils.append(" ");
+        if(ChatSpanUtils.appendSexIcon(spanUtils,data.getSex(),context,SpanUtils.ALIGN_BASELINE))
+        {
+            spanUtils.append(" ");
+        }
 
-        ChatSpanUtils.appendLevelIcon(spanUtils,data.getUserLevel(), context);
-        spanUtils.append(" ");
+        if(ChatSpanUtils.appendLevelIcon(spanUtils,data.getUserLevel(), context))
+        {
+            spanUtils.append(" ");
+        }
 
-        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getVipLevel(), context);
+        if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getVipLevel(), context))
+        {
+
+        }
         tvIcons.setText(spanUtils.create());
 
         RankProfileView rpvView=helper.itemView.findViewById(R.id.rpvView);
@@ -132,17 +139,6 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
             });
 
         }
-
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Strings.isDigitOnly(data.getUid()))
-                {
-                    UserDetailActivity.startActivity(mContext, Long.valueOf(data.getUid()));
-                }
-
-            }
-        });
 
     }
 

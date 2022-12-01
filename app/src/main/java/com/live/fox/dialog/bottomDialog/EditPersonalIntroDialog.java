@@ -109,15 +109,10 @@ public class EditPersonalIntroDialog extends BaseBindingDialogFragment {
                 if(code==0)
                 {
                     DataCenter.getInstance().getUserInfo().updateUser(user);
-                    if(getActivity()!=null && (getActivity() instanceof UserDetailActivity))
-                    {
-                        UserDetailActivity userDetailActivity=(UserDetailActivity)getActivity();
-                        userDetailActivity.refreshPage(user);
-                    }
                     dismissAllowingStateLoss();
                     if(onPersonalDataChangeListener!=null)
                     {
-                        onPersonalDataChangeListener.onDataChange();
+                        onPersonalDataChangeListener.onDataChange(intro);
                     }
                 }
             }
@@ -174,6 +169,6 @@ public class EditPersonalIntroDialog extends BaseBindingDialogFragment {
 
     public interface OnPersonalDataChangeListener
     {
-        public void onDataChange();
+        public void onDataChange(String text);
     }
 }
