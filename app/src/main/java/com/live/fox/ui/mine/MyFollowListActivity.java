@@ -191,7 +191,7 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
                 hideLoadingDialog();
                 if (code == 0) {
 
-                    if(isFollow){
+                    if(!isFollow){
                         ToastUtils.showShort(getString(R.string.cancelFocus));
                     }else {
                         ToastUtils.showShort(getString(R.string.successFocus));

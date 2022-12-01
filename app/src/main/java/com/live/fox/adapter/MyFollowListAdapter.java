@@ -85,7 +85,7 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 
         TextView tvGz = helper.getView(R.id.tvGz);
 
-        tvGz.setText(data.isFollow()?followed:follow);
+        tvGz.setText(!data.isFollow()?followed:follow);
 
         if (!isFans) { //我的关注
 //            if (!data.isFans()) {
@@ -95,47 +95,24 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 //
 //
 //            }
-            if(data.isFollow()){
 //                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-                tvGz.setTag(helper.getLayoutPosition()-getHeaderLayoutCount());
+            tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
+            tvGz.setTag(helper.getLayoutPosition()-getHeaderLayoutCount());
 
-                tvGz.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            tvGz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    boolean isFollow=data.isFollow();
+                    data.setFollow(!data.isFollow());
 
-
-                        if(onClickListener!=null)
-                        {
-                            onClickListener.onCancelFollow(data.getUid(),(int)v.getTag(),false);
-                        }
-
-                        data.setFollow(!data.isFollow());
-//                        tvGz.setText(follow);
+                    if(onClickListener!=null)
+                    {
+                        onClickListener.onCancelFollow(data.getUid(),(int)v.getTag(),isFollow);
                     }
-                });
-            }else {
-//                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-                tvGz.setTag(helper.getLayoutPosition()-getHeaderLayoutCount());
+                }
+            });
 
-                tvGz.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        if(onClickListener!=null)
-                        {
-                            onClickListener.onCancelFollow(data.getUid(),(int)v.getTag(),true);
-                        }
-
-
-                        data.setFollow(!data.isFollow());
-//                        tvGz.setText(followed);
-                    }
-                });
-            }
 
 
         } else {
@@ -147,41 +124,24 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 //                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
 //            }
 
-            if(data.isFollow()){
-//                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-                tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
+            tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
+            tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
 
-                tvGz.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(onClickListener!=null)
-                        {
-                            onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag(),false);
+            tvGz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean isFollow=data.isFollow();
+                    data.setFollow(!data.isFollow());
 
-                        }
-                        data.setFollow(!data.isFollow());
+                    if(onClickListener!=null)
+                    {
+                        onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag(),isFollow);
+
+                    }
+
 //                        tvGz.setText(follow);
-                    }
-                });
-            }else {
-//                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
-                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
-                tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
-
-                tvGz.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(onClickListener!=null)
-                        {
-                            onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag(),true);
-
-                        }
-                        data.setFollow(!data.isFollow());
-//                        tvGz.setText(followed);
-                    }
-                });
-            }
+                }
+            });
 
 
         }
