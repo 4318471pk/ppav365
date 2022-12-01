@@ -642,6 +642,13 @@ public class LivingFragment extends BaseBindingFragment {
                                 return;
                             }
 
+
+                            if(code==3001)
+                            {
+                                getAnchorInfo(false);
+                                return;
+                            }
+
                             if ( enterRoomBean != null) {
                                 //进入房间成功刷新主播信息
                                 getAnchorInfo(true);

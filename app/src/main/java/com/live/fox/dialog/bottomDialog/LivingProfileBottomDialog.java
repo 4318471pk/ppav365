@@ -371,15 +371,17 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 {
                     mBind.tvSignature.setText(user.getSignature());
                 }
-                if(user.getFans()!=null)
-                {
-                    mBind.tvFollowNum.setText(user.getFollows()+"");
-                }
+//                if(user.getFans()!=null)
+//                {
+//                    mBind.tvFollowNum.setText(user.getFollows()+"");
+//                }
 
-                if(user.getFollows()!=null)
-                {
-                    mBind.tvFansnum.setText(user.getFans()+"");
-                }
+                mBind.tvFollowNum.setText(String.valueOf(user.getFollows()));
+
+//                if(user.getFollows()!=null)
+//                {
+                    mBind.tvFansnum.setText(String.valueOf(user.getFans()));
+//                }
 
                 break;
         }
@@ -459,15 +461,17 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                                 mBind.tvSignature.setText(currentUser.getSignature());
                             }
 
-                            if(currentUser.getFans()!=null)
-                            {
-                                mBind.tvFollowNum.setText(currentUser.getFollows()+"");
-                            }
+//                            if(currentUser.getFans()!=null)
+//                            {
+//                                mBind.tvFollowNum.setText(currentUser.getFollows()+"");
+//                            }
 
-                            if(currentUser.getFollows()!=null)
-                            {
-                                mBind.tvFansnum.setText(currentUser.getFans()+"");
-                            }
+                            mBind.tvFollowNum.setText(String.valueOf(currentUser.getFollows()));
+
+//                            if(currentUser.getFollows()!=null)
+//                            {
+                                mBind.tvFansnum.setText(String.valueOf(currentUser.getFans()));
+//                            }
 
                             SpanUtils icons=new SpanUtils();
                             if(ChatSpanUtils.appendLevelIcon(icons,currentUser.getUserLevel(), getActivity()))

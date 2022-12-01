@@ -28,8 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:rv_cornerRadius_TL="20dip"
-            app:rv_cornerRadius_TR="20dip"
+            app:rv_cornerRadius_TL="20dp"
+            app:rv_cornerRadius_TR="20dp"
             app:rv_backgroundColor="@color/white"
             android:orientation="vertical">
 

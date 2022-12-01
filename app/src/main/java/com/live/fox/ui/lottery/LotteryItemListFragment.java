@@ -74,6 +74,10 @@ public class LotteryItemListFragment extends BaseBindingFragment {
         Api_Living_Lottery.ins().getLiveRoomGameDetail(gameCode, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+
+                if(data==null){
+                    return;
+                }
                 Log.e("getLiveRoomGameDetail",data);
             }
         });

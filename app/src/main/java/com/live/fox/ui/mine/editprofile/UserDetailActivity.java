@@ -240,6 +240,9 @@ public class UserDetailActivity extends BaseActivity  {
         {
             mBind.btnFollow.setVisibility(View.VISIBLE);
             mBind.btnFollow.setSelected(mUser.isFollow());
+
+
+            mBind.editProfileImage.setVisibility(View.GONE);
         }
 
         SpanUtils spanUtils=new SpanUtils();
