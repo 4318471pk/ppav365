@@ -102,6 +102,9 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+                    tvGz.setText(follow);
                     if(onClickListener!=null)
                     {
                         onClickListener.onCancelFollow(data.getUid(),(int)v.getTag());
@@ -127,7 +130,9 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
                     if(onClickListener!=null)
                     {
                         onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
+
                     }
+                    tvGz.setText(follow);
                 }
             });
 

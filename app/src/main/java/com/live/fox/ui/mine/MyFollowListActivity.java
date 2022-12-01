@@ -189,7 +189,7 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
                 hideLoadingDialog();
                 if (code == 0) {
                     ToastUtils.showShort(getString(R.string.cancelFocus));
-                    myFollowListAdapter.remove(position);
+//                    myFollowListAdapter.remove(position);
                 }
                 else
                 {
