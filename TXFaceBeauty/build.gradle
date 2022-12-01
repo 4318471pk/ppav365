@@ -32,7 +32,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ['*.aar'])
     implementation fileTree(dir: "libs", include: ['*.jar'])
 
-
+    implementation(name: 'xmagic-2.5.0.207', ext: 'aar')
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

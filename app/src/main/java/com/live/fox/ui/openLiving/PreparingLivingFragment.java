@@ -40,14 +40,13 @@ import org.json.JSONObject;
 public class PreparingLivingFragment extends BaseBindingFragment {
 
     FragmentPreparingLivingBinding mBind;
-    int iconArray[]={R.mipmap.icon_cameral_change,R.mipmap.icon_beaty_effect,
-            R.mipmap.icon_gametype,R.mipmap.icon_advantage,R.mipmap.icon_roomtype};
+    int iconArray[] = {R.mipmap.icon_cameral_change, R.mipmap.icon_beaty_effect,
+            R.mipmap.icon_gametype, R.mipmap.icon_advantage, R.mipmap.icon_roomtype};
     String liveId;
 
     @Override
     public void onClickView(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.rlMain:
                 hideKeyBoard(getView());
                 break;
@@ -55,9 +54,8 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                 getActivity().finish();
                 break;
             case R.id.gtvStartLiving:
-                if(!TextUtils.isEmpty(mBind.tvName.getText().toString()))
-                {
-                    getMainActivity().roomTitle=mBind.tvName.getText().toString();
+                if (!TextUtils.isEmpty(mBind.tvName.getText().toString())) {
+                    getMainActivity().roomTitle = mBind.tvName.getText().toString();
                 }
                 getMainActivity().showStartLiving();
                 break;
@@ -67,8 +65,8 @@ public class PreparingLivingFragment extends BaseBindingFragment {
 //                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setLocationDialog);
                 break;
             case R.id.ivRoomPic:
-                EditProfileImageDialog dialog= EditProfileImageDialog.getInstance();
-                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),dialog);
+                EditProfileImageDialog dialog = EditProfileImageDialog.getInstance();
+                DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), dialog);
                 break;
         }
     }
@@ -78,103 +76,92 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         return R.layout.fragment_preparing_living;
     }
 
-    public OpenLivingActivity getMainActivity()
-    {
-        if(isActivityOK())
-        {
-            return (OpenLivingActivity)getActivity();
+    public OpenLivingActivity getMainActivity() {
+        if (isActivityOK()) {
+            return (OpenLivingActivity) getActivity();
         }
         return null;
     }
 
-    public void setImage(String imageUrl)
-    {
-        GlideUtils.loadDefaultImage(getActivity(), imageUrl,R.mipmap.user_head_error,
+    public void setImage(String imageUrl) {
+        GlideUtils.loadDefaultImage(getActivity(), imageUrl, R.mipmap.user_head_error,
                 R.mipmap.user_head_error, mBind.ivRoomPic);
     }
 
     @Override
     public void initView(View view) {
-        mBind=getViewDataBinding();
+        mBind = getViewDataBinding();
         mBind.setClick(this);
 
-        int screenWidth= ScreenUtils.getScreenWidth(getContext());
-        int screenHeight=ScreenUtils.getScreenHeight(getContext());
-        liveId=getMainActivity().liveId;
-        String roomBG=getMainActivity().imageURL;
-        if(!TextUtils.isEmpty(roomBG))
-        {
-            GlideUtils.loadDefaultImage(getActivity(), roomBG,R.mipmap.user_head_error,
+        int screenWidth = ScreenUtils.getScreenWidth(getContext());
+        int screenHeight = ScreenUtils.getScreenHeight(getContext());
+        liveId = getMainActivity().liveId;
+        String roomBG = getMainActivity().imageURL;
+        if (!TextUtils.isEmpty(roomBG)) {
+            GlideUtils.loadDefaultImage(getActivity(), roomBG, R.mipmap.user_head_error,
                     R.mipmap.user_head_error, mBind.ivRoomPic);
         }
         mBind.tvName.setText(getMainActivity().roomTitle);
 
         view.setVisibility(View.GONE);
-        RelativeLayout.LayoutParams rl=(RelativeLayout.LayoutParams) mBind.rlContent.getLayoutParams();
-        rl.width=(int)(screenWidth*0.8f);
-        rl.leftMargin=(int)(screenWidth*0.1f);
-        rl.rightMargin=(int)(screenWidth*0.1f);
+        RelativeLayout.LayoutParams rl = (RelativeLayout.LayoutParams) mBind.rlContent.getLayoutParams();
+        rl.width = (int) (screenWidth * 0.8f);
+        rl.leftMargin = (int) (screenWidth * 0.1f);
+        rl.rightMargin = (int) (screenWidth * 0.1f);
         mBind.rlContent.setLayoutParams(rl);
 
-        RelativeLayout.LayoutParams rlBot=(RelativeLayout.LayoutParams) mBind.llBotView.getLayoutParams();
-        rlBot.width=(int)(screenWidth*0.8f);
-        rlBot.leftMargin=(int)(screenWidth*0.1f);
-        rlBot.rightMargin=(int)(screenWidth*0.1f);
+        RelativeLayout.LayoutParams rlBot = (RelativeLayout.LayoutParams) mBind.llBotView.getLayoutParams();
+        rlBot.width = (int) (screenWidth * 0.8f);
+        rlBot.leftMargin = (int) (screenWidth * 0.1f);
+        rlBot.rightMargin = (int) (screenWidth * 0.1f);
         mBind.llBotView.setLayoutParams(rlBot);
 
-        RelativeLayout.LayoutParams rlButtons=(RelativeLayout.LayoutParams) mBind.llButtons.getLayoutParams();
-        int botMargin=(int)(screenHeight*0.141f);
-        rlButtons.bottomMargin=botMargin+ScreenUtils.getDip2px(getContext(),70);
+        RelativeLayout.LayoutParams rlButtons = (RelativeLayout.LayoutParams) mBind.llButtons.getLayoutParams();
+        int botMargin = (int) (screenHeight * 0.141f);
+        rlButtons.bottomMargin = botMargin + ScreenUtils.getDip2px(getContext(), 70);
         mBind.llButtons.setLayoutParams(rlButtons);
 
-        User user= DataCenter.getInstance().getUserInfo().getUser();
-        if(!TextUtils.isEmpty(getMainActivity().fixRoomType))
-        {
+        User user = DataCenter.getInstance().getUserInfo().getUser();
+        if (!TextUtils.isEmpty(getMainActivity().fixRoomType)) {
             mBind.gtvRoomType.setText(getMainActivity().fixRoomType);
         }
 
-        if(TextUtils.isEmpty(user.getProvince()) && TextUtils.isEmpty(user.getCity()))
-        {
+        if (TextUtils.isEmpty(user.getProvince()) && TextUtils.isEmpty(user.getCity())) {
             mBind.tvLocation.setText(getStringWithoutContext(R.string.mars));
-        }
-        else
-        {
-            StringBuilder sb=new StringBuilder();
-            if(!TextUtils.isEmpty(user.getProvince()))
-            {
+        } else {
+            StringBuilder sb = new StringBuilder();
+            if (!TextUtils.isEmpty(user.getProvince())) {
                 sb.append(user.getProvince());
             }
-            if(!TextUtils.isEmpty(user.getCity()))
-            {
+            if (!TextUtils.isEmpty(user.getCity())) {
                 sb.append("-").append(user.getCity());
             }
             mBind.tvLocation.setText(sb.toString());
         }
 
-        String buttonTitles[]=getResources().getStringArray(R.array.startLivingTitles);
+        String buttonTitles[] = getResources().getStringArray(R.array.startLivingTitles);
 
-        int padding=ScreenUtils.getDip2px(getContext(),5);
+        int padding = ScreenUtils.getDip2px(getContext(), 5);
         for (int i = 0; i < buttonTitles.length; i++) {
-            TextView textView=new TextView(getActivity());
-            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ll.weight=1;
+            TextView textView = new TextView(getActivity());
+            LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ll.weight = 1;
             textView.setLayoutParams(ll);
             textView.setTextColor(0xffffffff);
             textView.setText(buttonTitles[i]);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,11);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
-            textView.setCompoundDrawablePadding(padding*2);
-            Drawable drawable=getResources().getDrawable(iconArray[i]);
-            textView.setCompoundDrawablesWithIntrinsicBounds(null,drawable,null,null);
+            textView.setCompoundDrawablePadding(padding * 2);
+            Drawable drawable = getResources().getDrawable(iconArray[i]);
+            textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
             mBind.llButtons.addView(textView);
             textView.setTag(i);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    OpenLivingActivity activity=(OpenLivingActivity)getActivity();
-                    int index=(int)view.getTag();
-                    switch (index)
-                    {
+                    OpenLivingActivity activity = (OpenLivingActivity) getActivity();
+                    int index = (int) view.getTag();
+                    switch (index) {
                         case 0:
                             activity.switchCamera();
                             break;
@@ -182,41 +169,40 @@ public class PreparingLivingFragment extends BaseBindingFragment {
 
                             break;
                         case 2:
-                            EditLivingGameTypeDialog editLivingGameTypeDialog= EditLivingGameTypeDialog.getInstance();
+                            EditLivingGameTypeDialog editLivingGameTypeDialog = EditLivingGameTypeDialog.getInstance();
                             editLivingGameTypeDialog.setOnSelectGameListener(new EditLivingGameTypeDialog.OnSelectGameListener() {
                                 @Override
                                 public void onSelected(LotteryCategoryOfBeforeLiving bean) {
-                                    getMainActivity().lotteryCategoryOfBeforeLiving=bean;
+                                    getMainActivity().lotteryCategoryOfBeforeLiving = bean;
                                 }
                             });
-                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),editLivingGameTypeDialog);
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), editLivingGameTypeDialog);
                             break;
                         case 3:
-                            ContactCardObtainDialog contactCardObtainDialog=ContactCardObtainDialog.getInstance();
+                            ContactCardObtainDialog contactCardObtainDialog = ContactCardObtainDialog.getInstance();
                             contactCardObtainDialog.setOnContactCardListener(new ContactCardObtainDialog.OnContactCardListener() {
                                 @Override
-                                public void onContactCard(boolean isAvailable, String account, int diamondAmount,int type) {
-                                        if(isAvailable)
-                                        {
-                                            getMainActivity().contactAccount=account;
-                                            getMainActivity().contactCostDiamond=diamondAmount;
-                                            getMainActivity().contactType=type;
-                                        }
+                                public void onContactCard(boolean isAvailable, String account, int diamondAmount, int type) {
+                                    if (isAvailable) {
+                                        getMainActivity().contactAccount = account;
+                                        getMainActivity().contactCostDiamond = diamondAmount;
+                                        getMainActivity().contactType = type;
+                                    }
                                 }
                             });
-                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),contactCardObtainDialog);
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), contactCardObtainDialog);
                             break;
                         case 4:
-                            String liveId=getMainActivity().liveId;
-                            SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance(false,liveId);
+                            String liveId = getMainActivity().liveId;
+                            SetRoomTypeDialog setRoomTypeDialog = SetRoomTypeDialog.getInstance(false, liveId);
                             setRoomTypeDialog.setOnSelectRoomTypeListener(new SetRoomTypeDialog.OnSelectRoomTypeListener() {
                                 @Override
                                 public void onSelect(String liveId, int type, int price) {
-                                            getMainActivity().roomPrice=price;
-                                            getMainActivity().roomType=type;
+                                    getMainActivity().roomPrice = price;
+                                    getMainActivity().roomType = type;
                                 }
                             });
-                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),setRoomTypeDialog);
+                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(), setRoomTypeDialog);
                             break;
                     }
                 }
@@ -227,16 +213,15 @@ public class PreparingLivingFragment extends BaseBindingFragment {
         CacheOpenLivingGameList();
     }
 
-    private void CacheOpenLivingGameList()
-    {
+    private void CacheOpenLivingGameList() {
         Api_Living_Lottery.ins().getLiveBeforeGames(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                if(code==0)
-                {
-                    SPUtils.getInstance().put(ConstantValue.liveBeforeGames,data);
+                if (code == 0) {
+                    SPUtils.getInstance().put(ConstantValue.liveBeforeGames, data);
                 }
             }
         });
     }
+
 }

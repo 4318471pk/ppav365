@@ -913,7 +913,7 @@
     <string name="red_bag_rain_thanks_join">ขอบคุณที่เข้าร่วมค่ะ</string>
     <string name="bet_success">เดิมพันสำเร็จ</string>
     <string name="activity_in_progress">ดำเนินการอยู่</string>
-    <string name="share_rule_text">
+    <string name="share_rule_text" formatted="false">
         1.เชิญหนึ่งคนเพื่อรับ &#160; 1111 2222 และ 3333% เติมเงินครั้งแรกของเขา.
         \n 2. รายได้สามารถแลกเปลี่ยนเป็นเหรียญทองได้ เริ่มต้นที่ 4444 จำกัดวันละครั้ง.
         \n 3. ค่าธรรมเนียมการจัดการ 5555% จะถูกหักสำหรับการถอนรายได้ เริ่มต้นจาก 6666 7777 8888.

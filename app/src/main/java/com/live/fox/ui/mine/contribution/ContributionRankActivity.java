@@ -3,6 +3,7 @@ package com.live.fox.ui.mine.contribution;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -39,10 +40,18 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
     List<List<ContributionRankItemBean>> dataLists=new ArrayList<>();
     List<ContributionRankFragment> fragmentList=new ArrayList<>();
     int currentPosition=0;
+    String ContributionDataList;
 
     public static void startActivity(Context context)
     {
         context.startActivity(new Intent(context,ContributionRankActivity.class));
+    }
+
+    public static void startActivity(Context context,String ContributionDataList)
+    {
+        Intent intent=new Intent(context,ContributionRankActivity.class);
+        intent.putExtra("ContributionData",ContributionDataList);
+        context.startActivity(intent);
     }
 
     public List<List<ContributionRankItemBean>> getDataLists() {
@@ -68,6 +77,7 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
         mBind.setClick(this);
         setActivityTitle(R.string.listOfContributionBoss);
 
+        this.ContributionDataList=getIntent().getStringExtra("ContributionData");
         String titles[]=getResources().getStringArray(R.array.rank_tab_contribution);
         int widthScreen= ScreenUtils.getScreenWidth(this);
         fragmentList.add(ContributionRankFragment.newInstance(0));
@@ -151,7 +161,15 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
             mBind.rgTabs.addView(radioButton);
         }
 
-        getContributionList();
+        if(TextUtils.isEmpty(ContributionDataList))
+        {
+            getContributionList();
+        }
+        else
+        {
+            setData(ContributionDataList);
+        }
+
         ((RadioButton)mBind.rgTabs.getChildAt(0)).setChecked(true);
     }
 
@@ -165,18 +183,7 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
                 Log.e("getContributionList",data);
                 if(code==0 )
                 {
-                    try {
-                        JSONObject jsonObject=new JSONObject(data);
-                        dataLists.clear();
-                        analysisData(jsonObject,"dayList");
-                        analysisData(jsonObject,"weekList");
-                        analysisData(jsonObject,"monthList");
-                        analysisData(jsonObject,"allList");
-
-                        fragmentList.get(currentPosition).notifyFragment();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    setData(data);
                 }
                 else
                 {
@@ -184,6 +191,22 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
                 }
             }
         });
+    }
+
+    private void setData(String data)
+    {
+        try {
+            JSONObject jsonObject=new JSONObject(data);
+            dataLists.clear();
+            analysisData(jsonObject,"dayList");
+            analysisData(jsonObject,"weekList");
+            analysisData(jsonObject,"monthList");
+            analysisData(jsonObject,"allList");
+
+            fragmentList.get(currentPosition).notifyFragment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void analysisData(JSONObject jsonObject, String arrayTitle)

@@ -255,22 +255,6 @@ public class Api_User extends BaseApi {
 
 
     /**
-     * 关注
-     */
-    public void followUser(String targetId, boolean isFollow, JsonCallback<String> callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.USER_follow_URL;
-        HashMap<String, Object> params = getCommonParams();
-        params.put("isFollow", isFollow);
-        params.put("targetId", targetId);
-        OkGoHttpUtil.getInstance().doJsonPost(
-                "",
-                url,
-                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
-                new Gson().toJson(params))
-                .execute(callback);
-    }
-
-    /**
      * 粉丝列表
      */
     public void getFansList(int start, int page, JsonCallback callback) {
@@ -303,11 +287,28 @@ public class Api_User extends BaseApi {
                 .execute(callback);
     }
 
+
+    /**
+     * 关注
+     */
+    public void followUser(String targetId, boolean isFollow, JsonCallback<String> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.USER_follow_URL;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("isFollow", isFollow);
+        params.put("targetId", targetId);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                "",
+                url,
+                getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params))
+                .execute(callback);
+    }
+
     /**
      * 关注/取关
      */
     public void follow(long targetId, boolean isFollow, JsonCallback callback) {
-        String url = SPManager.getServerDomain() + Constant.URL.LIVE_follow_URL;
+        String url = SPManager.getServerDomain() + Constant.URL.USER_follow_URL;
         HashMap<String, Object> params = getCommonParams();
         params.put("targetId", targetId);
         params.put("isFollow", isFollow);

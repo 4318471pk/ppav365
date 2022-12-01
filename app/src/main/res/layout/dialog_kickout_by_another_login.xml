@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="click"
+            type="com.live.fox.dialog.KickOutByAnotherLoginDialog" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_ffffff_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/n1"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="41dp"
+                android:layout_marginEnd="41dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prom"
+                android:textColor="#ff404040"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/n2"
+                android:layout_marginTop="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/n1"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_other"
+                android:textColor="#ff646464"
+                android:textSize="14sp" />
+
+
+            <View
+                android:background="#D2CDE0"
+                android:id="@+id/n3"
+                android:layout_marginTop="29dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/n2"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp" />
+
+
+            <TextView
+                android:id="@+id/tvConfirm"
+                app:layout_constraintTop_toBottomOf="@+id/n3"
+                android:gravity="center"
+                android:background="@drawable/bg_nologin_btn1"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="39.5dp"
+                android:layout_marginEnd="39.5dp"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:text="@string/sure"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+
+            <View
+                app:layout_constraintTop_toBottomOf="@+id/tvConfirm"
+                android:layout_marginStart="39.5dp"
+                android:layout_marginEnd="39.5dp"
+                android:layout_width="match_parent"
+                android:layout_height="21dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>

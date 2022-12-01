@@ -12,6 +12,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
@@ -31,11 +32,14 @@ import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.SimpleSelectorDialog;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 import com.live.fox.dialog.temple.EditNickNameConfirmDialog;
+import com.live.fox.entity.ContributionRankItemBean;
 import com.live.fox.entity.NobleListBean;
 import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.manager.DataCenter;
+import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Order;
+import com.live.fox.server.Api_Rank;
 import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.chat.ChatActivity;
@@ -45,6 +49,7 @@ import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.ClickUtil;
 import com.live.fox.utils.ClipboardUtils;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.SpanUtils;
@@ -52,10 +57,13 @@ import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.ProfileScrollView;
+import com.live.fox.view.Top20CircleImage;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,14 +76,12 @@ import java.util.List;
  */
 public class UserDetailActivity extends BaseActivity  {
 
-    private boolean isFollow;
     UserdetatilActivityBinding mBind;
-
     Long uid;
     User mUser;
-
     List<String> listJob = new ArrayList<>();
     List<String> listGq = new ArrayList();
+    String ContributionDataList;
 
 
     public static void startActivity(Context context, long uid) {
@@ -195,6 +201,7 @@ public class UserDetailActivity extends BaseActivity  {
 
         doGetUserInfoByUidApi(uid);
         getAssetsData();
+        getContributionList();
     }
 
     @Override
@@ -357,7 +364,7 @@ public class UserDetailActivity extends BaseActivity  {
         if (ClickUtil.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.rlContribution:
-                ContributionRankActivity.startActivity(this);
+                ContributionRankActivity.startActivity(this,ContributionDataList);
                 break;
             case R.id.editProfileImage:
                 EditUserInfoActivity.startActivity(this);
@@ -388,56 +395,6 @@ public class UserDetailActivity extends BaseActivity  {
 //                EditUserInfoActivity.startActivity(this, DataCenter.getInstance().getUserInfo().getUser().getPhone());
 //                break;
         }
-    }
-
-
-
-    private void modifyUser(User userTemp, int type){
-        showLoadingDialog();
-        Api_User.ins().modifyUserInfo(userTemp, type, new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                hideLoadingDialog();
-
-                if(code==0) {
-                    showToastTip(true, getString(R.string.modifySuccess));
-                    if (type == 3) {
-                        mUser.setSex(userTemp.getSex());
-                        mBind.tvGender.setText(mUser.getSex() == 1? getString(R.string.boy): getString(R.string.girl));
-                    } else if (type == 5) {
-                        mUser.setEmotionalState(userTemp.getEmotionalState());
-                        setGq();
-                    } else if (type == 6) {
-                        mBind.tvAge.setText(userTemp.getBirthday());
-                    } else if (type == 7){
-                        mBind.tvOccupation.setText(listJob.get(userTemp.getJob()));
-                    } else if (type == 8){
-                        mBind.tvArea.setText(userTemp.getProvince() + "-" + userTemp.getCity());
-                    }
-                    //DataCenter.getInstance().getUserInfo().updateUser(user);
-
-                    SpanUtils spanUtils=new SpanUtils();
-                    if(ChatSpanUtils.appendSexIcon(spanUtils,userTemp.getSex(), context, SpanUtils.ALIGN_CENTER))
-                    {
-                        spanUtils.append(" ");
-                    }
-                    if(ChatSpanUtils.appendLevelIcon(spanUtils,userTemp.getUserLevel(), context))
-                    {
-                        spanUtils.append(" ");
-                    }
-                    if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,userTemp.getVipLevel(), context))
-                    {
-                        spanUtils.append(" ");
-                    }
-                    mBind.tvIcons.setText(spanUtils.create());
-
-                } else {
-                    showToastTip(true, msg);
-                }
-            }
-
-        });
-
     }
 
     private void setGq(){
@@ -488,6 +445,49 @@ public class UserDetailActivity extends BaseActivity  {
                     showToastTip(true, getString(R.string.modifySuccess));
                 } else {
                     showToastTip(true, msg);
+                }
+            }
+        });
+    }
+
+    public void getContributionList()
+    {
+        String uid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
+
+        Api_Rank.ins().getContributionRankList("",uid,new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                Log.e("getContributionList",data);
+                if(code==0 )
+                {
+                    try {
+                        JSONObject jsonObject=new JSONObject(data);
+                        ContributionDataList=data;
+                        List<ContributionRankItemBean> beans=GsonUtil.getObjects(jsonObject.optString("allList"), ContributionRankItemBean[].class);
+                        List<Top20CircleImage> images=new ArrayList<>();
+                        images.add(mBind.top1Image);
+                        images.add(mBind.top2Image);
+                        images.add(mBind.top3Image);
+                        if(beans!=null && beans.size()>0)
+                        {
+                            for (int i = 0; i < images.size(); i++) {
+                                if(beans.size()>i)
+                                {
+                                    String url=beans.get(i).getAvatar();
+                                    if(!TextUtils.isEmpty(url))
+                                    {
+                                        GlideUtils.loadCircleImage(UserDetailActivity.this,url,0,0,images.get(i));
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
                 }
             }
         });

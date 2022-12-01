@@ -20,10 +20,12 @@ import com.google.gson.reflect.TypeToken;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.live.fox.base.BaseActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.MMToast;
 import com.live.fox.dialog.NotificationDialog;
+import com.live.fox.dialog.SelectLoginTypeDialog;
 import com.live.fox.dialog.UpdateFragmentBinding;
 import com.live.fox.dialog.WebViewDialog;
 import com.live.fox.entity.AppUpdate;
@@ -187,14 +189,33 @@ public class MainActivity extends BaseActivity  {
         if (!NotificationManager.getInstance().isRegister()) {
             NotificationManager.getInstance().register(CommonApp.getInstance());
         }
-
-        doLoginGuest();//无论有没有token都给他登录刷新到最新到token
-
         if (DataCenter.getInstance().getUserInfo().isLogin()) {
-            getCountryCode();
             if (!NotificationManager.getInstance().isBindingUser()) {
                 NotificationManager.getInstance().registerUserID(CommonApp.getInstance());
             }
+        }
+
+        getCountryCode();
+        initTable();
+        if(TextUtils.isEmpty(DataCenter.getInstance().getUserInfo().getToken()))
+        {
+            SelectLoginTypeDialog selectLoginTypeDialog=SelectLoginTypeDialog.getInstance();
+            selectLoginTypeDialog.setOnSelectLoginTypeListener(new SelectLoginTypeDialog.OnSelectLoginTypeListener() {
+                @Override
+                public void onSelectLoginType(int type,SelectLoginTypeDialog dialog) {
+                    switch (type)
+                    {
+                        case 0://手机登录
+                            LoginModeSelActivity.startActivity(MainActivity.this);
+                            break;
+                        case 1://游客登录
+                            dialog.dismissWithAnimate();
+                            doLoginGuest();
+                            break;
+                    }
+                }
+            });
+            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),selectLoginTypeDialog);
         }
 
     }
@@ -236,7 +257,7 @@ public class MainActivity extends BaseActivity  {
             public void onSuccess(int code, String msg, String userJson) {
                 hideLoadingDialog();
                 if (code == 0) {
-                    initTable();
+
                 } else {
                     SPManager.clearUserInfo();
                     if (code == 993) {
@@ -507,35 +528,6 @@ public class MainActivity extends BaseActivity  {
                     }
                 });
     }
-
-
-    /**
-     * 将混流参数转为json字符串
-     *
-     * @param retryIndex   位置
-     * @param requestParam 请求参数
-     */
-    private void internalCancelSendRequest(final int retryIndex, final String requestParam) {
-        Api_LiveRecreation.ins().mergestream(requestParam, new JsonCallback<String>() {
-            @Override
-            public void onSuccess(int code, String msg, String data) {
-                if (data != null) LogUtils.e(data);
-                if (code == 0) {
-                    if (Integer.parseInt(data) == 0) {
-                        SPUtils.getInstance("pkhunliu").clear();
-                    } else {
-                        int tempRetryIndex = retryIndex - 1;
-                        LogUtils.e("sendPkRsp1 : " + tempRetryIndex);
-                        if (tempRetryIndex > 0) {
-                            LogUtils.e("sendPkRsp2 : " + tempRetryIndex);
-                            internalCancelSendRequest(tempRetryIndex, requestParam);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
 
     public void showHomeFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

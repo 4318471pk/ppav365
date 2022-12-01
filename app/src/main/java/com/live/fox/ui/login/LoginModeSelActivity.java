@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -34,8 +35,10 @@ import com.live.fox.ConstantValue;
 import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.LoginmodeselActivityBinding;
+import com.live.fox.dialog.KickOutByAnotherLoginDialog;
 import com.live.fox.entity.CountryCode;
 import com.live.fox.entity.RegisterEntity;
 import com.live.fox.manager.DataCenter;
@@ -44,6 +47,7 @@ import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_Auth;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.language.MultiLanguageActivity;
+import com.live.fox.ui.living.LivingFragment;
 import com.live.fox.ui.mine.kefu.ServicesActivity;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.AppUtils;
@@ -79,8 +83,8 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
 
     //是否显示一段实体
     MediaPlayer mediaPlayer;
-    private String showTip;
     private boolean flag = true;
+    boolean isKickOut=false,hasGuestLogin;
     DropDownWindowsOfCountry dropDownWindowsOfCountry;
     List<CountryCode> countryCodes;
     int remainSecond=60;
@@ -111,6 +115,24 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
             }
         }
     };
+
+
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, LoginModeSelActivity.class));
+    }
+
+    public static void startActivity(Context context,boolean hasGuestLogin) {
+        Intent intent=new Intent(context, LoginModeSelActivity.class);
+        intent.putExtra(ConstantValue.hasGuestLogin,hasGuestLogin);
+        context.startActivity(intent);
+    }
+
+    public static void startActivity(Context context,boolean hasGuestLogin, boolean isKickOut) {
+        Intent intent = new Intent(context, LoginModeSelActivity.class);
+        intent.putExtra(ConstantValue.isKickOut, isKickOut);
+        intent.putExtra(ConstantValue.hasGuestLogin,hasGuestLogin);
+        context.startActivity(intent);
+    }
 
     @Override
     public void onClickView(View view) {
@@ -242,22 +264,23 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
         handler.removeMessages(0);
     }
 
-    public void initData(Intent intent) {
-        if (intent != null) {
-            showTip = getIntent().getStringExtra("showTip");
-            if (StringUtils.isEmpty(showTip)) showTip = "";
-        }
-        countryCodes=SPManager.getCountryCode();
-        getCountryCode();
-    }
-
     @Override
     public void initView() {
         mBind=getViewDataBinding();
         setWindowsFlag();
-        initData(getIntent());
+        countryCodes=SPManager.getCountryCode();
+        getCountryCode();
 
-        boolean hasGuestLogin= getIntent().getBooleanExtra(ConstantValue.hasGuestLogin,true);
+        hasGuestLogin= getIntent().getBooleanExtra(ConstantValue.hasGuestLogin,true);
+        isKickOut= getIntent().getBooleanExtra(ConstantValue.isKickOut,false);
+
+        if(isKickOut)
+        {
+            DataCenter.getInstance().getUserInfo().setToken("");
+            mBind.layoutBack.setVisibility(View.GONE);
+            KickOutByAnotherLoginDialog dialog=KickOutByAnotherLoginDialog.getInstance();
+            DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),dialog);
+        }
         mBind.guestLogin.setVisibility(hasGuestLogin?View.VISIBLE:View.INVISIBLE);
         int screenWidth=ScreenUtils.getScreenWidth(this);
 
@@ -284,12 +307,6 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
             mp.start();
             mp.setLooping(true);
         });
-
-        //如果是被顶号的跳转,则跳出顶号的提示框
-        if (!StringUtils.isEmpty(showTip)) {
-            LogUtils.e(showTip);
-            ToastUtils.showShort(showTip);
-        }
 
         FixImageSize.setImageSizeOnWidthWithSRC(mBind.loginLogo, (int) (screenWidth * 0.44));
         mBind.guestLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -493,27 +510,6 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
         });
     }
 
-    public static void startActivity(Context context) {
-        context.startActivity(new Intent(context, LoginModeSelActivity.class));
-    }
-
-    public static void startActivity(Context context,boolean hasGuestLogin) {
-        Intent intent=new Intent(context, LoginModeSelActivity.class);
-        intent.putExtra(ConstantValue.hasGuestLogin,hasGuestLogin);
-        context.startActivity(intent);
-    }
-
-    public static void startActivity(Context context, String showTip) {
-        Constant.isAppInsideClick = true;
-        Intent intent = new Intent(context, LoginModeSelActivity.class);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-
-        //是否被顶号
-        intent.putExtra("showTip", showTip);
-        context.startActivity(intent);
-    }
 
     private void rotateView(ImageView view,boolean isShow)
     {
@@ -528,5 +524,15 @@ public class LoginModeSelActivity extends BaseBindingViewActivity  {
         rotate.setFillAfter(true);//动画执行完后是否停留在执行完的状态
 
         view.startAnimation(rotate);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if(event.getKeyCode()==KeyEvent.KEYCODE_BACK && event.getAction()==KeyEvent.ACTION_DOWN)
+        {
+
+            return isKickOut;
+        }
+        return super.dispatchKeyEvent(event);
     }
 }

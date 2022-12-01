@@ -915,7 +915,7 @@
     <string name="red_bag_rain_activity_end">Sự kiện mưa lì xì vòng này đã kết thúc</string>
     <string name="red_bag_rain_thanks_join"> Cảm ơn bạn đã tham gia</string>
     <string name="bet_success">Đặt cược thành công</string>
-    <string name="activity_in_progress">Đang tiến hành</string>
+    <string name="activity_in_progress" formatted="false">Đang tiến hành</string>
     <string name="share_rule_text">1.Mời bạn bè NHẬN ĐƯỢC&#160;&#160; 1111 2222 và 3333% tiền nạp lần đầu của người đó.
         \n 2. Thu nhập có thể đổi thành tiền vàng, khi thu nhập đạt 4444 trở lên, và giới hạn mỗi ngày một lần.
         \n 3. Rút tiền thu nhập sẽ bị trừ 5555% phí, và rút từ 6666 77778888 trở lên.

@@ -26,6 +26,7 @@ public interface ConstantValue {
     int RESULT_CROP_PIC=20006;
 
     public static String hasGuestLogin = "hasGuestLogin";
+    public static String isKickOut = "isKickOut";
     String BaseDomain ="BaseDomain";//基础网关
     String SPDefaultName ="aibo";//sharePreference默认名字
     String BulletMessageList ="BulletMessageList";//弹幕列表
