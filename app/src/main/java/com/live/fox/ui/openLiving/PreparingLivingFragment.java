@@ -166,7 +166,7 @@ public class PreparingLivingFragment extends BaseBindingFragment {
                             activity.switchCamera();
                             break;
                         case 1:
-
+                            activity.showBeautyLayout();
                             break;
                         case 2:
                             EditLivingGameTypeDialog editLivingGameTypeDialog = EditLivingGameTypeDialog.getInstance();

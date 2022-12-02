@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
@@ -67,6 +68,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     List<ConfigPathsBean> configPathsBeans;
     List<View> views = new ArrayList<>();
     String liveId = "";
+    boolean hasClickOpeLiving=false;
 
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, CenterOfAnchorActivity.class));
@@ -155,11 +157,15 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             @Override
             public void onClickView(View view) {
 
-                if(view.getTag()==null || !(boolean)view.getTag())
+                if(BuildConfig.hasBeautyFace)
                 {
-                    //资源初始化未完成先转个圈
-                    showLoadingDialogWithNoBgBlack();
-                    return;
+                    if(view.getTag()==null || !(boolean)view.getTag())
+                    {
+                        hasClickOpeLiving=true;
+                        //资源初始化未完成先转个圈
+                        showLoadingDialogWithNoBgBlack();
+                        return;
+                    }
                 }
 
                 if (mBind.gtvTitleOfRoom.getText().toString().length() == 0) {
@@ -168,9 +174,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 }
 
                 if (configPathsBeans != null && configPathsBeans.size() > 0) {
-//                    TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
-//                            configPathsBeans.get(0).getLicenceUrl(), configPathsBeans.get(0).getLicenceKey()
-//                    );
+                    TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
+                            configPathsBeans.get(0).getLicenceUrl(), configPathsBeans.get(0).getLicenceKey()
+                    );
 
                     //目前写死 看以后怎么拿
                     openLive("84");
@@ -223,20 +229,25 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
             getLivingRecord(i);//开播记录
         }
 
-        //腾讯美颜初始化
-        TMBeauty.getInstance().init(this,new TMBeauty.AuthCallback() {
-            @Override
-            public void onResourceReady() {
-                hideLoadingDialog();
-                getCenterData();//开播信息
-            }
+        if(BuildConfig.hasBeautyFace)
+        {
+            //腾讯美颜初始化
+            TMBeauty.getInstance().init(this,new TMBeauty.AuthCallback() {
+                @Override
+                public void onResourceReady() {
+                    hideLoadingDialog();
+                    getTvTitleRight().setTag(true);
+                    getCenterData();//开播信息
+                }
 
-            @Override
-            public void onAuthFailed(int errorCode, String msg) {
-                getTvTitleRight().setEnabled(false);
-                ToastUtils.showShort(msg);
-            }
-        });
+                @Override
+                public void onAuthFailed(int errorCode, String msg) {
+                    getTvTitleRight().setEnabled(false);
+                    ToastUtils.showShort(msg);
+                }
+            });
+        }
+
     }
 
     private void openLive(String liveConfigId) {
@@ -320,9 +331,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
     private void getCenterData() {
         //{"roomId":null,"icon":null,"title":null,"type":null}
+        showLoadingDialogWithNoBgBlack();
         Api_Live.ins().getAnchorCenterInfo(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                hideLoadingDialog();
                 if (code == 0) {
                     try {
                         JSONObject jsonObject = new JSONObject(data);
@@ -344,6 +357,11 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                         }
 
                         mBind.gtvTitleOfRoom.setText(title);
+                        if(hasClickOpeLiving)
+                        {
+                            hasClickOpeLiving=false;
+                            getTvTitleRight().performLongClick();
+                        }
 //                        switch (type)
 //                        {
 //

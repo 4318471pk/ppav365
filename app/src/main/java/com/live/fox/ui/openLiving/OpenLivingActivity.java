@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.live.fox.AppIMManager;
+import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.R;
@@ -49,6 +50,7 @@ import com.live.fox.ui.mine.editprofile.EditProfileImageActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.KeyboardUtils;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.StatusBarUtil;
 import com.live.fox.utils.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
@@ -108,18 +110,9 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
     int contactType=-1;//主播联系方式  微信 qq 电话
     LotteryCategoryOfBeforeLiving lotteryCategoryOfBeforeLiving;
 
-    private boolean mIsResumed = false;
-    private boolean mIsPermissionGranted = false;
     boolean isSupportBeautyFace=false;
     XMagicImpl xMagicImpl;//美颜API
     V2TXLivePusherObserver observer;//推流观察器
-    private final PermissionHandler mPermissionHandler = new PermissionHandler(this) {
-        @Override
-        protected void onAllPermissionGranted() {
-            mIsPermissionGranted = true;
-            tryResume();
-        }
-    };
 
     public String getPushUrl() {
         return pushUrl;
@@ -186,21 +179,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        mIsResumed = true;
-        tryResume();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        mPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);// 必须有这个调用, mPermissionHandler 才能正常工作
-    }
-
-    private void tryResume() {
-        if (mIsResumed && mIsPermissionGranted) {
-            if (xMagicImpl != null) {
-                xMagicImpl.onResume();
-            }
+        if (xMagicImpl != null) {
+            xMagicImpl.onResume();
         }
     }
 
@@ -249,7 +229,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
         }
         fragmentTransaction.commitAllowingStateLoss();
 
-        mPermissionHandler.start();// 检查和请求系统权限
         initPusher();//初始化推流器
         initListener();//设定监听
         startCameraPreview();//打开摄像头
@@ -428,7 +407,10 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
                     isCameraInitFinish=true;
                     fragment.dismissAllowingStateLoss();
                     showPreParingFragment();
-                    createXMagic();
+                    if(BuildConfig.hasBeautyFace)
+                    {
+                        createXMagic();
+                    }
                 }
 
             }
@@ -776,12 +758,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
     public void switchCamera() {
         if (mLivePusher != null) {
             isFrontCamera = !isFrontCamera;
-            mLivePusher.stopCamera();
-            if(mLivePusher.isPushing()==1)
-            {
-                mLivePusher.stopPush();
-            }
-            mLivePusher.startCamera(isFrontCamera);
+            mLivePusher.getDeviceManager().switchCamera(isFrontCamera);
         }
     }
 
@@ -844,5 +821,23 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
                 //不知道是什么鬼
             }
         });
+    }
+
+    public void showBeautyLayout()
+    {
+        if(BuildConfig.IsAnchorClient)
+        {
+            mBind.rlPanelMain.setVisibility(View.VISIBLE);
+            mBind.rlPanelMain.setOnClickListener(new OnClickFrequentlyListener() {
+                @Override
+                public void onClickView(View view) {
+                    mBind.rlPanelMain.setVisibility(View.GONE);
+                }
+            });
+        }
+        else
+        {
+            ToastUtils.showShort("这个包没有加入美颜功能");
+        }
     }
 }

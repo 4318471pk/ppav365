@@ -251,6 +251,7 @@ android {
             buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
             buildConfigField "String", "AppFlavor", '"Live24"'
             buildConfigField "Boolean", "IsAnchorClient", "false"
+            buildConfigField "Boolean", "hasBeautyFace", "false"
 
             manifestPlaceholders = [
                     XG_ACCESS_ID : "TM1530003293",
@@ -267,6 +268,7 @@ android {
             buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
             buildConfigField "String", "AppFlavor", '"Live24"'
             buildConfigField "Boolean", "IsAnchorClient", "true"
+            buildConfigField "Boolean", "hasBeautyFace", "true"
 
             manifestPlaceholders = [
                     XG_ACCESS_ID : "TM1530003293",
@@ -465,7 +467,7 @@ dependencies {
     implementation project(':picture_library')
 
     //用户端
-    anchor24CompileOnly(':TXFaceBeauty')
+    anchor24CompileOnly project(':TXFaceBeauty')
     anchor24CompileOnly(name: 'xmagic-2.5.0.207', ext: 'aar')
 
     //主播端

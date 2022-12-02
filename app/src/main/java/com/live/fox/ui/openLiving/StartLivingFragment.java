@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.live.fox.AppIMManager;
+import com.live.fox.BuildConfig;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
 import com.live.fox.MessageProtocol;
@@ -158,6 +159,9 @@ public class StartLivingFragment extends BaseBindingFragment {
                     return;
                 }
                 activity.switchCamera();
+                break;
+            case R.id.ivBeautyEffect:
+                activity.showBeautyLayout();
                 break;
             case R.id.ivRoomType:
                 SetRoomTypeDialog setRoomTypeDialog=SetRoomTypeDialog.getInstance(true,liveId);

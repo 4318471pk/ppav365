@@ -23,11 +23,6 @@ public class RedBagRainBean implements Serializable {
     public Boolean isShowRedBag() {
         boolean portIsShow = false;
         if (!TextUtils.isEmpty(redPort)) {
-            if (BuildConfig.IsAnchorClient) {
-                portIsShow = redPort.contains("2");
-            } else {
-                portIsShow = redPort.contains("1");
-            }
         }
         return isShow == 1 && portIsShow;//对应用户端，是否展示红包雨
     }
