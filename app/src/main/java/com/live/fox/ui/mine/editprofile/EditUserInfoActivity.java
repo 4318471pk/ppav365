@@ -39,6 +39,7 @@ import com.live.fox.databinding.EdituserinfoActivityBinding;
 import com.live.fox.dialog.ActionDialog;
 import com.live.fox.dialog.MMLoading;
 import com.live.fox.dialog.bottomDialog.AreaListSelectorDialog;
+import com.live.fox.dialog.bottomDialog.EditPersonalIntroDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog;
 import com.live.fox.dialog.bottomDialog.EditProfileImageDialog2;
 import com.live.fox.dialog.bottomDialog.SimpleSelectorDialog;
@@ -240,8 +241,15 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
                     ToastUtils.showShort(getString(R.string.editNameLimit));
                 }
                 break;
-            case R.id.rl_qianming:
-                EditorMarkActivity.startActivity(EditUserInfoActivity.this, user.getSignature());
+            case R.id.rlSignature:
+                EditPersonalIntroDialog editPersonalIntroDialog=EditPersonalIntroDialog.getInstance();
+                editPersonalIntroDialog.setOnPersonalDataChangeListener(new EditPersonalIntroDialog.OnPersonalDataChangeListener() {
+                    @Override
+                    public void onDataChange(String intro) {
+                        mBind.tvSignature.setText(intro);
+                    }
+                });
+                DialogFramentManager.getInstance().showDialog(getSupportFragmentManager(), editPersonalIntroDialog);
                 break;
         }
     }
@@ -259,7 +267,7 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
         } else {
             mBind.tvSex.setText(user.getSex() == 1 ? getString(R.string.boy) : getString(R.string.girl));
         }
-        mBind.tvQianming.setText(StringUtils.isEmpty(user.getSignature()) ? "" : user.getSignature());
+        mBind.tvSignature.setText(StringUtils.isEmpty(user.getSignature()) ? "" : user.getSignature());
         if (TextUtils.isEmpty(user.getBirthday())) {
             mBind.tvBirthday.setText(getString(R.string.privacyStr));
         } else {
@@ -464,7 +472,8 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
                     } else if (type == 8){
                         mBind.tvHome.setText(userTemp.getProvince() + "-" + userTemp.getCity());
                     }
-                    DataCenter.getInstance().getUserInfo().updateUser(user);
+
+                    DataCenter.getInstance().getUserInfo().updateUser(userTemp);
                 } else {
                     showToastTip(true, msg);
                 }

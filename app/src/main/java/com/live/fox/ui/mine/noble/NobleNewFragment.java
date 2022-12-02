@@ -29,6 +29,7 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
 import com.luck.picture.lib.rxbus2.ThreadMode;
@@ -48,7 +49,7 @@ public class NobleNewFragment extends BaseBindingFragment {
 
     NobleListBean nobleBean;
 
-
+    int resourceIdWords[];
     List<NobleEquityBean> mList = new ArrayList<>();
     int level;
 
@@ -80,6 +81,8 @@ public class NobleNewFragment extends BaseBindingFragment {
     @Override
     public void initView(View view) {
         mBind=getViewDataBinding();
+
+        resourceIdWords=new ResourceUtils().getResourcesID(R.array.wordsResources);
         commonDialog = new CommonDialog();
         level = getArguments().getInt("level");
         myLevel = getArguments().getInt("myLevel");
@@ -87,7 +90,7 @@ public class NobleNewFragment extends BaseBindingFragment {
         nobleBean = new Gson().fromJson(getArguments().getString("nobleBean"), NobleListBean.class);
         setBuyView();
 
-        mBind.tvNoble.setText(nobleBean.getVipName());
+        mBind.ivNoble.setImageResource(resourceIdWords[level-1]);
         if (nobleBean.getVipName().equals(getString(R.string.zijue))) {
             mBind.tvTips1.setTextColor(getResources().getColor(R.color.color00FCFF));
             mBind.tvTips2.setTextColor(getResources().getColor(R.color.color00FCFF));
@@ -373,27 +376,21 @@ public class NobleNewFragment extends BaseBindingFragment {
         } else if (level == NobleActivity.ZIJUE || level == NobleActivity.BOJUE) {
             mBind.tvPower.setText("7/13");
             if (level == NobleActivity.ZIJUE) {
-                mBind.tvNoble.setText(getString(R.string.zijue));
                 mBind.layout.setBackground(getResources().getDrawable(R.mipmap.zijue_p));
             } else {
-                mBind.tvNoble.setText(getString(R.string.bojue));
                 mBind.layout.setBackground(getResources().getDrawable(R.mipmap.bojue_p));
             }
         } else if (level == NobleActivity.HOUJUE) {
             mBind.tvPower.setText("8/13");
-            mBind.tvNoble.setText(getString(R.string.houjue));
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.houjue_p));
         } else if (level == NobleActivity.GONGJUE) {
             mBind.tvPower.setText("11/13");
-            mBind.tvNoble.setText(getString(R.string.gongjue));
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.gongjue_p));
         } else if (level == NobleActivity.QINWANG) {
             mBind.tvPower.setText("12/13");
-            mBind.tvNoble.setText(getString(R.string.qinwang));
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.qinwang_p));
         } else if (level == NobleActivity.KING) {
             mBind.tvPower.setText("13/13");
-            mBind.tvNoble.setText(getString(R.string.king));
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.guowang_p));
         }
 

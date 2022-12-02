@@ -2,6 +2,7 @@ package com.live.fox.common;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -10,8 +11,11 @@ import android.util.Log;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
 import com.live.fox.R;
+import com.live.fox.base.BaseActivity;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.login.LoginActivity;
+import com.live.fox.ui.login.LoginModeSelActivity;
+import com.live.fox.utils.ActivityManager;
 import com.live.fox.utils.ActivityUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.LogUtils;
@@ -69,17 +73,13 @@ public abstract class JsonCallback<T> extends StringCallback {
 //                }
 //            }
 
-            if (!response.isSuccessful()) {
-                onSuccessInMainThread(response.code(), response.message(), null);
-                return;
-            }
+            Log.e("CCCCC",response.code()+" "+response.body());
 
             String content = response.body();
             if (content == null) {
                 throw new IOException("The Server Result Is Null");
             }
 
-            LogUtils.i("请求结果:" + content);
 
             JSONObject json = new JSONObject(content);
             int code = json.optInt("code", -2000);
@@ -88,6 +88,14 @@ public abstract class JsonCallback<T> extends StringCallback {
 
             if (response.code() == 401) {
                 DataCenter.getInstance().getUserInfo().loginOut();
+                if(code==992)
+                {
+                    BaseActivity baseActivity= ActivityManager.getInstance().getTopActivity();
+                    if(baseActivity!=null)
+                    {
+                        LoginModeSelActivity.startActivity(baseActivity,true,true);
+                    }
+                }
                 msg = json.optString("desc", "");
                 onSuccessInMainThread(-1, msg, null);
                 return;

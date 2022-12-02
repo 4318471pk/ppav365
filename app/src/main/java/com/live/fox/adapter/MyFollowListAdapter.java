@@ -60,13 +60,20 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
         TextView tvIcons=helper.itemView.findViewById(R.id.tvIcons);
         SpanUtils spanUtils=new SpanUtils();
 
-        ChatSpanUtils.appendSexIcon(spanUtils,data.getSex(),context,SpanUtils.ALIGN_BASELINE);
-        spanUtils.append(" ");
+        if(ChatSpanUtils.appendSexIcon(spanUtils,data.getSex(),context,SpanUtils.ALIGN_BASELINE))
+        {
+            spanUtils.append(" ");
+        }
 
-        ChatSpanUtils.appendLevelIcon(spanUtils,data.getUserLevel(), context);
-        spanUtils.append(" ");
+        if(ChatSpanUtils.appendLevelIcon(spanUtils,data.getUserLevel(), context))
+        {
+            spanUtils.append(" ");
+        }
 
-        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getVipLevel(), context);
+        if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,data.getVipLevel(), context))
+        {
+
+        }
         tvIcons.setText(spanUtils.create());
 
         RankProfileView rpvView=helper.itemView.findViewById(R.id.rpvView);
@@ -85,7 +92,7 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 
         TextView tvGz = helper.getView(R.id.tvGz);
 
-        tvGz.setText(data.isFollow()?followed:follow);
+        tvGz.setText(!data.isFollow()?followed:follow);
 
         if (!isFans) { //我的关注
 //            if (!data.isFans()) {
@@ -95,19 +102,25 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 //
 //
 //            }
-            tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
+//                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
             tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
             tvGz.setTag(helper.getLayoutPosition()-getHeaderLayoutCount());
 
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    boolean isFollow=data.isFollow();
+                    data.setFollow(!data.isFollow());
+
                     if(onClickListener!=null)
                     {
-                        onClickListener.onCancelFollow(data.getUid(),(int)v.getTag());
+                        onClickListener.onCancelFollow(data.getUid(),(int)v.getTag(),isFollow);
                     }
                 }
             });
+
+
 
         } else {
 //            if (!data.isFollow()) {
@@ -117,39 +130,35 @@ public class MyFollowListAdapter extends BaseQuickAdapter<Follow, BaseViewHolder
 //                tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
 //                tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
 //            }
-            tvGz.setText(mContext.getResources().getString(R.string.cancle_gz));
+
             tvGz.setBackground(mContext.getResources().getDrawable(R.drawable.bg_5a21eb_857ff4));
             tvGz.setTag(helper.getAdapterPosition()-getHeaderLayoutCount());
 
             tvGz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    boolean isFollow=data.isFollow();
+                    data.setFollow(!data.isFollow());
+
                     if(onClickListener!=null)
                     {
-                        onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag());
+                        onClickListener.onCancelFollow(data.getUid(),(int)tvGz.getTag(),isFollow);
+
                     }
+
+//                        tvGz.setText(follow);
                 }
             });
 
+
         }
-
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Strings.isDigitOnly(data.getUid()))
-                {
-                    UserDetailActivity.startActivity(mContext, Long.valueOf(data.getUid()));
-                }
-
-            }
-        });
 
     }
 
 
     public interface OnClickListener
     {
-        void onCancelFollow(String uid,int pos);
+        void onCancelFollow(String uid,int pos, boolean isFollow);
         void onClickProfile(int pos);
     }
 }

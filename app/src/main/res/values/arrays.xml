@@ -54,6 +54,16 @@
         <item>@mipmap/icon_wang_rank</item>
     </integer-array>
 
+    <integer-array name="wordsResources">
+        <item>@mipmap/icon_words_nj</item>
+        <item>@mipmap/icon_words_zj</item>
+        <item>@mipmap/icon_words_bj</item>
+        <item>@mipmap/icon_words_hj</item>
+        <item>@mipmap/icon_words_gj</item>
+        <item>@mipmap/icon_words_qw</item>
+        <item>@mipmap/icon_words_gw</item>
+    </integer-array>
+
     <string-array name="study_view_spinner_values">
         <item>普通号</item>
         <item>特码</item>
@@ -146,6 +156,16 @@
         <item>钻</item>
         <item>元</item>
         <item>分</item>
+    </string-array>
+
+    <string-array name="serviceTitles">
+        <item>专属客服</item>
+        <item>商务代理客服</item>
+    </string-array>
+
+    <string-array name="serviceDetails">
+        <item>您的专属客服，处理各种平台相关问题</item>
+        <item>处理代理、主播认证等商务问题</item>
     </string-array>
 
 </resources>

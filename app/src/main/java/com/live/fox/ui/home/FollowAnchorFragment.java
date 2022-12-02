@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.adapter.FollowAnchorListAdapter;
@@ -15,13 +16,17 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentFollowAnchorBinding;
 import com.live.fox.entity.Anchor;
 import com.live.fox.entity.RoomListBean;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
+import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.EmptyDataView;
 import com.live.fox.view.RecommendAnchorListFooter;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
+import com.luck.picture.lib.tools.DoubleUtils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -82,6 +87,15 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         mBind.rvMain.addItemDecoration(new RecyclerSpace(dip5,RecyclerSpace.AnchorGrid));
 
         adapter=new FollowAnchorListAdapter(getActivity(),new ArrayList());
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (DoubleUtils.isFastDoubleClick()) return;
+                if (adapter.getItem(position) == null) return;
+
+                toLiveRoom((ArrayList<RoomListBean>)adapter.getData(),position);
+            }
+        });
         recommendAnchorListFooter=new RecommendAnchorListFooter(getActivity());
         recommendAnchorListFooter.setOnClickChangeListListener(new RecommendAnchorListFooter.onClickChangeListListener() {
             @Override
@@ -96,6 +110,16 @@ public class FollowAnchorFragment extends BaseBindingFragment {
         adapter.addHeaderView(emptyDataView);
 
         setEmptyData(true);
+    }
+
+    //跳往直播间
+    public void toLiveRoom(ArrayList<RoomListBean> roomListBeans,int position) {
+        if (!DataCenter.getInstance().getUserInfo().isLogin()) {
+            LoginModeSelActivity.startActivity(requireContext());
+            return;
+        }
+
+        LivingActivity.startActivity(getActivity(),roomListBeans,position);
     }
 
     private void setEmptyData(boolean isEmpty)

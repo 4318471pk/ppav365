@@ -19,6 +19,7 @@ import com.live.fox.entity.RankItemBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -70,8 +71,8 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
         myFollowListAdapter = new MyFollowListAdapter(list, isFans,this);
         myFollowListAdapter.setOnCancelFollowListener(new MyFollowListAdapter.OnClickListener() {
             @Override
-            public void onCancelFollow(String uid,int pos) {
-                followFans(uid,pos);
+            public void onCancelFollow(String uid,int pos, boolean isFollow) {
+                followFans(uid,pos,isFollow);
             }
 
             @Override
@@ -94,6 +95,10 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
                     }
                     LivingActivity.startActivity(MyFollowListActivity.this,listBeans,position);
                     return;
+                }
+                else
+                {
+                    UserDetailActivity.startActivity(MyFollowListActivity.this,Long.valueOf(follow.getUid()));
                 }
             }
         });
@@ -181,15 +186,24 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
         };
     }
 
-    private void followFans(String uid,int position){
+    //false 取消关注
+    //true  关注
+    private void followFans(String uid,int position, boolean isFollow){
         showLoadingDialogWithNoBgBlack();
-        Api_User.ins().followUser(uid + "", false, new  JsonCallback<String>() {
+        Api_User.ins().followUser(uid + "", isFollow, new  JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 hideLoadingDialog();
                 if (code == 0) {
-                    ToastUtils.showShort(getString(R.string.cancelFocus));
-                    myFollowListAdapter.remove(position);
+
+                    if(!isFollow){
+                        ToastUtils.showShort(getString(R.string.cancelFocus));
+                    }else {
+                        ToastUtils.showShort(getString(R.string.successFocus));
+                    }
+
+//                    myFollowListAdapter.remove(position);
+                    myFollowListAdapter.notifyItemChanged(position);
                 }
                 else
                 {

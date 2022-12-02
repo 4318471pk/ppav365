@@ -13,11 +13,10 @@
     >
 
     <ImageView
-        android:id="@+id/iv"
+        android:id="@+id/ivLogo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="17dp"
-        android:src="@mipmap/wechat_pay"
         />
 
     <LinearLayout

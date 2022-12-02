@@ -63,4 +63,16 @@ public class ActivityManager {
     {
         baseActivities.remove(baseActivity);
     }
+
+    public BaseActivity getTopActivity()
+    {
+        for (int i = baseActivities.size()-1; i>-1; i++) {
+            BaseActivity baseActivity=baseActivities.get(i);
+            if(!baseActivity.isFinishing() && !baseActivity.isDestroyed())
+            {
+                return baseActivity;
+            }
+        }
+        return null;
+    }
 }

@@ -585,6 +585,7 @@
     <string name="city">城市&#160;:&#160;</string>
     <string name="sign">签名&#160;:&#160;</string>
     <string name="noWrite">暂未填写</string>
+    <string name="noSignature">TA好像忘记签名了</string>
     <string name="gifCon">礼物贡献榜</string>
     <string name="material">资料</string>
     <string name="userCopy">用户ID复制成功</string>
@@ -1009,6 +1010,7 @@
     <string name="assets">资产</string>
     <string name="exchange_diamond">兑换钻石</string>
     <string name="noble_2">贵族</string>
+    <string name="noble_3">贵族·</string>
     <string name="service">客服</string>
     <string name="recharge_record">充提记录</string>
     <string name="diamond_income_expense">钻石收支</string>

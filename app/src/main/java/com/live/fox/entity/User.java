@@ -77,6 +77,8 @@ public class User implements Serializable {
     private int userExp;//用户经验
     private String vipName; //	贵族靓号
     private int job = -1;
+    private Boolean isBroadcast;//是否直播中
+    private String liveId;//直播ID
 
     public String getBirthday() {
         return birthday;
@@ -90,7 +92,7 @@ public class User implements Serializable {
 
 
     public Integer getVipLevel() {
-        return vipLevel;
+        return vipLevel==null?0:vipLevel;
     }
 
     public void setVipLevel(Integer vipLevel) {
@@ -698,5 +700,21 @@ public class User implements Serializable {
 
     public void setDiamond(BigDecimal diamond) {
         this.diamond = diamond;
+    }
+
+    public Boolean getBroadcast() {
+        return isBroadcast==null?false:isBroadcast;
+    }
+
+    public void setBroadcast(Boolean broadcast) {
+        isBroadcast = broadcast;
+    }
+
+    public String getLiveId() {
+        return liveId;
+    }
+
+    public void setLiveId(String liveId) {
+        this.liveId = liveId;
     }
 }

@@ -7,6 +7,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -21,9 +24,13 @@ import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.base.DialogFramentManager;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogTouzhuBinding;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 
+import com.live.fox.entity.UserAssetsBean;
+import com.live.fox.server.Api_Order;
+import com.live.fox.server.BaseApi;
 import com.live.fox.ui.lottery.adapter.KaiJiangRecordYflhcAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangResultIvAdapter;
 import com.live.fox.ui.lottery.adapter.KaiJiangResultTvAdapter;
@@ -33,9 +40,11 @@ import com.live.fox.ui.lottery.adapter.TouZhuRecordAdapter;
 import com.live.fox.ui.lottery.adapter.TouZhuRecordMoreAdapter;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -97,6 +106,8 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
             super.handleMessage(msg);
         }
     };
+
+    private Animation rotate;
 
     @Override
     public void onClickView(View view) {
@@ -306,6 +317,22 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
 
        // startKjAni();
 
+        rotate = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anim);
+        LinearInterpolator lin = new LinearInterpolator();
+        rotate.setInterpolator(lin);
+        mBind.ivRefersh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getAsset();
+
+                if (rotate != null) {
+                    mBind.ivRefersh.startAnimation(rotate);
+                } else {
+                    mBind.ivRefersh.setAnimation(rotate);
+                    mBind.ivRefersh.startAnimation(rotate);
+                }
+            }
+        });
     }
 
     private void changeLotteryHead(int position, boolean changeItem){
@@ -460,5 +487,23 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
         };
         //启动定时器 参数对应为 TimerTask 延迟时间 间隔时间
         mTimer.schedule(kjTask, 5000, 50);
+    }
+
+    private void getAsset(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+            @Override
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
+                if(isConditionOk())
+                {
+                    if (code == 0) {
+                        mBind.name.setText(data.getGold() + "");
+                    } else {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+
+            }
+        }, commonParams);
     }
 }

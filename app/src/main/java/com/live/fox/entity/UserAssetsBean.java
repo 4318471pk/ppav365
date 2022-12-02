@@ -18,8 +18,8 @@ public class UserAssetsBean {
     private int userLevel;
 
     private float gold;
-    private double incomeDiamond;
-    private double sendDiamond;
+    private Double incomeDiamond;
+    private Double sendDiamond;
 
 
 
@@ -128,7 +128,7 @@ public class UserAssetsBean {
         this.gold = gold;
     }
 
-    public double getIncomeDiamond() {
+    public Double getIncomeDiamond() {
         return incomeDiamond;
     }
 
@@ -136,7 +136,7 @@ public class UserAssetsBean {
         this.incomeDiamond = incomeDiamond;
     }
 
-    public double getSendDiamond() {
+    public Double getSendDiamond() {
         return sendDiamond;
     }
 

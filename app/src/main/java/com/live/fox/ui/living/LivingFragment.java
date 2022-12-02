@@ -642,6 +642,13 @@ public class LivingFragment extends BaseBindingFragment {
                                 return;
                             }
 
+
+                            if(code==3001)
+                            {
+                                getAnchorInfo(false);
+                                return;
+                            }
+
                             if ( enterRoomBean != null) {
                                 //进入房间成功刷新主播信息
                                 getAnchorInfo(true);
@@ -981,10 +988,11 @@ public class LivingFragment extends BaseBindingFragment {
     private void livingMessageEnterOrOutOfRoom(String liveId, String msg) {
         LivingEnterLivingRoomBean livingEnterLivingRoomBean = new Gson().fromJson(msg, LivingEnterLivingRoomBean.class);
         livingEnterLivingRoomBean.setMessage(getStringWithoutContext(R.string.comeWelcome));
+        //刷新总人数
+        livingControlPanel.mBind.gtvOnlineAmount.setText(livingEnterLivingRoomBean.getLiveSum()+"");
         if(!livingEnterLivingRoomBean.isInter())
         {
-            //刷新总人数
-            livingControlPanel.mBind.gtvOnlineAmount.setText(livingEnterLivingRoomBean.getLiveSum()+"");
+            //出去房间的不处理
             return;
         }
         livingControlPanel.mBind.vtEnterRoom.

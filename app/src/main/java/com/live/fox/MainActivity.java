@@ -217,6 +217,11 @@ public class MainActivity extends BaseActivity  {
             });
             DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),selectLoginTypeDialog);
         }
+        else
+        {
+            //刷新个人资料 初始化IM
+            onLoginSuccess();
+        }
 
     }
 
