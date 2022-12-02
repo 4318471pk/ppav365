@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.live.fox.R;
+import com.live.fox.entity.TouzhuDetailBean;
 import com.live.fox.ui.lottery.TouzhuItemListFragment;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.device.DeviceUtils;
@@ -20,12 +21,12 @@ import java.util.List;
 public class TouzhuDetailAdapter extends BaseAdapter {
 
     Context context;
-    List<Boolean> data;
+    List<TouzhuDetailBean> data;
     int showItemNum = 7;
 
     int viewType = TouzhuItemListFragment.VIEW_NORMAIL;
 
-    public TouzhuDetailAdapter(Context context, List<Boolean> data){
+    public TouzhuDetailAdapter(Context context, List<TouzhuDetailBean> data){
         this.context = context;
         this.data = data;
     }
@@ -61,6 +62,8 @@ public class TouzhuDetailAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        TouzhuDetailBean touzhuDetailBean=data.get(position);
+
         View view = null;
         int type = getItemViewType(position);
         if (type == TouzhuItemListFragment.VIEW_YXX_2) {
@@ -70,7 +73,7 @@ public class TouzhuDetailAdapter extends BaseAdapter {
             view = convertView;
             RoundLinearLayout layoutBg = view.findViewById(R.id.layoutBg);
 
-            if (data.get(position)) {
+            if (data.get(position).select) {
                 layoutBg.getDelegate().setStrokeWidth(3);
             } else {
                 layoutBg.getDelegate().setStrokeWidth(ScreenUtils.dp2px(context, 0));
@@ -86,14 +89,17 @@ public class TouzhuDetailAdapter extends BaseAdapter {
 
             RoundTextView tvTz = view.findViewById(R.id.tvTz);
 
+            tvTz.setText(touzhuDetailBean.name);
+            tvsShow.setText(touzhuDetailBean.odds+"");
+
             if (viewType == TouzhuItemListFragment.VIEW_YXX_1) {
-                if (data.get(position)) {
+                if (data.get(position).select) {
                     tvTz.getDelegate().setStrokeColor(context.getResources().getColor(R.color.colorF42C2C));
                 } else {
                     tvTz.getDelegate().setStrokeColor(context.getResources().getColor(R.color.color7A757F));
                 }
             } else {
-                if (data.get(position)) {
+                if (data.get(position).select) {
                     tvTz.getDelegate().setBackgroundColor(context.getResources().getColor(R.color.white));
                     tvTz.setTextColor(context.getResources().getColor(R.color.color404040));
                 } else {

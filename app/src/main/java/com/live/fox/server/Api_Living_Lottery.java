@@ -3,6 +3,8 @@ package com.live.fox.server;
 import com.google.gson.Gson;
 import com.live.fox.Constant;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.entity.CountDownBean;
+import com.live.fox.entity.LiveRoomGameDetailBean;
 import com.live.fox.entity.LivingLotteryListBean;
 import com.live.fox.entity.response.GamePeriodInfoVO;
 import com.live.fox.language.MultiLanguageUtils;
@@ -11,6 +13,7 @@ import com.live.fox.manager.SPManager;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class Api_Living_Lottery extends BaseApi {
@@ -42,7 +45,12 @@ public class Api_Living_Lottery extends BaseApi {
     /**
      *  获取直播间游戏列表
      */
-    public void getLiveRoomGameDetail(String gameCode,JsonCallback<String> callback) {
+    public void getLiveRoomGameDetail(String gameCode,JsonCallback<List<LiveRoomGameDetailBean>> callback) {
+
+        //TODO
+        gameCode="yfks";
+
+
         StringBuilder sb=new StringBuilder();
         sb.append(SPManager.getServerDomain());
         sb.append(Constant.URL.LiveRoomGameDetail).append("?");
@@ -55,6 +63,23 @@ public class Api_Living_Lottery extends BaseApi {
                 .execute(callback);
     }
 
+    public void countDown(String gameCode,JsonCallback<CountDownBean> callback) {
+
+        //TODO
+        gameCode="yfks";
+
+
+        StringBuilder sb=new StringBuilder();
+        sb.append(SPManager.getServerDomain());
+        sb.append(Constant.URL.countDown).append("?");
+        sb.append("gameCode=").append(gameCode);
+        // + "?language=" + MultiLanguageUtils.getRequestHeader() ;
+        OkGoHttpUtil.getInstance().doGet(
+                        "",
+                        sb.toString(),
+                        getCommonHeaders(System.currentTimeMillis()))
+                .execute(callback);
+    }
 
 
     /**

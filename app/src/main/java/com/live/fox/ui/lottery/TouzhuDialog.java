@@ -3,6 +3,7 @@ package com.live.fox.ui.lottery;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +30,10 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogTouzhuBinding;
 import com.live.fox.dialog.bottomDialog.TimePickerDialog;
 
+import com.live.fox.entity.CountDownBean;
+import com.live.fox.entity.LiveRoomGameDetailBean;
 import com.live.fox.entity.UserAssetsBean;
+import com.live.fox.server.Api_Living_Lottery;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
 import com.live.fox.ui.lottery.adapter.KaiJiangRecordYflhcAdapter;
@@ -40,9 +45,11 @@ import com.live.fox.ui.lottery.adapter.TouZhuRecordAdapter;
 import com.live.fox.ui.lottery.adapter.TouZhuRecordMoreAdapter;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +84,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     List<String> kjList = new ArrayList<>();
 
     LotteryTypeAdapter lotteryTypeAdapter;
-    List<Boolean> lotteryTypeList = new ArrayList<>();
+    List<LiveRoomGameDetailBean> lotteryTypeList = new ArrayList<>();
 
 
     List<BaseFragment> fragmentList = new ArrayList<>();
@@ -107,7 +114,25 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
         }
     };
 
+    String gameCode;
+
+
+
     private Animation rotate;
+
+    private TextView time1;
+    private TextView time2;
+    private TextView time3;
+
+    public static TouzhuDialog newInstance( String gameCode) {
+        Bundle args = new Bundle();
+        args.putString("gameCode", gameCode);
+        TouzhuDialog fragment = new TouzhuDialog();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
 
     @Override
     public void onClickView(View view) {
@@ -219,29 +244,18 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     public void initView(View view) {
         mBind=getViewDataBinding();
         mBind.setClick(this);
+
+       gameCode= getArguments().getString("gameCode");
+
         changeShowView();
         mBind.tvMoreKj.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         test();
-//        for(int i=0 ; i< lotteryTypeList.size(); i++) {
-//
-//        }
 
-        TouzhuItemListFragment touzhuItemListFragment1 = TouzhuItemListFragment.newInstance(4);
-        touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        TouzhuItemListFragment touzhuItemListFragment2 = TouzhuItemListFragment.newInstance(7);
-        touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        TouzhuItemListFragment touzhuItemListFragment3 = TouzhuItemListFragment.newInstance(3, TouzhuItemListFragment.VIEW_YXX_2);
-        touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        TouzhuItemListFragment touzhuItemListFragment4 = TouzhuItemListFragment.newInstance(4,TouzhuItemListFragment.VIEW_YXX_1);
-        touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        TouzhuItemListFragment touzhuItemListFragment5 = TouzhuItemListFragment.newInstance(4);
-        touzhuItemListFragment1.setTouzhuSelectSuc(this);
-        fragmentList.add(touzhuItemListFragment1);
-        fragmentList.add(touzhuItemListFragment2);
-        fragmentList.add(touzhuItemListFragment3);
-        fragmentList.add(touzhuItemListFragment4);
-        fragmentList.add(touzhuItemListFragment5);
+        weakTime();
+
+
+
 
 
         kaiJiangResultIvAdapter = new KaiJiangResultIvAdapter(kjTitleList);
@@ -285,35 +299,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
             }
         });
 
-        mBind.vp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return fragmentList.get(position);
-            }
 
-            @Override
-            public int getCount() {
-                return fragmentList.size();
-            }
-        });
-        mBind.vp.setCurrentItem(0);
-        mBind.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                changeLotteryHead(position,false);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
        // startKjAni();
 
@@ -333,20 +319,17 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
                 }
             }
         });
+
+
+
+        getLiveRoomGameDetail( gameCode);
+
+        countDown( gameCode);
     }
 
     private void changeLotteryHead(int position, boolean changeItem){
-        for (int i = 0; i < lotteryTypeList.size(); i ++) {
-            if (lotteryTypeList.get(i)) {
-                if (i == position) {
-                    return;
-                } else {
-                    lotteryTypeList.set(i, false);
-                    break;
-                }
-            }
-        }
-        lotteryTypeList.set(position, true);
+
+        lotteryTypeAdapter.setPosition(position);
         lotteryTypeAdapter.notifyDataSetChanged();
         if (changeItem){
             mBind.vp.setCurrentItem(position);
@@ -359,11 +342,6 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
         tzList.add("1");tzList.add("1");tzList.add("1");tzList.add("1");tzList.add("1");
         kjList.add("1"); kjList.add("1"); kjList.add("1");kjList.add("1"); kjList.add("1"); kjList.add("1");
         kjList.add("1"); kjList.add("1"); kjList.add("1");kjList.add("1"); kjList.add("1"); kjList.add("1");
-        lotteryTypeList.add(true);
-        lotteryTypeList.add(false);
-        lotteryTypeList.add(false);
-        lotteryTypeList.add(false);
-        lotteryTypeList.add(false);
 
     }
 
@@ -505,5 +483,233 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
 
             }
         }, commonParams);
+    }
+
+
+    private void getLiveRoomGameDetail(String gameCode)
+    {
+        Api_Living_Lottery.ins().getLiveRoomGameDetail(gameCode, new JsonCallback<List<LiveRoomGameDetailBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<LiveRoomGameDetailBean> data) {
+
+                if(data==null){
+                    return;
+                }
+//                Log.e("getLiveRoomGameDetail",data);
+
+                lotteryTypeList.clear();
+                lotteryTypeList.addAll(data);
+                lotteryTypeAdapter.notifyDataSetChanged();
+
+
+
+
+
+
+                for(int i=0;i<data.size();i++){
+                    LiveRoomGameDetailBean liveRoomGameDetailBean=data.get(i);
+
+                    TouzhuItemListFragment touzhuItemListFragment1 = TouzhuItemListFragment.newInstance(4,liveRoomGameDetailBean);
+                    touzhuItemListFragment1.setTouzhuSelectSuc(new TouzhuItemListFragment.TouzhuSelectSuc() {
+                        @Override
+                        public void clickTz(String text) {
+
+                        }
+
+                        @Override
+                        public void cancelTz(String text) {
+
+                        }
+                    });
+
+                    fragmentList.add(touzhuItemListFragment1);
+
+
+                    setViewpager();
+                }
+
+
+
+//                TouzhuItemListFragment touzhuItemListFragment1 = TouzhuItemListFragment.newInstance(4);
+//                touzhuItemListFragment1.setTouzhuSelectSuc(this);
+//                TouzhuItemListFragment touzhuItemListFragment2 = TouzhuItemListFragment.newInstance(7);
+//                touzhuItemListFragment1.setTouzhuSelectSuc(this);
+//                TouzhuItemListFragment touzhuItemListFragment3 = TouzhuItemListFragment.newInstance(3, TouzhuItemListFragment.VIEW_YXX_2);
+//                touzhuItemListFragment1.setTouzhuSelectSuc(this);
+//                TouzhuItemListFragment touzhuItemListFragment4 = TouzhuItemListFragment.newInstance(4,TouzhuItemListFragment.VIEW_YXX_1);
+//                touzhuItemListFragment1.setTouzhuSelectSuc(this);
+//                TouzhuItemListFragment touzhuItemListFragment5 = TouzhuItemListFragment.newInstance(4);
+//                touzhuItemListFragment1.setTouzhuSelectSuc(this);
+//                fragmentList.add(touzhuItemListFragment1);
+//                fragmentList.add(touzhuItemListFragment2);
+//                fragmentList.add(touzhuItemListFragment3);
+//                fragmentList.add(touzhuItemListFragment4);
+//                fragmentList.add(touzhuItemListFragment5);
+            }
+        });
+
+
+
+    }
+
+    private void countDown(String gameCode)
+    {
+        Api_Living_Lottery.ins().countDown(gameCode, new JsonCallback<CountDownBean>() {
+            @Override
+            public void onSuccess(int code, String msg, CountDownBean data) {
+
+                if(data==null){
+                    return;
+                }
+//                Log.e("getLiveRoomGameDetail",data);
+
+               long  currentTime= TimeUtils.getCurrentTime();
+
+                if(currentTime==data.getCurrentSealingTime()){
+                    time1.setText("00");
+                    time2.setText("00");
+                    time3.setText("00");
+                }else {
+                    long nexTimeInMillis = currentTime-data.getCurrentSealingTime();
+//                        handler.postDelayed(loadLotteryInfoRunnable, nexTimeInMillis*1000);//下一次开盘时重新加载
+                    startPeriodsCountDown(nexTimeInMillis);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 弱引用定时器的textview  防止内存泄漏
+     */
+    private void weakTime() {
+        WeakReference<TextView> weakTime1 = new WeakReference<>(mBind.tvTime1);
+        time1 = weakTime1.get();
+        WeakReference<TextView> weakTime2 = new WeakReference<>(mBind.tvTime2);
+        time2 = weakTime2.get();
+        WeakReference<TextView> weakTime3 = new WeakReference<>(mBind.tvTime3);
+        time3 = weakTime3.get();
+    }
+
+    //期数倒计时
+    private CountDownTimer periodsCountDown = null;
+    private boolean hasStop = false;
+
+    /**
+     * 开启期数倒计时
+     *
+     * @param time
+     */
+    public void startPeriodsCountDown(long time) {
+        cancelPeriodsCountDown();
+        periodsCountDown = new CountDownTimer(time * 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (time1 == null || time2 == null || time3 == null) {
+                    periodsCountDown.cancel();
+                    return;
+                }
+
+                //小时
+                int hour = (int) (millisUntilFinished / 3600000);//小时
+//                hour=110;
+                //分
+                if (hour >= 100) {
+                    time1.setText(hour + "");
+                } else if (hour >= 10) {
+                    time1.setText(hour + "");
+                } else if (hour >= 1) {
+                    time1.setText("0" + hour);
+                } else if (hour == 0) {
+                    time1.setText("00");
+                } else {
+                    time1.setText(hour + "");
+                }
+
+                //分
+                int minute = (int) (millisUntilFinished % 3600000 / 60000);
+                if (minute >= 10) {
+                    time2.setText(":" + minute);
+                } else if (minute >= 1) {
+                    time2.setText(":0" + minute);
+                } else if (minute == 0) {
+                    time2.setText(":00");
+                } else {
+                    time2.setText(":"+minute + "");
+                }
+                //秒
+                int second = (int) ((millisUntilFinished % 60000) / 1000);
+                if (second >= 10) {
+                    time3.setText(":"+second + "");
+                } else if (second >= 1) {
+                    time3.setText(":"+"0" + second);
+                } else if (second == 0) {
+                    time3.setText(":"+"00");
+                } else {
+                    time3.setText(":"+second + "");
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (time1 == null || time2 == null || time3 == null) {
+                    periodsCountDown.cancel();
+                    periodsCountDown = null;
+                    return;
+                }
+                time1.setText("00");
+                time2.setText(":"+"00");
+                time3.setText(":"+"00");
+
+
+                if (!hasStop) {
+                    ToastUtils.showShort("新一轮游戏开始了!");
+                }
+            }
+        };
+        periodsCountDown.start();
+    }
+
+    /**
+     * 取消倒计时
+     */
+    public void cancelPeriodsCountDown() {
+        if (null != periodsCountDown) {
+            periodsCountDown.cancel();
+            periodsCountDown = null;
+        }
+    }
+
+    private void  setViewpager(){
+        mBind.vp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fragmentList.size();
+            }
+        });
+        mBind.vp.setCurrentItem(0);
+        mBind.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                changeLotteryHead(position,false);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

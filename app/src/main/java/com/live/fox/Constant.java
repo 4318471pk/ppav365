@@ -263,10 +263,11 @@ public class Constant {
         /*
         * 直播间游戏接口
         * */
-        public static final String GameModuleGames ="/config-client/game/gameModuleGames"; //获取列表游戏
-        public static final String liveBeforeGames ="/config-client/game/liveBeforeGames"; //查询开播前游戏列表
-        public static final String LiveRoomGames = "/config-client/game/liveRoomGames"; //直播间游戏列表
-        public static final String LiveRoomGameDetail = "/config-client/game/liveRoomGameDetail"; //直播间游戏详情
+        public static final String GameModuleGames ="/lottery-client/game/gameModuleGames"; //获取列表游戏
+        public static final String liveBeforeGames ="/lottery-client/game/liveBeforeGames"; //查询开播前游戏列表
+        public static final String LiveRoomGames = "/lottery-client/game/liveRoomGames"; //直播间游戏列表
+        public static final String LiveRoomGameDetail = "/lottery-client/game/liveRoomGameDetail"; //直播间游戏详情
+        public static final String countDown = "/lottery-client/game/countDown";//游戏倒计时
 
         /**
          * promotion-client  分享相关接口
