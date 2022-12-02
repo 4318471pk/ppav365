@@ -41,12 +41,14 @@ import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.Strings;
+import com.live.fox.utils.TMBeauty;
 import com.live.fox.utils.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.live2.V2TXLivePremier;
 import com.tencent.rtmp.TXLiveBase;
 
 import org.jetbrains.annotations.NotNull;
@@ -73,8 +75,7 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(views.size()>0)
-        {
+        if (views.size() > 0) {
             for (int i = 0; i < views.size(); i++) {
                 getLivingRecord(i);//开播记录
             }
@@ -149,18 +150,28 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
         Drawable leftIcon = getResources().getDrawable(R.mipmap.icon_small_live);
         getTvTitleRight().setCompoundDrawablesRelativeWithIntrinsicBounds(leftIcon, null, null, null);
         getTvTitleRight().setCompoundDrawablePadding(ScreenUtils.dp2px(this, 3));
+        getTvTitleRight().setTag(false);//初始化完成局势true
         getTvTitleRight().setOnClickListener(new OnClickFrequentlyListener() {
             @Override
             public void onClickView(View view) {
+
+                if(view.getTag()==null || !(boolean)view.getTag())
+                {
+                    //资源初始化未完成先转个圈
+                    showLoadingDialogWithNoBgBlack();
+                    return;
+                }
+
                 if (mBind.gtvTitleOfRoom.getText().toString().length() == 0) {
                     ToastUtils.showShort(getString(R.string.plsFillTitleOfRoom));
                     return;
                 }
 
                 if (configPathsBeans != null && configPathsBeans.size() > 0) {
-                    TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
-                            configPathsBeans.get(0).getLicenceUrl(), configPathsBeans.get(0).getLicenceKey()
-                    );
+//                    TXLiveBase.getInstance().setLicence(CommonApp.getInstance(),
+//                            configPathsBeans.get(0).getLicenceUrl(), configPathsBeans.get(0).getLicenceKey()
+//                    );
+
                     //目前写死 看以后怎么拿
                     openLive("84");
                 }
@@ -208,11 +219,24 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
 
         mBind.gtvTitleOfRoom.setText(DataCenter.getInstance().getUserInfo().getUser().getNickname());
         getLineList();//线路列表
-        getCenterData();//开播信息
         for (int i = 0; i < array.length; i++) {
             getLivingRecord(i);//开播记录
         }
 
+        //腾讯美颜初始化
+        TMBeauty.getInstance().init(this,new TMBeauty.AuthCallback() {
+            @Override
+            public void onResourceReady() {
+                hideLoadingDialog();
+                getCenterData();//开播信息
+            }
+
+            @Override
+            public void onAuthFailed(int errorCode, String msg) {
+                getTvTitleRight().setEnabled(false);
+                ToastUtils.showShort(msg);
+            }
+        });
     }
 
     private void openLive(String liveConfigId) {
@@ -262,11 +286,9 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     }
 
     private void getLineList() {
-        showLoadingDialogWithNoBgBlack();
         Api_Config.ins().getConfigPaths(DataCenter.getInstance().getUserInfo().getUser().getUid(), new JsonCallback<List<ConfigPathsBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<ConfigPathsBean> data) {
-                hideLoadingDialog();
                 if (code == Constant.Code.SUCCESS) {
                     if (data != null && data.size() > 0) {
                         configPathsBeans = data;
@@ -297,12 +319,10 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
     }
 
     private void getCenterData() {
-        showLoadingDialogWithNoBgBlack();
         //{"roomId":null,"icon":null,"title":null,"type":null}
         Api_Live.ins().getAnchorCenterInfo(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                hideLoadingDialog();
                 if (code == 0) {
                     try {
                         JSONObject jsonObject = new JSONObject(data);

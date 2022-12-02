@@ -286,7 +286,7 @@ public class RecommendListFragment extends BaseBindingFragment {
             for (int i = 0; i <listBean.getList().get(tabIndex).getRoomList().size() ; i++) {
                 RoomListBean roomListBean=listBean.getList().get(tabIndex).getRoomList().get(i);
 
-                int type=listBean.getList().get(tabIndex).getRoomList().get(i).getCategoryType();
+                int type=listBean.getList().get(tabIndex).getRoomList().get(i).getRoomCategory();
                 switch (type)
                 {
                     case 1:

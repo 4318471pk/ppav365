@@ -57,20 +57,29 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.opensource.svgaplayer.SVGAParser;
+import com.tencent.demo.XMagicImpl;
+import com.tencent.demo.utils.PermissionHandler;
+import com.tencent.live2.V2TXLiveDef;
+import com.tencent.live2.V2TXLivePusherObserver;
+import com.tencent.live2.impl.V2TXLivePusherImpl;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveBase;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
+import com.tencent.xmagic.XmagicApi;
+import com.tencent.xmagic.XmagicProperty;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tencent.live2.V2TXLiveDef.V2TXLiveBufferType.V2TXLiveBufferTypeTexture;
+import static com.tencent.live2.V2TXLiveDef.V2TXLivePixelFormat.V2TXLivePixelFormatTexture2D;
 import static com.tencent.rtmp.TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640;
 
-public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLivePushListener {
+public class OpenLivingActivity extends BaseBindingViewActivity  {
 
     private static final String Title="Title";
     private static final String LiveID="LiveID";
@@ -80,13 +89,12 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
 
     ActivityOpenLivingBinding mBind;
-    private TXLivePusher mLivePusher;                    // SDK 推流类
-    private TXLivePushConfig mLivePushConfig;                // SDK 推流 config
+    private V2TXLivePusherImpl mLivePusher;                    // SDK 推流类
     List<BaseBindingFragment> fragments=new ArrayList<>();
     boolean stopCameraPreview=false;
     TXPhoneStateListener mPhoneListener;
     boolean isCameraInitFinish=false;
-    boolean isFrontCarame = true; //是否前置摄像头
+    boolean isFrontCamera = true; //是否前置摄像头
     public List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
     public List<LivingGiftBean> vipGiftListData=new ArrayList<>();//特权礼物列表;
     public List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
@@ -99,8 +107,19 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     int contactCostDiamond=0;//主播联系方式的号码需要的钻石
     int contactType=-1;//主播联系方式  微信 qq 电话
     LotteryCategoryOfBeforeLiving lotteryCategoryOfBeforeLiving;
-    //rtmp://push1.tencentlive.xyz/live/781100?txSecret=391d80fdddc4be2c5db0122a9e9c79c6&txTime=6364EE70
 
+    private boolean mIsResumed = false;
+    private boolean mIsPermissionGranted = false;
+    boolean isSupportBeautyFace=false;
+    XMagicImpl xMagicImpl;//美颜API
+    V2TXLivePusherObserver observer;//推流观察器
+    private final PermissionHandler mPermissionHandler = new PermissionHandler(this) {
+        @Override
+        protected void onAllPermissionGranted() {
+            mIsPermissionGranted = true;
+            tryResume();
+        }
+    };
 
     public String getPushUrl() {
         return pushUrl;
@@ -165,6 +184,27 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mIsResumed = true;
+        tryResume();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);// 必须有这个调用, mPermissionHandler 才能正常工作
+    }
+
+    private void tryResume() {
+        if (mIsResumed && mIsPermissionGranted) {
+            if (xMagicImpl != null) {
+                xMagicImpl.onResume();
+            }
+        }
+    }
+
+    @Override
     public boolean isHasHeader() {
         return false;
     }
@@ -209,6 +249,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         }
         fragmentTransaction.commitAllowingStateLoss();
 
+        mPermissionHandler.start();// 检查和请求系统权限
         initPusher();//初始化推流器
         initListener();//设定监听
         startCameraPreview();//打开摄像头
@@ -258,7 +299,9 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
                 .subscribe(granted -> {
                     if (granted) {
                         stopCameraPreview = false;
-                        mLivePusher.startCameraPreview(mBind.txVideoView);
+                        mLivePusher.setRenderView(mBind.txVideoView);
+                        mLivePusher.startCamera(isFrontCamera);
+                        mLivePusher.startMicrophone();
                     } else {
                         // 有的权限被拒绝或被勾选不再提示
                         new AlertDialog.Builder(this)
@@ -312,68 +355,47 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
         mBind.txVideoView.setVisibility(View.VISIBLE);
 
         // 添加播放回调
-        mLivePusher.setPushListener(this);
+        mLivePusher.setObserver(observer);
 
-        // 添加后台垫片推流参数
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_last_push_stream, options);
-        //设置垫片推流的图片素材。1080 × 1920。
-        mLivePushConfig.setPauseImg(bitmap);
-        //设置垫片的帧率与最长持续时间。 调用 TXLivePusher 的 pausePush() 接口，
-        // 会暂停摄像头采集并进入垫片推流状态，如果该状态一直保持， 可能会消耗主播过多的手机流量，
-        // 本字段用于指定垫片推流的最大持续时间，超过后即断开与云服务器的连接。
-        mLivePushConfig.setPauseImg(300, 5);
-        //设置后台推流的选项。
-        //PAUSE_FLAG_PAUSE_VIDEO 表示暂停推流时，采用 TXLivePushConfig#setPauseImg(Bitmap)
-        // 传入的图片作为画面推流，声音不做暂停，继续录制麦克风或 custom 音频发送
-        //PAUSE_FLAG_PAUSE_VIDEO | PAUSE_FLAG_PAUSE_AUDIO 表示暂停推流时，推送暂停图片和静音数据。
-        mLivePushConfig.setPauseFlag(TXLiveConstants.PAUSE_FLAG_PAUSE_VIDEO
-                | TXLiveConstants.PAUSE_FLAG_PAUSE_AUDIO);// 设置暂停时，只停止画面采集，不停止声音采集。
+//        // 添加后台垫片推流参数
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_anchor_loading, options);
+//        //设置垫片推流的图片素材。1080 × 1920。
+//        mLivePushConfig.setPauseImg(bitmap);
+//        //设置垫片的帧率与最长持续时间。 调用 TXLivePusher 的 pausePush() 接口，
+//        // 会暂停摄像头采集并进入垫片推流状态，如果该状态一直保持， 可能会消耗主播过多的手机流量，
+//        // 本字段用于指定垫片推流的最大持续时间，超过后即断开与云服务器的连接。
+//        mLivePushConfig.setPauseImg(300, 5);
+//        //设置后台推流的选项。
+//        //PAUSE_FLAG_PAUSE_VIDEO 表示暂停推流时，采用 TXLivePushConfig#setPauseImg(Bitmap)
+//        // 传入的图片作为画面推流，声音不做暂停，继续录制麦克风或 custom 音频发送
+//        //PAUSE_FLAG_PAUSE_VIDEO | PAUSE_FLAG_PAUSE_AUDIO 表示暂停推流时，推送暂停图片和静音数据。
+//        mLivePushConfig.setPauseFlag(TXLiveConstants.PAUSE_FLAG_PAUSE_VIDEO
+//                | TXLiveConstants.PAUSE_FLAG_PAUSE_AUDIO);// 设置暂停时，只停止画面采集，不停止声音采集。
+//
+//        // 设置推流分辨率
+//        mLivePushConfig.setVideoResolution(VIDEO_RESOLUTION_TYPE_360_640);
+//        //在码率一定的情况下，分辨率与清晰度成反比关系：分辨率越高，图像越不清晰，分辨率越低，图像越清晰。
+//        //用于控制是手动对焦还是自动对焦
+////        mLivePushConfig.setTouchFocus(true);
+//
+//        // 设置美颜
+//        if (Constant.isOpenBeauty) {
+//            mLivePushConfig.setBeautyFilter(9, 9, 5);
+////            mLivePusher.setBeautyFilter();
+//        }
 
-        // 设置推流分辨率
-        mLivePushConfig.setVideoResolution(VIDEO_RESOLUTION_TYPE_360_640);
-        //在码率一定的情况下，分辨率与清晰度成反比关系：分辨率越高，图像越不清晰，分辨率越低，图像越清晰。
-        //用于控制是手动对焦还是自动对焦
-//        mLivePushConfig.setTouchFocus(true);
-
-        // 设置美颜
-        if (Constant.isOpenBeauty) {
-            mLivePushConfig.setBeautyFilter(9, 9, 5);
-//            mLivePusher.setBeautyFilter();
-        }
-
-        // 开启麦克风推流相关 true：静音；false：不静音。
-        mLivePusher.setMute(false);
 //        mLivePusher.setFocusPosition(); 设置焦点
         // 是否开启观众端镜像观看
 //        mLivePusher.setMirror(mirror);
 
         //設置視頻質量：高清
-//        if (temphd) {
-        mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION, false, false);
-//        } else {
-//            mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION, false, false);
-//        }
+        mLivePusher.setVideoQuality(new V2TXLiveDef.V2TXLiveVideoEncoderParam(V2TXLiveDef.V2TXLiveVideoResolution.V2TXLiveVideoResolution1920x1080));
 
-        //设置就近选路
-        mLivePushConfig.enableNearestIP(true);
-        //设置是否开启码率自适应 默认值：false
-        mLivePushConfig.setAutoAdjustBitrate(true);
-        //设置视频帧率 默认值：20
-        mLivePushConfig.setVideoFPS(25);
-        //设置动态调整码率的策略
-        mLivePushConfig.setAutoAdjustStrategy(5);
-
-        // 设置推流配置
-        mLivePusher.setConfig(mLivePushConfig);
-        // 设置本地预览View
-        if (stopCameraPreview) {
-            mLivePusher.startCameraPreview(mBind.txVideoView);
-        }
 
         //開始推流
-        int result = mLivePusher.startPusher(pushUrl);
+        int result = mLivePusher.startPush(pushUrl);
         LogUtils.e("startPublishImpl result : " + result);
         if (result == -5) {
             DialogFactory.showOneBtnDialog(this, getString(R.string.verificationFailed), new TipDialog.DialogButtonOnClickListener() {
@@ -395,59 +417,80 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
         LoadingBindingDialogFragment fragment=LoadingBindingDialogFragment.getInstance(LoadingBindingDialogFragment.purple);
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getSupportFragmentManager(),fragment);
-        mLivePusher = new TXLivePusher(this);
-
-//        mLivePusher.setZoom(5);//21.1.10
-        mLivePushConfig = new TXLivePushConfig();
-        mLivePushConfig.setVideoEncodeGop(3);
-        mLivePushConfig.setTouchFocus(false);//false：不开启手动对焦
-//        mLivePushConfig.setVideoResolution(VIDEO_RESOLUTION_TYPE_360_640);
-        mLivePusher.setConfig(mLivePushConfig);
-//        mLivePusher.setBeautyFilter(TXLiveConstants.BEAUTY_STYLE_SMOOTH, 5, 3, 2);
-
-        // 设置自定义视频处理回调，在主播预览及编码前回调出来，用户可以用来做自定义美颜或者增加视频特效
-        mLivePusher.setVideoProcessListener(new TXLivePusher.VideoCustomProcessListener() {
-            /**
-             * 在OpenGL线程中回调，在这里可以进行采集图像的二次处理
-             * @param i  纹理ID
-             * @param i1      纹理的宽度
-             * @param i2     纹理的高度
-             * @return 返回给SDK的纹理
-             * 说明：SDK回调出来的纹理类型是GLES20.GL_TEXTURE_2D，接口返回给SDK的纹理类型也必须是GLES20.GL_TEXTURE_2D
-             */
+        mLivePusher = new V2TXLivePusherImpl(this, V2TXLiveDef.V2TXLiveMode.TXLiveMode_RTMP);
+        mLivePusher.enableCustomVideoProcess(true, V2TXLivePixelFormatTexture2D, V2TXLiveBufferTypeTexture);
+        mLivePusher.setObserver(new V2TXLivePusherObserver() {
             @Override
-            public int onTextureCustomProcess(int i, int i1, int i2) {
+            public void onGLContextCreated() {
+                Log.e("mLivePusher","onGLContextCreated");
                 if(!isCameraInitFinish)
                 {
                     isCameraInitFinish=true;
                     fragment.dismissAllowingStateLoss();
                     showPreParingFragment();
+                    createXMagic();
                 }
 
-
-                return i;
             }
 
-            /**
-             * 增值版回调人脸坐标
-             * @param floats   归一化人脸坐标，每两个值表示某点P的X,Y值。值域[0.f, 1.f]
-             */
             @Override
-            public void onDetectFacePoints(float[] floats) {
-                LogUtils.e("VideoProcess: onDetectFacePoints" );
+            public int onProcessVideoFrame(V2TXLiveDef.V2TXLiveVideoFrame srcFrame, V2TXLiveDef.V2TXLiveVideoFrame dstFrame) {
+                if (xMagicImpl != null) {
+                    dstFrame.texture.textureId = xMagicImpl.process(srcFrame.texture.textureId, srcFrame.width, srcFrame.height);
+                }
+                return srcFrame.texture.textureId;
             }
 
-            /**
-             * 在OpenGL线程中回调，可以在这里释放创建的OpenGL资源
-             */
             @Override
-            public void onTextureDestoryed() {
-                LogUtils.e("VideoProcess: onTextureDestoryed" );
+            public void onGLContextDestroyed() {
+                if (xMagicImpl != null) {
+                    xMagicImpl.onDestroy();
+                }
             }
         });
+
+//        mLivePusher.setZoom(5);//21.1.10
+//        mLivePushConfig = new TXLivePushConfig();
+//        mLivePushConfig.setVideoEncodeGop(3);
+//        mLivePushConfig.setTouchFocus(false);//false：不开启手动对焦
+//        mLivePushConfig.setVideoResolution(VIDEO_RESOLUTION_TYPE_360_640);
+//        mLivePusher.set(mLivePushConfig);
+//        mLivePusher.setBeautyFilter(TXLiveConstants.BEAUTY_STYLE_SMOOTH, 5, 3, 2);
+
+//        // 设置自定义视频处理回调，在主播预览及编码前回调出来，用户可以用来做自定义美颜或者增加视频特效
+//        mLivePusher.setVideoProcessListener(new TXLivePusher.VideoCustomProcessListener() {
+//            /**
+//             * 在OpenGL线程中回调，在这里可以进行采集图像的二次处理
+//             * @param i  纹理ID
+//             * @param i1      纹理的宽度
+//             * @param i2     纹理的高度
+//             * @return 返回给SDK的纹理
+//             * 说明：SDK回调出来的纹理类型是GLES20.GL_TEXTURE_2D，接口返回给SDK的纹理类型也必须是GLES20.GL_TEXTURE_2D
+//             */
+//            @Override
+//            public int onTextureCustomProcess(int i, int i1, int i2) {
+//                return i;
+//            }
+//
+//            /**
+//             * 增值版回调人脸坐标
+//             * @param floats   归一化人脸坐标，每两个值表示某点P的X,Y值。值域[0.f, 1.f]
+//             */
+//            @Override
+//            public void onDetectFacePoints(float[] floats) {
+//                LogUtils.e("VideoProcess: onDetectFacePoints" );
+//            }
+//
+//            /**
+//             * 在OpenGL线程中回调，可以在这里释放创建的OpenGL资源
+//             */
+//            @Override
+//            public void onTextureDestoryed() {
+//                LogUtils.e("VideoProcess: onTextureDestoryed" );
+//            }
+//        });
     }
 
-    @Override
     public void onPushEvent(int event, Bundle bundle) {
         LogUtils.e("onPushEvent event : " + event + "," + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
 
@@ -465,8 +508,8 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
         } else if (event == TXLiveConstants.PUSH_WARNING_HW_ACCELERATION_FAIL) {
             ToastUtils.showShort(getString(R.string.hardCoding));
-            mLivePushConfig.setHardwareAcceleration(TXLiveConstants.ENCODE_VIDEO_SOFTWARE);
-            mLivePusher.setConfig(mLivePushConfig);
+//            mLivePushConfig.setHardwareAcceleration(TXLiveConstants.ENCODE_VIDEO_SOFTWARE);
+//            mLivePusher.setConfig(mLivePushConfig);
         } else if (event == TXLiveConstants.PUSH_ERR_NET_DISCONNECT
                 || event == TXLiveConstants.PUSH_ERR_INVALID_ADDRESS
                 || event == TXLiveConstants.PUSH_ERR_OPEN_CAMERA_FAIL
@@ -520,41 +563,47 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
     }
 
-    @Override
-    public void onNetStatus(Bundle bundle) {
-        Log.e("onNetStatus",new Gson().toJson(bundle));
-        if (mBind.txVideoView != null) {
-            mBind.txVideoView.setLogText(bundle, null, 0);
-        }
-
-    }
+//    @Override
+//    public void onNetStatus(Bundle bundle) {
+//        Log.e("onNetStatus",new Gson().toJson(bundle));
+//        if (mBind.txVideoView != null) {
+//            mBind.txVideoView.setLogText(bundle, null, 0);
+//        }
+//
+//    }
 
     /**
      * 电话监听
      */
     private static class TXPhoneStateListener extends PhoneStateListener {
-        WeakReference<TXLivePusher> mPusher;
+        WeakReference<V2TXLivePusherImpl> mPusher;
 
-        public TXPhoneStateListener(TXLivePusher pusher) {
-            mPusher = new WeakReference<>(pusher);
+        public TXPhoneStateListener(V2TXLivePusherImpl pusher) {
+            mPusher = new WeakReference<V2TXLivePusherImpl>(pusher);
         }
 
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
-            TXLivePusher pusher = mPusher.get();
+            V2TXLivePusherImpl pusher = mPusher.get();
             switch (state) {
                 //电话等待接听
                 case TelephonyManager.CALL_STATE_RINGING:
-                    if (pusher != null) pusher.pausePusher();
-                    break;
                 //电话接听
                 case TelephonyManager.CALL_STATE_OFFHOOK:
-                    if (pusher != null) pusher.pausePusher();
+                    if (pusher != null)
+                    {
+                        pusher.pauseAudio();
+                        pusher.pauseAudio();
+                    }
                     break;
                 //电话挂机
                 case TelephonyManager.CALL_STATE_IDLE:
-                    if (pusher != null) pusher.resumePusher();
+                    if (pusher != null)
+                    {
+                        pusher.resumeAudio();
+                        pusher.resumeVideo();
+                    }
                     break;
             }
         }
@@ -562,19 +611,14 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
 
     public void stopRTMPPush() {
         if (mLivePusher != null) {
-            // 停止BGM
-            mLivePusher.stopBGM();
-            // 停止本地预览
-            mLivePusher.stopCameraPreview(false);
+            mLivePusher.stopPush();
+            mLivePusher.stopCamera();
             stopCameraPreview = true;
-            // 移除监听
-            mLivePusher.setPushListener(null);
-            // 停止推流
-            mLivePusher.stopPusher();
+            mLivePusher.setObserver(null);
             // 隐藏本地预览的View
 //            mPusherView.setVisibility(View.GONE);
             // 移除垫片图像
-            mLivePushConfig.setPauseImg(null);
+//            mLivePushConfig.setPauseImg(null);
         }
     }
 
@@ -731,8 +775,13 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
      */
     public void switchCamera() {
         if (mLivePusher != null) {
-            isFrontCarame = !isFrontCarame;
-            mLivePusher.switchCamera();
+            isFrontCamera = !isFrontCamera;
+            mLivePusher.stopCamera();
+            if(mLivePusher.isPushing()==1)
+            {
+                mLivePusher.stopPush();
+            }
+            mLivePusher.startCamera(isFrontCamera);
         }
     }
 
@@ -743,5 +792,57 @@ public class OpenLivingActivity extends BaseBindingViewActivity implements ITXLi
             return true;
         }
         return super.dispatchKeyEvent(event);
+    }
+
+
+    private void createXMagic() {
+        xMagicImpl = new XMagicImpl(this, mBind.panelLayout, new XMagicImpl.XmagicImplCallback() {
+            @Override
+            public boolean onUpdateProperty(XmagicProperty xmagicProperty) {
+                if (xmagicProperty == null) {
+                    return true;
+                }
+                if (xmagicProperty.category == XmagicProperty.Category.SEGMENTATION) {
+                    if ("video_segmentation_transparent_bg".equals(xmagicProperty.id)) {  //点击了透明背景素材 on click transparent bg
+//                        if (selectedSurfaceViewId != FLOAT_SURFACE_VIEW_ID) {
+//                            changeViewSize(true);
+//                            selectedSurfaceViewId = FLOAT_SURFACE_VIEW_ID;
+//                        }
+                    } else if ("video_segmentation_blur_75".equals(xmagicProperty.id)) {    //背景模糊-强  on click blurred background-severe
+//                        if (selectedSurfaceViewId != COMMON_SURFACE_VIEW_ID) {
+//                            changeViewSize(false);
+//                            selectedSurfaceViewId = COMMON_SURFACE_VIEW_ID;
+//                        }
+                    }
+                }
+                return false;
+            }
+        });
+        isSupportBeautyFace=xMagicImpl.isSupportBeauty();
+
+        xMagicImpl.mXmagicApi.setAIDataListener(new XmagicApi.XmagicAIDataListener() {
+            @Override
+            public void onBodyDataUpdated(Object bodyDataList) {
+//                LogUtils.d(TAG, "onBodyDataUpdated");
+            }
+
+            @Override
+            public void onHandDataUpdated(Object handDataList) {
+//                LogUtils.d(TAG, "onHandDataUpdated");
+            }
+
+            @Override
+            public void onFaceDataUpdated(Object faceDataList) {
+                //日志太多，影响性能，注释掉，需要时再打开
+//                LogUtils.d(TAG, "onFaceDataUpdated");
+            }
+        });
+
+        xMagicImpl.mXmagicApi.setYTDataListener(new XmagicApi.XmagicYTDataListener() {
+            @Override
+            public void onYTDataUpdate(String s) {
+                //不知道是什么鬼
+            }
+        });
     }
 }

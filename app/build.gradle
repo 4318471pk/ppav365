@@ -242,7 +242,24 @@ android {
             ]
         }
 
+        //客户端
         anchor24 {
+            dimension 'app'
+            applicationId "com.alive.ibotv"
+            versionName live24Version
+            buildConfigField "Integer", "OS", project.anchorClient
+            buildConfigField "String", "BASEURL_TEST", project.Live_24_Base_URL_TEST  //测试地址
+            buildConfigField "String", "AppFlavor", '"Live24"'
+            buildConfigField "Boolean", "IsAnchorClient", "false"
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "TM1530003293",
+                    XG_ACCESS_KEY: "A5V25RQEZINM",
+            ]
+        }
+
+        //主播端
+        anchor24Anchor {
             dimension 'app'
             applicationId "com.alive.ibotv"
             versionName live24Version
@@ -447,11 +464,13 @@ dependencies {
     //导入base library
     implementation project(':picture_library')
 
-    //导入美颜库
-//    implementation project(':TXFaceBeauty')
+    //用户端
+    anchor24CompileOnly(':TXFaceBeauty')
+    anchor24CompileOnly(name: 'xmagic-2.5.0.207', ext: 'aar')
 
-    //24Live平台
-//    anchor24Implementation project(':TXFaceBeauty')  //超大 主播端才需要
+    //主播端
+    anchor24AnchorImplementation project(':TXFaceBeauty')  //超大 主播端才需要
+    anchor24AnchorCompileOnly(name: 'xmagic-2.5.0.207', ext: 'aar')
 
     //SmartRefreshLayout 下拉刷新 上拉加载
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'

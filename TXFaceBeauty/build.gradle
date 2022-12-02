@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ['*.aar'])
     implementation fileTree(dir: "libs", include: ['*.jar'])
 
     implementation(name: 'xmagic-2.5.0.207', ext: 'aar')
