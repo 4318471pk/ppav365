@@ -11,9 +11,11 @@ import com.live.fox.language.MultiLanguageUtils;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.manager.SPManager;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
+import com.lzy.okgo.callback.Callback;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Api_Living_Lottery extends BaseApi {
@@ -40,6 +42,16 @@ public class Api_Living_Lottery extends BaseApi {
                 url,
                 getCommonHeaders(System.currentTimeMillis()))
                 .execute(callback);
+    }
+
+
+
+    public void lotteryBet(Map params,  Callback<String>  callback) {
+
+        String url =  SPManager.getServerDomain() + Constant.URL.lotteryBet;
+
+        OkGoHttpUtil.getInstance().doJsonPost("", url, getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                new Gson().toJson(params)).execute(callback);
     }
 
     /**

@@ -268,6 +268,8 @@ public class Constant {
         public static final String LiveRoomGames = "/lottery-client/game/liveRoomGames"; //直播间游戏列表
         public static final String LiveRoomGameDetail = "/lottery-client/game/liveRoomGameDetail"; //直播间游戏详情
         public static final String countDown = "/lottery-client/game/countDown";//游戏倒计时
+        public static final String lotteryBet = "/lottery-client/game/lotteryBet";//游戏倒计时
+
 
         /**
          * promotion-client  分享相关接口

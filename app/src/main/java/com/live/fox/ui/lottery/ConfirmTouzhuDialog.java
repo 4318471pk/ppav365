@@ -15,6 +15,7 @@ import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.databinding.DialogChoumaBinding;
 import com.live.fox.databinding.DialogConfirmTouzhuBinding;
 import com.live.fox.entity.SelectLotteryBean;
+import com.live.fox.entity.TouzhuDetailBean;
 import com.live.fox.ui.lottery.adapter.BeishuAdapter;
 import com.live.fox.ui.lottery.adapter.ChouMaAdapter;
 import com.live.fox.ui.lottery.adapter.ConfirmTouzhuAdapter;
@@ -29,7 +30,7 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
     DialogConfirmTouzhuBinding mBind;
 
     ConfirmTouzhuAdapter touzhuAdapter;
-    List<SelectLotteryBean> touzhuList = new ArrayList<>();
+    List<TouzhuDetailBean> touzhuList = new ArrayList<>();
 
     BeishuAdapter beishuAdapter;
     List<SelectLotteryBean> beishuList = new ArrayList<>();
@@ -80,7 +81,7 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
             public void onMoneyClick(int pos, String money) {
                 if (inputChouMaDialog == null) {
                     inputChouMaDialog = InputChouMaDialog.newInstance(
-                            getResources().getString(R.string.edit_zhudan_money), false,    touzhuList.get(pos).getName());
+                            getResources().getString(R.string.edit_zhudan_money), false,    touzhuList.get(pos).money);
                 }
 
                 if(getActivity()==null){
@@ -91,7 +92,7 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
                     @Override
                     public void confirm(String money, boolean isChouma) {
                         if (!isChouma) {
-                            touzhuList.get(pos).setName(money);
+                            touzhuList.get(pos).money=money;
                             touzhuAdapter.notifyItemChanged(pos);
                         }
                     }
@@ -101,7 +102,7 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
             @Override
             public void delete(int pos) {
                 touzhuList.remove(pos);
-                touzhuAdapter.notifyItemRemoved(pos);
+                touzhuAdapter.notifyDataSetChanged();
             }
         });
         mBind.rcTouzhu.setAdapter(touzhuAdapter);
@@ -168,9 +169,7 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
 
     private void addData(){
         touzhuList.clear();
-        touzhuList.add(new SelectLotteryBean("2")); touzhuList.add(new SelectLotteryBean("5"));
-        touzhuList.add(new SelectLotteryBean("10")); touzhuList.add(new SelectLotteryBean("50"));
-        touzhuList.add(new SelectLotteryBean("100")); touzhuList.add(new SelectLotteryBean("500"));
+        touzhuList.addAll( LotteryCommon.lotteryList);
     }
 
 
