@@ -161,8 +161,6 @@ public class SplashPresenter {
                 .subscribe(granted -> {
                     if (granted) {  // 所有权限都同意
                         doBaseApi();
-                        //开启资源服务下载资源
-                        ResourceDownloadService.startService(context);
                     } else {    // 有的权限被拒绝或被勾选不再提示
                         LogUtils.e("有的权限被拒绝");
                         showAlertDialog(context.getString(R.string.smqx),
@@ -291,6 +289,8 @@ public class SplashPresenter {
                                         {
                                             SPUtils.getInstance().put(ConstantValue.resourceDomain, value);
                                         }
+                                        //开启资源服务下载资源
+                                        ResourceDownloadService.startService(context);
                                     }
                                     break;
                             }

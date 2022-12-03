@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="270dp"
+    android:layout_height="60dp"
+    android:background="@drawable/half_round_white_fde2ff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+
+    <com.live.fox.view.AnchorRoundImageView
+        android:id="@+id/civProfileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dip"
+        android:layout_centerVertical="true"
+        app:isCirCle="true"
+        app:placeHoldImage="@mipmap/user_head_error"/>
+
+    <com.live.fox.view.GradientTextView
+        android:id="@+id/gtvFollow"
+        android:layout_width="60dp"
+        android:layout_height="26dp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dip"
+        android:layout_centerVertical="true"
+        app:gt_color_list="@array/contactCardBtn"
+        app:gt_radius_dp="13dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:text="@string/follow2"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/gtvFollow"
+        android:layout_toRightOf="@id/civProfileImage"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dip"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#404040"
+            android:textSize="16sp"
+            android:text="xxx"/>
+
+        <TextView
+            android:id="@+id/tvFollowMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#A2A0A9"
+            android:textSize="12sp"
+            android:text="@string/followMeQuickly"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -32,7 +32,7 @@ public class LivingCurrentAnchorBean {
     }
 
     public Boolean getFollow() {
-        return follow;
+        return follow==null?false:follow;
     }
 
     public void setFollow(Boolean follow) {

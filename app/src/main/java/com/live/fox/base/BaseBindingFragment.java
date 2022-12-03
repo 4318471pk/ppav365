@@ -77,7 +77,6 @@ public abstract class BaseBindingFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister(this);
         if(viewDataBinding!=null)
         {
             viewDataBinding.unbind();

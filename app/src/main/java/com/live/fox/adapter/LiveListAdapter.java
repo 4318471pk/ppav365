@@ -48,15 +48,15 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
     public LiveListAdapter(Context context,List<RoomListBean> data) {
         super(R.layout.item_anchor_list, R.layout.item_liveroomlist_adbanner, data);
         this.context=context;
-        itemWidth= (ScreenUtils.getScreenWidth(context)-ScreenUtils.dp2px(context,15))/2;
+        itemWidth= (ScreenUtils.getScreenWidth(context))/2;
         ticket= BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_ticket);
         clock= BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_clock);
         diamond=BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_diamond);
         defaultDrawable=R.mipmap.icon_anchor_loading;
         dip10= ScreenUtils.dp2px(context,10);
         dip13= ScreenUtils.dp2px(context,13);
-        diamondWidth= com.live.fox.utils.device.ScreenUtils.getDip2px(context,12.5f);
-        diamondHeight= com.live.fox.utils.device.ScreenUtils.getDip2px(context,9.5f);
+        diamondWidth= ScreenUtils.dp2px(context,12.5f);
+        diamondHeight= ScreenUtils.dp2px(context,9.5f);
     }
 
     @Override
@@ -77,6 +77,11 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
         ViewGroup.LayoutParams vl= helper.itemView.getLayoutParams();
         vl.width=itemWidth;
         vl.height=itemWidth;
+        helper.itemView.setLayoutParams(vl);
+        int position=helper.getLayoutPosition()-getHeaderLayoutCount();
+        int right=position%2==0?0:dip10/2;
+
+        helper.itemView.setPadding(dip10/2,dip10/2,right,dip10/2);
 
         GradientTextView gtvUnitPrice = helper.getView(R.id.gtvUnitPrice);  //类别
         GradientTextView tvAnchorPaymentType=helper.getView(R.id.tvAnchorPaymentType);

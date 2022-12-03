@@ -1,5 +1,6 @@
 package com.live.fox.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -23,6 +24,8 @@ public class AnchorRoundImageView extends androidx.appcompat.widget.AppCompatIma
     GradientDrawable gradientDrawable=new GradientDrawable();
     int mColors[]=new int[]{0x00000000,0x77000000};
     float radius=0f;
+    int resourceId;
+    boolean isCircle;
     Bitmap placeHoldBitmap;
 
     public AnchorRoundImageView(Context context,float radius) {
@@ -46,6 +49,8 @@ public class AnchorRoundImageView extends androidx.appcompat.widget.AppCompatIma
             final TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.AnchorRoundImageView);
             try {
                 radius = typedArray.getDimension(R.styleable.AnchorRoundImageView_viewRadius, 0);
+                resourceId=typedArray.getResourceId(R.styleable.AnchorRoundImageView_placeHoldImage,0);
+                isCircle=typedArray.getBoolean(R.styleable.AnchorRoundImageView_isCirCle,false);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -59,7 +64,8 @@ public class AnchorRoundImageView extends androidx.appcompat.widget.AppCompatIma
                 radius= ScreenUtils.getDip2px(context,10);
             }
         }
-        placeHoldBitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.icon_anchor_loading);
+
+
     }
 
 
@@ -68,6 +74,7 @@ public class AnchorRoundImageView extends androidx.appcompat.widget.AppCompatIma
         postInvalidate();
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -76,18 +83,40 @@ public class AnchorRoundImageView extends androidx.appcompat.widget.AppCompatIma
         {
             if(getDrawable()==null)
             {
-                RoundedDrawable roundedDrawable=new RoundedDrawable(placeHoldBitmap,getWidth(),getHeight());
-                roundedDrawable.setBounds(0,0,getWidth(),getHeight());
-                roundedDrawable.setRound((int)radius);
-                roundedDrawable.draw(canvas);
+                if(placeHoldBitmap==null)
+                {
+                    if(resourceId!=0)
+                    {
+                        placeHoldBitmap=BitmapFactory.decodeResource(getResources(),resourceId);
+                    }
+                    else
+                    {
+                        placeHoldBitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.icon_anchor_loading);
+                    }
+                }
+
+                if(isCircle)
+                {
+                    CircleDrawable circleDrawable=new CircleDrawable(placeHoldBitmap,getWidth(),getHeight());
+                    circleDrawable.setBounds(0,0,getWidth()/2,getHeight()/2);
+                    circleDrawable.draw(canvas);
+                }
+                else
+                {
+                    RoundedDrawable roundedDrawable=new RoundedDrawable(placeHoldBitmap,getWidth(),getHeight());
+                    roundedDrawable.setBounds(0,0,getWidth(),getHeight());
+                    roundedDrawable.setRound((int)radius);
+                    roundedDrawable.draw(canvas);
+                }
+
             }
 
             gradientDrawable.setBounds(0,getHeight()/2,getWidth(),getHeight());
             gradientDrawable.setColors(mColors);
             gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             gradientDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
-//            gradientDrawable.setCornerRadii(radius);
-            gradientDrawable.setCornerRadii(new float[]{0f,0f,0f,0f,radius,radius,radius,radius});
+            gradientDrawable.setCornerRadius(radius);
+//            gradientDrawable.setCornerRadii(new float[]{0f,0f,0f,0f,radius,radius,radius,radius});
             gradientDrawable.draw(canvas);
 
         }

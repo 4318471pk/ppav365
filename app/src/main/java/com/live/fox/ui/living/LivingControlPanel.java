@@ -470,7 +470,7 @@ public class LivingControlPanel extends RelativeLayout {
         getAmountOfSpeaker(roomListBean.getId());
     }
 
-    private void follow(String targetId)
+    public void follow(String targetId)
     {
         mBind.ivFollow.setEnabled(false);
         Api_User.ins().followUser(targetId, true, new JsonCallback<String>() {

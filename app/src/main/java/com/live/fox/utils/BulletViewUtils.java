@@ -105,6 +105,50 @@ public class BulletViewUtils {
 
     }
 
+    public static void goLeftToRightDelayDisappear(View view,int aniTime,int delay,Activity activity,OnFinishAniListener onFinishAniListener)
+    {
+        WeakReference<Activity> activityWeakReference=new WeakReference<>(activity);
+        Animation animation= new TranslateAnimation(Animation.RELATIVE_TO_PARENT,-1,
+                Animation.RELATIVE_TO_PARENT,0
+                ,Animation.ABSOLUTE,0
+                ,Animation.ABSOLUTE,0);
+
+        animation.setDuration(aniTime);
+        animation.setFillAfter(true);
+        animation.setInterpolator(new LinearInterpolator());
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+                if(isActivityAvailable(activityWeakReference))
+                {
+                    view.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(isActivityAvailable(activityWeakReference))
+                            {
+                                disappear(view,activityWeakReference,onFinishAniListener);
+                            }
+                        }
+                    },delay);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animation);
+
+    }
+
     public static void goRightToLeftStopThenDisappear(View view,Activity activity,OnFinishAniListener onFinishAniListener)
     {
         WeakReference<Activity> activityWeakReference=new WeakReference<>(activity);
@@ -150,7 +194,7 @@ public class BulletViewUtils {
 
     }
 
-    private static void disappear(View view,WeakReference<Activity> weakReference,OnFinishAniListener onFinishAniListener)
+    public static void disappear(View view,WeakReference<Activity> weakReference,OnFinishAniListener onFinishAniListener)
     {
         Animation animation= new TranslateAnimation(Animation.RELATIVE_TO_PARENT,0,
                 Animation.RELATIVE_TO_PARENT,-1

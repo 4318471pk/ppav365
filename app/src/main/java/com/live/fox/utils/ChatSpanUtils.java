@@ -893,13 +893,19 @@ public class ChatSpanUtils {
             return spanUtils;
         }
 
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_tag_sys);
+        if (bitmap == null) return spanUtils;
+        int height = ScreenUtils.getDip2px(context, 16);
+        int width = ScreenUtils.getDip2px(context, 40);
+        spanUtils.appendImage(ImageUtils.scale(bitmap, width, height), SpanUtils.ALIGN_CENTER);//120/68
+        spanUtils.append(" ");
+
         switch (fBean.getProtocol()) {
             case MessageProtocol.LIVE_FOLLOW:
                 spanUtils.append(fBean.getNickname()).setForegroundColor(0xff85EFFF);
                 spanUtils.append(context.getString(R.string.focusAnchor)).setForegroundColor(0xffffffff);
                 spanUtils.append(fBean.getAnchorNickName()).setForegroundColor(0xff85EFFF);
                 break;
-
         }
         return spanUtils;
     }

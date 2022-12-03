@@ -357,9 +357,27 @@ public class RankFragment extends BaseBindingFragment {
         String followedString=getActivity().getResources().getString(R.string.followed);
         for (int i = 4; i <7 ; i++) {
             LinearLayout relativeLayout=(LinearLayout) header.getChildAt(i);
+            if(type==1)
+            {
+                //土豪榜不需要关注
+                relativeLayout.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                relativeLayout.setVisibility(View.VISIBLE);
+            }
             TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
             TextView follow=(TextView)relativeLayout.getChildAt(1);
 
+            //第一名不需要显示火力
+            if(i==4)
+            {
+                tvHuo.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                tvHuo.setVisibility(View.VISIBLE);
+            }
             if(tabList.size()>i-4)
             {
                 final int index=i-4;
@@ -493,6 +511,7 @@ public class RankFragment extends BaseBindingFragment {
     {
         int itemWidth=(int)(screenWidth*0.275f);
         LinearLayout linearLayout=new LinearLayout(getActivity());
+        linearLayout.setVisibility(View.INVISIBLE);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);

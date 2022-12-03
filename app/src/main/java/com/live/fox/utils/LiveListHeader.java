@@ -32,7 +32,6 @@ import java.util.List;
 
 public class LiveListHeader extends RelativeLayout {
 
-    ConvenientBanner convenientBanner;
     MarqueeView ivHomeHotRecommendRolling;
     MarqueeView ivHomePlayGameRolling;
     RecyclerView hsPlayGameList;
@@ -58,60 +57,42 @@ public class LiveListHeader extends RelativeLayout {
         initView();
     }
 
-    public void setBannerList(List<HomeBanner> homeBanners)
-    {
-        this.homeBanners=homeBanners;
-        if(homeBanners!=null )
-        {
-            convenientBanner.setNewData(homeBanners);
-            convenientBanner.setVisibility(homeBanners.size()>0?VISIBLE:GONE);
-            if (homeBanners.size()>1 && !convenientBanner.isTurning() ) {
-                convenientBanner.startTurning(5000);
-            }
-        }
-        else
-        {
-            convenientBanner.setVisibility(GONE);
-        }
-
-
-    }
-
     public void setGameLists(List<RoomListBean> gameLists) {
         this.gameLists.clear();
         if(gameLists!=null && gameLists.size()>0)
         {
             this.gameLists.addAll(gameLists);
-            if(hsHotRecommendList.getAdapter()!=null)
+            if(hsPlayGameList.getAdapter()!=null)
             {
-                llHot.setVisibility(VISIBLE);
-                HeaderHorListAdapter headerHorListAdapter=(HeaderHorListAdapter) hsHotRecommendList.getAdapter();
+                llGame.setVisibility(VISIBLE);
+                HeaderHorListAdapter headerHorListAdapter=(HeaderHorListAdapter) hsPlayGameList.getAdapter();
                 headerHorListAdapter.setNewData(this.gameLists);
             }
         }
         else
         {
-            llHot.setVisibility(GONE);
+            llGame.setVisibility(GONE);
         }
 
 
     }
 
+    //hsHotRecommendList  llHot
     public void setAdultLists(List<RoomListBean> adultLists) {
         this.AdultLists.clear();
         if(adultLists!=null && adultLists.size()>0)
         {
             this.AdultLists.addAll(adultLists);
-            if(hsPlayGameList.getAdapter()!=null)
+            if(hsHotRecommendList.getAdapter()!=null)
             {
-                llGame.setVisibility(VISIBLE);
-                HeaderHorListAdapter headerHorListAdapter=(HeaderHorListAdapter) hsPlayGameList.getAdapter();
+                llHot.setVisibility(VISIBLE);
+                HeaderHorListAdapter headerHorListAdapter=(HeaderHorListAdapter) hsHotRecommendList.getAdapter();
                 headerHorListAdapter.setNewData(this.AdultLists);
             }
         }
         else
         {
-            llGame.setVisibility(GONE);
+            llHot.setVisibility(GONE);
         }
 
     }
@@ -123,19 +104,7 @@ public class LiveListHeader extends RelativeLayout {
         hsPlayGameList=findViewById(R.id.hsPlayGameList);
         ivHomePlayGameRolling=findViewById(R.id.ivHomePlayGameRolling);
         ivHomeHotRecommendRolling=findViewById(R.id.ivHomeHotRecommendRolling);
-        convenientBanner=findViewById(R.id.home_convenient_banner);
-        convenientBanner.getLayoutParams().height=(int)(ScreenUtils.getScreenWidth(getContext())*0.213f);
 
-        convenientBanner.setPages(BannerHolder::new, homeBanners)
-                .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
-
-//        convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
-
-        //点击Banner
-        convenientBanner.setOnItemClickListener(position -> {
-            JumpLinkUtils.jumpHomeBannerLinks(getContext(),homeBanners.get(position));
-        });
 
         llHot=findViewById(R.id.llHot);
         llGame=findViewById(R.id.llGame);
@@ -184,28 +153,4 @@ public class LiveListHeader extends RelativeLayout {
     }
 
 
-    public static class BannerHolder implements Holder<HomeBanner> {
-
-        private ImageView bannerImg;
-
-        @Override
-        public View createView(Context context) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_live_banner, null);
-            bannerImg = view.findViewById(R.id.home_banner_image);
-            return view;
-        }
-
-        @Override
-        public void UpdateUI(Context context, int position, HomeBanner banner) {
-            String jsonStr = banner.getBannerImg();
-            String bannerUrl;
-            if (jsonStr.endsWith("{") && jsonStr.endsWith("}")) {
-                bannerUrl = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));
-            } else {
-                bannerUrl = jsonStr;
-            }
-
-            GlideUtils.loadDefaultImage(context, bannerUrl,0,0, bannerImg);
-        }
-    }
 }

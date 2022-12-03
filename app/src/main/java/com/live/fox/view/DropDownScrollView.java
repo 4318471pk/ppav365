@@ -31,8 +31,9 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
 
     private View mTopView;
     private View hostTypeTabs;
+    private View rlBanner;
     private int mTopViewHeight;
-    private int barHeight;
+    private int barHeight,bannerHeight;
     private View list;
     AlphaAnimation fadeIn=new AlphaAnimation(0f,1f);
     AlphaAnimation fadeOut=new AlphaAnimation(1f,0f);
@@ -213,7 +214,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         ViewGroup.LayoutParams layoutParams = list.getLayoutParams();
-        layoutParams.height = getMeasuredHeight()-barHeight;
+        layoutParams.height = getMeasuredHeight()-barHeight-bannerHeight;
         list.setLayoutParams(layoutParams);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -224,6 +225,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
         mTopView=findViewById(R.id.collapseView);
         list=findViewById(R.id.home_refreshLayout);
         hostTypeTabs=findViewById(R.id.hostTypeTabs);
+        rlBanner=findViewById(R.id.rlBanner);
     }
 
     @Override
@@ -231,6 +233,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
         super.onSizeChanged(w, h, oldw, oldh);
         mTopViewHeight = mTopView.getMeasuredHeight();
         barHeight=hostTypeTabs.getMeasuredHeight();
+        bannerHeight=rlBanner.getMeasuredHeight();
 //        barHeight=hostTypeTabs.getMeasuredHeight();
     }
 

@@ -29,6 +29,7 @@ public class LivingTop20OnlineUserAdapter extends BaseQuickAdapter<Audience, Bas
         this.context=context;
         this.errorPicResourece=R.mipmap.user_head_error;
         itemWH=ScreenUtils.dp2px(context,34);
+        setHasStableIds(true);
     }
 
     @Override

@@ -63,10 +63,17 @@ public class ProfileWithIconsView extends RelativeLayout {
         {
             GlideUtils.loadCircleImage(getContext(),avatar,0,0,ivUserImg);
         }
+        else
+        {
+            ivUserImg.setImageDrawable(null);
+        }
 
         if(vipLevel==null || vipLevel<1 || vipLevel>7)
         {
             ivEdge.setVisibility(GONE);
+            ivTag2.setVisibility(GONE);
+            ivUserImg.setScaleX(1.0f);
+            ivUserImg.setScaleY(1.0f);
         }
         else
         {

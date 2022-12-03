@@ -22,6 +22,7 @@ public class ContributionRankItemBean {
     private String vipName;
     private boolean isFollow;
     private Integer vipLevel;
+    private Boolean isAnchor;
 
     public String getAnchorId() {
         return anchorId;
@@ -181,5 +182,13 @@ public class ContributionRankItemBean {
 
     public void setFollow(boolean follow) {
         isFollow = follow;
+    }
+
+    public Boolean isAnchor() {
+        return isAnchor==null?false:isAnchor;
+    }
+
+    public void setAnchor(Boolean anchor) {
+        isAnchor = anchor;
     }
 }

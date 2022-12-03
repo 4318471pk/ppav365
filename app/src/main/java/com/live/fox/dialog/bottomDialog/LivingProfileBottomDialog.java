@@ -417,6 +417,11 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
             Api_User.ins().getUserInfo(Long.valueOf(uid),liveId, new JsonCallback<String>() {
                 @Override
                 public void onSuccess(int code, String msg, String userJson) {
+                    if(!isConditionOk())
+                    {
+                        return;
+                    }
+
                     if (code == 0) {
                         currentUser=new Gson().fromJson(userJson,User.class);
                         if(currentUser!=null)
@@ -482,6 +487,14 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                             if(ChatSpanUtils.appendVipLevelRectangleIcon(icons,currentUser.getVipLevel(), getActivity()))
                             {
                                 icons.append(" ");
+                            }
+
+                            if(currentUser.isGuard() && currentUser.getGuardLevel()>0 )
+                            {
+                                if(ChatSpanUtils.appendGuardIcon(icons,currentUser.getGuardLevel(), getActivity()))
+                                {
+                                    icons.append(" ");
+                                }
                             }
 
                             if(ChatSpanUtils.appendRoomManageIcon(icons,currentUser.isRoomManage(), getActivity()))

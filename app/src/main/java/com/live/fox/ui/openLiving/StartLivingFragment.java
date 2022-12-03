@@ -115,7 +115,6 @@ public class StartLivingFragment extends BaseBindingFragment {
 
     final int playSVGA = 123;
     final int userHeartBeat=987;
-    final int enterRoomRefresh=124;
 
     public FragmentStartLivingBinding mBind;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
@@ -137,11 +136,6 @@ public class StartLivingFragment extends BaseBindingFragment {
                 case userHeartBeat:
                     Api_Live.ins().liveHeart(liveId);
                     sendEmptyMessageDelayed(userHeartBeat,30000);
-                    break;
-                case enterRoomRefresh:
-                    removeMessages(enterRoomRefresh);
-                    refresh20AudienceList();//刷新头部20个人
-                    getSelfInfo();//刷新个人开播信息
                     break;
             }
         }
@@ -443,6 +437,7 @@ public class StartLivingFragment extends BaseBindingFragment {
         }
         mBind.vtEnterRoom.
                 addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
+        refresh20AudienceList();
 
         long uid=DataCenter.getInstance().getUserInfo().getUser().getUid();
         boolean isPlayAvailable=false;

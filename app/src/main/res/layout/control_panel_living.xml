@@ -588,7 +588,6 @@
 
         </com.live.fox.view.bulletMessage.BulletMessageParentView>
 
-
         <com.live.fox.view.bulletMessage.EnterRoomMessageParentView
             android:id="@+id/rlEnterRoom"
             android:layout_width="match_parent"

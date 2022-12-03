@@ -245,6 +245,14 @@ public class ContributionRankFragment extends BaseBindingFragment {
             if(getDataList().get(pagePosition).size()>i-4)
             {
                 ContributionRankItemBean rankItemBean=getDataList().get(pagePosition).get(i-4);
+                if(!rankItemBean.isAnchor())
+                {
+                    relativeLayout.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    relativeLayout.setVisibility(View.VISIBLE);
+                }
                 tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
                 follow.setVisibility(View.VISIBLE);
                 follow.setSelected(rankItemBean.isFollow());
@@ -364,6 +372,7 @@ public class ContributionRankFragment extends BaseBindingFragment {
     {
         int itemWidth=(int)(screenWidth*0.275f);
         LinearLayout linearLayout=new LinearLayout(getActivity());
+        linearLayout.setVisibility(View.INVISIBLE);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         switch (crownIndex)

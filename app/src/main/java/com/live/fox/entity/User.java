@@ -79,6 +79,8 @@ public class User implements Serializable {
     private int job = -1;
     private Boolean isBroadcast;//是否直播中
     private String liveId;//直播ID
+    private Boolean isGuard;
+    private Integer guardLevel;
 
     public String getBirthday() {
         return birthday;
@@ -716,5 +718,21 @@ public class User implements Serializable {
 
     public void setLiveId(String liveId) {
         this.liveId = liveId;
+    }
+
+    public Boolean isGuard() {
+        return isGuard==null?false:isGuard;
+    }
+
+    public void setGuard(Boolean guard) {
+        isGuard = guard;
+    }
+
+    public Integer getGuardLevel() {
+        return guardLevel==null?0:guardLevel;
+    }
+
+    public void setGuardLevel(Integer guardLevel) {
+        this.guardLevel = guardLevel;
     }
 }

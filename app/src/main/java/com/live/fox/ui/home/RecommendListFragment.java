@@ -1,11 +1,14 @@
 package com.live.fox.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ import com.live.fox.server.Api_Live;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.FragmentContentActivity;
+import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.JumpLinkUtils;
@@ -39,6 +43,8 @@ import com.live.fox.utils.LiveListHeader;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.view.convenientbanner.ConvenientBanner;
+import com.live.fox.view.convenientbanner.holder.Holder;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
@@ -46,6 +52,9 @@ import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 
 /**
@@ -97,7 +106,7 @@ public class RecommendListFragment extends BaseBindingFragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 2, GridLayoutManager.VERTICAL, false);
         mBind.rvAnchorList.setLayoutManager(layoutManager);
-        mBind.rvAnchorList.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 2.5f)));
+//        mBind.rvAnchorList.addItemDecoration(new RecyclerSpace(DeviceUtils.dp2px(requireActivity(), 2.5f)));
         mBind.rvAnchorList.setAdapter(livelistAdapter = new LiveListAdapter(getActivity(),new ArrayList<>()));
         header=new LiveListHeader(getContext());
 
@@ -128,13 +137,15 @@ public class RecommendListFragment extends BaseBindingFragment {
      * 刷新
      */
     public void initRefreshLayout() {
-        mBind.homeRefreshLayout.setEnableLoadMore(true);
+        MyWaterDropHeader header=new MyWaterDropHeader(getActivity());
+        header.setBackgroundColor(0xffF5F1F8);
+        mBind.homeRefreshLayout.setRefreshHeader(header);
+//        mBind.homeRefreshLayout.setEnableLoadMore(true);
         mBind.homeRefreshLayout.setOnRefreshListener(refreshLayout -> {
             doGetLiveListApi();
             doGetBanner();
-
-
         });
+
     }
 
     public void doGetBanner()
@@ -152,7 +163,7 @@ public class RecommendListFragment extends BaseBindingFragment {
                 }
                 if(data!=null && data.size()>0 && header!=null)
                 {
-                    header.setBannerList(data);
+                    setBannerList(data);
                 }
             }
         });
@@ -242,6 +253,14 @@ public class RecommendListFragment extends BaseBindingFragment {
         initView();
         currentUser = DataCenter.getInstance().getUserInfo().getUser();
 
+        mBind.homeConvenientBanner.getLayoutParams().height=(int)(ScreenUtils.getScreenWidth(getContext())*0.213f);
+
+        mBind.homeConvenientBanner.setPages(BannerHolder::new, new ArrayList())
+                .setPageIndicator(new int[]{R.drawable.shape_banner_dot_normal, R.drawable.shape_banner_dot_sel})
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+
+//        convenientBanner.getViewPager().setPageTransformer(true, new ZoomOutSlideTransformer());
+
         getRecommendAnnounceList();
         initListRecycleView();
         initRefreshLayout();
@@ -250,9 +269,6 @@ public class RecommendListFragment extends BaseBindingFragment {
     }
 
     private void initView() {
-        MyWaterDropHeader header=new MyWaterDropHeader(getActivity());
-        header.setBackgroundColor(0xffF5F1F8);
-        mBind.homeRefreshLayout.setRefreshHeader(header);
 
         //假数据-------------------
         LinearLayout linearLayout = new LinearLayout(getContext());
@@ -393,5 +409,49 @@ public class RecommendListFragment extends BaseBindingFragment {
         }
     }
 
+    public void setBannerList(List<HomeBanner> homeBanners)
+    {
+        if(homeBanners!=null )
+        {
+            mBind.homeConvenientBanner.setNewData(homeBanners);
+            mBind.homeConvenientBanner.setVisibility(homeBanners.size()>0?VISIBLE:GONE);
+            if (homeBanners.size()>1 && !mBind.homeConvenientBanner.isTurning() ) {
+                mBind.homeConvenientBanner.startTurning(5000);
+            }
+        }
+        else
+        {
+            mBind.homeConvenientBanner.setVisibility(GONE);
+        }
 
+        //点击Banner
+        mBind.homeConvenientBanner.setOnItemClickListener(position -> {
+            JumpLinkUtils.jumpHomeBannerLinks(getContext(),homeBanners.get(position));
+        });
+    }
+
+    public static class BannerHolder implements Holder<HomeBanner> {
+
+        private ImageView bannerImg;
+
+        @Override
+        public View createView(Context context) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_live_banner, null);
+            bannerImg = view.findViewById(R.id.home_banner_image);
+            return view;
+        }
+
+        @Override
+        public void UpdateUI(Context context, int position, HomeBanner banner) {
+            String jsonStr = banner.getBannerImg();
+            String bannerUrl;
+            if (jsonStr.endsWith("{") && jsonStr.endsWith("}")) {
+                bannerUrl = LanguageUtilsEntity.getLanguage(new Gson().fromJson(jsonStr, LanguageUtilsEntity.class));
+            } else {
+                bannerUrl = jsonStr;
+            }
+
+            GlideUtils.loadDefaultImage(context, bannerUrl,0,0, bannerImg);
+        }
+    }
 }

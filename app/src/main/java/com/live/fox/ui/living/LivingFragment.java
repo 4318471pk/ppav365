@@ -70,6 +70,7 @@ import com.live.fox.view.LivingClickTextSpan;
 import com.live.fox.view.MyViewPager;
 import com.live.fox.view.bulletMessage.BulletMessageView;
 import com.live.fox.view.bulletMessage.EnterRoomMessageView;
+import com.live.fox.view.bulletMessage.FollowMeFloatingView;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
@@ -102,7 +103,8 @@ public class LivingFragment extends BaseBindingFragment {
 
     final int playSVGA = 123;
     final int userHeartBeat = 987;
-    final int alertWhenExit = 87272;
+    final int alertWhenExit = 87272;//关注主播不迷路弹窗
+    final int alertFloatingFollow = 87273;//关注主播不迷路飘窗 左下角
     final int enterRoomRefresh=124;
 
     int currentPagePosition;
@@ -121,6 +123,11 @@ public class LivingFragment extends BaseBindingFragment {
         @Override
         public void handleMessage(@NonNull @NotNull Message msg) {
             super.handleMessage(msg);
+            if(!isActivityOK())
+            {
+                return;
+            }
+
             switch (msg.what) {
                 case playSVGA:
                     playSVGAAnimal();
@@ -140,7 +147,22 @@ public class LivingFragment extends BaseBindingFragment {
                     {
                         livingControlPanel.refresh20AudienceList();//刷新头部20个人
                     }
+                case alertFloatingFollow://关注主播不迷路飘窗 左下角
+                    if(livingControlPanel!=null && isActivityOK() && livingCurrentAnchorBean!=null)
+                    {
+                        FollowMeFloatingView followMeFloatingView=new FollowMeFloatingView(getActivity());
+                        followMeFloatingView.postWidow(getActivity(), livingCurrentAnchorBean,
+                                livingControlPanel.mBind.rlMain, new FollowMeFloatingView.OnClickFollowListener() {
+                                    @Override
+                                    public void onClickFollow() {
+                                        if(!TextUtils.isEmpty(livingCurrentAnchorBean.getAnchorId()))
+                                        {
+                                            livingControlPanel.follow(livingCurrentAnchorBean.getAnchorId());
+                                        }
+                                    }
+                                });
 
+                    }
                     break;
             }
         }
@@ -755,7 +777,9 @@ public class LivingFragment extends BaseBindingFragment {
             case 10013://被邀请加入的用户已经是群成员
                 LogUtils.e("IMIMGroup->10013 被邀请加入的用户已经是群成员");
                 break;
-
+            case 10015://group id错误
+                ToastUtils.showShort(desc);
+                break;
             case 9506:
             case 9520:
                 //直播结束
@@ -785,7 +809,11 @@ public class LivingFragment extends BaseBindingFragment {
                                 sendSystemMsgToChat(spanUtils.create());
 
                                 handler.sendEmptyMessageDelayed(userHeartBeat, 40000);
-                                handler.sendEmptyMessageDelayed(alertWhenExit, 5 * 60000);
+                                if(!livingCurrentAnchorBean.getFollow())
+                                {
+                                    handler.sendEmptyMessageDelayed(alertWhenExit, 5 * 60000);
+                                    handler.sendEmptyMessageDelayed(alertFloatingFollow,30000);
+                                }
                             }
                         }
 
@@ -995,9 +1023,11 @@ public class LivingFragment extends BaseBindingFragment {
             //出去房间的不处理
             return;
         }
+
+        if (livingControlPanel == null) return;
         livingControlPanel.mBind.vtEnterRoom.
                 addCharSequence(ChatSpanUtils.enterRoom(livingEnterLivingRoomBean, getActivity()).create());
-        if (livingControlPanel == null) return;
+        livingControlPanel.refresh20AudienceList();
 
         long uid = DataCenter.getInstance().getUserInfo().getUser().getUid();
         boolean isPlayAvailable = false;

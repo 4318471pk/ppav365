@@ -1619,5 +1619,7 @@
     <string name="errorLiveIdAID" translatable="false">主播ID或者直播ID错误</string>
     <string name="errorLink">请配置跳转链接</string>
     <string name="editNameLimit">改名需要等级达到2级</string>
+    <string name="followMeQuickly">赶快关注我吧~</string>
+
 
 </resources>

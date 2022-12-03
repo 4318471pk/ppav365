@@ -278,6 +278,8 @@
 
     <declare-styleable name="AnchorRoundImageView">
         <attr name="viewRadius" format="dimension" />
+        <attr name="placeHoldImage" format="reference" />
+        <attr name="isCirCle" format="boolean" />
     </declare-styleable>
 
 

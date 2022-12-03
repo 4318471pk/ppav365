@@ -40,7 +40,7 @@ public class HeaderHorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
         AnchorRoundImageView ivRoundBG = helper.getView(R.id.ivRoundBG);
         GlideUtils.loadDefaultImage(mContext, data.getRoomIcon(),defaultDrawable, ivRoundBG);
         ivRoundBG.setRadius(dip10);
-        GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
+        GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),0,0, ivRoundBG);
         helper.setText(R.id.tv_nickname,data.getTitle());
 
         TextView tvNum=helper.getView(R.id.tvNum);
