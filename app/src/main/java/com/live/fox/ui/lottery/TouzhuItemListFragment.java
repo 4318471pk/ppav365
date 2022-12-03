@@ -4,15 +4,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.databinding.LayoutRcBinding;
+import com.live.fox.entity.LiveRoomGameDetailBean;
+import com.live.fox.entity.TouzhuDetailBean;
 import com.live.fox.ui.lottery.adapter.LotteryAdapter;
 import com.live.fox.ui.lottery.adapter.TouzhuDetailAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class TouzhuItemListFragment extends BaseBindingFragment {
 
@@ -24,17 +31,19 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
     LayoutRcBinding mBind;
 
     TouzhuDetailAdapter mAdapgter;
-    List<Boolean> lotteryList = new ArrayList<>();
+    List<TouzhuDetailBean> lotteryList = new ArrayList<>();
 
     int itemNum = 0;//一行显示几个投注按钮
 
     int viewType = VIEW_NORMAIL;
+    private LiveRoomGameDetailBean liveRoomGameDetailBean;
 
 
-    public static TouzhuItemListFragment newInstance(int num) {
+    public static TouzhuItemListFragment newInstance(int num, LiveRoomGameDetailBean liveRoomGameDetailBean) {
         TouzhuItemListFragment fragment = new TouzhuItemListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("itemNum", num);
+        bundle.putSerializable("liveRoomGameDetailBean",liveRoomGameDetailBean);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,15 +72,36 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
         mBind = getViewDataBinding();
         itemNum = this.getArguments().getInt("itemNum");
         viewType = this.getArguments().getInt("viewType");
+        liveRoomGameDetailBean= (LiveRoomGameDetailBean) this.getArguments().getSerializable("liveRoomGameDetailBean");
+
 
         lotteryList.clear();
-        lotteryList.add(false);lotteryList.add(false);
-        lotteryList.add(false);lotteryList.add(false);
-        lotteryList.add(false);lotteryList.add(false);
-        lotteryList.add(false);lotteryList.add(false);
-        lotteryList.add(false);lotteryList.add(false);
-        lotteryList.add(false);lotteryList.add(false);
-        lotteryList.add(false);lotteryList.add(false);
+
+        if(liveRoomGameDetailBean!=null){
+            String json2 = liveRoomGameDetailBean.getOdds();
+
+            HashMap<String, Double> map = new Gson().fromJson(json2, new TypeToken<HashMap>() {
+                        }.getType());
+
+
+            Iterator<Map.Entry<String, Double>> it = map.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, Double> entry = it.next();
+
+
+                TouzhuDetailBean touzhuDetailBean=new TouzhuDetailBean();
+                touzhuDetailBean.select=false;
+                touzhuDetailBean.name= entry.getKey();
+                touzhuDetailBean.odds= entry.getValue();
+
+
+                lotteryList.add(touzhuDetailBean);
+            }
+
+
+
+        }
+
 
         mAdapgter = new TouzhuDetailAdapter(this.getContext(),lotteryList);
         mAdapgter.setShowItemNum(itemNum);
@@ -82,17 +112,8 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
         mBind.rc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < lotteryList.size(); i ++) {
-                    if (lotteryList.get(i)) {
-                        if (i == position) {
-                            return;
-                        } else {
-                            lotteryList.set(i, false);
-                            break;
-                        }
-                    }
-                }
-                lotteryList.set(position, true);
+                lotteryList.get(position).select=!lotteryList.get(position).select;
+//                lotteryList.set(position, true);
                 if (touzhuSelectSuc != null) {
                     touzhuSelectSuc.clickTz("test");
                 }

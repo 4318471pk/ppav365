@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
+import com.live.fox.entity.CountDownBean;
+import com.live.fox.entity.LiveRoomGameDetailBean;
 import com.live.fox.entity.LivingLotteryListBean;
 import com.live.fox.server.Api_Living_Lottery;
 import com.live.fox.ui.lottery.adapter.LotteryAdapter;
@@ -58,7 +60,8 @@ public class LotteryItemListFragment extends BaseBindingFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 getLiveRoomGameDetail(lotteryList.get(position).getGameCode());
-                TouzhuDialog touzhuDialog = new TouzhuDialog();
+                TouzhuDialog touzhuDialog =TouzhuDialog.newInstance(lotteryList.get(position).getGameCode());
+
                 DialogFramentManager.getInstance().showDialog(LotteryItemListFragment.this.getActivity().getSupportFragmentManager(), touzhuDialog);
                 if(getParentFragment()!=null && (getParentFragment() instanceof LotteryDialog))
                 {
@@ -71,14 +74,32 @@ public class LotteryItemListFragment extends BaseBindingFragment {
 
     private void getLiveRoomGameDetail(String gameCode)
     {
-        Api_Living_Lottery.ins().getLiveRoomGameDetail(gameCode, new JsonCallback<String>() {
+        Api_Living_Lottery.ins().getLiveRoomGameDetail(gameCode, new JsonCallback<List<LiveRoomGameDetailBean>>() {
             @Override
-            public void onSuccess(int code, String msg, String data) {
+            public void onSuccess(int code, String msg, List<LiveRoomGameDetailBean> data) {
 
                 if(data==null){
                     return;
                 }
-                Log.e("getLiveRoomGameDetail",data);
+//                Log.e("getLiveRoomGameDetail",data);
+            }
+        });
+
+
+        countDown( gameCode);
+    }
+
+
+    private void countDown(String gameCode)
+    {
+        Api_Living_Lottery.ins().countDown(gameCode, new JsonCallback<CountDownBean>() {
+            @Override
+            public void onSuccess(int code, String msg, CountDownBean data) {
+
+                if(data==null){
+                    return;
+                }
+//                Log.e("getLiveRoomGameDetail",data);
             }
         });
     }
