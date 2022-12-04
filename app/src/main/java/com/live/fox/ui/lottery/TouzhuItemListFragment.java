@@ -123,7 +123,14 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
 
     }
 
+
+    public List<TouzhuDetailBean> getLotteryList() {
+        return lotteryList;
+    }
+
     public interface TouzhuSelectSuc{
+
+        //点击小的
         public void clickTz(String text);
         public void cancelTz(String text);
     }

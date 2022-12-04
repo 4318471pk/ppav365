@@ -59,7 +59,14 @@ public class LotteryItemListFragment extends BaseBindingFragment {
         mBind.rc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getLiveRoomGameDetail(lotteryList.get(position).getGameCode());
+
+                String gameCode=lotteryList.get(position).getGameCode();
+
+
+                getLiveRoomGameDetail(gameCode);
+
+                countDown( gameCode);
+
                 TouzhuDialog touzhuDialog =TouzhuDialog.newInstance(lotteryList.get(position).getGameCode());
 
                 DialogFramentManager.getInstance().showDialog(LotteryItemListFragment.this.getActivity().getSupportFragmentManager(), touzhuDialog);
@@ -86,7 +93,7 @@ public class LotteryItemListFragment extends BaseBindingFragment {
         });
 
 
-        countDown( gameCode);
+
     }
 
 

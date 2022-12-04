@@ -123,7 +123,7 @@ public class InputChouMaDialog extends DialogFragment {
     }
 
     public interface ChouMaInputListener{
-        public void confirm(String money, boolean isChouma);
+         void confirm(String money, boolean isChouma);
     }
 
     private ChouMaInputListener chouMaInputListener;

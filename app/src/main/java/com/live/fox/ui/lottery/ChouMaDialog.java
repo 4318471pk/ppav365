@@ -110,7 +110,7 @@ public class ChouMaDialog extends BaseBindingDialogFragment {
                             if (isChouma) {
                                 if (chouMaList.size() > 7) {
                                     chouMaList.get(7).setName(money);
-                                    chouMaAdapter.notifyItemChanged(7);
+                                    chouMaAdapter.notifyDataSetChanged();
                                 }
                             }
                         }

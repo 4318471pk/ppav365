@@ -11,12 +11,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.roundview.RoundRelativeLayout;
 import com.live.fox.R;
 import com.live.fox.entity.SelectLotteryBean;
+import com.live.fox.entity.TouzhuDetailBean;
 
 import java.util.List;
 
 import retrofit2.http.PUT;
 
-public class ConfirmTouzhuAdapter extends BaseQuickAdapter<SelectLotteryBean, BaseViewHolder> {
+public class ConfirmTouzhuAdapter extends BaseQuickAdapter<TouzhuDetailBean, BaseViewHolder> {
 
 
     public ConfirmTouzhuAdapter(List data) {
@@ -24,10 +25,18 @@ public class ConfirmTouzhuAdapter extends BaseQuickAdapter<SelectLotteryBean, Ba
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SelectLotteryBean data) {
+    protected void convert(BaseViewHolder helper, TouzhuDetailBean data) {
+
+        TextView tvName = helper.getView(R.id.tvName);
+        tvName.setText(data.name);
+
+        TextView tvOdds = helper.getView(R.id.tvOdds);
+        tvOdds.setText(data.odds+"");
+
 
         TextView tvMoney = helper.getView(R.id.tvMoney);
-        tvMoney.setText(data.getName());
+        tvMoney.setText(data.money);
+
         tvMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

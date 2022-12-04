@@ -8,4 +8,9 @@ public class TouzhuDetailBean {
 
     public  String name;
     public  double odds;
+
+    public  String money="2";
+
+    public boolean isZdy = false;//是否自定义
+
 }
