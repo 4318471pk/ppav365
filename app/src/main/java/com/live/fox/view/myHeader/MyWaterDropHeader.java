@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -76,6 +77,7 @@ public class MyWaterDropHeader extends InternalAbstract implements RefreshHeader
         thisGroup.addView(mWaterDropView, MATCH_PARENT, MATCH_PARENT);
 
         mProgressDrawable = new ProgressDrawable();
+//        mProgressDrawable=(AnimationDrawable) getResources().getDrawable(R.drawable.loading_drawable);
         final Drawable progressDrawable = mProgressDrawable;
         progressDrawable.setCallback(this);
         progressDrawable.setBounds(0, 0, SmartUtil.dp2px(20), SmartUtil.dp2px(20));

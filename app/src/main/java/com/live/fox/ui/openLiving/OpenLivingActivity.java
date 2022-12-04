@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -182,7 +183,30 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
         if (xMagicImpl != null) {
             xMagicImpl.onResume();
         }
+        if(mLivePusher!=null)
+        {
+            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if(powerManager.isScreenOn())
+            {
+                mLivePusher.stopVirtualCamera();
+                mLivePusher.startPush(pushUrl);
+            }
+        }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mLivePusher!=null)
+        {
+            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if(!powerManager.isScreenOn())
+            {
+                mLivePusher.startVirtualCamera(BitmapFactory.decodeResource(getResources(),R.mipmap.stopliving_backgroud));
+            }
+        }
+    }
+
 
     @Override
     public boolean isHasHeader() {
@@ -279,6 +303,7 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
                     if (granted) {
                         stopCameraPreview = false;
                         mLivePusher.setRenderView(mBind.txVideoView);
+                        mLivePusher.setRenderMirror(V2TXLiveDef.V2TXLiveMirrorType.V2TXLiveMirrorTypeEnable);
                         mLivePusher.startCamera(isFrontCamera);
                         mLivePusher.startMicrophone();
                     } else {
@@ -335,7 +360,6 @@ public class OpenLivingActivity extends BaseBindingViewActivity  {
 
         // 添加播放回调
         mLivePusher.setObserver(observer);
-
 //        // 添加后台垫片推流参数
 //        BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inPreferredConfig = Bitmap.Config.ARGB_8888;

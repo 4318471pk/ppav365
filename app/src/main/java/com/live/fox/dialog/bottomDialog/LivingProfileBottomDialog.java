@@ -290,10 +290,20 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         mBind.setClick(this);
 
         view.setVisibility(View.INVISIBLE);
+
         switch (mode)
         {
             case Audience:
-                mBind.tv2.setText(getResources().getString(R.string.tagHim));
+                if(uid.equals(String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid())))
+                {
+                    //如果是自己 没有@TA
+                    mBind.tv2.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    mBind.tv2.setText(getResources().getString(R.string.tagHim));
+                }
+
                 mBind.tv3.setText("");
                 if(audience!=null)
                 {
@@ -308,7 +318,15 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 }
                 break;
             case AudienceAnchor:
-                mBind.tv2.setText(getResources().getString(R.string.tagHim));
+                if(uid.equals(String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid())))
+                {
+                    //如果是自己 没有@TA
+                    mBind.tv2.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    mBind.tv2.setText(getResources().getString(R.string.tagHim));
+                }
                 if(livingCurrentAnchorBean!=null)
                 {
                     GlideUtils.loadCircleImage(getActivity(), livingCurrentAnchorBean.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,

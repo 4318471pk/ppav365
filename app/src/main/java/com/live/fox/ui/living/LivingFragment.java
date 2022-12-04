@@ -2,6 +2,7 @@ package com.live.fox.ui.living;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -106,6 +107,7 @@ public class LivingFragment extends BaseBindingFragment {
     final int alertWhenExit = 87272;//关注主播不迷路弹窗
     final int alertFloatingFollow = 87273;//关注主播不迷路飘窗 左下角
     final int enterRoomRefresh=124;
+    final int previewCountDown=91;//预览倒计时
 
     int currentPagePosition;
     int viewPagePosition;
@@ -117,6 +119,7 @@ public class LivingFragment extends BaseBindingFragment {
     TXLivePlayer mLivePlayer = null;
     private TXLivePlayConfig mTXPlayConfig;
     public LivingCurrentAnchorBean livingCurrentAnchorBean;//当前主播的数据
+    private RoomListBean currentRoomListBean;
     View contentViews[]=new View[2];
 
     Handler handler = new Handler(Looper.myLooper()) {
@@ -172,11 +175,13 @@ public class LivingFragment extends BaseBindingFragment {
         LivingFragment livingFragment = new LivingFragment();
         livingFragment.currentPagePosition = position;
         livingFragment.viewPagePosition = viewPagePosition;
+        livingFragment.currentRoomListBean=livingFragment.getRoomBean();
         return livingFragment;
     }
 
     public void notifyShow(int position, int viewPagePosition) {
         currentPagePosition = position;
+        currentRoomListBean=getRoomBean();
         this.viewPagePosition = viewPagePosition;
         if (getView() != null && isAdded()) {
             loadData();
@@ -381,8 +386,9 @@ public class LivingFragment extends BaseBindingFragment {
     public RoomListBean getRoomBean() {
         LivingActivity activity = (LivingActivity) getActivity();
         if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
-            return null;
+            return currentRoomListBean;
         }
+
         return activity.getRoomListBeans().get(currentPagePosition);
     }
 
@@ -664,16 +670,22 @@ public class LivingFragment extends BaseBindingFragment {
                                 return;
                             }
 
-
                             if(code==3001)
                             {
-                                getAnchorInfo(false);
+                                //关播了
+                                getAnchorInfo(enterRoomBean,false);
                                 return;
                             }
 
                             if ( enterRoomBean != null) {
                                 //进入房间成功刷新主播信息
-                                getAnchorInfo(true);
+                                getAnchorInfo(enterRoomBean,true);
+                                //该(收费)直播间是否可预览标识；1：不可预览，非1（0或者null）：可以预览
+                                if( enterRoomBean.getIsPreview()==0 &&  enterRoomBean.getPreviewTime()>0)
+                                {
+                                    handler.sendEmptyMessageDelayed(previewCountDown,1000);
+                                }
+
                                 if (!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()) && mLivePlayer != null) {
                                     if (!PlayerUtils.checkPlayUrl(enterRoomBean.getPullStreamUrl(), getActivity())) {
                                         return;
@@ -696,7 +708,7 @@ public class LivingFragment extends BaseBindingFragment {
                             {
                                 if(code==3001)
                                 {
-                                    getAnchorInfo(false);
+                                    getAnchorInfo(enterRoomBean,false);
                                 }
                             }
                         }
@@ -721,7 +733,16 @@ public class LivingFragment extends BaseBindingFragment {
                 public void onError(int code, String desc) {
                     LogUtils.e("IMGroup->onError:" + code + "，" + desc);
                     hideLoadingDialog();
-                    joinGroupFailed(liveId, 1, code, desc);
+                    if(isActivityOK())
+                    {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                joinGroupFailed(liveId, 1, code, desc);
+                            }
+                        });
+                    }
+
                 }
 
                 @Override
@@ -778,7 +799,10 @@ public class LivingFragment extends BaseBindingFragment {
                 LogUtils.e("IMIMGroup->10013 被邀请加入的用户已经是群成员");
                 break;
             case 10015://group id错误
-                ToastUtils.showShort(desc);
+                if(!TextUtils.isEmpty(desc))
+                {
+                    sendSystemMsgToChat(ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM, desc, getActivity()).create());
+                }
                 break;
             case 9506:
             case 9520:
@@ -828,7 +852,15 @@ public class LivingFragment extends BaseBindingFragment {
                     @Override
                     public void onError(int code, String desc) {
                         LogUtils.e("IMGroup-> 加入聊天失敗: code->" + code + "  , desc->" + desc);
-                        joinGroupFailed(liveId, 2, code, desc);
+                        if(isActivityOK())
+                        {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    joinGroupFailed(liveId, 2, code, desc);
+                                }
+                            });
+                        }
                     }
                 });
     }
@@ -917,6 +949,10 @@ public class LivingFragment extends BaseBindingFragment {
                             break;
                         case MessageProtocol.LIVE_BUY_GUARD:
                             NewBornNobleOrGuardMessageBean bean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
+                            if(bean!=null && bean.getGuardCount()!=null)
+                            {
+                                livingControlPanel.mBind.gtvProtection.setText(bean.getGuardCount());
+                            }
                             LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
                                 @Override
                                 public void onClick(Object bean) {
@@ -1088,7 +1124,7 @@ public class LivingFragment extends BaseBindingFragment {
     /**
      * 获取当前主播数据
      */
-    public void getAnchorInfo(boolean isRoomLiving) {
+    public void getAnchorInfo(EnterRoomBean bean,boolean isRoomLiving) {
         if (!isActivityOK()) {
             return;
         }
@@ -1102,6 +1138,7 @@ public class LivingFragment extends BaseBindingFragment {
                                 livingControlPanel.mBind.rivProfileImage);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
+                        livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount());
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }
@@ -1132,13 +1169,18 @@ public class LivingFragment extends BaseBindingFragment {
                             }
 
                             boolean shouldConnectIM=true;
-                            if(Strings.isDigitOnly(data.getIsPayOver()))
+                            //如果不可以预览收费直播间
+                            //或者可以预览 但是预览时间没了 那么就弹窗
+                            if(bean.getIsPreview()==1 || (bean.getIsPreview()==0 && bean.getPreviewTime()<=0))
                             {
-                                //0 未付费 1 已经付费
-                                if(Integer.valueOf(data.getIsPayOver())==0 && Strings.isDigitOnly(data.getPrice()))
+                                if(Strings.isDigitOnly(data.getIsPayOver()))
                                 {
-                                    shouldConnectIM=false;
-                                    showChangeRoomTypeDialog(data.getType(),Integer.valueOf(data.getPrice()));
+                                    //0 未付费 1 已经付费
+                                    if(Integer.valueOf(data.getIsPayOver())==0 && Strings.isDigitOnly(data.getPrice()))
+                                    {
+                                        shouldConnectIM=false;
+                                        showChangeRoomTypeDialog(data.getType(),Integer.valueOf(data.getPrice()));
+                                    }
                                 }
                             }
 

@@ -4,15 +4,15 @@ public class EnterRoomBean {
 
     private String pullStreamUrl;
     private int rq;
-    private Object carId;
-    private Object isPreview;
+    private Integer carId;
+    private Integer isPreview;
     private int showType;
     private int uid;
     private int level;
     private int isRoomPreview;
     private int isReal;
     private boolean roomManager;
-    private long previewTime;
+    private Long previewTime;
 
     public int getIsReal() {
         return isReal;
@@ -38,19 +38,19 @@ public class EnterRoomBean {
         this.rq = rq;
     }
 
-    public Object getCarId() {
+    public Integer getCarId() {
         return carId;
     }
 
-    public void setCarId(Object carId) {
+    public void setCarId(Integer carId) {
         this.carId = carId;
     }
 
-    public Object getIsPreview() {
-        return isPreview;
+    public Integer getIsPreview() {
+        return isPreview==null?0:isPreview;
     }
 
-    public void setIsPreview(Object isPreview) {
+    public void setIsPreview(Integer isPreview) {
         this.isPreview = isPreview;
     }
 
@@ -94,11 +94,11 @@ public class EnterRoomBean {
         this.roomManager = roomManager;
     }
 
-    public long getPreviewTime() {
-        return previewTime;
+    public Long getPreviewTime() {
+        return previewTime==null?0:previewTime;
     }
 
-    public void setPreviewTime(long previewTime) {
+    public void setPreviewTime(Long previewTime) {
         this.previewTime = previewTime;
     }
 }
