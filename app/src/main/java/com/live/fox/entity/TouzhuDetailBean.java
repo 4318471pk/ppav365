@@ -13,4 +13,9 @@ public class TouzhuDetailBean {
 
     public boolean isZdy = false;//是否自定义
 
+
+    public String gameCode;
+    public String lotteryCode;
+    public String lotteryName;
+
 }

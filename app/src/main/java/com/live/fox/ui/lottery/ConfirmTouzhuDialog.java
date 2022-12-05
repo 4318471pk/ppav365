@@ -1,5 +1,7 @@
 package com.live.fox.ui.lottery;
 
+import static com.live.fox.dialog.MinuteGameDialogFragment.S_EXPECT;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,10 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
+import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogChoumaBinding;
 import com.live.fox.databinding.DialogConfirmTouzhuBinding;
 import com.live.fox.entity.SelectLotteryBean;
 import com.live.fox.entity.TouzhuDetailBean;
+import com.live.fox.entity.response.CpGameResultInfoVO;
+import com.live.fox.entity.response.LotteryBetVOList;
+import com.live.fox.server.Api_Living_Lottery;
+import com.live.fox.server.BaseApi;
 import com.live.fox.ui.lottery.adapter.BeishuAdapter;
 import com.live.fox.ui.lottery.adapter.ChouMaAdapter;
 import com.live.fox.ui.lottery.adapter.ConfirmTouzhuAdapter;
@@ -23,6 +30,7 @@ import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
@@ -38,8 +46,14 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
     InputChouMaDialog inputChouMaDialog;
     YusheBeishuDialog yusheBeishuDialog;
 
-    public static ConfirmTouzhuDialog newInstance() {
+    String liveId;
+    String gameName="";
+    String qs="";
+
+    public static ConfirmTouzhuDialog newInstance(String liveId, String gameName) {
         Bundle args = new Bundle();
+        args.putString("liveId", liveId);
+        args.putString("gameName", gameName);
         ConfirmTouzhuDialog fragment = new ConfirmTouzhuDialog();
         fragment.setArguments(args);
         return fragment;
@@ -52,6 +66,9 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
         } else if (view == mBind.tvConfirm) {
 
             dismissAllowingStateLoss();
+        }else if (view == mBind.tvConfirm) {
+
+            doPushCart();
         }
     }
 
@@ -70,6 +87,11 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
     public void initView(View view) {
         mBind = getViewDataBinding();
         mBind.setClick(this);
+
+        liveId = getArguments().getString("liveId");
+        gameName= getArguments().getString("gameName");
+
+
         addData();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
@@ -173,5 +195,71 @@ public class ConfirmTouzhuDialog extends BaseBindingDialogFragment {
     }
 
 
+    public void doPushCart() {
+        if (TextUtils.isEmpty(S_EXPECT)) {
+            ToastUtils.showShort(getString(R.string.expectRetry));
+            return;
+        }
 
+        HashMap<String, Object> params = BaseApi.getCommonParams();
+
+//        cpGameResultInfoVO.setMultiple(MUTIPLE);
+//        cpGameResultInfoVO.setExpect(S_EXPECT);
+
+        //List<TouzhuDetailBean> touzhuList = new ArrayList<>();
+
+
+        ArrayList<LotteryBetVOList> vos = new ArrayList<>();
+
+        double betTotalAmount=0;
+        String gameCode="";
+
+
+        for(int i=0;i<touzhuList.size();i++){
+            TouzhuDetailBean touzhuDetailBean=touzhuList.get(i);
+
+            LotteryBetVOList cpGameResultInfoVO = new LotteryBetVOList();
+
+            cpGameResultInfoVO.setAmount(2d);
+            cpGameResultInfoVO.setBounsRate(touzhuDetailBean.odds+"");
+            cpGameResultInfoVO.setLotteryCode(touzhuDetailBean.lotteryCode);
+            cpGameResultInfoVO.setLotteryName(touzhuDetailBean.lotteryName);
+            cpGameResultInfoVO.setPlayMethod("");
+
+            vos.add(cpGameResultInfoVO);
+
+
+            betTotalAmount+=cpGameResultInfoVO.getAmount();
+            gameCode=touzhuDetailBean.gameCode;
+        }
+
+        params.put("lotteryBetVOList", vos);
+
+
+        params.put("betTotalAmount", betTotalAmount);
+
+//        params.put("playNum", LotteryItem.addParameter(isMix));
+        params.put("gameCode", gameCode);
+        params.put("gameName", gameName);
+        params.put("liveId", liveId);
+        params.put("multiple", 1);
+        params.put("qs", qs);
+//        presenter.doPushCart(params);
+//        ChipsVO.upMultipleBet(rgRatio.getCheckedRadioButtonId());
+
+
+        Api_Living_Lottery.ins().lotteryBet(params,new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(isConditionOk())
+                {
+                    if (code == 0 ) {
+                        ToastUtils.showShort(msg);
+                    } else {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+            }
+        });
+    }
 }

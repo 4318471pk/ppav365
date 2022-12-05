@@ -235,6 +235,8 @@ public class UserDetailActivity extends BaseActivity  {
         Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
         if (uid!=null && localUID!=null && uid.longValue() == localUID.longValue()) {
             mBind.btnFollow.setVisibility(View.GONE);
+
+            mBind.editProfileImage.setVisibility(View.VISIBLE);
         }
         else
         {

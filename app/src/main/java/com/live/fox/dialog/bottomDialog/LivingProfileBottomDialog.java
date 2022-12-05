@@ -389,17 +389,12 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                 {
                     mBind.tvSignature.setText(user.getSignature());
                 }
-//                if(user.getFans()!=null)
-//                {
-//                    mBind.tvFollowNum.setText(user.getFollows()+"");
-//                }
+
 
                 mBind.tvFollowNum.setText(String.valueOf(user.getFollows()));
 
-//                if(user.getFollows()!=null)
-//                {
-                    mBind.tvFansnum.setText(String.valueOf(user.getFans()));
-//                }
+                mBind.tvFansnum.setText(String.valueOf(user.getFans()));
+
 
                 break;
         }
@@ -484,17 +479,10 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                                 mBind.tvSignature.setText(currentUser.getSignature());
                             }
 
-//                            if(currentUser.getFans()!=null)
-//                            {
-//                                mBind.tvFollowNum.setText(currentUser.getFollows()+"");
-//                            }
 
                             mBind.tvFollowNum.setText(String.valueOf(currentUser.getFollows()));
 
-//                            if(currentUser.getFollows()!=null)
-//                            {
-                                mBind.tvFansnum.setText(String.valueOf(currentUser.getFans()));
-//                            }
+                            mBind.tvFansnum.setText(String.valueOf(currentUser.getFans()));
 
                             SpanUtils icons=new SpanUtils();
                             if(ChatSpanUtils.appendLevelIcon(icons,currentUser.getUserLevel(), getActivity()))
