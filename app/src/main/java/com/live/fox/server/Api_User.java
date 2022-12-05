@@ -272,6 +272,45 @@ public class Api_User extends BaseApi {
                 .execute(callback);
     }
 
+
+    /**
+     * 关注列表
+     */
+    public void getFollowList2(int start, int page, JsonCallback callback,String otherUid) {
+        String url = SPManager.getServerDomain() + Constant.URL.getFollowListByUid;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("otherUid", otherUid);
+        params.put("page", page);
+
+//        OkHttpUtil.doJsonPost(url, new Gson().toJson(params), Long.parseLong(params.get("timestamp").toString()), callback);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                        "",
+                        url,
+                        getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                        new Gson().toJson(params))
+                .execute(callback);
+    }
+
+
+    /**
+     * 粉丝列表
+     */
+    public void getFansList2(int start, int page, JsonCallback callback,String otherUid) {
+        String url = SPManager.getServerDomain() + Constant.URL.getFansListByUid;
+        HashMap<String, Object> params = getCommonParams();
+        params.put("otherUid", otherUid);
+        params.put("page", page);
+
+//        OkHttpUtil.doJsonPost(url, new Gson().toJson(params), Long.parseLong(params.get("timestamp").toString()), callback);
+        OkGoHttpUtil.getInstance().doJsonPost(
+                        "",
+                        url,
+                        getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                        new Gson().toJson(params))
+                .execute(callback);
+
+    }
+
     /**
      * 主播明细
      */

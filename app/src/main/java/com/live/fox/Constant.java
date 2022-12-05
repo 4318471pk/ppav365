@@ -107,6 +107,10 @@ public class Constant {
         public static final String USER_followlist_URL = CenterClient + "/user/follow/list";     // 我的关注列表
         public static final String USER_follow_URL = CenterClient + "/user/follow";     //关注
         public static final String USER_fanslist_URL = CenterClient + "/user/fans/list";         // 我的粉丝列表
+
+        public static final String  getFollowListByUid = CenterClient + "/user/getFollowListByUid";    // center-client/user/getFansListByUid 获取他人关注列表
+        public static final String getFansListByUid = CenterClient + "/user/getFansListByUid";          // /center-client/user/getFollowListByUid 获取他人粉丝列表
+
         public static final String USER_modifyuserinfo_URL = CenterClient + "/user/modify/user/info";    // 修改用户信息
         public static final String USER_modifyusername_URL = CenterClient + "/user/modify/nickname";    // 修改用户昵称
         public static final String USER_reject_URL = CenterClient + "/sys/user/reject";              // 设置/取消 黑名单

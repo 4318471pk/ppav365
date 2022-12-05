@@ -165,10 +165,10 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
         switch (view.getId())
         {
             case R.id.layoutFollow:
-                MyFollowListActivity.startActivity(requireActivity(), false);
+                MyFollowListActivity.startActivity(requireActivity(), false,uid);
                 break;
             case R.id.layoutFans:
-                MyFollowListActivity.startActivity(requireActivity(), true);
+                MyFollowListActivity.startActivity(requireActivity(), true,uid);
                 break;
             case R.id.rlMain:
                 mBind.rlMain.setEnabled(false);

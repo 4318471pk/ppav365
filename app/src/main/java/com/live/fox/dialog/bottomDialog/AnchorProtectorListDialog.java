@@ -51,13 +51,15 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
     String uid,liveId;
     AnchorGuardListBean anchorGuardListBean;
     OnRefreshDataListener onRefreshDataListener;
+    boolean isAnchor;
 
-    public static AnchorProtectorListDialog getInstance(String uid,String liveId,AnchorGuardListBean anchorGuardListBean)
+    public static AnchorProtectorListDialog getInstance(String uid,String liveId,AnchorGuardListBean anchorGuardListBean,boolean isAnchor)
     {
         AnchorProtectorListDialog anchorProtectorListDialog=new AnchorProtectorListDialog();
         anchorProtectorListDialog.uid=uid;
         anchorProtectorListDialog.liveId=liveId;
         anchorProtectorListDialog.anchorGuardListBean=anchorGuardListBean;
+        anchorProtectorListDialog.isAnchor=isAnchor;
         return anchorProtectorListDialog;
     }
 
@@ -190,6 +192,11 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         rl.rightMargin=dip31/31*2;
         mBind.ivBeMyProtector.setLayoutParams(rl);
         view.setVisibility(View.VISIBLE);
+
+
+        if(isAnchor){
+            mBind.ivBeMyProtector.setVisibility(View.GONE);
+        }
 
         List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
         if(anchorGuardListBean!=null && anchorGuardListBean.getLiveGuardList()!=null && anchorGuardListBean.getLiveGuardList().size()>0)
