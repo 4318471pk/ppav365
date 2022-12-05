@@ -2,6 +2,7 @@ package com.live.fox.ui.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -38,7 +39,16 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
     MyFollowListAdapter myFollowListAdapter;
 
     int page = 0;
+    String otherUid="";
 
+    public static void startActivity(Context context, boolean isFans,String otherUid) {
+        Constant.isAppInsideClick = true;
+        Intent i = new Intent(context, MyFollowListActivity.class);
+        i.putExtra("isFans", isFans);
+        i.putExtra("otherUid", otherUid);
+        context.startActivity(i);
+
+    }
 
     public static void startActivity(Context context, boolean isFans) {
         Constant.isAppInsideClick = true;
@@ -62,6 +72,8 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
     public void initView() {
         mBind = getViewDataBinding();
         isFans = this.getIntent().getBooleanExtra("isFans", isFans);
+        otherUid= this.getIntent().getStringExtra("otherUid");
+
 
         setActivityTitle(isFans? getString(R.string.fans_list) : getString(R.string.follow_list));
 
@@ -142,11 +154,21 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
      * 我的关注列表
      */
     public void doGetFollowListApi(boolean isRefresh) {
-        if (isFans) {
-            Api_User.ins().getFansList(0, page, getCallback(isRefresh));
-        } else {
-            Api_User.ins().getFollowList(0, page, getCallback(isRefresh));
+
+        if(TextUtils.isEmpty(otherUid)){
+            if (isFans) {
+                Api_User.ins().getFansList(0, page, getCallback(isRefresh));
+            } else {
+                Api_User.ins().getFollowList(0, page, getCallback(isRefresh));
+            }
+        }else {
+            if (isFans) {
+                Api_User.ins().getFansList2(0, page, getCallback(isRefresh),otherUid);
+            } else {
+                Api_User.ins().getFollowList2(0, page, getCallback(isRefresh),otherUid);
+            }
         }
+
     }
 
     private JsonCallback getCallback(boolean isRefresh)

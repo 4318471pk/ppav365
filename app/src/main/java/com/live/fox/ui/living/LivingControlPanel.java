@@ -289,7 +289,7 @@ public class LivingControlPanel extends RelativeLayout {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(),livingPromoDialog);
                 break;
             case R.id.gtvProtection:
-                AnchorProtectorListDialog anchorProtectorListDialog=AnchorProtectorListDialog.getInstance(aid,liveId,anchorGuardListBean);
+                AnchorProtectorListDialog anchorProtectorListDialog=AnchorProtectorListDialog.getInstance(aid,liveId,anchorGuardListBean,false);
                 anchorProtectorListDialog.setOnRefreshDataListener(new AnchorProtectorListDialog.OnRefreshDataListener() {
                     @Override
                     public void onRefresh(AnchorGuardListBean anchorGuardListBean) {

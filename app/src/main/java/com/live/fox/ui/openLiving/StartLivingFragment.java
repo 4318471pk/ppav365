@@ -176,7 +176,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                 DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),onlineNobilityAndUserDialog);
                 break;
             case R.id.gtvProtection:
-                AnchorProtectorListDialog anchorProtectorListDialog=AnchorProtectorListDialog.getInstance(myUID,liveId,anchorGuardListBean);
+                AnchorProtectorListDialog anchorProtectorListDialog=AnchorProtectorListDialog.getInstance(myUID,liveId,anchorGuardListBean,true);
                 anchorProtectorListDialog.setOnRefreshDataListener(new AnchorProtectorListDialog.OnRefreshDataListener() {
                     @Override
                     public void onRefresh(AnchorGuardListBean anchorGuardListBean) {
