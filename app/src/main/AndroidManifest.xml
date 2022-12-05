@@ -284,7 +284,7 @@
             android:name=".ui.mine.contribution.ContributionRankActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.mine.MyBagAndStoreActivity"
+            android:name=".ui.mine.myBagAndStore.MyBagAndStoreActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.openLiving.AnchorLivingFinishActivity"
@@ -292,9 +292,6 @@
 
         <activity
             android:name=".ui.mine.CenterOfAnchorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.mine.MyBagActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mine.MyFansActivity"

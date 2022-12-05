@@ -400,7 +400,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                             NewBornNobleOrGuardMessageBean bean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
                             if(bean!=null && bean.getGuardCount()!=null)
                             {
-                                mBind.gtvProtection.setText(bean.getGuardCount());
+                                mBind.gtvProtection.setText(bean.getGuardCount()+"");
                             }
                             LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
                                 @Override
@@ -1168,7 +1168,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                         if(data!=null)
                         {
                             mBind.gtvOnlineAmount.setText(data.getLiveSum()+"");
-                            mBind.gtvProtection.setText(data.getGuardCount());
+                            mBind.gtvProtection.setText(data.getGuardCount()+"");
                         }
                     }
                     else

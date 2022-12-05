@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +109,8 @@ public class LivingFragment extends BaseBindingFragment {
     final int alertWhenExit = 87272;//关注主播不迷路弹窗
     final int alertFloatingFollow = 87273;//关注主播不迷路飘窗 左下角
     final int enterRoomRefresh=124;
-    final int previewCountDown=91;//预览倒计时
+    final int previewCountDown=91;//收费房间未付费前可预览的倒计时
+    final int roomWatchedTime=92;//收费房间已观看的时间
 
     int currentPagePosition;
     int viewPagePosition;
@@ -120,6 +123,7 @@ public class LivingFragment extends BaseBindingFragment {
     private TXLivePlayConfig mTXPlayConfig;
     public LivingCurrentAnchorBean livingCurrentAnchorBean;//当前主播的数据
     private RoomListBean currentRoomListBean;
+    private EnterRoomBean enterRoomBean;//进入房间的数据 也许倒计时要用到
     View contentViews[]=new View[2];
 
     Handler handler = new Handler(Looper.myLooper()) {
@@ -139,7 +143,7 @@ public class LivingFragment extends BaseBindingFragment {
                     Api_Live.ins().watchHeart();
                     sendEmptyMessageDelayed(userHeartBeat, 40000);
                     break;
-                case alertWhenExit:
+                case alertWhenExit://主播不迷路需求 没关注的话5分钟后点击关闭直播间要弹窗
                     if (livingControlPanel != null && livingCurrentAnchorBean != null && !livingCurrentAnchorBean.getFollow()) {
                         livingControlPanel.shouldAlertOnExit = true;
                     }
@@ -166,6 +170,57 @@ public class LivingFragment extends BaseBindingFragment {
                                 });
 
                     }
+                case previewCountDown://收费房间未付费前可预览的倒计时
+                    if(livingControlPanel!=null && enterRoomBean!=null )
+                    {
+                        if(enterRoomBean.getPreviewTime()>0)
+                        {
+                            int dip10=ScreenUtils.getDip2px(getActivity(),10);
+                            livingControlPanel.mBind.gtvCountDown.setSolidBackground(0xffF2AD39,dip10);
+                            String textCountDown=String.format(getStringWithoutContext(R.string.previewCountDown),
+                                    String.valueOf(enterRoomBean.getPreviewTime()-1));
+                            SpannableString spannableString=new SpannableString(textCountDown);
+                            spannableString.setSpan(new ForegroundColorSpan(0xffF42C2C),5,spannableString.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            livingControlPanel.mBind.gtvCountDown.setText(spannableString);
+                            livingControlPanel.mBind.gtvCountDown.setVisibility(View.VISIBLE);
+                            enterRoomBean.setPreviewTime(enterRoomBean.getPreviewTime()-1);
+                            sendEmptyMessageDelayed(previewCountDown,1000);
+                        }
+                        else
+                        {
+                            //显示收费弹窗
+                            if(livingCurrentAnchorBean!=null)
+                            {
+                                showChangeRoomTypeDialog(livingCurrentAnchorBean.getType(),livingCurrentAnchorBean.getPrice());
+                            }
+                        }
+                    }
+                    break;
+                case roomWatchedTime:
+                    int second=msg.arg1;
+                    String unitMin=getStringWithoutContext(R.string.min);
+                    String unitSec=getStringWithoutContext(R.string.sec);
+                    StringBuilder sbWatchedTime=new StringBuilder();
+                    sbWatchedTime.append(getStringWithoutContext(R.string.hadWatched));
+                    if(second<60)
+                    {
+                        sbWatchedTime.append(second).append(unitSec);
+                    }
+                    else
+                    {
+                        sbWatchedTime.append(second/60).append(unitMin);
+                    }
+
+                    int strokeColor=0xffFF008A;
+                    int solidColor=0x3f000000;
+                    int dip10=ScreenUtils.getDip2px(getActivity(),10);
+                    int dip1_5=ScreenUtils.getDip2px(getActivity(),1.5f);
+                    livingControlPanel.mBind.gtvCountDown.setStokeWithSolidBackground(strokeColor,dip1_5,solidColor,dip10);
+                    livingControlPanel.mBind.gtvCountDown.setText(sbWatchedTime.toString());
+                    livingControlPanel.mBind.gtvCountDown.setVisibility(View.VISIBLE);
+                    Message message=new Message();
+                    message.arg1=second+1;
+                    sendMessageDelayed(message,1000);
                     break;
             }
         }
@@ -678,8 +733,10 @@ public class LivingFragment extends BaseBindingFragment {
                             }
 
                             if ( enterRoomBean != null) {
+                                LivingFragment.this.enterRoomBean=enterRoomBean;
                                 //进入房间成功刷新主播信息
                                 getAnchorInfo(enterRoomBean,true);
+
                                 //该(收费)直播间是否可预览标识；1：不可预览，非1（0或者null）：可以预览
                                 if( enterRoomBean.getIsPreview()==0 &&  enterRoomBean.getPreviewTime()>0)
                                 {
@@ -951,7 +1008,7 @@ public class LivingFragment extends BaseBindingFragment {
                             NewBornNobleOrGuardMessageBean bean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
                             if(bean!=null && bean.getGuardCount()!=null)
                             {
-                                livingControlPanel.mBind.gtvProtection.setText(bean.getGuardCount());
+                                livingControlPanel.mBind.gtvProtection.setText(bean.getGuardCount()+"");
                             }
                             LivingClickTextSpan.OnClickTextItemListener listener=new LivingClickTextSpan.OnClickTextItemListener() {
                                 @Override
@@ -988,7 +1045,7 @@ public class LivingFragment extends BaseBindingFragment {
     private void livingMessageChangeRoomType(String liveId, JSONObject msgJson)
     {
         int roomType=msgJson.optInt("type",-1);
-        int price=msgJson.optInt("price",0);
+        String price=msgJson.optString("price","");
         //0免费 1收费（计时收费）； 2收费（按次收费）
         switch (roomType)
         {
@@ -1015,11 +1072,13 @@ public class LivingFragment extends BaseBindingFragment {
             return;
         }
 
+        showLoadingDialogWithNoBgBlack();
         Api_Live.ins().payForRoom(liveId, uid, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if(isActivityOK())
                 {
+                    hideLoadingDialog();
                     if(code==0 && getArg().equals(liveId))
                     {
                         enterRoom();
@@ -1138,7 +1197,7 @@ public class LivingFragment extends BaseBindingFragment {
                                 livingControlPanel.mBind.rivProfileImage);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
-                        livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount());
+                        livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount()+"");
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }
@@ -1169,8 +1228,8 @@ public class LivingFragment extends BaseBindingFragment {
                             }
 
                             boolean shouldConnectIM=true;
-                            //如果不可以预览收费直播间
-                            //或者可以预览 但是预览时间没了 那么就弹窗
+                            //如果不可以预览收费直播间 弹窗收费
+                            //或者可以预览 但是预览时间没了 弹窗收费
                             if(bean.getIsPreview()==1 || (bean.getIsPreview()==0 && bean.getPreviewTime()<=0))
                             {
                                 if(Strings.isDigitOnly(data.getIsPayOver()))
@@ -1179,7 +1238,7 @@ public class LivingFragment extends BaseBindingFragment {
                                     if(Integer.valueOf(data.getIsPayOver())==0 && Strings.isDigitOnly(data.getPrice()))
                                     {
                                         shouldConnectIM=false;
-                                        showChangeRoomTypeDialog(data.getType(),Integer.valueOf(data.getPrice()));
+                                        showChangeRoomTypeDialog(data.getType(),data.getPrice());
                                     }
                                 }
                             }
@@ -1187,6 +1246,14 @@ public class LivingFragment extends BaseBindingFragment {
                             if(shouldConnectIM)
                             {
                                 checkAndJoinIM(getRoomBean().getId());
+                            }
+
+                            //0 未付费 1 已经付费
+                            if(Integer.valueOf(data.getIsPayOver())==1 && Strings.isDigitOnly(data.getPrice()))
+                            {
+                                Message message=new Message();
+                                message.arg1=1;
+                                handler.sendMessageDelayed(message,1000);
                             }
                         }
                         else
@@ -1314,7 +1381,7 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
-    private void showChangeRoomTypeDialog(int type,int price)
+    private void showChangeRoomTypeDialog(int type,String price)
     {
         getOutOfRoom(getRoomBean().getId());
         mBind.ivBG.setVisibility(View.VISIBLE);

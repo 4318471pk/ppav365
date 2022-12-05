@@ -301,7 +301,7 @@ public class UserDetailActivity extends BaseActivity  {
 //        }
 
 
-        GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), R.mipmap.user_head_error, mBind.ivHeader);
+        GlideUtils.loadDefaultImage(UserDetailActivity.this, mUser.getAvatar(), 0, mBind.ivHeader);
         mBind.tvName.setText(TextUtils.isEmpty(mUser.getNickname())?"- -":mUser.getNickname());
         if (DataCenter.getInstance().getUserInfo().getUser().getUid().longValue()
                 == mUser.getUid().longValue()) {

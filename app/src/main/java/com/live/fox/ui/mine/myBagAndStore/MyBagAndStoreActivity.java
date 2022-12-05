@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine;
+package com.live.fox.ui.mine.myBagAndStore;
 
 import android.content.Context;
 import android.content.Intent;

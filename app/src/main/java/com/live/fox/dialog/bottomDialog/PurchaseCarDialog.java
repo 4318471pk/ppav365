@@ -1,13 +1,9 @@
 package com.live.fox.dialog.bottomDialog;
 
 import android.animation.ValueAnimator;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.PopupWindow;
 
 import com.live.fox.App;
 import com.live.fox.R;
@@ -15,16 +11,11 @@ import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogPurchaseCarBinding;
-import com.live.fox.dialog.CommonDialog;
 import com.live.fox.dialog.temple.TempleDialog;
-import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.MyBagStoreListItemBean;
-import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
-import com.live.fox.ui.mine.MyBagAndStoreFragment;
 import com.live.fox.utils.GlideUtils;
-import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SpanUtils;
 import com.live.fox.utils.ToastUtils;
 

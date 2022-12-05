@@ -317,7 +317,6 @@ public class RecommendListFragment extends BaseBindingFragment {
                         //绿播
                         greenLists.add(roomListBean);
                         break;
-
                 }
             }
 

@@ -13,6 +13,7 @@ import com.live.fox.databinding.DialogEditNicknameBinding;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_User;
+import com.live.fox.ui.mine.editprofile.EditUserInfoActivity;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
 import com.live.fox.utils.ToastUtils;
 
@@ -87,10 +88,10 @@ public class EditNickNameDialog extends BaseBindingDialogFragment {
                 if(code==0)
                 {
                     DataCenter.getInstance().getUserInfo().updateUser(user);
-                    if(getActivity()!=null && (getActivity() instanceof UserDetailActivity))
+                    if(getActivity()!=null && (getActivity() instanceof EditUserInfoActivity))
                     {
-                        UserDetailActivity userDetailActivity=(UserDetailActivity)getActivity();
-                        userDetailActivity.refreshPage(user);
+                        EditUserInfoActivity editUserInfoActivity=(EditUserInfoActivity)getActivity();
+                        editUserInfoActivity.refreshPage();
                     }
                     dismissAllowingStateLoss();
                     if(onPersonalDataChangeListener!=null)

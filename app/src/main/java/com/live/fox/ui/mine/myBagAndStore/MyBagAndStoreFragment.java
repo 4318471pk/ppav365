@@ -1,4 +1,4 @@
-package com.live.fox.ui.mine;
+package com.live.fox.ui.mine.myBagAndStore;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +19,6 @@ import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalMountResourceDao;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.GiftResourceBean;
-import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.MyBagStoreListItemBean;
 import com.live.fox.server.Api_Order;
@@ -28,7 +27,6 @@ import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
-import com.live.fox.view.RankProfileView;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
@@ -40,7 +38,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

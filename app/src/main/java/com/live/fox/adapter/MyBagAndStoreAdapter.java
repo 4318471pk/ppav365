@@ -1,6 +1,5 @@
 package com.live.fox.adapter;
 
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
@@ -9,36 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flyco.roundview.RoundRelativeLayout;
-import com.live.fox.App;
 import com.live.fox.R;
 import com.live.fox.base.BaseActivity;
 import com.live.fox.base.DialogFramentManager;
-import com.live.fox.common.JsonCallback;
 import com.live.fox.dialog.bottomDialog.PurchaseCarDialog;
-import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.MyBagStoreListItemBean;
-import com.live.fox.server.Api_Order;
-import com.live.fox.server.BaseApi;
-import com.live.fox.ui.mine.MyBagActivity;
-import com.live.fox.ui.mine.MyBagAndStoreFragment;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
-import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.GradientTextView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.net.MalformedURLException;
-import java.util.HashMap;
 import java.util.List;
 
 public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdapter.ViewHolder> {

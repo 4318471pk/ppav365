@@ -518,6 +518,8 @@
     <string name="effective">有效</string>
     <string name="invalid">无效</string>
     <string name="minute">分钟</string>
+    <string name="min">分</string>
+    <string name="sec">秒</string>
     <string name="effectiveDay">日</string>
     <string name="effectiveTime">小时，分钟</string>
     <string name="revenueLivet">总收益</string>
@@ -1604,6 +1606,8 @@
     <string name="tip10">落后%1$s火力</string>
     <string name="tip11">上周贡献&#32;%1$s&#32;火力</string>
     <string name="tip12">乘坐【%1$s】来了</string>
+    <string name="previewCountDown">预览倒计时%1$s秒</string>
+    <string name="hadWatched">已观看</string>
     <string name="tip13">需要先创建过直播房间</string>
     <string name="emptyPosition">虚位以待</string>
     <string name="canNotSendGiftToSelf">不能赠送给自己。</string>

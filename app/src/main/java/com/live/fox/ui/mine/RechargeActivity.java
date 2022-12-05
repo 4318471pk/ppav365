@@ -311,10 +311,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                     }
                 }
                 if (temp != position) {
-                    payNameList.get(temp).setSelect(false);
-                    payNameList.get(position).setSelect(true);
-                    payNameAdapter.notifyItemChanged(temp);
-                    payNameAdapter.notifyItemChanged(position);
+                    payNameAdapter.getData().get(temp).setSelect(false);
+                    payNameAdapter.getData().get(position).setSelect(true);
+                    payNameAdapter.notifyDataSetChanged();
                     getChannelType(payNameList.get(position).getType());
                     nowPayId = payNameList.get(position).getType();
                 }
@@ -1277,28 +1276,15 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
         getAsset();
 
-//        Api_Order.ins().getChargeCoin(new JsonCallback<ChargeCoinBean>() {
-//            @Override
-//            public void onSuccess(int code, String msg, ChargeCoinBean data) {
-//                hideLoadingDialog();
-//                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-//                    if (data.getRechargeOptionalList() != null && data.getRechargeOptionalList().size() >0) {
-//                        chargeMoneyBeans.addAll(data.getRechargeOptionalList());
-//                        chargeDiamondBeans.addAll(data.getRechargeOptionalList());
-//                        chargeMoneyAdapter.notifyDataSetChanged();
-//                        chargeDiamondAdapter.notifyDataSetChanged();
-//                    }
-//                } else {
-//                    ToastUtils.showShort(msg);
-//                }
-//            }
-//        }, commonParams);
-
         Api_Order.ins().getChargeType(new JsonCallback<List<RechargeTypeBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<RechargeTypeBean> data) {
                 hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                if(isFinishing() || isDestroyed())
+                {
+                    return;
+                }
+                if (code == 0 ) {
                     if (data != null && data.size() > 0) {
                         payNameList.addAll(data);
                         payNameList.get(0).setSelect(true);
@@ -1351,7 +1337,12 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onSuccess(int code, String msg, List<RechargeTypeListBean> data) {
                    // hideLoadingDialog();
-                    if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                    if(isFinishing() || isDestroyed())
+                    {
+                        return;
+                    }
+
+                    if (code == 0 ) {
                         if (data != null && data.size() > 0) {
                             payWayMap.put(type, data);
                             payWayList.clear();

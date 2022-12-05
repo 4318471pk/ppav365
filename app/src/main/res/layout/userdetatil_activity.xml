@@ -20,19 +20,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-
-
-                <com.live.fox.view.UserProfileImageView
-                    android:id="@+id/ivHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:contentDescription="@string/places_holder"
-                    android:scaleType="centerCrop" />
-
-
-
-
+            <com.live.fox.view.UserProfileImageView
+                android:id="@+id/ivHeader"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:contentDescription="@string/places_holder"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/user_head_error" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/roundLLMain"
@@ -46,60 +40,58 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:orientation="vertical">
-                    
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:orientation="vertical"
-                        android:paddingBottom="15dip">
-
-                        <TextView
-                            android:id="@+id/tvName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="@{click.onViewClick}"
-                            android:drawablePadding="10dip"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
-                            android:singleLine="true"
-                            android:textColor="@color/white"
-                            android:textSize="19sp"
-                            android:textStyle="bold" />
-
                         <LinearLayout
-                            android:layout_marginStart="15dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dip">
 
                             <TextView
-                                android:id="@+id/tvIcons"
+                                android:id="@+id/tvName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
                                 android:layout_marginRight="15dp"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:drawablePadding="10dip"
+                                android:onClick="@{click.onViewClick}"
+                                android:singleLine="true"
+                                android:textColor="@color/white"
+                                android:textSize="19sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="6dp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvIcons"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="15dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
-                        
-                        
-                        
-                    </LinearLayout>
 
                         <com.opensource.svgaplayer.SVGAImageView
                             android:id="@+id/ivLiving"
                             android:layout_width="70dp"
                             android:layout_height="29dp"
-                            android:layout_marginEnd="15dp"
-                            />
+                            android:layout_marginEnd="15dp" />
 
                     </LinearLayout>
 
@@ -125,10 +117,10 @@
                                 android:id="@+id/tvFollowAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{click.onViewClick}"
                                 android:text="0"
                                 android:textColor="#A800FF"
                                 android:textSize="16sp"
@@ -138,10 +130,10 @@
                                 android:id="@+id/tvFansAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{click.onViewClick}"
                                 android:text="0"
                                 android:textColor="#A800FF"
                                 android:textSize="16sp"
@@ -151,10 +143,10 @@
                                 android:id="@+id/tvGiftAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{click.onViewClick}"
                                 android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
@@ -173,11 +165,11 @@
                                 android:id="@+id/tvFollow"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
-                                android:paddingTop="5dip"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{click.onViewClick}"
+                                android:paddingTop="5dip"
                                 android:text="@string/focus"
                                 android:textColor="@color/color404040"
                                 android:textSize="13sp" />
@@ -186,11 +178,11 @@
                                 android:id="@+id/tvFans"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
-                                android:paddingTop="5dip"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{click.onViewClick}"
+                                android:paddingTop="5dip"
                                 android:text="@string/fan"
                                 android:textColor="@color/color404040"
                                 android:textSize="13sp" />
@@ -199,11 +191,11 @@
                                 android:id="@+id/tvGift"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
-                                android:paddingTop="5dip"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{click.onViewClick}"
+                                android:paddingTop="5dip"
                                 android:text="@string/giftSent"
                                 android:textColor="@color/color404040"
                                 android:textSize="13sp" />
@@ -233,8 +225,8 @@
                                 android:id="@+id/tvSignature"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:onClick="@{click.onViewClick}"
                                 android:maxLines="2"
+                                android:onClick="@{click.onViewClick}"
                                 android:paddingLeft="10dip"
                                 android:paddingTop="20dip"
                                 android:paddingRight="10dip"
@@ -244,14 +236,14 @@
                                 android:textSize="13sp" />
 
                             <ImageView
-                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/edit1"
-                                android:layout_marginBottom="10dip"
-                                android:layout_marginRight="10dip"
+                                android:layout_alignBottom="@id/tvSignature"
                                 android:layout_alignParentRight="true"
-                                android:layout_alignBottom="@id/tvSignature"/>
+                                android:layout_marginRight="10dip"
+                                android:layout_marginBottom="10dip"
+                                android:src="@mipmap/edit1"
+                                android:visibility="gone" />
 
 
                         </RelativeLayout>
@@ -260,22 +252,21 @@
                             android:id="@+id/rlContribution"
                             android:layout_width="match_parent"
                             android:layout_height="55dip"
-                            android:onClick="@{click.onViewClick}"
                             android:layout_marginTop="18dp"
-                            android:background="@mipmap/gxb">
+                            android:background="@mipmap/gxb"
+                            android:onClick="@{click.onViewClick}">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="5dip"
                                 android:layout_alignParentRight="true"
+                                android:layout_marginRight="5dip"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_marginRight="13dip"
-                                    >
+                                    android:layout_marginRight="13dip">
 
                                     <com.live.fox.view.Top20CircleImage
                                         android:id="@+id/top1Image"
@@ -292,11 +283,11 @@
                                         android:src="@mipmap/icon_top1" />
 
                                 </RelativeLayout>
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_marginRight="13dip"
-                                    >
+                                    android:layout_marginRight="13dip">
 
                                     <com.live.fox.view.Top20CircleImage
                                         android:id="@+id/top2Image"
@@ -313,16 +304,16 @@
                                         android:src="@mipmap/icon_top2" />
 
                                 </RelativeLayout>
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    >
+                                    android:layout_height="match_parent">
 
                                     <com.live.fox.view.Top20CircleImage
                                         android:id="@+id/top3Image"
                                         android:layout_width="30dip"
                                         android:layout_height="30dip"
-                                       android:layout_centerInParent="true"
+                                        android:layout_centerInParent="true"
                                         android:scaleType="centerCrop"
                                         app:riv_oval="true" />
 
@@ -337,9 +328,9 @@
                                 <ImageView
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
-                                    android:padding="8dp"
                                     android:layout_gravity="center"
-                                    android:src="@mipmap/gxb_right"/>
+                                    android:padding="8dp"
+                                    android:src="@mipmap/gxb_right" />
 
                             </LinearLayout>
                         </RelativeLayout>
@@ -363,11 +354,11 @@
                                 android:id="@+id/tvCopyId"
                                 android:layout_width="50dip"
                                 android:layout_height="20dip"
-                                android:gravity="center"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="10sp"
                                 android:clickable="true"
                                 android:focusable="true"
+                                android:gravity="center"
                                 android:onClick="@{click.onViewClick}"
                                 android:paddingLeft="4dp"
                                 android:paddingTop="1dp"
@@ -376,9 +367,9 @@
                                 android:text="@string/copy"
                                 android:textColor="#A800FF"
                                 android:textSize="12sp"
+                                app:gt_radius_dp="10dp"
                                 app:gt_stroke_color="#A800FF"
-                                app:gt_stroke_width="1dip"
-                                app:gt_radius_dp="10dp" />
+                                app:gt_stroke_width="1dip" />
 
                         </LinearLayout>
 
@@ -398,11 +389,11 @@
 
                             <TextView
                                 android:id="@+id/tvGender"
-                                android:onClick="@{click.onViewClick}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="7dp"
                                 android:gravity="center_vertical"
+                                android:onClick="@{click.onViewClick}"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
 
@@ -418,8 +409,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:textColor="#404040"
                                 android:text="@string/age"
+                                android:textColor="#404040"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -427,8 +418,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="7dp"
-                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
+                                android:onClick="@{click.onViewClick}"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
 
@@ -444,8 +435,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:textColor="#404040"
                                 android:text="@string/area"
+                                android:textColor="#404040"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -453,8 +444,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="7dp"
-                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
+                                android:onClick="@{click.onViewClick}"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
 
@@ -470,8 +461,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:textColor="#404040"
                                 android:text="@string/relationshipStatus"
+                                android:textColor="#404040"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -479,8 +470,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="7dp"
-                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
+                                android:onClick="@{click.onViewClick}"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
 
@@ -496,8 +487,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:textColor="#404040"
                                 android:text="@string/occupation"
+                                android:textColor="#404040"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -505,8 +496,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="7dp"
-                                android:onClick="@{click.onViewClick}"
                                 android:gravity="center_vertical"
+                                android:onClick="@{click.onViewClick}"
                                 android:textColor="#404040"
                                 android:textSize="13sp" />
 
@@ -521,19 +512,17 @@
             android:id="@+id/rlTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
-            >
+            android:background="#ffffff">
 
             <TextView
                 android:id="@+id/tvNickName"
-                android:text="----"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textColor="#404040"
-                android:textStyle="bold"
                 android:layout_width="match_parent"
-                android:layout_height="50dip">
-            </TextView>
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:text="----"
+                android:textColor="#404040"
+                android:textSize="20sp"
+                android:textStyle="bold"></TextView>
 
         </RelativeLayout>
 
@@ -547,10 +536,10 @@
                 android:id="@+id/editProfileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:onClick="@{click.onViewClick}"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="5dip"
+                android:onClick="@{click.onViewClick}"
                 android:padding="10dip"
                 android:text="@string/edit_info"
                 android:textColor="#A800FF"
@@ -577,6 +566,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dip"
+            android:background="@drawable/bg_follow_large"
             android:elevation="4dp"
             android:gravity="center"
             android:onClick="@{click.onViewClick}"
@@ -585,7 +575,6 @@
             android:text="@string/focus"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:background="@drawable/bg_follow_large"
             android:textSize="16sp" />
     </RelativeLayout>
 </layout>
