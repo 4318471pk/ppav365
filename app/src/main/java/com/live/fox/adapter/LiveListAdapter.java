@@ -94,153 +94,59 @@ public class LiveListAdapter extends BaseSectionQuickAdapter<RoomListBean, LiveL
         ivRoundBG.setRadius(dip10);
         GlideUtils.loadRoundedImage(mContext, dip10,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
 
+        setPaymentType(data,gtvUnitPrice,tvAnchorPaymentType);
+    }
+
+
+    private void setPaymentType(RoomListBean data,GradientTextView gtvUnitPrice,GradientTextView tvAnchorPaymentType)
+    {
         SpanUtils spUtils=new SpanUtils();
-        //1普通房间2密码房间3计时房间4贵族房间5计场房间
+        //房间类型:0普通房间 1计时付费 2场次付费
         switch (data.getRoomType())
         {
-            case 1:
-            case 2:
-            case 4:
+            case 0:
                 tvAnchorPaymentType.setVisibility(View.INVISIBLE);
                 gtvUnitPrice.setVisibility(View.INVISIBLE);
                 break;
-            case 3:
-                gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,10));
-                spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_BASELINE);
-                spUtils.append(" ").append(data.getRoomPrice()).append(" ");
+            case 1:
+                gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_CENTER);
+                spUtils.append(" ").append(data.getRoomPrice()).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
-                spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
-                spUtils.append(context.getResources().getString(R.string.unitPriceMin));
+                spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_CENTER);
+                spUtils.append(context.getResources().getString(R.string.unitPriceMin)).setAlign(Layout.Alignment.ALIGN_CENTER);
                 gtvUnitPrice.setText(spUtils.create());
                 gtvUnitPrice.setVisibility(View.VISIBLE);
-                gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,7.5f));
+                gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
 
                 tvAnchorPaymentType.setVisibility(View.VISIBLE);
                 tvAnchorPaymentType.setText(context.getResources().getString(R.string.charge_on_time));
-                tvAnchorPaymentType.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,7.5f));
+                tvAnchorPaymentType.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
 
                 break;
-            case 5:
-                gtvUnitPrice.setSolidBackground(0x4cBF003A, ScreenUtils.dp2px(context,10));
+            case 2:
+                gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
 
-                gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,10));
-                spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_BASELINE);
-                spUtils.append(" ").append(data.getRoomPrice()).append(" ");
+                gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,10));
+                spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_CENTER);
+                spUtils.append(" ").append(data.getRoomPrice()).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
-                spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
-                spUtils.append(context.getResources().getString(R.string.unitPriceMin));
+                spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_CENTER);
+                spUtils.append(context.getResources().getString(R.string.unitPriceShow)).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER);
                 gtvUnitPrice.setText(spUtils.create());
                 gtvUnitPrice.setVisibility(View.VISIBLE);
-                gtvUnitPrice.setSolidBackground(0x4cBF003A, ScreenUtils.dp2px(context,7.5f));
+                gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
 
                 tvAnchorPaymentType.setVisibility(View.VISIBLE);
                 tvAnchorPaymentType.setText(context.getString(R.string.charge_per_site));
-                tvAnchorPaymentType.setSolidBackground(0x4cBF003A, ScreenUtils.dp2px(context,7.5f));
+                tvAnchorPaymentType.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
 
                 break;
             default:
                 tvAnchorPaymentType.setVisibility(View.GONE);
                 gtvUnitPrice.setVisibility(View.GONE);
         }
-
-//        //Views
-//        TextView category = helper.getView(R.id.tv_cai_category);  //类别
-//        ImageView roomStata = helper.getView(R.id.layout_living);
-//
-//        // 0普通房间 1广告房间
-//        helper.setText(R.id.tv_num, RegexUtils.formatNumber(anchor.getRq()));
-//        if (anchor.getIsAd() == 1) {
-//            category.setVisibility(View.GONE);
-//            roomStata.setVisibility(View.INVISIBLE);
-//            helper.getView(R.id.iv_joytd).setVisibility(View.INVISIBLE);
-//        } else {
-//            //普通直播间
-//            if (anchor.getLiveStartLottery() == null || anchor.getLiveStartLottery().size() == 0) {
-//                category.setVisibility(View.GONE);
-//            } else {
-//                category.setVisibility(View.VISIBLE);
-//                String str;
-//                if (anchor.getLiveStartLottery().size() == 2) {
-//                    if (BuildConfig.AppFlavor.equals("QQLive")) {
-//                        str = anchor.getLiveStartLottery().get(0).getLotteryName() + " / " +
-//                                anchor.getLiveStartLottery().get(1).getLotteryName();
-//                    } else {
-//                        str = anchor.getLiveStartLottery().get(0).getCpName() + " / " +
-//                                anchor.getLiveStartLottery().get(1).getCpName();
-//                    }
-//                } else {
-//                    if (BuildConfig.AppFlavor.equals("QQLive")) {
-//                        str = anchor.getLiveStartLottery().get(0).getLotteryName();
-//                    } else {
-//                        str = anchor.getLiveStartLottery().get(0).getCpName();
-//                    }
-//                }
-//                category.setText(str);
-//            }
-//
-//            //跳蛋房间
-//            if (anchor.getToy() == 1) {
-//                helper.getView(R.id.iv_joytd).setVisibility(View.VISIBLE);
-//            } else {
-//                helper.getView(R.id.iv_joytd).setVisibility(View.GONE);
-//            }
-//
-//            Drawable drawable;
-//            //房间类型
-//            switch (anchor.getType()) {
-//                case 0: //普通房间
-//                    roomStata.setVisibility(View.GONE);
-//                    drawable = null;
-//                    break;
-//                case 1: // 记时
-//                    drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_times);
-//                    break;
-//
-//                case 2: //付费
-//                    roomStata.setVisibility(View.VISIBLE);
-//                    drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_frequency);
-//                    break;
-//
-//                case 3: //是否需要密码
-//                    drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_live_room_lock);
-//                    break;
-//
-//                default:
-//                    drawable = null;
-//                    break;
-//            }
-//            roomStata.setImageDrawable(drawable);
-//        }
-//
-//        TextView anchorDetail = helper.getView(R.id.tv_sign);
-//        String anchorDetailStr;
-//        if (anchor.getIsAd() == 1) {   //广告直播间
-//            helper.getView(R.id.tv_num).setVisibility(View.GONE);
-//            helper.getView(R.id.tv_nickname).setVisibility(View.GONE);
-//            anchorDetailStr = anchor.getNickname();
-//        } else {   //正常直播间
-//
-//            helper.getView(R.id.tv_num).setVisibility(View.VISIBLE);
-//            if (StringUtils.isEmpty(anchor.getSignature())) {
-//                helper.getView(R.id.tv_nickname).setVisibility(View.GONE);
-//                anchorDetailStr = anchor.getNickname();
-//            } else {
-//                helper.getView(R.id.tv_nickname).setVisibility(View.VISIBLE);
-//                helper.setText(R.id.tv_nickname, anchor.getNickname());
-//                anchorDetailStr = anchor.getSignature();
-//            }
-//        }
-//
-//        if (TextUtils.isEmpty(anchor.getNickname())) {
-//            anchorDetail.setVisibility(View.GONE);
-//        } else {
-//            anchorDetail.setText(anchorDetailStr);
-//        }
-//
-//        GlideUtils.loadDefaultRoundedImage(mContext, anchor.getAvatar(), helper.getView(R.id.iv_cover));
     }
-
-
 
     public static class LiveListViewHold extends BaseViewHolder{
 

@@ -280,47 +280,45 @@ public class LivingFinishView extends RelativeLayout {
 
                 tvNum.setText(data.getLiveSum()+"");
 
-                //1普通房间2密码房间3计时房间4贵族房间5计场房间
+                //房间类型:0普通房间 1计时付费 2场次付费
                 switch (listBeans.get(i).getRoomType())
                 {
-                    case 1:
-                    case 2:
-                    case 4:
+                    case 0:
                         tvAnchorPaymentType.setVisibility(View.INVISIBLE);
                         gtvUnitPrice.setVisibility(View.INVISIBLE);
                         break;
-                    case 3:
-                        gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),10));
-                        spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_BASELINE);
-                        spUtils.append(" ").append(data.getRoomPrice()).append(" ");
+                    case 1:
+                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
+                        spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_CENTER);
+                        spUtils.append(" ").append(data.getRoomPrice()).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
-                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
-                        spUtils.append(livingFragment.getStringWithoutContext(R.string.unitPriceMin));
+                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_CENTER);
+                        spUtils.append(getContext().getResources().getString(R.string.unitPriceMin)).setAlign(Layout.Alignment.ALIGN_CENTER);
                         gtvUnitPrice.setText(spUtils.create());
                         gtvUnitPrice.setVisibility(View.VISIBLE);
-                        gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),7.5f));
+                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
 
                         tvAnchorPaymentType.setVisibility(View.VISIBLE);
-                        tvAnchorPaymentType.setText(getContext().getString(R.string.charge_on_time));
-                        tvAnchorPaymentType.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),7.5f));
+                        tvAnchorPaymentType.setText(getContext().getResources().getString(R.string.charge_on_time));
+                        tvAnchorPaymentType.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
 
                         break;
-                    case 5:
-                        gtvUnitPrice.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getMainActivity(),10));
+                    case 2:
+                        gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
 
-                        gtvUnitPrice.setSolidBackground(0x4c000000,ScreenUtils.getDip2px(getMainActivity(),10));
-                        spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_BASELINE);
-                        spUtils.append(" ").append(data.getRoomPrice()).append(" ");
+                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),10));
+                        spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_CENTER);
+                        spUtils.append(" ").append(data.getRoomPrice()).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
-                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
-                        spUtils.append(livingFragment.getStringWithoutContext(R.string.unitPriceMin));
+                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_CENTER);
+                        spUtils.append(getContext().getResources().getString(R.string.unitPriceShow)).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER);
                         gtvUnitPrice.setText(spUtils.create());
                         gtvUnitPrice.setVisibility(View.VISIBLE);
-                        gtvUnitPrice.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getMainActivity(),7.5f));
+                        gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
 
                         tvAnchorPaymentType.setVisibility(View.VISIBLE);
                         tvAnchorPaymentType.setText(getContext().getString(R.string.charge_per_site));
-                        tvAnchorPaymentType.setSolidBackground(0x4cBF003A,ScreenUtils.getDip2px(getMainActivity(),7.5f));
+                        tvAnchorPaymentType.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
 
                         break;
                     default:
@@ -346,4 +344,6 @@ public class LivingFinishView extends RelativeLayout {
             }
         }
     }
+
+
 }

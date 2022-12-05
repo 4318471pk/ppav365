@@ -72,16 +72,14 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
         tvNum.setText(data.getLiveSum()+"");
 
         SpanUtils spUtils=new SpanUtils();
-        //1普通房间2密码房间3计时房间4贵族房间5计场房间
+        //房间类型:0普通房间 1计时付费 2场次付费
         switch (data.getRoomType())
         {
-            case 1:
-            case 2:
-            case 4:
+            case 0:
                 tvAnchorPaymentType.setVisibility(View.INVISIBLE);
                 gtvUnitPrice.setVisibility(View.INVISIBLE);
                 break;
-            case 3:
+            case 1:
                 gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,10));
                 spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_BASELINE);
                 spUtils.append(" ").append(data.getRoomPrice()).append(" ");
@@ -97,7 +95,7 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
                 tvAnchorPaymentType.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,7.5f));
 
                 break;
-            case 5:
+            case 2:
                 gtvUnitPrice.setSolidBackground(0x4cBF003A, ScreenUtils.dp2px(context,10));
 
                 gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.dp2px(context,10));
@@ -105,7 +103,7 @@ public class HotAnchorListAdapter extends BaseQuickAdapter<RoomListBean, BaseVie
                 spUtils.append(" ").append(data.getRoomPrice()).append(" ");
 
                 spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_BASELINE);
-                spUtils.append(context.getResources().getString(R.string.unitPriceMin));
+                spUtils.append(context.getResources().getString(R.string.unitPriceShow));
                 gtvUnitPrice.setText(spUtils.create());
                 gtvUnitPrice.setVisibility(View.VISIBLE);
                 gtvUnitPrice.setSolidBackground(0x4cBF003A, ScreenUtils.dp2px(context,7.5f));

@@ -214,7 +214,7 @@ public class DropDownScrollView extends LinearLayout implements NestedScrollingP
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         ViewGroup.LayoutParams layoutParams = list.getLayoutParams();
-        layoutParams.height = getMeasuredHeight()-(mTopViewHeight-barHeight)-bannerHeight;
+        layoutParams.height = getMeasuredHeight()-barHeight-bannerHeight;
         list.setLayoutParams(layoutParams);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
