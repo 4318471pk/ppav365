@@ -134,10 +134,13 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
     private TextView time1;
     private TextView time2;
     private TextView time3;
-
-    public static TouzhuDialog newInstance( String gameCode) {
+    String liveId;
+    String gameName;
+    public static TouzhuDialog newInstance( String gameCode,String liveId,String gameName) {
         Bundle args = new Bundle();
         args.putString("gameCode", gameCode);
+        args.putString("liveId", liveId);
+        args.putString("gameName", gameName);
         TouzhuDialog fragment = new TouzhuDialog();
         fragment.setArguments(args);
 
@@ -246,7 +249,7 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
                 LotteryCommon.lotteryList =lotteryList2;
             }
 
-            ConfirmTouzhuDialog confirmTouzhuDialog = ConfirmTouzhuDialog.newInstance();
+            ConfirmTouzhuDialog confirmTouzhuDialog = ConfirmTouzhuDialog.newInstance(liveId,gameName);
             DialogFramentManager.getInstance().showDialog(this.getActivity().getSupportFragmentManager(), confirmTouzhuDialog);
         } else if (view == mBind.tvWen) { //点击玩法说明
             showView = CZ_PLAY;
@@ -271,7 +274,8 @@ public class TouzhuDialog extends BaseBindingDialogFragment implements TouzhuIte
         mBind.setClick(this);
 
        gameCode= getArguments().getString("gameCode");
-
+       liveId= getArguments().getString("liveId");
+        gameName= getArguments().getString("gameName");
         changeShowView();
         mBind.tvMoreKj.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 

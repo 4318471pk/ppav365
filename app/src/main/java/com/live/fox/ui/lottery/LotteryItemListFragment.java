@@ -67,7 +67,7 @@ public class LotteryItemListFragment extends BaseBindingFragment {
 
                 countDown( gameCode);
 
-                TouzhuDialog touzhuDialog =TouzhuDialog.newInstance(lotteryList.get(position).getGameCode());
+                TouzhuDialog touzhuDialog =TouzhuDialog.newInstance(lotteryList.get(position).getGameCode(),lotteryList.get(position).getId()+"",lotteryList.get(position).getGameName());
 
                 DialogFramentManager.getInstance().showDialog(LotteryItemListFragment.this.getActivity().getSupportFragmentManager(), touzhuDialog);
                 if(getParentFragment()!=null && (getParentFragment() instanceof LotteryDialog))

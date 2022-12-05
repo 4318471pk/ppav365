@@ -95,6 +95,15 @@ public class TouzhuItemListFragment extends BaseBindingFragment {
                 touzhuDetailBean.odds= entry.getValue();
 
 
+                //    public String gameCode;
+                //    public String lotteryCode;
+                //    public String lotteryName;
+
+                touzhuDetailBean.gameCode=liveRoomGameDetailBean.getGameCode();
+                touzhuDetailBean.lotteryCode=liveRoomGameDetailBean.getLotteryCode();
+                touzhuDetailBean.lotteryName=liveRoomGameDetailBean.getLotteryName();
+
+
                 lotteryList.add(touzhuDetailBean);
             }
 
