@@ -152,7 +152,7 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
                 }
                 hideLoadingDialog();
                 if (code == 0) {
-                    ToastUtils.showShort(App.getInstance().getString(R.string.open_car_suc));
+                    ToastUtils.showShort(App.getInstance().getString(isOpenCar?R.string.open_car_suc:R.string.open_car_fail));
                     if(getActivity()!=null && getActivity() instanceof MyBagAndStoreActivity)
                     {
                         MyBagAndStoreActivity myBagAndStoreActivity=(MyBagAndStoreActivity)getActivity();

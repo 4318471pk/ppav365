@@ -48,9 +48,9 @@ public class LivingFinishView extends RelativeLayout {
     LivingFragment livingFragment;
     boolean isVisible;
 
-    public LivingFinishView(LivingFragment fragment, ViewGroup parent,boolean isVisible) {
+    public LivingFinishView(LivingFragment fragment, ViewGroup parent, boolean isVisible) {
         super(fragment.getActivity());
-        initView(fragment,parent,isVisible);
+        initView(fragment, parent, isVisible);
     }
 
     public LivingFinishView(Context context, @Nullable AttributeSet attrs) {
@@ -61,72 +61,60 @@ public class LivingFinishView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private void initView(LivingFragment fragment,ViewGroup parent,boolean isVisible)
-    {
-        livingFragment=fragment;
-        mBind= DataBindingUtil.inflate(fragment.getLayoutInflater(), R.layout.view_living_finish,parent,false);
+    private void initView(LivingFragment fragment, ViewGroup parent, boolean isVisible) {
+        livingFragment = fragment;
+        mBind = DataBindingUtil.inflate(fragment.getLayoutInflater(), R.layout.view_living_finish, parent, false);
         mBind.setClick(this);
         addView(mBind.getRoot());
 
-        mBind.llFinishLiving.setPadding(0, StatusBarUtil.getStatusBarHeight(fragment.getActivity()),0,0);
-        if(isVisible)
-        {
+        mBind.llFinishLiving.setPadding(0, StatusBarUtil.getStatusBarHeight(fragment.getActivity()), 0, 0);
+        if (isVisible) {
             showView();
-        }
-        else
-        {
+        } else {
             setVisibility(GONE);
         }
 
     }
 
     //显示View就初始化数据
-    public void showView()
-    {
+    public void showView() {
         setVisibility(VISIBLE);
-        if(getMainActivity().recommendListAdapter!=null && getMainActivity().recommendListAdapter.getData()!=null)
-        {
+        if (getMainActivity().recommendListAdapter != null && getMainActivity().recommendListAdapter.getData() != null) {
             setGridLayout(getMainActivity().recommendListAdapter.getData());
         }
 
-        if(livingFragment.getRoomBean()!=null)
-        {
-            RoomListBean roomListBean=livingFragment.getRoomBean();
+        if (livingFragment.getRoomBean() != null) {
+            RoomListBean roomListBean = livingFragment.getRoomBean();
             mBind.tvName.setText(roomListBean.getTitle());
         }
 
-        int dip17_5=ScreenUtils.getDip2px(livingFragment.getActivity(),17.5f);
-        if(livingFragment.livingCurrentAnchorBean!=null)
-        {
+        int dip17_5 = ScreenUtils.getDip2px(livingFragment.getActivity(), 17.5f);
+        if (livingFragment.livingCurrentAnchorBean != null) {
             mBind.tvName.setText(livingFragment.livingCurrentAnchorBean.getNickname());
             mBind.gtvFollow.setVisibility(VISIBLE);
-            if(!livingFragment.livingCurrentAnchorBean.getFollow())
-            {
-                int color[]=getResources().getIntArray(R.array.contactCardBtn);
-                mBind.gtvFollow.setGradientBackground(color,dip17_5);
+            if (!livingFragment.livingCurrentAnchorBean.getFollow()) {
+                int color[] = getResources().getIntArray(R.array.contactCardBtn);
+                mBind.gtvFollow.setGradientBackground(color, dip17_5);
                 mBind.gtvFollow.setTextColor(0xffFFFFFF);
                 mBind.gtvFollow.setText(livingFragment.getStringWithoutContext(R.string.follow2));
                 mBind.gtvFollow.setEnabled(true);
-            }
-            else
-            {
+            } else {
                 mBind.gtvFollow.setEnabled(false);
-                mBind.gtvFollow.setSolidBackground(0xffffffff,dip17_5);
+                mBind.gtvFollow.setSolidBackground(0xffffffff, dip17_5);
                 mBind.gtvFollow.setTextColor(0xffA2A0A9);
                 mBind.gtvFollow.setText(livingFragment.getStringWithoutContext(R.string.followed));
             }
 
-            if(livingFragment.livingCurrentAnchorBean.getLiveSum()>0)
-            {
-                String str=livingFragment.getStringWithoutContext(R.string.hasWatched);
-                StringBuilder stringBuilder=new StringBuilder();
+            if (livingFragment.livingCurrentAnchorBean.getLiveSum() > 0) {
+                String str = livingFragment.getStringWithoutContext(R.string.hasWatched);
+                StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(livingFragment.livingCurrentAnchorBean.getLiveSum()).append(str);
                 mBind.tvWatched.setText(stringBuilder.toString());
 
             }
 
-            String url=livingFragment.livingCurrentAnchorBean.getAvatar();
-            GlideUtils.loadCircleImage(getMainActivity(),url,R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.rivImage);
+            String url = livingFragment.livingCurrentAnchorBean.getAvatar();
+            GlideUtils.loadCircleImage(getMainActivity(), url, 0, 0, mBind.rivImage);
 
 
         }
@@ -134,10 +122,8 @@ public class LivingFinishView extends RelativeLayout {
         getRecommendList();
     }
 
-    public void onClickView(View view)
-    {
-        switch (view.getId())
-        {
+    public void onClickView(View view) {
+        switch (view.getId()) {
             case R.id.gtvFollow:
                 follow();
                 break;
@@ -150,21 +136,17 @@ public class LivingFinishView extends RelativeLayout {
         }
     }
 
-    private boolean isActivityOK()
-    {
-        if(livingFragment!=null && livingFragment.getActivity()!=null
-                && !livingFragment.getActivity().isFinishing() && !livingFragment.getActivity().isDestroyed())
-        {
+    private boolean isActivityOK() {
+        if (livingFragment != null && livingFragment.getActivity() != null
+                && !livingFragment.getActivity().isFinishing() && !livingFragment.getActivity().isDestroyed()) {
             return true;
         }
         return false;
     }
 
-    private LivingActivity getMainActivity()
-    {
-        if(isActivityOK())
-        {
-            return (LivingActivity)livingFragment.getActivity();
+    private LivingActivity getMainActivity() {
+        if (isActivityOK()) {
+            return (LivingActivity) livingFragment.getActivity();
         }
         return null;
     }
@@ -203,10 +185,8 @@ public class LivingFinishView extends RelativeLayout {
         });
     }
 
-    private void follow()
-    {
-        if(livingFragment.getRoomBean()==null)
-        {
+    private void follow() {
+        if (livingFragment.getRoomBean() == null) {
             return;
         }
 
@@ -214,20 +194,16 @@ public class LivingFinishView extends RelativeLayout {
         Api_User.ins().followUser(livingFragment.getRoomBean().getAid(), true, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                if(livingFragment.isActivityOK())
-                {
+                if (livingFragment.isActivityOK()) {
                     mBind.gtvFollow.setEnabled(true);
-                    if(code==0)
-                    {
-                        int dip17_5=ScreenUtils.getDip2px(livingFragment.getActivity(),17.5f);
+                    if (code == 0) {
+                        int dip17_5 = ScreenUtils.getDip2px(livingFragment.getActivity(), 17.5f);
                         mBind.gtvFollow.setEnabled(false);
-                        mBind.gtvFollow.setSolidBackground(0xffffffff,dip17_5);
+                        mBind.gtvFollow.setSolidBackground(0xffffffff, dip17_5);
                         mBind.gtvFollow.setTextColor(0xffA2A0A9);
                         mBind.gtvFollow.setText(livingFragment.getStringWithoutContext(R.string.followed));
                         livingFragment.livingCurrentAnchorBean.setFollow(true);
-                    }
-                    else
-                    {
+                    } else {
                         ToastUtils.showShort(msg);
                     }
                 }
@@ -235,90 +211,79 @@ public class LivingFinishView extends RelativeLayout {
         });
     }
 
-    private void setGridLayout(List<RoomListBean> listBeans)
-    {
-        int dip2_5= ScreenUtils.getDip2px(getContext(),2.5f);
-        int dip13=ScreenUtils.getDip2px(getMainActivity(),13);
-        int defaultDrawable=R.mipmap.icon_anchor_loading;
+    private void setGridLayout(List<RoomListBean> listBeans) {
+        int dip2_5 = ScreenUtils.getDip2px(getContext(), 2.5f);
+        int dip13 = ScreenUtils.getDip2px(getMainActivity(), 13);
+        int defaultDrawable = R.mipmap.icon_anchor_loading;
         mBind.glBotView.removeAllViews();
-        Bitmap clock,diamond,ticket;
-        ticket=BitmapFactory.decodeResource(getResources(),R.mipmap.icon_ticket);
-        clock= BitmapFactory.decodeResource(getResources(),R.mipmap.icon_clock);
-        diamond=BitmapFactory.decodeResource(getResources(),R.mipmap.icon_diamond);
-        int itemWidth= (ScreenUtils.getScreenWidth(getContext())-ScreenUtils.getDip2px(getContext(),15))/2;
-        int diamondWidth=ScreenUtils.getDip2px(getMainActivity(),12.5f);
-        int diamondHeight=ScreenUtils.getDip2px(getMainActivity(),9.5f);
+        Bitmap clock, diamond, ticket;
+        ticket = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_ticket);
+        clock = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_clock);
+        diamond = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_diamond);
+        int itemWidth = (ScreenUtils.getScreenWidth(getContext()) - ScreenUtils.getDip2px(getContext(), 15)) / 2;
+        int diamondWidth = ScreenUtils.getDip2px(getMainActivity(), 12.5f);
+        int diamondHeight = ScreenUtils.getDip2px(getMainActivity(), 9.5f);
 
-        if(listBeans!=null && listBeans.size()>0)
-        {
+        if (listBeans != null && listBeans.size() > 0) {
             for (int i = 0; i < 4; i++) {
-                if(i>=listBeans.size())
-                {
+                if (i >= listBeans.size()) {
                     break;
                 }
 
-                View view=View.inflate(getContext(),R.layout.item_anchor_list,null);
-                view.setPadding(dip2_5*2,dip2_5*2,0,0);
+                View view = View.inflate(getContext(), R.layout.item_anchor_list, null);
+                view.setPadding(dip2_5 * 2, dip2_5 * 2, 0, 0);
 
                 GradientTextView gtvUnitPrice = view.findViewById(R.id.gtvUnitPrice);  //类别
-                GradientTextView tvAnchorPaymentType=view.findViewById(R.id.tvAnchorPaymentType);
-                TextView name=view.findViewById(R.id.tv_nickname);
-                TextView tvNum=view.findViewById(R.id.tvNum);
+                GradientTextView tvAnchorPaymentType = view.findViewById(R.id.tvAnchorPaymentType);
+                TextView name = view.findViewById(R.id.tv_nickname);
+                TextView tvNum = view.findViewById(R.id.tvNum);
                 AnchorRoundImageView ivRoundBG = view.findViewById(R.id.ivRoundBG);
-                RoomListBean data=listBeans.get(i);
-                if(TextUtils.isEmpty(data.getRoomIcon()))
-                {
-                    ivRoundBG.setImageDrawable(getResources().getDrawable(defaultDrawable));
-                }
-                else
-                {
-                    ivRoundBG.setRadius(dip2_5*4);
-                    GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),0,defaultDrawable, ivRoundBG);
-                }            name.setText(listBeans.get(i).getTitle());
+                RoomListBean data = listBeans.get(i);
+                GlideUtils.loadRoundedImage(getContext(), dip2_5 * 4, data.getRoomIcon(), 0, 0, ivRoundBG);
+                name.setText(listBeans.get(i).getTitle());
 
-                SpanUtils spUtils=new SpanUtils();
+                SpanUtils spUtils = new SpanUtils();
 
-                tvNum.setText(data.getLiveSum()+"");
+                tvNum.setText(data.getLiveSum() + "");
 
                 //房间类型:0普通房间 1计时付费 2场次付费
-                switch (listBeans.get(i).getRoomType())
-                {
+                switch (listBeans.get(i).getRoomType()) {
                     case 0:
                         tvAnchorPaymentType.setVisibility(View.INVISIBLE);
                         gtvUnitPrice.setVisibility(View.INVISIBLE);
                         break;
                     case 1:
-                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
-                        spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_CENTER);
+                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 7.5f));
+                        spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13), SpanUtils.ALIGN_CENTER);
                         spUtils.append(" ").append(data.getRoomPrice()).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
-                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_CENTER);
+                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight), SpanUtils.ALIGN_CENTER);
                         spUtils.append(getContext().getResources().getString(R.string.unitPriceMin)).setAlign(Layout.Alignment.ALIGN_CENTER);
                         gtvUnitPrice.setText(spUtils.create());
                         gtvUnitPrice.setVisibility(View.VISIBLE);
-                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
+                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 7.5f));
 
                         tvAnchorPaymentType.setVisibility(View.VISIBLE);
                         tvAnchorPaymentType.setText(getContext().getResources().getString(R.string.charge_on_time));
-                        tvAnchorPaymentType.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
+                        tvAnchorPaymentType.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 7.5f));
 
                         break;
                     case 2:
-                        gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
+                        gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 7.5f));
 
-                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(),10));
-                        spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_CENTER);
-                        spUtils.append(" ").append(data.getRoomPrice()).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
+                        gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 10));
+                        spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13), SpanUtils.ALIGN_CENTER);
+                        spUtils.append(" ").append(data.getRoomPrice()).setFontSize(11, true).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
-                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight),SpanUtils.ALIGN_CENTER);
-                        spUtils.append(getContext().getResources().getString(R.string.unitPriceShow)).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER);
+                        spUtils.appendImage(ImageUtils.scale(diamond, diamondWidth, diamondHeight), SpanUtils.ALIGN_CENTER);
+                        spUtils.append(getContext().getResources().getString(R.string.unitPriceShow)).setFontSize(11, true).setAlign(Layout.Alignment.ALIGN_CENTER);
                         gtvUnitPrice.setText(spUtils.create());
                         gtvUnitPrice.setVisibility(View.VISIBLE);
-                        gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
+                        gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 7.5f));
 
                         tvAnchorPaymentType.setVisibility(View.VISIBLE);
                         tvAnchorPaymentType.setText(getContext().getString(R.string.charge_per_site));
-                        tvAnchorPaymentType.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(),7.5f));
+                        tvAnchorPaymentType.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(getContext(), 7.5f));
 
                         break;
                     default:
@@ -334,13 +299,13 @@ public class LivingFinishView extends RelativeLayout {
                             LoginModeSelActivity.startActivity(getContext());
                             return;
                         }
-                        int tag=(Integer)view.getTag();
-                        getMainActivity().resetRoomList(listBeans,tag);
+                        int tag = (Integer) view.getTag();
+                        getMainActivity().resetRoomList(listBeans, tag);
 //                        LivingActivity.startActivity(getContext(), listBeans,tag);
                     }
                 });
 
-                mBind.glBotView.addView(view,itemWidth+dip2_5*2,itemWidth+dip2_5*2);
+                mBind.glBotView.addView(view, itemWidth + dip2_5 * 2, itemWidth + dip2_5 * 2);
             }
         }
     }

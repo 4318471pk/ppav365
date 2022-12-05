@@ -256,7 +256,7 @@ public class PreviewSearchFragment extends BaseBindingFragment {
             else
             {
                 ivRoundBG.setRadius(dip2_5*4);
-                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),defaultDrawable,defaultDrawable, ivRoundBG);
+                GlideUtils.loadRoundedImage(getContext(), dip2_5*4,data.getRoomIcon(),0,0, ivRoundBG);
             }            name.setText(listBeans.get(i).getTitle());
 
             tvNum.setText(data.getLiveSum()+"");

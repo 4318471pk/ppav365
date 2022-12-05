@@ -761,13 +761,6 @@ public class LivingFragment extends BaseBindingFragment {
                                 }
                                 LocalWatchHistoryDao.getInstance().insert(RoomWatchedHistoryBean.convertBean(bean));
                             }
-                            else
-                            {
-                                if(code==3001)
-                                {
-                                    getAnchorInfo(enterRoomBean,false);
-                                }
-                            }
                         }
                     });
         }
@@ -1187,6 +1180,17 @@ public class LivingFragment extends BaseBindingFragment {
         if (!isActivityOK()) {
             return;
         }
+        if(!isRoomLiving)
+        {
+            //显示下播页面
+            MyViewPager viewPager=mBind.getRoot().findViewById(R.id.livingViewPager);
+            viewPager.setCurrentItem(0);
+            viewPager.setScrollEnable(false);
+
+            LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
+            livingFinishView.showView();
+            return;
+        }
         Api_Live.ins().getAnchorInfo(getRoomBean().getId(), getRoomBean().getAid(), new JsonCallback<LivingCurrentAnchorBean>() {
             @Override
             public void onSuccess(int code, String msg, LivingCurrentAnchorBean data) {
@@ -1255,16 +1259,6 @@ public class LivingFragment extends BaseBindingFragment {
                                 message.arg1=1;
                                 handler.sendMessageDelayed(message,1000);
                             }
-                        }
-                        else
-                        {
-                            //显示下播页面
-                            MyViewPager viewPager=mBind.getRoot().findViewById(R.id.livingViewPager);
-                            viewPager.setCurrentItem(0);
-                            viewPager.setScrollEnable(false);
-
-                            LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
-                            livingFinishView.showView();
                         }
 
                     }

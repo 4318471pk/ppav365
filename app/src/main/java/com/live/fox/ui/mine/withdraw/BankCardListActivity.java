@@ -168,9 +168,14 @@ public class BankCardListActivity extends BaseBindingViewActivity {
         Api_Order.ins().getUserBankList(new JsonCallback<List<UserBankBean>>() {
             @Override
             public void onSuccess(int code, String msg, List<UserBankBean> data) {
+                if(isFinishing() || isDestroyed())
+                {
+                    return;
+                }
+
                 hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    if (data != null && data.size() > 0) {
+                if (code == 0 ) {
+                    if (data != null ) {
                         bankList.clear();
                         bankList.addAll(data);
                         mBind.llCardList.removeAllViews();
@@ -201,7 +206,12 @@ public class BankCardListActivity extends BaseBindingViewActivity {
         Api_Order.ins().deleteBank(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                if(isFinishing() || isDestroyed())
+                {
+                    return;
+                }
+
+                if (code == 0 ) {
                     getNetData();
                     ToastUtils.showShort(getString(R.string.delete_suc));
                 } else {
