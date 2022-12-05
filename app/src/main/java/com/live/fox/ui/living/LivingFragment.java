@@ -1138,7 +1138,7 @@ public class LivingFragment extends BaseBindingFragment {
                                 livingControlPanel.mBind.rivProfileImage);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
-                        livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount());
+                        livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount()+"");
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }
