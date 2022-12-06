@@ -481,6 +481,7 @@ public class LivingControlPanel extends RelativeLayout {
                     mBind.ivFollow.setEnabled(true);
                     if(code==0)
                     {
+                        fragment.handler.removeMessages(fragment.alertFloatingFollow);
                         mBind.ivFollow.setVisibility(GONE);
                         fragment.livingCurrentAnchorBean.setFollow(true);
                         ToastUtils.showShort(fragment.getStringWithoutContext(R.string.successFocus));

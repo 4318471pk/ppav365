@@ -38,7 +38,8 @@ public class FollowAnchorListAdapter extends BaseQuickAdapter<RoomListBean, Base
 
     public FollowAnchorListAdapter(Context context,  List<RoomListBean> data) {
         super(R.layout.item_anchor_list, data);
-        itemWidth= (com.live.fox.utils.ScreenUtils.getScreenWidth(context)- com.live.fox.utils.ScreenUtils.dp2px(context,15))/2;
+        this.context=context;
+        itemWidth= (com.live.fox.utils.ScreenUtils.getScreenWidth(context))/2;
         ticket= BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_ticket);
         clock= BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_clock);
         diamond=BitmapFactory.decodeResource(context.getResources(),R.mipmap.icon_diamond);
@@ -61,6 +62,11 @@ public class FollowAnchorListAdapter extends BaseQuickAdapter<RoomListBean, Base
         ViewGroup.LayoutParams vl= helper.itemView.getLayoutParams();
         vl.width=itemWidth;
         vl.height=itemWidth;
+        helper.itemView.setLayoutParams(vl);
+        int position=helper.getLayoutPosition()-getHeaderLayoutCount();
+        int right=position%2==0?0:dip10/2;
+
+        helper.itemView.setPadding(dip10/2,dip10/2,right,dip10/2);
 
         GradientTextView gtvUnitPrice = helper.getView(R.id.gtvUnitPrice);  //类别
         GradientTextView tvAnchorPaymentType=helper.getView(R.id.tvAnchorPaymentType);
@@ -88,7 +94,7 @@ public class FollowAnchorListAdapter extends BaseQuickAdapter<RoomListBean, Base
                 gtvUnitPrice.setVisibility(View.INVISIBLE);
                 break;
             case 1:
-                gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.getDip2px(context,7.5f));
                 spUtils.appendImage(ImageUtils.scale(clock, dip13, dip13),SpanUtils.ALIGN_CENTER);
                 spUtils.append(" ").append(data.getRoomPrice()).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
@@ -96,17 +102,17 @@ public class FollowAnchorListAdapter extends BaseQuickAdapter<RoomListBean, Base
                 spUtils.append(context.getResources().getString(R.string.unitPriceMin)).setAlign(Layout.Alignment.ALIGN_CENTER);
                 gtvUnitPrice.setText(spUtils.create());
                 gtvUnitPrice.setVisibility(View.VISIBLE);
-                gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.getDip2px(context,7.5f));
 
                 tvAnchorPaymentType.setVisibility(View.VISIBLE);
                 tvAnchorPaymentType.setText(context.getResources().getString(R.string.charge_on_time));
-                tvAnchorPaymentType.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                tvAnchorPaymentType.setSolidBackground(0x4c000000, ScreenUtils.getDip2px(context,7.5f));
 
                 break;
             case 2:
-                gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                gtvUnitPrice.setSolidBackground(0x4cBF003A, ScreenUtils.getDip2px(context,7.5f));
 
-                gtvUnitPrice.setSolidBackground(0x4c000000, com.live.fox.utils.ScreenUtils.dp2px(context,10));
+                gtvUnitPrice.setSolidBackground(0x4c000000, ScreenUtils.getDip2px(context,10));
                 spUtils.appendImage(ImageUtils.scale(ticket, dip13, dip13),SpanUtils.ALIGN_CENTER);
                 spUtils.append(" ").append(data.getRoomPrice()).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER).append(" ");
 
@@ -114,11 +120,11 @@ public class FollowAnchorListAdapter extends BaseQuickAdapter<RoomListBean, Base
                 spUtils.append(context.getResources().getString(R.string.unitPriceShow)).setFontSize(11,true).setAlign(Layout.Alignment.ALIGN_CENTER);
                 gtvUnitPrice.setText(spUtils.create());
                 gtvUnitPrice.setVisibility(View.VISIBLE);
-                gtvUnitPrice.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                gtvUnitPrice.setSolidBackground(0x4cBF003A, ScreenUtils.getDip2px(context,7.5f));
 
                 tvAnchorPaymentType.setVisibility(View.VISIBLE);
                 tvAnchorPaymentType.setText(context.getString(R.string.charge_per_site));
-                tvAnchorPaymentType.setSolidBackground(0x4cBF003A, com.live.fox.utils.ScreenUtils.dp2px(context,7.5f));
+                tvAnchorPaymentType.setSolidBackground(0x4cBF003A, ScreenUtils.getDip2px(context,7.5f));
 
                 break;
             default:
