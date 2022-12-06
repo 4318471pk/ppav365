@@ -154,6 +154,7 @@ public class LivingFragment extends BaseBindingFragment {
                     {
                         livingControlPanel.refresh20AudienceList();//刷新头部20个人
                     }
+                    break;
                 case alertFloatingFollow://关注主播不迷路飘窗 左下角
                     if(livingControlPanel!=null && isActivityOK() && livingCurrentAnchorBean!=null)
                     {
@@ -170,6 +171,7 @@ public class LivingFragment extends BaseBindingFragment {
                                 });
 
                     }
+                    break;
                 case previewCountDown://收费房间未付费前可预览的倒计时
                     if(livingControlPanel!=null && enterRoomBean!=null )
                     {
@@ -553,6 +555,16 @@ public class LivingFragment extends BaseBindingFragment {
     public void onDestroyView() {
         super.onDestroyView();
         destroyView();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler=null;
+        }
+
     }
 
     private void destroyView() {

@@ -1624,6 +1624,6 @@
     <string name="errorLink">请配置跳转链接</string>
     <string name="editNameLimit">改名需要等级达到2级</string>
     <string name="followMeQuickly">赶快关注我吧~</string>
-
+    <string name="short_time">弹幕时隔时间太短</string>
 
 </resources>

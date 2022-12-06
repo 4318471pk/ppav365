@@ -90,7 +90,11 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
                     break;
             }
 
-            SPUtils.getInstance().put(RoomType,String.valueOf(type[index]));
+//            SPUtils.getInstance().put(RoomType,String.valueOf(type[index]));
+            //【重新点直播】都必须是 默认 免费房间。
+            SPUtils.getInstance().put(RoomType,0);
+
+
             onSelectRoomTypeListener.onSelect(liveId,type[index],price);
         }
     }
@@ -188,7 +192,7 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
 
         String pph=SPUtils.getInstance().getString(PricePerHour,"");
         String pps=SPUtils.getInstance().getString(PricePerShow,"");
-        String roomType=SPUtils.getInstance().getString(RoomType,"");
+//        String roomType=SPUtils.getInstance().getString(RoomType,"");
         if(Strings.isDigitOnly(pph))
         {
             getPriceEditText(0).setText(pph);
@@ -199,13 +203,20 @@ public class SetRoomTypeDialog extends BaseBindingDialogFragment {
             getPriceEditText(1).setText(pps);
         }
 
-        if(Strings.isDigitOnly(roomType))
-        {
+//        if(Strings.isDigitOnly(roomType))
+//        {
+//            for (int j = 0; j < radioButtons.size(); j++) {
+//                radioButtons.get(j).setChecked(false);
+//            }
+//            radioButtons.get(Integer.valueOf(roomType)).setChecked(true);
+//        }
             for (int j = 0; j < radioButtons.size(); j++) {
                 radioButtons.get(j).setChecked(false);
             }
-            radioButtons.get(Integer.valueOf(roomType)).setChecked(true);
-        }
+
+            if(radioButtons.size()>=3){
+                radioButtons.get(2).setChecked(true);
+            }
 
     }
 
