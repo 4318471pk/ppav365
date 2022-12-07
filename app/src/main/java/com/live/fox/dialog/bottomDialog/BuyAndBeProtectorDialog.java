@@ -17,18 +17,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogBuyBeprotectorBinding;
 import com.live.fox.dialog.temple.TempleDialog2;
+import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.AvailableGuardBean;
 import com.live.fox.entity.User;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Order;
+import com.live.fox.server.Api_User;
+import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.Strings;
+import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -47,13 +53,17 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
     List<ImageView> imageViews=new ArrayList<>();
     String uid,liveId;
     int selectedPosition=0;
+    List<AvailableGuardBean> guardBeans=new ArrayList<>();
+    AnchorGuardListBean.LiveGuardBean self;
+    int guardLevel=-1;
+    long guardExpireTime=0;
 
-
-    public static BuyAndBeProtectorDialog getInstance(String uid,String liveId)
+    public static BuyAndBeProtectorDialog getInstance(String uid,String liveId,AnchorGuardListBean.LiveGuardBean self)
     {
         BuyAndBeProtectorDialog buyAndBeProtectorDialog=new BuyAndBeProtectorDialog();
         buyAndBeProtectorDialog.uid=uid;
         buyAndBeProtectorDialog.liveId=liveId;
+        buyAndBeProtectorDialog.self=self;
         return buyAndBeProtectorDialog;
     }
 
@@ -93,11 +103,12 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
             case R.id.gtvExchangeDiamond:
                 RechargeActivity.startActivity(requireActivity(), false);
                 break;
+            case R.id.ivRenewGuard:
             case R.id.ivBeMyProtector:
                 for (int i = 0; i <itemsRL.size() ; i++) {
                     if(itemsRL.get(i).isSelected())
                     {
-                        AvailableGuardBean bean=(AvailableGuardBean)itemsRL.get(i).getTag();
+                        AvailableGuardBean bean=guardBeans.get(i);
                         openGuard(bean);
                         break;
                     }
@@ -116,7 +127,6 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
         mBind=getViewDataBinding();
         mBind.setClick(this);
 
-        getAvailableGuardList();
         view.setVisibility(View.GONE);
 
         User user= DataCenter.getInstance().getUserInfo().getUser();
@@ -181,6 +191,26 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
 
             mBind.llLogos.addView(item,ll);
         }
+
+        if(self==null)
+        {
+
+            getUserInfo();
+        }
+        else
+        {
+            //如果能拿到自己的guardLevel就不刷新个人信息了
+            if(Strings.isDigitOnly(self.getGuardLevel()))
+            {
+                guardLevel=Integer.valueOf(self.getGuardLevel());
+                guardExpireTime=Long.valueOf(self.getExpireTime());
+            }
+            else
+            {
+                getUserInfo();
+            }
+        }
+        getAvailableGuardList();
         view.setVisibility(View.VISIBLE);
 
         startAnimate(mBind.rllContent,true);
@@ -205,69 +235,97 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
                 imageViews.get(imageViews.size()-2).setImageDrawable(selectedBG);
                 break;
         }
+        if(bean.getGuardLevel()==guardLevel)
+        {
+
+        }
     }
 
     private void getAvailableGuardList()
     {
-        int dip10=ScreenUtils.getDip2px(getContext(),10);
-
-        int width=(ScreenUtils.getScreenWidth(getContext())-dip10*4)/3;
-        Api_Order.ins().buyAvailableGuard(new JsonCallback<List<AvailableGuardBean>>() {
-            @Override
-            public void onSuccess(int code, String msg, List<AvailableGuardBean> data) {
-                if(code==0)
-                {
-                    if(isConditionOk() && data!=null)
-                    {
-                        for (int i = 0; i <data.size() ; i++) {
-                            AvailableGuardBean bean=data.get(i);
-                            View view=View.inflate(getContext(),R.layout.item_guard_available,null);
-                            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(width,dip10*12);
-                            ll.leftMargin=dip10;
-
-                            TextView tvCostDiamond=view.findViewById(R.id.tvCostDiamond);
-                            TextView tvName=view.findViewById(R.id.tvName);
-                            ImageView ivGuard=view.findViewById(R.id.ivGuard);
-                            LinearLayout.LayoutParams llPic=(LinearLayout.LayoutParams)ivGuard.getLayoutParams();
-                            llPic.width=(int)(width*0.58f);
-                            ivGuard.setLayoutParams(llPic);
-
-                            tvName.setText(bean.getName());
-                            tvCostDiamond.setText(bean.getOpenPrice()+"");
-                            GlideUtils.loadDefaultImage(getContext(),bean.getImgUrl(),0,ivGuard);
-                            view.setTag(bean);
-                            mBind.llContentList.addView(view,ll);
-                        }
-
-                        for (int i = 0; i <mBind.llContentList.getChildCount(); i++) {
-                            RelativeLayout relativeLayout=(RelativeLayout)mBind.llContentList.getChildAt(i);
-
-                            itemsRL.add(relativeLayout);
-                            relativeLayout.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    for (int j = 0; j < itemsRL.size(); j++) {
-                                        itemsRL.get(j).setSelected(false);
-                                    }
-                                    v.setSelected(true);
-                                    AvailableGuardBean bean=(AvailableGuardBean)v.getTag();
-                                    onSelectedItems(bean);
-                                }
-                            });
-                        }
-
-                        if(mBind.llContentList.getChildCount()>0)
-                        {
-                            itemsRL.get(0).performClick();
-                        }
-                    }
-                }
-                else
-                {
-                    ToastUtils.showShort(msg);
-                }
+        if(getActivity()!=null && getActivity() instanceof LivingActivity)
+        {
+            LivingActivity livingActivity=(LivingActivity)getActivity();
+            if(livingActivity.guardBeans!=null){
+                guardBeans.addAll(livingActivity.guardBeans);
             }
-        });
+        }
+
+        if(guardBeans.size()==0)
+        {
+            return;
+        }
+
+        int dip10=ScreenUtils.getDip2px(getContext(),10);
+        int width=(ScreenUtils.getScreenWidth(getContext())-dip10*4)/3;
+        for (int i = 0; i <guardBeans.size() ; i++) {
+            AvailableGuardBean bean=guardBeans.get(i);
+            View view=View.inflate(getContext(),R.layout.item_guard_available,null);
+            LinearLayout.LayoutParams ll=new LinearLayout.LayoutParams(width,dip10*12);
+            ll.leftMargin=dip10;
+
+            TextView tvCostDiamond=view.findViewById(R.id.tvCostDiamond);
+            TextView tvName=view.findViewById(R.id.tvName);
+            ImageView ivGuard=view.findViewById(R.id.ivGuard);
+            LinearLayout.LayoutParams llPic=(LinearLayout.LayoutParams)ivGuard.getLayoutParams();
+            llPic.width=(int)(width*0.58f);
+            ivGuard.setLayoutParams(llPic);
+
+            tvName.setText(bean.getName());
+            tvCostDiamond.setText(bean.getOpenPrice()+"");
+            GlideUtils.loadDefaultImage(getContext(),bean.getImgUrl(),0,ivGuard);
+            mBind.llContentList.addView(view,ll);
+        }
+
+        for (int i = 0; i <mBind.llContentList.getChildCount(); i++) {
+            RelativeLayout relativeLayout=(RelativeLayout)mBind.llContentList.getChildAt(i);
+
+            itemsRL.add(relativeLayout);
+            relativeLayout.setTag(i);
+            relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position=(int)v.getTag();
+                    boolean isSelectedRenew=false;
+                    for (int j = 0; j < itemsRL.size(); j++) {
+                        itemsRL.get(j).setSelected(false);
+                        TextView tvGuardExpireTime=itemsRL.get(j).findViewById(R.id.tvGuardExpireTime);
+                        if(position==j && guardLevel==guardBeans.get(position).getGuardLevel() && guardExpireTime>0)
+                        {
+                            isSelectedRenew=true;
+                            StringBuilder stringBuilder=new StringBuilder();
+                            stringBuilder.append(TimeUtils.getCurrentTime(TimeUtils.yyyMMdd))
+                                    .append(" ").append(getStringWithoutContext(R.string.deadline));
+                            tvGuardExpireTime.setText(stringBuilder.toString());
+                            tvGuardExpireTime.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            tvGuardExpireTime.setVisibility(View.GONE);
+                        }
+
+                    }
+                    if(isSelectedRenew)
+                    {
+                        mBind.ivRenewGuard.setVisibility(View.VISIBLE);
+                        mBind.ivBeMyProtector.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        mBind.ivRenewGuard.setVisibility(View.GONE);
+                        mBind.ivBeMyProtector.setVisibility(View.VISIBLE);
+                    }
+                    v.setSelected(true);
+                    AvailableGuardBean bean=guardBeans.get(position);
+                    onSelectedItems(bean);
+                }
+            });
+        }
+
+        if(mBind.llContentList.getChildCount()>0)
+        {
+            itemsRL.get(0).performClick();
+        }
     }
 
     private void openGuard(AvailableGuardBean bean)
@@ -327,4 +385,37 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
         });
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);
     }
+
+    private void getUserInfo()
+    {
+        Long myUid=DataCenter.getInstance().getUserInfo().getUser().getUid();
+        if(myUid==null)
+        {
+            return;
+        }
+        showLoadingDialog();
+        Api_User.ins().getUserInfo(myUid, liveId, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(!isConditionOk())
+                {
+                    return;
+                }
+                dismissLoadingDialog();
+
+                if(code==0)
+                {
+                    User user=new Gson().fromJson(data,User.class);
+                    if(user.isGuard())
+                    {
+                        guardLevel=Integer.valueOf(self.getGuardLevel());
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+        });
+    }
+
 }

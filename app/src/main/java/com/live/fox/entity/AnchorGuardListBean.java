@@ -6,7 +6,7 @@ public class AnchorGuardListBean {
 
     private List<LiveGuardBean> liveGuardVOList;
     private int rq;
-    private int guardCount;
+    private Integer guardCount;
 
     public List<LiveGuardBean> getLiveGuardList() {
         return liveGuardVOList;
@@ -25,7 +25,7 @@ public class AnchorGuardListBean {
     }
 
     public int getGuardCount() {
-        return guardCount;
+        return guardCount==null?0:guardCount;
     }
 
     public void setGuardCount(int guardCount) {
@@ -40,7 +40,7 @@ public class AnchorGuardListBean {
         public int guardId;
         public long openTime;
         public long renewalTime;
-        public long expireTime;
+        public Long expireTime;
         public long gmtCreate;
         public int gmtUpdate;
         public String operator;
@@ -104,7 +104,7 @@ public class AnchorGuardListBean {
         }
 
         public long getExpireTime() {
-            return expireTime;
+            return expireTime==null?0:expireTime;
         }
 
         public void setExpireTime(long expireTime) {

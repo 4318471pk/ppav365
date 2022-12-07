@@ -131,6 +131,7 @@
                         android:id="@+id/ivBeMyProtector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="visible"
                         android:layout_alignParentRight="true"
                         android:background="@mipmap/btn_for_protector"
                         android:gravity="center"
@@ -138,6 +139,24 @@
                         android:text="@string/openProtect"
                         android:textColor="#ffffff"
                         android:textSize="13sp" />
+
+                    <com.live.fox.view.GradientTextView
+                        android:id="@+id/ivRenewGuard"
+                        android:layout_width="90dp"
+                        android:layout_height="30dip"
+                        android:onClick="@{click.onClickView}"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:layout_marginRight="2.5dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        app:gt_gradient_direction="up"
+                        app:gt_radius_dp="15dip"
+                        app:gt_color_list="@array/renewGuardBtn"
+                        android:textSize="13sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="@string/renewProtect"/>
                 </com.flyco.roundview.RoundRelativeLayout>
 
                 <TextView
