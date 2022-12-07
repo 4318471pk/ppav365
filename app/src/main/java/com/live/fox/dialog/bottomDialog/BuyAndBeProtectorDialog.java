@@ -294,7 +294,7 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
                         {
                             isSelectedRenew=true;
                             StringBuilder stringBuilder=new StringBuilder();
-                            stringBuilder.append(TimeUtils.getCurrentTime(TimeUtils.yyyMMdd))
+                            stringBuilder.append(TimeUtils.long2String(guardExpireTime,TimeUtils.yyyMMdd))
                                     .append(" ").append(getStringWithoutContext(R.string.deadline));
                             tvGuardExpireTime.setText(stringBuilder.toString());
                             tvGuardExpireTime.setVisibility(View.VISIBLE);

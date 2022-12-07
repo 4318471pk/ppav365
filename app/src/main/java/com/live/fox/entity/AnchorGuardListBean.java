@@ -1,5 +1,7 @@
 package com.live.fox.entity;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class AnchorGuardListBean {
@@ -41,8 +43,8 @@ public class AnchorGuardListBean {
         public long openTime;
         public long renewalTime;
         public Long expireTime;
-        public long gmtCreate;
-        public int gmtUpdate;
+        public Long gmtCreate;
+        public Long gmtUpdate;
         public String operator;
         public int status;
         public String nickname;
@@ -119,11 +121,11 @@ public class AnchorGuardListBean {
             this.gmtCreate = gmtCreate;
         }
 
-        public int getGmtUpdate() {
+        public Long getGmtUpdate() {
             return gmtUpdate;
         }
 
-        public void setGmtUpdate(int gmtUpdate) {
+        public void setGmtUpdate(Long gmtUpdate) {
             this.gmtUpdate = gmtUpdate;
         }
 
