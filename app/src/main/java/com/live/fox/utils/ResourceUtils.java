@@ -1,5 +1,6 @@
 package com.live.fox.utils;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 
 
@@ -51,6 +52,21 @@ public class ResourceUtils {
             resources[i] = typedArray.getResourceId(i, 1);
         }
         return resources;
+    }
+
+    private static ResourceUtils resourceUtils = new ResourceUtils();
+
+    public static ResourceUtils getInstance() {
+        return resourceUtils;
+    }
+
+    public String getString(int resourceId) {
+        Context context = Utils.getApp().getBaseContext();
+        String message = "";
+        if(context != null) {
+            message = context.getResources().getString(resourceId);
+        }
+        return message;
     }
 
 }

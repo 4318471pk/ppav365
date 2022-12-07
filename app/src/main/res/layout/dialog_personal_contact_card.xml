@@ -122,7 +122,7 @@
                             android:gravity="center"
                             android:layout_marginLeft="5dip"
                             android:layout_centerVertical="true"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textColor="#404040"
                             android:text="*****"
                             />

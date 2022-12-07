@@ -248,6 +248,7 @@ public class Constant {
         public static final String Live_chat_URL = LiveClient + "/live/room/chat/send";              //直播间发言
         public static final String Live_heart_URL = LiveClient + "/live/heart";            //主播心跳 30s
         public static final String Live_list_URL = LiveClient + "/home/channel/list";              //开播列表
+        public static final String recommended = LiveClient + "/home/recommended/list";              //首页推荐列表接口
         public static final String Live_recordlist_URL = LiveClient + "/live/record/list";  //开播记录列表
         public static final String Live_start_URL = LiveClient + "/live/start";            //开播
         public static final String Live_stop_URL = LiveClient + "/live/stop";              //关播

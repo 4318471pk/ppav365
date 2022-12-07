@@ -22,6 +22,7 @@ import com.live.fox.databinding.DialogPersonalContactCardBinding;
 import com.live.fox.entity.LivingContactCardBean;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.ResourceUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 
@@ -117,13 +118,23 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
             }
 
             boolean isDone=bean.isDoneFlag()==null?false:bean.isDoneFlag();
-            if(!TextUtils.isEmpty(bean.getContactDetails()) && isDone)
+            if(isDone)
             {
-                mBind.tvContactVal.setText(bean.getContactDetails());
+
+                if(!TextUtils.isEmpty(bean.getContactDetails())  ){
+                    mBind.tvContactVal.setText(bean.getContactDetails());
+                }else {
+                    mBind.tvContactVal.setText(ResourceUtils.getInstance().getString(R.string.no_contact_val));
+                }
+
+                mBind.gtvGet.setVisibility(View.GONE);
+
             }
             else
             {
                 mBind.tvContactVal.setText("*****");
+
+                mBind.gtvGet.setVisibility(View.VISIBLE);
             }
 
             if(bean.getSendGifPrice()!=null && bean.getShowContactPrice()!=null)

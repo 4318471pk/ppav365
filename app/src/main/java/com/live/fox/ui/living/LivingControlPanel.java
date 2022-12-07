@@ -504,6 +504,12 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void sendMessage(String message)
     {
+
+        if(TextUtils.isEmpty(message)||message.length()>30){
+            ToastUtils.showShort(fragment.getStringWithoutContext(R.string.short_message));
+            return;
+        }
+
         long time = System.currentTimeMillis();
 
         if(time-lastGtvSendTime<3000){

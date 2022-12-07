@@ -387,6 +387,20 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
+    public void recommended(int type, JsonCallback<HomeFragmentRoomListBean> callback) {
+        String url = SPManager.getServerDomain() + Constant.URL.recommended;
+        callback.setUrlTag(Constant.URL.recommended);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("type", type + "");
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                        "",
+                        url,
+                        getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
+                        new Gson().toJson(params))
+                .execute(callback);
+    }
+
     /**
      * 获取推荐
      * 列表

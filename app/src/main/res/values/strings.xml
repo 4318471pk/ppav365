@@ -1625,5 +1625,7 @@
     <string name="editNameLimit">改名需要等级达到2级</string>
     <string name="followMeQuickly">赶快关注我吧~</string>
     <string name="short_time">弹幕时隔时间太短</string>
+    <string name="short_message">弹幕内容不能超过30个汉字</string>
+    <string name="no_contact_val">主播没有留下联系方式</string>
 
 </resources>
