@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
@@ -98,6 +99,9 @@ public class MainActivity extends BaseActivity  {
     private RadioButtonWithAnim rbAct;
     private RadioButtonWithAnim rbMine;
 
+    //TAG标识
+    private int TAG;
+
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
     }
@@ -168,6 +172,45 @@ public class MainActivity extends BaseActivity  {
         }
 
         initData();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        //savedInstanceState不为空
+        //在onCreate()中恢复数据：
+        //因为使用add()的原因，当Activity被系统回收时，内存中还保存着Fragment相关信息，所有导致再次启动应用时，会出现Fragment重叠现象。
+        if (savedInstanceState != null) {
+            homeFragment = (HomeFragment) fragmentManager.findFragmentByTag("homeFragment");
+            playFragment = (ChatListFragment) fragmentManager.findFragmentByTag("playFragment");
+            gameFragment = (GameFragment) fragmentManager.findFragmentByTag("gameFragment");
+            mineFragment = (MineFragment) fragmentManager.findFragmentByTag("mineFragment");
+            agencyCenterFragment = (AgencyCenterFragment) fragmentManager.findFragmentByTag("agencyCenterFragment");
+            activityFragment = (ActivityFragment) fragmentManager.findFragmentByTag("activityFragment");
+            //打开关闭前的Fragment
+            int index = savedInstanceState.getInt("TAG");
+//            change(index);
+            switch (index)
+            {
+                case 0:
+                    rbHome.performClick();
+                    break;
+                case 1:
+                    rbGame.performClick();
+                    break;
+                case 2:
+                    rbAgent.performClick();
+                    break;
+                case 3:
+                    rbAct.performClick();
+                    break;
+                case 4:
+                    rbMine.performClick();
+                    break;
+            }
+
+        } else {
+
+        }
+
+
     }
 
     public void setWindowsFlag()
@@ -538,7 +581,7 @@ public class MainActivity extends BaseActivity  {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (homeFragment == null) {
             homeFragment = HomeFragment.newInstance();
-            fragmentTransaction.add(R.id.fl_main, homeFragment);
+            fragmentTransaction.add(R.id.fl_main, homeFragment,"homeFragment");
         }
         showSpecialFragment(fragmentTransaction, homeFragment);
     }
@@ -547,7 +590,7 @@ public class MainActivity extends BaseActivity  {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (playFragment == null) {
             playFragment = ChatListFragment.newInstance();
-            fragmentTransaction.add(R.id.fl_main, playFragment);
+            fragmentTransaction.add(R.id.fl_main, playFragment,"playFragment");
         }
         showSpecialFragment(fragmentTransaction, playFragment);
     }
@@ -556,7 +599,7 @@ public class MainActivity extends BaseActivity  {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (gameFragment == null) {
             gameFragment = GameFragment.newInstance();
-            fragmentTransaction.add(R.id.fl_main, gameFragment);
+            fragmentTransaction.add(R.id.fl_main, gameFragment,"gameFragment");
         }
         showSpecialFragment(fragmentTransaction, gameFragment);
     }
@@ -565,7 +608,7 @@ public class MainActivity extends BaseActivity  {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (mineFragment == null) {
             mineFragment = MineFragment.newInstance();
-            fragmentTransaction.add(R.id.fl_main, mineFragment);
+            fragmentTransaction.add(R.id.fl_main, mineFragment,"mineFragment");
         }
         showSpecialFragment(fragmentTransaction, mineFragment);
     }
@@ -575,7 +618,7 @@ public class MainActivity extends BaseActivity  {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (agencyCenterFragment == null) {
             agencyCenterFragment = AgencyCenterFragment.newInstance();
-            fragmentTransaction.add(R.id.fl_main, agencyCenterFragment);
+            fragmentTransaction.add(R.id.fl_main, agencyCenterFragment,"agencyCenterFragment");
         }
         showSpecialFragment(fragmentTransaction, agencyCenterFragment);
     }
@@ -584,7 +627,7 @@ public class MainActivity extends BaseActivity  {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (activityFragment == null) {
             activityFragment = ActivityFragment.newInstance();
-            fragmentTransaction.add(R.id.fl_main, activityFragment);
+            fragmentTransaction.add(R.id.fl_main, activityFragment,"activityFragment");
         }
         showSpecialFragment(fragmentTransaction, activityFragment);
     }
@@ -625,4 +668,28 @@ public class MainActivity extends BaseActivity  {
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        LogUtils.i("MainActivity......", "onNewIntent");
+        super.onNewIntent(intent);
+        setIntent(intent);
+        String position = getIntent().getStringExtra("position");
+        if (position != null) {
+
+        }
+
+
+    }
+    /*
+     * 保存TAB选中状态
+     * */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //如果用以下这种做法则不保存状态，再次进来的话会显示默认tab
+        //总是执行这句代码来调用父类去保存视图层的状态
+        //保存tab选中的状态;
+        super.onSaveInstanceState(outState);
+        outState.putInt("TAG", TAG);
+    }
+
 }

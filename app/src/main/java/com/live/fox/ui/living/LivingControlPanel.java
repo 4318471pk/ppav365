@@ -325,6 +325,8 @@ public class LivingControlPanel extends RelativeLayout {
                 messageViewWatch.showInputLayout();
                 break ;
             case R.id.gtvSend:
+
+
                 String msg=mBind.etDiaMessage.getText().toString();
                 if(TextUtils.isEmpty(msg))
                 {
@@ -332,9 +334,14 @@ public class LivingControlPanel extends RelativeLayout {
                     return;
                 }
                 sendMessage(msg);
+
+
+
                 break;
         }
     }
+
+    long lastGtvSendTime = 0;
 
     //在线观众
     private void showOnlineAudience()
@@ -497,6 +504,14 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void sendMessage(String message)
     {
+        long time = System.currentTimeMillis();
+
+        if(time-lastGtvSendTime<3000){
+            ToastUtils.showShort(fragment.getStringWithoutContext(R.string.short_time));
+            return;
+        }
+        lastGtvSendTime = System.currentTimeMillis();
+
         mBind.gtvSend.setEnabled(false);
         mBind.gtvSend.postDelayed(new Runnable() {
             @Override
