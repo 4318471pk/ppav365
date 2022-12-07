@@ -423,6 +423,7 @@
     <string name="upNovel">您确定要升级贵族吗？</string>
     <string name="noNobelPer">您当前无此权限</string>
     <string name="noString">无</string>
+    <string name="deadline">到期</string>
     <string name="endTime">到期时间&#160;</string>
     <string name="groupNumber">群号&#160;:&#160;</string>
     <string name="threeCool">三位靓号就是这么酷炫</string>
@@ -1469,6 +1470,7 @@
     <string name="follow2" translatable="false">+关注</string>
     <string name="protect">守护</string>
     <string name="openProtect">开通守护</string>
+    <string name="renewProtect">续费守护</string>
     <string name="protectTag">☆荣耀守护☆</string>
     <string name="protectTag2">成为TA的第一个荣耀守护者吧</string>
     <string name="protectTag3">守护当前主播，成为TA的人吧~^∪^</string>

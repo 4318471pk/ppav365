@@ -51,6 +51,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
     String uid,liveId;
     AnchorGuardListBean anchorGuardListBean;
     OnRefreshDataListener onRefreshDataListener;
+    AnchorGuardListBean.LiveGuardBean self;
     boolean isAnchor;
 
     public static AnchorProtectorListDialog getInstance(String uid,String liveId,AnchorGuardListBean anchorGuardListBean,boolean isAnchor)
@@ -147,7 +148,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        BuyAndBeProtectorDialog dialog=BuyAndBeProtectorDialog.getInstance(uid,liveId);
+                        BuyAndBeProtectorDialog dialog=BuyAndBeProtectorDialog.getInstance(uid,liveId,self);
                         FragmentManager fragmentManager=getFragmentManager();
                         if(fragmentManager==null)
                         {
@@ -214,16 +215,16 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                    isContain=true;
                 }
             }
-            if(isContain)
-            {
-                mBind.rlFloating.setVisibility(View.INVISIBLE);
-            }
+//            if(isContain)
+//            {
+//                mBind.rlFloating.setVisibility(View.INVISIBLE);
+//            }
         }
         adapter=new AnchorProtectorAdapter(getActivity(),list);
-        if(list.size()>0)
+        if(anchorGuardListBean!=null && anchorGuardListBean.getGuardCount()>0)
         {
             StringBuilder sb=new StringBuilder();
-            sb.append(getStringWithoutContext(R.string.protect)).append("(").append(list.size()).append(")");
+            sb.append(getStringWithoutContext(R.string.protect)).append("(").append(anchorGuardListBean.getGuardCount()).append(")");
             mBind.tvDialogTitle.setText(sb.toString());
         }
         else
@@ -286,13 +287,13 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             return;
         }
 
+        String selfUid=DataCenter.getInstance().getUserInfo().getUser().getUid()+"";
         Api_Live.ins().queryGuardListByAnchor(liveId, uid, new JsonCallback<AnchorGuardListBean>() {
             @Override
             public void onSuccess(int code, String msg, AnchorGuardListBean data) {
                 if(code==0)
                 {
                     if(isConditionOk() && getArg().equals(liveId) && data!=null) {
-                        String myUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
                         if (onRefreshDataListener != null) {
                             onRefreshDataListener.onRefresh(data);
                         }
@@ -300,19 +301,14 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                         setTopView();
                         List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
 
-                        boolean isContain=false;
                         for (int i = 0; i < data.getLiveGuardList().size(); i++) {
-                            if (data.getLiveGuardList().get(i).getUid().equals(uid)) {
-                                isContain=true;
+                            if (data.getLiveGuardList().get(i).getUid().equals(selfUid)) {
+                                self=data.getLiveGuardList().get(i);
                             }
                             if(i>0)
                             {
                                 list.add(anchorGuardListBean.getLiveGuardList().get(i));
                             }
-                        }
-                        if(isContain)
-                        {
-                            mBind.rlFloating.setVisibility(View.INVISIBLE);
                         }
 
                         adapter.setNewData(list);
