@@ -80,7 +80,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dip"
                 android:background="#ffffff"
-                android:visibility="invisible"
                 app:tabPaddingStart="0dip"
                 app:tabPaddingEnd="0dip"
                 android:layout_alignParentBottom="true"

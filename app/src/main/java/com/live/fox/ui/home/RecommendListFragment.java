@@ -26,6 +26,7 @@ import com.live.fox.databinding.FragmentRecommendListBinding;
 import com.live.fox.entity.Advert;
 import com.live.fox.entity.HomeBanner;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.HomeRecommendRoomListBean;
 import com.live.fox.entity.RoomListBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.entity.LanguageUtilsEntity;
@@ -67,7 +68,7 @@ public class RecommendListFragment extends BaseBindingFragment {
     private LiveListAdapter livelistAdapter;
     int tabIndex=0;
     User currentUser;
-    HomeFragmentRoomListBean listBean;
+    HomeRecommendRoomListBean listBean;
     LiveListHeader header;
 //    private RecyclerViewSkeletonScreen skeletonScreen;
 
@@ -203,7 +204,7 @@ public class RecommendListFragment extends BaseBindingFragment {
 
     public void doGetLiveListApi() {
 
-        Api_Live.ins().recommended(0, new JsonCallback<HomeFragmentRoomListBean>() {
+        Api_Live.ins().recommended(0, new JsonCallback<HomeRecommendRoomListBean>() {
 
             @Override
             public void onFinish() {
@@ -214,7 +215,7 @@ public class RecommendListFragment extends BaseBindingFragment {
             }
 
             @Override
-            public void onSuccess(int code, String msg, HomeFragmentRoomListBean data) {
+            public void onSuccess(int code, String msg, HomeRecommendRoomListBean data) {
                 if (data == null || !isActivityOK()) {
                     if (isAdded()) {
                         showEmptyView(getString(R.string.noData));
@@ -340,31 +341,31 @@ public class RecommendListFragment extends BaseBindingFragment {
         }
     }
 
-    private void setTabs(List<HomeFragmentRoomListBean.ChannelList> channelLists)
+    private void setTabs(List<HomeRecommendRoomListBean.ChannelList> channelLists)
     {
         mBind.hostTypeTabs.removeAllTabs();
-        int dip1 = ScreenUtils.dip2px(getContext(), 1);
-        int screenWidth = ScreenUtils.getScreenWidth(getContext());
-        int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;
-        for (int i = 0; i < channelLists.size(); i++) {
-            RelativeLayout tabItemRL = new RelativeLayout(getContext());
-            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            TextView tvTab = new TextView(getContext());
-            tvTab.setText(channelLists.get(i).getChannelName());
-            tvTab.setGravity(Gravity.CENTER);
-            tvTab.setTextColor(0xff404040);
-            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
-            RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-//            rl.topMargin=dip1*5;
-            rl.bottomMargin = dip1 * 10;
-            tvTab.setLayoutParams(rl);
-            tabItemRL.addView(tvTab);
-
-            mBind.hostTypeTabs.addTab(mBind.hostTypeTabs.newTab().setCustomView(tabItemRL));
-        }
+//        int dip1 = ScreenUtils.dip2px(getContext(), 1);
+//        int screenWidth = ScreenUtils.getScreenWidth(getContext());
+//        int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;
+//        for (int i = 0; i < channelLists.size(); i++) {
+//            RelativeLayout tabItemRL = new RelativeLayout(getContext());
+//            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//            TextView tvTab = new TextView(getContext());
+//            tvTab.setText(channelLists.get(i).getChannelName());
+//            tvTab.setGravity(Gravity.CENTER);
+//            tvTab.setTextColor(0xff404040);
+//            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+//            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
+//            RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+////            rl.topMargin=dip1*5;
+//            rl.bottomMargin = dip1 * 10;
+//            tvTab.setLayoutParams(rl);
+//            tabItemRL.addView(tvTab);
+//
+//            mBind.hostTypeTabs.addTab(mBind.hostTypeTabs.newTab().setCustomView(tabItemRL));
+//        }
 
         mBind.hostTypeTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -393,7 +394,28 @@ public class RecommendListFragment extends BaseBindingFragment {
                 item.setTextColor(0xffffffff);
             }
         });
+        int dip1 = ScreenUtils.dip2px(getContext(), 1);
+        int screenWidth = ScreenUtils.getScreenWidth(getContext());
+        int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;
+        for (int i = 0; i < channelLists.size(); i++) {
+            RelativeLayout tabItemRL = new RelativeLayout(getContext());
+            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
 
+            TextView tvTab = new TextView(getContext());
+            tvTab.setText(channelLists.get(i).getChannelName());
+            tvTab.setGravity(Gravity.CENTER);
+            tvTab.setTextColor(0xff404040);
+            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
+            RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+//            rl.topMargin=dip1*5;
+            rl.bottomMargin = dip1 * 10;
+            tvTab.setLayoutParams(rl);
+            tabItemRL.addView(tvTab);
+
+            mBind.hostTypeTabs.addTab(mBind.hostTypeTabs.newTab().setCustomView(tabItemRL));
+        }
         mBind.hostTypeTabs.selectTab(mBind.hostTypeTabs.getTabAt(tabIndex));
     }
 

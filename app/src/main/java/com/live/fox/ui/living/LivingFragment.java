@@ -320,17 +320,25 @@ public class LivingFragment extends BaseBindingFragment {
 
             //如果刷新了主播的信息 设置可以滑动 但是如果消息框在的话不能设置
             if (livingControlPanel != null) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
-                        if (!livingControlPanel.messageViewWatch.isBotViewShow()) {
-                            livingControlPanel.messageViewWatch.setScrollEnable(true);
+
+                if(handler!=null){
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //这个地方也不知道怎么处理最好 就延迟1500 才能滑动
+                            if (!livingControlPanel.messageViewWatch.isBotViewShow()) {
+                                livingControlPanel.messageViewWatch.setScrollEnable(true);
+                            }
                         }
-                    }
-                }, 1500);
+                    }, 1500);
 
 //                livingControlPanel.viewWatch.hideInputLayout();
+
+                }
+
+
+
             }
         } else {
             destroyView();
@@ -752,7 +760,11 @@ public class LivingFragment extends BaseBindingFragment {
                                 //该(收费)直播间是否可预览标识；1：不可预览，非1（0或者null）：可以预览
                                 if( enterRoomBean.getIsPreview()==0 &&  enterRoomBean.getPreviewTime()>0)
                                 {
-                                    handler.sendEmptyMessageDelayed(previewCountDown,1000);
+
+                                    if(handler!=null){
+                                        handler.sendEmptyMessageDelayed(previewCountDown,1000);
+                                    }
+
                                 }
 
                                 if (!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()) && mLivePlayer != null) {
@@ -894,12 +906,18 @@ public class LivingFragment extends BaseBindingFragment {
                                 SpanUtils spanUtils = ChatSpanUtils.appendSystemMessageType(MessageProtocol.LIVE_ENTER_OUT_ROOM, welcome, getActivity());
                                 sendSystemMsgToChat(spanUtils.create());
 
-                                handler.sendEmptyMessageDelayed(userHeartBeat, 40000);
-                                if(!livingCurrentAnchorBean.getFollow())
-                                {
-                                    handler.sendEmptyMessageDelayed(alertWhenExit, 5 * 60000);
-                                    handler.sendEmptyMessageDelayed(alertFloatingFollow,30000);
+                                if(handler!=null){
+
+                                    handler.sendEmptyMessageDelayed(userHeartBeat, 40000);
+                                    if(!livingCurrentAnchorBean.getFollow())
+                                    {
+                                        handler.sendEmptyMessageDelayed(alertWhenExit, 5 * 60000);
+                                        handler.sendEmptyMessageDelayed(alertFloatingFollow,30000);
+                                    }
+
                                 }
+
+
                             }
                         }
 
@@ -971,7 +989,11 @@ public class LivingFragment extends BaseBindingFragment {
                                     svgAnimateLivingBean.setLocalSvgPath(giftResourceBean.getLocalSvgPath());
                                     svgAnimateLivingBean.setLoopTimes(gBean.getCount());
                                     livingMessageGiftBeans.add(svgAnimateLivingBean);
-                                    handler.sendEmptyMessage(playSVGA);
+
+                                    if(handler!=null){
+                                        handler.sendEmptyMessage(playSVGA);
+                                    }
+
                                 }
                             }
                             break;
@@ -1182,7 +1204,11 @@ public class LivingFragment extends BaseBindingFragment {
                     svgAnimateLivingBean.setLocalSvgPath(mountResourceBean.getLocalSvgPath());
                     svgAnimateLivingBean.setLoopTimes(1);
                     livingMessageGiftBeans.add(svgAnimateLivingBean);
-                    handler.sendEmptyMessage(playSVGA);
+
+                    if(handler!=null){
+                        handler.sendEmptyMessage(playSVGA);
+                    }
+
                 }
             }
             if (userVehiclePlayLimitBean == null) {
@@ -1276,7 +1302,10 @@ public class LivingFragment extends BaseBindingFragment {
                             {
                                 Message message=new Message();
                                 message.arg1=1;
-                                handler.sendMessageDelayed(message,1000);
+                                if(handler!=null){
+                                    handler.sendMessageDelayed(message,1000);
+                                }
+
                             }
                         }
 
@@ -1333,10 +1362,14 @@ public class LivingFragment extends BaseBindingFragment {
                 if (mBind.svImage != null) {
                     mBind.svImage.clear();
                 }
-                if (livingMessageGiftBeans.size() > 0) {
+                if (livingMessageGiftBeans!=null&&livingMessageGiftBeans.size() > 0) {
                     livingMessageGiftBeans.remove(0);
                     if (livingMessageGiftBeans.size() > 0) {
-                        handler.sendEmptyMessage(playSVGA);
+
+                        if(handler!=null){
+                            handler.sendEmptyMessage(playSVGA);
+                        }
+
                     }
                 }
             }
