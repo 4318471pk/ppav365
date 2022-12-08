@@ -25,6 +25,7 @@ public class RechargeChannel {
     private boolean isCheck;
 
 
+
     public int getSizeStatus() {
         return sizeStatus;
     }

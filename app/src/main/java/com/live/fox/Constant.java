@@ -314,6 +314,8 @@ public class Constant {
         public static final String Pay_betRank_URL = PayClient + "/betRank";            //投注流水排行
         public static final String Pay_rankdetail_URL = PayClient + "/rank/detail";     //投注流水排行
 
+        public static final String pay = "/order/payment/pay";            //投注流水排行
+
         /**
          * fuse-client 下面的接口
          */
