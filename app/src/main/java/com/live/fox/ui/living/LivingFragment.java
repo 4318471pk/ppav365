@@ -1022,6 +1022,22 @@ public class LivingFragment extends BaseBindingFragment {
                         case MessageProtocol.CHARGE_ROOM_CHANGE:
                             livingMessageChangeRoomType(liveId,msgJson);
                             break;
+                        case MessageProtocol.InsufficientBalanceOnWatching:
+                            getOutOfRoom(getRoomBean().getId());
+                            mBind.ivBG.setVisibility(View.VISIBLE);
+                            mBind.txVideoView.setVisibility(View.GONE);
+                            mLivePlayer.pause();
+
+                            BigDecimal gold= DataCenter.getInstance().getUserInfo().getUser().getGold();
+                            if(gold!=null && gold.compareTo(new BigDecimal(0))!=1)
+                            {
+                                showInsufficientBalanceDialog();
+                            }
+                            else
+                            {
+                                showInsufficientDiamondDialog();
+                            }
+                            break;
                         case MessageProtocol.LIVE_STOP_LIVE:
                             //显示下播页面
                             MyViewPager viewPager=mBind.getRoot().findViewById(R.id.livingViewPager);
@@ -1092,7 +1108,7 @@ public class LivingFragment extends BaseBindingFragment {
     /**
      * 计时房间付费
      */
-    private void payForPerHour(String liveId,String uid)
+    private void payByTime(String liveId,String uid)
     {
         if(!isActivityOK())
         {
@@ -1218,17 +1234,7 @@ public class LivingFragment extends BaseBindingFragment {
         if (!isActivityOK()) {
             return;
         }
-        if(!isRoomLiving)
-        {
-            //显示下播页面
-            MyViewPager viewPager=mBind.getRoot().findViewById(R.id.livingViewPager);
-            viewPager.setCurrentItem(0);
-            viewPager.setScrollEnable(false);
 
-            LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
-            livingFinishView.showView();
-            return;
-        }
         Api_Live.ins().getAnchorInfo(getRoomBean().getId(), getRoomBean().getAid(), new JsonCallback<LivingCurrentAnchorBean>() {
             @Override
             public void onSuccess(int code, String msg, LivingCurrentAnchorBean data) {
@@ -1290,8 +1296,9 @@ public class LivingFragment extends BaseBindingFragment {
                                 checkAndJoinIM(getRoomBean().getId());
                             }
 
+                            boolean isPayNeededRoom=getRoomBean().getRoomType()==1 || getRoomBean().getRoomType()==2;
                             //0 未付费 1 已经付费
-                            if(Integer.valueOf(data.getIsPayOver())==1 && Strings.isDigitOnly(data.getPrice()))
+                            if(isPayNeededRoom && Integer.valueOf(data.getIsPayOver())==1 && Strings.isDigitOnly(data.getPrice()) )
                             {
                                 Message message=new Message();
                                 message.arg1=1;
@@ -1305,7 +1312,23 @@ public class LivingFragment extends BaseBindingFragment {
                     }
 
                 } else {
-                    ToastUtils.showShort(msg);
+                    if(isRoomLiving)
+                    {
+                        ToastUtils.showShort(msg);
+                    }
+                }
+
+                //房间关闭了显示这个
+                if(!isRoomLiving)
+                {
+                    //显示下播页面
+                    MyViewPager viewPager=mBind.getRoot().findViewById(R.id.livingViewPager);
+                    viewPager.setCurrentItem(0);
+                    viewPager.setScrollEnable(false);
+
+                    LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
+                    livingFinishView.showView();
+                    return;
                 }
             }
         });
@@ -1467,7 +1490,7 @@ public class LivingFragment extends BaseBindingFragment {
             @Override
             public void clickOk(TempleDialog2 dialog) {
                 dialog.dismissAllowingStateLoss();
-                payForPerHour(getRoomBean().getId(),getRoomBean().getAid());
+                payByTime(getRoomBean().getId(),getRoomBean().getAid());
             }
 
             @Override
@@ -1481,6 +1504,10 @@ public class LivingFragment extends BaseBindingFragment {
 
     private void showInsufficientBalanceDialog()
     {
+        if(DialogFramentManager.getInstance().isShowLoading(TempleDialog2.class.getName()))
+        {
+            return;
+        }
         TempleDialog2 templeDialog= TempleDialog2.getInstance();
         templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
             @Override
@@ -1517,6 +1544,10 @@ public class LivingFragment extends BaseBindingFragment {
 
     private void showInsufficientDiamondDialog()
     {
+        if(DialogFramentManager.getInstance().isShowLoading(TempleDialog2.class.getName()))
+        {
+            return;
+        }
         TempleDialog2 templeDialog= TempleDialog2.getInstance();
         templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
             @Override

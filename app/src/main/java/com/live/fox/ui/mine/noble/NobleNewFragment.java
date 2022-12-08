@@ -30,6 +30,7 @@ import com.live.fox.server.BaseApi;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ResourceUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.utils.ToastUtils;
 import com.luck.picture.lib.rxbus2.ThreadMode;
@@ -97,10 +98,11 @@ public class NobleNewFragment extends BaseBindingFragment {
         }
 
         mBind.tvTips1.setText(Html.fromHtml(String.format(getString(R.string.noble_tips1),
-                nobleBean.getOpenPrice()+"", nobleBean.getOpenGiveDiamond()+"" )));
+                Strings.cutOff(nobleBean.getOpenPrice(),0), Strings.cutOff(nobleBean.getOpenGiveDiamond(),0) )));
+
 
         mBind.tvTips2.setText(Html.fromHtml(String.format(getString(R.string.noble_tips2),
-                nobleBean.getRenewalPrice()+"", nobleBean.getRenewalGiveDiamond()+"" )));
+                Strings.cutOff(nobleBean.getRenewalPrice(),0), Strings.cutOff(nobleBean.getRenewalGiveDiamond(),0) )));
 
         showNoble();
         setData();

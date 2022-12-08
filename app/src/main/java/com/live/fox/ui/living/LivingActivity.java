@@ -37,6 +37,7 @@ import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.PersonalContactCardDialog;
 import com.live.fox.dialog.temple.FreeRoomToPrepaidRoomDialog;
 import com.live.fox.entity.Audience;
+import com.live.fox.entity.AvailableGuardBean;
 import com.live.fox.entity.FlowDataBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
 import com.live.fox.entity.LivingGiftBean;
@@ -45,6 +46,7 @@ import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Living_Lottery;
+import com.live.fox.server.Api_Order;
 import com.live.fox.ui.live.PlayLiveActivity;
 import com.live.fox.ui.lottery.LotteryItemListFragment;
 import com.live.fox.utils.BarUtils;
@@ -82,6 +84,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
     List<LivingGiftBean> giftListData=new ArrayList<>();//礼物列表;
     List<LivingGiftBean> vipGiftListData=new ArrayList<>();//特权礼物列表;
     List<SendGiftAmountBean> sendGiftAmountBeans;//礼物可发送列表
+    public List<AvailableGuardBean> guardBeans;//可购买的守护者列表
 
     public static void startActivity(Context context, List<RoomListBean> roomListBeans,int position)
     {
@@ -266,6 +269,7 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
         getAmountListOfGift();//请求获取发送礼物数量列表
         cacheBulletMessageList();//缓存弹幕列表
         cacheGameListCategoryTitlesData();//缓存游戏列表数据
+        cacheAvailableGuardList();//缓存可购买的守护
     }
 
     public void resetRoomList(List<RoomListBean> data,int position)
@@ -594,6 +598,21 @@ public class LivingActivity extends BaseBindingViewActivity implements AppIMMana
                 if(code==0)
                 {
                     SPUtils.getInstance().put(ConstantValue.gameCategoryTitles,data);
+                }
+            }
+        });
+    }
+
+    /**
+     *  获取可购买守护列表并且缓存
+     */
+    public void cacheAvailableGuardList() {
+        Api_Order.ins().buyAvailableGuard(new JsonCallback<List<AvailableGuardBean>>() {
+            @Override
+            public void onSuccess(int code, String msg, List<AvailableGuardBean> data) {
+                if(code==0)
+                {
+                   LivingActivity.this.guardBeans=data;
                 }
             }
         });

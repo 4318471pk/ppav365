@@ -43,15 +43,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
-/**
- * <p>类描述： DialogFragment 基类
- * <p>创建人：Simon
- * <p>创建时间：2019-02-14
- * <p>修改人：Simon
- * <p>修改时间：2019-02-14
- * <p>修改备注：
- **/
-
 public abstract class BaseBindingDialogFragment extends DialogFragment  {
     //宽高比例 最高1 最低0
     protected double intScreenWProportion = 1; //宽比例

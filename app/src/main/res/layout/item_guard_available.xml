@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dip"
-    android:background="@drawable/bg_buy_protector"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_buy_protector">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dip"
         android:orientation="vertical">
 
         <ImageView
@@ -31,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dip"
             android:drawableLeft="@mipmap/icon_diamond"
             android:drawablePadding="5dip"
             android:gravity="center"
@@ -40,4 +40,23 @@
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tvGuardExpireTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:padding="5dip"
+        android:layout_margin="1dip"
+        android:text="xxxx"
+        app:rv_cornerRadius_BL="10dip"
+        app:rv_cornerRadius_BR="10dip"
+        app:rv_backgroundColor="#FFFF3BAE"
+        app:rv_backgroundPressColor="#FFFF3BAE"
+        />
+
 </RelativeLayout>

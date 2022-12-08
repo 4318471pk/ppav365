@@ -116,6 +116,11 @@ public class AddNewBankCardDialog extends BaseBindingDialogFragment {
         Api_Order.ins().getUserAddBank(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+                if(!isConditionOk())
+                {
+                    return;
+                }
+
                 dismissLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
                     if (addNewBankCardSuc != null) {
