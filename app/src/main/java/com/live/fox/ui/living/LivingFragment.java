@@ -405,12 +405,6 @@ public class LivingFragment extends BaseBindingFragment {
                 int screenHeight = ScreenUtils.getScreenHeight(getActivity());
                 if (position == 1) {
                     container.addView(contentViews[1], ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    container.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            livingControlPanel.setData(activity.getRoomListBeans().get(currentPagePosition), activity);
-                        }
-                    });
                     return contentViews[1];
                 }
                 else if(position==0)
@@ -1246,6 +1240,7 @@ public class LivingFragment extends BaseBindingFragment {
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
                         livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount()+"");
+                        livingControlPanel.setData(getRoomBean());
                         if (data.getFollow() != null) {
                             livingControlPanel.mBind.ivFollow.setVisibility(data.getFollow() ? View.GONE : View.VISIBLE);
                         }

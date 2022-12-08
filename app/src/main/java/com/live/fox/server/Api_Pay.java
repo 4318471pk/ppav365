@@ -130,6 +130,34 @@ public class Api_Pay extends BaseApi {
     }
 
 
+//    {
+//        "amount": 0,
+//            "channelCode": "",
+//            "channelType": "",
+//    }
+    public void pay( String amount, String channelCode,String channelType, JsonCallback callback) {
+        long money = Long.parseLong(amount);
+
+
+        String url = SPManager.getServerDomain() + Constant.URL.OrderPay;
+
+        String deviceId = DeviceIdUtils.getAndroidId(CommonApp.getInstance()).substring(0, 6);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("amount", money);
+        params.put("channelCode", channelCode);
+        params.put("channelType", channelType);
+        params.put("deviceId", deviceId);
+        params.put("deviceType", "android");
+        params.put("ipAddress", IPUtils.getLocalIpAddress());
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                        "",
+                        url,
+                        getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                        new Gson().toJson(params))
+                .execute(callback);
+    }
+
     public void payFoura(String url, String amount, String type, String serial, String pin, JsonCallback callback) {
         HashMap<String, Object> params = getCommonParams();
         params.put("amount", amount);

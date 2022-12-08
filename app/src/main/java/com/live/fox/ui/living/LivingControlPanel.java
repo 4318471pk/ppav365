@@ -471,7 +471,7 @@ public class LivingControlPanel extends RelativeLayout {
 
         }
     }
-    public void setData(RoomListBean roomListBean,LivingActivity activity)
+    public void setData(RoomListBean roomListBean)
     {
 //        mBind.tvAnchorName.setText(roomListBean.getTitle());
         mBind.tvAnchorID.setText("ID:"+roomListBean.getAid());
@@ -664,7 +664,7 @@ public class LivingControlPanel extends RelativeLayout {
                 }
                 else
                 {
-                    ToastUtils.showShort(msg);
+//                    ToastUtils.showShort(msg);
                 }
             }
         });
@@ -682,6 +682,7 @@ public class LivingControlPanel extends RelativeLayout {
 
         //限制两秒内请求一次
         if(ClickUtil.isRequestWithShortTime("doGetAudienceListApi".hashCode(),2000));
+
 
         Api_Live.ins().getRoomUserList(fragment.getRoomBean().getId(), new JsonCallback<List<OnlineUserBean>>() {
             @Override
@@ -775,7 +776,7 @@ public class LivingControlPanel extends RelativeLayout {
                     }
                     else
                     {
-                        ToastUtils.showShort(msg);
+//                        ToastUtils.showShort(msg);
                     }
                 }
             }
@@ -801,7 +802,7 @@ public class LivingControlPanel extends RelativeLayout {
                        }
                     }
                 } else {
-                    ToastUtils.showShort(msg);
+//                    ToastUtils.showShort(msg);
                 }
             }
         });
