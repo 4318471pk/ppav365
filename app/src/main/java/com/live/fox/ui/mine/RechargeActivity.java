@@ -1381,6 +1381,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
 
 
+                        if(payNameList.size()>0){
+                            getChannelType(payNameList.get(0).getType());
+                            nowPayId = payNameList.get(0).getType();
+                        }
+
                     }
 
                 } else {
@@ -1463,6 +1468,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
         channelCode=   payWayList.get(pos).getChannelCode();
         mType=   payWayList.get(pos).getType();
+
+
+        if(arr==null||arr.length==0){
+
+        }
     }
 
     private void setMoneyColor(TextView tv){//#FFD14F
