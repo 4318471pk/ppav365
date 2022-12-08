@@ -314,7 +314,7 @@ public class Constant {
         public static final String Pay_betRank_URL = PayClient + "/betRank";            //投注流水排行
         public static final String Pay_rankdetail_URL = PayClient + "/rank/detail";     //投注流水排行
 
-        public static final String pay = "/order/payment/pay";            //投注流水排行
+
 
         /**
          * fuse-client 下面的接口
@@ -382,7 +382,7 @@ public class Constant {
         public static final String ORDER_BANK_URL = OrderClient + "/pay/bank/list1";//"银行卡
         public static final String ORDER_BANK_RECHARGE_URL = OrderClient + "/pay/bank/recharge";//"银行卡 转账";
         public static final String ORDER_USDT_RECHARGE_URL = OrderClient + "/pay/ustd/recharge";//"银行卡 转账";
-
+        public static final String pay = "/order/payment/pay";            //
         /**
          * cp 下面的接口
          */

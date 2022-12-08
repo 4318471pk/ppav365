@@ -768,7 +768,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onSuccess(int code, String msg, PayBean result) {
                 hideLoadingDialog();
-                if (code == 0 && result != null) {
+                if (code == 200 && msg != null) {
                     //1URL 2HTML 3qrcode 4外部浏览器
 //                    if (recharegChanll.getCallbackType() == 1) {
 //                        LogUtils.e("方式一");
@@ -778,8 +778,28 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 //                        H5Activity.start(RechargeActivity.this, getString(R.string.money_pay), data);
 //                    } else if (recharegChanll.getCallbackType() == 4) {
                         LogUtils.e("方式四");
-                        IntentUtils.toBrowser(RechargeActivity.this, result.getPayUrl());
+//                        IntentUtils.toBrowser(RechargeActivity.this, result.getMsg().getPayUrl());
 //                    }
+
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(msg);
+                        String data = jsonObject.optString("payUrl");
+                        LogUtils.e("PayHtml", data);
+                        //1URL 2HTML 3qrcode 4外部浏览器
+//                        if (recharegChanll.getCallbackType() == 1) {
+//                            LogUtils.e("方式一");
+//                            H5Activity.start(RechargeActivity.this, getString(R.string.money_pay), data, false);
+//                        } else if (recharegChanll.getCallbackType() == 2) {
+//                            LogUtils.e("方式二");//isWeixinAvilible
+//                            H5Activity.start(RechargeActivity.this, getString(R.string.money_pay), data);
+//                        } else if (recharegChanll.getCallbackType() == 4) {
+                            LogUtils.e("方式四");
+                            IntentUtils.toBrowser(RechargeActivity.this, data);
+//                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     ToastUtils.showShort(msg);
                 }
@@ -1342,6 +1362,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                             getChannelType(payNameList.get(i).getType());
                         }
                         payNameAdapter.notifyDataSetChanged();
+
+
+
                     }
 
                 } else {
@@ -1420,6 +1443,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             chargeMoneyBeans.add(bean);
         }
         chargeMoneyAdapter.notifyDataSetChanged();
+
+
+        channelCode=   payWayList.get(pos).getChannelCode();
+        mType=   payWayList.get(pos).getType();
     }
 
     private void setMoneyColor(TextView tv){//#FFD14F
