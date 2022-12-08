@@ -2,8 +2,11 @@ package com.live.fox.server;
 
 import com.google.gson.Gson;
 import com.live.fox.Constant;
+import com.live.fox.common.CommonApp;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.manager.SPManager;
+import com.live.fox.utils.DeviceIdUtils;
+import com.live.fox.utils.IPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
 
@@ -123,6 +126,35 @@ public class Api_Pay extends BaseApi {
                 url,
                 getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
                 new Gson().toJson(params))
+                .execute(callback);
+    }
+
+
+//    {
+//        "amount": 0,
+//            "channelCode": "",
+//            "channelType": "",
+//    }
+    public void pay( String amount, String channelCode,String channelType, JsonCallback callback) {
+        long money = Long.parseLong(amount);
+
+
+        String url = SPManager.getServerDomain() + Constant.URL.pay;
+
+        String deviceId = DeviceIdUtils.getAndroidId(CommonApp.getInstance()).substring(0, 6);
+        HashMap<String, Object> params = getCommonParams();
+        params.put("amount", money);
+        params.put("channelCode", channelCode);
+        params.put("channelType", channelType);
+        params.put("deviceId", deviceId);
+        params.put("deviceType", "android");
+        params.put("ipAddress", IPUtils.getLocalIpAddress());
+
+        OkGoHttpUtil.getInstance().doJsonPost(
+                        "",
+                        url,
+                        getCommonHeaders(Long.parseLong(params.get("timestamp").toString())),
+                        new Gson().toJson(params))
                 .execute(callback);
     }
 

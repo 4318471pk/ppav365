@@ -248,6 +248,7 @@ public class Constant {
         public static final String Live_chat_URL = LiveClient + "/live/room/chat/send";              //直播间发言
         public static final String Live_heart_URL = LiveClient + "/live/heart";            //主播心跳 30s
         public static final String Live_list_URL = LiveClient + "/home/channel/list";              //开播列表
+        public static final String recommended = LiveClient + "/home/recommended/list";              //首页推荐列表接口
         public static final String Live_recordlist_URL = LiveClient + "/live/record/list";  //开播记录列表
         public static final String Live_start_URL = LiveClient + "/live/start";            //开播
         public static final String Live_stop_URL = LiveClient + "/live/stop";              //关播
@@ -312,6 +313,8 @@ public class Constant {
         public static final String Pay_kickout_URL = PayClient + "/kickout";            //通知玩家退出
         public static final String Pay_betRank_URL = PayClient + "/betRank";            //投注流水排行
         public static final String Pay_rankdetail_URL = PayClient + "/rank/detail";     //投注流水排行
+
+
 
         /**
          * fuse-client 下面的接口
@@ -379,7 +382,7 @@ public class Constant {
         public static final String ORDER_BANK_URL = OrderClient + "/pay/bank/list1";//"银行卡
         public static final String ORDER_BANK_RECHARGE_URL = OrderClient + "/pay/bank/recharge";//"银行卡 转账";
         public static final String ORDER_USDT_RECHARGE_URL = OrderClient + "/pay/ustd/recharge";//"银行卡 转账";
-
+        public static final String pay = "/order/payment/pay";            //
         /**
          * cp 下面的接口
          */

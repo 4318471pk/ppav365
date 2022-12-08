@@ -203,7 +203,7 @@ public class RecommendListFragment extends BaseBindingFragment {
 
     public void doGetLiveListApi() {
 
-        Api_Live.ins().getLiveList(0, new JsonCallback<HomeFragmentRoomListBean>() {
+        Api_Live.ins().recommended(0, new JsonCallback<HomeFragmentRoomListBean>() {
 
             @Override
             public void onFinish() {

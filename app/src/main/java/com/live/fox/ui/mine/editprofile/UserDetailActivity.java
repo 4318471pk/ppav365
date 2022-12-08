@@ -508,6 +508,10 @@ public class UserDetailActivity extends BaseActivity  {
         Api_Rank.ins().getContributionRankList("",uid,new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
+
+                if(data==null){
+                    return;
+                }
                 Log.e("getContributionList",data);
                 if(code==0 )
                 {
