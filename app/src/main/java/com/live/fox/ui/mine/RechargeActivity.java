@@ -857,6 +857,22 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         AppIMManager.ins().removeMessageReceivedListener(RechargeActivity.class);
+
+        if(payWayMap!=null){
+            payWayMap.clear();
+        }
+    }
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(payWayMap!=null){
+            payWayMap.clear();
+        }
+
     }
 
     String type;
@@ -1817,6 +1833,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private boolean needAppend() {
         return !AppConfig.isThLive();
     }
+
 
 
 
