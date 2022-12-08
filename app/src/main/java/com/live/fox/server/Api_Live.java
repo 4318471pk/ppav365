@@ -11,6 +11,7 @@ import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.entity.BlackOrMuteListItemBean;
 import com.live.fox.entity.EnterRoomBean;
 import com.live.fox.entity.HomeFragmentRoomListBean;
+import com.live.fox.entity.HomeRecommendRoomListBean;
 import com.live.fox.entity.LivingCurrentAnchorBean;
 import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.LivingRoomAdminListBean;
@@ -387,17 +388,16 @@ public class Api_Live extends BaseApi {
                 .execute(callback);
     }
 
-    public void recommended(int type, JsonCallback<HomeFragmentRoomListBean> callback) {
+    public void recommended(int type, JsonCallback<HomeRecommendRoomListBean> callback) {
         String url = SPManager.getServerDomain() + Constant.URL.recommended;
         callback.setUrlTag(Constant.URL.recommended);
         HashMap<String, Object> params = getCommonParams();
         params.put("type", type + "");
 
-        OkGoHttpUtil.getInstance().doJsonPost(
+        OkGoHttpUtil.getInstance().doGet(
                         "",
                         url,
-                        getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))),
-                        new Gson().toJson(params))
+                        getCommonHeaders(Long.parseLong(String.valueOf(params.get("timestamp")))))
                 .execute(callback);
     }
 
