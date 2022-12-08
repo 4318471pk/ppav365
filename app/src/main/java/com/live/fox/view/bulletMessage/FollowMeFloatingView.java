@@ -2,6 +2,7 @@ package com.live.fox.view.bulletMessage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,10 @@ public class FollowMeFloatingView extends RelativeLayout {
     {
         if(bean!=null)
         {
-            GlideUtils.loadCircleImage(getContext(),bean.getAvatar(),0,0,civProfileImage);
+            if(!TextUtils.isEmpty(bean.getAvatar()))
+            {
+                GlideUtils.loadCircleImage(getContext(),bean.getAvatar(),0,0,civProfileImage);
+            }
             gtvFollow.setOnClickListener(new OnClickFrequentlyListener() {
                 @Override
                 public void onClickView(View view) {

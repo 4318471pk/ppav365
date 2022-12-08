@@ -234,6 +234,11 @@ public class LivingControlPanel extends RelativeLayout {
 
     public void onClickView(View view)
     {
+        if(!isActivityOK())
+        {
+            return;
+        }
+
         if(ClickUtil.isClickWithShortTime(view.getId(),500))
         {
             return;
