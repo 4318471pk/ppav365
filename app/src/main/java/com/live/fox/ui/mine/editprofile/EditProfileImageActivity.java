@@ -148,7 +148,7 @@ public class EditProfileImageActivity extends BaseActivity {
                     }
                     File pic=new File(folderDir.getPath()+"/"+System.currentTimeMillis()+".png");
 
-                    PictureFileUtils.saveBitmapToPNGFile(bitmap,pic,80);
+                    PictureFileUtils.saveBitmapToPNGFile(bitmap,pic,100);
                     LogUtils.e("上传头像地址：" + pic.getAbsolutePath());
 
                     Intent intent=new Intent();

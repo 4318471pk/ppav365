@@ -135,9 +135,11 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
 
         if (!userinfo.getAvatar().equals(headUrl)) {
             headUrl = userinfo.getAvatar();
-            GlideUtils.loadCircleOnePxRingImage(requireActivity(), userinfo.getAvatar(),
-                    Color.parseColor("#979797"),
-                    R.color.transparent, R.mipmap.user_head_error, mBind.ivHeadimg);
+//            GlideUtils.loadCircleOnePxRingImage(requireActivity(), userinfo.getAvatar(),
+//                    R.color.transparent,
+//                    R.color.transparent, R.mipmap.user_head_error, mBind.ivHeadimg);
+
+            GlideUtils.loadCircleImage(requireActivity(),userinfo.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.ivHeadimg);
         }
 
         mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f).doubleValue()));

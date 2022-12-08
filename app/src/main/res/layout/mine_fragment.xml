@@ -107,19 +107,15 @@
                             android:layout_height="95dp"
                             android:layout_marginLeft="17dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
+                            <ImageView
                                 android:id="@+id/iv_headimg"
                                 android:layout_width="95dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="95dp"
                                 android:onClick="@{click.onClickView}"
                                 android:layout_centerInParent="true"
-                                android:elevation="6dp"
-                                android:padding="2dp"
                                 android:scaleType="centerCrop"
                                 android:src="@mipmap/user_head_error"
-                                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-                                app:strokeColor="@color/white"
-                                app:strokeWidth="2dp" />
+                                />
 
                             <ImageView
                                 android:visibility="gone"

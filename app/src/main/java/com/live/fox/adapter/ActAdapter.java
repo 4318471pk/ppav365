@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.live.fox.R;
 import com.live.fox.entity.ActBean;
 import com.live.fox.utils.GlideUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.TimeUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -33,7 +34,7 @@ public class ActAdapter extends BaseQuickAdapter<ActBean, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, ActBean data) {
         RoundedImageView iv = helper.getView(R.id.iv);//
-        Glide.with(mContext).load(data.getImgUrl()).error(defaultDrawable).listener(new RequestListener() {
+        Glide.with(mContext).load(Strings.urlConnect(data.getImgUrl())).error(defaultDrawable).listener(new RequestListener() {
             @Override
             public boolean onLoadFailed(@Nullable @org.jetbrains.annotations.Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                 iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
