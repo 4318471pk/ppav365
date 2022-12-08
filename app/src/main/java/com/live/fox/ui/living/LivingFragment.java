@@ -1471,6 +1471,10 @@ public class LivingFragment extends BaseBindingFragment {
 
     private void showInsufficientBalanceDialog()
     {
+        if(DialogFramentManager.getInstance().isShowLoading(TempleDialog2.class.getName()))
+        {
+            return;
+        }
         TempleDialog2 templeDialog= TempleDialog2.getInstance();
         templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
             @Override
@@ -1507,6 +1511,10 @@ public class LivingFragment extends BaseBindingFragment {
 
     private void showInsufficientDiamondDialog()
     {
+        if(DialogFramentManager.getInstance().isShowLoading(TempleDialog2.class.getName()))
+        {
+            return;
+        }
         TempleDialog2 templeDialog= TempleDialog2.getInstance();
         templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
             @Override

@@ -233,7 +233,8 @@ public class UserDetailActivity extends BaseActivity  {
       //  mBind.tvFansnum.setText("");
 
         Long localUID=DataCenter.getInstance().getUserInfo().getUser().getUid();
-        if (uid!=null && localUID!=null && uid.longValue() == localUID.longValue()) {
+        boolean isSelf=uid!=null && localUID!=null && uid.longValue() == localUID.longValue();
+        if (isSelf) {
             mBind.btnFollow.setVisibility(View.GONE);
 
             mBind.editProfileImage.setVisibility(View.VISIBLE);
@@ -315,7 +316,7 @@ public class UserDetailActivity extends BaseActivity  {
 
         updateFollow();
 
-        if(mUser.getBroadcast() && !TextUtils.isEmpty(mUser.getLiveId()))
+        if(mUser.getBroadcast() && !TextUtils.isEmpty(mUser.getLiveId()) && !isSelf)
         {
             RoomListBean roomListBean=new RoomListBean();
             roomListBean.setId(mUser.getLiveId());

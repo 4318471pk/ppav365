@@ -185,6 +185,10 @@ public final class Strings {
         if (val == null) {
             return "";
         }
+        if(length==0)
+        {
+            return val.intValue()+"";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("##0.");
         for (int i = 0; i < length; i++) {
@@ -207,7 +211,12 @@ public final class Strings {
         decimalFormat.setRoundingMode(RoundingMode.FLOOR);
         if (!TextUtils.isEmpty(val)) {
             try {
-                String format = decimalFormat.format(new BigDecimal(val));
+                BigDecimal bigDecimal=new BigDecimal(val);
+                if(length==0)
+                {
+                    return bigDecimal.intValue()+"";
+                }
+                String format = decimalFormat.format(bigDecimal);
                 return format;
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -215,6 +224,32 @@ public final class Strings {
         }
 
         return val;
+    }
+
+    //length 代表保留几位
+    public static String cutOff(Float val, int length) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("##0.");
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append("0");
+        }
+        DecimalFormat decimalFormat = new DecimalFormat(stringBuilder.toString());
+        decimalFormat.setRoundingMode(RoundingMode.FLOOR);
+        if (val!=null) {
+            try {
+                BigDecimal bigDecimal=new BigDecimal(val);
+                if(length==0)
+                {
+                    return bigDecimal.intValue()+"";
+                }
+                String format = decimalFormat.format(bigDecimal);
+                return format;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return "";
     }
 
     //url connection
