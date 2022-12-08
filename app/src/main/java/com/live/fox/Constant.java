@@ -377,12 +377,13 @@ public class Constant {
          * order 下面的接口
          */
         public static final String OrderClient = "/order";
+        public static final String OrderPay ="/order/payment/pay";//调用充值接口
+
         public static final String Order_payvipchannel_URL = OrderClient + "/pay/vip/channel";       //vip充值通道列表
         public static final String ORDER_AGENT_URL = OrderClient + "/pay/agent/list";//"代理充值列表";
         public static final String ORDER_BANK_URL = OrderClient + "/pay/bank/list1";//"银行卡
         public static final String ORDER_BANK_RECHARGE_URL = OrderClient + "/pay/bank/recharge";//"银行卡 转账";
         public static final String ORDER_USDT_RECHARGE_URL = OrderClient + "/pay/ustd/recharge";//"银行卡 转账";
-        public static final String pay = "/order/payment/pay";            //
         /**
          * cp 下面的接口
          */

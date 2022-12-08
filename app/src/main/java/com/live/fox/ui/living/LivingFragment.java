@@ -279,7 +279,7 @@ public class LivingFragment extends BaseBindingFragment {
     public void onResume() {
         super.onResume();
         if (mLivePlayer != null) {
-            mLivePlayer.pause();
+            mLivePlayer.resume();
         }
     }
 

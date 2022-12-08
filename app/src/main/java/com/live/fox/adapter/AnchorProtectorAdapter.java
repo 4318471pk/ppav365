@@ -11,6 +11,7 @@ import com.live.fox.entity.AnchorGuardListBean;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.view.RankProfileView;
 
 import java.util.List;
@@ -32,14 +33,29 @@ public class AnchorProtectorAdapter extends BaseQuickAdapter<AnchorGuardListBean
     @Override
     protected void convert(ProtectListHolder helper, AnchorGuardListBean.LiveGuardBean item) {
         SpanUtils spanUtils=new SpanUtils();
-        ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(), context);
-        ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,item.getVipLevel(), context);
+        if(ChatSpanUtils.appendLevelIcon(spanUtils,item.getUserLevel(),context))
+        {
+            spanUtils.append(" ");
+        }
+        if(ChatSpanUtils.appendVipLevelRectangleIcon(spanUtils,item.getVipLevel(),context))
+        {
+            spanUtils.append(" ");
+        }
+        if(Strings.isDigitOnly(item.getGuardLevel()))
+        {
+            if(ChatSpanUtils.appendGuardIcon(spanUtils,Integer.valueOf(item.getGuardLevel()),context))
+            {
+                spanUtils.append(" ");
+            }
+        }
+
         helper.tvNickName.setText(item.getNickname());
         helper.tvIcons.setText(spanUtils.create());
 
-//        StringBuilder stringBuilder=new StringBuilder();
-//        stringBuilder.append(context.getString(R.string.gongxianzhi)).append(item.get);
-//        helper.tvHuo.setText();
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(context.getString(R.string.gongxianzhi)).append(" ")
+                .append(item.getWeekUpAmount()).append(context.getString(R.string.power));
+        helper.tvHuo.setText(stringBuilder.toString());
         helper.rpv.setIndex(RankProfileView.NONE,item.getVipLevel(),false);
         GlideUtils.loadCircleImage(context,item.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,helper.rpv.getProfileImage());
     }

@@ -54,8 +54,8 @@ public class AnchorGuardListBean {
         public int userLevel;
         public int vipLevel;
         public String vipName;
-        public int sendDiamond;
-        public int weekUpAmount;
+        public Integer sendDiamond;
+        public Integer weekUpAmount;
 
         public int getId() {
             return id;
@@ -202,7 +202,7 @@ public class AnchorGuardListBean {
         }
 
         public int getSendDiamond() {
-            return sendDiamond;
+            return sendDiamond==null?0:sendDiamond;
         }
 
         public void setSendDiamond(int sendDiamond) {
@@ -210,10 +210,10 @@ public class AnchorGuardListBean {
         }
 
         public int getWeekUpAmount() {
-            return weekUpAmount;
+            return weekUpAmount==null?0:weekUpAmount;
         }
 
-        public void setWeekUpAmount(int weekUpAmount) {
+        public void setWeekUpAmount(Integer weekUpAmount) {
             this.weekUpAmount = weekUpAmount;
         }
     }

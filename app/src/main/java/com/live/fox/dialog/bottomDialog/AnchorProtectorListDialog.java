@@ -37,6 +37,7 @@ import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 
 import org.jetbrains.annotations.NotNull;
@@ -262,9 +263,12 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             {
                 spanUtils.append(" ");
             }
-            if(ChatSpanUtils.appendGuardIcon(spanUtils,liveGuardBean.getVipLevel(),getActivity()))
+            if(Strings.isDigitOnly(liveGuardBean.getGuardLevel()))
             {
-                spanUtils.append(" ");
+                if(ChatSpanUtils.appendGuardIcon(spanUtils,Integer.valueOf(liveGuardBean.getGuardLevel()),getActivity()))
+                {
+                    spanUtils.append(" ");
+                }
             }
             mBind.tvIcons.setText(spanUtils.create());
             mBind.tvNickName.setText(liveGuardBean.getNickname());
@@ -315,7 +319,7 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                         if(list.size()>0)
                         {
                             StringBuilder sb=new StringBuilder();
-                            sb.append(getStringWithoutContext(R.string.protect)).append("(").append(list.size()).append(")");
+                            sb.append(getStringWithoutContext(R.string.protect)).append("(").append(anchorGuardListBean.getGuardCount()).append(")");
                             mBind.tvDialogTitle.setText(sb.toString());
                         }
                         else
