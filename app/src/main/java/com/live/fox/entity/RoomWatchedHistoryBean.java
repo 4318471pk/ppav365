@@ -14,7 +14,7 @@ public class RoomWatchedHistoryBean {
     private String title;
     private String aid;
     private String roomIcon;
-    private int liveChannel;
+    private String liveChannel;
     private int roomCategory;
     private int categoryId;
     private int categoryType;
@@ -28,9 +28,9 @@ public class RoomWatchedHistoryBean {
     private String isPayOver;
     private String roomPrice;
 
-    @Generated(hash = 1198923173)
+    @Generated(hash = 513013877)
     public RoomWatchedHistoryBean(Long id, String liveId, String title, String aid,
-            String roomIcon, int liveChannel, int roomCategory, int categoryId,
+            String roomIcon, String liveChannel, int roomCategory, int categoryId,
             int categoryType, int roomType, int status, int liveSum, int option,
             String videoUrl, int hot, int recommend, String isPayOver,
             String roomPrice) {
@@ -90,11 +90,11 @@ public class RoomWatchedHistoryBean {
         this.roomIcon = roomIcon;
     }
 
-    public int getLiveChannel() {
+    public String getLiveChannel() {
         return liveChannel;
     }
 
-    public void setLiveChannel(int liveChannel) {
+    public void setLiveChannel(String liveChannel) {
         this.liveChannel = liveChannel;
     }
 
