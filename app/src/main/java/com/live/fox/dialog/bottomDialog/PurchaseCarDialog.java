@@ -17,6 +17,7 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.server.BaseApi;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -71,11 +72,11 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
         mBind.tvName.setText(myBagStoreListItemBean.getName());
         GlideUtils.loadDefaultImage(this.getContext(), myBagStoreListItemBean.getLogUrl(),0,R.mipmap.img_error ,mBind.ivCar);
 
-        mBind.tvMoneyBuy.setText(String.format(getString(R.string.buy_car_money), myBagStoreListItemBean.getPrice()+""));
-        mBind.tvMoneyXu.setText(String.format(getString(R.string.xu_car_money), myBagStoreListItemBean.getPrice() + ""));
+        mBind.tvMoneyBuy.setText(String.format(getString(R.string.buy_car_money), Strings.cutOff(myBagStoreListItemBean.getPrice(),0)));
+        mBind.tvMoneyXu.setText(String.format(getString(R.string.xu_car_money),  Strings.cutOff(myBagStoreListItemBean.getPrice(),0)));
 
         SpanUtils spanUtils=new SpanUtils();
-        spanUtils.append(String.format(getString(R.string.all), myBagStoreListItemBean.getPrice() + ""));
+        spanUtils.append(String.format(getString(R.string.all), Strings.cutOff(myBagStoreListItemBean.getPrice(),0)));
         spanUtils.append(" ");
         spanUtils.appendImage(getResources().getDrawable(R.mipmap.icon_diamond),SpanUtils.ALIGN_BASELINE);
 

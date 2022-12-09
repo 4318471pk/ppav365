@@ -9,4 +9,5 @@
     <item name="txLivingVideoView" type="id"/>
     <item name="rankTopView" type="id"/>
     <item name="rankBotView" type="id"/>
+    <item name="txCloudVideoView" type="id"/>
 </resources>

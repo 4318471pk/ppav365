@@ -80,10 +80,13 @@ import com.opensource.svgaplayer.SVGAParser;
 import com.opensource.svgaplayer.SVGAVideoEntity;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
+import com.tencent.live2.V2TXLivePlayer;
 import com.tencent.rtmp.ITXLivePlayListener;
+import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
+import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import org.jetbrains.annotations.NotNull;
@@ -119,7 +122,8 @@ public class LivingFragment extends BaseBindingFragment {
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     List<SvgAnimateLivingBean> livingMessageGiftBeans = new LinkedList<>();//播放SVGA的数组
-    TXLivePlayer mLivePlayer = null;
+    TXLivePlayer mLivePlayer = null;//流播放器
+    TXVodPlayer mVodPlayer=null;//点播器 用于播放视频，不是直播流
     private TXLivePlayConfig mTXPlayConfig;
     public LivingCurrentAnchorBean livingCurrentAnchorBean;//当前主播的数据
     private RoomListBean currentRoomListBean;
@@ -273,6 +277,10 @@ public class LivingFragment extends BaseBindingFragment {
         if (mLivePlayer != null) {
             mLivePlayer.pause();
         }
+        if(mVodPlayer!=null)
+        {
+            mVodPlayer.pause();
+        }
     }
 
     @Override
@@ -280,6 +288,10 @@ public class LivingFragment extends BaseBindingFragment {
         super.onResume();
         if (mLivePlayer != null) {
             mLivePlayer.resume();
+        }
+        if(mVodPlayer!=null)
+        {
+            mVodPlayer.resume();
         }
     }
 
@@ -289,7 +301,10 @@ public class LivingFragment extends BaseBindingFragment {
         if (mLivePlayer != null) {
             mLivePlayer.stopPlay(true);
         }
-
+        if(mVodPlayer!=null)
+        {
+            mVodPlayer.stopPlay(true);
+        }
     }
 
     private void initView() {
@@ -359,18 +374,11 @@ public class LivingFragment extends BaseBindingFragment {
         livingMsgBoxAdapter = null;
         livingMsgBoxBeans.clear();
 
-        mTXPlayConfig = new TXLivePlayConfig();
-        mLivePlayer = new TXLivePlayer(getActivity());
-        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
-        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
-        mLivePlayer.enableHardwareDecode(false);
-        setLivePlayerListener();
-        setPlayMode(2, mLivePlayer);
-
         TXCloudVideoView txCloudVideoView = new TXCloudVideoView(getActivity());
+        txCloudVideoView.setId(R.id.txCloudVideoView);
         txCloudVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mBind.rlContent.addView(txCloudVideoView,1);
-        mLivePlayer.setPlayerView(txCloudVideoView);
+
 
         MyViewPager viewPager = new MyViewPager(getActivity());
         viewPager.setId(R.id.livingViewPager);
@@ -594,6 +602,11 @@ public class LivingFragment extends BaseBindingFragment {
                 mLivePlayer.stopPlay(true);
                 mLivePlayer = null;
             }
+            if (mVodPlayer != null) {
+                mVodPlayer.stopPlay(true);
+                mLivePlayer = null;
+            }
+
             TXCloudVideoView txCloudVideoView = getView().findViewById(R.id.txLivingVideoView);
             ViewPager viewPager = getView().findViewById(R.id.livingViewPager);
 
@@ -625,12 +638,78 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
+    private void setVodPlayerListener()
+    {
+        mVodPlayer.setVodListener(new ITXVodPlayListener() {
+            @Override
+            public void onPlayEvent(TXVodPlayer txVodPlayer, int event, Bundle bundle) {
+                LogUtils.e("VodPlayer状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
+                if(!isActivityOK())return;
+
+                if (event == TXLiveConstants.PLAY_EVT_CONNECT_SUCC) {
+                    // 2001 連接服務器成功
+                } else if (event == TXLiveConstants.PLAY_EVT_RTMP_STREAM_BEGIN) {
+                    // 2002 已經連接服務器，開始拉流（僅播放RTMP地址時會抛送）
+//            dimissLiveLoadingAnimation();
+//            content.setBackground(null);
+                } else if (event == TXLiveConstants.PLAY_EVT_RCV_FIRST_I_FRAME) {
+                    mBind.ivBG.setVisibility(View.GONE);
+                    mBind.txVideoView.setVisibility(View.VISIBLE);
+                    // 2003 網絡接收到首個可渲染的視頻數據包(IDR)
+//                    dismissLiveLoadingAnimation();
+//                    LogUtils.e(Constant.mTXLivePlayer.isPlaying() + ",");
+//                    LogUtils.e((Constant.mTXLivePlayer == null) + ",");
+//                    LogUtils.e((mTXCloudVideoView == null) + ",");
+//                    listener.onPlayIsFinish(true);
+                } else if (event == TXLiveConstants.PLAY_EVT_PLAY_BEGIN) {
+                    // 2004 視頻播放開始，如果有轉菊花什麽的這個時候該停了
+//                    if (coverIv.getVisibility() == View.VISIBLE) {
+//                        //说明是第一次加载 则不做任何处理
+//                    } else {
+//                        // 卡顿后的流恢复
+//                        dismissLiveLoadingAnimation();
+//                    }
+
+                } else if (event == TXLiveConstants.PLAY_EVT_PLAY_LOADING) {
+                    // 2007 視頻播放loading，如果能夠恢複，之後會有BEGIN事件
+//                    showLiveLoadingAnimation();
+                } else if (event == TXLiveConstants.PLAY_EVT_CHANGE_RESOLUTION) {
+                    //2009 分辨率改变
+
+                } else if (event == TXLiveConstants.PUSH_WARNING_NET_BUSY) {
+
+                }
+
+                /**
+                 *  結束事件
+                 */
+                if (event == TXLiveConstants.PLAY_EVT_PLAY_END) {
+                    // 2006 視頻播放結束
+
+                } else if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {
+                    //  -2301 网络多次重连失败失败后 会返回此值
+                    mBind.txVideoView.setVisibility(View.GONE);
+                    mBind.ivBG.setVisibility(View.VISIBLE);
+//                    clearStop();
+//                    if (isAdded()) {
+//                        networkDisconnect();
+//                    }
+                }
+            }
+
+            @Override
+            public void onNetStatus(TXVodPlayer txVodPlayer, Bundle bundle) {
+
+            }
+        });
+    }
 
     private void setLivePlayerListener() {
         mLivePlayer.setPlayListener(new ITXLivePlayListener() {
             @Override
             public void onPlayEvent(int event, Bundle bundle) {
-                LogUtils.e("视频播放状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
+                LogUtils.e("LivePlayer状态监听 " + event + ", " + bundle.getString(TXLiveConstants.EVT_DESCRIPTION));
+                if(!isActivityOK())return;
 
                 if (event == TXLiveConstants.PLAY_EVT_CONNECT_SUCC) {
                     // 2001 連接服務器成功
@@ -766,17 +845,31 @@ public class LivingFragment extends BaseBindingFragment {
 
                                 }
 
-                                if (!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl()) && mLivePlayer != null) {
+                                if (!TextUtils.isEmpty(enterRoomBean.getPullStreamUrl())) {
                                     if (!PlayerUtils.checkPlayUrl(enterRoomBean.getPullStreamUrl(), getActivity())) {
                                         return;
                                     }
 
+                                    TXCloudVideoView txCloudVideoView= mBind.rlContent.findViewById(R.id.txCloudVideoView);
                                     //是否真实直播间(0虚拟 1真实)
                                     switch (enterRoomBean.getIsReal()) {
                                         case 0:
-                                            mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), PlayerUtils.getVideoType(enterRoomBean.getPullStreamUrl()));
+                                            mVodPlayer= new TXVodPlayer(getActivity());
+                                            setVodPlayerListener();
+                                            mVodPlayer.setLoop(true);
+                                            mVodPlayer.setPlayerView(txCloudVideoView);
+                                            mVodPlayer.startPlay(enterRoomBean.getPullStreamUrl());
                                             break;
                                         case 1:
+                                            mTXPlayConfig = new TXLivePlayConfig();
+                                            mLivePlayer = new TXLivePlayer(getActivity());
+                                            mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
+                                            mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+                                            mLivePlayer.enableHardwareDecode(false);
+                                            setLivePlayerListener();
+                                            setPlayMode(2, mLivePlayer);
+
+                                            mLivePlayer.setPlayerView(txCloudVideoView);
                                             mLivePlayer.startPlay(enterRoomBean.getPullStreamUrl(), PlayerUtils.getVideoType(enterRoomBean.getPullStreamUrl()));
                                             break;
                                     }
@@ -1025,7 +1118,10 @@ public class LivingFragment extends BaseBindingFragment {
                             getOutOfRoom(getRoomBean().getId());
                             mBind.ivBG.setVisibility(View.VISIBLE);
                             mBind.txVideoView.setVisibility(View.GONE);
-                            mLivePlayer.pause();
+                            if(mLivePlayer!=null)
+                            {
+                                mLivePlayer.pause();
+                            }
 
                             BigDecimal gold= DataCenter.getInstance().getUserInfo().getUser().getGold();
                             if(gold!=null && gold.compareTo(new BigDecimal(0))!=1)
@@ -1448,7 +1544,10 @@ public class LivingFragment extends BaseBindingFragment {
         getOutOfRoom(getRoomBean().getId());
         mBind.ivBG.setVisibility(View.VISIBLE);
         mBind.txVideoView.setVisibility(View.GONE);
-        mLivePlayer.pause();
+        if(mLivePlayer!=null)
+        {
+            mLivePlayer.pause();
+        }
 
         TempleDialog2 templeDialog= TempleDialog2.getInstance();
         templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
