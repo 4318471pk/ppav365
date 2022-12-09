@@ -159,8 +159,11 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
             levelImge=(getResources().getDrawable(R.mipmap.wang_kuang));
         }
 
-        if(levelImge!=null){
-
+        if(levelImge==null){
+            mBind.ivHeadimg2.setVisibility(View.GONE);
+        }else {
+            mBind.ivHeadimg2.setImageDrawable(levelImge);
+            mBind.ivHeadimg2.setVisibility(View.VISIBLE);
         }
 
 

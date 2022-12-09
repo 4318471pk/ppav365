@@ -29,7 +29,7 @@ public class RoomWatchedHistoryBeanDao extends AbstractDao<RoomWatchedHistoryBea
         public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
         public final static Property Aid = new Property(3, String.class, "aid", false, "AID");
         public final static Property RoomIcon = new Property(4, String.class, "roomIcon", false, "ROOM_ICON");
-        public final static Property LiveChannel = new Property(5, int.class, "liveChannel", false, "LIVE_CHANNEL");
+        public final static Property LiveChannel = new Property(5, String.class, "liveChannel", false, "LIVE_CHANNEL");
         public final static Property RoomCategory = new Property(6, int.class, "roomCategory", false, "ROOM_CATEGORY");
         public final static Property CategoryId = new Property(7, int.class, "categoryId", false, "CATEGORY_ID");
         public final static Property CategoryType = new Property(8, int.class, "categoryType", false, "CATEGORY_TYPE");
@@ -62,7 +62,7 @@ public class RoomWatchedHistoryBeanDao extends AbstractDao<RoomWatchedHistoryBea
                 "\"TITLE\" TEXT," + // 2: title
                 "\"AID\" TEXT," + // 3: aid
                 "\"ROOM_ICON\" TEXT," + // 4: roomIcon
-                "\"LIVE_CHANNEL\" INTEGER NOT NULL ," + // 5: liveChannel
+                "\"LIVE_CHANNEL\" TEXT," + // 5: liveChannel
                 "\"ROOM_CATEGORY\" INTEGER NOT NULL ," + // 6: roomCategory
                 "\"CATEGORY_ID\" INTEGER NOT NULL ," + // 7: categoryId
                 "\"CATEGORY_TYPE\" INTEGER NOT NULL ," + // 8: categoryType
@@ -111,7 +111,11 @@ public class RoomWatchedHistoryBeanDao extends AbstractDao<RoomWatchedHistoryBea
         if (roomIcon != null) {
             stmt.bindString(5, roomIcon);
         }
-        stmt.bindLong(6, entity.getLiveChannel());
+ 
+        String liveChannel = entity.getLiveChannel();
+        if (liveChannel != null) {
+            stmt.bindString(6, liveChannel);
+        }
         stmt.bindLong(7, entity.getRoomCategory());
         stmt.bindLong(8, entity.getCategoryId());
         stmt.bindLong(9, entity.getCategoryType());
@@ -166,7 +170,11 @@ public class RoomWatchedHistoryBeanDao extends AbstractDao<RoomWatchedHistoryBea
         if (roomIcon != null) {
             stmt.bindString(5, roomIcon);
         }
-        stmt.bindLong(6, entity.getLiveChannel());
+ 
+        String liveChannel = entity.getLiveChannel();
+        if (liveChannel != null) {
+            stmt.bindString(6, liveChannel);
+        }
         stmt.bindLong(7, entity.getRoomCategory());
         stmt.bindLong(8, entity.getCategoryId());
         stmt.bindLong(9, entity.getCategoryType());
@@ -206,7 +214,7 @@ public class RoomWatchedHistoryBeanDao extends AbstractDao<RoomWatchedHistoryBea
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // title
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // aid
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // roomIcon
-            cursor.getInt(offset + 5), // liveChannel
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // liveChannel
             cursor.getInt(offset + 6), // roomCategory
             cursor.getInt(offset + 7), // categoryId
             cursor.getInt(offset + 8), // categoryType
@@ -230,7 +238,7 @@ public class RoomWatchedHistoryBeanDao extends AbstractDao<RoomWatchedHistoryBea
         entity.setTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setAid(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setRoomIcon(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setLiveChannel(cursor.getInt(offset + 5));
+        entity.setLiveChannel(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setRoomCategory(cursor.getInt(offset + 6));
         entity.setCategoryId(cursor.getInt(offset + 7));
         entity.setCategoryType(cursor.getInt(offset + 8));

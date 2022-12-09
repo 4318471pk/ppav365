@@ -12,7 +12,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
     private String title;
     private String aid;
     private String roomIcon;
-    private int liveChannel;
+    private String liveChannel;
     private int roomCategory;
     private int categoryId;
     private int categoryType;
@@ -37,7 +37,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         title = in.readString();
         aid = in.readString();
         roomIcon = in.readString();
-        liveChannel = in.readInt();
+        liveChannel = in.readString();
         roomCategory = in.readInt();
         categoryId = in.readInt();
         categoryType = in.readInt();
@@ -96,11 +96,11 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         this.roomIcon = roomIcon;
     }
 
-    public int getLiveChannel() {
+    public String getLiveChannel() {
         return liveChannel;
     }
 
-    public void setLiveChannel(int liveChannel) {
+    public void setLiveChannel(String liveChannel) {
         this.liveChannel = liveChannel;
     }
 
@@ -211,7 +211,7 @@ public class RoomListBean extends SectionEntity implements Parcelable {
         dest.writeString(title);
         dest.writeString(aid);
         dest.writeString(roomIcon);
-        dest.writeInt(liveChannel);
+        dest.writeString(liveChannel);
         dest.writeInt(roomCategory);
         dest.writeInt(categoryId);
         dest.writeInt(categoryType);
