@@ -23,6 +23,15 @@ public class RankItemBean {
     private String vipName;
     private boolean isFollow;
     private Boolean isBroadcast;
+    private Boolean isAnchor;
+
+    public Boolean getAnchor() {
+        return isAnchor;
+    }
+
+    public void setAnchor(Boolean anchor) {
+        isAnchor = anchor;
+    }
 
     public String getAnchorId() {
         return anchorId;

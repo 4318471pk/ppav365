@@ -537,8 +537,13 @@ public class LivingFragment extends BaseBindingFragment {
                         if (list != null && list.length() > 0) {
                             List<RoomListBean> listBeans = new ArrayList<>();
                             for (int i = 0; i < list.length(); i++) {
-                                RoomListBean bean = new Gson().fromJson(list.getJSONObject(i).toString(), RoomListBean.class);
-                                listBeans.add(bean);
+                                try {
+                                    RoomListBean bean = new Gson().fromJson(list.getJSONObject(i).toString(), RoomListBean.class);
+                                    listBeans.add(bean);
+                                }catch (Exception e){
+
+                                }
+
                             }
                             isSuccess = true;
                             activity.setRecommendListData(listBeans);

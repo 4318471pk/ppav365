@@ -2,6 +2,7 @@ package com.live.fox.ui.mine;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -135,12 +136,33 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
 
         if (!userinfo.getAvatar().equals(headUrl)) {
             headUrl = userinfo.getAvatar();
-//            GlideUtils.loadCircleOnePxRingImage(requireActivity(), userinfo.getAvatar(),
-//                    R.color.transparent,
-//                    R.color.transparent, R.mipmap.user_head_error, mBind.ivHeadimg);
+            GlideUtils.loadCircleOnePxRingImage(requireActivity(), userinfo.getAvatar(),
+                    R.color.transparent,
+                    R.color.transparent, R.mipmap.user_head_error, mBind.ivHeadimg);
 
-            GlideUtils.loadCircleImage(requireActivity(),userinfo.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.ivHeadimg);
+//            GlideUtils.loadCircleImage(requireActivity(),userinfo.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,mBind.ivHeadimg);
         }
+
+        int level=userinfo.getVipLevel();
+        Drawable levelImge=null;
+        if(level == NobleActivity.ZIJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.zi_kuang));
+        } else if(level == NobleActivity.BOJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.bo_kuagn));
+        } else if(level == NobleActivity.HOUJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.hou_kuang));
+        } else if(level == NobleActivity.GONGJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.gong_kuang));
+        } else if(level == NobleActivity.QINWANG) {
+            levelImge=(getResources().getDrawable(R.mipmap.qin_kuang));
+        } else if(level == NobleActivity.KING) {
+            levelImge=(getResources().getDrawable(R.mipmap.wang_kuang));
+        }
+
+        if(levelImge!=null){
+
+        }
+
 
         mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f).doubleValue()));
         mBind.diamondTv.setText(userinfo.getDiamond().toPlainString() + "");

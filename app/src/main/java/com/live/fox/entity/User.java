@@ -25,7 +25,7 @@ public class User implements Serializable {
     private Long uid;  //用户唯一标识
     private Long userCoin;  //用户币
     private Integer userLevel;  //用户等级
-    private Integer vipLevel;//用户Vip等级
+    private Integer vipLevel;//用户Vip等级 贵族等级
     private String city;  //地理位置
     private Long fans;  //粉丝数
     private Long follows;  //关注数

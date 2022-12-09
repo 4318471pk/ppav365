@@ -58,7 +58,13 @@ public class RankAdapter extends BaseQuickAdapter<RankItemBean, RankAdapter.Rank
 
         if(item!=null)
         {
-            helper.tvFollow.setVisibility(View.VISIBLE);
+
+            if(item.getAnchor()){
+                helper.tvFollow.setVisibility(View.VISIBLE);
+            }else {
+                helper.tvFollow.setVisibility(View.INVISIBLE);
+            }
+
             helper.tvFollow.setSelected(item.isFollow());
             helper.tvFollow.setText(item.isFollow()?followed:follow);
             helper.tvFollow.setEnabled(!item.isFollow());

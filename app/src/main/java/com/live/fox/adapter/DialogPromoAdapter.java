@@ -22,6 +22,7 @@ import com.live.fox.R;
 import com.live.fox.entity.ActBean;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.ScreenUtils;
+import com.live.fox.utils.Strings;
 import com.live.fox.utils.TimeUtils;
 import com.live.fox.view.RectangleImageWithErrorPic;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -46,7 +47,7 @@ public class DialogPromoAdapter extends BaseQuickAdapter<ActBean, BaseViewHolder
     protected void convert(BaseViewHolder helper, ActBean data) {
         RoundedImageView iv = helper.getView(R.id.rivImage);//
 
-        Glide.with(mContext).load(data.getImgUrl()).into(new CustomTarget<Drawable>() {
+        Glide.with(mContext).load(Strings.urlConnect(data.getImgUrl())).into(new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
                 iv.setBackgroundColor(0xffffffff);
