@@ -108,12 +108,19 @@
                             android:layout_marginLeft="17dp">
 
 
+                            <ImageView
+                                android:id="@+id/iv_headimg2"
+                                android:layout_width="91dp"
+                                android:layout_height="91dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                />
 
 
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/iv_headimg"
-                                android:layout_width="84dp"
-                                android:layout_height="84dp"
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
                                 android:onClick="@{click.onClickView}"
                                 android:layout_centerInParent="true"
                                 android:elevation="6dp"
@@ -125,13 +132,6 @@
                                 app:strokeWidth="2dp" />
 
 
-                            <ImageView
-                                android:id="@+id/iv_headimg2"
-                                android:layout_width="95dp"
-                                android:layout_height="95dp"
-                                android:layout_centerInParent="true"
-                                android:scaleType="centerCrop"
-                                />
 
 
                             <ImageView

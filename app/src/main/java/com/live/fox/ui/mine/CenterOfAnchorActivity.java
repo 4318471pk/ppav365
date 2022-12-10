@@ -243,7 +243,12 @@ public class CenterOfAnchorActivity extends BaseBindingViewActivity {
                 @Override
                 public void onAuthFailed(int errorCode, String msg) {
                     getTvTitleRight().setEnabled(false);
-                    ToastUtils.showShort(msg);
+                    try {
+                        ToastUtils.showShort(msg);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
             });
         }

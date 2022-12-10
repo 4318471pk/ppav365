@@ -101,8 +101,8 @@ public class AreaListSelectorDialog extends BaseBindingDialogFragment {
 
         mBind.wheel1.setViewAdapter(listWheelAdapter1);
         mBind.wheel2.setViewAdapter(listWheelAdapter2);
-        mBind.wheel1.setCyclic(true);
-        mBind.wheel2.setCyclic(true);
+        mBind.wheel1.setCyclic(false);
+        mBind.wheel2.setCyclic(false);
         mBind.wheel1.setVisibleItems(3);
         mBind.wheel2.setVisibleItems(3);
 

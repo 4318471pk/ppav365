@@ -5,7 +5,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.App;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.DialogFramentManager;
@@ -209,6 +211,9 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
                             onBuyVehicleSuccessListener.onBuySuccess();
                         }
                         ToastUtils.showShort(getStringWithoutContext(R.string.successfulOpening));
+
+
+                        RxBus.get().post(ConstantValue.refreshUser,"1");
                     } else {
                         ToastUtils.showShort(App.getInstance().getString(R.string.xufei_suc));
                     }
