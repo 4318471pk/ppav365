@@ -2,6 +2,7 @@ package com.live.fox.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,7 +54,6 @@ import com.live.fox.view.convenientbanner.holder.Holder;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
-import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,13 +95,11 @@ public class RecommendListFragment extends BaseBindingFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mBind.mvBroadcast.continueRoll();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mBind.mvBroadcast.stopRoll();
     }
 
     /**
@@ -191,10 +189,18 @@ public class RecommendListFragment extends BaseBindingFragment {
                 if(data!=null && data.size()>0)
                 {
                     List<String> strings=new ArrayList<>();
+                    StringBuilder stringBuilder=new StringBuilder();
                     for (int i = 0; i <data.size() ; i++) {
                         strings.add(data.get(i).getContent());
+                        stringBuilder.append(data.get(i).getContent()).append("  ");
                     }
-                    mBind.mvBroadcast.setContent(strings);
+                    mBind.mvBroadcast.setSingleLine();
+                    mBind.mvBroadcast.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                    mBind.mvBroadcast.setMarqueeRepeatLimit(Integer.MAX_VALUE);
+                    mBind.mvBroadcast.setFocusableInTouchMode(true);
+                    mBind.mvBroadcast.setFocusable(true);
+                    mBind.mvBroadcast.setSelected(true);
+                    mBind.mvBroadcast.setText(stringBuilder.toString());
 //                    mBind.mvBroadcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
 //                        @Override
 //                        public void onItemClick(int position, TextView textView) {
@@ -293,6 +299,22 @@ public class RecommendListFragment extends BaseBindingFragment {
             linearLayout.addView(textView);
         }
         mBind.gamesHS.addView(linearLayout);
+    }
+
+    @Override
+    public void onResumeFromPause() {
+        super.onResumeFromPause();
+        //页面返回数据刷新
+        doGetLiveListApi();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
+        {
+            doGetLiveListApi();
+        }
     }
 
     private void setAdapterNewData()

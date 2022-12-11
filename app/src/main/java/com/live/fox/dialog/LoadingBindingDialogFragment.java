@@ -109,9 +109,14 @@ public class LoadingBindingDialogFragment extends BaseBindingDialogFragment {
                 break;
         }
 
-        if(TextUtils.isEmpty(msg))
+        if(!TextUtils.isEmpty(msg))
         {
             mBind.tipTextView.setText(msg);
+            mBind.tipTextView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mBind.tipTextView.setVisibility(View.GONE);
         }
 
         if(isBgBlack)

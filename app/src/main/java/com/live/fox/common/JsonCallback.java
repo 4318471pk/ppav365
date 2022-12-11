@@ -73,8 +73,6 @@ public abstract class JsonCallback<T> extends StringCallback {
 //                }
 //            }
 
-            Log.e("CCCCC",response.code()+" "+response.body());
-
             String content = response.body();
             if (content == null) {
                 throw new IOException("The Server Result Is Null");

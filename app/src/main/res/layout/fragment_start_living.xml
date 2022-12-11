@@ -42,14 +42,14 @@
                     <com.flyco.roundview.RoundRelativeLayout
                         android:id="@+id/roundRL"
                         android:layout_width="wrap_content"
-                        android:layout_height="34dp"
+                        android:layout_height="35dp"
                         app:rv_backgroundColor="#3f000000"
                         app:rv_cornerRadius="17dp">
 
-                        <com.makeramen.roundedimageview.RoundedImageView
+                        <com.live.fox.view.RankProfileView
                             android:id="@+id/rivProfileImage"
                             android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="2dip"
                             android:onClick="@{click.onClickView}"

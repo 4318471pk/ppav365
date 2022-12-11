@@ -203,12 +203,19 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
         if(anchorGuardListBean!=null && anchorGuardListBean.getLiveGuardList()!=null && anchorGuardListBean.getLiveGuardList().size()>0)
         {
-            setTopView();
+            boolean hasTopOne=setTopView();
 
             String myUid=String.valueOf(DataCenter.getInstance().getUserInfo().getUser().getUid());
             boolean isContain=false;
             for (int i = 0; i <anchorGuardListBean.getLiveGuardList().size() ; i++) {
-                if(i>0)
+                if(hasTopOne)
+                {
+                    if(i>0)
+                    {
+                        list.add(anchorGuardListBean.getLiveGuardList().get(i));
+                    }
+                }
+                else
                 {
                     list.add(anchorGuardListBean.getLiveGuardList().get(i));
                 }
@@ -246,11 +253,15 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
         getGuardList();
     }
 
-    private void setTopView()
+    private boolean setTopView()
     {
         if (anchorGuardListBean.getLiveGuardList().size() > 0)
         {
             AnchorGuardListBean.LiveGuardBean liveGuardBean=anchorGuardListBean.getLiveGuardList().get(0);
+            if(liveGuardBean.getWeekUpAmount()==0)
+            {
+                return false;
+            }
             String tips=getResources().getString(R.string.tip11);
             mBind.tvTitle.setText(String.format(tips,liveGuardBean.getWeekUpAmount()+""));
 
@@ -281,7 +292,9 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
             mBind.tvTitle.setText(getResources().getString(R.string.protectTag2));
             mBind.tvNickName.setText("");
             mBind.tvIcons.setText("");
+            return false;
         }
+        return true;
     }
 
     private void getGuardList()
@@ -302,14 +315,21 @@ public class AnchorProtectorListDialog extends BaseBindingDialogFragment {
                             onRefreshDataListener.onRefresh(data);
                         }
                         anchorGuardListBean=data;
-                        setTopView();
+                        boolean hasTopOne=setTopView();
                         List<AnchorGuardListBean.LiveGuardBean> list=new ArrayList<>();
 
                         for (int i = 0; i < data.getLiveGuardList().size(); i++) {
                             if (data.getLiveGuardList().get(i).getUid().equals(selfUid)) {
                                 self=data.getLiveGuardList().get(i);
                             }
-                            if(i>0)
+                            if(hasTopOne)
+                            {
+                                if(i>0)
+                                {
+                                    list.add(anchorGuardListBean.getLiveGuardList().get(i));
+                                }
+                            }
+                            else
                             {
                                 list.add(anchorGuardListBean.getLiveGuardList().get(i));
                             }

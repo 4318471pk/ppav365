@@ -132,6 +132,8 @@ public abstract class BaseBindingFragment extends BaseFragment {
         imm.showSoftInput(view,0);
     }
 
+    public void onResumeFromPause(){}
+
     public void notifyFragment(){}
     public void onKeyBack(){}
     public abstract void onClickView(View view);

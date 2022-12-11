@@ -56,6 +56,7 @@ import com.live.fox.entity.User;
 import com.live.fox.entity.UserVehiclePlayLimitBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
+import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.BulletViewUtils;
 import com.live.fox.utils.ChatSpanUtils;
@@ -71,9 +72,11 @@ import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
 import com.live.fox.view.MyViewPager;
+import com.live.fox.view.RankProfileView;
 import com.live.fox.view.bulletMessage.BulletMessageView;
 import com.live.fox.view.bulletMessage.EnterRoomMessageView;
 import com.live.fox.view.bulletMessage.FollowMeFloatingView;
+import com.lzy.okgo.cache.policy.NoneCacheRequestPolicy;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
 import com.opensource.svgaplayer.SVGAParser;
@@ -1164,6 +1167,7 @@ public class LivingFragment extends BaseBindingFragment {
                             }
                             break;
                         case MessageProtocol.LIVE_BUY_VIP:
+                            livingControlPanel.refresh20AudienceList();
                             NewBornNobleOrGuardMessageBean nBean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);
                             livingControlPanel.mBind.rlNewBornMessage.postNewMessage(nBean,getActivity());
                             break;
@@ -1336,7 +1340,9 @@ public class LivingFragment extends BaseBindingFragment {
                     if (livingControlPanel != null && data != null && isActivityOK() && getArg().equals(getRoomBean().getId())) {
                         LivingFragment.this.livingCurrentAnchorBean = data;
                         GlideUtils.loadCircleImage(getActivity(), data.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
-                                livingControlPanel.mBind.rivProfileImage);
+                                livingControlPanel.mBind.rivProfileImage.getProfileImage());
+                        getAnchorInfo(Long.valueOf(data.getAnchorId()));
+                        livingControlPanel.mBind.rivProfileImage.setIndex(RankProfileView.NONE, RankProfileView.NONE,false);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
                         livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount()+"");
@@ -1768,4 +1774,22 @@ public class LivingFragment extends BaseBindingFragment {
         }
     }
 
+
+    private void getAnchorInfo(Long uid)
+    {
+        Api_User.ins().getUserInfo(uid, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(!isActivityOK() && livingControlPanel!=null)
+                {
+                    return;
+                }
+                if(!TextUtils.isEmpty(data))
+                {
+                    User user=new Gson().fromJson(data,User.class);
+                    livingControlPanel.mBind.rivProfileImage.setIndex(RankProfileView.NONE,user.getVipLevel(),false);
+                }
+            }
+        });
+    }
 }

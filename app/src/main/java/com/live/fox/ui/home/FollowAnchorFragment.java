@@ -69,6 +69,13 @@ public class FollowAnchorFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void onResumeFromPause() {
+        super.onResumeFromPause();
+        //页面返回数据刷新
+        getFollowList();
+    }
+
+    @Override
     public int onCreateLayoutId() {
         return R.layout.fragment_follow_anchor;
     }

@@ -22,14 +22,17 @@ import com.live.fox.base.BaseActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.NobleListBean;
+import com.live.fox.entity.UserAssetsBean;
 import com.live.fox.entity.VipInfo;
 import com.live.fox.server.Api_Config;
 import com.live.fox.server.Api_Order;
+import com.live.fox.server.BaseApi;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.tab.SimpleTabLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -51,6 +54,7 @@ public class NobleActivity extends BaseActivity {
     //private TabLayout tabLayout;
     SimpleTabLayout tabLayout;
     private final List<NobleNewFragment> fragmentList = new ArrayList<>();
+    UserAssetsBean userAssetsBean;
     List<NobleListBean> vipInfoList;
     int myLevel = -1;
     long outTime = 0;
@@ -59,6 +63,30 @@ public class NobleActivity extends BaseActivity {
         Constant.isAppInsideClick = true;
         Intent intent = new Intent(context, NobleActivity.class);
         context.startActivity(intent);
+    }
+
+    public UserAssetsBean getUserAssetsBean() {
+        return userAssetsBean;
+    }
+
+    public List<NobleListBean> getVipInfoList() {
+        return vipInfoList;
+    }
+
+    public int getMyLevel() {
+        return myLevel;
+    }
+
+    public long getOutTime() {
+        return outTime;
+    }
+
+    public void setMyLevel(int myLevel) {
+        this.myLevel = myLevel;
+    }
+
+    public void setOutTime(long outTime) {
+        this.outTime = outTime;
     }
 
     @Override
@@ -73,6 +101,7 @@ public class NobleActivity extends BaseActivity {
         left.setOnClickListener(v -> finish());
         findViewById(R.id.iv_detail).setOnClickListener(v -> startActivity(new Intent(this, NobleDetailActivity.class)));
         getMyNoble();
+        getAss();
 
 //        Api_Config.ins().doVipInfo(new JsonCallback<List<VipInfo>>() {
 //            @Override
@@ -144,8 +173,7 @@ public class NobleActivity extends BaseActivity {
                         vp = findViewById(R.id.vp);
                         vp.setOffscreenPageLimit(vipInfoList.size());
                         for (int i = 0; i < vipInfoList.size(); i++) {
-                            NobleNewFragment nobleFragment = NobleNewFragment.newInstance(i +1, vipInfoList.get(i),
-                                    myLevel, outTime);
+                            NobleNewFragment nobleFragment = NobleNewFragment.newInstance(i);
                             fragmentList.add(nobleFragment);
                         }
 
@@ -197,4 +225,29 @@ public class NobleActivity extends BaseActivity {
         });
     }
 
+
+    private void getAss(){
+        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
+        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+            @Override
+            public void onSuccess(int code, String msg, UserAssetsBean data) {
+
+                if (code == 0) {
+                   NobleActivity.this.userAssetsBean=data;
+                } else {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        }, commonParams);
+    }
+
+    public void notifyAllFragments()
+    {
+        if(fragmentList!=null && fragmentList.size()>0)
+        {
+            for (int i = 0; i <fragmentList.size() ; i++) {
+                fragmentList.get(i).notifyFragment();
+            }
+        }
+    }
 }

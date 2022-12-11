@@ -37,15 +37,15 @@
                     <LinearLayout
                         android:id="@+id/roundRL"
                         android:layout_width="wrap_content"
-                        android:layout_height="34dp"
+                        android:layout_height="35dp"
                         android:orientation="horizontal"
                         android:background="@drawable/bg_3f000000_round"
                         >
 
-                        <com.makeramen.roundedimageview.RoundedImageView
+                        <com.live.fox.view.RankProfileView
                             android:id="@+id/rivProfileImage"
                             android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="2dip"
                             android:onClick="@{click.onClickView}"

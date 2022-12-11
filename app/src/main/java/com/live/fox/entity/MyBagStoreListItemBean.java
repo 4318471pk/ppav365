@@ -20,7 +20,16 @@ public class MyBagStoreListItemBean extends TreasureItemBean{
     int amount = 1;//数量，也暂时可以为天数
     String remark;
     int status;  //状态:0未使用1已使用
+    Long  expireTime;//过期时间
+    String xfPrice;//续费加价格
 
+    public Long getExpireTime() {
+        return expireTime==null?0:expireTime;
+    }
+
+    public void setExpireTime(Long expireTime) {
+        this.expireTime = expireTime;
+    }
 
     public int getPropId() {
         return propId;
@@ -156,5 +165,13 @@ public class MyBagStoreListItemBean extends TreasureItemBean{
 
     public void setDescript(String descript) {
         this.descript = descript;
+    }
+
+    public String getXfPrice() {
+        return xfPrice;
+    }
+
+    public void setXfPrice(String xfPrice) {
+        this.xfPrice = xfPrice;
     }
 }

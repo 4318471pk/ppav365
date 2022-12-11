@@ -25,17 +25,12 @@ public class NobleEquityAdapter extends BaseAdapter {
 
     Context context;
     List<NobleEquityBean> data;
-    int type;
     String nobleName;
 
     public NobleEquityAdapter(Context context, List<NobleEquityBean> data, String nobleName){
         this.context = context;
         this.data = data;
         this.nobleName = nobleName;
-    }
-
-    public void setType(int type){
-        this.type = type;
     }
 
     @Override

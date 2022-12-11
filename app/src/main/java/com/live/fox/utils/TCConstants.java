@@ -134,15 +134,6 @@ public class TCConstants {
     public static final int VIDEO_RECORD_TYPE_UGC_RECORD = 3;   // 短視頻錄制
     public static final int VIDEO_RECORD_TYPE_EDIT = 4;   // 短視頻編輯
 
-    /**
-     * IM 互動消息類型
-     */
-    public static final int IMCMD_PAILN_TEXT = 1;   // 文本消息
-    public static final int IMCMD_ENTER_LIVE = 2;   // 用戶加入直播
-    public static final int IMCMD_EXIT_LIVE = 3;   // 用戶退出直播
-    public static final int IMCMD_PRAISE = 4;   // 點贊消息
-    public static final int IMCMD_DANMU = 5;   // 彈幕消息
-
 
     //ERROR CODE TYPE
     public static final int ERROR_GROUP_NOT_EXIT = 10010;
@@ -151,41 +142,5 @@ public class TCConstants {
     public static final int SERVER_NOT_RESPONSE_CREATE_ROOM = 1002;
     public static final int NO_LOGIN_CACHE = 1265;
 
-
-    /**
-     * 用戶可見的錯誤提示語
-     */
-
-
-    //網絡類型
-    public static final int NETTYPE_WIFI = 0;
-    public static final int NETTYPE_NONE = 1;
-    public static final int NETTYPE_2G = 2;
-    public static final int NETTYPE_3G = 3;
-    public static final int NETTYPE_4G = 4;
-
-    //連麥開關
-    public static final boolean TX_ENABLE_LINK_MIC = true; //開啓連麥標志位
-
-    //連麥消息類型
-    public static final int LINKMIC_CMD_REQUEST = 10001;
-    public static final int LINKMIC_CMD_ACCEPT = 10002;
-    public static final int LINKMIC_CMD_REJECT = 10003;
-    public static final int LINKMIC_CMD_MEMBER_JOIN_NOTIFY = 10004;
-    public static final int LINKMIC_CMD_MEMBER_EXIT_NOTIFY = 10005;
-    public static final int LINKMIC_CMD_KICK_MEMBER = 10006;
-
-    //連麥響應類型
-    public static final int LINKMIC_RESPONSE_TYPE_ACCEPT = 1;    //主播接受連麥
-    public static final int LINKMIC_RESPONSE_TYPE_REJECT = 2;    //主播拒絕連麥
-
-    // UGCEditer
-    public static final String ACTION_UGC_SINGLE_CHOOSE = "com.xglive.weiqu.single";
-    public static final String ACTION_UGC_MULTI_CHOOSE = "com.xglive.weiqu.multi";
-
-    public static final String INTENT_KEY_SINGLE_CHOOSE = "single_video";
-    public static final String INTENT_KEY_MULTI_CHOOSE = "multi_video";
-
-    public static final String DEFAULT_MEDIA_PACK_FOLDER = "txrtmp";      // UGC編輯器輸出目錄
     public static final int THUMB_COUNT = 10;
 }

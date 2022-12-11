@@ -54,7 +54,7 @@
                         android:textStyle="bold" />
 
 
-                    <com.marquee.dingrui.marqueeviewlib.MarqueeView
+                    <TextView
                         android:id="@+id/mvBroadcast"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -63,13 +63,7 @@
                         android:layout_toRightOf="@id/ivBroadcast"
                         android:textColor="#A800FF"
                         android:textSize="13sp"
-                        app:marqueeview_is_resetLocation="false"
-                        app:marqueeview_isclickalbe_stop="false"
-                        app:marqueeview_repet_type="repet_interval"
-                        app:marqueeview_text_color="#A800FF"
-                        app:marqueeview_text_size="13"
-                        app:marqueeview_text_speed="1"
-                        app:marqueeview_text_startlocationdistance="0.5" />
+                         />
 
 
                 </RelativeLayout>
@@ -80,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dip"
                 android:background="#ffffff"
+                android:visibility="invisible"
                 app:tabPaddingStart="0dip"
                 app:tabPaddingEnd="0dip"
                 android:layout_alignParentBottom="true"

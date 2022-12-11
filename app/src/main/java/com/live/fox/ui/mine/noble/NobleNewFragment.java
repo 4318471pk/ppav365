@@ -48,23 +48,15 @@ public class NobleNewFragment extends BaseBindingFragment {
     NobleEquityAdapter nobleEquityAdapter;
     private CommonDialog commonDialog;
 
-    NobleListBean nobleBean;
+    CountDownTimer countDownTimer;
 
     int resourceIdWords[];
     List<NobleEquityBean> mList = new ArrayList<>();
-    int level;
+    int position;
 
-    int myLevel = -1; //我的等级
-    long outTime = 0; //到期时间
-
-    public static NobleNewFragment newInstance(int level, NobleListBean nobleBean, int myLevel, long outTime) {
+    public static NobleNewFragment newInstance(int position) {
         NobleNewFragment fragment = new NobleNewFragment();
-        Bundle args = new Bundle();
-        args.putInt("level", level);
-        args.putString("nobleBean", new Gson().toJson(nobleBean));
-        args.putInt("myLevel", myLevel);
-        args.putLong("outTime", outTime);
-        fragment.setArguments(args);
+        fragment.position=position;
         return fragment;
     }
 
@@ -78,6 +70,36 @@ public class NobleNewFragment extends BaseBindingFragment {
         return R.layout.fragment_noble;
     }
 
+    public NobleListBean getNobleEquityBean() {
+        NobleActivity nobleActivity=(NobleActivity)getActivity();
+        return nobleActivity.getVipInfoList().get(position);
+    }
+
+    public int getMyLevel() {
+        NobleActivity nobleActivity=(NobleActivity)getActivity();
+        return nobleActivity.getMyLevel();
+    }
+
+    public long getOutTime() {
+        NobleActivity nobleActivity=(NobleActivity)getActivity();
+        return nobleActivity.getOutTime();
+    }
+
+    public void setMyLevel(int level) {
+        NobleActivity nobleActivity=(NobleActivity)getActivity();
+        nobleActivity.setMyLevel(level);
+    }
+
+    public void setOutTime(long outTime) {
+        NobleActivity nobleActivity=(NobleActivity)getActivity();
+        nobleActivity.setOutTime(outTime);
+    }
+
+    public UserAssetsBean getUserAssetsBean() {
+        NobleActivity nobleActivity=(NobleActivity)getActivity();
+        return nobleActivity.getUserAssetsBean();
+    }
+
     @SuppressLint("StringFormatMatches")
     @Override
     public void initView(View view) {
@@ -85,43 +107,32 @@ public class NobleNewFragment extends BaseBindingFragment {
 
         resourceIdWords=new ResourceUtils().getResourcesID(R.array.wordsResources);
         commonDialog = new CommonDialog();
-        level = getArguments().getInt("level");
-        myLevel = getArguments().getInt("myLevel");
-        outTime = getArguments().getLong("outTime");
-        nobleBean = new Gson().fromJson(getArguments().getString("nobleBean"), NobleListBean.class);
         setBuyView();
 
-        mBind.ivNoble.setImageResource(resourceIdWords[level-1]);
-        if (nobleBean.getVipName().equals(getString(R.string.zijue))) {
+        mBind.ivNoble.setImageResource(resourceIdWords[position]);
+        if (position==1) {
             mBind.tvTips1.setTextColor(getResources().getColor(R.color.color00FCFF));
             mBind.tvTips2.setTextColor(getResources().getColor(R.color.color00FCFF));
         }
 
         mBind.tvTips1.setText(Html.fromHtml(String.format(getString(R.string.noble_tips1),
-                Strings.cutOff(nobleBean.getOpenPrice(),0), Strings.cutOff(nobleBean.getOpenGiveDiamond(),0) )));
+                Strings.cutOff(getNobleEquityBean().getOpenPrice(),0), Strings.cutOff(getNobleEquityBean().getOpenGiveDiamond(),0) )));
 
 
         mBind.tvTips2.setText(Html.fromHtml(String.format(getString(R.string.noble_tips2),
-                Strings.cutOff(nobleBean.getRenewalPrice(),0), Strings.cutOff(nobleBean.getRenewalGiveDiamond(),0) )));
+                Strings.cutOff(getNobleEquityBean().getRenewalPrice(),0), Strings.cutOff(getNobleEquityBean().getRenewalGiveDiamond(),0) )));
 
         showNoble();
         setData();
-        getAss(false);
 
-        nobleEquityAdapter = new NobleEquityAdapter(this.getActivity(), mList, nobleBean.getVipName());
-        nobleEquityAdapter.setType(level);
+        nobleEquityAdapter = new NobleEquityAdapter(this.getActivity(), mList, getNobleEquityBean().getVipName());
         mBind.gv.setAdapter(nobleEquityAdapter);
 
         mBind.tvOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //setPopCharge();
-                if (diamonds == -1) {
-                    getAss(true);
-                } else {
-                    showTips();
-                }
-
+                showTips();
                // showDialog(getString(R.string.dialogTitle2), getString(R.string.goto_charge_diamond), true);
             }
         });
@@ -136,38 +147,38 @@ public class NobleNewFragment extends BaseBindingFragment {
 
     }
 
-    @Subscribe()
-    public void onEvent(MessageEvent msg) {
-        if (msg.getType() == 10002) { //私信
-            String s = msg.getMessage();
-            myLevel = Integer.parseInt(s);
-            if (myLevel != nobleBean.getVipLevel()) {
-                setBuyView();
-            }
+    @Override
+    public void notifyFragment() {
+        super.notifyFragment();
+        if(isActivityOK())
+        {
+            setBuyView();
         }
     }
 
     private void setBuyView(){
-        if (myLevel == nobleBean.getVipLevel()) {
+        if (position+1 == getMyLevel()) {
             mBind.tvOpen.setText(getString(R.string.now_xufei));
             mBind.tvOpen.setBackground(getResources().getDrawable(R.mipmap.ljxf));
             mBind.layoutTime.setVisibility(View.VISIBLE);
             mBind.tvOpenGet.setVisibility(View.GONE);
-            if (outTime > 0) {
-                String time = TimeUtils.getDate(outTime);
-                String year = time.substring(0,4);
-                String m = time.substring(5,7);
-                String d = time.substring(8,10);
-                String h = time.substring(11,16);
-                @SuppressLint("StringFormatMatches") String tips =  String.format(getString(R.string.noble_time),
-                       year, m, d, h );
-                mBind.tvTime.setText(tips);
+            if (getOutTime() > 0) {
+                String format =  getStringWithoutContext(R.string.noble_time);
+                String time = TimeUtils.long2String(getOutTime(),format);
+                mBind.tvTime.setText(time);
+                mBind.tvTime.setVisibility(View.VISIBLE);
             }
+            else
+            {
+                mBind.tvTime.setVisibility(View.INVISIBLE);
+            }
+
         } else {
             mBind.tvOpen.setText(getString(R.string.now_start));
             mBind.tvOpen.setBackground(getResources().getDrawable(R.mipmap.ljkt));
             mBind.tvOpenGet.setVisibility(View.VISIBLE);
             mBind.layoutTime.setVisibility(View.GONE);
+            mBind.tvTime.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -175,99 +186,71 @@ public class NobleNewFragment extends BaseBindingFragment {
         showLoadingDialog();
         HashMap<String, Object> commonParams = BaseApi.getCommonParams();
         //HashMap<String, Object> commonParams = new HashMap<>();
-        commonParams.put("levelId", nobleBean.getId());
+        commonParams.put("levelId", getNobleEquityBean().getId());
         Api_Order.ins().buyNoble(new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                dismissLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
+                if(!isActivityOK())
+                {
+                    return;
+                }
+
+                if (code == 0 ) {
                     try{
                         JSONObject obj = new JSONObject(data);
-                        myLevel = nobleBean.getVipLevel();
-                        RxBus.get().post(new MessageEvent(10002, myLevel + ""));
+                        //新购买的话刷新所有界面
+                        setMyLevel(getNobleEquityBean().getVipLevel());
                         String vipImg = obj.getString("vipImg");
-                        setBuyView();
-                        outTime = obj.getLong("expireTime");
-                        setPopCharge(vipImg);
-                    } catch (JSONException E) {
-
+                        setOutTime(obj.optLong("expireTime",0l));
+                        NobleActivity nobleActivity=(NobleActivity)getActivity();
+                        nobleActivity.notifyAllFragments();
+                        setPopCharge();
+                    } catch (JSONException exception) {
+                        exception.printStackTrace();
                     }
-
 
                 } else {
                     ToastUtils.showShort(msg);
                 }
+
+                dismissLoadingDialog();
             }
         }, commonParams);
     }
 
-    private void getMyNoble(){
-        Api_Order.ins().getMyNoble(new JsonCallback<NobleListBean>() {
-            @Override
-            public void onSuccess(int code, String msg, NobleListBean data) {
-                //  hideLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    if (data !=null) {
-                        myLevel = data.getVipLevel();
-                        outTime = data.getExpireTime();
-                        setBuyView();
-                    }
-                } else {
-                    ToastUtils.showShort(msg);
-                }
 
-            }
-        });
-    }
 
-    float diamonds = -1;
-    private void getAss(boolean isReq){
-        if (isReq) {
-            showLoadingDialog();
-        }
-        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
-        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
-            @Override
-            public void onSuccess(int code, String msg, UserAssetsBean data) {
-                if (isReq) dismissLoadingDialog();
-                if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
-                    diamonds = data.getDiamond() + data.getVipDiamond();
-                    if (isReq) {
-                        showTips();
-                    }
-                } else {
-                    ToastUtils.showShort(msg);
-                }
-            }
-        }, commonParams);
-    }
 
     private void showTips(){
-        boolean isCharge = false;
+        float diamonds=0.0f;
+        if (getUserAssetsBean()!=null)
+        {
+            diamonds=getUserAssetsBean().getVipDiamond()+getUserAssetsBean().getDiamond();
+        }
         String tips =  "";
-        if (myLevel == nobleBean.getVipLevel()) {
-            if (diamonds < nobleBean.getOpenPrice()) {
-                isCharge = true;
+        if (getMyLevel() == getNobleEquityBean().getVipLevel()) {
+
+            if (diamonds < getNobleEquityBean().getOpenPrice()) {
                 tips= getString(R.string.goto_charge_diamond);
             } else {
                 tips =  String.format(getString(R.string.confirm_buy_noble_2),
-                        Strings.cutOff(nobleBean.getOpenPrice(),0), getString(R.string.noble_2) + "." + getNoble());
+                        Strings.cutOff(getNobleEquityBean().getOpenPrice(),0), getString(R.string.noble_2) + "." + getNoble());
             }
         } else  {
-            if (myLevel > nobleBean.getVipLevel()) {
+            if (getMyLevel() > getNobleEquityBean().getVipLevel()) {
                 tips = getString(R.string.cannot_open);
                 showCannotOpenDia(getString(R.string.dialog_words), tips);
                 return;
             } else {
-                if (diamonds < nobleBean.getRenewalPrice()) {
-                    isCharge = true;
+                if (diamonds < getNobleEquityBean().getRenewalPrice()) {
                     tips= getString(R.string.goto_charge_diamond);
                 } else{
                     tips = String.format(getString(R.string.confirm_buy_noble),
-                            Strings.cutOff(nobleBean.getRenewalPrice(),0), getString(R.string.noble_2) + "." + getNoble());
+                            Strings.cutOff(getNobleEquityBean().getRenewalPrice(),0), getString(R.string.noble_2) + "." + getNoble());
                 }
             }
         }
+
         showDialog(getString(R.string.dialog_words), tips, false);
     }
 
@@ -305,7 +288,7 @@ public class NobleNewFragment extends BaseBindingFragment {
     }
 
 
-    private void setPopCharge(String vipImg ){
+    private void setPopCharge( ){
         View popupView = getLayoutInflater().inflate(R.layout.pop_noble_buy,null);
         PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
         popupWindow.setFocusable(false);
@@ -313,7 +296,7 @@ public class NobleNewFragment extends BaseBindingFragment {
         popupWindow.setBackgroundDrawable(null);
         TextView tvTitle = popupView.findViewById(R.id.tv_title);
         String buy = getResources().getString(R.string.con_you_buy);
-        if (myLevel == nobleBean.getVipLevel()) {
+        if (getMyLevel() == getNobleEquityBean().getVipLevel()) {
             buy = getResources().getString(R.string.con_you_xufei);
         }
         String string = "<font color='#ffffff'> " + buy + "</font>" +
@@ -321,8 +304,8 @@ public class NobleNewFragment extends BaseBindingFragment {
                 "<font color='#ffffff'> " +getResources().getString(R.string.tab_change_success)+ "</font>";
         tvTitle.setText(Html.fromHtml(string));
 
-        ImageView iv = popupView.findViewById(R.id.iv);
-        GlideUtils.loadImage(this.getActivity(), vipImg, iv);
+//        ImageView iv = popupView.findViewById(R.id.iv);
+//        GlideUtils.loadImage(this.getActivity(), vipImg, iv);
 
         TextView tvTime = popupView.findViewById(R.id.tv_time);
         setRootAlpha(0.35f);
@@ -336,7 +319,7 @@ public class NobleNewFragment extends BaseBindingFragment {
 
         popupWindow.showAtLocation(mBind.getRoot(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
 
-        new CountDownTimer(5000, 1000) {
+        countDownTimer=new CountDownTimer(5000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if(isActivityOK())
                 {
@@ -347,12 +330,11 @@ public class NobleNewFragment extends BaseBindingFragment {
             public void onFinish() {
                 if(isActivityOK())
                 {
+                    countDownTimer.cancel();
                     popupWindow.dismiss();
                 }
             }
         }.start();
-
-
     }
 
     private void setRootAlpha(float al){
@@ -368,30 +350,33 @@ public class NobleNewFragment extends BaseBindingFragment {
 
     @Override
     public void onDestroy() {
-        RxBus.get().unregister(this);
         super.onDestroy();
+        if(countDownTimer!=null)
+        {
+            countDownTimer.cancel();
+        }
     }
 
     private void showNoble(){
-        if (level == NobleActivity.NANJUE) {
+        if (position+1 == NobleActivity.NANJUE) {
             mBind.tvPower.setText("5/13");
-        } else if (level == NobleActivity.ZIJUE || level == NobleActivity.BOJUE) {
+        } else if (position+1 == NobleActivity.ZIJUE || position+1 == NobleActivity.BOJUE) {
             mBind.tvPower.setText("7/13");
-            if (level == NobleActivity.ZIJUE) {
+            if (position+1 == NobleActivity.ZIJUE) {
                 mBind.layout.setBackground(getResources().getDrawable(R.mipmap.zijue_p));
             } else {
                 mBind.layout.setBackground(getResources().getDrawable(R.mipmap.bojue_p));
             }
-        } else if (level == NobleActivity.HOUJUE) {
+        } else if (position+1 == NobleActivity.HOUJUE) {
             mBind.tvPower.setText("8/13");
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.houjue_p));
-        } else if (level == NobleActivity.GONGJUE) {
+        } else if (position+1 == NobleActivity.GONGJUE) {
             mBind.tvPower.setText("11/13");
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.gongjue_p));
-        } else if (level == NobleActivity.QINWANG) {
+        } else if (position+1 == NobleActivity.QINWANG) {
             mBind.tvPower.setText("12/13");
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.qinwang_p));
-        } else if (level == NobleActivity.KING) {
+        } else if (position+1 == NobleActivity.KING) {
             mBind.tvPower.setText("13/13");
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.guowang_p));
         }
@@ -399,17 +384,17 @@ public class NobleNewFragment extends BaseBindingFragment {
     }
 
     private String getNoble(){
-        if (level == NobleActivity.NANJUE) {
+        if (position+1 == NobleActivity.NANJUE) {
             return getString(R.string.nanjue);
-        } else if (level == NobleActivity.ZIJUE ) {
+        } else if (position+1 == NobleActivity.ZIJUE ) {
             return getString(R.string.zijue);
-        }  else if (level == NobleActivity.BOJUE ) {
+        }  else if (position+1 == NobleActivity.BOJUE ) {
             return getString(R.string.zijue);
-        } else if (level == NobleActivity.HOUJUE) {
+        } else if (position+1 == NobleActivity.HOUJUE) {
             return getString(R.string.houjue);
-        } else if (level == NobleActivity.GONGJUE) {
+        } else if (position+1 == NobleActivity.GONGJUE) {
             return getString(R.string.gongjue);
-        } else if (level == NobleActivity.QINWANG) {
+        } else if (position+1 == NobleActivity.QINWANG) {
             return getString(R.string.qinwang);
         }
         return getString(R.string.king);
@@ -429,20 +414,20 @@ public class NobleNewFragment extends BaseBindingFragment {
         NobleEquityBean bean = new NobleEquityBean(getString(R.string.noble_equity_title_5), getString(R.string.noble_equity_tips_5),
                 getResources().getDrawable(R.mipmap.zi_kuang));
         bean.setShowPhoto(true);
-        if(level == NobleActivity.ZIJUE) {
+        if(position+1 == NobleActivity.ZIJUE) {
             bean.setImg(getResources().getDrawable(R.mipmap.zi_kuang));
-        } else if(level == NobleActivity.BOJUE) {
+        } else if(position+1 == NobleActivity.BOJUE) {
             bean.setImg(getResources().getDrawable(R.mipmap.bo_kuagn));
-        } else if(level == NobleActivity.HOUJUE) {
+        } else if(position+1 == NobleActivity.HOUJUE) {
             bean.setImg(getResources().getDrawable(R.mipmap.hou_kuang));
-        } else if(level == NobleActivity.GONGJUE) {
+        } else if(position+1 == NobleActivity.GONGJUE) {
             bean.setImg(getResources().getDrawable(R.mipmap.gong_kuang));
-        } else if(level == NobleActivity.QINWANG) {
+        } else if(position+1 == NobleActivity.QINWANG) {
             bean.setImg(getResources().getDrawable(R.mipmap.qin_kuang));
-        } else if(level == NobleActivity.KING) {
+        } else if(position+1 == NobleActivity.KING) {
             bean.setImg(getResources().getDrawable(R.mipmap.wang_kuang));
         }
-        bean.setUlr(nobleBean.getVipFrams());
+        bean.setUlr(getNobleEquityBean().getVipFrams());
         mList.add(bean);
 
 
@@ -467,31 +452,31 @@ public class NobleNewFragment extends BaseBindingFragment {
     }
 
     private boolean getShow(int pos) {
-        if (level == NobleActivity.NANJUE) {
+        if (position+1 == NobleActivity.NANJUE) {
             if (pos > 4) {
                 return false;
             } else {
                 return true;
             }
-        } else if (level == NobleActivity.ZIJUE || level == NobleActivity.BOJUE) {
+        } else if (position+1 == NobleActivity.ZIJUE || position+1 == NobleActivity.BOJUE) {
             if (pos > 6) {
                 return false;
             } else {
                 return true;
             }
-        } else if (level == NobleActivity.HOUJUE) {
+        } else if (position+1 == NobleActivity.HOUJUE) {
             if (pos > 7) {
                 return false;
             } else {
                 return true;
             }
-        } else if (level == NobleActivity.GONGJUE) {
+        } else if (position+1 == NobleActivity.GONGJUE) {
             if (pos > 10) {
                 return false;
             } else {
                 return true;
             }
-        } else if (level == NobleActivity.QINWANG) {
+        } else if (position+1 == NobleActivity.QINWANG) {
             if (pos > 11) {
                 return false;
             } else {

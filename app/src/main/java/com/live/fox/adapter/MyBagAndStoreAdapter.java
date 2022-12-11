@@ -2,6 +2,7 @@ package com.live.fox.adapter;
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -23,10 +24,12 @@ import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.SpanUtils;
+import com.live.fox.utils.TimeUtils;
 import com.live.fox.view.GradientTextView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdapter.ViewHolder> {
@@ -37,10 +40,11 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
     int orangeColors[]=null;
     List<MyBagStoreListItemBean> beans;
     SpannableString disable, renew;
-    String purchaseStr,openStr;
+    String purchaseStr,openStr,deadline;
     int dip1;
 
     boolean isStore= true;
+    String renewWithUnitPrice;
 
     public MyBagAndStoreAdapter(BaseActivity activity, List<MyBagStoreListItemBean> beans,boolean isStore) {
         this.activity = activity;
@@ -49,6 +53,8 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
         this.isStore = isStore;
 
         purchaseStr=activity.getString(R.string.buy);
+        deadline=activity.getString(R.string.deadline);
+        renewWithUnitPrice=activity.getString(R.string.renewWithUnitPrice);
         openStr=activity.getString(R.string.openStr);
         blueColors = activity.getResources().getIntArray(R.array.startingUseColor);
         orangeColors=activity.getResources().getIntArray(R.array.myBagBuyColor);
@@ -142,7 +148,30 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
                     holder.tvName.setText(bean.getPropName());
                 }
             }
-            holder.tvDes.setText(bean.getRemark());
+
+            StringBuilder stringBuilder=new StringBuilder();
+            if(!TextUtils.isEmpty(bean.getXfPrice()))
+            {
+                try
+                {
+                    BigDecimal bigDecimal=new BigDecimal(bean.getXfPrice());
+                    stringBuilder.append(String.format(renewWithUnitPrice,bigDecimal.intValue()+""));
+                    stringBuilder.append("\n");
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+
+            }
+            if(bean.getExpireTime()>0)
+            {
+                stringBuilder.append(TimeUtils.long2String(bean.getExpireTime(),"yyyy-MM--dd")).append(deadline);
+            }
+
+            holder.tvDes.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
+            holder.tvDes.setText(stringBuilder.toString());
+
             if(bean.getPropType()==2)
             {
                 holder.ivBo.setVisibility(View.VISIBLE);
@@ -179,7 +208,6 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
 //                holder.gtvCommit.setEnabled(true);
 //            }
 
-            holder.tvDes.setText(bean.getDescript());
 //            holder.gtvCommit.setDirection(GradientTextView.DIRECTION.LEFT);
 //            holder.gtvCommit.setGradientBackground(activity.getResources().getIntArray(R.array.identificationColor),12*dip1);
             GlideUtils.loadDefaultImage(activity, bean.getLogUrl(),0,R.mipmap.img_error, holder.ivCar1);

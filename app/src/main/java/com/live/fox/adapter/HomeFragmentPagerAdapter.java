@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.ui.home.AnchorGameFragment;
 import com.live.fox.ui.home.FollowAnchorFragment;
@@ -18,9 +19,9 @@ import com.live.fox.ui.home.RecommendListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentStatePagerAdapter {
+public class HomeFragmentPagerAdapter<T extends BaseBindingFragment> extends FragmentStatePagerAdapter {
 
-    private final SparseArray<BaseFragment> fragmentList = new SparseArray<>();
+    private final SparseArray<BaseBindingFragment> fragmentList = new SparseArray<>();
     private final String[] titleList;
 
     public HomeFragmentPagerAdapter(@NonNull @NotNull FragmentManager fm,String[] titleList) {
@@ -28,7 +29,7 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
         this.titleList=titleList;
     }
 
-    public SparseArray<BaseFragment> getFragmentList() {
+    public SparseArray<BaseBindingFragment> getFragmentList() {
         return fragmentList;
     }
 
@@ -78,7 +79,7 @@ public class HomeFragmentPagerAdapter<T extends BaseFragment> extends FragmentSt
     @Override
     public Object instantiateItem(@NonNull @NotNull ViewGroup container, int position) {
 
-        BaseFragment baseFragment=(BaseFragment)super.instantiateItem(container,position);
+        BaseBindingFragment baseFragment=(BaseBindingFragment)super.instantiateItem(container,position);
         fragmentList.put(position,baseFragment);
         return super.instantiateItem(container, position);
     }

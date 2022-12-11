@@ -69,6 +69,22 @@ public class AnchorGameFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void onResumeFromPause() {
+        super.onResumeFromPause();
+        //页面返回数据刷新
+        doGetLiveListApi();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
+        {
+            doGetLiveListApi();
+        }
+    }
+
+    @Override
     public int onCreateLayoutId() {
         return R.layout.fragment_anchor_game;
     }

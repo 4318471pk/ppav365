@@ -1233,7 +1233,7 @@
     <string name="cancle_gz">取消关注</string>
     <string name="noble_tips1">开通<![CDATA[<b><font color=#FF008A>%1$s</font></b>]]>钻石/月 赠送<![CDATA[<b><font color=#FF008A>%2$s</font></b>]]>贵族钻石</string>
     <string name="noble_tips2">续费<![CDATA[<b><font color=#FF008A>%1$s</font></b>]]>钻石/月 赠送<![CDATA[<b><font color=#FF008A>%2$s</font></b>]]>贵族钻石</string>
-    <string name="noble_time">%1$s年%2$s月%3$s日 %4$s结束</string>
+    <string name="noble_time" translatable="false">yyyy年MM月dd日 HH:mm 结束</string>
     <string name="loving_1">恋爱</string>
     <string name="loving_2">单身</string>
     <string name="loving_3">已婚</string>
@@ -1426,6 +1426,7 @@
     <string name="openStr">启用</string>
     <string name="forbiddenUse">禁用</string>
     <string name="renew">续费</string>
+    <string name="renewWithUnitPrice">续费:%1$s钻/月</string>
     <string name="confirmPurchase">确认购买</string>
     <string name="confirmRenew">确认续费</string>
     <string name="confirmSpend">确认使用</string>

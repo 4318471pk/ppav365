@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -44,6 +45,10 @@ import com.live.fox.view.convenientbanner.holder.Holder;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +71,22 @@ public class HotAnchorFragment extends BaseBindingFragment {
     }
 
     @Override
+    public void onResumeFromPause() {
+        super.onResumeFromPause();
+        //页面返回数据刷新
+        doGetLiveListApi();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
+        {
+            doGetLiveListApi();
+        }
+    }
+
+    @Override
     public int onCreateLayoutId() {
         return R.layout.fragment_hot_anchor;
     }
@@ -75,6 +96,12 @@ public class HotAnchorFragment extends BaseBindingFragment {
         mBind=getViewDataBinding();
 
         mBind.srlRefresh.setRefreshHeader(new MyWaterDropHeader(getActivity()));
+        mBind.srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull @NotNull RefreshLayout refreshLayout) {
+                doGetLiveListApi();
+            }
+        });
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 2, GridLayoutManager.VERTICAL, false);
         mBind.rvMain.setLayoutManager(layoutManager);

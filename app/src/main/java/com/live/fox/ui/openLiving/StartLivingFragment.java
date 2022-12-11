@@ -67,6 +67,7 @@ import com.live.fox.entity.UserVehiclePlayLimitBean;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Live;
 import com.live.fox.server.Api_Pay;
+import com.live.fox.server.Api_User;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.living.LivingControlPanel;
 import com.live.fox.ui.living.LivingFinishView;
@@ -84,6 +85,7 @@ import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.ScreenUtils;
 import com.live.fox.view.LivingClickTextSpan;
 import com.live.fox.view.MyViewPager;
+import com.live.fox.view.RankProfileView;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.opensource.svgaplayer.SVGACallback;
 import com.opensource.svgaplayer.SVGADrawable;
@@ -414,6 +416,9 @@ public class StartLivingFragment extends BaseBindingFragment {
                             };
                             SpanUtils spanUtils=ChatSpanUtils.appendNewBornGuard(bean,getActivity(),listener);
                             sendSystemMsgToChat(spanUtils.create());
+                            break;
+                        case MessageProtocol.LIVE_BUY_VIP:
+                            refresh20AudienceList();
                             break;
                     }
                 }
@@ -820,7 +825,8 @@ public class StartLivingFragment extends BaseBindingFragment {
                         mBind.tvAnchorName.setText(user.getNickname());
                         mBind.tvAnchorID.setText("ID:"+user.getUid());
                         GlideUtils.loadCircleImage(getActivity(), user.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
-                                mBind.rivProfileImage);
+                                mBind.rivProfileImage.getProfileImage());
+                        mBind.rivProfileImage.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
 
                         getMainActivity().setPushUrl(pushStreamUrl);
                         initFragment();
@@ -1169,6 +1175,8 @@ public class StartLivingFragment extends BaseBindingFragment {
                         {
                             mBind.gtvOnlineAmount.setText(data.getLiveSum()+"");
                             mBind.gtvProtection.setText(data.getGuardCount()+"");
+                            User user= DataCenter.getInstance().getUserInfo().getUser();
+                            mBind.rivProfileImage.setIndex(RankProfileView.NONE,user.getVipLevel(),false);
                         }
                     }
                     else
@@ -1179,4 +1187,5 @@ public class StartLivingFragment extends BaseBindingFragment {
             }
         });
     }
+
 }

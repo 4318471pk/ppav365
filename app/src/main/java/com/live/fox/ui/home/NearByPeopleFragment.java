@@ -90,6 +90,20 @@ public class NearByPeopleFragment extends BaseBindingFragment {
         {
             setLocationList();
         }
+        if(currentBean!=null)
+        {
+            getNearByList(currentBean);
+        }
+    }
+
+    @Override
+    public void onResumeFromPause() {
+        super.onResumeFromPause();
+        //页面返回数据刷新
+        if(currentBean!=null)
+        {
+            getNearByList(currentBean);
+        }
     }
 
     @Override

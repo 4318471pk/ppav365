@@ -1,6 +1,7 @@
 package com.live.fox.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.live.fox.R;
 import com.live.fox.adapter.HomeFragmentPagerAdapter;
+import com.live.fox.base.BaseBindingFragment;
 import com.live.fox.base.BaseFragment;
 import com.live.fox.manager.DataCenter;
 import com.live.fox.ui.login.LoginModeSelActivity;
@@ -32,7 +34,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     ViewPager viewPager;
 
-    HomeFragmentPagerAdapter<BaseFragment> adapter;
+    HomeFragmentPagerAdapter<BaseBindingFragment> adapter;
+
+    private boolean hasPause=false;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -61,6 +65,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(hasPause && adapter.getFragmentList()!=null && adapter.getFragmentList().size()>0)
+        {
+            adapter.getFragmentList().get(viewPager.getCurrentItem()).onResumeFromPause();
+        }
+        hasPause=false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hasPause=true;
     }
 
     @Override
