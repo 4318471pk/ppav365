@@ -2,6 +2,7 @@ package com.live.fox.dialog.bottomDialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
@@ -35,6 +36,7 @@ import com.live.fox.manager.SPManager;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.mine.MyFollowListActivity;
 import com.live.fox.ui.mine.editprofile.UserDetailActivity;
+import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.ChatSpanUtils;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.SpanUtils;
@@ -315,6 +317,8 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                     sb.append(audience.getUid());
                     mBind.tvID.setText(sb.toString());
                     mBind.tvName.setText(audience.getNickname());
+
+                    setHead2(audience.getVipLevel());
                 }
                 break;
             case AudienceAnchor:
@@ -348,6 +352,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                         mBind.tv3.setTextColor(0xffFF008A);
                         mBind.tv3.setText(getStringWithoutContext(R.string.follow2));
                     }
+                    setHead2(livingCurrentAnchorBean.getVipLevel());
                 }
                 break;
             case AudienceInAnchorRoom:
@@ -364,12 +369,17 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                     sb.append(audience.getUid());
                     mBind.tvID.setText(sb.toString());
                     mBind.tvName.setText(audience.getNickname());
+
+                    setHead2(audience.getVipLevel());
+
                 }
                 break;
             case AnchorSelf:
+
                 mBind.llBotView.setVisibility(View.INVISIBLE);
                 mBind.tvReport.setVisibility(View.INVISIBLE);
                 User user= DataCenter.getInstance().getUserInfo().getUser();
+                setHead2(user.getVipLevel());
                 GlideUtils.loadCircleImage(getActivity(), user.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
                         mBind.rpv.getProfileImage());
                 StringBuilder sb=new StringBuilder();
@@ -514,6 +524,7 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
                             GlideUtils.loadCircleImage(getActivity(), currentUser.getAvatar(),R.mipmap.user_head_error,R.mipmap.user_head_error,
                                     mBind.rpv.getProfileImage());
 
+                            setHead2(currentUser.getVipLevel());
                         }
                     } else {
                         ToastUtils.showShort(msg);
@@ -526,6 +537,31 @@ public class LivingProfileBottomDialog extends BaseBindingDialogFragment {
             exception.printStackTrace();
         }
 
+    }
+
+    private void setHead2(int level){
+//        level=3;
+        Drawable levelImge=null;
+        if(level == NobleActivity.ZIJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.zi_kuang));
+        } else if(level == NobleActivity.BOJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.bo_kuagn));
+        } else if(level == NobleActivity.HOUJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.hou_kuang));
+        } else if(level == NobleActivity.GONGJUE) {
+            levelImge=(getResources().getDrawable(R.mipmap.gong_kuang));
+        } else if(level == NobleActivity.QINWANG) {
+            levelImge=(getResources().getDrawable(R.mipmap.qin_kuang));
+        } else if(level == NobleActivity.KING) {
+            levelImge=(getResources().getDrawable(R.mipmap.wang_kuang));
+        }
+
+        if(levelImge==null){
+            mBind.ivHeadimg2.setVisibility(View.GONE);
+        }else {
+            mBind.ivHeadimg2.setImageDrawable(levelImge);
+            mBind.ivHeadimg2.setVisibility(View.VISIBLE);
+        }
     }
 
     private void follow(String targetId)

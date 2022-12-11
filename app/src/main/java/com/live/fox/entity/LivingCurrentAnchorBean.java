@@ -14,6 +14,15 @@ public class LivingCurrentAnchorBean {
     public Integer guardCount;
     public Integer liveSum;
     private String isPayOver;
+    private int vipLevel;//用户Vip等级 贵族等级
+
+    public int getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(int vipLevel) {
+        this.vipLevel = vipLevel;
+    }
 
     public String getIsPayOver() {
         return isPayOver;

@@ -27,12 +27,14 @@ import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.DialogTreasureBoxBinding;
 import com.live.fox.db.LocalGiftDao;
 import com.live.fox.db.LocalMountResourceDao;
+import com.live.fox.dialog.FirstTimeTopUpDialog;
 import com.live.fox.dialog.temple.TempleDialog2;
 import com.live.fox.entity.BagAndStoreBean;
 import com.live.fox.entity.GiftResourceBean;
 import com.live.fox.entity.LivingGiftBean;
 import com.live.fox.entity.MountResourceBean;
 import com.live.fox.entity.MyBagStoreListItemBean;
+import com.live.fox.entity.RoomListBean;
 import com.live.fox.entity.SendGiftAmountBean;
 import com.live.fox.entity.TreasureItemBean;
 import com.live.fox.entity.User;
@@ -43,15 +45,21 @@ import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.mine.RechargeActivity;
+import com.live.fox.ui.mine.editprofile.UserDetailActivity;
+import com.live.fox.ui.mine.noble.NobleActivity;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ScreenUtils;
 import com.live.fox.utils.Strings;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.BotTriangleBubbleView;
+import com.opensource.svgaplayer.SVGAParser;
+import com.opensource.svgaplayer.SVGAVideoEntity;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -227,7 +235,7 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         int screenHeight=ScreenUtils.getScreenHeight(getActivity());
         mBind.rlContent.getLayoutParams().height=(int)(screenHeight*0.69f);
 
-        FixImageSize.setImageSizeOnWidthWithSRC(mBind.ivFirstTimeTopUp, screenWidth, new FixImageSize.OnFixListener() {
+        FixImageSize.setImageSizeOnWidthWithSRC(mBind.ivLiving, screenWidth, new FixImageSize.OnFixListener() {
             @Override
             public void onfix(int width, int height, float ratio) {
 
@@ -392,16 +400,61 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
         });
     }
 
-    private void setAdapterIndex(int index)
-    {
-        if(index>0)
+    //是否贵族
+    private void  showSvga(boolean isNoble){
+        String svga="gift02.svga";
+        if(isNoble)
         {
-            mBind.ivFirstTimeTopUp.setImageDrawable(getResources().getDrawable(R.mipmap.bg_living_firsttime_vip));
+            //成功贵族
+            svga="gift02.svga";
+
+            mBind.ivLiving.setOnClickListener(new OnClickFrequentlyListener() {
+                @Override
+                public void onClickView(View view) {
+                    NobleActivity.startActivity(requireActivity());
+                }
+            });
         }
         else
         {
-            mBind.ivFirstTimeTopUp.setImageDrawable(getResources().getDrawable(R.mipmap.bg_living_firsttime_topup));
+            svga="gift01.svga";
+
+            mBind.ivLiving.setOnClickListener(new OnClickFrequentlyListener() {
+                @Override
+                public void onClickView(View view) {
+                    FirstTimeTopUpDialog firstTimeTopUpDialog=FirstTimeTopUpDialog.getInstance();
+                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),firstTimeTopUpDialog);
+                }
+            });
         }
+
+
+        SVGAParser parser = SVGAParser.Companion.shareParser();
+        parser.decodeFromAssets(svga, new SVGAParser.ParseCompletion() {
+            @Override
+            public void onComplete(SVGAVideoEntity svgaVideoEntity) {
+                if (mBind.ivLiving != null) {
+                    mBind.ivLiving.setVisibility(View.VISIBLE);
+                    mBind.ivLiving.setVideoItem(svgaVideoEntity);
+                    mBind.ivLiving.stepToFrame(0, true);
+                }
+            }
+
+            @Override
+            public void onError() {
+            }
+        }, new SVGAParser.PlayCallback() {
+            @Override
+            public void onPlay(@NotNull List<? extends File> list) {
+
+            }
+        });
+    }
+
+    private void setAdapterIndex(int index)
+    {
+
+
         mBind.viewPager.setCurrentItem(0);
         int dip10=ScreenUtils.dp2px(getActivity(),10);
         int viewPagerHeight= mBind.rlContent.getLayoutParams().height-topMargin-dip10*12;
@@ -433,6 +486,9 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
 
                     mBind.tvDiamond.setText(getStringWithoutContext(R.string.diamond2));
                     mBind.tvDiamond.append(user.getDiamond("0.0").toPlainString());
+
+                    //@ApiModelProperty(value = "是否充值过(0否 1是)")
+                    showSvga(user.getFirstRecharge()==1);
                 } else {
                     ToastUtils.showShort(msg);
                 }

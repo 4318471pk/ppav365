@@ -81,6 +81,15 @@ public class User implements Serializable {
     private String liveId;//直播ID
     private Boolean isGuard;
     private Integer guardLevel;
+    private int firstRecharge;
+
+    public int getFirstRecharge() {
+        return firstRecharge;
+    }
+
+    public void setFirstRecharge(int firstRecharge) {
+        this.firstRecharge = firstRecharge;
+    }
 
     public String getBirthday() {
         return birthday;

@@ -701,7 +701,7 @@ public class MainActivity extends BaseActivity  {
     }
 
     private CountDownTimer periodsCountDown = null;
-    private long time=10*60;//10分钟
+    private long time=5*60;//5分钟
     /**
      * 取消倒计时
      */
