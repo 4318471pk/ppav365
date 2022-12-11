@@ -43,4 +43,6 @@ public interface ConstantValue {
     String searchHistory="searchHistory";//搜索历史
     String watchedHistory="watchedHistory";//观看历史
     String JumpType="JumpType";
+    String refreshLive="refreshLive";
+    String refreshUser="refreshUser";
 }

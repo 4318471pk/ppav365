@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
 import com.live.fox.AppIMManager;
 import com.live.fox.Constant;
 import com.live.fox.ConstantValue;
@@ -221,6 +222,21 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         }
 
     }
+
+    @Subscribe(tags = {@Tag(ConstantValue.refreshUser)})
+    public void skipRegister(String jumpType) {
+
+
+        switch (jumpType)
+        {
+            case "1":
+                LogUtils.i("refreshUser......", "doGetUserInfoApi onFinish");
+
+                doGetUserInfoApi();
+                break;
+        }
+    }
+
 
     @Override
     public void onIMReceived(int protocol, String msg) {

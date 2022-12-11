@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.hwangjr.rxbus.RxBus;
 import com.live.fox.Constant;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.adapter.OneMinuteAdapter;
 import com.live.fox.base.NoblePresenter;
@@ -370,6 +372,8 @@ public class NobleFragment extends MvpBaseFragment<NoblePresenter> implements No
         requireActivity().setResult(555);
         requireActivity().finish();
         showToastTip(true, getString(R.string.successfulOpening));
+
+        RxBus.get().post(ConstantValue.refreshUser,"1");
     }
 
     public static FunctionItem getNobleRes(Context context, int levelId) {

@@ -357,17 +357,23 @@ public class RankFragment extends BaseBindingFragment {
         String followedString=getActivity().getResources().getString(R.string.followed);
         for (int i = 4; i <7 ; i++) {
             LinearLayout relativeLayout=(LinearLayout) header.getChildAt(i);
+
+            TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
+            TextView follow=(TextView)relativeLayout.getChildAt(1);
+
+
             if(type==1)
             {
                 //土豪榜不需要关注
-                relativeLayout.setVisibility(View.INVISIBLE);
+                relativeLayout.setVisibility(View.VISIBLE);
             }
             else
             {
                 relativeLayout.setVisibility(View.VISIBLE);
+
+                follow.setVisibility(View.INVISIBLE);
             }
-            TextView tvHuo=(TextView)relativeLayout.getChildAt(0);
-            TextView follow=(TextView)relativeLayout.getChildAt(1);
+
 
             //第一名不需要显示火力
             if(i==4)
@@ -402,6 +408,9 @@ public class RankFragment extends BaseBindingFragment {
                 follow.setVisibility(View.INVISIBLE);
                 tvHuo.setText("");
             }
+            final int index=i-4;
+            RankItemBean rankItemBean=tabList.get(index);
+            tvHuo.setText(String.format(templeText,rankItemBean.getRankValue()+""));
         }
     }
 
@@ -511,7 +520,7 @@ public class RankFragment extends BaseBindingFragment {
     {
         int itemWidth=(int)(screenWidth*0.275f);
         LinearLayout linearLayout=new LinearLayout(getActivity());
-        linearLayout.setVisibility(View.INVISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         RelativeLayout.LayoutParams rl=new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -534,6 +543,9 @@ public class RankFragment extends BaseBindingFragment {
 
         TextView huo=new TextView(getActivity());
         huo.setTextSize(TypedValue.COMPLEX_UNIT_SP,11);
+
+//        String templeText=getActivity().getResources().getString(R.string.tip10);
+//        huo.setText(String.format(templeText,"2"));
         huo.setText("");
         huo.setGravity(Gravity.CENTER);
         huo.setTextColor(0xffffffff);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.live.fox.base.BaseActivity;
@@ -210,7 +212,7 @@ public class MainActivity extends BaseActivity  {
 
         }
 
-
+        startPeriodsCountDown();
     }
 
     public void setWindowsFlag()
@@ -655,7 +657,13 @@ public class MainActivity extends BaseActivity  {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelPeriodsCountDown();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cancelPeriodsCountDown();
     }
 
     @Override
@@ -692,4 +700,40 @@ public class MainActivity extends BaseActivity  {
         outState.putInt("TAG", TAG);
     }
 
+    private CountDownTimer periodsCountDown = null;
+    private long time=10*60;//10分钟
+    /**
+     * 取消倒计时
+     */
+    public void cancelPeriodsCountDown() {
+        if (null != periodsCountDown) {
+            periodsCountDown.cancel();
+            periodsCountDown = null;
+        }
+    }
+    /**
+     * 开启倒计时
+     */
+    public void startPeriodsCountDown() {
+        cancelPeriodsCountDown();
+        periodsCountDown = new CountDownTimer(time * 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+
+
+            }
+
+            @Override
+            public void onFinish() {
+                startPeriodsCountDown();
+
+                RxBus.get().post(ConstantValue.refreshLive,"1");
+
+                LogUtils.i("MainActivity......", "startPeriodsCountDown onFinish");
+            }
+        };
+        periodsCountDown.start();
+    }
 }

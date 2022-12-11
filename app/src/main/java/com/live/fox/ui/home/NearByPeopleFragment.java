@@ -6,6 +6,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.adapter.LocationAreaSelectorAdapter;
 import com.live.fox.adapter.NearByPeopleListAdapter;
@@ -22,6 +25,7 @@ import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.AssetsUtils;
 import com.live.fox.utils.IOUtils;
+import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.utils.device.ScreenUtils;
@@ -202,5 +206,19 @@ public class NearByPeopleFragment extends BaseBindingFragment {
                 }
             }
         });
+    }
+
+    @Subscribe(tags = {@Tag(ConstantValue.refreshLive)})
+    public void skipRegister(String jumpType) {
+
+
+        switch (jumpType)
+        {
+            case "1":
+                LogUtils.i("HotAnchorFragment......", "refreshLive onFinish");
+
+                mBind.srlRefresh.autoRefresh();
+                break;
+        }
     }
 }

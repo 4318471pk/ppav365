@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.live.fox.ConstantValue;
 import com.live.fox.R;
 import com.live.fox.adapter.LiveListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
@@ -41,6 +44,7 @@ import com.live.fox.utils.GsonUtil;
 import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.LiveListHeader;
+import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.device.DeviceUtils;
@@ -431,6 +435,20 @@ public class RecommendListFragment extends BaseBindingFragment {
             }
 
             GlideUtils.loadDefaultImage(context, bannerUrl,0,0, bannerImg);
+        }
+    }
+
+    @Subscribe(tags = {@Tag(ConstantValue.refreshLive)})
+    public void skipRegister(String jumpType) {
+
+
+        switch (jumpType)
+        {
+            case "1":
+                LogUtils.i("HotAnchorFragment......", "refreshLive onFinish");
+
+                mBind.homeRefreshLayout.autoRefresh();
+                break;
         }
     }
 }

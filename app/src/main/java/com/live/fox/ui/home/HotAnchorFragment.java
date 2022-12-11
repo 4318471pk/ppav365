@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.hwangjr.rxbus.RxBus;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.live.fox.ConstantValue;
+import com.live.fox.MainActivity;
 import com.live.fox.R;
 import com.live.fox.adapter.HotAnchorListAdapter;
 import com.live.fox.adapter.devider.RecyclerSpace;
@@ -32,6 +37,7 @@ import com.live.fox.ui.living.LivingActivity;
 import com.live.fox.ui.login.LoginModeSelActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.JumpLinkUtils;
+import com.live.fox.utils.LogUtils;
 import com.live.fox.utils.device.DeviceUtils;
 import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.live.fox.view.convenientbanner.holder.Holder;
@@ -250,5 +256,21 @@ public class HotAnchorFragment extends BaseBindingFragment {
         }
 
         LivingActivity.startActivity(getActivity(),roomListBeans,position);
+    }
+
+
+
+    @Subscribe(tags = {@Tag(ConstantValue.refreshLive)})
+    public void skipRegister(String jumpType) {
+
+
+        switch (jumpType)
+        {
+            case "1":
+                LogUtils.i("HotAnchorFragment......", "refreshLive onFinish");
+
+                mBind.srlRefresh.autoRefresh();
+                break;
+        }
     }
 }
