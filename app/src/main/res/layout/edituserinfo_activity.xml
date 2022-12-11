@@ -39,7 +39,7 @@
                         android:textColor="@color/color404040"
                         android:textSize="16dp" />
 
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <com.live.fox.view.Top20CircleImage
                         android:id="@+id/iv_head"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -49,9 +49,7 @@
                         android:layout_marginEnd="35dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/user_head_error"
-                        app:drawableEndCompat="@drawable/right_arrow"
-                        app:drawableTint="@color/black"
-                        app:riv_oval="true" />
+                         />
 
                     <ImageView
                         android:layout_width="6dp"

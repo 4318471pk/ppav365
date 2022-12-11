@@ -223,7 +223,7 @@ public class RoomWatchedHistoryBean {
         bean.setTitle(roomListBean.getTitle());
         bean.setAid(roomListBean.getAid());
         bean.setRoomIcon(roomListBean.getRoomIcon());
-        bean.setLiveChannel(roomListBean.getLiveChannel());
+        bean.setLiveChannel(roomListBean.getLiveChannel()==null?"":roomListBean.getLiveChannel());
         bean.setRoomCategory(roomListBean.getRoomCategory());
         bean.setCategoryId(roomListBean.getCategoryId());
         return bean;

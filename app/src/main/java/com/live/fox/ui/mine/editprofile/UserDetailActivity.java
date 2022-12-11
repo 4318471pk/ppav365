@@ -513,7 +513,6 @@ public class UserDetailActivity extends BaseActivity  {
                 if(data==null){
                     return;
                 }
-                Log.e("getContributionList",data);
                 if(code==0 )
                 {
                     try {

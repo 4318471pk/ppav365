@@ -247,7 +247,6 @@ public class ContributionRankDialog extends BaseBindingDialogFragment {
         Api_Rank.ins().getContributionRankList(liveId,uid,new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                Log.e("getContributionList",data);
                 if(isConditionOk())
                 {
                     if(code==0 && getArg().equals(liveId))

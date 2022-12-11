@@ -88,7 +88,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
             mBind.gtvCommit.setColors(getResources().getIntArray(R.array.myBagBuyColor));
             mBind.gtvCommit.setText(getResources().getString(R.string.confirmPurchase));
         }
-        else if(myBagStoreListItemBean.isEnable())
+        else
         {
             mBind.gtvCommit.setColors(getResources().getIntArray(R.array.startingUseColor));
             mBind.gtvCommit.setText(getResources().getString(R.string.confirmRenew));
@@ -152,7 +152,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
                 dialog.getBind().gtCancel.setText(getString(R.string.cancel));
                 SpanUtils spanUtils=new SpanUtils();
                 spanUtils.append(getString(R.string.confirmSpend));
-                spanUtils.append(myBagStoreListItemBean.getPrice() + "").setForegroundColor(0xffF42C2C);
+                spanUtils.append(Strings.cutOff(myBagStoreListItemBean.getPrice(),0)).setForegroundColor(0xffF42C2C);
                 spanUtils.appendImage(getResources().getDrawable(R.mipmap.icon_diamond),SpanUtils.ALIGN_BASELINE);
 
                 String confirm = getString(R.string.confirm);
@@ -160,7 +160,7 @@ public class PurchaseCarDialog extends BaseBindingDialogFragment {
                 if(!myBagStoreListItemBean.isHave()) {
                     spanUtils.append(getString(R.string.buy));
                 }
-                else if(myBagStoreListItemBean.isEnable()) {
+                else {
                     confirm = getString(R.string.renew);
                     spanUtils.append(getString(R.string.renew)).append(getString(R.string.buy));
                 }

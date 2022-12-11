@@ -132,7 +132,11 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
 
             @Override
             public void buySuccess() {
-                getData(true);
+                if(getActivity()!=null && getActivity() instanceof MyBagAndStoreActivity)
+                {
+                    MyBagAndStoreActivity myBagAndStoreActivity=(MyBagAndStoreActivity)getActivity();
+                    myBagAndStoreActivity.reFreshBoth();
+                }
             }
 
         });
@@ -287,6 +291,9 @@ public class MyBagAndStoreFragment extends BaseBindingFragment {
                         data.getRecords().get(i).setDescript(mountResourceBean.getDescript());
                         data.getRecords().get(i).setEname(mountResourceBean.getEname());
                         data.getRecords().get(i).setLogUrl(mountResourceBean.getLogUrl());
+                        data.getRecords().get(i).setPrice(mountResourceBean.getPrice());
+                        data.getRecords().get(i).setHave(true);
+                        data.getRecords().get(i).setId(data.getRecords().get(i).getPropId());
                         data.getRecords().get(i).setAnimationUrl(mountResourceBean.getLocalSvgPath());
                     }
                     break;

@@ -54,7 +54,7 @@
                         android:textStyle="bold" />
 
 
-                    <com.sunfusheng.marqueeview.MarqueeView
+                    <com.marquee.dingrui.marqueeviewlib.MarqueeView
                         android:id="@+id/mvBroadcast"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -63,13 +63,13 @@
                         android:layout_toRightOf="@id/ivBroadcast"
                         android:textColor="#A800FF"
                         android:textSize="13sp"
-                        app:mvAnimDuration="1000"
-                        app:mvDirection="bottom_to_top"
-                        app:mvGravity="left"
-                        app:mvInterval="3000"
-                        app:mvSingleLine="true"
-                        app:mvTextColor="#A800FF"
-                        app:mvTextSize="13sp" />
+                        app:marqueeview_is_resetLocation="false"
+                        app:marqueeview_isclickalbe_stop="false"
+                        app:marqueeview_repet_type="repet_interval"
+                        app:marqueeview_text_color="#A800FF"
+                        app:marqueeview_text_size="13"
+                        app:marqueeview_text_speed="1"
+                        app:marqueeview_text_startlocationdistance="0.5" />
 
 
                 </RelativeLayout>

@@ -180,7 +180,6 @@ public class ContributionRankActivity extends BaseBindingViewActivity {
         Api_Rank.ins().getContributionRankList("",uid,new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
-                Log.e("getContributionList",data);
                 if(code==0 )
                 {
                     setData(data);

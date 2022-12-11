@@ -73,6 +73,9 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
+import com.nwf.app.utils.CompressJAVA;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -257,8 +260,7 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
     public void refreshPage() {
         user = DataCenter.getInstance().getUserInfo().getUser();
 
-        GlideUtils.loadCircleOnePxRingImage(EditUserInfoActivity.this, user.getAvatar(), Color.parseColor("#979797"),
-                R.color.transparent, R.mipmap.user_head_error, mBind.ivHead);
+        GlideUtils.loadCircleImage(EditUserInfoActivity.this, user.getAvatar(), 0,0, mBind.ivHead);
 
         mBind.tvName.setText(user.getNickname());
         mBind.tvAccount.setText(user.getUid()+"");
@@ -311,14 +313,22 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
                     if (selectList != null && selectList.size() > 0) {
                         LocalMedia localMedia = selectList.get(0);
                         LogUtils.e("图片-----》" + localMedia.getPath());
-                        EditProfileImageActivity.startActivity(this, EditProfileImageActivity.Square, localMedia.getPath());
+                        EditProfileImageActivity.startActivity(this, EditProfileImageActivity.Circle, localMedia.getPath());
                     }
                     break;
                 case ConstantValue.REQUEST_CROP_PIC://头像上传到文件服务器成功
                     if (data != null && data.getStringExtra(ConstantValue.pictureOfUpload) != null) {
                         File file = new File(data.getStringExtra(ConstantValue.pictureOfUpload));
                         if (file != null && file.exists()) {
-                            updateFile(file);
+                            CompressJAVA.INSTANCE.compress(this, file, new CompressJAVA.CompressListener() {
+                                @Override
+                                public void compressDone(@NotNull File uploadFile, @NotNull File thumbFile, boolean isOverLength) {
+                                    if(thumbFile!=null && thumbFile.length()>0)
+                                    {
+                                        updateFile(thumbFile);
+                                    }
+                                }
+                            });
                         }
                     }
                     break;
@@ -344,102 +354,6 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
 
     }
 
-    public void uploadImage(OssToken ossToken) {
-        if (oss == null) {
-            OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossToken.getKey(), ossToken.getSecret(), ossToken.getToken());
-            oss = new OSSClient(Utils.getApp(), ossToken.getEndpoint(), credentialProvider, new ClientConfiguration());
-        }
-
-        if (user != null) {
-            // 上传文件名
-            String uploadFileServerName = user.getUid() + "_" + System.currentTimeMillis() / 1000 + "_avatar.png";
-            String localFilePath = "";
-            if (localMedia.isCompressed()) {
-                LogUtils.e("compress image result:" + new File(localMedia.getCompressPath()).length() / 1024 + "k");
-                localFilePath = localMedia.getCompressPath();
-            } else {
-                localFilePath = localMedia.getPath();
-            }
-
-            LogUtils.e("上传文件名：" + localFilePath + "," + ossToken.getBucketName() + "," + uploadFileServerName);
-
-            // 構造上傳請求
-            PutObjectRequest put = new PutObjectRequest(ossToken.getBucketName(), uploadFileServerName, localFilePath);
-            // 異步上傳時可以設置進度回調
-            put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-                @Override
-                public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                    LogUtils.e("currentSize: " + currentSize + " totalSize: " + totalSize);
-                }
-            });
-
-            //上传图片有时候会卡主很长时间 这里程序判断上传图片8秒内没返回就作为失败处理
-            uploadIsFinish = false;
-            uploadIsFinishHandler.sendEmptyMessageDelayed(1, 20 * 1000);
-            oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
-                @Override
-                public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                    LogUtils.e("UploadSuccess");
-                    if (uploadIsFinish) {
-                        //说明已经处理 这里就不在处理了
-                        return;
-                    }
-                    uploadIsFinish = true;
-                    uploadIsFinishHandler.removeMessages(1);
-                    uploadImgUrl = oss.presignPublicObjectURL(ossToken.getBucketName(), uploadFileServerName);
-
-                    LogUtils.e("调用成功 云服务器图片地址：imgUrl : " + uploadImgUrl);
-                    uploadImgUrl = uploadImgUrl.replace(ossToken.getBucketName() + "." + ossToken.getEndpoint(), SPManager.getDomain());
-                    LogUtils.e("调用成功 服务器图片地址：imgUrl : " + uploadImgUrl);
-
-                    //已经全部传好 调用接口
-                }
-
-                @Override
-                public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                    hideLoadingDialog();
-                    if (uploadIsFinish) {
-                        //说明已经处理 这里就不在处理了
-                        return;
-                    }
-                    uploadIsFinish = true;
-                    uploadIsFinishHandler.removeMessages(1);
-
-                    // 請求異常
-                    if (clientExcepion != null) {
-                        // 本地異常如網絡異常等
-                        showToastTip(false, getString(R.string.netWorkException));
-                    }
-                    if (serviceException != null) {
-                        showToastTip(false, getString(R.string.netWorkException));
-                        // 服務異常
-                        LogUtils.e(serviceException.getErrorCode());
-                        LogUtils.e(serviceException.getRequestId());
-                        LogUtils.e(serviceException.getHostId());
-                        LogUtils.e(serviceException.getRawMessage());
-                    }
-                }
-            });
-        }
-    }
-
-
-    //上传图片是否已回调
-    boolean uploadIsFinish = false;
-    //上传图片有时候会卡主很长时间 这里程序判断上传图片8秒内没返回就作为失败处理
-    private final Handler uploadIsFinishHandler = new Handler(msg -> {
-        if (!uploadIsFinish) {
-            uploadIsFinish = true;
-            //超过5秒 上传图片还没返回消息
-            hideLoadingDialog();
-            showToastTip(false, getString(R.string.networkBad));
-            return false;
-        }
-        return false;
-    });
-
-
-
     private void modifyUser(User userTemp, int type, BaseBindingDialogFragment fragment){
         showLoadingDialog();
         Api_User.ins().modifyUserInfo(userTemp, type, new JsonCallback<String>() {
@@ -459,7 +373,7 @@ public class EditUserInfoActivity extends BaseBindingViewActivity{
                     }
                     else if(type==1)
                     {
-                        GlideUtils.loadImage(EditUserInfoActivity.this, user.getAvatar(),mBind.ivHead);
+                        GlideUtils.loadCircleImage(EditUserInfoActivity.this, user.getAvatar(),0,0,mBind.ivHead);
                         showToastTip(true, getString(R.string.modifySuccess));
                     }
                     else if (type == 5) {

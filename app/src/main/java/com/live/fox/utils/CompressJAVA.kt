@@ -14,7 +14,7 @@ import java.io.File
 
 object CompressJAVA {
 
-    fun compress(context: Context, actualImageFile: File, point:Point,listener: CompressListener?)
+    fun compress(context: Context, actualImageFile: File,listener: CompressListener?)
     {
             GlobalScope.launch {
                 var uploadFile:File?=null
@@ -28,8 +28,7 @@ object CompressJAVA {
                     actualImageFile
                 } else {
                     Compressor.compress(context, actualImageFile) {
-                        destination(     File(Environment.getExternalStoragePublicDirectory(
-                                Environment.DIRECTORY_PICTURES).absolutePath+"/"+System.currentTimeMillis()+".jpeg"))
+                        destination(    actualImageFile)
                         resolution(3000, 3000)
                         quality(90)
                         format(Bitmap.CompressFormat.JPEG)

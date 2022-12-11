@@ -65,6 +65,8 @@ public class LocalWatchHistoryDao implements ResourceDaoImpl<RoomWatchedHistoryB
                         exception.printStackTrace();
                     }
                 }
+
+
                 if (roomListBean != null) {
                     QueryBuilder queryBuilder = CommonApp.getInstance().getDaoSession().getRoomWatchedHistoryBeanDao().queryBuilder();
                     List<RoomWatchedHistoryBean> list = queryBuilder.where(RoomWatchedHistoryBeanDao.Properties.LiveId.eq(roomListBean.getLiveId())).list();
@@ -78,6 +80,7 @@ public class LocalWatchHistoryDao implements ResourceDaoImpl<RoomWatchedHistoryB
                         CommonApp.getInstance().getDaoSession().getRoomWatchedHistoryBeanDao().update(roomListBean);
                     }
                 }
+
             }
         });
 

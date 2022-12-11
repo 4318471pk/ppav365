@@ -2,6 +2,7 @@ package com.live.fox.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -75,14 +76,19 @@ public class PictureCropView extends View {
     /**
      * 设置要裁剪的图片
      */
-    public void setPicture(Bitmap mPicture) {
+    public void setPicture(Bitmap mPicture,int mRadius) {
         if (mPicture == null) {
             return;
         }
-        this.mPicture = mPicture;
+        this.mRadius = mRadius;
         mPicWidth = mPicture.getWidth();
         mPicHeight = mPicture.getHeight();
-        if (ScreenUtils.getScreenWidth(mContext) > mPicWidth) {
+
+        int screenWidth=ScreenUtils.getScreenWidth(mContext);
+
+
+
+        if (screenWidth > mPicWidth) {
             mRadius = mPicWidth / 2;
         }
         int minEdge = mPicWidth > mPicHeight ? mPicHeight : mPicWidth;
@@ -99,13 +105,6 @@ public class PictureCropView extends View {
         mScale = mInitScale;
         mMatrix.postScale(mInitScale, mInitScale);
         mFirstInitBitmap = true;
-    }
-
-    /**
-     * 设置半径大小
-     */
-    public void setRadius(int mRadius) {
-        this.mRadius = mRadius;
     }
 
     public void setShape(int shape)

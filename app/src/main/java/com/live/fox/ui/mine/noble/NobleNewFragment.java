@@ -251,7 +251,7 @@ public class NobleNewFragment extends BaseBindingFragment {
                 tips= getString(R.string.goto_charge_diamond);
             } else {
                 tips =  String.format(getString(R.string.confirm_buy_noble_2),
-                        nobleBean.getOpenPrice()+"", getString(R.string.noble_2) + "." + getNoble());
+                        Strings.cutOff(nobleBean.getOpenPrice(),0), getString(R.string.noble_2) + "." + getNoble());
             }
         } else  {
             if (myLevel > nobleBean.getVipLevel()) {
@@ -264,7 +264,7 @@ public class NobleNewFragment extends BaseBindingFragment {
                     tips= getString(R.string.goto_charge_diamond);
                 } else{
                     tips = String.format(getString(R.string.confirm_buy_noble),
-                            nobleBean.getRenewalPrice()+"", getString(R.string.noble_2) + "." + getNoble());
+                            Strings.cutOff(nobleBean.getRenewalPrice(),0), getString(R.string.noble_2) + "." + getNoble());
                 }
             }
         }

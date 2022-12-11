@@ -43,6 +43,7 @@ import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.utils.Utils;
 import com.live.fox.utils.okgo.OkGoHttpUtil;
+import com.live.fox.view.LikeQQCropView;
 import com.live.fox.view.PictureCropView;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
@@ -61,7 +62,7 @@ public class EditProfileImageActivity extends BaseActivity {
     public static final String Shape="Shape";
     public static final String Circle="Circle";
     public static final String Square="Square";
-    PictureCropView pictureCropView;
+    LikeQQCropView pictureCropView;
 
 
     public static void startActivity(Activity context,String url)
@@ -99,22 +100,27 @@ public class EditProfileImageActivity extends BaseActivity {
 
         LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_header_layout,null);
 
-        pictureCropView=new PictureCropView(this);
+        pictureCropView=new LikeQQCropView(this);
+
+        int mRadius=0;
+        int screenWidth=ScreenUtils.getScreenWidth(this);
+        int dip10=ScreenUtils.dip2px(this,10);
         switch (shape)
         {
             case Circle:
-                pictureCropView.setShape(0);
-                pictureCropView.setRadius(ScreenUtils.getScreenWidth(this)/2-ScreenUtils.dip2px(this,10));
+                mRadius=screenWidth/2-dip10;
+                pictureCropView.setLayoutParams(new LinearLayout.LayoutParams(screenWidth,screenWidth));
                 break;
             case Square:
-                pictureCropView.setShape(1);
-                pictureCropView.setRadius(ScreenUtils.getScreenWidth(this)/2);
+                mRadius=0;
+                pictureCropView.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, screenWidth));
                 break;
         }
 
 
         pictureCropView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        pictureCropView.setPicture(BitmapFactory.decodeFile(url));
+        pictureCropView.setBitmap(url,ScreenUtils.getScreenWidth(this),ScreenUtils.getScreenWidth(this));
+        pictureCropView.setRadius(mRadius);
 
         view.addView(pictureCropView);
         setContentView(view);
@@ -134,7 +140,7 @@ public class EditProfileImageActivity extends BaseActivity {
         tvTitleRight.setOnClickListener(new OnClickFrequentlyListener() {
             @Override
             public void onClickView(View view) {
-                Bitmap bitmap= pictureCropView.cropPicture();
+                Bitmap bitmap= pictureCropView.clip();
                 if(bitmap!=null)
                 {
                     String state = Environment.getExternalStorageState();
@@ -146,9 +152,9 @@ public class EditProfileImageActivity extends BaseActivity {
                     {
                         folderDir.mkdirs();
                     }
-                    File pic=new File(folderDir.getPath()+"/"+System.currentTimeMillis()+".png");
+                    File pic=new File(folderDir.getPath()+"/"+System.currentTimeMillis()+".jpg");
 
-                    PictureFileUtils.saveBitmapToPNGFile(bitmap,pic,100);
+                    PictureFileUtils.saveBitmapToJPGFile(bitmap,pic,100);
                     LogUtils.e("上传头像地址：" + pic.getAbsolutePath());
 
                     Intent intent=new Intent();

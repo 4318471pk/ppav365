@@ -426,6 +426,17 @@ public class PictureFileUtils {
         }
     }
 
+    public static void saveBitmapToJPGFile(Bitmap bitmap, File file,int quality) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 转换图片成圆形
      *

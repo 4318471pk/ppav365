@@ -83,89 +83,32 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
             holder.tvDes.setText(bean.getDescript());
             GlideUtils.loadDefaultImage(activity, bean.getLogUrl(),0,R.mipmap.img_error, holder.ivCar1);
 
-            if (bean.isHave()) {
-                if (bean.isEnable()) {
-                    // holder.gtvCommit.setVisibility(View.GONE);
-                    holder.gtvCommit.setVisibility(View.VISIBLE);
-                    holder.tvDisable.setVisibility(View.VISIBLE);
-                    holder.tvDisable.setText(disable);
-                    holder.gtvCommit.setText(activity.getString(R.string.renew));
-                    holder.gtvCommit.setTextColor(0xffffffff);
-                    holder.gtvCommit.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
-                    holder.gtvCommit.setGradientBackground(blueColors,12*dip1);
-
-                    holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() {
+            holder.gtvCommit.setVisibility(View.VISIBLE);
+            holder.tvDisable.setVisibility(View.GONE);
+            holder.gtvCommit.setText(purchaseStr);
+            holder.gtvCommit.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            holder.gtvCommit.setTextColor(0xffffffff);
+            holder.gtvCommit.setGradientBackground(orangeColors,dip1*12);
+            holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() {
+                @Override
+                public void onClickView(View view) {
+                    PurchaseCarDialog purchaseCarDialog= PurchaseCarDialog.getInstance(1, bean);
+                    purchaseCarDialog.setOnBuyVehicleSuccessListener(new PurchaseCarDialog.OnBuyVehicleSuccessListener() {
                         @Override
-                        public void onClickView(View view) {
-                            PurchaseCarDialog purchaseCarDialog= PurchaseCarDialog.getInstance(1, bean);
-                            purchaseCarDialog.setOnBuyVehicleSuccessListener(new PurchaseCarDialog.OnBuyVehicleSuccessListener() {
-                                @Override
-                                public void onBuySuccess() {
-                                    if(myBagStoreClick!=null)
-                                    {
-                                        myBagStoreClick.buySuccess();
-                                    }
-                                }
-                            });
-                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(
-                                    activity.getSupportFragmentManager(),
-                                    purchaseCarDialog);
+                        public void onBuySuccess() {
+                            if(myBagStoreClick!=null)
+                            {
+                                myBagStoreClick.buySuccess();
+                            }
                         }
                     });
-
-                    holder.tvDisable.setOnClickListener(new OnClickFrequentlyListener() {
-                        @Override
-                        public void onClickView(View view) {
-                            myBagStoreClick.openCar(position,bean.getId(), false);
-                        }
-                    });
-                } else {
-                    holder.gtvCommit.setVisibility(View.VISIBLE);
-                    holder.tvDisable.setVisibility(View.GONE);
-                    holder.gtvCommit.setText(openStr);
-                    holder.gtvCommit.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-                    holder.gtvCommit.setTextColor(0xffA800FF);
-                    holder.gtvCommit.setStokeBackground(0xffA800FF,12*dip1,dip1);
-
-                    holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() { //启用座驾
-                        @Override
-                        public void onClickView(View view) {
-                            myBagStoreClick.openCar(position,bean.getId(), true);
-                        }
-                    });
+                    DialogFramentManager.getInstance().showDialogAllowingStateLoss(
+                            activity.getSupportFragmentManager(),
+                            purchaseCarDialog);
 
                 }
+            });
 
-            } else {
-                holder.gtvCommit.setVisibility(View.VISIBLE);
-                holder.tvDisable.setVisibility(View.GONE);
-                holder.gtvCommit.setText(purchaseStr);
-                holder.gtvCommit.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
-                holder.gtvCommit.setTextColor(0xffffffff);
-                holder.gtvCommit.setGradientBackground(orangeColors,dip1*12);
-                holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() {
-                    @Override
-                    public void onClickView(View view) {
-                        if(!bean.isHave())
-                        {
-                            PurchaseCarDialog purchaseCarDialog= PurchaseCarDialog.getInstance(1, bean);
-                            purchaseCarDialog.setOnBuyVehicleSuccessListener(new PurchaseCarDialog.OnBuyVehicleSuccessListener() {
-                                @Override
-                                public void onBuySuccess() {
-                                    if(myBagStoreClick!=null)
-                                    {
-                                        myBagStoreClick.buySuccess();
-                                    }
-                                }
-                            });
-                            DialogFramentManager.getInstance().showDialogAllowingStateLoss(
-                                    activity.getSupportFragmentManager(),
-                                    purchaseCarDialog);
-                        }
-
-                    }
-                });
-            }
             holder.layoutAni.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -217,29 +160,80 @@ public class MyBagAndStoreAdapter extends RecyclerView.Adapter<MyBagAndStoreAdap
                     }
                 }
             });
-            holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() { //启用座驾
-                @Override
-                public void onClickView(View view) {
-                    myBagStoreClick.openCar(position,bean.getPropId(), true);
-                }
-            });
+//            holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() { //启用座驾
+//                @Override
+//                public void onClickView(View view) {
+//                    myBagStoreClick.openCar(position,bean.getPropId(), true);
+//                }
+//            });
 
-            holder.gtvCommit.setVisibility(View.VISIBLE);
-            if(bean.getStatus()==1)
-            {
-                holder.gtvCommit.setText(activity.getString(R.string.using));
-                holder.gtvCommit.setEnabled(false);
-            }
-            else
-            {
-                holder.gtvCommit.setText(activity.getString(R.string.use));
-                holder.gtvCommit.setEnabled(true);
-            }
+//            holder.gtvCommit.setVisibility(View.VISIBLE);
+//            if(bean.getStatus()==1)
+//            {
+//                holder.gtvCommit.setText(activity.getString(R.string.using));
+//                holder.gtvCommit.setEnabled(false);
+//            }
+//            else
+//            {
+//                holder.gtvCommit.setText(activity.getString(R.string.use));
+//                holder.gtvCommit.setEnabled(true);
+//            }
 
             holder.tvDes.setText(bean.getDescript());
-            holder.gtvCommit.setDirection(GradientTextView.DIRECTION.LEFT);
-            holder.gtvCommit.setGradientBackground(activity.getResources().getIntArray(R.array.identificationColor),12*dip1);
+//            holder.gtvCommit.setDirection(GradientTextView.DIRECTION.LEFT);
+//            holder.gtvCommit.setGradientBackground(activity.getResources().getIntArray(R.array.identificationColor),12*dip1);
             GlideUtils.loadDefaultImage(activity, bean.getLogUrl(),0,R.mipmap.img_error, holder.ivCar1);
+
+            if (bean.getStatus()==1) {
+                // holder.gtvCommit.setVisibility(View.GONE);
+                holder.gtvCommit.setVisibility(View.VISIBLE);
+                holder.tvDisable.setVisibility(View.VISIBLE);
+                holder.tvDisable.setText(disable);
+                holder.gtvCommit.setText(activity.getString(R.string.renew));
+                holder.gtvCommit.setTextColor(0xffffffff);
+                holder.gtvCommit.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
+                holder.gtvCommit.setGradientBackground(blueColors,12*dip1);
+
+                holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() {
+                    @Override
+                    public void onClickView(View view) {
+                        PurchaseCarDialog purchaseCarDialog= PurchaseCarDialog.getInstance(1, bean);
+                        purchaseCarDialog.setOnBuyVehicleSuccessListener(new PurchaseCarDialog.OnBuyVehicleSuccessListener() {
+                            @Override
+                            public void onBuySuccess() {
+                                if(myBagStoreClick!=null)
+                                {
+                                    myBagStoreClick.buySuccess();
+                                }
+                            }
+                        });
+                        DialogFramentManager.getInstance().showDialogAllowingStateLoss(
+                                activity.getSupportFragmentManager(),
+                                purchaseCarDialog);
+                    }
+                });
+
+                holder.tvDisable.setOnClickListener(new OnClickFrequentlyListener() {
+                    @Override
+                    public void onClickView(View view) {
+                        myBagStoreClick.openCar(position,bean.getPropId(), false);
+                    }
+                });
+            } else {
+                holder.gtvCommit.setVisibility(View.VISIBLE);
+                holder.tvDisable.setVisibility(View.GONE);
+                holder.gtvCommit.setText(openStr);
+                holder.gtvCommit.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                holder.gtvCommit.setTextColor(0xffA800FF);
+                holder.gtvCommit.setStokeBackground(0xffA800FF,12*dip1,dip1);
+
+                holder.gtvCommit.setOnClickListener(new OnClickFrequentlyListener() { //启用座驾
+                    @Override
+                    public void onClickView(View view) {
+                        myBagStoreClick.openCar(position,bean.getPropId(), true);
+                    }
+                });
+            }
         }
 
 

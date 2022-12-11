@@ -468,7 +468,6 @@ public class LivingFragment extends BaseBindingFragment {
         addNewMessage(bean);
     }
 
-
     private void sendPersonalMessage(PersonalLivingMessageBean pBean) {
         LivingMsgBoxBean bean = new LivingMsgBoxBean();
         bean.setBackgroundColor(0x66000000);

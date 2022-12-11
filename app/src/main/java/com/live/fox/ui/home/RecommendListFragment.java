@@ -91,13 +91,13 @@ public class RecommendListFragment extends BaseBindingFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mBind.mvBroadcast.startFlipping();
+        mBind.mvBroadcast.continueRoll();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mBind.mvBroadcast.stopFlipping();
+        mBind.mvBroadcast.stopRoll();
     }
 
     /**
@@ -190,13 +190,13 @@ public class RecommendListFragment extends BaseBindingFragment {
                     for (int i = 0; i <data.size() ; i++) {
                         strings.add(data.get(i).getContent());
                     }
-                    mBind.mvBroadcast.startWithList(strings);
-                    mBind.mvBroadcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position, TextView textView) {
-                            JumpLinkUtils.jumpHomeBannerLinks(getActivity(),data.get(position));
-                        }
-                    });
+                    mBind.mvBroadcast.setContent(strings);
+//                    mBind.mvBroadcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(int position, TextView textView) {
+//                            JumpLinkUtils.jumpHomeBannerLinks(getActivity(),data.get(position));
+//                        }
+//                    });
                 }
             }
         });
@@ -294,43 +294,24 @@ public class RecommendListFragment extends BaseBindingFragment {
     private void setAdapterNewData()
     {
         livelistAdapter.removeHeaderView(header);
-        if (listBean!=null && listBean.getList().get(tabIndex).getRoomList()!=null &&
-                listBean.getList().get(tabIndex).getRoomList().size()> 0) {
+        if(tabIndex==0)
+        {
 
-            List<RoomListBean> gameLists=new ArrayList<>();
-            List<RoomListBean> AdultLists=new ArrayList<>();
-            List<RoomListBean> greenLists=new ArrayList<>();
-            for (int i = 0; i <listBean.getList().get(tabIndex).getRoomList().size() ; i++) {
-                RoomListBean roomListBean=listBean.getList().get(tabIndex).getRoomList().get(i);
+            header.setAdultLists(listBean.getList().get(tabIndex).getRoomCrList());
+            header.setGameLists(listBean.getList().get(tabIndex).getRoomGameList());
+        }
 
-                int type=listBean.getList().get(tabIndex).getRoomList().get(i).getRoomCategory();
-                switch (type)
-                {
-                    case 1:
-                        //游戏
-                        gameLists.add(roomListBean);
-                        break;
-                    case 2:
-                        //成人
-                        AdultLists.add(roomListBean);
-                        break;
-                    case 3:
-                        //绿播
-                        greenLists.add(roomListBean);
-                        break;
-                }
-            }
-
+        if (listBean!=null && listBean.getList().get(tabIndex).getRoomAllList()!=null &&
+                listBean.getList().get(tabIndex).getRoomAllList().size()> 0) {
             if(tabIndex==0)
             {
-                header.setAdultLists(AdultLists);
-                header.setGameLists(gameLists);
+
                 livelistAdapter.addHeaderView(header);
-                livelistAdapter.setNewData(greenLists);
+                livelistAdapter.setNewData(listBean.getList().get(tabIndex).getRoomAllList());
             }
             else
             {
-                livelistAdapter.setNewData(listBean.getList().get(tabIndex).getRoomList());
+                livelistAdapter.setNewData(listBean.getList().get(tabIndex).getRoomAllList());
             }
 
         }
@@ -341,32 +322,9 @@ public class RecommendListFragment extends BaseBindingFragment {
         }
     }
 
-    private void setTabs(List<HomeRecommendRoomListBean.ChannelList> channelLists)
+    private void setTabs(List<HomeRecommendRoomListBean.ChannelListData> channelLists)
     {
         mBind.hostTypeTabs.removeAllTabs();
-//        int dip1 = ScreenUtils.dip2px(getContext(), 1);
-//        int screenWidth = ScreenUtils.getScreenWidth(getContext());
-//        int itemWidth = (screenWidth - ScreenUtils.dip2px(getContext(), 50)) / 5;
-//        for (int i = 0; i < channelLists.size(); i++) {
-//            RelativeLayout tabItemRL = new RelativeLayout(getContext());
-//            tabItemRL.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
-//
-//            TextView tvTab = new TextView(getContext());
-//            tvTab.setText(channelLists.get(i).getChannelName());
-//            tvTab.setGravity(Gravity.CENTER);
-//            tvTab.setTextColor(0xff404040);
-//            tvTab.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-//            tvTab.setBackground(getResources().getDrawable(R.drawable.oval_f4f1f8));
-//            RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//            rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-////            rl.topMargin=dip1*5;
-//            rl.bottomMargin = dip1 * 10;
-//            tvTab.setLayoutParams(rl);
-//            tabItemRL.addView(tvTab);
-//
-//            mBind.hostTypeTabs.addTab(mBind.hostTypeTabs.newTab().setCustomView(tabItemRL));
-//        }
-
         mBind.hostTypeTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
