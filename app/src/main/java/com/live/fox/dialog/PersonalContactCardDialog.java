@@ -115,26 +115,7 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
                         mBind.ivContactType.setImageResource(R.mipmap.icon_contact_card_phone);
                         break;
                 }
-            }
 
-            boolean isDone=bean.isDoneFlag()==null?false:bean.isDoneFlag();
-            if(isDone)
-            {
-
-                if(!TextUtils.isEmpty(bean.getContactDetails())  ){
-                    mBind.tvContactVal.setText(bean.getContactDetails());
-                }else {
-                    mBind.tvContactVal.setText(ResourceUtils.getInstance().getString(R.string.no_contact_val));
-                }
-
-                mBind.gtvGet.setVisibility(View.GONE);
-
-            }
-            else
-            {
-                mBind.tvContactVal.setText("*****");
-
-                mBind.gtvGet.setVisibility(View.VISIBLE);
             }
 
             if(bean.getSendGifPrice()!=null && bean.getShowContactPrice()!=null)
@@ -149,6 +130,33 @@ public class PersonalContactCardDialog extends BaseBindingDialogFragment {
                     mBind.contactProgress.setProgress(progress);
                 }
             }
+
+
+            boolean isDone=bean.isDoneFlag()==null?false:bean.isDoneFlag();
+            if(isDone)
+            {
+
+                if(!TextUtils.isEmpty(bean.getContactDetails())  ){
+                    mBind.tvContactVal.setText(bean.getContactDetails());
+                    mBind.ivContactType.setVisibility(View.VISIBLE);
+                }else {
+                    mBind.tvContactVal.setText(ResourceUtils.getInstance().getString(R.string.no_contact_val));
+                    mBind.ivContactType.setVisibility(View.INVISIBLE);
+                    mBind.contactProgress.setProgress(0);
+                    mBind.tvProgress.setText("0/0");
+                }
+
+                mBind.gtvGet.setVisibility(View.GONE);
+
+            }
+            else
+            {
+                mBind.tvContactVal.setText("*****");
+
+                mBind.gtvGet.setVisibility(View.VISIBLE);
+            }
+
+
 
         }
 

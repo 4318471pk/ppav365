@@ -179,8 +179,8 @@
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/ivFirstTimeTopUp"
+            <com.opensource.svgaplayer.SVGAImageView
+                android:id="@+id/ivLiving"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"

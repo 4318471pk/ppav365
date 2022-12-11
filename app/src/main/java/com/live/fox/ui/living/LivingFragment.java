@@ -1143,6 +1143,10 @@ public class LivingFragment extends BaseBindingFragment {
 
                             LivingFinishView livingFinishView=(LivingFinishView)contentViews[0];
                             livingFinishView.showView();
+
+                            if(livingControlPanel!=null){
+                                livingControlPanel.dissmissTreasureBoxDialog();
+                            }
                             break;
                         case MessageProtocol.LIVE_BUY_GUARD:
                             NewBornNobleOrGuardMessageBean bean=new Gson().fromJson(msg,NewBornNobleOrGuardMessageBean.class);

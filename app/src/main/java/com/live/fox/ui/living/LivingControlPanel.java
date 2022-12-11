@@ -424,7 +424,14 @@ public class LivingControlPanel extends RelativeLayout {
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(fragment.getChildFragmentManager(), dialog);
     }
 
+    private  TreasureBoxDialog treasureBoxDialog=null;
 
+    public void dissmissTreasureBoxDialog()
+    {
+        if(treasureBoxDialog!=null){
+            treasureBoxDialog.dismiss();
+        }
+    }
     //显示礼物弹窗
     private void showTreasureDialog()
     {
@@ -435,7 +442,10 @@ public class LivingControlPanel extends RelativeLayout {
             {
                 mBind.rlBotView.setVisibility(INVISIBLE);
                 mBind.llMessages.setVisibility(INVISIBLE);
-                TreasureBoxDialog treasureBoxDialog=TreasureBoxDialog.getInstance(fragment.getRoomBean().getId(),fragment.getRoomBean().getAid());
+                if(treasureBoxDialog!=null){
+                    treasureBoxDialog.dismiss();
+                }
+                treasureBoxDialog=TreasureBoxDialog.getInstance(fragment.getRoomBean().getId(),fragment.getRoomBean().getAid());
                 treasureBoxDialog.setGiftListData(getActivity().giftListData);
                 treasureBoxDialog.setVipGiftListData(getActivity().vipGiftListData);
                 treasureBoxDialog.setSendGiftAmountBeans(sendGiftAmountBeanList);
