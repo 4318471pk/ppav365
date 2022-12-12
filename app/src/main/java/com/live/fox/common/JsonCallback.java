@@ -62,7 +62,7 @@ public abstract class JsonCallback<T> extends StringCallback {
     @Override
     public void onSuccess(Response<String> response) {
         String url=response.getRawCall().request().url().toString();
-        LogUtils.e(url+" "+response.body());
+        LogUtils.i(url+" "+response.body());
         try {
 
 //            if (response.code() == 451 && !(ActivityUtils.getTopActivity() instanceof LoginActivity)) {

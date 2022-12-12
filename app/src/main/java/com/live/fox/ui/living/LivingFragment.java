@@ -817,7 +817,7 @@ public class LivingFragment extends BaseBindingFragment {
             final RoomListBean bean = activity.getRoomListBeans().get(currentPagePosition);
 
             Api_Live.ins().interRoom(bean.getId(), bean.getAid(),bean.getRoomType(),
-                    "", 0, new JsonCallback<EnterRoomBean>() {
+                    "", new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
                             if(!isActivityOK() || !getArg().equals(bean.getId()))
