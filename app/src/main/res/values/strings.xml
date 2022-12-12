@@ -1631,4 +1631,9 @@
     <string name="short_message">弹幕内容不能超过30个汉字</string>
     <string name="no_contact_val">主播没有留下联系方式</string>
 
+    <string name="tips13">钻石不够啦~现在充值有优惠哟！</string>
+    <string name="tips14">确认消耗 %1$s钻石开通%2$s吗？</string>
+    <string name="tips15">确认消耗 %1$s钻石续费%2$s吗？</string>
+    <string name="tips16">无法开通！您已经有更高等级的守护 在身，可以看看高级守护哟！</string>
+
 </resources>

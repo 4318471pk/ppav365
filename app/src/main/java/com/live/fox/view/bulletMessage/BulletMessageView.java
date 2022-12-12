@@ -82,7 +82,7 @@ public class BulletMessageView extends LinearLayout {
 
             }
 
-            if(bean.getVipLevel()>0 && bean.getVipLevel()<decorationResource.length)
+            if(bean.getVipLevel()>0 && bean.getVipLevel()<decorationResource.length+1)
             {
                 ivEdge.setImageResource(decorationResource[bean.getVipLevel()-1]);
                 ivUserImg.setScaleX(scaleAndMargins[bean.getVipLevel()-1][0]);

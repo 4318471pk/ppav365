@@ -109,7 +109,25 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
                     if(itemsRL.get(i).isSelected())
                     {
                         AvailableGuardBean bean=guardBeans.get(i);
-                        openGuard(bean);
+                        if(self!=null)
+                        {
+                            if(Strings.isDigitOnly(self.getGuardLevel()))
+                            {
+                                Integer selfGuardLevel=Integer.valueOf(self.getGuardLevel());
+                                if(selfGuardLevel>bean.getGuardLevel())
+                                {
+                                    showDialog(4,getStringWithoutContext(R.string.dialog_words),getStringWithoutContext(R.string.tips16),null);
+                                }
+                                else
+                                {
+                                    openGuard(bean);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            openGuard(bean);
+                        }
                         break;
                     }
                 }
@@ -192,24 +210,13 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
             mBind.llLogos.addView(item,ll);
         }
 
-        if(self==null)
+        if(self!=null && Strings.isDigitOnly(self.getGuardLevel()))
         {
+            guardLevel=Integer.valueOf(self.getGuardLevel());
+            guardExpireTime=Long.valueOf(self.getExpireTime());
+        }
 
-            getUserInfo();
-        }
-        else
-        {
-            //如果能拿到自己的guardLevel就不刷新个人信息了
-            if(Strings.isDigitOnly(self.getGuardLevel()))
-            {
-                guardLevel=Integer.valueOf(self.getGuardLevel());
-                guardExpireTime=Long.valueOf(self.getExpireTime());
-            }
-            else
-            {
-                getUserInfo();
-            }
-        }
+        getUserInfo();//余额可能没及时刷新 刷一下
         getAvailableGuardList();
         view.setVisibility(View.VISIBLE);
 
@@ -331,40 +338,47 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
     private void openGuard(AvailableGuardBean bean)
     {
         User user=DataCenter.getInstance().getUserInfo().getUser();
-        if(user.getDiamond("0").compareTo(new BigDecimal(bean.getOpenPrice()))>=0)
+        boolean isRenew= mBind.ivRenewGuard.getVisibility()==View.VISIBLE;
+        int cost=isRenew?bean.getRenewalPrice():bean.getOpenPrice();
+        if(cost<0)
         {
-            Api_Order.ins().buyGuard(uid,liveId, bean, new JsonCallback<String>() {
-                @Override
-                public void onSuccess(int code, String msg, String data) {
-                    if(isConditionOk() && code==0)
-                    {
-                        ToastUtils.showShort(R.string.operateSuccess);
-                        dismissAllowingStateLoss();
-                    }
-                    else
-                    {
-                        ToastUtils.showShort(msg);
-                    }
-                }
-            });
+            ToastUtils.showShort(getStringWithoutContext(R.string.jiexiWrong));
+            return;
+        }
+
+        if(user.getDiamond("0").compareTo(new BigDecimal(cost))>=0)
+        {
+            if(isRenew)
+            {
+
+                String text=String.format(getStringWithoutContext(R.string.tips15),cost+"",bean.getName());
+                showDialog(3,getStringWithoutContext(R.string.dialog_words),text,bean);
+
+            }
+            else
+            {
+                String text=String.format(getStringWithoutContext(R.string.tips14),cost+"",bean.getName());
+                showDialog(2,getStringWithoutContext(R.string.dialog_words),text,bean);
+            }
         }
         else
         {
-            showInsufficientDiamondDialog();
+            showDialog(1,getStringWithoutContext(R.string.dialogTitle2),getStringWithoutContext(R.string.tips13),null);
         }
 
     }
 
-    private void showInsufficientDiamondDialog()
+    //1 钻石不足 2开通守护 3续费守护 4无法开通低级守护
+    private void showDialog(int type,String title,String content,final AvailableGuardBean bean)
     {
         TempleDialog2 templeDialog= TempleDialog2.getInstance();
         templeDialog.setOnCreateDialogListener(new TempleDialog2.OnCreateDialogListener() {
             @Override
             public void onCreate(TempleDialog2 dialog) {
-                dialog.mBind.tvTitle.setText(getStringWithoutContext(R.string.dialogTitle2));
+                dialog.mBind.tvTitle.setText(title);
                 dialog.mBind.gtCommit.setText(getStringWithoutContext(R.string.confirm));
                 dialog.mBind.gtCancel.setText(getStringWithoutContext(R.string.cancel));
-                dialog.mBind.tvContent.setText(getStringWithoutContext(R.string.InsufficientDiamond));
+                dialog.mBind.tvContent.setText(content);
             }
 
             @Override
@@ -374,8 +388,21 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
 
             @Override
             public void clickOk(TempleDialog2 dialog) {
-                RechargeActivity.startActivity(requireActivity(), false);
-                dialog.dismissAllowingStateLoss();
+                switch (type)
+                {
+                    case 1:
+                        RechargeActivity.startActivity(requireActivity(), false);
+                        dialog.dismissAllowingStateLoss();
+                        break;
+                    case 2:
+                    case 3:
+                        buyGuard(bean);
+                        break;
+                    case 4:
+                        dialog.dismissAllowingStateLoss();
+                        break;
+                }
+
             }
 
             @Override
@@ -386,32 +413,66 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
         DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),templeDialog);
     }
 
-    private void getUserInfo()
+    private void buyGuard(AvailableGuardBean bean)
     {
-        Long myUid=DataCenter.getInstance().getUserInfo().getUser().getUid();
-        if(myUid==null)
+        if(bean==null)
         {
             return;
         }
         showLoadingDialog();
-        Api_User.ins().getUserInfo(myUid, liveId, new JsonCallback<String>() {
+        Api_Order.ins().buyGuard(uid,liveId, bean, new JsonCallback<String>() {
             @Override
             public void onSuccess(int code, String msg, String data) {
                 if(!isConditionOk())
                 {
                     return;
                 }
+
                 dismissLoadingDialog();
+                if( code==0)
+                {
+                    ToastUtils.showShort(R.string.operateSuccess);
+                    dismissAllowingStateLoss();
+                }
+                else
+                {
+                    ToastUtils.showShort(msg);
+                }
+            }
+        });
+    }
+
+    private void getUserInfo()
+    {
+        Api_User.ins().getUserInfo(-1, liveId, new JsonCallback<String>() {
+            @Override
+            public void onSuccess(int code, String msg, String data) {
+                if(!isConditionOk())
+                {
+                    return;
+                }
 
                 if(code==0)
                 {
-                    User user=new Gson().fromJson(data,User.class);
-                    if(user.isGuard())
+                    User user= DataCenter.getInstance().getUserInfo().getUser();
+                    if(user.isGuard() && Strings.isDigitOnly(self.getGuardLevel()))
                     {
                         guardLevel=Integer.valueOf(self.getGuardLevel());
+
+                        if(user.getGold()!=null)
+                        {
+                            mBind.tvBalance.setText(getStringWithoutContext(R.string.balance2));
+                            mBind.tvBalance.append(user.getGold(0.0f).toPlainString());
+                        }
+                        if(user.getDiamond()!=null)
+                        {
+                            mBind.tvDiamond.setText(getStringWithoutContext(R.string.diamond2));
+                            mBind.tvDiamond.append(user.getDiamond("0.0").toPlainString());
+                        }
                     }
                     else
                     {
+
                     }
                 }
             }
