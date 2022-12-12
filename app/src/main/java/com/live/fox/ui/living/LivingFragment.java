@@ -1346,7 +1346,7 @@ public class LivingFragment extends BaseBindingFragment {
                         GlideUtils.loadCircleImage(getActivity(), data.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
                                 livingControlPanel.mBind.rivProfileImage.getProfileImage());
                         getAnchorInfo(Long.valueOf(data.getAnchorId()));
-                        livingControlPanel.mBind.rivProfileImage.setIndex(RankProfileView.NONE, RankProfileView.NONE,false);
+                        livingControlPanel.mBind.rivProfileImage.setIndex(RankProfileView.NONE, data.getVipLevel(),false);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
                         livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount()+"");

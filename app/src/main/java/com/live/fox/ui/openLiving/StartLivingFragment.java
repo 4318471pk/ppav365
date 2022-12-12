@@ -826,7 +826,7 @@ public class StartLivingFragment extends BaseBindingFragment {
                         mBind.tvAnchorID.setText("ID:"+user.getUid());
                         GlideUtils.loadCircleImage(getActivity(), user.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
                                 mBind.rivProfileImage.getProfileImage());
-                        mBind.rivProfileImage.setIndex(RankProfileView.NONE,RankProfileView.NONE,false);
+                        mBind.rivProfileImage.setIndex(RankProfileView.NONE,user.getVipLevel(),false);
 
                         getMainActivity().setPushUrl(pushStreamUrl);
                         initFragment();

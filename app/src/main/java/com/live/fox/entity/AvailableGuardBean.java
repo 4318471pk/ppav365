@@ -8,8 +8,8 @@ public class AvailableGuardBean {
     private String imgUrl;
     private String medalUrl;
     private int openType;
-    private int openPrice;
-    private int renewalPrice;
+    private Integer openPrice;
+    private Integer renewalPrice;
     private int status;
     private long createTime;
     private long updateTime;
@@ -65,7 +65,7 @@ public class AvailableGuardBean {
     }
 
     public int getOpenPrice() {
-        return openPrice;
+        return openPrice==null?-1:openPrice;
     }
 
     public void setOpenPrice(int openPrice) {
@@ -73,7 +73,7 @@ public class AvailableGuardBean {
     }
 
     public int getRenewalPrice() {
-        return renewalPrice;
+        return renewalPrice==null?-1:renewalPrice;
     }
 
     public void setRenewalPrice(int renewalPrice) {

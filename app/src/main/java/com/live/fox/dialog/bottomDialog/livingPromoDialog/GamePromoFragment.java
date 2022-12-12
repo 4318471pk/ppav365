@@ -70,7 +70,11 @@ public class GamePromoFragment extends BaseBindingFragment {
         dialogPromoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                JumpLinkUtils.jumpActivityLinks(getContext(),dialogPromoAdapter.getData().get(position));
+
+                ActBean actBean=dialogPromoAdapter.getData().get(position);
+                actBean.setJumpType(1);
+
+                JumpLinkUtils.jumpActivityLinks(getContext(),actBean);
             }
         });
         mBind.rvMain.setAdapter(dialogPromoAdapter);

@@ -6,12 +6,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.live.fox.R;
 import com.live.fox.base.BaseBindingViewActivity;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.ActivityMylevelBinding;
+import com.live.fox.entity.User;
 import com.live.fox.entity.UserAssetsBean;
+import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Order;
+import com.live.fox.server.Api_User;
 import com.live.fox.server.BaseApi;
 import com.live.fox.utils.FixImageSize;
 import com.live.fox.utils.ToastUtils;
@@ -59,14 +63,13 @@ public class MyLevelActivity extends BaseBindingViewActivity {
                 rlProgress.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
                 mBind.llProgress.setLayoutParams(rlProgress);
 
-                String ex=getResources().getString(R.string.experienceValueNeeds);
-                ex=String.format(ex,"50");
-                mBind.tvExperienceNeeds.setText(ex);
-
                 mBind.rlmain.setVisibility(View.VISIBLE);
-                setProgress(0.5f);
+
             }
         });
+
+        User user=DataCenter.getInstance().getUserInfo().getUser();
+        mBind.tvLv.setText("LV." + user.getUserLevel());
 
         getData();
 
@@ -90,24 +93,44 @@ public class MyLevelActivity extends BaseBindingViewActivity {
     }
 
     private void getData(){
-        showLoadingDialogWithNoBgBlack();
-        HashMap<String, Object> commonParams = BaseApi.getCommonParams();
-        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+        Api_User.ins().getUserInfo(-1, new JsonCallback<String>() {
             @Override
-            public void onSuccess(int code, String msg, UserAssetsBean data) {
-                if(isFinishing() || isDestroyed())
+            public void onSuccess(int code, String msg, String data) {
+                    if(isFinishing() || isDestroyed())
+                    {
+                        return;
+                    }
+
+                User user=DataCenter.getInstance().getUserInfo().getUser();
+                mBind.tvLv.setText("LV." + user.getUserLevel());
+                mBind.floatingPoint.setText(user.getUserExp()+ "");
+                String ex=getResources().getString(R.string.experienceValueNeeds);
+                mBind.tvExperienceNeeds.setText(String.format(ex,user.getNeedExp()+""));
+
+                if(user.getUserExp()>0 && user.getNeedExp()>0)
                 {
-                    return;
-                }
-                hideLoadingDialog();
-                if (code == 0 ) {
-                    mBind.tvLv.setText("LV." + data.getUserLevel());
-                    mBind.floatingPoint.setText(data.getUserExp()+ "");
-                } else {
-                    ToastUtils.showShort(msg);
+                    float progress=1.0f*user.getUserExp()/(user.getUserExp()+user.getNeedExp());
+                    setProgress(progress);
                 }
             }
-        }, commonParams);
+        });
+
+//        Api_Order.ins().getAssets(new JsonCallback<UserAssetsBean>() {
+//            @Override
+//            public void onSuccess(int code, String msg, UserAssetsBean data) {
+//                if(isFinishing() || isDestroyed())
+//                {
+//                    return;
+//                }
+//                hideLoadingDialog();
+//                if (code == 0 ) {
+//                    mBind.tvLv.setText("LV." + data.getUserLevel());
+//                    mBind.floatingPoint.setText(data.getUserExp()+ "");
+//                } else {
+//                    ToastUtils.showShort(msg);
+//                }
+//            }
+//        }, commonParams);
     }
 
 

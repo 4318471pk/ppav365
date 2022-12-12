@@ -487,6 +487,8 @@ public class TreasureBoxDialog extends BaseBindingDialogFragment {
                     mBind.tvDiamond.setText(getStringWithoutContext(R.string.diamond2));
                     mBind.tvDiamond.append(user.getDiamond("0.0").toPlainString());
 
+                    mBind.tvGive.setEnabled(true);
+
                     //@ApiModelProperty(value = "是否充值过(0否 1是)")
                     showSvga(user.getFirstRecharge()==1);
                 } else {
