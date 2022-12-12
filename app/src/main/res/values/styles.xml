@@ -388,4 +388,24 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+    <declare-styleable name="MarqueeView">
+        <!--垂直切换时间-->
+        <attr name="vertical_switch_speed" format="integer" />
+        <!--垂直切换间隔-->
+        <attr name="vertical_switch_interval" format="integer" />
+        <!--水平滚动时间-->
+        <attr name="horizontal_scroll_speed" format="integer" />
+        <!--水平滚动间隔-->
+        <attr name="horizontal_scroll_interval" format="integer" />
+        <!--内容文字颜色-->
+        <attr name="content_text_size" format="dimension" />
+        <!--内容文字大小-->
+        <attr name="content_text_color" format="color" />
+
+        <attr name="content_single_text" format="string" />
+
+        <!--水平循环速度-->
+        <attr name="horizontal_loop_speed" format="integer" />
+    </declare-styleable>
 </resources>

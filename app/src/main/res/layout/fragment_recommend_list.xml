@@ -54,7 +54,7 @@
                         android:textStyle="bold" />
 
 
-                    <TextView
+                    <com.live.fox.view.MarqueeView
                         android:id="@+id/mvBroadcast"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -63,6 +63,8 @@
                         android:layout_toRightOf="@id/ivBroadcast"
                         android:textColor="#A800FF"
                         android:textSize="13sp"
+                        app:content_text_color="#A800FF"
+                        app:content_text_size="13sp"
                          />
 
 

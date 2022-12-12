@@ -30,6 +30,7 @@ import com.live.fox.server.BaseApi;
 import com.live.fox.utils.BarUtils;
 import com.live.fox.utils.ToastUtils;
 import com.live.fox.view.tab.SimpleTabLayout;
+import com.opensource.svgaplayer.SVGAParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,6 +93,8 @@ public class NobleActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SVGAParser.Companion.shareParser().init(this);//SVGA解析器初始化
         BarUtils.setStatusBarAlpha(this);
         setContentView(activity_noble);
         tabLayout = findViewById(R.id.tabLayout);

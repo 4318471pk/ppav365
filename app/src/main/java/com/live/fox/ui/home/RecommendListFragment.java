@@ -3,6 +3,7 @@ package com.live.fox.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -46,9 +47,11 @@ import com.live.fox.utils.IntentUtils;
 import com.live.fox.utils.JumpLinkUtils;
 import com.live.fox.utils.LiveListHeader;
 import com.live.fox.utils.LogUtils;
+import com.live.fox.utils.OnClickFrequentlyListener;
 import com.live.fox.utils.SPUtils;
 import com.live.fox.utils.StringUtils;
 import com.live.fox.utils.device.DeviceUtils;
+import com.live.fox.view.MarqueeView;
 import com.live.fox.view.convenientbanner.ConvenientBanner;
 import com.live.fox.view.convenientbanner.holder.Holder;
 import com.live.fox.view.myHeader.MyWaterDropHeader;
@@ -189,18 +192,20 @@ public class RecommendListFragment extends BaseBindingFragment {
                 if(data!=null && data.size()>0)
                 {
                     List<String> strings=new ArrayList<>();
-                    StringBuilder stringBuilder=new StringBuilder();
                     for (int i = 0; i <data.size() ; i++) {
                         strings.add(data.get(i).getContent());
-                        stringBuilder.append(data.get(i).getContent()).append("  ");
                     }
-                    mBind.mvBroadcast.setSingleLine();
-                    mBind.mvBroadcast.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                    mBind.mvBroadcast.setMarqueeRepeatLimit(Integer.MAX_VALUE);
                     mBind.mvBroadcast.setFocusableInTouchMode(true);
                     mBind.mvBroadcast.setFocusable(true);
                     mBind.mvBroadcast.setSelected(true);
-                    mBind.mvBroadcast.setText(stringBuilder.toString());
+                    mBind.mvBroadcast.setContentList(strings);
+                    mBind.mvBroadcast.setOnClickListener(new OnClickFrequentlyListener() {
+                        @Override
+                        public void onClickView(View view) {
+                            MarqueeView marqueeView=(MarqueeView)view;
+                            JumpLinkUtils.jumpHomeBannerLinks(getActivity(),data.get(marqueeView.getCurrentIndex()));
+                        }
+                    });
 //                    mBind.mvBroadcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
 //                        @Override
 //                        public void onItemClick(int position, TextView textView) {

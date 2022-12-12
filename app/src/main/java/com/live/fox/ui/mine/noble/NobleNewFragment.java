@@ -17,9 +17,12 @@ import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.live.fox.R;
 import com.live.fox.adapter.NobleEquityAdapter;
+import com.live.fox.base.BaseBindingDialogFragment;
 import com.live.fox.base.BaseBindingFragment;
+import com.live.fox.base.DialogFramentManager;
 import com.live.fox.common.JsonCallback;
 import com.live.fox.databinding.FragmentNobleBinding;
+import com.live.fox.dialog.BuyNobleSuccessDialog;
 import com.live.fox.dialog.CommonDialog;
 import com.live.fox.entity.MessageEvent;
 import com.live.fox.entity.NobleEquityBean;
@@ -131,9 +134,7 @@ public class NobleNewFragment extends BaseBindingFragment {
         mBind.tvOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //setPopCharge();
                 showTips();
-               // showDialog(getString(R.string.dialogTitle2), getString(R.string.goto_charge_diamond), true);
             }
         });
 
@@ -204,7 +205,7 @@ public class NobleNewFragment extends BaseBindingFragment {
                         setOutTime(obj.optLong("expireTime",0l));
                         NobleActivity nobleActivity=(NobleActivity)getActivity();
                         nobleActivity.notifyAllFragments();
-                        setPopCharge();
+                        showBuyVipSuccessDialog();
                     } catch (JSONException exception) {
                         exception.printStackTrace();
                     }
@@ -217,9 +218,6 @@ public class NobleNewFragment extends BaseBindingFragment {
             }
         }, commonParams);
     }
-
-
-
 
     private void showTips(){
         float diamonds=0.0f;
@@ -288,53 +286,20 @@ public class NobleNewFragment extends BaseBindingFragment {
     }
 
 
-    private void setPopCharge( ){
-        View popupView = getLayoutInflater().inflate(R.layout.pop_noble_buy,null);
-        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
-        popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setBackgroundDrawable(null);
-        TextView tvTitle = popupView.findViewById(R.id.tv_title);
-        String buy = getResources().getString(R.string.con_you_buy);
-        if (getMyLevel() == getNobleEquityBean().getVipLevel()) {
-            buy = getResources().getString(R.string.con_you_xufei);
-        }
-        String string = "<font color='#ffffff'> " + buy + "</font>" +
-                "<font color='#E2B361'> " +getResources().getString(R.string.noble_2) + "." + getNoble() + "</font>" +
-                "<font color='#ffffff'> " +getResources().getString(R.string.tab_change_success)+ "</font>";
-        tvTitle.setText(Html.fromHtml(string));
-
-//        ImageView iv = popupView.findViewById(R.id.iv);
-//        GlideUtils.loadImage(this.getActivity(), vipImg, iv);
-
-        TextView tvTime = popupView.findViewById(R.id.tv_time);
+    private void showBuyVipSuccessDialog( ){
+        BuyNobleSuccessDialog dialog=BuyNobleSuccessDialog.getInstance(getMyLevel(),getMyLevel() == getNobleEquityBean().getVipLevel());
         setRootAlpha(0.35f);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        dialog.setOnDismissListener(new BaseBindingDialogFragment.OnDismissListener() {
             @Override
-            public void onDismiss() {
-                //在dismiss中恢复透明度
-                setRootAlpha(1f);
+            public void onDismiss(BaseBindingDialogFragment baseBindingDialogFragment) {
+                if(isActivityOK())
+                {
+                    setRootAlpha(1f);
+                }
             }
         });
+        DialogFramentManager.getInstance().showDialogAllowingStateLoss(getChildFragmentManager(),dialog);
 
-        popupWindow.showAtLocation(mBind.getRoot(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
-
-        countDownTimer=new CountDownTimer(5000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                if(isActivityOK())
-                {
-                    tvTime.setText(millisUntilFinished / 1000 + "s");
-                }
-
-            }
-            public void onFinish() {
-                if(isActivityOK())
-                {
-                    countDownTimer.cancel();
-                    popupWindow.dismiss();
-                }
-            }
-        }.start();
     }
 
     private void setRootAlpha(float al){

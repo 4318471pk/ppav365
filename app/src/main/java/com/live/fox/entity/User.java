@@ -74,7 +74,8 @@ public class User implements Serializable {
     private int sendDiamond; //送出钻石
     private int isCertified; //是否已认证：0未认证 1已认证
     private Boolean isRoomManage;//是不是管理员
-    private int userExp;//用户经验
+    private Integer userExp;//用户经验
+    private Integer needExp;//用户经验距离升级
     private String vipName; //	贵族靓号
     private int job = -1;
     private Boolean isBroadcast;//是否直播中
@@ -263,11 +264,19 @@ public class User implements Serializable {
     }
 
     public int getUserExp() {
-        return userExp;
+        return userExp==null?-1:userExp;
     }
 
     public void setUserExp(int userExp) {
         this.userExp = userExp;
+    }
+
+    public int getNeedExp() {
+        return needExp==null?-1:needExp;
+    }
+
+    public void setNeedExp(int needExp) {
+        this.needExp = needExp;
     }
 
     public String getVipName() {
