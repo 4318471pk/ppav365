@@ -139,6 +139,7 @@
                         </RelativeLayout>
 
                         <TextView
+                            android:enabled="false"
                             android:id="@+id/tvGive"
                             android:layout_width="60dip"
                             android:layout_height="30dip"

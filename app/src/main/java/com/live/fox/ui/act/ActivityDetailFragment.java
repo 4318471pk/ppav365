@@ -72,7 +72,9 @@ public class ActivityDetailFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                JumpLinkUtils.jumpActivityLinks(getContext(),mData.get(position));
+                ActBean actBean=mData.get(position);
+                actBean.setJumpType(1);
+                JumpLinkUtils.jumpActivityLinks(getContext(),actBean);
             }
         });
 

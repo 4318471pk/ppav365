@@ -120,6 +120,10 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     public void refreshUserinfo() {
         userinfo = DataCenter.getInstance().getUserInfo().getUser();
 
+        if(userinfo==null){
+            return;
+        }
+
         SpanUtils spanUtils=new SpanUtils();
         if(ChatSpanUtils.appendSexIcon(spanUtils,userinfo.getSex(), getActivity(), SpanUtils.ALIGN_CENTER))
         {
@@ -135,7 +139,7 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         }
         mBind.tvIcons.setText(spanUtils.create());
 
-        if (!userinfo.getAvatar().equals(headUrl)) {
+        if (userinfo.getAvatar()!=null&&!userinfo.getAvatar().equals(headUrl)) {
             headUrl = userinfo.getAvatar();
             GlideUtils.loadCircleOnePxRingImage(requireActivity(), userinfo.getAvatar(),
                     R.color.transparent,
@@ -168,8 +172,13 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         }
 
 
-        mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f).doubleValue()));
-        mBind.diamondTv.setText(userinfo.getDiamond().toPlainString() + "");
+        try {
+            mBind.balanceMoneyTv.setText(RegexUtils.westMoney(userinfo.getGold(0.0f).doubleValue()));
+            mBind.diamondTv.setText(userinfo.getDiamond().toPlainString() + "");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         mBind.tvNickname.setText(userinfo.getNickname());
         //mBind.tvSex.setText(ChatSpanUtils.ins().getUserInfoSpan(userinfo, requireActivity()));
 
@@ -242,10 +251,15 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
     public void onIMReceived(int protocol, String msg) {
         try {
             JSONObject message = new JSONObject(msg);
+
+            if(message==null){
+                return;
+            }
+
             if (protocol == Constant.MessageProtocol.PROTOCOL_BALANCE_CHANGE) { //12.金币变动消息
                 long uid = message.optLong("uid", -1);
                 Double goldCoin = message.optDouble("goldCoin", -1);
-                if (uid == userinfo.getUid()) {
+                if (userinfo!=null&&uid == userinfo.getUid()) {
                     userinfo.setGoldCoin(goldCoin.floatValue());
                     DataCenter.getInstance().getUserInfo().updateUser(userinfo);
                     mBind.balanceMoneyTv.setText(RegexUtils.westMoney(goldCoin));
@@ -307,6 +321,11 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
                 if (code == 0) {
                     if (data == null) return;
                     for (Letter letter : data) {
+
+                        if(letter==null){
+                            return;
+                        }
+
                         User otherUser = new User();
                         otherUser.setUid(letter.getOtherUid());
                         otherUser.setAvatar(letter.getAvatar());
@@ -454,18 +473,27 @@ public class MineFragment extends BaseBindingFragment implements AppIMManager.On
         RecyclerView rc = popupView.findViewById(R.id.rc);
         String arrayTitle[]=getResources().getStringArray(R.array.serviceTitles);
         String arrayDetails[]=getResources().getStringArray(R.array.serviceDetails);
-        if (serviceList.size() == 0) {
-            ServiceItemBean bean1=new ServiceItemBean();
-            bean1.setResourceId(R.mipmap.icon_online_service);
-            bean1.setTitle(arrayTitle[0]);
-            bean1.setDetail(arrayDetails[0]);
-            serviceList.add(bean1);
-            ServiceItemBean bean2=new ServiceItemBean();
-            bean2.setResourceId(R.mipmap.icon_business_service);
-            bean2.setTitle(arrayTitle[1]);
-            bean2.setDetail(arrayDetails[1]);
-            serviceList.add(bean2);
+
+        try {
+
+            if (serviceList.size() == 0) {
+                ServiceItemBean bean1=new ServiceItemBean();
+                bean1.setResourceId(R.mipmap.icon_online_service);
+                bean1.setTitle(arrayTitle[0]);
+                bean1.setDetail(arrayDetails[0]);
+                serviceList.add(bean1);
+                ServiceItemBean bean2=new ServiceItemBean();
+                bean2.setResourceId(R.mipmap.icon_business_service);
+                bean2.setTitle(arrayTitle[1]);
+                bean2.setDetail(arrayDetails[1]);
+                serviceList.add(bean2);
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
         if (serviceAdapter == null) {
             serviceAdapter = new ServiceAdapter(getActivity(),serviceList);
         }
