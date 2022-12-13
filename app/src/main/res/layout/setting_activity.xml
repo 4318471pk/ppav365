@@ -238,7 +238,7 @@
                 app:primaryColor="#A800FF"
                 app:offColor="#D2CDE0"
                 app:hasShadow="true"
-                app:isOpened="false" />
+                app:isOpened="true" />
         </RelativeLayout>
 
         <!-- 礼物特效       -->
@@ -277,7 +277,7 @@
                 app:primaryColor="#A800FF"
                 app:offColor="#D2CDE0"
                 app:hasShadow="true"
-                app:isOpened="false" />
+                app:isOpened="true" />
         </RelativeLayout>
 
         <!--  座驾特效       -->
@@ -316,7 +316,7 @@
                 app:primaryColor="#A800FF"
                 app:offColor="#D2CDE0"
                 app:hasShadow="true"
-                app:isOpened="false" />
+                app:isOpened="true" />
         </RelativeLayout>
 
         <!--    清除缓存 UI图没有 先留着    -->

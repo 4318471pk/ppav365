@@ -72,8 +72,8 @@ public class MultiLanguageActivity extends BaseHeadActivity {
 
         List<LanguageEntity> languageEntities = new ArrayList<>();
         languageEntities.add(ch);
-        languageEntities.add(vi);
-        languageEntities.add(th);
+//        languageEntities.add(vi);
+//        languageEntities.add(th);
 
         adapter.addData(languageEntities);
         adapter.setOnItemClickListener((adapter1, view, position) -> {

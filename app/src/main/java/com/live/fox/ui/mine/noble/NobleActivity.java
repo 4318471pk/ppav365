@@ -217,7 +217,7 @@ public class NobleActivity extends BaseActivity {
               //  hideLoadingDialog();
                 if (code == 0 && msg.equals("ok") || "success".equals(msg)) {
                     if (data !=null) {
-                        myLevel = data.getVipLevel();
+//                        myLevel = data.getVipLevel();
                         outTime = data.getExpireTime();
                     }
                 } else {

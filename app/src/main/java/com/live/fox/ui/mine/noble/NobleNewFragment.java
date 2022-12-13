@@ -232,7 +232,7 @@ public class NobleNewFragment extends BaseBindingFragment {
                 tips= getString(R.string.goto_charge_diamond);
             } else {
                 tips =  String.format(getString(R.string.confirm_buy_noble_2),
-                        Strings.cutOff(getNobleEquityBean().getOpenPrice(),0), getString(R.string.noble_2) + "." + getNoble());
+                        Strings.cutOff(getNobleEquityBean().getRenewalPrice(),0), getString(R.string.noble_2) + "." + getNobleEquityBean().getVipName());
             }
         } else  {
             if (getMyLevel() > getNobleEquityBean().getVipLevel()) {
@@ -244,7 +244,7 @@ public class NobleNewFragment extends BaseBindingFragment {
                     tips= getString(R.string.goto_charge_diamond);
                 } else{
                     tips = String.format(getString(R.string.confirm_buy_noble),
-                            Strings.cutOff(getNobleEquityBean().getRenewalPrice(),0), getString(R.string.noble_2) + "." + getNoble());
+                            Strings.cutOff(getNobleEquityBean().getOpenPrice(),0), getString(R.string.noble_2) + "." + getNobleEquityBean().getVipName());
                 }
             }
         }
@@ -346,23 +346,6 @@ public class NobleNewFragment extends BaseBindingFragment {
             mBind.layout.setBackground(getResources().getDrawable(R.mipmap.guowang_p));
         }
 
-    }
-
-    private String getNoble(){
-        if (position+1 == NobleActivity.NANJUE) {
-            return getString(R.string.nanjue);
-        } else if (position+1 == NobleActivity.ZIJUE ) {
-            return getString(R.string.zijue);
-        }  else if (position+1 == NobleActivity.BOJUE ) {
-            return getString(R.string.zijue);
-        } else if (position+1 == NobleActivity.HOUJUE) {
-            return getString(R.string.houjue);
-        } else if (position+1 == NobleActivity.GONGJUE) {
-            return getString(R.string.gongjue);
-        } else if (position+1 == NobleActivity.QINWANG) {
-            return getString(R.string.qinwang);
-        }
-        return getString(R.string.king);
     }
 
 
