@@ -832,6 +832,11 @@ public class LivingFragment extends BaseBindingFragment {
                                 return;
                             }
 
+                            if(code!=0)
+                            {
+                                ToastUtils.showShort(msg);
+                            }
+
                             if ( enterRoomBean != null) {
                                 LivingFragment.this.enterRoomBean=enterRoomBean;
                                 //进入房间成功刷新主播信息

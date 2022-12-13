@@ -1,5 +1,7 @@
 package com.live.fox.entity;
 
+import android.text.TextUtils;
+
 public class RankItemBean {
 
     private String anchorId;
@@ -205,7 +207,14 @@ public class RankItemBean {
     {
         RoomListBean roomListBean=new RoomListBean();
         roomListBean.setId(rankItemBean.getLiveId());
-        roomListBean.setAid(rankItemBean.getAnchorId());
+        if(!TextUtils.isEmpty(rankItemBean.getAnchorId()))
+        {
+            roomListBean.setAid(rankItemBean.getAnchorId());
+        }
+        if(!TextUtils.isEmpty(rankItemBean.getUid()))
+        {
+            roomListBean.setAid(rankItemBean.getUid());
+        }
         roomListBean.setTitle(rankItemBean.getNickname());
         return roomListBean;
     }
