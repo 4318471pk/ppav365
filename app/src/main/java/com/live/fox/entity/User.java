@@ -460,7 +460,7 @@ public class User implements Serializable {
     }
 
     public Long getUid() {
-        return uid;
+        return uid==null?0:uid;
     }
 
     public void setUid(Long uid) {

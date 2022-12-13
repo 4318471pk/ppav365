@@ -59,7 +59,7 @@ public class OkGoHttpUtil {
         builder.writeTimeout(10000, TimeUnit.MILLISECONDS);   //全局的写入超时时间 对这三种时间的详细解释见https://github.com/jeasonlzy/okhttp-OkGo/wiki/Init
         builder.cookieJar(new CookieJarImpl(new MemoryCookieStore()));//使用内存保持cookie，APP退出后，cookie消失
         builder.retryOnConnectionFailure(true);
-        builder.proxy(Proxy.NO_PROXY); //防抓包
+//        builder.proxy(Proxy.NO_PROXY); //防抓包
 
         //Log输出HTTP请求 响应信息
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("http", isShowHttpLog);

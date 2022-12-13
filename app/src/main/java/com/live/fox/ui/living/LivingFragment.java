@@ -817,7 +817,7 @@ public class LivingFragment extends BaseBindingFragment {
             final RoomListBean bean = activity.getRoomListBeans().get(currentPagePosition);
 
             Api_Live.ins().interRoom(bean.getId(), bean.getAid(),bean.getRoomType(),
-                    "", 0, new JsonCallback<EnterRoomBean>() {
+                    "", new JsonCallback<EnterRoomBean>() {
                         @Override
                         public void onSuccess(int code, String msg, EnterRoomBean enterRoomBean) {
                             if(!isActivityOK() || !getArg().equals(bean.getId()))
@@ -1346,7 +1346,7 @@ public class LivingFragment extends BaseBindingFragment {
                         GlideUtils.loadCircleImage(getActivity(), data.getAvatar(), R.mipmap.user_head_error, R.mipmap.user_head_error,
                                 livingControlPanel.mBind.rivProfileImage.getProfileImage());
                         getAnchorInfo(Long.valueOf(data.getAnchorId()));
-                        livingControlPanel.mBind.rivProfileImage.setIndex(RankProfileView.NONE, RankProfileView.NONE,false);
+                        livingControlPanel.mBind.rivProfileImage.setIndex(RankProfileView.NONE, data.getVipLevel(),false);
                         livingControlPanel.mBind.gtvOnlineAmount.setText(data.getLiveSum() + "");
                         livingControlPanel.mBind.gtvOnlineAmount.setVisibility(View.VISIBLE);
                         livingControlPanel.mBind.gtvProtection.setText(data.getGuardCount()+"");

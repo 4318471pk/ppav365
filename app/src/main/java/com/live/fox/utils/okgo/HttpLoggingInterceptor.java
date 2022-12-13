@@ -64,7 +64,7 @@ public class HttpLoggingInterceptor implements Interceptor {
      */
     private void log(String message) {
         if(isShowHttpLog) {
-            Log.e("Log--->", message);
+            Log.i("Log--->", message);
         }
     }
 
