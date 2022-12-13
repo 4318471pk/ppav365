@@ -123,7 +123,7 @@ public class RankFragment extends BaseBindingFragment {
                         {
                             if(bean.getLiveId().equals(itemBean.getLiveId()))
                             {
-                                pos=i;
+                                pos=listBeans.size();
                             }
                             listBeans.add(RankItemBean.convert(itemBean));
                         }

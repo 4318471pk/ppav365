@@ -100,7 +100,7 @@ public class MyFollowListActivity extends BaseBindingViewActivity {
                         {
                             if(temp.getLiveId().equals(follow.getLiveId()))
                             {
-                                position=i;
+                                position=listBeans.size();
                             }
                             listBeans.add(Follow.convert(temp));
                         }
