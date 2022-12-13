@@ -121,7 +121,7 @@ public class LivingFragment extends BaseBindingFragment {
     int currentPagePosition;
     int viewPagePosition;
     FragmentLivingBinding mBind;
-    LivingControlPanel livingControlPanel;
+    public LivingControlPanel livingControlPanel;
     LivingMsgBoxAdapter livingMsgBoxAdapter;
     List<LivingMsgBoxBean> livingMsgBoxBeans = new ArrayList<>();
     List<SvgAnimateLivingBean> livingMessageGiftBeans = new LinkedList<>();//播放SVGA的数组

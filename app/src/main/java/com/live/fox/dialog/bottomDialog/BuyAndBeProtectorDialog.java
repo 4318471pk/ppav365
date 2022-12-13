@@ -31,6 +31,7 @@ import com.live.fox.manager.DataCenter;
 import com.live.fox.server.Api_Order;
 import com.live.fox.server.Api_User;
 import com.live.fox.ui.living.LivingActivity;
+import com.live.fox.ui.living.LivingFragment;
 import com.live.fox.ui.mine.RechargeActivity;
 import com.live.fox.utils.GlideUtils;
 import com.live.fox.utils.Strings;
@@ -432,6 +433,15 @@ public class BuyAndBeProtectorDialog extends BaseBindingDialogFragment {
                 if( code==0)
                 {
                     ToastUtils.showShort(R.string.operateSuccess);
+                    if(getParentFragment()!=null && getParentFragment() instanceof LivingFragment)
+                    {
+                        LivingFragment livingFragment=(LivingFragment)getParentFragment();
+                        if(livingFragment.livingControlPanel!=null)
+                        {
+                            livingFragment.livingControlPanel.getGuardList();
+                        }
+
+                    }
                     dismissAllowingStateLoss();
                 }
                 else

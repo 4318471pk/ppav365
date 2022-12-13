@@ -23,6 +23,7 @@ public class AnchorProtectorAdapter extends BaseQuickAdapter<AnchorGuardListBean
     public AnchorProtectorAdapter(Activity context,  List<AnchorGuardListBean.LiveGuardBean> data) {
         super(R.layout.item_protect_anchor_list, data);
         this.context=context;
+        setHasStableIds(true);
     }
 
     public void notifyData(List data)

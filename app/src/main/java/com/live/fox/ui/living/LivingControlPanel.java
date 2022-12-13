@@ -754,7 +754,7 @@ public class LivingControlPanel extends RelativeLayout {
         });
     }
 
-    private void getGuardList()
+    public void getGuardList()
     {
         if(!isActivityOK())
         {
